@@ -1,0 +1,14 @@
+*.exe
+*.o
+*.lib
+*.a
+*.dll
+*.def
+
+*.cfg
+*.json
+
+*.log
+*.tlog
+
+*.cbp
