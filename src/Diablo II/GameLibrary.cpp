@@ -24,6 +24,9 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
+
+#include "Version.h"
 
 namespace slashgaming::diabloii::gamelibrary {
 namespace {
@@ -35,9 +38,19 @@ namespace {
  */
 std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
 
+/**
+ * Returns whether the game library specified had been merged into Game.exe in
+ * versions 1.14 and above.
+ */
+bool IsGameLibraryRedirected(enum GameLibraries game_library);
+
 } // namespace
 
 HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library) {
+    if (version::IsGameVersionAtLeast1_14() &&
+            IsGameLibraryRedirected(game_library)) {
+        game_library = GameLibraries::kGame;
+    }
     std::string file_name = GetFileNameFromGameLibrary(game_library);
     return GetGameLibraryBaseAddress(file_name);
 }
@@ -81,6 +94,24 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
     return (find_result != file_name_by_game_library.cend())
             ? find_result->second.data()
             : "Invalid";
+}
+
+bool IsGameLibraryRedirected(enum GameLibraries game_library) {
+    static const std::unordered_set<enum GameLibraries>
+            redirected_game_libraries = {
+        GameLibraries::kBinkW32, GameLibraries::kD2Client,
+        GameLibraries::kD2CMP, GameLibraries::kD2Common,
+        GameLibraries::kD2DDraw, GameLibraries::kD2Direct3D,
+        GameLibraries::kD2Game, GameLibraries::kD2GDI,
+        GameLibraries::kD2GFX, GameLibraries::kD2Glide,
+        GameLibraries::kD2Lang, GameLibraries::kD2Launch,
+        GameLibraries::kD2MCPClient, GameLibraries::kD2Multi,
+        GameLibraries::kD2Net, GameLibraries::kD2Sound,
+        GameLibraries::kD2Win, GameLibraries::kFog,
+        GameLibraries::kStorm
+    };
+
+    return (redirected_game_libraries.count(game_library) == 1);
 }
 
 } // namespace
