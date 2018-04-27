@@ -19,3 +19,41 @@
  */
 
 #include "Ordinal.h"
+
+#include <windows.h>
+#include <cstdint>
+#include <string_view>
+#include <unordered_map>
+
+#include "GameLibrary.h"
+#include "Offset.h"
+#include "Version.h"
+
+namespace slashgaming::diabloii {
+
+Ordinal::Ordinal(gamelibrary::GameLibraries game_library,
+            const std::unordered_map<version::GameVersion,
+                    uintptr_t>& ordinals_by_game_versions) :
+        Ordinal(gamelibrary::GetFileNameFromGameLibraryWithRedirect(
+                        game_library),
+                ordinals_by_game_versions){
+}
+
+Ordinal::Ordinal(std::string_view library_file_name,
+            const std::unordered_map<version::GameVersion,
+                    uintptr_t>& ordinals_by_game_versions) :
+        Offset(library_file_name, ordinals_by_game_versions) {
+}
+
+uintptr_t Ordinal::CalculateAddress() const {
+    uintptr_t base_address =
+            gamelibrary::GetGameLibraryBaseAddress(get_library_file_name());
+    uintptr_t ordinal = GetRunningGameOffset();
+
+    FARPROC address = GetProcAddress(reinterpret_cast<HMODULE>(base_address),
+            reinterpret_cast<LPSTR>(ordinal));
+
+    return reinterpret_cast<uintptr_t>(address);
+}
+
+}

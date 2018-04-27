@@ -21,4 +21,59 @@
 #ifndef SGD2MAPI_DIABLOII_ORDINAL_H_
 #define SGD2MAPI_DIABLOII_ORDINAL_H_
 
+#include <cstdint>
+#include <string_view>
+#include <unordered_map>
+
+#include "GameLibrary.h"
+#include "Offset.h"
+#include "Version.h"
+
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#ifdef SGD2MAPI_DLLIMPORT
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+#endif
+
+namespace slashgaming::diabloii {
+
+class DLLEXPORT Ordinal : public Offset {
+    /**
+     * Creates an instance of Ordinal by specifying the game library associated
+     * with the specified map of ordinal values. The map contains a mapping of
+     * the game versions to the ordinal values.
+     */
+    Ordinal(gamelibrary::GameLibraries game_library,
+            const std::unordered_map<version::GameVersion,
+                    uintptr_t>& ordinals_by_game_versions);
+
+    /**
+     * Creates an instance of Ordinal by specifying the file name of the library
+     * associated with the specified map of ordinal values. The map contains a
+     * mapping of the game versions to the ordinal values.
+     */
+    Ordinal(std::string_view library_file_name,
+            const std::unordered_map<version::GameVersion,
+                    uintptr_t>& ordinals_by_game_versions);
+
+    explicit Ordinal(const Ordinal& offset) = default;
+    Ordinal& operator=(const Ordinal& offset) = default;
+
+    explicit Ordinal(Ordinal&& offset) = default;
+    Ordinal& operator=(Ordinal&& rhs) = default;
+
+    /**
+     * Calculates and returns the target address of the offset by adding the
+     * offset associated with the running game version to the base address of
+     * the offset's library.
+     */
+    virtual uintptr_t CalculateAddress() const override;
+};
+
+}
+
 #endif // SGD2MAPI_DIABLOII_ORDINAL_H_
