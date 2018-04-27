@@ -21,6 +21,7 @@
 #include "GameLibrary.h"
 
 #include <windows.h>
+#include <cstdint>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -47,20 +48,20 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
 
 } // namespace
 
-HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library) {
+uintptr_t GetGameLibraryBaseAddress(enum GameLibraries game_library) {
     std::string file_name = GetFileNameFromGameLibraryWithRedirect(
             game_library);
     return GetGameLibraryBaseAddress(file_name);
 }
 
-HMODULE GetGameLibraryBaseAddress(std::string_view file_name) {
+uintptr_t GetGameLibraryBaseAddress(std::string_view file_name) {
     std::wstring wide_file_name = common::ConvertAnsiToUnicode(file_name);
     HMODULE dll_address = GetModuleHandleW(wide_file_name.data());
 
     if (dll_address == nullptr) {
         dll_address = LoadLibraryW(wide_file_name.data());
     }
-    return dll_address;
+    return reinterpret_cast<uintptr_t>(dll_address);
 }
 
 std::string GetFileNameFromGameLibraryWithRedirect(
