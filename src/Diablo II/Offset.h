@@ -72,17 +72,17 @@ public:
      * offset associated with the running game version to the base address of
      * the offset's library.
      */
-    HMODULE CalculateAddress();
+    virtual HMODULE CalculateAddress() const;
 
     /**
      * Returns the game offset associated with the running game version.
      */
-    HMODULE GetRunningGameOffset();
+    HMODULE GetRunningGameOffset() const;
 
     /**
      * Returns the file name of this offset's library.
      */
-    std::string get_library_file_name();
+    std::string get_library_file_name() const;
 private:
     std::string library_file_name_;
     std::unordered_map<version::GameVersion,
