@@ -92,7 +92,7 @@ private:
            uintptr_t> offsets_by_game_versions_;
 };
 
-} // slashgaming::diabloii
+} // namespace slashgaming::diabloii
 
 #undef DLLEXPORT
 

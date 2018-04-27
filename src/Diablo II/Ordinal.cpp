@@ -56,4 +56,4 @@ uintptr_t Ordinal::CalculateAddress() const {
     return reinterpret_cast<uintptr_t>(address);
 }
 
-}
+} // namespace slashgaming::diabloii

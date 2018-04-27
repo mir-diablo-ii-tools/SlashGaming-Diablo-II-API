@@ -74,6 +74,6 @@ class DLLEXPORT Ordinal : public Offset {
     virtual uintptr_t CalculateAddress() const override;
 };
 
-}
+} // namespace slashgaming::diabloii
 
 #endif // SGD2MAPI_DIABLOII_ORDINAL_H_
