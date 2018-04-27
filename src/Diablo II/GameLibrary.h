@@ -21,4 +21,34 @@
 #ifndef SGD2MAPI_DIABLOII_GAMELIBRARY_H_
 #define SGD2MAPI_DIABLOII_GAMELIBRARY_H_
 
+#include <windows.h>
+#include <string>
+#include <string_view>
+
+namespace slashgaming::diabloii::gamelibrary {
+
+/**
+ * The game libraries that are used by Diablo II.
+ */
+enum class GameLibraries : int {
+    kBinkW32, kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw,
+    kD2Direct3D, kD2Game, kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch,
+    kD2MCPClient, kD2Multi, kD2Net, kD2Sound, kD2Win, kFog, kGame, kGlide3X,
+    kIJL11, kSmackW32, kStorm
+};
+
+/**
+ * Gets the base address of the module with the specified file name.
+ */
+HMODULE GetGameLibraryBaseAddress(std::string_view file_name);
+
+/**
+ * Gets the base address of the module associated with the specified game
+ * library. In the case that the game version is 1.14 or greater, the base
+ * address of Game.exe is returned instead.
+ */
+HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library);
+
+} // namespace
+
 #endif // SGD2MAPI_DIABLOII_GAMELIBRARY_H_
