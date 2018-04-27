@@ -21,4 +21,21 @@
 #ifndef SGD2MAPI_COMMON_STRINGCONVERSION_H_
 #define SGD2MAPI_COMMON_STRINGCONVERSION_H_
 
+#include <string>
+#include <string_view>
+
+namespace slashgaming::common {
+
+/**
+ * Converts a wide string into a multibyte char string and returns it.
+ */
+std::string ConvertUnicodeToAnsi(const std::wstring_view s);
+
+/**
+ * Converts a multibyte char string into a wide string and returns it.
+ */
+std::wstring ConvertAnsiToUnicode(const std::string_view s);
+
+} // namespace slashgaming::common
+
 #endif // SGD2MAPI_COMMON_STRINGCONVERSION_H_

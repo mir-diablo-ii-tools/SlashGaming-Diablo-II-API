@@ -19,3 +19,15 @@
  */
 
 #include "StringConversion.h"
+
+namespace slashgaming::common {
+
+std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
+    return "";
+}
+
+std::wstring ConvertAnsiToUnicode(const std::string_view s) {
+    return L"";
+}
+
+} // namespace slashgaming::common
