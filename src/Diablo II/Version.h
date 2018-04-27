@@ -38,6 +38,8 @@ enum class GameVersion : int {
     kLod1_13C, kLod1_13D, kLod1_14A, kLod1_14B, kLod1_14C, kLod1_14D
 };
 
+enum GameVersion GetGameVersion();
+
 } // namespace slashgaming::diabloii::version
 
 #endif // SGD2MAPI_DIABLOII_VERSION_H_

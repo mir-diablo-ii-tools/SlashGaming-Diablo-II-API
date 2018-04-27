@@ -19,3 +19,17 @@
  */
 
 #include "Version.h"
+
+namespace slashgaming::diabloii::version {
+namespace {
+
+static constexpr const char *kGameExecutable = "Game.exe";
+
+} // namespace
+
+enum GameVersion GetGameVersion() {
+    static enum GameVersion game_version = GameVersion::kInvalid;
+    return game_version;
+}
+
+} // namespace slashgaming::diabloii::version
