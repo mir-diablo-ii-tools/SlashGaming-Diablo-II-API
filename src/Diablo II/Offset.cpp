@@ -19,3 +19,39 @@
  */
 
 #include "Offset.h"
+
+#include <cstdint>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+
+namespace slashgaming::diabloii {
+
+Offset::Offset(gamelibrary::GameLibraries game_library,
+            const std::unordered_map<version::GameVersion,
+                    uint64_t>& offsets_by_game_versions) :
+        Offset(gamelibrary::GetFileNameFromGameLibraryWithRedirect(
+                        game_library),
+                offsets_by_game_versions){
+}
+
+Offset::Offset(std::string_view library_file_name,
+            const std::unordered_map<version::GameVersion,
+                    uint64_t>& offsets_by_game_versions) :
+        library_file_name_(library_file_name),
+        offsets_by_game_versions_(offsets_by_game_versions) {
+}
+
+HMODULE Offset::CalculateAddress() const {
+    return 0;
+}
+
+HMODULE Offset::GetRunningGameOffset() const {
+    return 0;
+}
+
+std::string Offset::get_library_file_name() const {
+    return library_file_name_;
+}
+
+} // namespace slashgaming::diabloii
