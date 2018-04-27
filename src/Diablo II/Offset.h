@@ -58,7 +58,7 @@ public:
      * associated with the specified map of offset values. The map contains a
      * mapping of the game versions to the offset values.
      */
-    Offset(std::string_view library_name,
+    Offset(std::string_view library_file_name,
             const std::unordered_map<version::GameVersion,
                     uint64_t>& offsets_by_game_versions);
 
@@ -86,7 +86,7 @@ public:
 private:
     std::string library_file_name_;
     std::unordered_map<version::GameVersion,
-           long long int>& offsets_by_game_versions_;
+           uint64_t> offsets_by_game_versions_;
 };
 
 } // slashgaming::diabloii
