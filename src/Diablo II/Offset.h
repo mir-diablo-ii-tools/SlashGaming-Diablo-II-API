@@ -63,7 +63,7 @@ public:
                     uintptr_t>& offsets_by_game_versions);
 
     explicit Offset(const Offset& offset) = default;
-    Offset& operator=(const Offset& offset) = default;
+    Offset& operator=(const Offset& rhs) = default;
 
     explicit Offset(Offset&& offset) = default;
     Offset& operator=(Offset&& rhs) = default;

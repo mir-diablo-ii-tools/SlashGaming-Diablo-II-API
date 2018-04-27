@@ -61,7 +61,7 @@ class DLLEXPORT Ordinal : public Offset {
                     uintptr_t>& ordinals_by_game_versions);
 
     explicit Ordinal(const Ordinal& offset) = default;
-    Ordinal& operator=(const Ordinal& offset) = default;
+    Ordinal& operator=(const Ordinal& rhs) = default;
 
     explicit Ordinal(Ordinal&& offset) = default;
     Ordinal& operator=(Ordinal&& rhs) = default;
