@@ -24,18 +24,30 @@
 #include <string>
 #include <string_view>
 
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#ifdef SGD2MAPI_DLLIMPORT
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+#endif
+
 namespace slashgaming::common {
 
 /**
  * Converts a wide string into a multibyte char string and returns it.
  */
-std::string ConvertUnicodeToAnsi(const std::wstring_view s);
+DLLEXPORT std::string ConvertUnicodeToAnsi(const std::wstring_view s);
 
 /**
  * Converts a multibyte char string into a wide string and returns it.
  */
-std::wstring ConvertAnsiToUnicode(const std::string_view s);
+DLLEXPORT std::wstring ConvertAnsiToUnicode(const std::string_view s);
 
 } // namespace slashgaming::common
+
+#undef DLLEXPORT
 
 #endif // SGD2MAPI_COMMON_STRINGCONVERSION_H_

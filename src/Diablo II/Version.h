@@ -21,6 +21,16 @@
 #ifndef SGD2MAPI_DIABLOII_VERSION_H_
 #define SGD2MAPI_DIABLOII_VERSION_H_
 
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#ifdef SGD2MAPI_DLLIMPORT
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+#endif
+
 namespace slashgaming::diabloii::version {
 
 /**
@@ -44,13 +54,15 @@ enum class GameVersion : int {
 /**
  * Returns the Diablo II game version that is determined at runtime.
  */
-enum GameVersion GetGameVersion();
+DLLEXPORT enum GameVersion GetGameVersion();
 
 /**
  * Returns whether the Diablo II game version is at least 1.14.
  */
-bool IsGameVersionAtLeast1_14();
+DLLEXPORT bool IsGameVersionAtLeast1_14();
 
 } // namespace slashgaming::diabloii::version
+
+#undef DLLEXPORT
 
 #endif // SGD2MAPI_DIABLOII_VERSION_H_
