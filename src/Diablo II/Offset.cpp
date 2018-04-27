@@ -46,9 +46,11 @@ Offset::Offset(std::string_view library_file_name,
 }
 
 uintptr_t Offset::CalculateAddress() const {
-    uintptr_t address =
-            gamelibrary::GetGameLibraryBaseAddress(get_library_file_name()) +
-            GetRunningGameOffset();
+    uintptr_t base_address = gamelibrary::GetGameLibraryBaseAddress(
+            get_library_file_name());
+    uintptr_t offset = GetRunningGameOffset();
+
+    uintptr_t address = base_address + offset;
     return address;
 }
 

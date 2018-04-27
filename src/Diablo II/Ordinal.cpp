@@ -46,8 +46,8 @@ Ordinal::Ordinal(std::string_view library_file_name,
 }
 
 uintptr_t Ordinal::CalculateAddress() const {
-    uintptr_t base_address =
-            gamelibrary::GetGameLibraryBaseAddress(get_library_file_name());
+    uintptr_t base_address = gamelibrary::GetGameLibraryBaseAddress(
+            get_library_file_name());
     uintptr_t ordinal = GetRunningGameOffset();
 
     FARPROC address = GetProcAddress(reinterpret_cast<HMODULE>(base_address),
