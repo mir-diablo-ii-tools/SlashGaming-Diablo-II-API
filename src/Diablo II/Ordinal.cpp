@@ -32,7 +32,7 @@
 namespace slashgaming::diabloii {
 
 Ordinal::Ordinal(gamelibrary::GameLibraries game_library,
-            const std::unordered_map<version::GameVersion,
+            const std::unordered_map<enum version::GameVersion,
                     uintptr_t>& ordinals_by_game_versions) :
         Ordinal(gamelibrary::GetFileNameFromGameLibraryWithRedirect(
                         game_library),
@@ -40,7 +40,7 @@ Ordinal::Ordinal(gamelibrary::GameLibraries game_library,
 }
 
 Ordinal::Ordinal(std::string_view library_file_name,
-            const std::unordered_map<version::GameVersion,
+            const std::unordered_map<enum version::GameVersion,
                     uintptr_t>& ordinals_by_game_versions) :
         Offset(library_file_name, ordinals_by_game_versions) {
 }

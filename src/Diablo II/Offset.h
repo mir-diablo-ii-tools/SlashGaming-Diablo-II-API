@@ -50,7 +50,7 @@ public:
      * the game versions to the offset values.
      */
     Offset(gamelibrary::GameLibraries game_library,
-            const std::unordered_map<version::GameVersion,
+            const std::unordered_map<enum version::GameVersion,
                     uintptr_t>& offsets_by_game_versions);
 
     /**
@@ -59,7 +59,7 @@ public:
      * mapping of the game versions to the offset values.
      */
     Offset(std::string_view library_file_name,
-            const std::unordered_map<version::GameVersion,
+            const std::unordered_map<enum version::GameVersion,
                     uintptr_t>& offsets_by_game_versions);
 
     explicit Offset(const Offset& offset) = default;
@@ -88,7 +88,7 @@ public:
     std::string get_library_file_name() const;
 private:
     std::string library_file_name_;
-    std::unordered_map<version::GameVersion,
+    std::unordered_map<enum version::GameVersion,
            uintptr_t> offsets_by_game_versions_;
 };
 
