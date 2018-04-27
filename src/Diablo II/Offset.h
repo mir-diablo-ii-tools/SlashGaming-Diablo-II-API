@@ -62,6 +62,7 @@ public:
             const std::unordered_map<version::GameVersion,
                     uintptr_t>& offsets_by_game_versions);
 
+    explicit Offset(const Offset& offset) = default;
     Offset& operator=(const Offset& offset) = default;
 
     explicit Offset(Offset&& offset) = default;
