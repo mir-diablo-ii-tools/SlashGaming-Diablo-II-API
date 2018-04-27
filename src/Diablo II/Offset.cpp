@@ -47,7 +47,12 @@ uintptr_t Offset::CalculateAddress() const {
 }
 
 uintptr_t Offset::GetRunningGameOffset() const {
-    return 0;
+    version::GameVersion game_version = version::GetGameVersion();
+    auto found_offset_pair = offsets_by_game_versions_.find(game_version);
+
+    return (found_offset_pair != offsets_by_game_versions_.cend())
+            ? found_offset_pair->second
+            : static_cast<uintptr_t>(-1);
 }
 
 std::string Offset::get_library_file_name() const {
