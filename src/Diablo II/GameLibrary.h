@@ -44,8 +44,8 @@ HMODULE GetGameLibraryBaseAddress(std::string_view file_name);
 
 /**
  * Gets the base address of the module associated with the specified game
- * library. In the case that the game version is 1.14 or greater, the base
- * address of Game.exe is returned instead.
+ * library. In the case where the game version is 1.14 or greater, the base
+ * address of Game.exe is returned if that game library is merged into Game.exe.
  */
 HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library);
 
