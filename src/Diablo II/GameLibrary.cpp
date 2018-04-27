@@ -26,6 +26,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "../Common/Common.h"
 #include "Version.h"
 
 namespace slashgaming::diabloii::gamelibrary {
@@ -56,7 +57,13 @@ HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library) {
 }
 
 HMODULE GetGameLibraryBaseAddress(std::string_view file_name) {
-    return 0;
+    std::wstring wide_file_name = common::ConvertAnsiToUnicode(file_name);
+    HMODULE dll_address = GetModuleHandleW(wide_file_name.data());
+
+    if (dll_address == nullptr) {
+        dll_address = LoadLibraryW(wide_file_name.data());
+    }
+    return dll_address;
 }
 
 namespace {
