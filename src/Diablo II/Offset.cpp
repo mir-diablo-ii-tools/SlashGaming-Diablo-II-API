@@ -25,6 +25,9 @@
 #include <string_view>
 #include <unordered_map>
 
+#include "GameLibrary.h"
+#include "Version.h"
+
 namespace slashgaming::diabloii {
 
 Offset::Offset(gamelibrary::GameLibraries game_library,
@@ -43,7 +46,10 @@ Offset::Offset(std::string_view library_file_name,
 }
 
 uintptr_t Offset::CalculateAddress() const {
-    return 0;
+    uintptr_t address =
+            gamelibrary::GetGameLibraryBaseAddress(get_library_file_name()) +
+            GetRunningGameOffset();
+    return address;
 }
 
 uintptr_t Offset::GetRunningGameOffset() const {
