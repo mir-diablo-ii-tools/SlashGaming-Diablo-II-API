@@ -29,7 +29,7 @@ namespace slashgaming::diabloii {
 
 Offset::Offset(gamelibrary::GameLibraries game_library,
             const std::unordered_map<version::GameVersion,
-                    uint64_t>& offsets_by_game_versions) :
+                    uintptr_t>& offsets_by_game_versions) :
         Offset(gamelibrary::GetFileNameFromGameLibraryWithRedirect(
                         game_library),
                 offsets_by_game_versions){
@@ -37,16 +37,16 @@ Offset::Offset(gamelibrary::GameLibraries game_library,
 
 Offset::Offset(std::string_view library_file_name,
             const std::unordered_map<version::GameVersion,
-                    uint64_t>& offsets_by_game_versions) :
+                    uintptr_t>& offsets_by_game_versions) :
         library_file_name_(library_file_name),
         offsets_by_game_versions_(offsets_by_game_versions) {
 }
 
-HMODULE Offset::CalculateAddress() const {
+uintptr_t Offset::CalculateAddress() const {
     return 0;
 }
 
-HMODULE Offset::GetRunningGameOffset() const {
+uintptr_t Offset::GetRunningGameOffset() const {
     return 0;
 }
 

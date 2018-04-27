@@ -51,7 +51,7 @@ public:
      */
     Offset(gamelibrary::GameLibraries game_library,
             const std::unordered_map<version::GameVersion,
-                    uint64_t>& offsets_by_game_versions);
+                    uintptr_t>& offsets_by_game_versions);
 
     /**
      * Creates an instance of Offset by specifying the file name of the library
@@ -60,7 +60,7 @@ public:
      */
     Offset(std::string_view library_file_name,
             const std::unordered_map<version::GameVersion,
-                    uint64_t>& offsets_by_game_versions);
+                    uintptr_t>& offsets_by_game_versions);
 
     Offset& operator=(const Offset& offset) = default;
 
@@ -72,12 +72,14 @@ public:
      * offset associated with the running game version to the base address of
      * the offset's library.
      */
-    virtual HMODULE CalculateAddress() const;
+    virtual uintptr_t CalculateAddress() const;
 
     /**
-     * Returns the game offset associated with the running game version.
+     * Returns the game offset associated with the running game version. If
+     * there is no entry for that game version, the function returns
+     * static_cast<uintptr_t>(-1).
      */
-    HMODULE GetRunningGameOffset() const;
+    uintptr_t GetRunningGameOffset() const;
 
     /**
      * Returns the file name of this offset's library.
@@ -86,7 +88,7 @@ public:
 private:
     std::string library_file_name_;
     std::unordered_map<version::GameVersion,
-           uint64_t> offsets_by_game_versions_;
+           uintptr_t> offsets_by_game_versions_;
 };
 
 } // slashgaming::diabloii
