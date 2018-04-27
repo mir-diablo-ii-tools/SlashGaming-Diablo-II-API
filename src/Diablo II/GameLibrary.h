@@ -49,6 +49,13 @@ HMODULE GetGameLibraryBaseAddress(std::string_view file_name);
  */
 HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library);
 
+/**
+ * Returns the file name associated with the specified GameLibraries value. If
+ * the library specified is not known, then the function returns the "Invalid"
+ * string.
+ */
+std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
+
 } // namespace
 
 #endif // SGD2MAPI_DIABLOII_GAMELIBRARY_H_

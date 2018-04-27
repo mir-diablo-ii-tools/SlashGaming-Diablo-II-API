@@ -33,13 +33,6 @@ namespace slashgaming::diabloii::gamelibrary {
 namespace {
 
 /**
- * Returns the file name associated with the specified GameLibraries value. If
- * the library specified is not known, then the function returns the "Invalid"
- * string.
- */
-std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
-
-/**
  * Returns whether the game library specified had been merged into Game.exe in
  * versions 1.14 and above.
  */
@@ -65,8 +58,6 @@ HMODULE GetGameLibraryBaseAddress(std::string_view file_name) {
     }
     return dll_address;
 }
-
-namespace {
 
 std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
     static const std::unordered_map<enum GameLibraries, std::string_view>
@@ -102,6 +93,8 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
             ? find_result->second.data()
             : "Invalid";
 }
+
+namespace {
 
 bool IsGameLibraryRedirected(enum GameLibraries game_library) {
     static const std::unordered_set<enum GameLibraries>
