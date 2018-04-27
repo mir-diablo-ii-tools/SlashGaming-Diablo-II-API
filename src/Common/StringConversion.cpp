@@ -20,14 +20,49 @@
 
 #include "StringConversion.h"
 
+#include <cwchar>
+#include <string>
+#include <string_view>
+#include <vector>
+
 namespace slashgaming::common {
 
 std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
-    return "";
+    // Declare and initialize variables to store the source and state.
+    const wchar_t *source = s.data();
+    std::mbstate_t state;
+
+    // Detect conversion failure and detect buffer size.
+    size_t buffer_size = std::wcsrtombs(nullptr, &source, 0, &state) + 1;
+
+    if (buffer_size != static_cast<std::size_t>(-1)) {
+        return "Failed to convert wide string to multibyte char string.";
+    }
+
+    // Convert the wide string to multibyte char string.
+    std::vector<char> destination(buffer_size);
+    std::wcsrtombs(destination.data(), &source, buffer_size, &state);
+
+    return destination.data();
 }
 
 std::wstring ConvertAnsiToUnicode(const std::string_view s) {
-    return L"";
+    // Declare and initialize variables to store the source and state.
+    const char *source = s.data();
+    std::mbstate_t state;
+
+    // Detect conversion failure and detect buffer size.
+    size_t buffer_size = std::mbsrtowcs(nullptr, &source, 0, &state) + 1;
+
+    if (buffer_size != static_cast<std::size_t>(-1)) {
+        return L"Failed to convert multibyte char string to wide string.";
+    }
+
+    // Convert the multibyte char string to wide string.
+    std::vector<wchar_t> destination(buffer_size);
+    std::mbsrtowcs(destination.data(), &source, buffer_size, &state);
+
+    return destination.data();
 }
 
 } // namespace slashgaming::common
