@@ -46,6 +46,11 @@ enum class GameVersion : int {
  */
 enum GameVersion GetGameVersion();
 
+/**
+ * Returns whether the Diablo II game version is at least 1.14.
+ */
+bool IsGameVersionAtLeast1_14();
+
 } // namespace slashgaming::diabloii::version
 
 #endif // SGD2MAPI_DIABLOII_VERSION_H_

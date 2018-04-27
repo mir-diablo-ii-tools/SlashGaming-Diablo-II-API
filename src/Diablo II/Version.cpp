@@ -26,6 +26,7 @@
 #include <string_view>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "../Common/Common.h"
 
@@ -47,6 +48,18 @@ enum GameVersion GetGameVersion() {
             game_version_string);
 
     return game_version;
+}
+
+bool IsGameVersionAtLeast1_14() {
+    static const std::unordered_set<enum GameVersion> versions_at_least_1_14 = {
+        GameVersion::kClassic1_14A, GameVersion::kClassic1_14B,
+        GameVersion::kClassic1_14C, GameVersion::kClassic1_14D,
+
+        GameVersion::kLod1_14A, GameVersion::kLod1_14B,
+        GameVersion::kLod1_14C, GameVersion::kLod1_14D
+    };
+
+    return (versions_at_least_1_14.count(GetGameVersion()) == 1);
 }
 
 namespace {
