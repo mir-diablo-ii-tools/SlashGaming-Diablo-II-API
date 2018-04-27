@@ -38,14 +38,18 @@ namespace {
  */
 bool IsGameLibraryRedirected(enum GameLibraries game_library);
 
+/**
+ * Returns the file name associated with the specified GameLibraries value. If
+ * the library specified is not known, then the function returns the "Invalid"
+ * string.
+ */
+std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
+
 } // namespace
 
 HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library) {
-    if (version::IsGameVersionAtLeast1_14() &&
-            IsGameLibraryRedirected(game_library)) {
-        game_library = GameLibraries::kGame;
-    }
-    std::string file_name = GetFileNameFromGameLibrary(game_library);
+    std::string file_name = GetFileNameFromGameLibraryWithRedirect(
+            game_library);
     return GetGameLibraryBaseAddress(file_name);
 }
 
@@ -57,6 +61,36 @@ HMODULE GetGameLibraryBaseAddress(std::string_view file_name) {
         dll_address = LoadLibraryW(wide_file_name.data());
     }
     return dll_address;
+}
+
+std::string GetFileNameFromGameLibraryWithRedirect(
+        enum GameLibraries game_library) {
+    if (version::IsGameVersionAtLeast1_14() &&
+            IsGameLibraryRedirected(game_library)) {
+        game_library = GameLibraries::kGame;
+    }
+
+    return GetFileNameFromGameLibrary(game_library);
+}
+
+namespace {
+
+bool IsGameLibraryRedirected(enum GameLibraries game_library) {
+    static const std::unordered_set<enum GameLibraries>
+            redirected_game_libraries = {
+        GameLibraries::kBinkW32, GameLibraries::kD2Client,
+        GameLibraries::kD2CMP, GameLibraries::kD2Common,
+        GameLibraries::kD2DDraw, GameLibraries::kD2Direct3D,
+        GameLibraries::kD2Game, GameLibraries::kD2GDI,
+        GameLibraries::kD2GFX, GameLibraries::kD2Glide,
+        GameLibraries::kD2Lang, GameLibraries::kD2Launch,
+        GameLibraries::kD2MCPClient, GameLibraries::kD2Multi,
+        GameLibraries::kD2Net, GameLibraries::kD2Sound,
+        GameLibraries::kD2Win, GameLibraries::kFog,
+        GameLibraries::kStorm
+    };
+
+    return (redirected_game_libraries.count(game_library) == 1);
 }
 
 std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
@@ -92,26 +126,6 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
     return (find_result != file_name_by_game_library.cend())
             ? find_result->second.data()
             : "Invalid";
-}
-
-namespace {
-
-bool IsGameLibraryRedirected(enum GameLibraries game_library) {
-    static const std::unordered_set<enum GameLibraries>
-            redirected_game_libraries = {
-        GameLibraries::kBinkW32, GameLibraries::kD2Client,
-        GameLibraries::kD2CMP, GameLibraries::kD2Common,
-        GameLibraries::kD2DDraw, GameLibraries::kD2Direct3D,
-        GameLibraries::kD2Game, GameLibraries::kD2GDI,
-        GameLibraries::kD2GFX, GameLibraries::kD2Glide,
-        GameLibraries::kD2Lang, GameLibraries::kD2Launch,
-        GameLibraries::kD2MCPClient, GameLibraries::kD2Multi,
-        GameLibraries::kD2Net, GameLibraries::kD2Sound,
-        GameLibraries::kD2Win, GameLibraries::kFog,
-        GameLibraries::kStorm
-    };
-
-    return (redirected_game_libraries.count(game_library) == 1);
 }
 
 } // namespace

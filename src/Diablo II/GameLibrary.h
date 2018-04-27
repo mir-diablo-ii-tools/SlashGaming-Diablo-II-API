@@ -51,10 +51,12 @@ HMODULE GetGameLibraryBaseAddress(enum GameLibraries game_library);
 
 /**
  * Returns the file name associated with the specified GameLibraries value. If
- * the library specified is not known, then the function returns the "Invalid"
- * string.
+ * the game version is 1.14 or greater, then Game.exe is used if the library is
+ * merged into the executable. If the library specified is not known, then the
+ * function returns the "Invalid" string.
  */
-std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
+std::string GetFileNameFromGameLibraryWithRedirect(
+        enum GameLibraries game_library);
 
 } // namespace
 
