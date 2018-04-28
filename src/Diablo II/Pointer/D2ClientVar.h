@@ -21,8 +21,23 @@
 #ifndef SGD2MAPI_DIABLOII_POINTER_D2CLIENTVAR_H_
 #define SGD2MAPI_DIABLOII_POINTER_D2CLIENTVAR_H_
 
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#ifdef SGD2MAPI_DLLIMPORT
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+#endif
+
 namespace slashgaming::diabloii::var {
 
+extern "C" DLLEXPORT int* D2Client_ScreenSizeX();
+extern "C" DLLEXPORT int* D2Client_ScreenSizeY();
+
 } // namespace slashgaming::diabloii::var
+
+#undef DLLEXPORT
 
 #endif // SGD2MAPI_DIABLOII_POINTER_D2CLIENTVAR_H_
