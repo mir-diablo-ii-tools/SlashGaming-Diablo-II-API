@@ -41,6 +41,10 @@ void BasePatch::Apply() {
 }
 
 void BasePatch::Remove() {
+    if (!is_patch_applied()) {
+        return;
+    }
+
     // Restore the old bytes of data.
     uintptr_t address = offset_.CalculateAddress();
     std::memmove(reinterpret_cast<void*>(address), old_bytes_.data(),
