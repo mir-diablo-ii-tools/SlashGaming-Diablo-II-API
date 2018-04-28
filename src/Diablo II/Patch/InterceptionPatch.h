@@ -61,9 +61,10 @@ public:
      * Creates an instance of InterceptionPatch.
      */
     template <class T>
-    InterceptionPatch(OpCodes opcode, const Offset& offset,
+    InterceptionPatch(const Offset& offset, OpCodes opcode,
             std::function<T> func, size_t patch_size) :
-            BasePatch(offset, patch_size), func_ptr_(func.target()) {
+            BasePatch(offset, patch_size), opcode_(opcode),
+            func_ptr_(func.target()) {
         // Patch size needs to at least 5 bytes, otherwise the patch fails.
         common::AssertOrTerminateWithMessage(
                 (patch_size < (sizeof(func_ptr_) + 1)),
@@ -78,12 +79,20 @@ public:
     explicit InterceptionPatch(InterceptionPatch&& base_patch) = default;
     InterceptionPatch& operator=(InterceptionPatch&& rhs) = default;
 
+    virtual void Apply() override;
+
+    /**
+     * Returns the opcode used to start the interception function.
+     */
+    OpCodes get_opcode() const;
+
     /**
      * Returns the function pointer of the interception function.
      */
     uintptr_t get_func_ptr() const;
 
 private:
+    OpCodes opcode_;
     uintptr_t func_ptr_;
 };
 
