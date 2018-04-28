@@ -19,3 +19,46 @@
  */
 
 #include "BasePatch.h"
+
+#include <windows.h>
+#include <cstdint>
+#include <cstring>
+
+#include "../Offset.h"
+
+namespace slashgaming::diabloii::patch {
+
+BasePatch::BasePatch(const Offset& offset, size_t patch_size) :
+        offset_(offset), patch_size_(patch_size), old_bytes_(patch_size) {
+    // Copy the old bytes of data for later restoring.
+    uintptr_t address = offset_.CalculateAddress();
+    std::memmove(old_bytes_.data(), reinterpret_cast<const void*>(address),
+            patch_size_);
+}
+
+void BasePatch::Apply() {
+    is_patch_applied_ = true;
+}
+
+void BasePatch::Remove() {
+    // Restore the old bytes of data.
+    uintptr_t address = offset_.CalculateAddress();
+    std::memmove(reinterpret_cast<void*>(address), old_bytes_.data(),
+            patch_size_);
+
+    is_patch_applied_ = false;
+}
+
+const Offset& BasePatch::get_offset() const {
+    return offset_;
+}
+
+size_t BasePatch::get_patch_size() const {
+    return patch_size_;
+}
+
+bool BasePatch::is_patch_applied() const {
+    return is_patch_applied_;
+}
+
+} // namespace slashgaming::diabloii::patch
