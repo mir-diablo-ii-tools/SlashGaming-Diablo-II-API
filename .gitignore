@@ -4,6 +4,7 @@
 *.a
 *.dll
 *.def
+*.bin
 
 *.cfg
 *.json
@@ -12,3 +13,15 @@
 *.tlog
 
 *.cbp
+*.depend
+*.layout
+
+*.vcxproj
+*.filters
+*.sdf
+*.sln
+*.suo
+
+*/CMakeFiles/*
+CMakeCache.txt
+*.cmake
