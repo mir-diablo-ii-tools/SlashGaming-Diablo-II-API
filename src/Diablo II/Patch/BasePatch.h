@@ -21,4 +21,69 @@
 #ifndef SGD2MAPI_DIABLOII_PATCH_BASEPATCH_H_
 #define SGD2MAPI_DIABLOII_PATCH_BASEPATCH_H_
 
+#include <cstdint>
+#include <vector>
+
+#include "../Offset.h"
+
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#ifdef SGD2MAPI_DLLIMPORT
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+#endif
+
+namespace slashgaming::diabloii::patch {
+
+class DLLEXPORT BasePatch {
+public:
+    /**
+     * Applies the patch to the game.
+     */
+    virtual void Apply();
+
+    /**
+     * Restores the values that have been patched to their original values.
+     */
+    virtual void Remove();
+
+    /**
+     * Returns the Offset used by this patch.
+     */
+    const Offset& get_offset() const;
+
+    /**
+     * Returns the number of bytes needed to apply this patch.
+     */
+    size_t get_patch_size() const;
+
+    /**
+     * Returns whether or not the patch has been applied.
+     */
+    bool is_patch_applied() const;
+
+protected:
+    /**
+     * Initializes the offset and patch size of this offset.
+     */
+    BasePatch(const Offset& offset, size_t patch_size);
+    explicit BasePatch(const BasePatch& base_patch) = default;
+    BasePatch& operator=(const BasePatch& rhs) = default;
+
+    explicit BasePatch(BasePatch&& base_patch) = default;
+    BasePatch& operator=(BasePatch&& rhs) = default;
+
+private:
+    const Offset offset_;
+    const size_t patch_size_;
+
+    bool is_patch_applied_;
+    std::vector<int8_t> old_bytes_;
+};
+
+} // namespace slashgaming::diabloii::patch
+
 #endif // SGD2MAPI_DIABLOII_PATCH_BASEPATCH_H_
