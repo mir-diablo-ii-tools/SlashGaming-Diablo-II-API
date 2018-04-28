@@ -20,6 +20,37 @@
 
 #include "D2ClientVar.h"
 
+#include <cstdint>
+#include <unordered_map>
+
+#include "../GameLibrary.h"
+#include "../Offset.h"
+#include "../Version.h"
+
+#define ESCAPE_PARENTHESIS(...) { __VA_ARGS__ }
+
+#define VARPTR(name, type, offset_map) \
+type* D2Client_##name() { \
+    static const Offset offset(GameLibraries::kD2Client, \
+        ESCAPE_PARENTHESIS offset_map); \
+    static type* var_ptr = reinterpret_cast<type*>(offset.CalculateAddress()); \
+    return var_ptr; \
+}
+
 namespace slashgaming::diabloii::var {
 
+VARPTR(ScreenSizeX, int, (
+    { GameVersion::kLod1_13C, 0xDBC48 },
+    { GameVersion::kLod1_13D, 0xF7034 },
+));
+
+VARPTR(ScreenSizeY, int, (
+    { GameVersion::kLod1_13C, 0xDBC4C },
+    { GameVersion::kLod1_13D, 0xF7038 },
+));
+
 } // namespace slashgaming::diabloii::var
+
+#undef VARPTR
+
+#undef ESCAPE_PARENTHESIS
