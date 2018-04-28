@@ -67,7 +67,7 @@ public:
 
 protected:
     /**
-     * Initializes the offset and patch size of this offset.
+     * Initializes the offset and patch size of this patch.
      */
     BasePatch(const Offset& offset, size_t patch_size);
     explicit BasePatch(const BasePatch& base_patch) = default;
