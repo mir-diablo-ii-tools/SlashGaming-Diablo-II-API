@@ -36,6 +36,14 @@ BasePatch::BasePatch(const Offset& offset, size_t patch_size) :
             patch_size_);
 }
 
+BasePatch::~BasePatch() {
+    if (!is_patch_applied()) {
+        return;
+    }
+
+    Remove();
+}
+
 void BasePatch::Apply() {
     is_patch_applied_ = true;
 }

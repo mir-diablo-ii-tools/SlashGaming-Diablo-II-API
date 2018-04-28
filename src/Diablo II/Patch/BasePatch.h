@@ -79,6 +79,8 @@ protected:
     explicit BasePatch(BasePatch&& base_patch) = default;
     BasePatch& operator=(BasePatch&& rhs) = default;
 
+    ~BasePatch();
+
 private:
     const Offset offset_;
     const size_t patch_size_;
