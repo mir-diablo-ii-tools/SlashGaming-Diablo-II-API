@@ -27,6 +27,11 @@
 
 namespace slashgaming::common {
 
+/**
+ * Displays an error message with the specified title and message, then
+ * terminates the program if assertion is false. Otherwise, the function has no
+ * effect.
+ */
 void AssertOrTerminateWithMessage(bool assertion, std::string_view title,
         std::string_view message);
 

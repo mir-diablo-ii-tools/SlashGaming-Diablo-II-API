@@ -59,6 +59,6 @@ uintptr_t GetGameLibraryBaseAddress(enum GameLibraries game_library);
 std::string GetFileNameFromGameLibraryWithRedirect(
         enum GameLibraries game_library);
 
-} // namespace
+} // namespace slashgaming::diabloii::gamelibrary
 
 #endif // SGD2MAPI_DIABLOII_GAMELIBRARY_H_

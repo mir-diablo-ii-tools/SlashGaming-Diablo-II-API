@@ -38,6 +38,9 @@
 
 namespace slashgaming::diabloii::patch {
 
+/**
+ * The base patch used to implement more specific patches.
+ */
 class DLLEXPORT BasePatch {
 public:
     /**

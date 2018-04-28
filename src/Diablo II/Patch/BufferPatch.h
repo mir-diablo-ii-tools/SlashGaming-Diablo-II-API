@@ -39,6 +39,10 @@
 
 namespace slashgaming::diabloii::patch {
 
+/**
+ * A patch that replaces the destination address with the bytes stored in a
+ * buffer.
+ */
 class DLLEXPORT BufferPatch : public BasePatch {
 public:
     /**

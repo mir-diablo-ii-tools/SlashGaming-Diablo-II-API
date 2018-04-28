@@ -41,6 +41,10 @@
 
 namespace slashgaming::diabloii {
 
+/**
+ * A type that stores ordinals and is able to retrieve the correct ordinal for
+ * the running game version.
+ */
 class DLLEXPORT Ordinal : public Offset {
     /**
      * Creates an instance of Ordinal by specifying the game library associated
