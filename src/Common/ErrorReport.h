@@ -18,10 +18,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SGD2MAPI_COMMON_COMMON_H_
+#ifndef SGD2MAPI_COMMON_ERRORREPORT_H_
+#define SGD2MAPI_COMMON_ERRORREPORT_H_
 
-#include "ErrorReport.h"
-#include "StringConversion.h"
+#include <windows.h>
+#include <string>
+#include <string_view>
 
-#define SGD2MAPI_COMMON_COMMON_H_
-#endif // SGD2MAPI_COMMON_COMMON_H_
+namespace slashgaming::common {
+
+void AssertOrTerminateWithMessage(bool assertion, std::string_view title,
+        std::string_view message);
+
+} // namespace slashgaming::common
+
+#endif // SGD2MAPI_COMMON_ERRORREPORT_H_
