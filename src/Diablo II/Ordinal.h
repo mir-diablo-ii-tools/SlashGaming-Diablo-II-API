@@ -76,4 +76,6 @@ class DLLEXPORT Ordinal : public Offset {
 
 } // namespace slashgaming::diabloii
 
+#undef DLLEXPORT
+
 #endif // SGD2MAPI_DIABLOII_ORDINAL_H_

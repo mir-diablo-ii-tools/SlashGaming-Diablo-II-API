@@ -86,4 +86,6 @@ private:
 
 } // namespace slashgaming::diabloii::patch
 
+#undef DLLEXPORT
+
 #endif // SGD2MAPI_DIABLOII_PATCH_BASEPATCH_H_
