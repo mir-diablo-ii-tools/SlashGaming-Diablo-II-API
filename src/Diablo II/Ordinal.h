@@ -51,8 +51,8 @@ class DLLEXPORT Ordinal : public Offset {
      * with the specified map of ordinal values. The map contains a mapping of
      * the game versions to the ordinal values.
      */
-    Ordinal(gamelibrary::GameLibraries game_library,
-            const std::unordered_map<enum version::GameVersion,
+    Ordinal(enum GameLibraries game_library,
+            const std::unordered_map<enum GameVersion,
                     uintptr_t>& ordinals_by_game_versions);
 
     /**
@@ -61,7 +61,7 @@ class DLLEXPORT Ordinal : public Offset {
      * mapping of the game versions to the ordinal values.
      */
     Ordinal(std::string_view library_file_name,
-            const std::unordered_map<enum version::GameVersion,
+            const std::unordered_map<enum GameVersion,
                     uintptr_t>& ordinals_by_game_versions);
 
     explicit Ordinal(const Ordinal& offset) = default;

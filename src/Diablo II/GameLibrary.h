@@ -26,7 +26,7 @@
 #include <string>
 #include <string_view>
 
-namespace slashgaming::diabloii::gamelibrary {
+namespace slashgaming::diabloii {
 
 /**
  * The game libraries that are used by Diablo II.

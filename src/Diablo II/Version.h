@@ -31,7 +31,7 @@
 #endif
 #endif
 
-namespace slashgaming::diabloii::version {
+namespace slashgaming::diabloii {
 
 /**
  * The Diablo II game versions supported and recognized.

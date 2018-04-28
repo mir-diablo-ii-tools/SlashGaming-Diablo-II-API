@@ -30,7 +30,7 @@
 #include "../Common/Common.h"
 #include "Version.h"
 
-namespace slashgaming::diabloii::gamelibrary {
+namespace slashgaming::diabloii {
 namespace {
 
 /**
@@ -66,8 +66,7 @@ uintptr_t GetGameLibraryBaseAddress(std::string_view file_name) {
 
 std::string GetFileNameFromGameLibraryWithRedirect(
         enum GameLibraries game_library) {
-    if (version::IsGameVersionAtLeast1_14() &&
-            IsGameLibraryRedirected(game_library)) {
+    if (IsGameVersionAtLeast1_14() && IsGameLibraryRedirected(game_library)) {
         game_library = GameLibraries::kGame;
     }
 

@@ -30,7 +30,7 @@
 
 #include "../Common/Common.h"
 
-namespace slashgaming::diabloii::version {
+namespace slashgaming::diabloii {
 namespace {
 
 constexpr const char *kGameExecutable = "Game.exe";
