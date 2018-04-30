@@ -21,8 +21,20 @@
 #ifndef SGD2MAPI_DIABLOII_POINTER_D2CLIENTFUNC_H_
 #define SGD2MAPI_DIABLOII_POINTER_D2CLIENTFUNC_H_
 
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#ifdef SGD2MAPI_DLLIMPORT
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+#endif
+
 namespace slashgaming::diabloii::func {
 
 } // namespace slashgaming::diabloii::func
+
+#undef DLLEXPORT
 
 #endif // SGD2MAPI_DIABLOII_POINTER_D2CLIENTFUNC_H_
