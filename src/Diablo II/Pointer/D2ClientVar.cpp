@@ -32,7 +32,7 @@
 #define VARPTR(name, type, offset_map) \
 type* D2Client_##name() { \
     static const Offset offset(GameLibraries::kD2Client, \
-        ESCAPE_PARENTHESIS offset_map); \
+            ESCAPE_PARENTHESIS offset_map); \
     static type* var_ptr = reinterpret_cast<type*>(offset.CalculateAddress()); \
     return var_ptr; \
 }
