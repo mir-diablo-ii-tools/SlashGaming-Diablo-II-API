@@ -33,6 +33,8 @@
 
 namespace slashgaming::diabloii::func {
 
+extern "C" DLLEXPORT void D2Client_ExitGame();
+
 } // namespace slashgaming::diabloii::func
 
 #undef DLLEXPORT
