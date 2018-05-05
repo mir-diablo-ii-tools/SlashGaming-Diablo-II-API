@@ -48,20 +48,20 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library);
 
 } // namespace
 
-uintptr_t GetGameLibraryBaseAddress(enum GameLibraries game_library) {
+intptr_t GetGameLibraryBaseAddress(enum GameLibraries game_library) {
     std::string file_name = GetFileNameFromGameLibraryWithRedirect(
             game_library);
     return GetGameLibraryBaseAddress(file_name);
 }
 
-uintptr_t GetGameLibraryBaseAddress(std::string_view file_name) {
+intptr_t GetGameLibraryBaseAddress(std::string_view file_name) {
     std::wstring wide_file_name = common::ConvertAnsiToUnicode(file_name);
     HMODULE dll_address = GetModuleHandleW(wide_file_name.data());
 
     if (dll_address == nullptr) {
         dll_address = LoadLibraryW(wide_file_name.data());
     }
-    return reinterpret_cast<uintptr_t>(dll_address);
+    return reinterpret_cast<intptr_t>(dll_address);
 }
 
 std::string GetFileNameFromGameLibraryWithRedirect(

@@ -41,14 +41,14 @@ enum class GameLibraries : int {
 /**
  * Gets the base address of the module with the specified file name.
  */
-uintptr_t GetGameLibraryBaseAddress(std::string_view file_name);
+intptr_t GetGameLibraryBaseAddress(std::string_view file_name);
 
 /**
  * Gets the base address of the module associated with the specified game
  * library. In the case where the game version is 1.14 or greater, the base
  * address of Game.exe is returned if that game library is merged into Game.exe.
  */
-uintptr_t GetGameLibraryBaseAddress(enum GameLibraries game_library);
+intptr_t GetGameLibraryBaseAddress(enum GameLibraries game_library);
 
 /**
  * Returns the file name associated with the specified GameLibraries value. If

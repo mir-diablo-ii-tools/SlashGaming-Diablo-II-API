@@ -53,7 +53,7 @@ class DLLEXPORT Ordinal : public Offset {
      */
     Ordinal(enum GameLibraries game_library,
             const std::unordered_map<enum GameVersion,
-                    uintptr_t>& ordinals_by_game_versions);
+                    intptr_t>& ordinals_by_game_versions);
 
     /**
      * Creates an instance of Ordinal by specifying the file name of the library
@@ -62,7 +62,7 @@ class DLLEXPORT Ordinal : public Offset {
      */
     Ordinal(std::string_view library_file_name,
             const std::unordered_map<enum GameVersion,
-                    uintptr_t>& ordinals_by_game_versions);
+                    intptr_t>& ordinals_by_game_versions);
 
     explicit Ordinal(const Ordinal& offset) = default;
     Ordinal& operator=(const Ordinal& rhs) = default;
@@ -75,7 +75,7 @@ class DLLEXPORT Ordinal : public Offset {
      * offset associated with the running game version to the base address of
      * the offset's library.
      */
-    virtual uintptr_t CalculateAddress() const override;
+    virtual intptr_t CalculateAddress() const override;
 };
 
 } // namespace slashgaming::diabloii
