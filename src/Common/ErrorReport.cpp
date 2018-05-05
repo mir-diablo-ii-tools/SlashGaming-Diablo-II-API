@@ -26,7 +26,7 @@
 
 namespace slashgaming::common {
 
-void AssertOrExitWithMessage(bool assertion, std::string_view title,
+void AssertOrTerminateWithMessage(bool assertion, std::string_view title,
         std::string_view message) {
     if (assertion) {
         return;
