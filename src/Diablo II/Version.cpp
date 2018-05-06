@@ -80,7 +80,7 @@ std::string ExtractFileVersionString(std::string_view file_name) {
             "GetFileVersionInfo failed.");
 
     // Get the file version info.
-    auto version_data = std::make_unique<wchar_t>(version_size);
+    auto version_data = std::make_unique<wchar_t[]>(version_size);
     common::AssertOrTerminateWithMessage(
             GetFileVersionInfoW(file_name_wide.data(),
                     version_handle, version_size, version_data.get()),

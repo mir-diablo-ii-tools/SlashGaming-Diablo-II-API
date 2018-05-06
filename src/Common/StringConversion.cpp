@@ -42,7 +42,7 @@ std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
             "Failed to convert wide string to multibyte char string.");
 
     // Convert the wide string to multibyte char string.
-    auto destination = std::make_unique<char>(buffer_size);
+    auto destination = std::make_unique<char[]>(buffer_size);
     std::wcsrtombs(destination.get(), &source, buffer_size, &state);
 
     return std::string(destination.get());
@@ -61,7 +61,7 @@ std::wstring ConvertAnsiToUnicode(const std::string_view s) {
             "Failed to convert multibyte char string to wide string.");
 
     // Convert the multibyte char string to wide string.
-    auto destination = std::make_unique<wchar_t>(buffer_size);
+    auto destination = std::make_unique<wchar_t[]>(buffer_size);
     std::mbsrtowcs(destination.get(), &source, buffer_size, &state);
 
     return std::wstring(destination.get());
