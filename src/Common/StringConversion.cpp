@@ -25,6 +25,8 @@
 #include <string_view>
 #include <vector>
 
+#include "ErrorReport.h"
+
 namespace slashgaming::common {
 
 std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
@@ -35,9 +37,9 @@ std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
     // Detect conversion failure and detect buffer size.
     size_t buffer_size = std::wcsrtombs(nullptr, &source, 0, &state) + 1;
 
-    if (buffer_size != static_cast<std::size_t>(-1)) {
-        return "Failed to convert wide string to multibyte char string.";
-    }
+    AssertOrTerminateWithMessage((buffer_size != static_cast<std::size_t>(-1)),
+            "Error",
+            "Failed to convert wide string to multibyte char string.");
 
     // Convert the wide string to multibyte char string.
     std::vector<char> destination(buffer_size);
@@ -54,9 +56,9 @@ std::wstring ConvertAnsiToUnicode(const std::string_view s) {
     // Detect conversion failure and detect buffer size.
     size_t buffer_size = std::mbsrtowcs(nullptr, &source, 0, &state) + 1;
 
-    if (buffer_size != static_cast<std::size_t>(-1)) {
-        return L"Failed to convert multibyte char string to wide string.";
-    }
+    AssertOrTerminateWithMessage((buffer_size != static_cast<std::size_t>(-1)),
+            "Error",
+            "Failed to convert multibyte char string to wide string.");
 
     // Convert the multibyte char string to wide string.
     std::vector<wchar_t> destination(buffer_size);

@@ -80,23 +80,22 @@ std::string ExtractFileVersionString(std::string_view file_name) {
 
     // Get the file version info.
     std::vector<wchar_t> version_data(version_size);
-    if (!GetFileVersionInfoW(file_path_wide.data(), version_handle,
-            version_size, version_data.data())) {
-        return "GetFileVersionInfo failed.";
-    }
+    common::AssertOrTerminateWithMessage(
+            GetFileVersionInfoW(file_path_wide.data(),
+                    version_handle, version_size, version_data.data()),
+            "Error",
+            "GetFileVersionInfo failed.");
 
-    // Gather all of the information into the specified buffer.
+    // Gather all of the information into the specified buffer, then check
+    // version info signature.
     UINT version_info_size;
     VS_FIXEDFILEINFO* version_info = nullptr;
-    if (!VerQueryValueW(version_data.data(), L"\\", (LPVOID*)&version_info,
-            &version_info_size)) {
-        return "VerQueryValueW failed.";
-    }
-
-    // Check version info signature.
-    if (version_info_size <= 0 || version_info->dwSignature != 0xfeef04bd) {
-        return "VerQueryValueW failed.";
-    }
+    common::AssertOrTerminateWithMessage(
+            VerQueryValueW(version_data.data(), L"\\", (LPVOID*)&version_info,
+                    &version_info_size) || version_info_size <= 0 ||
+                    version_info->dwSignature != 0xfeef04bd,
+            "Error",
+            "VerQueryValueW failed.");
 
     // Doesn't matter if you are on 32 bit or 64 bit,
     // DWORD is always 32 bits, so first two revision numbers
