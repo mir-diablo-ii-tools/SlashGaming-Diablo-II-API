@@ -33,6 +33,14 @@ void InterceptionPatch::Apply() {
         return;
     }
 
+    intptr_t address = get_offset().CalculateAddress();
+
+    // If the address is -1, then the patch should not be applied.
+    if (address == -1) {
+        BasePatch::Apply();
+        return;
+    }
+
     // Fill the container with no-op.
     std::vector<uint8_t> replace_buffer(get_patch_size(),
             static_cast<uint8_t>(OpCodes::kNop));
@@ -45,7 +53,6 @@ void InterceptionPatch::Apply() {
     std::memmove(&replace_buffer.at(1), &func_ptr, sizeof(func_ptr));
 
     // Replace the game bytes with the bytes in the buffer.
-    uintptr_t address = get_offset().CalculateAddress();
     std::memmove(reinterpret_cast<void*>(address), replace_buffer.data(),
             sizeof(func_ptr));
 
