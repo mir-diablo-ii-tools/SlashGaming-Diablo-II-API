@@ -48,7 +48,9 @@ intptr_t Offset::CalculateAddress() const {
     intptr_t base_address = GetGameLibraryBaseAddress(get_library_file_name());
     intptr_t offset = GetRunningGameOffset();
 
-    intptr_t address = base_address + offset;
+    intptr_t address = (offset != -1)
+        ? base_address + offset
+        : -1;
     return address;
 }
 

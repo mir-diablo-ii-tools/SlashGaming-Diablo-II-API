@@ -71,7 +71,8 @@ public:
     /**
      * Calculates and returns the target address of the offset by adding the
      * offset associated with the running game version to the base address of
-     * the offset's library.
+     * the offset's library. If there is no offset for that game version, then
+     * function returns -1.
      */
     virtual intptr_t CalculateAddress() const;
 
