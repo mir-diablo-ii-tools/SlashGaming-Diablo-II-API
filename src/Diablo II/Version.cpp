@@ -71,17 +71,18 @@ std::string ExtractFileVersionString(std::string_view file_name) {
     DWORD version_handle;
 
     // Check version size.
-    std::wstring file_path_wide = common::ConvertAnsiToUnicode(file_name);
-    DWORD version_size = GetFileVersionInfoSizeW(file_path_wide.data(),
+    std::wstring file_name_wide = common::ConvertAnsiToUnicode(file_name);
+    DWORD version_size = GetFileVersionInfoSizeW(file_name_wide.data(),
             &version_handle);
-    if (version_size == 0) {
-        return "GetFileVersionInfoSize failed.";
-    }
+    common::AssertOrTerminateWithMessage(
+            (version_size != 0),
+            "Error",
+            "GetFileVersionInfo failed.");
 
     // Get the file version info.
     auto version_data = std::make_unique<wchar_t>(version_size);
     common::AssertOrTerminateWithMessage(
-            GetFileVersionInfoW(file_path_wide.data(),
+            GetFileVersionInfoW(file_name_wide.data(),
                     version_handle, version_size, version_data.get()),
             "Error",
             "GetFileVersionInfo failed.");
@@ -133,9 +134,13 @@ enum GameVersion GetGameVersionByFileVersion(std::string_view version_string) {
 
         auto found_version_pair = game_versions_by_file_version.find(
                 version_string);
-        return (found_version_pair != game_versions_by_file_version.cend())
-                ? found_version_pair->second
-                : GameVersion::kInvalid;
+
+        common::AssertOrTerminateWithMessage(
+            (found_version_pair != game_versions_by_file_version.cend()),
+            "Error",
+            "Unknown game version detected.");
+
+        return found_version_pair->second;
     }
 
 } // namespace

@@ -123,9 +123,13 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
     };
 
     auto find_result = file_name_by_game_library.find(game_library);
-    return (find_result != file_name_by_game_library.cend())
-            ? find_result->second.data()
-            : "Invalid";
+
+    common::AssertOrTerminateWithMessage(
+            (find_result != file_name_by_game_library.cend()),
+            "Error",
+            "Unknown game library.");
+
+    return find_result->second.data();
 }
 
 } // namespace
