@@ -45,7 +45,7 @@ std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
     auto destination = std::make_unique<char[]>(buffer_size);
     std::wcsrtombs(destination.get(), &source, buffer_size, &state);
 
-    return std::string(destination.get());
+    return destination.get();
 }
 
 std::wstring ConvertAnsiToUnicode(const std::string_view s) {
@@ -64,7 +64,7 @@ std::wstring ConvertAnsiToUnicode(const std::string_view s) {
     auto destination = std::make_unique<wchar_t[]>(buffer_size);
     std::mbsrtowcs(destination.get(), &source, buffer_size, &state);
 
-    return std::wstring(destination.get());
+    return destination.get();
 }
 
 } // namespace slashgaming::common
