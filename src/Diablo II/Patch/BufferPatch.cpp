@@ -21,6 +21,7 @@
 #include "BufferPatch.h"
 
 #include <cstdint>
+#include <cstring>
 #include <vector>
 
 #include "BasePatch.h"
@@ -41,6 +42,27 @@ BufferPatch::BufferPatch(const Offset& offset, const std::vector<int8_t>& buffer
 BufferPatch::BufferPatch(const Offset& offset, const std::vector<int8_t>& buffer,
         size_t patch_size) :
         BasePatch(offset, patch_size), buffer_(buffer) {
+}
+
+void BufferPatch::Apply() {
+    if (is_patch_applied()) {
+        return;
+    }
+
+    intptr_t address = get_offset().CalculateAddress();
+
+    // If the address is -1, then the patch should not be applied.
+    if (address == -1) {
+        BasePatch::Apply();
+        return;
+    }
+
+    // Replace the game bytes with the bytes in the buffer.
+    std::memmove(reinterpret_cast<void*>(address), get_buffer().data(),
+            get_buffer().size() * sizeof(int8_t));
+
+    // Set applied to true.
+    BasePatch::Apply();
 }
 
 const std::vector<int8_t>& BufferPatch::get_buffer() const {

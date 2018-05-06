@@ -68,6 +68,8 @@ public:
     explicit BufferPatch(BufferPatch&& base_patch) = default;
     BufferPatch& operator=(BufferPatch&& rhs) = default;
 
+    virtual void Apply() override;
+
     /**
      * Returns a const reference to the buffer that stores the replacement
      * bytes.
