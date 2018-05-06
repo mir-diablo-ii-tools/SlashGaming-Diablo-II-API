@@ -21,9 +21,9 @@
 #include "StringConversion.h"
 
 #include <cwchar>
+#include <memory>
 #include <string>
 #include <string_view>
-#include <vector>
 
 #include "ErrorReport.h"
 
@@ -42,10 +42,10 @@ std::string ConvertUnicodeToAnsi(const std::wstring_view s) {
             "Failed to convert wide string to multibyte char string.");
 
     // Convert the wide string to multibyte char string.
-    std::vector<char> destination(buffer_size);
-    std::wcsrtombs(destination.data(), &source, buffer_size, &state);
+    auto destination = std::make_unique<char>(buffer_size);
+    std::wcsrtombs(destination.get(), &source, buffer_size, &state);
 
-    return destination.data();
+    return std::string(destination.get());
 }
 
 std::wstring ConvertAnsiToUnicode(const std::string_view s) {
@@ -61,10 +61,10 @@ std::wstring ConvertAnsiToUnicode(const std::string_view s) {
             "Failed to convert multibyte char string to wide string.");
 
     // Convert the multibyte char string to wide string.
-    std::vector<wchar_t> destination(buffer_size);
-    std::mbsrtowcs(destination.data(), &source, buffer_size, &state);
+    auto destination = std::make_unique<wchar_t>(buffer_size);
+    std::mbsrtowcs(destination.get(), &source, buffer_size, &state);
 
-    return destination.data();
+    return std::wstring(destination.get());
 }
 
 } // namespace slashgaming::common

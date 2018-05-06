@@ -21,10 +21,10 @@
 #include "Version.h"
 
 #include <windows.h>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <vector>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -79,10 +79,10 @@ std::string ExtractFileVersionString(std::string_view file_name) {
     }
 
     // Get the file version info.
-    std::vector<wchar_t> version_data(version_size);
+    auto version_data = std::make_unique<wchar_t>(version_size);
     common::AssertOrTerminateWithMessage(
             GetFileVersionInfoW(file_path_wide.data(),
-                    version_handle, version_size, version_data.data()),
+                    version_handle, version_size, version_data.get()),
             "Error",
             "GetFileVersionInfo failed.");
 
@@ -91,7 +91,7 @@ std::string ExtractFileVersionString(std::string_view file_name) {
     UINT version_info_size;
     VS_FIXEDFILEINFO* version_info = nullptr;
     common::AssertOrTerminateWithMessage(
-            VerQueryValueW(version_data.data(), L"\\", (LPVOID*)&version_info,
+            VerQueryValueW(version_data.get(), L"\\", (LPVOID*)&version_info,
                     &version_info_size) || version_info_size <= 0 ||
                     version_info->dwSignature != 0xfeef04bd,
             "Error",
