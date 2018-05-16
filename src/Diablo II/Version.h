@@ -39,16 +39,14 @@ namespace slashgaming::diabloii {
 enum class GameVersion : int {
     kInvalid,
 
-    kClassic1_00, kClassic1_01, kClassic1_02, kClassic1_03, kClassic1_04,
-    kClassic1_04B, kClassic1_04C, kClassic1_05, kClassic1_05B, kClassic1_06,
-    kClassic1_06B, kClassic1_07, kClassic1_08, kClassic1_09, kClassic1_09B,
-    kClassic1_09C, kClassic1_09D, kClassic1_10Beta, kClassic1_10BetaS,
-    kClassic1_10, kClassic1_11, kClassic1_11B, kClassic1_12, kClassic1_13C,
-    kClassic1_13D, kClassic1_14A, kClassic1_14B, kClassic1_14C, kClassic1_14D,
+    k1_00, k1_01, k1_02, k1_03, k1_04, k1_04B, k1_04C, k1_05, k1_05B, k1_06,
+    k1_06B, k1_07, k1_08, k1_09, k1_09B, k1_09C, k1_09D, k1_10, k1_11, k1_11B,
+    k1_12A, k1_13C, k1_13D,
 
-    kLod1_07, kLod1_08, kLod1_09, kLod1_09B, kLod1_09C, kLod1_09D,
-    kLod1_10Beta, kLod1_10BetaS, kLod1_10, kLod1_11, kLod1_11B, kLod1_12,
-    kLod1_13C, kLod1_13D, kLod1_14A, kLod1_14B, kLod1_14C, kLod1_14D
+    kClassic1_14A, kClassic1_14B, kClassic1_14C, kClassic1_14D,
+    kLod1_14A, kLod1_14B, kLod1_14C, kLod1_14D,
+
+    k1_09E, k1_10Beta, k1_10BetaS, k1_13Beta,
 };
 
 /**

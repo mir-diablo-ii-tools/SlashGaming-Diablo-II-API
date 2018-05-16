@@ -48,10 +48,10 @@ namespace {
 
 void D2Client_Unknown_001_Lod_1_11() {
     static const Offset offset(GameLibraries::kD2Client, {
-        { GameVersion::kLod1_11, 0x875B0 },
-        { GameVersion::kLod1_12, 0x7AB00 },
-        { GameVersion::kLod1_13C, 0x42850 },
-        { GameVersion::kLod1_13D, 0x43870 }
+        { GameVersion::k1_11, 0x875B0 },
+        { GameVersion::k1_12A, 0x7AB00 },
+        { GameVersion::k1_13C, 0x42850 },
+        { GameVersion::k1_13D, 0x43870 }
     });
 
     uintptr_t func_ptr = offset.CalculateAddress();
