@@ -33,7 +33,7 @@
 namespace slashgaming::diabloii {
 namespace {
 
-constexpr const char *kGameExecutable = "Game.exe";
+constexpr std::string_view kGameExecutable = "Game.exe";
 std::string ExtractFileVersionString(std::string_view file_name);
 enum GameVersion GetGameVersionByFileVersion(std::string_view file_version);
 
@@ -112,36 +112,50 @@ std::string ExtractFileVersionString(std::string_view file_name) {
 }
 
 enum GameVersion GetGameVersionByFileVersion(std::string_view version_string) {
-        static const std::unordered_map<std::string_view, enum GameVersion>
-                game_versions_by_file_version = {
-            { "1.0.7.0", GameVersion::k1_07 },
-            { "1.0.8.28", GameVersion::k1_08 },
-            { "1.0.9.19", GameVersion::k1_09 },
-            { "1.0.9.20", GameVersion::k1_09B },
-            { "1.0.9.21", GameVersion::k1_09C },
-            { "1.0.9.22", GameVersion::k1_09D },
-            { "1.0.10.39", GameVersion::k1_10 },
-            { "1.0.11.45", GameVersion::k1_11 },
-            { "1.0.11.46", GameVersion::k1_11B },
-            { "1.0.12.49", GameVersion::k1_12A },
-            { "1.0.13.60", GameVersion::k1_13C },
-            { "1.0.13.64", GameVersion::k1_13D },
-            { "1.14.0.64", GameVersion::kLod1_14A },
-            { "1.14.1.68", GameVersion::kLod1_14B },
-            { "1.14.2.70", GameVersion::kLod1_14C },
-            { "1.14.3.71", GameVersion::kLod1_14D }
-        };
+    static const std::unordered_map<std::string_view, enum GameVersion>
+            game_versions_by_file_version = {
+        { "1.0.3.0", GameVersion::k1_03 },
+        { "1.0.4.0", GameVersion::k1_04 },
+        // 1.04B and 1.04C use the same DLLs
+        { "1.0.4.1", GameVersion::k1_04B },
+        { "1.0.4.2", GameVersion::k1_04B },
+        { "1.0.5.0", GameVersion::k1_05 },
+        { "1.0.5.1", GameVersion::k1_05B },
+        // TODO(Mir Drualga): 1.06 & 1.06B have the same version #, but use
+        // completely different DLLs
+        { "1.0.6.0", GameVersion::k1_06 },
+        { "1.0.7.0", GameVersion::k1_07 },
+        { "1.0.8.28", GameVersion::k1_08 },
+        { "1.0.9.19", GameVersion::k1_09 },
+        { "1.0.9.20", GameVersion::k1_09B },
+        { "1.0.9.21", GameVersion::k1_09C },
+        { "1.0.9.22", GameVersion::k1_09D },
+        { "1.0.9.23", GameVersion::k1_09E },
+        { "1.0.10.9", GameVersion::k1_10Beta },
+        { "1.0.10.10", GameVersion::k1_10BetaS },
+        { "1.0.10.39", GameVersion::k1_10 },
+        { "1.0.11.45", GameVersion::k1_11 },
+        { "1.0.11.46", GameVersion::k1_11B },
+        { "1.0.12.49", GameVersion::k1_12A },
+        { "1.0.13.55", GameVersion::k1_13Beta },
+        { "1.0.13.60", GameVersion::k1_13C },
+        { "1.0.13.64", GameVersion::k1_13D },
+        { "1.14.0.64", GameVersion::kLod1_14A },
+        { "1.14.1.68", GameVersion::kLod1_14B },
+        { "1.14.2.70", GameVersion::kLod1_14C },
+        { "1.14.3.71", GameVersion::kLod1_14D }
+    };
 
-        auto found_version_pair = game_versions_by_file_version.find(
-                version_string);
+    auto found_version_pair = game_versions_by_file_version.find(
+            version_string);
 
-        common::AssertOrTerminateWithMessage(
-            (found_version_pair != game_versions_by_file_version.cend()),
-            "Error",
-            "Unknown game version detected.");
+    common::AssertOrTerminateWithMessage(
+        (found_version_pair != game_versions_by_file_version.cend()),
+        "Error",
+        "Unknown game version detected.");
 
-        return found_version_pair->second;
-    }
+    return found_version_pair->second;
+}
 
 } // namespace
 
