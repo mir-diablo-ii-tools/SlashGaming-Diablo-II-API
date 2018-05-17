@@ -67,7 +67,7 @@ intptr_t GetGameLibraryBaseAddress(std::string_view file_name) {
 std::string GetFileNameFromGameLibraryWithRedirect(
         enum GameLibraries game_library) {
     if (IsGameVersionAtLeast1_14() && IsGameLibraryRedirected(game_library)) {
-        game_library = GameLibraries::kGame;
+        return kGameExecutable.data();
     }
 
     return GetFileNameFromGameLibrary(game_library);
@@ -115,7 +115,6 @@ std::string GetFileNameFromGameLibrary(enum GameLibraries game_library) {
         { GameLibraries::kD2Sound, "D2Sound.dll" },
         { GameLibraries::kD2Win, "D2Win.dll" },
         { GameLibraries::kFog, "Fog.dll" },
-        { GameLibraries::kGame, "Game.exe" },
         { GameLibraries::kGlide3X, "glide3x.dll" },
         { GameLibraries::kIJL11, "Ijl11.dll" },
         { GameLibraries::kSmackW32, "SmackW32.dll" },

@@ -29,19 +29,19 @@
 #include <unordered_set>
 
 #include "../Common/Common.h"
+#include "GameLibrary.h"
 
 namespace slashgaming::diabloii {
 namespace {
 
-constexpr std::string_view kGameExecutable = "Game.exe";
 std::string ExtractFileVersionString(std::string_view file_name);
 enum GameVersion GetGameVersionByFileVersion(std::string_view file_version);
 
 } // namespace
 
 enum GameVersion GetGameVersion() {
-    // TODO(Mir Drualga): Figure out how to get version number without using
-    // file version. This is important for classic D2 client compatibility!
+    // TODO(Mir Drualga): Figure out how to get versions 1.06(B) and 1.14+
+    // classic detection.
     static std::string game_version_string = ExtractFileVersionString(
             kGameExecutable);
     static enum GameVersion game_version = GetGameVersionByFileVersion(
