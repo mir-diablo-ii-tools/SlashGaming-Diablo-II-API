@@ -40,11 +40,13 @@ type* D2Client_##name() { \
 namespace slashgaming::diabloii::var {
 
 VARPTR(ScreenSizeX, int, (
+    { GameVersion::k1_07, 0xDE0E4 },
     { GameVersion::k1_13C, 0xDBC48 },
     { GameVersion::k1_13D, 0xF7034 },
 ));
 
 VARPTR(ScreenSizeY, int, (
+    { GameVersion::k1_07, 0xDE0E8 },
     { GameVersion::k1_13C, 0xDBC4C },
     { GameVersion::k1_13D, 0xF7038 },
 ));
