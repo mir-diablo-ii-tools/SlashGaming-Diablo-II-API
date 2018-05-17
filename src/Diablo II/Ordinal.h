@@ -46,6 +46,7 @@ namespace slashgaming::diabloii {
  * the running game version.
  */
 class DLLEXPORT Ordinal : public Offset {
+public:
     /**
      * Creates an instance of Ordinal by specifying the game library associated
      * with the specified map of ordinal values. The map contains a mapping of
