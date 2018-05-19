@@ -18,14 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "D2ClientVar.h"
+#if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+
+#include "../../Pointer/D2ClientVar.h"
 
 #include <cstdint>
 #include <unordered_map>
 
-#include "../GameLibrary.h"
-#include "../Pointer.h"
-#include "../Version.h"
+#include "../../GameLibrary.h"
+#include "../../Pointer.h"
+#include "../../Version.h"
 
 #define ESCAPE_PARENTHESIS(...) { __VA_ARGS__ }
 
@@ -56,3 +58,5 @@ VARPTR(ScreenSizeY, int, (
 #undef VARPTR
 
 #undef ESCAPE_PARENTHESIS
+
+#endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

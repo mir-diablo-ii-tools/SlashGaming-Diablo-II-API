@@ -18,14 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "D2ClientFunc.h"
+#if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+
+#include "../../Pointer/D2ClientFunc.h"
 
 #include <cstdint>
 #include <unordered_map>
 
-#include "../GameLibrary.h"
-#include "../Pointer.h"
-#include "../Version.h"
+#include "../../GameLibrary.h"
+#include "../../Pointer.h"
+#include "../../Version.h"
 
 namespace slashgaming::diabloii::func {
 
@@ -62,3 +64,5 @@ void D2Client_Unknown_001_Lod_1_11() {
 // D2Client_ExitGame() End
 
 } // namespace slashgaming::diabloii::func
+
+#endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

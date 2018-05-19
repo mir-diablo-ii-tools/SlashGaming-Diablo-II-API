@@ -18,15 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "D2GFXFunc.h"
+#if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+
+#include "../../Pointer/D2GFXFunc.h"
 
 #include <cstdint>
-#include <functional>
 #include <unordered_map>
 
-#include "../GameLibrary.h"
-#include "../Pointer.h"
-#include "../Version.h"
+#include "../../GameLibrary.h"
+#include "../../Pointer.h"
+#include "../../Version.h"
 
 namespace slashgaming::diabloii::func {
 
@@ -68,3 +69,5 @@ void __stdcall D2GFX_DrawLine_1_13C(int x1, int y1, int x2, int y2,
 } // namespace
 
 } // namespace slashgaming::diabloii::func
+
+#endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
