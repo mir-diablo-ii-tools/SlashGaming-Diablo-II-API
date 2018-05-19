@@ -25,21 +25,14 @@
 #include <cstdint>
 #include <unordered_map>
 
+#define SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_INCLUDE_
+#include "D2GFXFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_INCLUDE_
 #include "../../GameLibrary.h"
 #include "../../Pointer.h"
 #include "../../Version.h"
 
 namespace slashgaming::diabloii::func {
-
-namespace {
-
-void __stdcall D2GFX_DrawLine_1_13C(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int unknown);
-
-extern "C" {
-}
-
-} // namespace
 
 void D2GFX_DrawLine(int x1, int y1, int x2, int y2, unsigned int color,
         unsigned int unknown) {
@@ -51,22 +44,6 @@ void D2GFX_DrawLine(int x1, int y1, int x2, int y2, unsigned int color,
         }
     }
 }
-
-namespace {
-
-void __stdcall D2GFX_DrawLine_1_13C(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int unknown) {
-    static const auto func =
-            reinterpret_cast<decltype(D2GFX_DrawLine_1_13C)*>(
-                Pointer(GameLibraries::kD2Client, {
-                    { GameVersion::k1_13C, { PointerType::kOrdinal, 10010 } },
-                    { GameVersion::k1_13D, { PointerType::kOrdinal, 10013 } }
-                }).get_address());
-
-    func(x1, y1, x2, y2, color, unknown);
-}
-
-} // namespace
 
 } // namespace slashgaming::diabloii::func
 
