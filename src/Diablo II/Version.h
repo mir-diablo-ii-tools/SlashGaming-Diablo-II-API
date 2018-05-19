@@ -46,7 +46,7 @@ enum class GameVersion : int {
     kClassic1_14A, kClassic1_14B, kClassic1_14C, kClassic1_14D,
     kLod1_14A, kLod1_14B, kLod1_14C, kLod1_14D,
 
-    k1_09E, k1_10Beta, k1_10BetaS, k1_13Beta,
+    k1_09E, k1_10Beta, k1_10SBeta, k1_13ABeta,
 };
 
 /**
