@@ -28,7 +28,6 @@ _D2Client_Unknown_001_Lod_1_11_Stub@4:
     pop eax
     xchg eax, [esp]
 
-    call eax
-    ret 4
+    jmp eax
 
 #endif
