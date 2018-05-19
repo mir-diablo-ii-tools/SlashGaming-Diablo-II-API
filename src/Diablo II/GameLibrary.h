@@ -37,10 +37,11 @@ constexpr std::string_view kGameExecutable = "Game.exe";
  * The game libraries that are used by Diablo II.
  */
 enum class GameLibraries : int {
-    kBinkW32, kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw,
-    kD2Direct3D, kD2Game, kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch,
-    kD2MCPClient, kD2Multi, kD2Net, kD2Sound, kD2Win, kFog, kGlide3X,
-    kIJL11, kSmackW32, kStorm
+    kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+    kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
+    kD2Net, kD2Sound, kD2Win, kFog, kStorm,
+
+    kBinkW32, kGlide3X, kIJL11, kSmackW32,
 };
 
 /**
