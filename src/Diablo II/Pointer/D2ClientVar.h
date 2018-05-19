@@ -33,8 +33,10 @@
 
 namespace slashgaming::diabloii::var {
 
-extern "C" DLLEXPORT int* D2Client_ScreenSizeX();
-extern "C" DLLEXPORT int* D2Client_ScreenSizeY();
+extern "C" {
+    DLLEXPORT int* D2Client_ScreenSizeX();
+    DLLEXPORT int* D2Client_ScreenSizeY();
+}
 
 } // namespace slashgaming::diabloii::var
 
