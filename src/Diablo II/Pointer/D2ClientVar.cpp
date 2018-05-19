@@ -24,31 +24,31 @@
 #include <unordered_map>
 
 #include "../GameLibrary.h"
-#include "../Offset.h"
+#include "../Pointer.h"
 #include "../Version.h"
 
 #define ESCAPE_PARENTHESIS(...) { __VA_ARGS__ }
 
 #define VARPTR(name, type, offset_map) \
 type* D2Client_##name() { \
-    static const Offset offset(GameLibraries::kD2Client, \
+    static const Pointer pointer(GameLibraries::kD2Client, \
             ESCAPE_PARENTHESIS offset_map); \
-    static type* var_ptr = reinterpret_cast<type*>(offset.CalculateAddress()); \
+    static type* var_ptr = reinterpret_cast<type*>(pointer.get_address()); \
     return var_ptr; \
 }
 
 namespace slashgaming::diabloii::var {
 
 VARPTR(ScreenSizeX, int, (
-    { GameVersion::k1_07, 0xDE0E4 },
-    { GameVersion::k1_13C, 0xDBC48 },
-    { GameVersion::k1_13D, 0xF7034 },
+    { GameVersion::k1_07, { PointerType::kOffset, 0xDE0E4 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0xDBC48 } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0xF7034 } },
 ));
 
 VARPTR(ScreenSizeY, int, (
-    { GameVersion::k1_07, 0xDE0E8 },
-    { GameVersion::k1_13C, 0xDBC4C },
-    { GameVersion::k1_13D, 0xF7038 },
+    { GameVersion::k1_07, { PointerType::kOffset, 0xDE0E8 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0xDBC4C } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0xF7038 } },
 ));
 
 } // namespace slashgaming::diabloii::var

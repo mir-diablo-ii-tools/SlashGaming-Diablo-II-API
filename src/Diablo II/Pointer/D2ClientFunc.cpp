@@ -24,7 +24,7 @@
 #include <unordered_map>
 
 #include "../GameLibrary.h"
-#include "../Offset.h"
+#include "../Pointer.h"
 #include "../Version.h"
 
 namespace slashgaming::diabloii::func {
@@ -47,14 +47,14 @@ void D2Client_Unknown_001() {
 namespace {
 
 void D2Client_Unknown_001_Lod_1_11() {
-    static const Offset offset(GameLibraries::kD2Client, {
-        { GameVersion::k1_11, 0x875B0 },
-        { GameVersion::k1_12A, 0x7AB00 },
-        { GameVersion::k1_13C, 0x42850 },
-        { GameVersion::k1_13D, 0x43870 }
+    static const Pointer pointer(GameLibraries::kD2Client, {
+        { GameVersion::k1_11, { PointerType::kOffset, 0x875B0 } },
+        { GameVersion::k1_12A, { PointerType::kOffset, 0x7AB00 } },
+        { GameVersion::k1_13C, { PointerType::kOffset, 0x42850 } },
+        { GameVersion::k1_13D, { PointerType::kOffset, 0x43870 } }
     });
 
-    uintptr_t func_ptr = offset.CalculateAddress();
+    uintptr_t func_ptr = pointer.get_address();
     D2Client_Unknown_001_Lod_1_11_Stub(func_ptr);
 }
 
