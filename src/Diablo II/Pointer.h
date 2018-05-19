@@ -18,14 +18,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SGD2MAPI_DIABLOII_OFFSET_H_
-#define SGD2MAPI_DIABLOII_OFFSET_H_
+#ifndef SGD2MAPI_DIABLOII_POINTER_H_
+#define SGD2MAPI_DIABLOII_POINTER_H_
 
 #include <windows.h>
 #include <cstdint>
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <utility>
 
 #include "GameLibrary.h"
 #include "Version.h"
@@ -42,58 +43,61 @@
 
 namespace slashgaming::diabloii {
 
-class DLLEXPORT Offset {
+enum PointerType {
+    kOffset,
+    kOrdinal
+};
+
+class DLLEXPORT Pointer {
 public:
     /**
-     * Creates an instance of Offset by specifying the game library associated
+     * Creates an instance of Pointer by specifying the game library associated
      * with the specified map of offset values. The map contains a mapping of
      * the game versions to the offset values.
+     *
+     * Calculates and returns the target address of this pointer. If there is no
+     * offset for that game version, then the function returns -1.
      */
-    Offset(enum GameLibraries game_library,
+    Pointer(enum GameLibraries game_library,
             const std::unordered_map<enum GameVersion,
-                    intptr_t>& offsets_by_game_versions);
+                    std::pair<enum PointerType,
+                            intptr_t>>& offsets_by_game_versions);
 
     /**
-     * Creates an instance of Offset by specifying the file name of the library
+     * Creates an instance of Pointer by specifying the file name of the library
      * associated with the specified map of offset values. The map contains a
      * mapping of the game versions to the offset values.
+     *
+     * Calculates and returns the target address of this pointer. If there is no
+     * offset for that game version, then the function returns -1.
      */
-    Offset(std::string_view library_file_name,
+    Pointer(std::string_view library_file_name,
             const std::unordered_map<enum GameVersion,
-                    intptr_t>& offsets_by_game_versions);
+                    std::pair<enum PointerType,
+                            intptr_t>>& offsets_by_game_versions);
 
-    explicit Offset(const Offset& offset) = default;
-    Offset& operator=(const Offset& rhs) = default;
+    explicit Pointer(const Pointer& pointer) = default;
+    Pointer& operator=(const Pointer& rhs) = default;
 
-    explicit Offset(Offset&& offset) = default;
-    Offset& operator=(Offset&& rhs) = default;
-
-    /**
-     * Calculates and returns the target address of the offset by adding the
-     * offset associated with the running game version to the base address of
-     * the offset's library. If there is no offset for that game version, then
-     * function returns -1.
-     */
-    virtual intptr_t CalculateAddress() const;
+    explicit Pointer(Pointer&& pointer) = default;
+    Pointer& operator=(Pointer&& rhs) = default;
 
     /**
-     * Returns the game offset associated with the running game version. If
-     * there is no entry for that game version, the function returns
-     * -1.
-     */
-    intptr_t GetRunningGameOffset() const;
-
-    /**
-     * Returns the file name of this offset's library.
+     * Returns the file name of this pointer's library.
      */
     std::string get_library_file_name() const;
+
+    /**
+     * Return the address of this pointer.
+     */
+    intptr_t get_address() const;
 private:
     std::string library_file_name_;
-    std::unordered_map<enum GameVersion, intptr_t> offsets_by_game_versions_;
+    intptr_t address_;
 };
 
 } // namespace slashgaming::diabloii
 
 #undef DLLEXPORT
 
-#endif // SGD2MAPI_DIABLOII_OFFSET_H_
+#endif // SGD2MAPI_DIABLOII_POINTER_H_
