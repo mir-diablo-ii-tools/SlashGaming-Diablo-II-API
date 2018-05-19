@@ -24,7 +24,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "../Offset.h"
+#include "../Pointer.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
@@ -54,9 +54,9 @@ public:
     virtual void Remove();
 
     /**
-     * Returns the Offset used by this patch.
+     * Returns the pointer used by this patch.
      */
-    const Offset& get_offset() const;
+    const Pointer& get_pointer() const;
 
     /**
      * Returns the number of bytes needed to apply this patch.
@@ -72,7 +72,7 @@ protected:
     /**
      * Initializes the offset and patch size of this patch.
      */
-    BasePatch(const Offset& offset, size_t patch_size);
+    BasePatch(const Pointer& pointer, size_t patch_size);
     explicit BasePatch(const BasePatch& base_patch) = default;
     BasePatch& operator=(const BasePatch& rhs) = default;
 
@@ -82,7 +82,7 @@ protected:
     ~BasePatch();
 
 private:
-    const Offset offset_;
+    const Pointer pointer_;
     const size_t patch_size_;
 
     bool is_patch_applied_;

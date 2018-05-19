@@ -25,7 +25,7 @@
 #include <vector>
 
 #include "BasePatch.h"
-#include "../Offset.h"
+#include "../Pointer.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
@@ -48,18 +48,18 @@ public:
     /**
      * Creates an instance of BufferPatch.
      */
-    BufferPatch(const Offset& offset, const int8_t buffer[],
+    BufferPatch(const Pointer& pointer, const int8_t buffer[],
             size_t patch_size);
 
     /**
      * Creates an instance of BufferPatch.
      */
-    BufferPatch(const Offset& offset, const std::vector<int8_t>& buffer);
+    BufferPatch(const Pointer& pointer, const std::vector<int8_t>& buffer);
 
     /**
      * Creates an instance of BufferPatch.
      */
-    BufferPatch(const Offset& offset, const std::vector<int8_t>& buffer,
+    BufferPatch(const Pointer& pointer, const std::vector<int8_t>& buffer,
             size_t patch_size);
 
     explicit BufferPatch(const BufferPatch& base_patch) = default;

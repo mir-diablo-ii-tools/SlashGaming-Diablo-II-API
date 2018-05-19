@@ -33,7 +33,7 @@ void InterceptionPatch::Apply() {
         return;
     }
 
-    intptr_t address = get_offset().CalculateAddress();
+    intptr_t address = get_pointer().get_address();
 
     // If the address is -1, then the patch should not be applied.
     if (address == -1) {

@@ -25,23 +25,24 @@
 #include <vector>
 
 #include "BasePatch.h"
-#include "../Offset.h"
+#include "../Pointer.h"
 
 namespace slashgaming::diabloii::patch {
 
-BufferPatch::BufferPatch(const Offset& offset, const int8_t buffer[],
+BufferPatch::BufferPatch(const Pointer& pointer, const int8_t buffer[],
         size_t patch_size) :
-        BasePatch(offset, patch_size),
+        BasePatch(pointer, patch_size),
         buffer_(buffer, buffer + patch_size) {
 }
 
-BufferPatch::BufferPatch(const Offset& offset, const std::vector<int8_t>& buffer) :
-        BufferPatch(offset, buffer, buffer.size()) {
+BufferPatch::BufferPatch(const Pointer& pointer,
+        const std::vector<int8_t>& buffer) :
+        BufferPatch(pointer, buffer, buffer.size()) {
 }
 
-BufferPatch::BufferPatch(const Offset& offset, const std::vector<int8_t>& buffer,
-        size_t patch_size) :
-        BasePatch(offset, patch_size), buffer_(buffer) {
+BufferPatch::BufferPatch(const Pointer& pointer,
+        const std::vector<int8_t>& buffer, size_t patch_size) :
+        BasePatch(pointer, patch_size), buffer_(buffer) {
 }
 
 void BufferPatch::Apply() {
@@ -49,7 +50,7 @@ void BufferPatch::Apply() {
         return;
     }
 
-    intptr_t address = get_offset().CalculateAddress();
+    intptr_t address = get_pointer().get_address();
 
     // If the address is -1, then the patch should not be applied.
     if (address == -1) {

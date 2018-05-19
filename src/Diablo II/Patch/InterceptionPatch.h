@@ -25,7 +25,7 @@
 
 #include "BasePatch.h"
 #include "../../Common/Common.h"
-#include "../Offset.h"
+#include "../Pointer.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
@@ -61,9 +61,9 @@ public:
      * Creates an instance of InterceptionPatch.
      */
     template <class T>
-    InterceptionPatch(const Offset& offset, OpCodes opcode,
+    InterceptionPatch(const Pointer& pointer, OpCodes opcode,
             std::function<T> func, size_t patch_size) :
-            BasePatch(offset, patch_size), opcode_(opcode),
+            BasePatch(pointer, patch_size), opcode_(opcode),
             func_ptr_(func.target()) {
         // Patch size needs to at least 5 bytes, otherwise the patch fails.
         common::AssertOrTerminateWithMessage(
