@@ -66,7 +66,8 @@ intptr_t GetGameLibraryBaseAddress(std::string_view file_name) {
 
 std::string GetFileNameFromGameLibraryWithRedirect(
         enum GameLibraries game_library) {
-    if (IsGameVersionAtLeast1_14() && IsGameLibraryRedirected(game_library)) {
+    if (IsGameVersionAtLeast1_14(GetGameVersion()) &&
+            IsGameLibraryRedirected(game_library)) {
         return kGameExecutable.data();
     }
 

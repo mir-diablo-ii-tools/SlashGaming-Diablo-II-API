@@ -40,13 +40,11 @@ enum class GameVersion : int {
     kInvalid,
 
     k1_00, k1_01, k1_02, k1_03, k1_04, k1_04B, k1_04C, k1_05, k1_05B, k1_06,
-    k1_06B, k1_07, k1_08, k1_09, k1_09B, k1_09C, k1_09D, k1_10, k1_11, k1_11B,
-    k1_12A, k1_13C, k1_13D,
+    k1_06B, k1_07, k1_08, k1_09, k1_09B, k1_09C, k1_09D, k1_09E, k1_10,
+    k1_10Beta, k1_10SBeta, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
 
     kClassic1_14A, kClassic1_14B, kClassic1_14C, kClassic1_14D,
     kLod1_14A, kLod1_14B, kLod1_14C, kLod1_14D,
-
-    k1_09E, k1_10Beta, k1_10SBeta, k1_13ABeta,
 };
 
 /**
@@ -57,7 +55,12 @@ DLLEXPORT enum GameVersion GetGameVersion();
 /**
  * Returns whether the Diablo II game version is at least 1.14.
  */
-DLLEXPORT bool IsGameVersionAtLeast1_14();
+DLLEXPORT constexpr bool IsGameVersionAtLeast1_14(
+        enum GameVersion game_version) {
+    int game_version_value = static_cast<int>(game_version);
+    return !(game_version_value >= static_cast<int>(GameVersion::k1_00) &&
+            game_version_value <= static_cast<int>(GameVersion::k1_13D));
+}
 
 } // namespace slashgaming::diabloii::version
 
