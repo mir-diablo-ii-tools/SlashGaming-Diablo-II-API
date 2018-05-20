@@ -23,12 +23,10 @@
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
-#else
-#ifdef SGD2MAPI_DLLIMPORT
+#elif defined(SGD2MAPI_DLLIMPORT)
 #define DLLEXPORT __declspec(dllimport)
 #else
 #define DLLEXPORT
-#endif
 #endif
 
 namespace slashgaming::diabloii {
