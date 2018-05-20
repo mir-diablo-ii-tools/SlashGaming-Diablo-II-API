@@ -20,12 +20,12 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#ifndef SGD2MAPI_DIABLOII_POINTER_D2CLIENTFUNC_H_INCLUDE_
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
 #error This file should only be included by the API implementation.
-#endif // SGD2MAPI_DIABLOII_POINTER_D2CLIENTFUNC_H_INCLUDE_
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
 
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNC_H_
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNC_H_
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
 
 #include "../../GameLibrary.h"
 #include "../../Pointer.h"
@@ -34,5 +34,5 @@
 namespace slashgaming::diabloii::func {
 } // namespace slashgaming::diabloii::func
 
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNC_H_
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

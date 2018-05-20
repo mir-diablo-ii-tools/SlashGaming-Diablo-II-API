@@ -20,12 +20,12 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#ifndef SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_INCLUDE_
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
 #error This file should only be included by the API implementation.
-#endif // SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_INCLUDE_
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
 
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNC_H_
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNC_H_
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
 
 #include "../../GameLibrary.h"
 #include "../../Pointer.h"
@@ -41,5 +41,5 @@ void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
 
 } // namespace slashgaming::diabloii::func
 
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNC_H_
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

@@ -25,6 +25,9 @@
 #include <cstdint>
 #include <unordered_map>
 
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
+#include "D2ClientFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
 #include "../../GameLibrary.h"
 #include "../../Pointer.h"
 #include "../../Version.h"
