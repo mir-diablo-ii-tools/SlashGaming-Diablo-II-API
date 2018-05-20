@@ -19,7 +19,8 @@
  */
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCSTUBS_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCSTUBS_H_
 
-.intel_syntax
-
-#endif /* defined(__i386__) || defined(_M_IX86) || defined(_X86_) */
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCSTUBS_H_
+#endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
