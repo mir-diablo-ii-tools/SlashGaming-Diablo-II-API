@@ -36,13 +36,12 @@ namespace slashgaming::diabloii::func {
 
 void D2GFX_DrawLine(int x1, int y1, int x2, int y2, unsigned int color,
         unsigned int unknown) {
-    switch (GetGameVersion()) {
-        case GameVersion::k1_13C:
-        case GameVersion::k1_13D: {
-            D2GFX_DrawLine_1_13C(x1, y1, x2, y2, color, unknown);
-            break;
-        }
-    }
+    D2GFX_DrawLine_1_00(x1, y1, x2, y2, color, unknown);
+}
+
+void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2, unsigned int color,
+        unsigned int trans) {
+    D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, trans);
 }
 
 } // namespace slashgaming::diabloii::func

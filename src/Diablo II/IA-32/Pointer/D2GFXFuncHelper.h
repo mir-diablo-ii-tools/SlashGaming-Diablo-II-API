@@ -33,8 +33,11 @@
 
 namespace slashgaming::diabloii::func {
 
-void __stdcall D2GFX_DrawLine_1_13C(int x1, int y1, int x2, int y2,
+void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
         unsigned int color, unsigned int unknown);
+
+void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
+        unsigned int color, unsigned int trans);
 
 } // namespace slashgaming::diabloii::func
 

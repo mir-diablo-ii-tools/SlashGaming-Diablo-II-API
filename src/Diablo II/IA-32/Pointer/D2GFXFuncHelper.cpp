@@ -30,17 +30,42 @@
 
 namespace slashgaming::diabloii::func {
 
-void __stdcall D2GFX_DrawLine_1_13C(int x1, int y1, int x2, int y2,
+void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
         unsigned int color, unsigned int unknown) {
-    static const auto func =
-            reinterpret_cast<decltype(D2GFX_DrawLine_1_13C)*>(
-                Pointer(GameLibraries::kD2Client, {
-                    { GameVersion::k1_13C, { PointerType::kOrdinal, 10010 } },
-                    { GameVersion::k1_13D, { PointerType::kOrdinal, 10013 } }
-                }).get_address());
+    static const auto func = reinterpret_cast<decltype(D2GFX_DrawLine_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_00, { PointerType::kOrdinal, 10061 } },
+            { GameVersion::k1_03, { PointerType::kOrdinal, 10061 } },
+            { GameVersion::k1_04B, { PointerType::kOrdinal, 10061 } },
+            { GameVersion::k1_05B, { PointerType::kOrdinal, 10061 } },
+            { GameVersion::k1_07, { PointerType::kOrdinal, 10057 } },
+            { GameVersion::k1_13C, { PointerType::kOrdinal, 10010 } },
+            { GameVersion::k1_13D, { PointerType::kOrdinal, 10013 } },
+            { GameVersion::kClassic1_14A, { PointerType::kOffset, 0x2BEED0 } },
+            { GameVersion::kLod1_14A, { PointerType::kOffset, 0x2BD720 } },
+            { GameVersion::kClassic1_14B, { PointerType::kOffset, 0xE6C50 } },
+            { GameVersion::kLod1_14B, { PointerType::kOffset, 0xF3990 } },
+            { GameVersion::kClassic1_14C, { PointerType::kOffset, 0xE6C50 } },
+            { GameVersion::kLod1_14C, { PointerType::kOffset, 0xF3990 } },
+            { GameVersion::kClassic1_14D, { PointerType::kOffset, 0xE9370 } },
+            { GameVersion::kLod1_14D, { PointerType::kOffset, 0xF6380 } },
+        }).get_address());
 
     func(x1, y1, x2, y2, color, unknown);
 }
+
+void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
+        unsigned int color, unsigned int trans) {
+    static const auto func =
+            reinterpret_cast<decltype(D2GFX_DrawRectangle_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_13C, { PointerType::kOrdinal, 10014 } },
+            { GameVersion::k1_13D, { PointerType::kOrdinal, 10028 } },
+        }).get_address());
+
+    func(x1, y1, x2, y2, color, trans);
+}
+
 
 } // slashgaming::diabloii::func
 
