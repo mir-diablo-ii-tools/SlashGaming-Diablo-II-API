@@ -21,12 +21,6 @@
 #ifndef SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_
 #define SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_
 
-#define SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_INCLUDE_
-#if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
-#include "../IA-32/Pointer/D2GFXFuncHelper.h"
-#endif
-#undef SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_INCLUDE_
-
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
 #else
