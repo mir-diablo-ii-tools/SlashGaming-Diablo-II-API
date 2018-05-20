@@ -34,37 +34,9 @@
 
 namespace slashgaming::diabloii::func {
 
-// D2Client_ExitGame() Start
-namespace {
-
-void D2Client_Unknown_001_Lod_1_11();
-
-extern "C" {
-    void __stdcall D2Client_Unknown_001_Lod_1_11_Stub(uintptr_t func_ptr);
-}
-
-} // namespace
-
 void D2Client_Unknown_001() {
     D2Client_Unknown_001_Lod_1_11();
 }
-
-namespace {
-
-void D2Client_Unknown_001_Lod_1_11() {
-    static const Pointer pointer(GameLibraries::kD2Client, {
-        { GameVersion::k1_11, { PointerType::kOffset, 0x875B0 } },
-        { GameVersion::k1_12A, { PointerType::kOffset, 0x7AB00 } },
-        { GameVersion::k1_13C, { PointerType::kOffset, 0x42850 } },
-        { GameVersion::k1_13D, { PointerType::kOffset, 0x43870 } }
-    });
-
-    uintptr_t func_ptr = pointer.get_address();
-    D2Client_Unknown_001_Lod_1_11_Stub(func_ptr);
-}
-
-} // namespace
-// D2Client_ExitGame() End
 
 } // namespace slashgaming::diabloii::func
 

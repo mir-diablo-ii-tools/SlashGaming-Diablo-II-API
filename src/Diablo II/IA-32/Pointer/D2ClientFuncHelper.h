@@ -32,6 +32,9 @@
 #include "../../Version.h"
 
 namespace slashgaming::diabloii::func {
+
+void D2Client_Unknown_001_Lod_1_11();
+
 } // namespace slashgaming::diabloii::func
 
 #endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
