@@ -33,7 +33,7 @@ namespace slashgaming::diabloii::func {
 void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
         unsigned int color, unsigned int unknown) {
     static const auto func = reinterpret_cast<decltype(D2GFX_DrawLine_1_00)*>(
-        Pointer(GameLibraries::kD2Client, {
+        Pointer(GameLibraries::kD2GFX, {
             { GameVersion::k1_00, { PointerType::kOrdinal, 10061 } },
             { GameVersion::k1_03, { PointerType::kOrdinal, 10061 } },
             { GameVersion::k1_04B, { PointerType::kOrdinal, 10061 } },
