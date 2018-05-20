@@ -106,7 +106,7 @@ enum GameVersion GetGameVersionByFileVersion(std::string_view version_string) {
         { "1.0.4.0", GameVersion::k1_04 },
         // 1.04B and 1.04C use the same DLLs
         { "1.0.4.1", GameVersion::k1_04B },
-        { "1.0.4.2", GameVersion::k1_04B },
+        { "1.0.4.2", GameVersion::k1_04C },
         { "1.0.5.0", GameVersion::k1_05 },
         { "1.0.5.1", GameVersion::k1_05B },
         // TODO(Mir Drualga): 1.06 & 1.06B have the same version #, but use
