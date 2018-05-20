@@ -33,7 +33,7 @@
 
 namespace slashgaming::diabloii::func {
 
-void D2Client_Unknown_001_Lod_1_11();
+void D2Client_Unknown_001_1_11();
 
 } // namespace slashgaming::diabloii::func
 

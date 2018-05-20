@@ -32,9 +32,9 @@
 
 namespace slashgaming::diabloii::func {
 
-void D2Client_Unknown_001_Lod_1_11() {
+void D2Client_Unknown_001_1_11() {
     static const auto func =
-            reinterpret_cast<decltype(D2Client_Unknown_001_Lod_1_11)*>(
+            reinterpret_cast<decltype(D2Client_Unknown_001_1_11)*>(
         Pointer(GameLibraries::kD2Client, {
             { GameVersion::k1_11, { PointerType::kOffset, 0x875B0 } },
             { GameVersion::k1_12A, { PointerType::kOffset, 0x7AB00 } },
