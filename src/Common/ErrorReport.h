@@ -25,6 +25,14 @@
 #include <string>
 #include <string_view>
 
+#ifdef SGD2MAPI_DLLEXPORT
+#define DLLEXPORT __declspec(dllexport)
+#elif defined(SGD2MAPI_DLLIMPORT)
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
+
 namespace slashgaming::common {
 
 /**
@@ -32,8 +40,8 @@ namespace slashgaming::common {
  * terminates the program if assertion is false. Otherwise, the function has no
  * effect.
  */
-void AssertOrTerminateWithMessage(bool assertion, std::string_view title,
-        std::string_view message);
+DLLEXPORT void AssertOrTerminateWithMessage(bool assertion,
+        std::string_view title, std::string_view message);
 
 } // namespace slashgaming::common
 
