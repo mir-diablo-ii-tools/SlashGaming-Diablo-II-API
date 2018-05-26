@@ -19,9 +19,9 @@
  */
 
 #ifndef SGD2MAPI_COMMON_COMMON_H_
+#define SGD2MAPI_COMMON_COMMON_H_
 
 #include "ErrorReport.h"
 #include "StringConversion.h"
 
-#define SGD2MAPI_COMMON_COMMON_H_
 #endif // SGD2MAPI_COMMON_COMMON_H_
