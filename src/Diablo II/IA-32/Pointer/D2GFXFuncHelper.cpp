@@ -58,7 +58,8 @@ void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
         unsigned int color, unsigned int trans) {
     static const auto func =
             reinterpret_cast<decltype(D2GFX_DrawRectangle_1_00)*>(
-        Pointer(GameLibraries::kD2Client, {
+        Pointer(GameLibraries::kD2GFX, {
+            { GameVersion::k1_00, { PointerType::kOrdinal, 10059 } },
             { GameVersion::k1_13C, { PointerType::kOrdinal, 10014 } },
             { GameVersion::k1_13D, { PointerType::kOrdinal, 10028 } },
         }).get_address());
