@@ -63,19 +63,6 @@ public:
      * Returns the resolved value that corresponds to this instance of the
      * constant.
      */
-    explicit operator int() const;
-
-    /**
-     * Returns the value of the constant that corresponds to this instance of
-     * the constant. The underlying value of returned does not necessarily
-     * correspond to that used in the game. Use value() for that purpose.
-     */
-    explicit operator enum D2FillAlphas() const;
-
-    /**
-     * Returns the resolved value that corresponds to this instance of the
-     * constant.
-     */
     int value() const;
 
     /**

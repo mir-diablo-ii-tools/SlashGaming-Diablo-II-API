@@ -70,14 +70,6 @@ int ExD2FillAlpha::ResolveValue(enum D2FillAlphas fill_alpha) {
     return ResolveValue_1_00(fill_alpha);
 }
 
-ExD2FillAlpha::operator int() const {
-    return value();
-}
-
-ExD2FillAlpha::operator enum D2FillAlphas() const {
-    return fill_alpha();
-}
-
 int ExD2FillAlpha::value() const {
     return value_;
 }
