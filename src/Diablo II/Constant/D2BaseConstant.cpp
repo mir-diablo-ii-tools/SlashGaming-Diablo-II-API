@@ -24,20 +24,7 @@
 
 namespace slashgaming::diabloii::constant {
 
-template class D2BaseConstant<int8_t>;
-template class D2BaseConstant<uint8_t>;
-
-template class D2BaseConstant<int16_t>;
-template class D2BaseConstant<uint16_t>;
-
-template class D2BaseConstant<int32_t>;
-template class D2BaseConstant<uint32_t>;
-
-template class D2BaseConstant<int64_t>;
-template class D2BaseConstant<uint64_t>;
-
-template<typename T>
-D2BaseConstant<T>::operator T() {
+D2BaseConstant::operator int() {
     if (!is_initialized()) {
         value_ = ResolveValue();
         is_initialized_ = true;
@@ -45,13 +32,11 @@ D2BaseConstant<T>::operator T() {
     return get_value();
 }
 
-template<typename T>
-T D2BaseConstant<T>::get_value() const {
+int D2BaseConstant::get_value() const {
     return value_;
 }
 
-template<typename T>
-bool D2BaseConstant<T>::is_initialized() const {
+bool D2BaseConstant::is_initialized() const {
     return is_initialized_;
 }
 

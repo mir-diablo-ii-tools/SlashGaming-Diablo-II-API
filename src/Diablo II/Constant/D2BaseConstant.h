@@ -26,19 +26,18 @@ namespace slashgaming::diabloii::constant {
 /**
  * The base class used to help declare version agnostic constants.
  */
-template<typename T>
 class D2BaseConstant {
 public:
     /**
      * Returns the raw value stored by this instance, after resolving the
      * values associated with the running game version.
      */
-    explicit operator T();
+    explicit operator int();
 
     /**
      * Returns the raw value of this instance.
      */
-    T get_value() const;
+    int get_value() const;
 
     /**
      * Returns whether this instance's raw value has been initialized.
@@ -56,10 +55,10 @@ protected:
      * Resolves the value for both the constant used and the running game
      * version. Returns the resolved value.
      */
-    virtual T ResolveValue() = 0;
+    virtual int ResolveValue() = 0;
 
 private:
-    T value_;
+    int value_;
     bool is_initialized_;
 };
 
