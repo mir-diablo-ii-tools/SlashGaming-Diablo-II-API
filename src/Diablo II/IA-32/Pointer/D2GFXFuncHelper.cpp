@@ -67,6 +67,6 @@ void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
     func(x1, y1, x2, y2, color, fill_alpha);
 }
 
-} // slashgaming::diabloii::func
+} // namespace slashgaming::diabloii::func
 
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
