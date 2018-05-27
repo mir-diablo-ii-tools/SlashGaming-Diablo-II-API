@@ -54,12 +54,12 @@ public:
     /**
      * Returns the pointer used by this patch.
      */
-    const Pointer& get_pointer() const;
+    const Pointer& pointer() const;
 
     /**
      * Returns the number of bytes needed to apply this patch.
      */
-    size_t get_patch_size() const;
+    size_t patch_size() const;
 
     /**
      * Returns whether or not the patch has been applied.

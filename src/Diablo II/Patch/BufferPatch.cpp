@@ -50,7 +50,7 @@ void BufferPatch::Apply() {
         return;
     }
 
-    intptr_t address = get_pointer().get_address();
+    intptr_t address = pointer().address();
 
     // If the address is -1, then the patch should not be applied.
     if (address == -1) {
@@ -59,14 +59,14 @@ void BufferPatch::Apply() {
     }
 
     // Replace the game bytes with the bytes in the buffer.
-    std::memmove(reinterpret_cast<void*>(address), get_buffer().data(),
-            get_buffer().size() * sizeof(int8_t));
+    std::memmove(reinterpret_cast<void*>(address), buffer().data(),
+            buffer().size() * sizeof(int8_t));
 
     // Set applied to true.
     BasePatch::Apply();
 }
 
-const std::vector<int8_t>& BufferPatch::get_buffer() const {
+const std::vector<int8_t>& BufferPatch::buffer() const {
     return buffer_;
 }
 

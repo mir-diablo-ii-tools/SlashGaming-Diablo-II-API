@@ -82,12 +82,12 @@ public:
     /**
      * Returns the opcode used to start the interception function.
      */
-    OpCodes get_opcode() const;
+    OpCodes opcode() const;
 
     /**
      * Returns the function pointer of the interception function.
      */
-    uintptr_t get_func_ptr() const;
+    uintptr_t func_ptr() const;
 
 private:
     OpCodes opcode_;

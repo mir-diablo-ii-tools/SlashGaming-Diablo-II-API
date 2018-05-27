@@ -33,7 +33,7 @@ void InterceptionPatch::Apply() {
         return;
     }
 
-    intptr_t address = get_pointer().get_address();
+    intptr_t address = pointer().address();
 
     // If the address is -1, then the patch should not be applied.
     if (address == -1) {
@@ -42,29 +42,29 @@ void InterceptionPatch::Apply() {
     }
 
     // Fill the container with no-op.
-    std::vector<uint8_t> replace_buffer(get_patch_size(),
+    std::vector<uint8_t> replace_buffer(patch_size(),
             static_cast<uint8_t>(OpCodes::kNop));
 
     // Replace the first byte with the opcode.
-    replace_buffer.at(0) = static_cast<uint8_t>(get_opcode());
+    replace_buffer.at(0) = static_cast<uint8_t>(opcode());
 
     // Replace the next bytes with the function pointer.
-    uintptr_t func_ptr = get_func_ptr();
-    std::memmove(&replace_buffer.at(1), &func_ptr, sizeof(func_ptr));
+    uintptr_t temp_func_ptr = func_ptr();
+    std::memmove(&replace_buffer.at(1), &temp_func_ptr, sizeof(temp_func_ptr));
 
     // Replace the game bytes with the bytes in the buffer.
     std::memmove(reinterpret_cast<void*>(address), replace_buffer.data(),
-            sizeof(func_ptr));
+            sizeof(temp_func_ptr));
 
     // Set applied to true.
     BasePatch::Apply();
 }
 
-OpCodes InterceptionPatch::get_opcode() const {
+OpCodes InterceptionPatch::opcode() const {
     return opcode_;
 }
 
-uintptr_t InterceptionPatch::get_func_ptr() const {
+uintptr_t InterceptionPatch::func_ptr() const {
     return func_ptr_;
 }
 

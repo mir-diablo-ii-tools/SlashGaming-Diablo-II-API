@@ -35,7 +35,7 @@
 type* D2Client_##name() { \
     static const Pointer pointer(GameLibraries::kD2Client, \
             ESCAPE_PARENTHESIS offset_map); \
-    static type* var_ptr = reinterpret_cast<type*>(pointer.get_address()); \
+    static type* var_ptr = reinterpret_cast<type*>(pointer.address()); \
     return var_ptr; \
 }
 

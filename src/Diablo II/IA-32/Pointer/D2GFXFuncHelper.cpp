@@ -49,7 +49,7 @@ void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
             { GameVersion::kLod1_14C, { PointerType::kOffset, 0xF3990 } },
             { GameVersion::kClassic1_14D, { PointerType::kOffset, 0xE9370 } },
             { GameVersion::kLod1_14D, { PointerType::kOffset, 0xF6380 } },
-        }).get_address());
+        }).address());
 
     func(x1, y1, x2, y2, color, unknown);
 }
@@ -62,7 +62,7 @@ void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
             { GameVersion::k1_00, { PointerType::kOrdinal, 10059 } },
             { GameVersion::k1_13C, { PointerType::kOrdinal, 10014 } },
             { GameVersion::k1_13D, { PointerType::kOrdinal, 10028 } },
-        }).get_address());
+        }).address());
 
     func(x1, y1, x2, y2, color, trans);
 }

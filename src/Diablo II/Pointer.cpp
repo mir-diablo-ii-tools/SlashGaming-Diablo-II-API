@@ -54,8 +54,7 @@ Pointer::Pointer(std::string_view library_file_name,
     }
 
     auto offset_pair = version_pair->second;
-
-    intptr_t base_address = GetGameLibraryBaseAddress(get_library_file_name());
+    intptr_t base_address = GetGameLibraryBaseAddress(library_file_name_);
     switch (offset_pair.first) {
         case PointerType::kOffset: {
             address_ = base_address + offset_pair.second;
@@ -71,11 +70,11 @@ Pointer::Pointer(std::string_view library_file_name,
     }
 }
 
-intptr_t Pointer::get_address() const {
+intptr_t Pointer::address() const {
     return address_;
 }
 
-std::string Pointer::get_library_file_name() const {
+std::string Pointer::library_file_name() const {
     return library_file_name_;
 }
 

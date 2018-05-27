@@ -40,7 +40,7 @@ void D2Client_Unknown_001_1_11() {
             { GameVersion::k1_12A, { PointerType::kOffset, 0x7AB00 } },
             { GameVersion::k1_13C, { PointerType::kOffset, 0x42850 } },
             { GameVersion::k1_13D, { PointerType::kOffset, 0x43870 } },
-        }).get_address());
+        }).address());
 
     func();
 }

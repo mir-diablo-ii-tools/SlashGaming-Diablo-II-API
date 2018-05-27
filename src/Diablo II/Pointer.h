@@ -83,12 +83,13 @@ public:
     /**
      * Returns the file name of this pointer's library.
      */
-    std::string get_library_file_name() const;
+    std::string library_file_name() const;
 
     /**
      * Return the address of this pointer.
      */
-    intptr_t get_address() const;
+    intptr_t address() const;
+
 private:
     std::string library_file_name_;
     intptr_t address_;

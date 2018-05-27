@@ -21,8 +21,6 @@
 #ifndef SGD2MAPI_DIABLOII_CONSTANT_D2FILLALPHA_H_
 #define SGD2MAPI_DIABLOII_CONSTANT_D2FILLALPHA_H_
 
-#include "D2BaseConstant.h"
-
 #include <type_traits>
 
 namespace slashgaming::diabloii::constant {
@@ -71,13 +69,13 @@ public:
      * Returns the resolved value that corresponds to this instance of the
      * constant.
      */
-    int get_value() const;
+    int value() const;
 
     /**
      * Returns the value of the constant that corresponds to this instance of
      * the constant.
      */
-    enum D2FillAlphas get_fill_alpha() const;
+    enum D2FillAlphas fill_alpha() const;
 
 private:
     enum D2FillAlphas fill_alpha_;

@@ -31,7 +31,7 @@ namespace slashgaming::diabloii::patch {
 BasePatch::BasePatch(const Pointer& pointer, size_t patch_size) :
         pointer_(pointer), patch_size_(patch_size), old_bytes_(patch_size) {
     // Copy the old bytes of data for later restoring.
-    intptr_t address = get_pointer().get_address();
+    intptr_t address = pointer_.address();
     std::memmove(old_bytes_.data(), reinterpret_cast<const void*>(address),
             patch_size_);
 }
@@ -54,18 +54,18 @@ void BasePatch::Remove() {
     }
 
     // Restore the old bytes of data.
-    uintptr_t address = get_pointer().get_address();
+    uintptr_t address = pointer().address();
     std::memmove(reinterpret_cast<void*>(address), old_bytes_.data(),
             patch_size_);
 
     is_patch_applied_ = false;
 }
 
-const Pointer& BasePatch::get_pointer() const {
+const Pointer& BasePatch::pointer() const {
     return pointer_;
 }
 
-size_t BasePatch::get_patch_size() const {
+size_t BasePatch::patch_size() const {
     return patch_size_;
 }
 

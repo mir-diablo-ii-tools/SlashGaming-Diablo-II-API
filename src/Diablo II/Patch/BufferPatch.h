@@ -72,7 +72,7 @@ public:
      * Returns a const reference to the buffer that stores the replacement
      * bytes.
      */
-    const std::vector<int8_t>& get_buffer() const;
+    const std::vector<int8_t>& buffer() const;
 
 private:
     const std::vector<int8_t> buffer_;
