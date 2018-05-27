@@ -22,5 +22,6 @@
 #define SGD2MAPI_DIABLOII_CONSTANTS_H_
 
 #include "Constant/D2FillAlpha.h"
+#include "Constant/D2TextColor.h"
 
 #endif // SGD2MAPI_DIABLOII_CONSTANTS_H_
