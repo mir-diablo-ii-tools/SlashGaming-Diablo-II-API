@@ -82,4 +82,4 @@ private:
 } // namespace slashgaming::diabloii::constant
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_DIABLOII_IA_32_CONSTANT_EXD2FILLALPHAS_H_
+#endif // SGD2MAPI_DIABLOII_CONSTANT_D2FILLALPHA_H_
