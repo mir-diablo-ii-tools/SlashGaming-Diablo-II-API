@@ -21,8 +21,6 @@
 #ifndef SGD2MAPI_DIABLOII_CONSTANTS_H_
 #define SGD2MAPI_DIABLOII_CONSTANTS_H_
 
-namespace slashgaming::diabloii {
-
-} // namespace slashgaming::diabloii
+#include "Constant/D2FillAlpha.h"
 
 #endif // SGD2MAPI_DIABLOII_CONSTANTS_H_
