@@ -34,16 +34,6 @@ public:
      */
     explicit operator int();
 
-    /**
-     * Returns the raw value of this instance.
-     */
-    int get_value() const;
-
-    /**
-     * Returns whether this instance's raw value has been initialized.
-     */
-    bool is_initialized() const;
-
 protected:
     D2BaseConstant() = default;
 
@@ -62,6 +52,16 @@ protected:
 private:
     int value_;
     bool is_initialized_;
+
+    /**
+     * Returns the raw value of this instance.
+     */
+    int get_value() const;
+
+    /**
+     * Returns whether this instance's raw value has been initialized.
+     */
+    bool is_initialized() const;
 };
 
 } // namespace slashgaming::diabloii::constant
