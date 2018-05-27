@@ -21,4 +21,48 @@
 #ifndef SGD2MAPI_DIABLOII_CONSTANT_D2BASECONSTANT_H_
 #define SGD2MAPI_DIABLOII_CONSTANT_D2BASECONSTANT_H_
 
+namespace slashgaming::diabloii::constant {
+
+/**
+ * The base class used to help declare version agnostic constants.
+ */
+template<typename T>
+class D2BaseConstant {
+public:
+    /**
+     * Returns the raw value stored by this instance, after resolving the
+     * values associated with the running game version.
+     */
+    explicit operator T();
+
+    /**
+     * Returns the raw value of this instance.
+     */
+    T get_value() const;
+
+    /**
+     * Returns whether this instance's raw value has been initialized.
+     */
+    bool is_initialized() const;
+
+protected:
+    explicit D2BaseConstant(const D2BaseConstant& base_constant) = default;
+    explicit D2BaseConstant(D2BaseConstant&& base_constant) = default;
+
+    D2BaseConstant& operator=(const D2BaseConstant& rhs) = default;
+    D2BaseConstant& operator=(D2BaseConstant&& rhs) = default;
+
+    /**
+     * Resolves the value for both the constant used and the running game
+     * version. Returns the resolved value.
+     */
+    virtual T ResolveValue() = 0;
+
+private:
+    T value_;
+    bool is_initialized_;
+};
+
+} // namespace slashgaming::diabloii::constant
+
 #endif // SGD2MAPI_DIABLOII_CONSTANT_D2BASECONSTANT_H_
