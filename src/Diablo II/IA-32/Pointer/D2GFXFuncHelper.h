@@ -27,6 +27,7 @@
 #ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
 #define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
 
+#include "../../Constants.h"
 #include "../../GameLibrary.h"
 #include "../../Pointer.h"
 #include "../../Version.h"
@@ -37,7 +38,7 @@ void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
         unsigned int color, unsigned int unknown);
 
 void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int trans);
+        unsigned int color, unsigned int fill_alpha);
 
 } // namespace slashgaming::diabloii::func
 

@@ -21,6 +21,8 @@
 #ifndef SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_
 #define SGD2MAPI_DIABLOII_POINTER_D2GFXFUNC_H_
 
+#include "../Constants.h"
+
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
 #elif defined(SGD2MAPI_DLLIMPORT)
@@ -36,7 +38,10 @@ extern "C" {
             unsigned int color, unsigned int unknown);
 
     DLLEXPORT void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
-            unsigned int color, unsigned int trans);
+            unsigned int color, unsigned int fill_alpha);
+
+    DLLEXPORT void D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2,
+            unsigned int color, const constant::ExD2FillAlpha* fill_alpha);
 }
 
 } // namespace slashgaming::diabloii::func

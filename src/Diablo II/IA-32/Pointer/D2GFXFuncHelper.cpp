@@ -55,7 +55,7 @@ void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
 }
 
 void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int trans) {
+        unsigned int color, unsigned int fill_alpha) {
     static const auto func =
             reinterpret_cast<decltype(D2GFX_DrawRectangle_1_00)*>(
         Pointer(GameLibraries::kD2GFX, {
@@ -64,9 +64,8 @@ void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
             { GameVersion::k1_13D, { PointerType::kOrdinal, 10028 } },
         }).address());
 
-    func(x1, y1, x2, y2, color, trans);
+    func(x1, y1, x2, y2, color, fill_alpha);
 }
-
 
 } // slashgaming::diabloii::func
 
