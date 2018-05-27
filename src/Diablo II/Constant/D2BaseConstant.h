@@ -45,6 +45,8 @@ public:
     bool is_initialized() const;
 
 protected:
+    D2BaseConstant() = default;
+
     explicit D2BaseConstant(const D2BaseConstant& base_constant) = default;
     explicit D2BaseConstant(D2BaseConstant&& base_constant) = default;
 
