@@ -34,14 +34,15 @@
 namespace slashgaming::diabloii::func {
 
 extern "C" {
-    DLLEXPORT void D2GFX_DrawLine(int x1, int y1, int x2, int y2,
+    DLLEXPORT __stdcall void D2GFX_DrawLine(int x1, int y1, int x2, int y2,
             unsigned int color, unsigned int unknown);
 
-    DLLEXPORT void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
+    DLLEXPORT __stdcall void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
             unsigned int color, enum constant::D2FillAlphas fill_alpha);
 
-    DLLEXPORT void D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2,
-            unsigned int color, const constant::ExD2FillAlpha* fill_alpha);
+    DLLEXPORT __stdcall void D2GFX_DrawRectangle_Ex(int x1, int y1, int x2,
+            int y2, unsigned int color,
+            const constant::ExD2FillAlpha* fill_alpha);
 }
 
 } // namespace slashgaming::diabloii::func

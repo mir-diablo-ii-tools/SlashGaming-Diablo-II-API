@@ -35,19 +35,19 @@
 
 namespace slashgaming::diabloii::func {
 
-void D2GFX_DrawLine(int x1, int y1, int x2, int y2, unsigned int color,
-        unsigned int unknown) {
+void __stdcall D2GFX_DrawLine(int x1, int y1, int x2, int y2,
+        unsigned int color, unsigned int unknown) {
     D2GFX_DrawLine_1_00(x1, y1, x2, y2, color, unknown);
 }
 
-void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2, unsigned int color,
-        enum constant::D2FillAlphas fill_alpha) {
+void __stdcall D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
+        unsigned int color, enum constant::D2FillAlphas fill_alpha) {
     constant::ExD2FillAlpha ex_fill_alpha(fill_alpha);
     D2GFX_DrawRectangle_Ex(x1, y1, x2, y2, color, &ex_fill_alpha);
 }
 
-void D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2, unsigned int color,
-        const constant::ExD2FillAlpha* fill_alpha) {
+void __stdcall D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2,
+        unsigned int color, const constant::ExD2FillAlpha* fill_alpha) {
     D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, fill_alpha->value());
 }
 
