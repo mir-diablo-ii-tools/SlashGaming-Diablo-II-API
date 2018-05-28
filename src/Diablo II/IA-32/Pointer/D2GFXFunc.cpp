@@ -23,7 +23,6 @@
 #include "../../Pointer/D2GFXFunc.h"
 
 #include <cstdint>
-#include <unordered_map>
 
 #define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
 #include "D2GFXFuncHelper.h"
@@ -47,8 +46,8 @@ void __stdcall D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
 }
 
 void __stdcall D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2,
-        unsigned int color, const constant::ExD2FillAlpha* fill_alpha) {
-    D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, fill_alpha->value());
+        unsigned int color, const constant::ExD2FillAlpha* fill_alpha_ptr) {
+    D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, fill_alpha_ptr->value());
 }
 
 } // namespace slashgaming::diabloii::func
