@@ -21,7 +21,7 @@
 #ifndef SGD2MAPI_DIABLOII_POINTER_FUNC_FOGFUNC_H_
 #define SGD2MAPI_DIABLOII_POINTER_FUNC_FOGFUNC_H_
 
-#include "../Constants.h"
+#include "../../Constants.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
