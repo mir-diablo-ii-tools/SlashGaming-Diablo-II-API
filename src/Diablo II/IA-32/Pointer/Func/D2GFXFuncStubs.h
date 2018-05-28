@@ -19,30 +19,8 @@
  */
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCSTUBS_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCSTUBS_H_
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCHELPER_H_INCLUDE_
-#include "D2WinFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCHELPER_H_INCLUDE_
-
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
-
-namespace slashgaming::diabloii::func {
-
-void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
-        int color, bool has_indent) {
-    static const auto func = reinterpret_cast<decltype(D2Win_DrawText_1_00)*>(
-        Pointer(GameLibraries::kD2Win, {
-            { GameVersion::k1_00, { PointerType::kOrdinal, 10110 } },
-            { GameVersion::k1_13C, { PointerType::kOrdinal, 10150 } },
-            { GameVersion::k1_13D, { PointerType::kOrdinal, 10076 } },
-            { GameVersion::kLod1_14B, { PointerType::kOffset, 0xFFB70 } },
-        }).address());
-
-    func(text, x, y, color, has_indent);
-}
-
-} // namespace slashgaming::diabloii::func
-
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCSTUBS_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

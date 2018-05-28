@@ -19,30 +19,8 @@
  */
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCSTUBS_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCSTUBS_H_
 
-#include "../../Pointer/D2WinFunc.h"
-
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCHELPER_H_INCLUDE_
-#include "D2WinFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCHELPER_H_INCLUDE_
-#include "../../Constants.h"
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
-
-namespace slashgaming::diabloii::func {
-
-void __stdcall D2Win_DrawText(const wchar_t* text, int x, int y,
-        enum constant::D2TextColors color, bool has_indent) {
-    constant::ExD2TextColor ex_color(color);
-    D2Win_DrawText_Ex(text, x, y, &ex_color, has_indent);
-}
-
-void __stdcall D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
-        const constant::ExD2TextColor* ex_color_ptr, bool has_indent) {
-    D2Win_DrawText_1_00(text, x, y, ex_color_ptr->value(), has_indent);
-}
-
-} // namespace slashgaming::diabloii::func
-
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCSTUBS_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

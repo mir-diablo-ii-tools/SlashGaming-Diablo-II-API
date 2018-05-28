@@ -20,13 +20,13 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCHELPER_H_INCLUDE_
 #include "D2GFXFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCHELPER_H_INCLUDE_
 
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
 
 namespace slashgaming::diabloii::func {
 

@@ -19,8 +19,32 @@
  */
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCSTUBS_H_
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCSTUBS_H_
 
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2WINFUNCSTUBS_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_INCLUDE_
+#include "D2ClientFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_INCLUDE_
+
+#include <unordered_map>
+
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
+
+namespace slashgaming::diabloii::func {
+
+void D2Client_Unknown_001_1_11() {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_Unknown_001_1_11)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_11, { PointerType::kOffset, 0x875B0 } },
+            { GameVersion::k1_12A, { PointerType::kOffset, 0x7AB00 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0x42850 } },
+            { GameVersion::k1_13D, { PointerType::kOffset, 0x43870 } },
+        }).address());
+
+    func();
+}
+
+} // namespace slashgaming::diabloii::func
+
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

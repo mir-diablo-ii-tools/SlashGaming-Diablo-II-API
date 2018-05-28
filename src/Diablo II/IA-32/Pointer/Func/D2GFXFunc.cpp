@@ -20,22 +20,36 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
-#error This file should only be included by the API implementation.
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
+#include "../../../Pointer/Func/D2GFXFunc.h"
 
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
+#include <cstdint>
 
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCHELPER_H_INCLUDE_
+#include "D2GFXFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCHELPER_H_INCLUDE_
+#include "../../../Constants.h"
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
 
 namespace slashgaming::diabloii::func {
 
-void D2Client_Unknown_001_1_11();
+void __stdcall D2GFX_DrawLine(int x1, int y1, int x2, int y2,
+        unsigned int color, unsigned int unknown) {
+    D2GFX_DrawLine_1_00(x1, y1, x2, y2, color, unknown);
+}
+
+void __stdcall D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
+        unsigned int color, enum constant::D2FillAlphas fill_alpha) {
+    constant::ExD2FillAlpha ex_fill_alpha(fill_alpha);
+    D2GFX_DrawRectangle_Ex(x1, y1, x2, y2, color, &ex_fill_alpha);
+}
+
+void __stdcall D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2,
+        unsigned int color, const constant::ExD2FillAlpha* fill_alpha_ptr) {
+    D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, fill_alpha_ptr->value());
+}
 
 } // namespace slashgaming::diabloii::func
 
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

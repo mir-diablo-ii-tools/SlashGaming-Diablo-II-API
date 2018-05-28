@@ -20,27 +20,24 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_INCLUDE_
 #error This file should only be included by the API implementation.
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_INCLUDE_
 
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_
 
-#include "../../Constants.h"
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
+#include "../../../Constants.h"
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
 
 namespace slashgaming::diabloii::func {
 
-void __stdcall D2GFX_DrawLine_1_00(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int unknown);
-
-void __stdcall D2GFX_DrawRectangle_1_00(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int fill_alpha);
+void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
+        int color, bool has_indent);
 
 } // namespace slashgaming::diabloii::func
 
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

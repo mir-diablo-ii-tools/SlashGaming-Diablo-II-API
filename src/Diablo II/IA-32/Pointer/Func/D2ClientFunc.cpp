@@ -19,8 +19,25 @@
  */
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
-#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCSTUBS_H_
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCSTUBS_H_
 
-#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCSTUBS_H_
+#include "../../../Pointer/Func/D2ClientFunc.h"
+
+#include <cstdint>
+#include <unordered_map>
+
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_INCLUDE_
+#include "D2ClientFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_INCLUDE_
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
+
+namespace slashgaming::diabloii::func {
+
+void D2Client_Unknown_001() {
+    D2Client_Unknown_001_1_11();
+}
+
+} // namespace slashgaming::diabloii::func
+
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

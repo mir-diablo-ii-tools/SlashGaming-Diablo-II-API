@@ -20,14 +20,14 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#include "../../Pointer/D2ClientVar.h"
+#include "../../../Pointer/Var/D2ClientVar.h"
 
 #include <cstdint>
 #include <unordered_map>
 
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
 
 #define ESCAPE_PARENTHESIS(...) { __VA_ARGS__ }
 

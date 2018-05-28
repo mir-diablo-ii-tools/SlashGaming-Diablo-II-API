@@ -20,34 +20,27 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#include "../../Pointer/D2GFXFunc.h"
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_INCLUDE_
+#include "D2WinFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_INCLUDE_
 
-#include <cstdint>
-
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
-#include "D2GFXFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_D2GFXFUNCHELPER_H_INCLUDE_
-#include "../../Constants.h"
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
 
 namespace slashgaming::diabloii::func {
 
-void __stdcall D2GFX_DrawLine(int x1, int y1, int x2, int y2,
-        unsigned int color, unsigned int unknown) {
-    D2GFX_DrawLine_1_00(x1, y1, x2, y2, color, unknown);
-}
+void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
+        int color, bool has_indent) {
+    static const auto func = reinterpret_cast<decltype(D2Win_DrawText_1_00)*>(
+        Pointer(GameLibraries::kD2Win, {
+            { GameVersion::k1_00, { PointerType::kOrdinal, 10110 } },
+            { GameVersion::k1_13C, { PointerType::kOrdinal, 10150 } },
+            { GameVersion::k1_13D, { PointerType::kOrdinal, 10076 } },
+            { GameVersion::kLod1_14B, { PointerType::kOffset, 0xFFB70 } },
+        }).address());
 
-void __stdcall D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
-        unsigned int color, enum constant::D2FillAlphas fill_alpha) {
-    constant::ExD2FillAlpha ex_fill_alpha(fill_alpha);
-    D2GFX_DrawRectangle_Ex(x1, y1, x2, y2, color, &ex_fill_alpha);
-}
-
-void __stdcall D2GFX_DrawRectangle_Ex(int x1, int y1, int x2, int y2,
-        unsigned int color, const constant::ExD2FillAlpha* fill_alpha_ptr) {
-    D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, fill_alpha_ptr->value());
+    func(text, x, y, color, has_indent);
 }
 
 } // namespace slashgaming::diabloii::func

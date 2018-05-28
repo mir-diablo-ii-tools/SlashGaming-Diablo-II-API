@@ -20,24 +20,22 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#include "../../Pointer/D2ClientFunc.h"
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_INCLUDE_
+#error This file should only be included by the API implementation.
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_INCLUDE_
 
-#include <cstdint>
-#include <unordered_map>
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
-#include "D2ClientFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_D2CLIENTFUNCHELPER_H_INCLUDE_
-#include "../../GameLibrary.h"
-#include "../../Pointer.h"
-#include "../../Version.h"
+#include "../../../GameLibrary.h"
+#include "../../../Pointer.h"
+#include "../../../Version.h"
 
 namespace slashgaming::diabloii::func {
 
-void D2Client_Unknown_001() {
-    D2Client_Unknown_001_1_11();
-}
+void D2Client_Unknown_001_1_11();
 
 } // namespace slashgaming::diabloii::func
 
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
