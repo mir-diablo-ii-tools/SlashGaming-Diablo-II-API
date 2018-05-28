@@ -22,9 +22,9 @@
 
 #include "../../../Pointer/Func/FogFunc.h"
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_FOGFUNCHELPER_H_INCLUDE_
-#include "FogFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_FOGFUNCHELPER_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_FOGFUNCHELPER_H_INCLUDE_
+#include "Helper/FogFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_FOGFUNCHELPER_H_INCLUDE_
 #include "../../../Constants.h"
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"

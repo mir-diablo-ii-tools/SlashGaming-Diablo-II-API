@@ -22,9 +22,9 @@
 
 #include "../../../Pointer/Func/D2MCPClientFunc.h"
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2MCPCLIENTFUNCHELPER_H_INCLUDE_
-#include "D2MCPClientFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2MCPCLIENTFUNCHELPER_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2MCPCLIENTFUNCHELPER_H_INCLUDE_
+#include "Helper/D2MCPClientFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2MCPCLIENTFUNCHELPER_H_INCLUDE_
 #include "../../../Constants.h"
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"

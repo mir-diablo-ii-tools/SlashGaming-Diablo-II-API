@@ -22,9 +22,9 @@
 
 #include "../../../Pointer/Func/D2Direct3DFunc.h"
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2DIRECT3DFUNCHELPER_H_INCLUDE_
-#include "D2Direct3DFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2DIRECT3DFUNCHELPER_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2DIRECT3DFUNCHELPER_H_INCLUDE_
+#include "Helper/D2Direct3DFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2DIRECT3DFUNCHELPER_H_INCLUDE_
 #include "../../../Constants.h"
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"

@@ -22,9 +22,9 @@
 
 #include "../../../Pointer/Func/StormFunc.h"
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_STORMFUNCHELPER_H_INCLUDE_
-#include "StormFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_STORMFUNCHELPER_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_STORMFUNCHELPER_H_INCLUDE_
+#include "Helper/StormFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_STORMFUNCHELPER_H_INCLUDE_
 #include "../../../Constants.h"
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"

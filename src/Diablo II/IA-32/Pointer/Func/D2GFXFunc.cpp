@@ -24,9 +24,9 @@
 
 #include <cstdint>
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCHELPER_H_INCLUDE_
-#include "D2GFXFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2GFXFUNCHELPER_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2GFXFUNCHELPER_H_INCLUDE_
+#include "Helper/D2GFXFuncHelper.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2GFXFUNCHELPER_H_INCLUDE_
 #include "../../../Constants.h"
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"
