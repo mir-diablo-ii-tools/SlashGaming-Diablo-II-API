@@ -18,10 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SGD2MAPI_DIABLOII_POINTER_D2WINFUNC_H_
-#define SGD2MAPI_DIABLOII_POINTER_D2WINFUNC_H_
+#ifndef SGD2MAPI_DIABLOII_POINTER_FUNC_D2WINFUNC_H_
+#define SGD2MAPI_DIABLOII_POINTER_FUNC_D2WINFUNC_H_
 
-#include "../Constants.h"
+#include "../../Constants.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
@@ -44,4 +44,4 @@ extern "C" {
 } // namespace slashgaming::diabloii::func
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_DIABLOII_POINTER_D2WINFUNC_H_
+#endif // SGD2MAPI_DIABLOII_POINTER_FUNC_D2WINFUNC_H_

@@ -18,8 +18,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SGD2MAPI_DIABLOII_POINTER_STORMFUNC_H_
-#define SGD2MAPI_DIABLOII_POINTER_STORMFUNC_H_
+#ifndef SGD2MAPI_DIABLOII_POINTER_FUNC_STORMFUNC_H_
+#define SGD2MAPI_DIABLOII_POINTER_FUNC_STORMFUNC_H_
 
 #include "../Constants.h"
 
@@ -39,4 +39,4 @@ extern "C" {
 } // namespace slashgaming::diabloii::func
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_DIABLOII_POINTER_STORMFUNC_H_
+#endif // SGD2MAPI_DIABLOII_POINTER_FUNC_STORMFUNC_H_
