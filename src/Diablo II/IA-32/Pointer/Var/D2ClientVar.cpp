@@ -41,6 +41,38 @@ type* D2Client_##name() { \
 
 namespace slashgaming::diabloii::var {
 
+VARPTR(PanelOffsetX, int, (
+    { GameVersion::k1_07, { PointerType::kOffset, 0x12D7FC } },
+    { GameVersion::k1_08, { PointerType::kOffset, 0x122B3C } },
+    { GameVersion::k1_09D, { PointerType::kOffset, 0x124954 } },
+    { GameVersion::k1_10, { PointerType::kOffset, 0x11A748 } },
+    { GameVersion::k1_11, { PointerType::kOffset, 0x11BD24 } },
+    { GameVersion::k1_11B, { PointerType::kOffset, 0x11BEF8 } },
+    { GameVersion::k1_12A, { PointerType::kOffset, 0x11BD28 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0x11B9A0 } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0x11D354 } },
+    { GameVersion::kLod1_14A, { PointerType::kOffset, 0x442F58 } },
+    { GameVersion::kLod1_14B, { PointerType::kOffset, 0x39A8E0 } },
+    { GameVersion::kLod1_14C, { PointerType::kOffset, 0x3998E0 } },
+    { GameVersion::kLod1_14D, { PointerType::kOffset, 0x3A2858 } },
+));
+
+VARPTR(PanelOffsetY, int, (
+    { GameVersion::k1_07, { PointerType::kOffset, 0x12D800 } },
+    { GameVersion::k1_08, { PointerType::kOffset, 0x122B40 } },
+    { GameVersion::k1_09D, { PointerType::kOffset, 0x124958 } },
+    { GameVersion::k1_10, { PointerType::kOffset, 0x11A74C } },
+    { GameVersion::k1_11, { PointerType::kOffset, 0x11BD28 } },
+    { GameVersion::k1_11B, { PointerType::kOffset, 0x11BEFC } },
+    { GameVersion::k1_12A, { PointerType::kOffset, 0x11BD2C } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0x11B9A4 } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0x11D358 } },
+    { GameVersion::kLod1_14A, { PointerType::kOffset, 0x442F5C } },
+    { GameVersion::kLod1_14B, { PointerType::kOffset, 0x39A8E4 } },
+    { GameVersion::kLod1_14C, { PointerType::kOffset, 0x3998E4 } },
+    { GameVersion::kLod1_14D, { PointerType::kOffset, 0x3A285C } },
+));
+
 VARPTR(ScreenSizeX, int, (
     { GameVersion::k1_07, { PointerType::kOffset, 0xDE0E4 } },
     { GameVersion::k1_13C, { PointerType::kOffset, 0xDBC48 } },
