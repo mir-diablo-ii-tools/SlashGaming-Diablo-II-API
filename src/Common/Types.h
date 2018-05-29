@@ -18,11 +18,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SGD2MAPI_COMMON_COMMON_H_
-#define SGD2MAPI_COMMON_COMMON_H_
+#ifndef SGD2MAPI_COMMON_TYPES_H_
+#define SGD2MAPI_COMMON_TYPES_H_
 
-#include "ErrorReport.h"
-#include "StringConversion.h"
-#include "Types.h"
+#include <cstdint>
 
-#endif // SGD2MAPI_COMMON_COMMON_H_
+typedef int32_t bool32_t;
+typedef int16_t bool16_t;
+
+#endif // SGD2MAPI_COMMON_TYPES_H_
