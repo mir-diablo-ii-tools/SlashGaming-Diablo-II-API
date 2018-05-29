@@ -32,7 +32,8 @@
 namespace slashgaming::diabloii::func {
 
 extern "C" {
-    DLLEXPORT void D2Client_ExitGame();
+    DLLEXPORT int D2Client_GetMouseX();
+    DLLEXPORT int D2Client_GetMouseY();
 }
 
 } // namespace slashgaming::diabloii::func

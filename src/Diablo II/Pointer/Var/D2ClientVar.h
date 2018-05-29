@@ -32,10 +32,12 @@
 namespace slashgaming::diabloii::var {
 
 extern "C" {
-    DLLEXPORT int* D2Client_ScreenSizeX();
-    DLLEXPORT int* D2Client_ScreenSizeY();
     DLLEXPORT int* D2Client_PanelOffsetX();
     DLLEXPORT int* D2Client_PanelOffsetY();
+    DLLEXPORT int* D2Client_ScreenSizeX();
+    DLLEXPORT int* D2Client_ScreenSizeY();
+    DLLEXPORT int* D2Client_MouseX();
+    DLLEXPORT int* D2Client_MouseY();
 }
 
 } // namespace slashgaming::diabloii::var

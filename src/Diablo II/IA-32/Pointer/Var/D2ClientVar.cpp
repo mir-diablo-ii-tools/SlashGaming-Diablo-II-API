@@ -75,14 +75,30 @@ VARPTR(PanelOffsetY, int, (
 
 VARPTR(ScreenSizeX, int, (
     { GameVersion::k1_07, { PointerType::kOffset, 0xDE0E4 } },
+    { GameVersion::k1_12A, { PointerType::kOffset, 0xDC6E0 } },
     { GameVersion::k1_13C, { PointerType::kOffset, 0xDBC48 } },
     { GameVersion::k1_13D, { PointerType::kOffset, 0xF7034 } },
 ));
 
 VARPTR(ScreenSizeY, int, (
     { GameVersion::k1_07, { PointerType::kOffset, 0xDE0E8 } },
+    { GameVersion::k1_12A, { PointerType::kOffset, 0xDC6E4 } },
     { GameVersion::k1_13C, { PointerType::kOffset, 0xDBC4C } },
     { GameVersion::k1_13D, { PointerType::kOffset, 0xF7038 } },
+));
+
+VARPTR(MouseX, int, (
+    { GameVersion::k1_00, { PointerType::kOffset, 0x11AFF8 } },
+    { GameVersion::k1_12A, { PointerType::kOffset, 0x101638 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0x11B828 } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0x11C950 } },
+));
+
+VARPTR(MouseY, int, (
+    { GameVersion::k1_00, { PointerType::kOffset, 0x11AFFC } },
+    { GameVersion::k1_12A, { PointerType::kOffset, 0x101634 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0x11B824 } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0x11C94C } },
 ));
 
 } // namespace slashgaming::diabloii::var

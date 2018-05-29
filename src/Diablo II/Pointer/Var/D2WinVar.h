@@ -32,6 +32,8 @@
 namespace slashgaming::diabloii::var {
 
 extern "C" {
+    DLLEXPORT int* D2Win_MouseX();
+    DLLEXPORT int* D2Win_MouseY();
 }
 
 } // namespace slashgaming::diabloii::var

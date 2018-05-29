@@ -20,32 +20,43 @@
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
 
-#include "../../../Pointer/Func/D2ClientFunc.h"
+#include "../../../Pointer/Var/D2WinVar.h"
 
 #include <cstdint>
 #include <unordered_map>
 
-#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCHELPER_H_INCLUDE_
-#include "Helper/D2ClientFuncHelper.h"
-#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCHELPER_H_INCLUDE_
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"
 #include "../../../Version.h"
 
-namespace slashgaming::diabloii::func {
+#define ESCAPE_PARENTHESIS(...) { __VA_ARGS__ }
 
-void D2Client_Unknown_001() {
-    D2Client_Unknown_001_1_11();
+#define VARPTR(name, type, offset_map) \
+type* D2Win_##name() { \
+    static const Pointer pointer(GameLibraries::kD2Win, \
+            ESCAPE_PARENTHESIS offset_map); \
+    static type* var_ptr = reinterpret_cast<type*>(pointer.address()); \
+    return var_ptr; \
 }
 
-int D2Client_GetMouseX() {
-    return D2Client_GetMouseX_1_00();
-}
+namespace slashgaming::diabloii::var {
 
-int D2Client_GetMouseY() {
-    return D2Client_GetMouseY_1_00();
-}
+VARPTR(MouseX, int, (
+    { GameVersion::k1_00, { PointerType::kOffset, 0x72A90 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0x21488 } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0x8DB1C } },
+));
 
-} // namespace slashgaming::diabloii::func
+VARPTR(MouseY, int, (
+    { GameVersion::k1_00, { PointerType::kOffset, 0x72A94 } },
+    { GameVersion::k1_13C, { PointerType::kOffset, 0x2148C } },
+    { GameVersion::k1_13D, { PointerType::kOffset, 0x8DB20 } },
+));
+
+} // namespace slashgaming::diabloii::var
+
+#undef VARPTR
+
+#undef ESCAPE_PARENTHESIS
 
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

@@ -35,6 +35,9 @@ namespace slashgaming::diabloii::func {
 
 void D2Client_Unknown_001_1_11();
 
+int D2Client_GetMouseX_1_00();
+int D2Client_GetMouseY_1_00();
+
 } // namespace slashgaming::diabloii::func
 
 #endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCHELPER_H_

@@ -45,6 +45,28 @@ void D2Client_Unknown_001_1_11() {
     func();
 }
 
+int D2Client_GetMouseX_1_00() {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_GetMouseX_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_00, { PointerType::kOffset, 0xCA6D0 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0x15FB0 } },
+        }).address());
+
+    return func();
+}
+
+int D2Client_GetMouseY_1_00() {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_GetMouseY_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_00, { PointerType::kOffset, 0xCA6F0 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0x15FA0 } },
+        }).address());
+
+    return func();
+}
+
 } // namespace slashgaming::diabloii::func
 
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
