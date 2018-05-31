@@ -34,11 +34,11 @@
 namespace slashgaming::diabloii::func {
 
 extern "C" {
-    DLLEXPORT void __stdcall D2Win_DrawText(const wchar_t* text, int x, int y,
+    DLLEXPORT void D2Win_DrawText(const wchar_t* text, int x, int y,
             enum constant::D2TextColors color, bool has_indent);
 
-    DLLEXPORT void __stdcall D2Win_DrawText_Ex(const wchar_t* text, int x,
-            int y, const constant::ExD2TextColor* ex_color_ptr, bool has_indent);
+    DLLEXPORT void D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
+            const constant::ExD2TextColor* ex_color_ptr, bool has_indent);
 }
 
 } // namespace slashgaming::diabloii::func
