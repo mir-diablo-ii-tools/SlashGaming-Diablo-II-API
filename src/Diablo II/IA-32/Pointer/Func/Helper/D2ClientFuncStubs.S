@@ -22,4 +22,13 @@
 
 .intel_syntax
 
+.global _D2Client_DrawRectFrame_1_11_Stub@8
+_D2Client_DrawRectFrame_1_11_Stub@8:
+    pop eax
+    pop ecx
+    xchg eax, [esp]
+    call ecx
+    ret
+
+
 #endif /* defined(__i386__) || defined(_M_IX86) || defined(_X86_) */

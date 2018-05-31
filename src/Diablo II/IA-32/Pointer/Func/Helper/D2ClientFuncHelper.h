@@ -35,6 +35,8 @@ namespace slashgaming::diabloii::func {
 
 void D2Client_Unknown_001_1_11();
 
+void __fastcall D2Client_DrawRectFrame_1_00(const RECT* rect_ptr);
+void __stdcall D2Client_DrawRectFrame_1_11(const RECT* rect_ptr);
 int D2Client_GetMouseX_1_00();
 int D2Client_GetMouseY_1_00();
 

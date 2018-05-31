@@ -38,6 +38,16 @@ void D2Client_Unknown_001() {
     D2Client_Unknown_001_1_11();
 }
 
+void D2Client_DrawRectFrame(RECT* rect_ptr) {
+    int running_version_value = static_cast<int>(GetGameVersion());
+    if (running_version_value >= static_cast<int>(GameVersion::k1_11) &&
+            running_version_value <= static_cast<int>(GameVersion::k1_13D)) {
+        D2Client_DrawRectFrame_1_11(rect_ptr);
+    } else {
+        D2Client_DrawRectFrame_1_00(rect_ptr);
+    }
+}
+
 int D2Client_GetMouseX() {
     return D2Client_GetMouseX_1_00();
 }

@@ -26,6 +26,9 @@
 
 #include <unordered_map>
 
+#define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_INCLUDE_
+#include "D2ClientFuncStubs.h"
+#undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_INCLUDE_
 #include "../../../../GameLibrary.h"
 #include "../../../../Pointer.h"
 #include "../../../../Version.h"
@@ -43,6 +46,27 @@ void D2Client_Unknown_001_1_11() {
         }).address());
 
     func();
+}
+
+void __fastcall D2Client_DrawRectFrame_1_00(const RECT* rect_ptr) {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_DrawRectFrame_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_00, { PointerType::kOffset, 0x93D50 } },
+            { GameVersion::k1_10, { PointerType::kOffset, 0x81790 } },
+        }).address());
+
+    func(rect_ptr);
+}
+
+void __stdcall D2Client_DrawRectFrame_1_11(const RECT* rect_ptr) {
+    static const auto func =
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_11, { PointerType::kOffset, 0x9DDF0 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0xBE4C0 } },
+        }).address();
+
+    D2Client_DrawRectFrame_1_11_Stub(func, rect_ptr);
 }
 
 int D2Client_GetMouseX_1_00() {

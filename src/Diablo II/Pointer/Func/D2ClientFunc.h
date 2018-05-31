@@ -21,6 +21,8 @@
 #ifndef SGD2MAPI_DIABLOII_POINTER_FUNC_D2CLIENTFUNC_H_
 #define SGD2MAPI_DIABLOII_POINTER_FUNC_D2CLIENTFUNC_H_
 
+#include <windows.h>
+
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
 #elif defined(SGD2MAPI_DLLIMPORT)
@@ -32,6 +34,7 @@
 namespace slashgaming::diabloii::func {
 
 extern "C" {
+    DLLEXPORT void D2Client_DrawRectFrame(RECT* rect_ptr);
     DLLEXPORT int D2Client_GetMouseX();
     DLLEXPORT int D2Client_GetMouseY();
 }

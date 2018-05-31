@@ -19,8 +19,22 @@
  */
 
 #if defined(__i386__) || defined(_M_IX86) || defined(_X86_)
+
+#ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_INCLUDE_
+#error This file should only be included by the API implementation.
+#endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_INCLUDE_
+
 #ifndef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_
 #define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_
+
+namespace slashgaming::diabloii::func {
+
+extern "C" {
+    void __stdcall D2Client_DrawRectFrame_1_11_Stub(uintptr_t func,
+            const RECT* rect_ptr);
+}
+
+} // namespace slashgaming::diabloii::func
 
 #endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2CLIENTFUNCSTUBS_H_
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
