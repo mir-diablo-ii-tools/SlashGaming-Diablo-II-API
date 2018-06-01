@@ -43,6 +43,11 @@ void D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
     D2Win_DrawText_1_00(text, x, y, ex_color_ptr->value(), has_indent);
 }
 
+void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
+        int* file_num_ptr) {
+    D2Win_GetTextSize_1_00(text, text_width_ptr, file_num_ptr);
+}
+
 } // namespace slashgaming::diabloii::func
 
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

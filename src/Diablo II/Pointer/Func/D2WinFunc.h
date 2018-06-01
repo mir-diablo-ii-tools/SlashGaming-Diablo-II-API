@@ -39,6 +39,10 @@ extern "C" {
 
     DLLEXPORT void D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
             const constant::ExD2TextColor* ex_color_ptr, bool has_indent);
+
+    /* TODO(Mir Drualga): Confirm that file_num_ptr is the actual parameter. */
+    DLLEXPORT void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
+        int* file_num_ptr);
 }
 
 } // namespace slashgaming::diabloii::func

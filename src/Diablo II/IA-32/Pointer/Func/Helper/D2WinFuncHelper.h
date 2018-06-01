@@ -37,6 +37,9 @@ namespace slashgaming::diabloii::func {
 void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
         int color, bool has_indent);
 
+void __fastcall D2Win_GetTextSize_1_00(const wchar_t* text, int* text_width_ptr,
+        int* file_num_ptr);
+
 } // namespace slashgaming::diabloii::func
 
 #endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_

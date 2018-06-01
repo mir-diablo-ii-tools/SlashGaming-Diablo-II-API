@@ -43,6 +43,19 @@ void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
     func(text, x, y, color, has_indent);
 }
 
+void __fastcall D2Win_GetTextSize_1_00(const wchar_t* text, int* text_width_ptr,
+        int* file_num_ptr) {
+    static const auto func =
+            reinterpret_cast<decltype(D2Win_GetTextSize_1_00)*>(
+        Pointer(GameLibraries::kD2Win, {
+            { GameVersion::k1_00, { PointerType::kOrdinal, 10124 } },
+            { GameVersion::k1_13C, { PointerType::kOrdinal, 10177 } },
+            { GameVersion::k1_13D, { PointerType::kOrdinal, 10179 } },
+        }).address());
+
+    func(text, text_width_ptr, file_num_ptr);
+}
+
 } // namespace slashgaming::diabloii::func
 
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)
