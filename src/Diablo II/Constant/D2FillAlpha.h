@@ -32,13 +32,13 @@
 namespace slashgaming::diabloii::constant {
 
 enum class D2FillAlphas {
-    k0PercentOpaque,
-    k50PercentOpaque,
-    k75PercentOpaque,
-    k90PercentOpaque,
-    k100PercentOpaque,
-    k90PercentBlack,
-    k100PercentBlack,
+    k0PercentOpaque = 0,
+    k50PercentOpaque = 1,
+    k75PercentOpaque = 2,
+    k90PercentOpaque = 3,
+    k100PercentOpaque = 4,
+    k90PercentBlack = 5,
+    k100PercentBlack = 6,
 };
 
 /**
