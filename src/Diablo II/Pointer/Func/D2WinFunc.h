@@ -34,16 +34,19 @@
 namespace slashgaming::diabloii::func {
 
 extern "C" {
+    /**
+     * Draws the specified colored text to the display, at the position
+     * specified. Indentation may be applied if specified.
+     */
     DLLEXPORT void D2Win_DrawText(const wchar_t* text, int x, int y,
             enum constant::D2TextColors color, bool has_indent);
 
     /**
-     * Determines the amount of pixel space needed to display to supplied text,
-     * storing the width and height values in text_width_ptr and
-     * text_height_ptr, respectively.
+     * Determines the amount of pixel space needed to display to specified text,
+     * storing the width and height values at the specified output pointers.
      */
-    DLLEXPORT void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
-        int* text_height_ptr);
+    DLLEXPORT void D2Win_GetTextSize(const wchar_t* text,
+            int* text_width_out_ptr, int* text_height_out_ptr);
 }
 
 } // namespace slashgaming::diabloii::func
