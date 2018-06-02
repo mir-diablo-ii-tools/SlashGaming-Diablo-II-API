@@ -37,9 +37,6 @@ extern "C" {
     DLLEXPORT void D2Win_DrawText(const wchar_t* text, int x, int y,
             enum constant::D2TextColors color, bool has_indent);
 
-    DLLEXPORT void D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
-            const constant::ExD2TextColor* ex_color_ptr, bool has_indent);
-
     /**
      * Determines the amount of pixel space needed to display to supplied text,
      * storing the width and height values in text_width_ptr and
