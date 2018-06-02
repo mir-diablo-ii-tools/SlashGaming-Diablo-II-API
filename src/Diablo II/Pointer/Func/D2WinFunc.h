@@ -40,9 +40,13 @@ extern "C" {
     DLLEXPORT void D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
             const constant::ExD2TextColor* ex_color_ptr, bool has_indent);
 
-    /* TODO(Mir Drualga): Confirm that file_num_ptr is the actual parameter. */
+    /**
+     * Determines the amount of pixel space needed to display to supplied text,
+     * storing the width and height values in text_width_ptr and
+     * text_height_ptr, respectively.
+     */
     DLLEXPORT void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
-        int* file_num_ptr);
+        int* text_height_ptr);
 }
 
 } // namespace slashgaming::diabloii::func

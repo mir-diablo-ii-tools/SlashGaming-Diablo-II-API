@@ -44,8 +44,8 @@ void D2Win_DrawText_Ex(const wchar_t* text, int x, int y,
 }
 
 void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
-        int* file_num_ptr) {
-    D2Win_GetTextSize_1_00(text, text_width_ptr, file_num_ptr);
+        int* text_height_ptr) {
+    D2Win_GetTextSize_1_00(text, text_width_ptr, text_height_ptr);
 }
 
 } // namespace slashgaming::diabloii::func

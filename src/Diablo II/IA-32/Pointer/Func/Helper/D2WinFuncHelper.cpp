@@ -44,7 +44,7 @@ void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
 }
 
 void __fastcall D2Win_GetTextSize_1_00(const wchar_t* text, int* text_width_ptr,
-        int* file_num_ptr) {
+        int* text_height_ptr) {
     static const auto func =
             reinterpret_cast<decltype(D2Win_GetTextSize_1_00)*>(
         Pointer(GameLibraries::kD2Win, {
@@ -53,7 +53,7 @@ void __fastcall D2Win_GetTextSize_1_00(const wchar_t* text, int* text_width_ptr,
             { GameVersion::k1_13D, { PointerType::kOrdinal, 10179 } },
         }).address());
 
-    func(text, text_width_ptr, file_num_ptr);
+    func(text, text_width_ptr, text_height_ptr);
 }
 
 } // namespace slashgaming::diabloii::func

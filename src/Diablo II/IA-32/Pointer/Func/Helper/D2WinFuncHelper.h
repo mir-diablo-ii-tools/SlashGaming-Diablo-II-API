@@ -38,7 +38,7 @@ void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
         int color, bool has_indent);
 
 void __fastcall D2Win_GetTextSize_1_00(const wchar_t* text, int* text_width_ptr,
-        int* file_num_ptr);
+        int* text_height_ptr);
 
 } // namespace slashgaming::diabloii::func
 
