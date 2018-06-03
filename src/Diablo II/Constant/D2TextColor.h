@@ -66,7 +66,7 @@ public:
      * Creates an instance of ExD2TextColor, resolving the value of the constant
      * to an integer based on the running game version and architecture.
      */
-    explicit ExD2TextColor(enum D2TextColors fill_alpha);
+    explicit ExD2TextColor(enum D2TextColors text_color);
 
     explicit ExD2TextColor(const ExD2TextColor& base_constant) = default;
     explicit ExD2TextColor(ExD2TextColor&& base_constant) = default;
