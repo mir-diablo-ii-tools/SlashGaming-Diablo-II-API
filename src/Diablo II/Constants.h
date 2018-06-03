@@ -21,6 +21,7 @@
 #ifndef SGD2MAPI_DIABLOII_CONSTANTS_H_
 #define SGD2MAPI_DIABLOII_CONSTANTS_H_
 
+#include "Constant/D2Difficulty.h"
 #include "Constant/D2FillAlpha.h"
 #include "Constant/D2TextColor.h"
 #include "Constant/D2TextFont.h"
