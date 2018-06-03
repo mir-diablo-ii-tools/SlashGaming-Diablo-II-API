@@ -54,6 +54,8 @@ void __fastcall D2Client_DrawRectFrame_1_00(const RECT* rect_ptr) {
         Pointer(GameLibraries::kD2Client, {
             { GameVersion::k1_00, { PointerType::kOffset, 0x93D50 } },
             { GameVersion::k1_10, { PointerType::kOffset, 0x81790 } },
+            { GameVersion::kLod1_14A, { PointerType::kOffset, 0x61C60 } },
+            { GameVersion::kLod1_14B, { PointerType::kOffset, 0x4E450 } },
         }).address());
 
     func(rect_ptr);
