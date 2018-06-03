@@ -33,43 +33,10 @@ enum class D2Difficulties {
 };
 
 /**
- * A wrapper class to represent the D2Difficulties constant in a version and
- * architecture agnostic way.
+ * Returns the resolved raw integer value of the constant, based on the running
+ * game version and architecture.
  */
-class ExD2Difficulty {
-public:
-    /**
-     * Creates an instance of ExD2Difficulty, resolving the value of the
-     * constant to an integer based on the running game version and
-     * architecture.
-     */
-    explicit ExD2Difficulty(enum D2Difficulties difficulty);
-
-    explicit ExD2Difficulty(const ExD2Difficulty& base_constant) = default;
-    explicit ExD2Difficulty(ExD2Difficulty&& base_constant) = default;
-
-    ExD2Difficulty& operator=(const ExD2Difficulty& rhs) = default;
-    ExD2Difficulty& operator=(ExD2Difficulty&& rhs) = default;
-
-    /**
-     * Returns the resolved value that corresponds to this instance of the
-     * constant.
-     */
-    int value() const;
-
-    /**
-     * Returns the value of the constant that corresponds to this instance of
-     * the constant. The underlying value of returned does not necessarily
-     * correspond to that used in the game. Use value() for that purpose.
-     */
-    enum D2Difficulties difficulty() const;
-
-private:
-    enum D2Difficulties difficulty_;
-    int value_;
-
-    static int ResolveValue(enum D2Difficulties difficulty);
-};
+int ResolveD2DifficultyToValue(enum D2Difficulties difficulty);
 
 } // namespace slashgaming::diabloii::constant
 

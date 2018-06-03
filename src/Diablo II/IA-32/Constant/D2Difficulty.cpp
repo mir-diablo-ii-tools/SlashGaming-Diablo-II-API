@@ -25,7 +25,7 @@
 namespace slashgaming::diabloii::constant {
 namespace {
 
-constexpr int ResolveValue_1_00(enum D2Difficulties difficulty) {
+constexpr int ResolveD2DifficultyToValue_1_00(enum D2Difficulties difficulty) {
     switch (difficulty) {
         case D2Difficulties::kNormal: {
             return 0;
@@ -46,20 +46,8 @@ constexpr int ResolveValue_1_00(enum D2Difficulties difficulty) {
 
 } // namespace
 
-ExD2Difficulty::ExD2Difficulty(enum D2Difficulties difficulty) :
-        difficulty_(difficulty), value_(ResolveValue(difficulty)) {
-}
-
-int ExD2Difficulty::ResolveValue(enum D2Difficulties difficulty) {
-    return ResolveValue_1_00(difficulty);
-}
-
-int ExD2Difficulty::value() const {
-    return value_;
-}
-
-enum D2Difficulties ExD2Difficulty::difficulty() const {
-    return difficulty_;
+int ResolveD2DifficultyToValue(enum D2Difficulties difficulty) {
+    return ResolveD2DifficultyToValue_1_00(difficulty);
 }
 
 } // namespace slashgaming::diabloii::constant
