@@ -21,14 +21,6 @@
 #ifndef SGD2MAPI_DIABLOII_CONSTANT_D2DIFFICULTY_H_
 #define SGD2MAPI_DIABLOII_CONSTANT_D2DIFFICULTY_H_
 
-#ifdef SGD2MAPI_DLLEXPORT
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
-
 namespace slashgaming::diabloii::constant {
 
 /**
@@ -44,7 +36,7 @@ enum class D2Difficulties {
  * A wrapper class to represent the D2Difficulties constant in a version and
  * architecture agnostic way.
  */
-class DLLEXPORT ExD2Difficulty {
+class ExD2Difficulty {
 public:
     /**
      * Creates an instance of ExD2Difficulty, resolving the value of the
@@ -81,5 +73,4 @@ private:
 
 } // namespace slashgaming::diabloii::constant
 
-#undef DLLEXPORT
 #endif // SGD2MAPI_DIABLOII_CONSTANT_D2DIFFICULTY_H_

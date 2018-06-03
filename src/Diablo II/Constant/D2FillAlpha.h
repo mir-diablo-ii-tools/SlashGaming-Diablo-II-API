@@ -21,14 +21,6 @@
 #ifndef SGD2MAPI_DIABLOII_CONSTANT_D2FILLALPHA_H_
 #define SGD2MAPI_DIABLOII_CONSTANT_D2FILLALPHA_H_
 
-#ifdef SGD2MAPI_DLLEXPORT
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
-
 namespace slashgaming::diabloii::constant {
 
 enum class D2FillAlphas {
@@ -45,7 +37,7 @@ enum class D2FillAlphas {
  * A wrapper class to represent the D2FillAlpha constant in a version and
  * architecture agnostic way.
  */
-class DLLEXPORT ExD2FillAlpha {
+class ExD2FillAlpha {
 public:
     /**
      * Creates an instance of ExD2FillAlpha, resolving the value of the constant
@@ -81,5 +73,4 @@ private:
 
 } // namespace slashgaming::diabloii::constant
 
-#undef DLLEXPORT
 #endif // SGD2MAPI_DIABLOII_CONSTANT_D2FILLALPHA_H_
