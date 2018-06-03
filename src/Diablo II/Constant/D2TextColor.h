@@ -49,42 +49,16 @@ enum class D2TextColors {
 };
 
 /**
- * A wrapper class to represent the D2TextColor constant in a version and
- * architecture agnostic way.
+ * Returns the resolved raw integer value of the constant, based on the running
+ * game version and architecture.
  */
-class ExD2TextColor {
-public:
-    /**
-     * Creates an instance of ExD2TextColor, resolving the value of the constant
-     * to an integer based on the running game version and architecture.
-     */
-    explicit ExD2TextColor(enum D2TextColors text_color);
+int ResolveD2TextColorToValue(enum D2TextColors text_color);
 
-    explicit ExD2TextColor(const ExD2TextColor& base_constant) = default;
-    explicit ExD2TextColor(ExD2TextColor&& base_constant) = default;
-
-    ExD2TextColor& operator=(const ExD2TextColor& rhs) = default;
-    ExD2TextColor& operator=(ExD2TextColor&& rhs) = default;
-
-    /**
-     * Returns the resolved value that corresponds to this instance of the
-     * constant.
-     */
-    int value() const;
-
-    /**
-     * Returns the value of the constant that corresponds to this instance of
-     * the constant. The underlying value of returned does not necessarily
-     * correspond to that used in the game. Use value() for that purpose.
-     */
-    enum D2TextColors text_color() const;
-
-private:
-    enum D2TextColors text_color_;
-    int value_;
-
-    static int ResolveValue(enum D2TextColors text_color);
-};
+/**
+ * Returns the resolved constant that is associated with the specified integer,
+ * based on the running game version and architecture.
+ */
+enum D2TextColors ResolveValueToD2TextColor(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

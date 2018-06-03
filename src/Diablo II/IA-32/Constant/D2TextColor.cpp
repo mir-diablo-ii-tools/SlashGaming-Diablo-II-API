@@ -25,7 +25,7 @@
 namespace slashgaming::diabloii::constant {
 namespace {
 
-constexpr int ResolveValue_1_00(enum D2TextColors text_color) {
+constexpr int ResolveD2TextColorToValue_1_00(enum D2TextColors text_color) {
     switch (text_color) {
         case D2TextColors::kBlue: {
             return 3;
@@ -108,20 +108,8 @@ constexpr int ResolveValue_1_00(enum D2TextColors text_color) {
 
 } // namespace
 
-ExD2TextColor::ExD2TextColor(enum D2TextColors text_color) :
-        text_color_(text_color), value_(ResolveValue(text_color)) {
-}
-
-int ExD2TextColor::ResolveValue(enum D2TextColors text_color) {
-    return ResolveValue_1_00(text_color);
-}
-
-int ExD2TextColor::value() const {
-    return value_;
-}
-
-enum D2TextColors ExD2TextColor::text_color() const {
-    return text_color_;
+int ResolveD2TextColorToValue(enum D2TextColors text_color) {
+    return ResolveD2TextColorToValue_1_00(text_color);
 }
 
 } // namespace slashgaming::diabloii::constant

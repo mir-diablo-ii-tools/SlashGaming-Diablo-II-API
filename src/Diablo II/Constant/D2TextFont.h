@@ -43,42 +43,16 @@ enum class D2TextFonts {
 };
 
 /**
- * A wrapper class to represent the D2TextFonts constant in a version and
- * architecture agnostic way.
+ * Returns the resolved raw integer value of the constant, based on the running
+ * game version and architecture.
  */
-class ExD2TextFont {
-public:
-    /**
-     * Creates an instance of ExD2TextFont, resolving the value of the constant
-     * to an integer based on the running game version and architecture.
-     */
-    explicit ExD2TextFont(enum D2TextFonts text_font);
+int ResolveD2TextFontToValue(enum D2TextFonts difficulty);
 
-    explicit ExD2TextFont(const ExD2TextFont& base_constant) = default;
-    explicit ExD2TextFont(ExD2TextFont&& base_constant) = default;
-
-    ExD2TextFont& operator=(const ExD2TextFont& rhs) = default;
-    ExD2TextFont& operator=(ExD2TextFont&& rhs) = default;
-
-    /**
-     * Returns the resolved value that corresponds to this instance of the
-     * constant.
-     */
-    int value() const;
-
-    /**
-     * Returns the value of the constant that corresponds to this instance of
-     * the constant. The underlying value of returned does not necessarily
-     * correspond to that used in the game. Use value() for that purpose.
-     */
-    enum D2TextFonts text_font() const;
-
-private:
-    enum D2TextFonts text_font_;
-    int value_;
-
-    static int ResolveValue(enum D2TextFonts text_font);
-};
+/**
+ * Returns the resolved constant that is associated with the specified integer,
+ * based on the running game version and architecture.
+ */
+enum D2TextFonts ResolveValueToD2TextFont(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

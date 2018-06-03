@@ -34,42 +34,16 @@ enum class D2FillAlphas {
 };
 
 /**
- * A wrapper class to represent the D2FillAlpha constant in a version and
- * architecture agnostic way.
+ * Returns the resolved raw integer value of the constant, based on the running
+ * game version and architecture.
  */
-class ExD2FillAlpha {
-public:
-    /**
-     * Creates an instance of ExD2FillAlpha, resolving the value of the constant
-     * to an integer based on the running game version and architecture.
-     */
-    explicit ExD2FillAlpha(enum D2FillAlphas fill_alpha);
+int ResolveD2FillAlphaToValue(enum D2FillAlphas fill_alpha);
 
-    explicit ExD2FillAlpha(const ExD2FillAlpha& base_constant) = default;
-    explicit ExD2FillAlpha(ExD2FillAlpha&& base_constant) = default;
-
-    ExD2FillAlpha& operator=(const ExD2FillAlpha& rhs) = default;
-    ExD2FillAlpha& operator=(ExD2FillAlpha&& rhs) = default;
-
-    /**
-     * Returns the resolved value that corresponds to this instance of the
-     * constant.
-     */
-    int value() const;
-
-    /**
-     * Returns the value of the constant that corresponds to this instance of
-     * the constant. The underlying value of returned does not necessarily
-     * correspond to that used in the game. Use value() for that purpose.
-     */
-    enum D2FillAlphas fill_alpha() const;
-
-private:
-    enum D2FillAlphas fill_alpha_;
-    int value_;
-
-    static int ResolveValue(enum D2FillAlphas fill_alpha);
-};
+/**
+ * Returns the resolved constant that is associated with the specified integer,
+ * based on the running game version and architecture.
+ */
+enum D2FillAlphas ResolveValueToD2FillAlpha(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

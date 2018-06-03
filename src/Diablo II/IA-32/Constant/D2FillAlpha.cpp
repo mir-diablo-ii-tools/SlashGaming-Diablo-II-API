@@ -25,7 +25,7 @@
 namespace slashgaming::diabloii::constant {
 namespace {
 
-constexpr int ResolveValue_1_00(enum D2FillAlphas fill_alpha) {
+constexpr int ResolveD2FillAlphaToValue_1_00(enum D2FillAlphas fill_alpha) {
     switch (fill_alpha) {
         case D2FillAlphas::k50PercentOpaque: {
             return 0;
@@ -62,20 +62,8 @@ constexpr int ResolveValue_1_00(enum D2FillAlphas fill_alpha) {
 
 } // namespace
 
-ExD2FillAlpha::ExD2FillAlpha(enum D2FillAlphas fill_alpha) :
-        fill_alpha_(fill_alpha), value_(ResolveValue(fill_alpha)) {
-}
-
-int ExD2FillAlpha::ResolveValue(enum D2FillAlphas fill_alpha) {
-    return ResolveValue_1_00(fill_alpha);
-}
-
-int ExD2FillAlpha::value() const {
-    return value_;
-}
-
-enum D2FillAlphas ExD2FillAlpha::fill_alpha() const {
-    return fill_alpha_;
+int ResolveD2FillAlphaToValue(enum D2FillAlphas fill_alpha) {
+    return ResolveD2FillAlphaToValue_1_00(fill_alpha);
 }
 
 } // namespace slashgaming::diabloii::constant

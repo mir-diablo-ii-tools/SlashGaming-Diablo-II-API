@@ -25,7 +25,7 @@
 namespace slashgaming::diabloii::constant {
 namespace {
 
-constexpr int ResolveValue_1_00(enum D2TextFonts text_color) {
+constexpr int ResolveD2TextFontToValue_1_00(enum D2TextFonts text_color) {
     switch (text_color) {
         case D2TextFonts::kDiabloSmall: {
             return 11;
@@ -87,20 +87,8 @@ constexpr int ResolveValue_1_00(enum D2TextFonts text_color) {
 
 } // namespace
 
-ExD2TextFont::ExD2TextFont(enum D2TextFonts text_font) :
-        text_font_(text_font), value_(ResolveValue(text_font)) {
-}
-
-int ExD2TextFont::ResolveValue(enum D2TextFonts text_font) {
-    return ResolveValue_1_00(text_font);
-}
-
-int ExD2TextFont::value() const {
-    return value_;
-}
-
-enum D2TextFonts ExD2TextFont::text_font() const {
-    return text_font_;
+int ResolveD2TextFontToValue(enum D2TextFonts text_font) {
+    return ResolveD2TextFontToValue_1_00(text_font);
 }
 
 } // namespace slashgaming::diabloii::constant
