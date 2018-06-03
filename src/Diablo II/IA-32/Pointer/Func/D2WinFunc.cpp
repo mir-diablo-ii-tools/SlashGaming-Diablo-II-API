@@ -43,6 +43,11 @@ void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
     D2Win_GetTextSize_1_00(text, text_width_ptr, text_height_ptr);
 }
 
+void D2Win_SetTextFont(enum constant::D2TextFonts text_font) {
+    constant::ExD2TextFont ex_font(text_font);
+    D2Win_SetTextFont_1_00(ex_font.value());
+}
+
 } // namespace slashgaming::diabloii::func
 
 #endif // defined(__i386__) || defined(_M_IX86) || defined(_X86_)

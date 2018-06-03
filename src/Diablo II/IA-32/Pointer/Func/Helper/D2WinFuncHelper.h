@@ -40,6 +40,8 @@ void __fastcall D2Win_DrawText_1_00(const wchar_t* text, int x, int y,
 void __fastcall D2Win_GetTextSize_1_00(const wchar_t* text, int* text_width_ptr,
         int* text_height_ptr);
 
+void __fastcall D2Win_SetTextFont_1_00(int text_font);
+
 } // namespace slashgaming::diabloii::func
 
 #endif // SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_D2WINFUNCHELPER_H_

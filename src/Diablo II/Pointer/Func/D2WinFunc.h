@@ -47,6 +47,12 @@ extern "C" {
      */
     DLLEXPORT void D2Win_GetTextSize(const wchar_t* text,
             int* text_width_out_ptr, int* text_height_out_ptr);
+
+    /**
+     * Sets the currently active font for displaying custom text to the one
+     * specified in the parameters.
+     */
+    DLLEXPORT void D2Win_SetTextFont(enum constant::D2TextFonts text_font);
 }
 
 } // namespace slashgaming::diabloii::func
