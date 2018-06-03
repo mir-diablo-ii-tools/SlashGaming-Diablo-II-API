@@ -57,7 +57,7 @@ enum class D2TextFonts {
 class DLLEXPORT ExD2TextFont {
 public:
     /**
-     * Creates an instance of D2TextFonts, resolving the value of the constant
+     * Creates an instance of ExD2TextFont, resolving the value of the constant
      * to an integer based on the running game version and architecture.
      */
     explicit ExD2TextFont(enum D2TextFonts text_font);
