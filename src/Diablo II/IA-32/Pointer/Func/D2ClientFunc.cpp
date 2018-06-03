@@ -48,12 +48,22 @@ void D2Client_DrawRectFrame(RECT* rect_ptr) {
     }
 }
 
+enum constant::D2Difficulty D2Client_GetDifficulty() {
+    int raw_value = D2Client_GetDifficulty_1_00();
+    return constant::ResolveValueToD2Difficulty(raw_value);
+}
+
 int D2Client_GetMouseX() {
     return D2Client_GetMouseX_1_00();
 }
 
 int D2Client_GetMouseY() {
     return D2Client_GetMouseY_1_00();
+}
+
+void D2Client_SetDifficulty(enum constant::D2Difficulty difficulty) {
+    int raw_value = constant::ResolveD2DifficultyToValue(difficulty);
+    D2Client_SetDifficulty_1_00(raw_value);
 }
 
 } // namespace slashgaming::diabloii::func

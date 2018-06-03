@@ -22,6 +22,9 @@
 #define SGD2MAPI_DIABLOII_POINTER_FUNC_D2CLIENTFUNC_H_
 
 #include <windows.h>
+#include <cstdint>
+
+#include "../../Constants.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
@@ -35,8 +38,11 @@ namespace slashgaming::diabloii::func {
 
 extern "C" {
     DLLEXPORT void D2Client_DrawRectFrame(RECT* rect_ptr);
+    DLLEXPORT enum constant::D2Difficulty D2Client_GetDifficulty();
     DLLEXPORT int D2Client_GetMouseX();
     DLLEXPORT int D2Client_GetMouseY();
+    DLLEXPORT void D2Client_SetDifficulty(
+            enum constant::D2Difficulty difficulty);
 }
 
 } // namespace slashgaming::diabloii::func

@@ -69,6 +69,18 @@ void __stdcall D2Client_DrawRectFrame_1_11(const RECT* rect_ptr) {
     D2Client_DrawRectFrame_1_11_Stub(func, rect_ptr);
 }
 
+int8_t D2Client_GetDifficulty_1_00() {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_GetDifficulty_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_00, { PointerType::kOffset, 0x12E30 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0x41930 } },
+            { GameVersion::kLod1_14B, { PointerType::kOffset, 0x49240 } },
+        }).address());
+
+    return func();
+}
+
 int D2Client_GetMouseX_1_00() {
     static const auto func =
             reinterpret_cast<decltype(D2Client_GetMouseX_1_00)*>(
@@ -89,6 +101,18 @@ int D2Client_GetMouseY_1_00() {
         }).address());
 
     return func();
+}
+
+void __fastcall D2Client_SetDifficulty_1_00(int8_t raw_value) {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_SetDifficulty_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_00, { PointerType::kOffset, 0x12E10 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0x41990 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0x491E0 } },
+        }).address());
+
+    return func(raw_value);
 }
 
 } // namespace slashgaming::diabloii::func
