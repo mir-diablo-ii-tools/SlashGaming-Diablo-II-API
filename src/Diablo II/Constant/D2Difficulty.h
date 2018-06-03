@@ -38,6 +38,12 @@ enum class D2Difficulties {
  */
 int ResolveD2DifficultyToValue(enum D2Difficulties difficulty);
 
+/**
+ * Returns the resolved constant that is associated with the specified integer,
+ * based on the running game version and architecture.
+ */
+enum D2Difficulties ResolveValueToD2Difficulty(int raw_value);
+
 } // namespace slashgaming::diabloii::constant
 
 #endif // SGD2MAPI_DIABLOII_CONSTANT_D2DIFFICULTY_H_

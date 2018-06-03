@@ -44,10 +44,33 @@ constexpr int ResolveD2DifficultyToValue_1_00(enum D2Difficulties difficulty) {
     return -1;
 }
 
+constexpr enum D2Difficulties ResolveValueToD2Difficulty_1_00(int raw_value) {
+    switch (raw_value) {
+        case 0: {
+            return D2Difficulties::kNormal;
+        }
+
+        case 1: {
+            return D2Difficulties::kNightmare;
+        }
+
+        case 2: {
+            return D2Difficulties::kHell;
+        }
+    }
+
+    // Should never happen.
+    return static_cast<enum D2Difficulties>(-1);
+}
+
 } // namespace
 
 int ResolveD2DifficultyToValue(enum D2Difficulties difficulty) {
     return ResolveD2DifficultyToValue_1_00(difficulty);
+}
+
+enum D2Difficulties ResolveValueToD2Difficulty(int raw_value) {
+    return ResolveValueToD2Difficulty_1_00(raw_value);
 }
 
 } // namespace slashgaming::diabloii::constant
