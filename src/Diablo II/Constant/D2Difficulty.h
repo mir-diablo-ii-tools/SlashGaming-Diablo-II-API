@@ -26,7 +26,7 @@ namespace slashgaming::diabloii::constant {
 /**
  * The Diablo II game difficulties.
  */
-enum class D2Difficulties {
+enum class D2Difficulty {
     kNormal = 0,
     kNightmare = 1,
     kHell = 2,
@@ -36,13 +36,13 @@ enum class D2Difficulties {
  * Returns the resolved raw integer value of the constant, based on the running
  * game version and architecture.
  */
-int ResolveD2DifficultyToValue(enum D2Difficulties difficulty);
+int ResolveD2DifficultyToValue(enum D2Difficulty difficulty);
 
 /**
  * Returns the resolved constant that is associated with the specified integer,
  * based on the running game version and architecture.
  */
-enum D2Difficulties ResolveValueToD2Difficulty(int raw_value);
+enum D2Difficulty ResolveValueToD2Difficulty(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

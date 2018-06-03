@@ -26,7 +26,7 @@ namespace slashgaming::diabloii::constant {
 /**
  * The different text fonts used to display custom text in Diablo II.
  */
-enum class D2TextFonts {
+enum class D2TextFont {
     kDiabloSmall = 0,
     kDiabloMedium = 1,
     kDiabloHeaderBig = 2,
@@ -46,13 +46,13 @@ enum class D2TextFonts {
  * Returns the resolved raw integer value of the constant, based on the running
  * game version and architecture.
  */
-int ResolveD2TextFontToValue(enum D2TextFonts difficulty);
+int ResolveD2TextFontToValue(enum D2TextFont text_font);
 
 /**
  * Returns the resolved constant that is associated with the specified integer,
  * based on the running game version and architecture.
  */
-enum D2TextFonts ResolveValueToD2TextFont(int raw_value);
+enum D2TextFont ResolveValueToD2TextFont(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

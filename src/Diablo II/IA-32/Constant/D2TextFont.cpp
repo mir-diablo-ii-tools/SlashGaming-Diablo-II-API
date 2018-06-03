@@ -25,58 +25,58 @@
 namespace slashgaming::diabloii::constant {
 namespace {
 
-constexpr int ResolveD2TextFontToValue_1_00(enum D2TextFonts text_color) {
+constexpr int ResolveD2TextFontToValue_1_00(enum D2TextFont text_color) {
     switch (text_color) {
-        case D2TextFonts::kDiabloSmall: {
+        case D2TextFont::kDiabloSmall: {
             return 11;
         }
 
-        case D2TextFonts::kDiabloMedium: {
+        case D2TextFont::kDiabloMedium: {
             return 1;
         }
 
-        case D2TextFonts::kDiabloHeaderSmall: {
+        case D2TextFont::kDiabloHeaderSmall: {
             return 7;
         }
 
-        case D2TextFonts::kDiabloHeaderMedium: {
+        case D2TextFont::kDiabloHeaderMedium: {
             return 2;
         }
 
-        case D2TextFonts::kDiabloHeaderBig: {
+        case D2TextFont::kDiabloHeaderBig: {
             return 3;
         }
 
-        case D2TextFonts::kDiabloInvertedSmall: {
+        case D2TextFont::kDiabloInvertedSmall: {
             return 10;
         }
 
-        case D2TextFonts::kDiabloInvertedMedium: {
+        case D2TextFont::kDiabloInvertedMedium: {
             return 9;
         }
 
-        case D2TextFonts::kNormalSmall: {
+        case D2TextFont::kNormalSmall: {
             return 6;
         }
 
-        case D2TextFonts::kNormalMedium: {
+        case D2TextFont::kNormalMedium: {
             return 4;
         }
 
-        case D2TextFonts::kNormalMediumBold: {
+        case D2TextFont::kNormalMediumBold: {
             return 13;
         }
 
-        case D2TextFonts::kNormalBigBold: {
+        case D2TextFont::kNormalBigBold: {
             return 5;
         }
 
-        case D2TextFonts::kWideSmall: {
+        case D2TextFont::kWideSmall: {
             // Also has the value 12.
             return 0;
         }
 
-        case D2TextFonts::kWideMedium: {
+        case D2TextFont::kWideMedium: {
             return 8;
         }
     }
@@ -87,7 +87,7 @@ constexpr int ResolveD2TextFontToValue_1_00(enum D2TextFonts text_color) {
 
 } // namespace
 
-int ResolveD2TextFontToValue(enum D2TextFonts text_font) {
+int ResolveD2TextFontToValue(enum D2TextFont text_font) {
     return ResolveD2TextFontToValue_1_00(text_font);
 }
 

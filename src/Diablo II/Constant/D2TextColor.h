@@ -26,7 +26,7 @@ namespace slashgaming::diabloii::constant {
 /**
  * The different colors used to display text in Diablo II.
  */
-enum class D2TextColors {
+enum class D2TextColor {
     kBlack = 0,
     kBlue = 1,
     kCorrupted = 2,
@@ -52,13 +52,13 @@ enum class D2TextColors {
  * Returns the resolved raw integer value of the constant, based on the running
  * game version and architecture.
  */
-int ResolveD2TextColorToValue(enum D2TextColors text_color);
+int ResolveD2TextColorToValue(enum D2TextColor text_color);
 
 /**
  * Returns the resolved constant that is associated with the specified integer,
  * based on the running game version and architecture.
  */
-enum D2TextColors ResolveValueToD2TextColor(int raw_value);
+enum D2TextColor ResolveValueToD2TextColor(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

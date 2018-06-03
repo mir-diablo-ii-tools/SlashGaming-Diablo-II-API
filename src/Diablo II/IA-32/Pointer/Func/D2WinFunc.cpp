@@ -33,7 +33,7 @@
 namespace slashgaming::diabloii::func {
 
 void D2Win_DrawText(const wchar_t* text, int x, int y,
-        enum constant::D2TextColors color, bool has_indent) {
+        enum constant::D2TextColor color, bool has_indent) {
     int raw_value = constant::ResolveD2TextColorToValue(color);
     D2Win_DrawText_1_00(text, x, y, raw_value, has_indent);
 }
@@ -43,7 +43,7 @@ void D2Win_GetTextSize(const wchar_t* text, int* text_width_ptr,
     D2Win_GetTextSize_1_00(text, text_width_ptr, text_height_ptr);
 }
 
-void D2Win_SetTextFont(enum constant::D2TextFonts text_font) {
+void D2Win_SetTextFont(enum constant::D2TextFont text_font) {
     int raw_value = constant::ResolveD2TextFontToValue(text_font);
     D2Win_SetTextFont_1_00(raw_value);
 }

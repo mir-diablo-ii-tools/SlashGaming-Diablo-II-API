@@ -39,7 +39,7 @@ extern "C" {
      * specified. Indentation may be applied if specified.
      */
     DLLEXPORT void D2Win_DrawText(const wchar_t* text, int x, int y,
-            enum constant::D2TextColors color, bool has_indent);
+            enum constant::D2TextColor color, bool has_indent);
 
     /**
      * Determines the amount of pixel space needed to display to specified text,
@@ -52,7 +52,7 @@ extern "C" {
      * Sets the currently active font for displaying custom text to the one
      * specified in the parameters.
      */
-    DLLEXPORT void D2Win_SetTextFont(enum constant::D2TextFonts text_font);
+    DLLEXPORT void D2Win_SetTextFont(enum constant::D2TextFont text_font);
 }
 
 } // namespace slashgaming::diabloii::func

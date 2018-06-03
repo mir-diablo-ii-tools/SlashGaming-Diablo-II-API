@@ -38,7 +38,7 @@ extern "C" {
             unsigned int color, unsigned int unknown);
 
     DLLEXPORT void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2,
-            unsigned int color, enum constant::D2FillAlphas fill_alpha);
+            unsigned int color, enum constant::D2FillAlpha fill_alpha);
 }
 
 } // namespace slashgaming::diabloii::func

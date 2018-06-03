@@ -25,17 +25,17 @@
 namespace slashgaming::diabloii::constant {
 namespace {
 
-constexpr int ResolveD2DifficultyToValue_1_00(enum D2Difficulties difficulty) {
+constexpr int ResolveD2DifficultyToValue_1_00(enum D2Difficulty difficulty) {
     switch (difficulty) {
-        case D2Difficulties::kNormal: {
+        case D2Difficulty::kNormal: {
             return 0;
         }
 
-        case D2Difficulties::kNightmare: {
+        case D2Difficulty::kNightmare: {
             return 1;
         }
 
-        case D2Difficulties::kHell: {
+        case D2Difficulty::kHell: {
             return 2;
         }
     }
@@ -44,32 +44,32 @@ constexpr int ResolveD2DifficultyToValue_1_00(enum D2Difficulties difficulty) {
     return -1;
 }
 
-constexpr enum D2Difficulties ResolveValueToD2Difficulty_1_00(int raw_value) {
+constexpr enum D2Difficulty ResolveValueToD2Difficulty_1_00(int raw_value) {
     switch (raw_value) {
         case 0: {
-            return D2Difficulties::kNormal;
+            return D2Difficulty::kNormal;
         }
 
         case 1: {
-            return D2Difficulties::kNightmare;
+            return D2Difficulty::kNightmare;
         }
 
         case 2: {
-            return D2Difficulties::kHell;
+            return D2Difficulty::kHell;
         }
     }
 
     // Should never happen.
-    return static_cast<enum D2Difficulties>(-1);
+    return static_cast<enum D2Difficulty>(-1);
 }
 
 } // namespace
 
-int ResolveD2DifficultyToValue(enum D2Difficulties difficulty) {
+int ResolveD2DifficultyToValue(enum D2Difficulty difficulty) {
     return ResolveD2DifficultyToValue_1_00(difficulty);
 }
 
-enum D2Difficulties ResolveValueToD2Difficulty(int raw_value) {
+enum D2Difficulty ResolveValueToD2Difficulty(int raw_value) {
     return ResolveValueToD2Difficulty_1_00(raw_value);
 }
 

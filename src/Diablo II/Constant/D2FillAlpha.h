@@ -23,7 +23,7 @@
 
 namespace slashgaming::diabloii::constant {
 
-enum class D2FillAlphas {
+enum class D2FillAlpha {
     k0PercentOpaque = 0,
     k50PercentOpaque = 1,
     k75PercentOpaque = 2,
@@ -37,13 +37,13 @@ enum class D2FillAlphas {
  * Returns the resolved raw integer value of the constant, based on the running
  * game version and architecture.
  */
-int ResolveD2FillAlphaToValue(enum D2FillAlphas fill_alpha);
+int ResolveD2FillAlphaToValue(enum D2FillAlpha fill_alpha);
 
 /**
  * Returns the resolved constant that is associated with the specified integer,
  * based on the running game version and architecture.
  */
-enum D2FillAlphas ResolveValueToD2FillAlpha(int raw_value);
+enum D2FillAlpha ResolveValueToD2FillAlpha(int raw_value);
 
 } // namespace slashgaming::diabloii::constant
 

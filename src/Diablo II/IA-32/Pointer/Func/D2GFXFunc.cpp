@@ -40,7 +40,7 @@ void D2GFX_DrawLine(int x1, int y1, int x2, int y2, unsigned int color,
 }
 
 void D2GFX_DrawRectangle(int x1, int y1, int x2, int y2, unsigned int color,
-        enum constant::D2FillAlphas fill_alpha) {
+        enum constant::D2FillAlpha fill_alpha) {
     int raw_value = constant::ResolveD2FillAlphaToValue(fill_alpha);
     D2GFX_DrawRectangle_1_00(x1, y1, x2, y2, color, raw_value);
 }
