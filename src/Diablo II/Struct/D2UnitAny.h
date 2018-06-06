@@ -18,9 +18,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SGD2MAPI_DIABLOII_STRUCTS_H_
-#define SGD2MAPI_DIABLOII_STRUCTS_H_
+#ifndef SGD2MAPI_DIABLOII_STRUCT_D2UNITANY_H_INCLUDE_
+#define SGD2MAPI_DIABLOII_STRUCT_D2UNITANY_H_INCLUDE_
 
-#include "Struct/D2UnitAny.h"
+struct D2UnitAny;
 
-#endif // SGD2MAPI_DIABLOII_STRUCTS_H_
+#endif // SGD2MAPI_DIABLOII_STRUCT_D2UNITANY_H_INCLUDE_
