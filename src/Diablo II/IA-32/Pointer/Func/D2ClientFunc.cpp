@@ -25,11 +25,13 @@
 #include <cstdint>
 #include <unordered_map>
 
+#include "../../../Constants.h"
 #define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCHELPER_H_INCLUDE_
 #include "Helper/D2ClientFuncHelper.h"
 #undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCHELPER_H_INCLUDE_
 #include "../../../GameLibrary.h"
 #include "../../../Pointer.h"
+#include "../../../Structs.h"
 #include "../../../Version.h"
 
 namespace slashgaming::diabloii::func {
@@ -59,6 +61,10 @@ int D2Client_GetMouseX() {
 
 int D2Client_GetMouseY() {
     return D2Client_GetMouseY_1_00();
+}
+
+struct D2UnitAny* D2Client_GetPlayerUnit() {
+    return D2Client_GetPlayerUnit_1_00();
 }
 
 void D2Client_SetDifficulty(enum constant::D2Difficulty difficulty) {

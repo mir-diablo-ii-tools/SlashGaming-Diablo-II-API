@@ -25,6 +25,7 @@
 #include <cstdint>
 
 #include "../../Constants.h"
+#include "../../Structs.h"
 
 #ifdef SGD2MAPI_DLLEXPORT
 #define DLLEXPORT __declspec(dllexport)
@@ -39,8 +40,10 @@ namespace slashgaming::diabloii::func {
 extern "C" {
     DLLEXPORT void D2Client_DrawRectFrame(RECT* rect_ptr);
     DLLEXPORT enum constant::D2Difficulty D2Client_GetDifficulty();
+    DLLEXPORT struct D2UnitAny* D2Client_GetMercUnit();
     DLLEXPORT int D2Client_GetMouseX();
     DLLEXPORT int D2Client_GetMouseY();
+    DLLEXPORT struct D2UnitAny* D2Client_GetPlayerUnit();
     DLLEXPORT void D2Client_SetDifficulty(
             enum constant::D2Difficulty difficulty);
 }

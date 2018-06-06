@@ -28,9 +28,11 @@
 #define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCHELPER_H_
 
 #include <cstdint>
+#include <windows.h>
 
 #include "../../../../GameLibrary.h"
 #include "../../../../Pointer.h"
+#include "../../../../Structs.h"
 #include "../../../../Version.h"
 
 namespace slashgaming::diabloii::func {
@@ -43,6 +45,7 @@ void __stdcall D2Client_DrawRectFrame_1_11(const RECT* rect_ptr);
 int8_t D2Client_GetDifficulty_1_00();
 int D2Client_GetMouseX_1_00();
 int D2Client_GetMouseY_1_00();
+struct D2UnitAny* D2Client_GetPlayerUnit_1_00();
 
 void __fastcall D2Client_SetDifficulty_1_00(int8_t raw_value);
 

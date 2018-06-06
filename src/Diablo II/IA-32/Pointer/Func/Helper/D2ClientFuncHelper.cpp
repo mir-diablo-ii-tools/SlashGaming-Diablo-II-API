@@ -24,6 +24,7 @@
 #include "D2ClientFuncHelper.h"
 #undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCHELPER_H_INCLUDE_
 
+#include <windows.h>
 #include <unordered_map>
 
 #define SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_INCLUDE_
@@ -31,6 +32,7 @@
 #undef SGD2MAPI_DIABLOII_IA_32_POINTER_FUNC_HELPER_D2CLIENTFUNCSTUBS_H_INCLUDE_
 #include "../../../../GameLibrary.h"
 #include "../../../../Pointer.h"
+#include "../../../../Structs.h"
 #include "../../../../Version.h"
 
 namespace slashgaming::diabloii::func {
@@ -101,6 +103,18 @@ int D2Client_GetMouseY_1_00() {
         Pointer(GameLibraries::kD2Client, {
             { GameVersion::k1_00, { PointerType::kOffset, 0xCA6F0 } },
             { GameVersion::k1_13C, { PointerType::kOffset, 0x15FA0 } },
+        }).address());
+
+    return func();
+}
+
+struct D2UnitAny* D2Client_GetPlayerUnit_1_00() {
+    static const auto func =
+            reinterpret_cast<decltype(D2Client_GetPlayerUnit_1_00)*>(
+        Pointer(GameLibraries::kD2Client, {
+            { GameVersion::k1_07, { PointerType::kOffset, 0x92880 } },
+            { GameVersion::k1_13C, { PointerType::kOffset, 0xA4D60 } },
+            { GameVersion::k1_13D, { PointerType::kOffset, 0x613C0 } },
         }).address());
 
     return func();
