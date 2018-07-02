@@ -16,6 +16,21 @@
  *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Additional permissions under GNU Affero General Public License version 3
+ *  section 7
+ *
+ *  If you modify this Program, or any covered work, by linking or combining it
+ *  with Diablo II (or a modified version of that library), containing parts
+ *  covered by the terms of Blizzard End User License Agreement, the licensors
+ *  of this Program grant you additional permission to convey the resulting
+ *  work.
+ *
+ *  If you modify this Program, or any covered work, by declaring a custom
+ *  version of an existing Diablo II data structure with members ordered
+ *  differently from any official version of the game, then such declarations
+ *  are exempt from the terms of GNU Affero General Public License version 3
+ *  section 6.
  */
 
 #ifndef SGD2MAPI_DIABLOII_CONSTANTS_H_
