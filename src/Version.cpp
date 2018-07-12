@@ -113,6 +113,7 @@ std::optional<std::string> ExtractFileVersionString(
     return std::nullopt;
   }
 
+  file_name_buffer = file_name.data();
   std::mbsrtowcs(file_name_wide_buffer.get(), &file_name_buffer, buffer_size,
                  &state);
 
