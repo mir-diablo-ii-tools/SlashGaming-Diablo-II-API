@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "Version.hpp"
+#include "game_version.h"
 
 #include <windows.h>
 
@@ -49,7 +49,7 @@
 
 #include <frozen/string.h>
 #include <frozen/unordered_map.h>
-#include "GameLibrary.hpp"
+#include "game_library.h"
 
 
 namespace sgd2mapi::version {

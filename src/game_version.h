@@ -36,8 +36,8 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_VERSION_HPP_
-#define SGD2MAPI_VERSION_HPP_
+#ifndef SGD2MAPI_GAME_VERSION_H_
+#define SGD2MAPI_GAME_VERSION_H_
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -101,4 +101,4 @@ private:
 } // namespace sgd2mapi::version
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_VERSION_HPP_
+#endif // SGD2MAPI_GAME_VERSION_H_

@@ -36,8 +36,8 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAMELIBRARY_HPP_
-#define SGD2MAPI_GAMELIBRARY_HPP_
+#ifndef SGD2MAPI_GAME_LIBRARY_H_
+#define SGD2MAPI_GAME_LIBRARY_H_
 
 #include <string_view>
 
@@ -47,4 +47,4 @@ constexpr std::string_view kGameExecutable = "Game.exe";
 
 } // namespace sgd2mapi
 
-#endif // SGD2MAPI_GAMELIBRARY_HPP_
+#endif // SGD2MAPI_GAME_LIBRARY_H_
