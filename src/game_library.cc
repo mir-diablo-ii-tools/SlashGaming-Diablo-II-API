@@ -40,12 +40,12 @@
 
 #include <windows.h>
 #include <cstdint>
-#include <cwchar>
 #include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
 
+#include <boost/nowide/convert.hpp>
 #include <frozen/string.h>
 #include <frozen/unordered_map.h>
 #include "game_version.h"
@@ -87,23 +87,16 @@ std::string GetLibraryPathWithRedirect(enum DefaultLibrary library)
   return kDefaultLibraryPathById.at(library).data();
 }
 
-std::optional<std::intptr_t> GetLibraryBaseAddress(std::string_view library_path) {
-  const char* library_path_buffer = library_path.data();
-  auto library_path_wide_buffer = std::make_unique<wchar_t[]>(
-      library_path.length());
-  std::mbstate_t state;
-
-  std::size_t buffer_size = std::mbsrtowcs(nullptr, &library_path_buffer, 0,
-                                           &state) + 1;
-  if (buffer_size == static_cast<std::size_t>(-1)) {
+std::optional<std::intptr_t> GetLibraryBaseAddress(
+    std::string_view library_path) noexcept {
+  std::wstring library_path_wide;
+  try {
+    library_path_wide = boost::nowide::widen(library_path.data());
+  } catch (boost::locale::conv::conversion_error&) {
     return std::nullopt;
   }
 
-  library_path_buffer = library_path.data();
-  std::mbsrtowcs(library_path_wide_buffer.get(), &library_path_buffer,
-                 buffer_size, &state);
-
-  HMODULE base_address = LoadLibraryW(library_path_wide_buffer.get());
+  HMODULE base_address = LoadLibraryW(library_path_wide.data());
   if (base_address == nullptr) {
     return std::nullopt;
   }
