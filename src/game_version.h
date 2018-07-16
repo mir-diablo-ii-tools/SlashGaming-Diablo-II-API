@@ -68,8 +68,11 @@ enum class GameVersion : int {
  */
 class RunningGameVersion {
 public:
-  RunningGameVersion(const RunningGameVersion&) = delete;
-  void operator=(const RunningGameVersion&) = delete;
+  RunningGameVersion(const RunningGameVersion& rhs) = delete;
+  RunningGameVersion(RunningGameVersion&& rhs) = delete;
+
+  RunningGameVersion operator=(const RunningGameVersion& rhs) = delete;
+  RunningGameVersion operator=(RunningGameVersion&& rhs) = delete;
 
   /**
    * Returns the singleton instance of RunningGameVersion.
@@ -79,10 +82,19 @@ public:
   /**
    * Returns whether the Diablo II game version is at least 1.14.
    */
-  constexpr bool IsGameVersionAtLeast1_14(
-      enum GameVersion game_version) const noexcept {
+  static constexpr bool IsGameVersionAtLeast1_14(enum GameVersion game_version)
+      noexcept {
     return !(game_version >= GameVersion::k1_00
              && game_version <= GameVersion::k1_13D);
+  }
+
+  /**
+   * Returns whether the Diablo II game version is at least 1.14.
+   */
+  constexpr bool IsGameVersionAtLeast1_14()
+      const noexcept {
+    return !(game_version() >= GameVersion::k1_00
+             && game_version() <= GameVersion::k1_13D);
   }
 
   /**

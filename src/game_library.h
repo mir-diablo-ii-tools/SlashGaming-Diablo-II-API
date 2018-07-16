@@ -39,12 +39,59 @@
 #ifndef SGD2MAPI_GAME_LIBRARY_H_
 #define SGD2MAPI_GAME_LIBRARY_H_
 
+#include <cstdint>
+#include <string>
 #include <string_view>
 
-namespace sgd2mapi {
+#if defined(SGD2MAPI_DLLEXPORT)
+#define DLLEXPORT __declspec(dllexport)
+#elif defined(SGD2MAPI_DLLIMPORT)
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif
 
+namespace sgd2mapi::library {
+
+/**
+ * The executable used to run the game.
+ */
 constexpr std::string_view kGameExecutable = "Game.exe";
+
+/**
+ * The default libraries that are used by Diablo II.
+ */
+enum class DefaultLibrary {
+  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
+  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
+};
+
+class DLLEXPORT GameLibrary {
+public:
+  explicit GameLibrary(enum DefaultLibrary library) noexcept;
+  explicit GameLibrary(std::string_view library_path) noexcept;
+
+  explicit GameLibrary(const GameLibrary& rhs) noexcept = default;
+  explicit GameLibrary(GameLibrary&& rhs) noexcept = default;
+
+  ~GameLibrary();
+
+  GameLibrary& operator=(const GameLibrary& rhs) noexcept = default;
+  GameLibrary& operator=(GameLibrary&& rhs) noexcept = default;
+
+  std::string library_path() const noexcept;
+
+  constexpr std::intptr_t base_address() const noexcept {
+    return base_address_;
+  }
+
+private:
+  std::string library_path_;
+  std::intptr_t base_address_;
+};
 
 } // namespace sgd2mapi
 
+#undef DLLEXPORT
 #endif // SGD2MAPI_GAME_LIBRARY_H_
