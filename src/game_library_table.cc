@@ -36,65 +36,40 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_LIBRARY_H_
-#define SGD2MAPI_GAME_LIBRARY_H_
+#include "game_library_table.h"
 
-#include <cstdint>
-#include <string>
 #include <string_view>
 
-#if defined(SGD2MAPI_DLLEXPORT)
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
+#include "game_library.h"
 
 namespace sgd2mapi::library {
 
-/**
- * The executable used to run the game.
- */
-constexpr std::string_view kGameExecutable = "Game.exe";
+GameLibraryTable::GameLibraryTable() noexcept {
+}
 
-/**
- * The default libraries that are used by Diablo II.
- */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
-
-class DLLEXPORT GameLibrary {
-public:
-  explicit GameLibrary(enum DefaultLibrary library) noexcept;
-  explicit GameLibrary(std::string_view library_path) noexcept;
-
-  explicit GameLibrary(const GameLibrary& rhs) noexcept = default;
-  explicit GameLibrary(GameLibrary&& rhs) noexcept = default;
-
-  ~GameLibrary();
-
-  GameLibrary& operator=(const GameLibrary& rhs) noexcept = default;
-  GameLibrary& operator=(GameLibrary&& rhs) noexcept = default;
-
-  static std::string_view GetLibraryPathWithRedirect(
-      enum DefaultLibrary library) noexcept;
-
-  std::string library_path() const noexcept;
-
-  constexpr std::intptr_t base_address() const noexcept {
-    return base_address_;
+const GameLibrary& GameLibraryTable::GetGameLibrary(
+    std::string_view library_path) noexcept {
+  auto found_game_address = libraries_.find(library_path.data());
+  if (found_game_address == libraries_.cend()) {
+    const auto insert_result = libraries_.insert_or_assign(
+        library_path.data(),
+        GameLibrary(library_path));
+    found_game_address = insert_result.first;
   }
 
-private:
-  std::string library_path_;
-  std::intptr_t base_address_;
-};
+  return found_game_address->second;
+}
 
-} // namespace sgd2mapi
+const GameLibrary& GameLibraryTable::GetGameLibrary(
+    enum DefaultLibrary library) noexcept {
+  std::string_view library_path = GameLibrary::GetLibraryPathWithRedirect(
+      library);
+  return GetGameLibrary(library_path);
+}
 
-#undef DLLEXPORT
-#endif // SGD2MAPI_GAME_LIBRARY_H_
+GameLibraryTable& GameLibraryTable::GetInstance() {
+  static GameLibraryTable instance;
+  return instance;
+}
+
+} // namespace sgd2mapi::library

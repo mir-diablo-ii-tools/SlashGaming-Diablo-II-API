@@ -36,12 +36,15 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_LIBRARY_H_
-#define SGD2MAPI_GAME_LIBRARY_H_
+#ifndef SGD2MAPI_GAME_LIBRARY_TABLE_H_
+#define SGD2MAPI_GAME_LIBRARY_TABLE_H_
 
 #include <cstdint>
 #include <string>
 #include <string_view>
+#include <unordered_map>
+
+#include "game_library.h"
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -53,48 +56,28 @@
 
 namespace sgd2mapi::library {
 
-/**
- * The executable used to run the game.
- */
-constexpr std::string_view kGameExecutable = "Game.exe";
-
-/**
- * The default libraries that are used by Diablo II.
- */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
-
-class DLLEXPORT GameLibrary {
+class DLLEXPORT GameLibraryTable {
 public:
-  explicit GameLibrary(enum DefaultLibrary library) noexcept;
-  explicit GameLibrary(std::string_view library_path) noexcept;
+  GameLibraryTable(const GameLibraryTable& rhs) = delete;
+  GameLibraryTable(GameLibraryTable&& rhs) = delete;
 
-  explicit GameLibrary(const GameLibrary& rhs) noexcept = default;
-  explicit GameLibrary(GameLibrary&& rhs) noexcept = default;
+  GameLibraryTable operator=(const GameLibraryTable& rhs) = delete;
+  GameLibraryTable operator=(GameLibraryTable&& rhs) = delete;
 
-  ~GameLibrary();
+  const GameLibrary& GetGameLibrary(enum DefaultLibrary library)
+      noexcept;
+  const GameLibrary& GetGameLibrary(std::string_view library_path)
+      noexcept;
 
-  GameLibrary& operator=(const GameLibrary& rhs) noexcept = default;
-  GameLibrary& operator=(GameLibrary&& rhs) noexcept = default;
-
-  static std::string_view GetLibraryPathWithRedirect(
-      enum DefaultLibrary library) noexcept;
-
-  std::string library_path() const noexcept;
-
-  constexpr std::intptr_t base_address() const noexcept {
-    return base_address_;
-  }
+  static GameLibraryTable& GetInstance();
 
 private:
-  std::string library_path_;
-  std::intptr_t base_address_;
+  std::unordered_map<std::string, GameLibrary> libraries_;
+
+  explicit GameLibraryTable() noexcept;
 };
 
-} // namespace sgd2mapi
+} // namespace sgd2mapi::library
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_LIBRARY_H_
+#endif // SGD2MAPI_GAME_LIBRARY_TABLE_H_

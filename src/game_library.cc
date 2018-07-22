@@ -78,15 +78,6 @@ constexpr const auto kDefaultLibraryPathById =
         { DefaultLibrary::kStorm, "Storm.dll" },
     });
 
-std::string GetLibraryPathWithRedirect(enum DefaultLibrary library)
-    noexcept {
-  if (version::RunningGameVersion::GetInstance().IsGameVersionAtLeast1_14()) {
-    return kGameExecutable.data();
-  }
-
-  return kDefaultLibraryPathById.at(library).data();
-}
-
 std::optional<std::intptr_t> GetLibraryBaseAddress(
     std::string_view library_path) noexcept {
   std::wstring library_path_wide;
@@ -126,6 +117,15 @@ GameLibrary::GameLibrary(std::string_view library_path) noexcept :
 
 GameLibrary::~GameLibrary() noexcept {
   FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
+}
+
+std::string_view GameLibrary::GetLibraryPathWithRedirect(
+    enum DefaultLibrary library) noexcept {
+  if (version::RunningGameVersion::GetInstance().IsGameVersionAtLeast1_14()) {
+    return kGameExecutable.data();
+  }
+
+  return kDefaultLibraryPathById.at(library).data();
 }
 
 std::string GameLibrary::library_path() const noexcept {
