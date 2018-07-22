@@ -77,7 +77,7 @@ public:
   /**
    * Returns the singleton instance of RunningGameVersion.
    */
-  static const RunningGameVersion& GetInstance() noexcept;
+  static RunningGameVersion& GetInstance() noexcept;
 
   /**
    * Returns whether the Diablo II game version is at least 1.14.

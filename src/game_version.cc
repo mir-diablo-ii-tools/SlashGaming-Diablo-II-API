@@ -192,7 +192,7 @@ RunningGameVersion::RunningGameVersion() noexcept :
     game_version_(DetermineRunningGameVersion()) {
 }
 
-const RunningGameVersion& RunningGameVersion::GetInstance() noexcept {
+RunningGameVersion& RunningGameVersion::GetInstance() noexcept {
   static RunningGameVersion instance;
   return instance;
 }
