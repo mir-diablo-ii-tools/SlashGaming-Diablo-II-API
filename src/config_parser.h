@@ -50,7 +50,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::config {
+namespace sgd2mapi {
 
 constexpr std::string_view kConfigPath = "./SlashGaming-Config.json";
 
@@ -74,7 +74,7 @@ class DLLEXPORT ConfigParser {
   std::string address_table_path_;
 };
 
-} // namespace sgd2mapi::config
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_CONFIG_PARSER_H_

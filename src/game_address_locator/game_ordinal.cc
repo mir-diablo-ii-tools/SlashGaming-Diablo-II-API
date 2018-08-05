@@ -41,7 +41,7 @@
 #include <windows.h>
 #include <cstdint>
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
     const noexcept {
@@ -52,4 +52,4 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
       GetProcAddress(library_handle, func_ordinal));
 }
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi

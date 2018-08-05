@@ -51,7 +51,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
 public:
@@ -78,7 +78,7 @@ private:
   int ordinal_;
 };
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_

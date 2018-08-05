@@ -54,7 +54,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 class DLLEXPORT GameAddressTable {
  public:
@@ -73,7 +73,7 @@ class DLLEXPORT GameAddressTable {
   static const GameAddressTable& GetInstance() noexcept;
 };
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_TABLE_H_

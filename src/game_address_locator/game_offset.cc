@@ -40,11 +40,11 @@
 
 #include <cstdint>
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 std::intptr_t GameOffset::ResolveGameAddress(std::intptr_t base_address)
     const noexcept {
   return base_address + offset();
 }
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi

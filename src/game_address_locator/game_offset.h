@@ -51,7 +51,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
 public:
@@ -78,7 +78,7 @@ private:
   std::intptr_t offset_;
 };
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_

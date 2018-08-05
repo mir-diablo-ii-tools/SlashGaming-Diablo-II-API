@@ -51,7 +51,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::library {
+namespace sgd2mapi {
 
 /**
  * The executable used to run the game.

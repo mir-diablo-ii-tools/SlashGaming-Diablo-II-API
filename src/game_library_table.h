@@ -54,7 +54,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::library {
+namespace sgd2mapi {
 
 class DLLEXPORT GameLibraryTable {
 public:
@@ -77,7 +77,7 @@ private:
   explicit GameLibraryTable() noexcept;
 };
 
-} // namespace sgd2mapi::library
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_LIBRARY_TABLE_H_

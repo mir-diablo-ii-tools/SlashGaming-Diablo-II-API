@@ -54,7 +54,7 @@
 #include "game_address_locator/game_ordinal.h"
 #include "game_version.h"
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 namespace {
 
@@ -68,7 +68,7 @@ constexpr std::string_view kLocatorTypeOffset = "Offset";
 constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
 
 std::unordered_map<std::string, std::intptr_t> ReadTableFile() noexcept {
-  config::ConfigParser& config_parser = config::ConfigParser::GetInstance();
+  ConfigParser& config_parser = ConfigParser::GetInstance();
 
   // Read the address table into JSON.
   nlohmann::json address_table_json;
@@ -82,12 +82,12 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile() noexcept {
   std::unordered_map<std::string, std::intptr_t> address_table;
 
   std::string version_name =
-      version::RunningGameVersion::GetInstance().game_version_id();
+      RunningGameVersion::GetInstance().game_version_id();
   for (const auto& library_items : address_table_json.items()) {
     const std::string library_name = library_items.key();
     const std::string library_path = library_name + ".dll";
-    const library::GameLibrary& game_library =
-        library::GameLibraryTable::GetInstance().GetGameLibrary(library_path);
+    const GameLibrary& game_library =
+        GameLibraryTable::GetInstance().GetGameLibrary(library_path);
 
     for (const auto& item : library_items.value().items()) {
       std::string game_address_name = item.key();
@@ -107,11 +107,11 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile() noexcept {
       std::intptr_t final_game_address;
       if (locator_type == kLocatorTypeOffset) {
         final_game_address =
-            address::GameOffset(locator_value)
+            GameOffset(locator_value)
                     .ResolveGameAddress(game_library.base_address());
       } else if (locator_type == kLocatorTypeOrdinal) {
         final_game_address =
-            address::GameOrdinal(locator_value)
+            GameOrdinal(locator_value)
                     .ResolveGameAddress(game_library.base_address());
       }
 
@@ -131,7 +131,7 @@ GameAddressTable::GameAddressTable(std::string_view table_path)
 
 const GameAddressTable& GameAddressTable::GetInstance() noexcept {
   static GameAddressTable instance(
-      config::ConfigParser::GetInstance().address_table_path()
+      ConfigParser::GetInstance().address_table_path()
   );
   return instance;
 }
@@ -141,4 +141,4 @@ std::intptr_t GameAddressTable::GetAddress(
   return GetInstance().address_table_.at(address_name.data());
 }
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi

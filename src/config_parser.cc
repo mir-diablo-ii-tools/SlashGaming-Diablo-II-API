@@ -45,7 +45,7 @@
 #include <boost/filesystem.hpp>
 #include <nlohmann/json.hpp>
 
-namespace sgd2mapi::config {
+namespace sgd2mapi {
 
 namespace {
 
@@ -126,7 +126,7 @@ void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   }
 }
 
-auto ParseConfig(std::string_view config_path) noexcept {
+nlohmann::json ParseConfig(std::string_view config_path) noexcept {
   // Create the config file if it doesn't exist.
   if (!boost::filesystem::exists(config_path.data())) {
     std::ofstream config_file(config_path.data());
@@ -156,7 +156,7 @@ auto ParseConfig(std::string_view config_path) noexcept {
 
 ConfigParser::ConfigParser(std::string_view config_path) noexcept
     : config_path_(config_path) {
-  auto main_entry = ParseConfig(config_path);
+  nlohmann::json main_entry = ParseConfig(config_path);
   address_table_path_ = main_entry.at(kAddressTablePathKey.data());
 }
 
@@ -173,4 +173,4 @@ std::string ConfigParser::config_path() const noexcept {
   return config_path_;
 }
 
-} // namespace sgd2mapi::config
+} // namespace sgd2mapi

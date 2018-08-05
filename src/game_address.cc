@@ -50,21 +50,21 @@
 #include "game_library_table.h"
 #include "game_version.h"
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 namespace {
 
 std::intptr_t ResolveGameAddress(
     std::string_view library_path,
     std::unordered_map<
-        enum version::GameVersion,
+        enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept {
-  enum version::GameVersion current_version =
-      version::RunningGameVersion::GetInstance().game_version();
+  enum GameVersion current_version =
+      RunningGameVersion::GetInstance().game_version();
 
-  const library::GameLibrary& address_library =
-      library::GameLibraryTable::GetInstance().GetGameLibrary(library_path);
+  const GameLibrary& address_library =
+      GameLibraryTable::GetInstance().GetGameLibrary(library_path);
 
   std::intptr_t resolved_address;
 
@@ -93,7 +93,7 @@ std::intptr_t ResolveGameAddress(
 GameAddress::GameAddress(
     std::string_view library_path,
     std::unordered_map<
-        enum version::GameVersion,
+        enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
     : address_(ResolveGameAddress(library_path, address_locators)) {
@@ -102,29 +102,29 @@ GameAddress::GameAddress(
 GameAddress::GameAddress(
     std::string_view library_path,
     std::unordered_map<
-        enum version::GameVersion,
+        enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >&& address_locators) noexcept
     : GameAddress(library_path, address_locators) {
 }
 
 GameAddress::GameAddress(
-    enum library::DefaultLibrary library,
+    enum DefaultLibrary library,
     std::unordered_map<
-        enum version::GameVersion,
+        enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
-    : GameAddress(library::GameLibrary::GetLibraryPathWithRedirect(library),
+    : GameAddress(GameLibrary::GetLibraryPathWithRedirect(library),
                   address_locators) {
 }
 
 GameAddress::GameAddress(
-    enum library::DefaultLibrary library,
+    enum DefaultLibrary library,
     std::unordered_map<
-        enum version::GameVersion,
+        enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >&& address_locators) noexcept
     : GameAddress(library, address_locators) {
 }
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi

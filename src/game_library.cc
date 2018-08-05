@@ -50,7 +50,7 @@
 #include <frozen/unordered_map.h>
 #include "game_version.h"
 
-namespace sgd2mapi::library {
+namespace sgd2mapi {
 
 namespace {
 
@@ -121,7 +121,8 @@ GameLibrary::~GameLibrary() noexcept {
 
 std::string_view GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library) noexcept {
-  if (version::RunningGameVersion::GetInstance().IsGameVersionAtLeast1_14()) {
+  if (RunningGameVersion::IsGameVersionAtLeast1_14(
+          RunningGameVersion::GetInstance().game_version())) {
     return kGameExecutable.data();
   }
 
@@ -132,4 +133,4 @@ std::string GameLibrary::library_path() const noexcept {
   return library_path_;
 }
 
-} // namespace sgd2mapi::library
+} // namespace sgd2mapi

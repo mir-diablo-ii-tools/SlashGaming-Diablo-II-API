@@ -56,31 +56,31 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 class DLLEXPORT GameAddress {
 public:
   GameAddress(std::string_view library_path,
               std::unordered_map<
-                  enum version::GameVersion,
+                  enum GameVersion,
                   std::shared_ptr<GameAddressLocatorInterface>
               >& address_locators) noexcept;
 
   GameAddress(std::string_view library_path,
               std::unordered_map<
-                  enum version::GameVersion,
+                  enum GameVersion,
                   std::shared_ptr<GameAddressLocatorInterface>
               >&& address_locators) noexcept;
 
-  GameAddress(enum library::DefaultLibrary library,
+  GameAddress(enum DefaultLibrary library,
               std::unordered_map<
-                  enum version::GameVersion,
+                  enum GameVersion,
                   std::shared_ptr<GameAddressLocatorInterface>
               >& address_locators) noexcept;
 
-  GameAddress(enum library::DefaultLibrary library,
+  GameAddress(enum DefaultLibrary library,
               std::unordered_map<
-                  enum version::GameVersion,
+                  enum GameVersion,
                   std::shared_ptr<GameAddressLocatorInterface>
               >&& address_locators) noexcept;
 
@@ -98,7 +98,7 @@ private:
   std::intptr_t address_;
 };
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi
 
 
 #undef DLLEXPORT

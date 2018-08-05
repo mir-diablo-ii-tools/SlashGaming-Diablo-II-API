@@ -49,7 +49,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::address {
+namespace sgd2mapi {
 
 class DLLEXPORT GameAddressLocatorInterface {
 public:
@@ -59,7 +59,7 @@ public:
   virtual ~GameAddressLocatorInterface() noexcept = default;
 };
 
-} // namespace sgd2mapi::address
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_

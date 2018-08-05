@@ -52,7 +52,7 @@
 #include "game_library.h"
 
 
-namespace sgd2mapi::version {
+namespace sgd2mapi {
 namespace {
 
 constexpr const frozen::unordered_map game_versions_by_file_version =
@@ -238,7 +238,7 @@ enum GameVersion DetermineRunningGameVersion() noexcept {
 
   try {
     game_version_string =
-        ExtractFileVersionString(library::kGameExecutable).value();
+        ExtractFileVersionString(kGameExecutable).value();
   } catch (const std::bad_optional_access&) {
     MessageBoxA(
         nullptr,
@@ -270,6 +270,12 @@ RunningGameVersion::RunningGameVersion() noexcept :
     game_version_(DetermineRunningGameVersion()) {
 }
 
+bool RunningGameVersion::IsGameVersionAtLeast1_14(
+    enum GameVersion game_version) noexcept {
+  return !(game_version >= GameVersion::k1_00
+             && game_version <= GameVersion::k1_13D);
+}
+
 RunningGameVersion& RunningGameVersion::GetInstance() noexcept {
   static RunningGameVersion instance;
   return instance;
@@ -292,4 +298,4 @@ std::string RunningGameVersion::game_version_id() const noexcept {
   return GetVersionName(game_version());
 }
 
-} // namespace sgd2mapi::version
+} // namespace sgd2mapi

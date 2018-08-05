@@ -50,7 +50,7 @@
 #define DLLEXPORT
 #endif
 
-namespace sgd2mapi::version {
+namespace sgd2mapi {
 
 /**
  * The Diablo II game versions supported and recognized.
@@ -85,26 +85,13 @@ class DLLEXPORT RunningGameVersion {
   /**
    * Returns whether the Diablo II game version is at least 1.14.
    */
-  static constexpr bool IsGameVersionAtLeast1_14(enum GameVersion game_version)
-      noexcept {
-    return !(game_version >= GameVersion::k1_00
-             && game_version <= GameVersion::k1_13D);
-  }
+  static bool IsGameVersionAtLeast1_14(enum GameVersion game_version) noexcept;
 
   static std::string GetVersionName(enum GameVersion game_version)
       noexcept;
 
   static enum GameVersion GetVersionId(std::string_view game_version_name)
       noexcept;
-
-  /**
-   * Returns whether the Diablo II game version is at least 1.14.
-   */
-  constexpr bool IsGameVersionAtLeast1_14()
-      const noexcept {
-    return !(game_version() >= GameVersion::k1_00
-             && game_version() <= GameVersion::k1_13D);
-  }
 
   /**
    * Returns the running game's version.
@@ -115,13 +102,13 @@ class DLLEXPORT RunningGameVersion {
 
   std::string game_version_id() const noexcept;
 
-private:
+ private:
   enum GameVersion game_version_;
 
   explicit RunningGameVersion() noexcept;
 };
 
-} // namespace sgd2mapi::version
+} // namespace sgd2mapi
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_VERSION_H_

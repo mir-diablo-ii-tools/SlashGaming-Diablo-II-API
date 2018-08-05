@@ -42,7 +42,7 @@
 
 #include "game_library.h"
 
-namespace sgd2mapi::library {
+namespace sgd2mapi {
 
 GameLibraryTable::GameLibraryTable() noexcept {
 }
@@ -72,4 +72,4 @@ GameLibraryTable& GameLibraryTable::GetInstance() {
   return instance;
 }
 
-} // namespace sgd2mapi::library
+} // namespace sgd2mapi
