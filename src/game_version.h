@@ -39,6 +39,9 @@
 #ifndef SGD2MAPI_GAME_VERSION_H_
 #define SGD2MAPI_GAME_VERSION_H_
 
+#include <string>
+#include <string_view>
+
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
 #elif defined(SGD2MAPI_DLLIMPORT)
@@ -66,8 +69,8 @@ enum class GameVersion : int {
  * A singleton class that detects the game version on runtime and stores this
  * information.
  */
-class RunningGameVersion {
-public:
+class DLLEXPORT RunningGameVersion {
+ public:
   RunningGameVersion(const RunningGameVersion& rhs) = delete;
   RunningGameVersion(RunningGameVersion&& rhs) = delete;
 
@@ -88,6 +91,12 @@ public:
              && game_version <= GameVersion::k1_13D);
   }
 
+  static std::string GetVersionName(enum GameVersion game_version)
+      noexcept;
+
+  static enum GameVersion GetVersionId(std::string_view game_version_name)
+      noexcept;
+
   /**
    * Returns whether the Diablo II game version is at least 1.14.
    */
@@ -104,10 +113,12 @@ public:
     return game_version_;
   }
 
+  std::string game_version_id() const noexcept;
+
 private:
   enum GameVersion game_version_;
 
-  RunningGameVersion() noexcept;
+  explicit RunningGameVersion() noexcept;
 };
 
 } // namespace sgd2mapi::version
