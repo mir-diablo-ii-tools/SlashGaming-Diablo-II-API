@@ -48,10 +48,9 @@
 #include <nlohmann/json.hpp>
 
 #include "config_parser.h"
+#include "game_address_locator.h"
 #include "game_library.h"
 #include "game_library_table.h"
-#include "game_address_locator/game_offset.h"
-#include "game_address_locator/game_ordinal.h"
 #include "game_version.h"
 
 namespace sgd2mapi {

@@ -45,7 +45,7 @@
 #include <string_view>
 #include <unordered_map>
 
-#include "game_address_locator/game_address_locator_interface.h"
+#include "game_address_locator.h"
 #include "game_library.h"
 #include "game_library_table.h"
 #include "game_version.h"
