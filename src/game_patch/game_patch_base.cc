@@ -51,12 +51,8 @@ GamePatchBase::GamePatchBase(
     size_t patch_size) noexcept
     : game_address_(game_address),
       patch_size_(patch_size),
-      old_bytes_(patch_size) {
-  // Copy the old bytes of data for later restoring.
-  std::intptr_t address = game_address_.address();
-  std::memcpy(old_bytes_.data(),
-              reinterpret_cast<const void*>(address),
-              patch_size_);
+      old_bytes_(game_address.address(),
+                 game_address.address() + patch_size) {
 }
 
 GamePatchBase::GamePatchBase(const GamePatchBase&) = default;
