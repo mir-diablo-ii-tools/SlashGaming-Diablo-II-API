@@ -38,9 +38,9 @@
 
 #include "game_patch_base.h"
 
+#include <windows.h>
 #include <cstdint>
 #include <cstdlib>
-#include <cstring>
 
 #include "../game_address.h"
 
@@ -74,9 +74,11 @@ void GamePatchBase::Remove() noexcept {
 
   // Restore the old state of the destination.
   std::intptr_t address = game_address().address();
-  std::memcpy(reinterpret_cast<void*>(address),
-              old_bytes_.data(),
-              patch_size());
+  WriteProcessMemory(GetCurrentProcess(),
+                     reinterpret_cast<void*>(address),
+                     old_bytes_.data(),
+                     old_bytes_.size(),
+                     nullptr);
   is_patch_applied_ = false;
 }
 
