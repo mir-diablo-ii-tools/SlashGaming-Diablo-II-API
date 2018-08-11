@@ -54,27 +54,23 @@
 namespace sgd2mapi {
 
 class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
-public:
-  constexpr explicit GameOffset(std::intptr_t offset) noexcept
-      : offset_(offset) {
-  }
+ public:
+  explicit GameOffset(std::intptr_t offset) noexcept;
 
-  explicit GameOffset(const GameOffset& rhs) noexcept = default;
-  explicit GameOffset(GameOffset&& rhs) noexcept = default;
+  explicit GameOffset(const GameOffset&) noexcept;
+  explicit GameOffset(GameOffset&&) noexcept;
 
-  ~GameOffset() noexcept override = default;
+  ~GameOffset() noexcept override;
 
-  GameOffset& operator=(const GameOffset& rhs) noexcept = default;
-  GameOffset& operator=(GameOffset&& rhs) noexcept = default;
+  GameOffset& operator=(const GameOffset&) noexcept;
+  GameOffset& operator=(GameOffset&&) noexcept;
 
   std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept override;
 
-  constexpr std::intptr_t offset() const noexcept {
-    return offset_;
-  }
+  std::intptr_t offset() const noexcept;
 
-private:
+ private:
   std::intptr_t offset_;
 };
 

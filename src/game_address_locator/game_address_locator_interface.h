@@ -56,7 +56,7 @@ public:
   virtual std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept = 0;
 
-  virtual ~GameAddressLocatorInterface() noexcept = default;
+  virtual ~GameAddressLocatorInterface() noexcept;
 };
 
 } // namespace sgd2mapi

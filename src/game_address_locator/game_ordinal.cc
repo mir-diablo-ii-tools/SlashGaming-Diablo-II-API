@@ -43,13 +43,32 @@
 
 namespace sgd2mapi {
 
+GameOrdinal::GameOrdinal(int ordinal) noexcept
+    : ordinal_(ordinal) {
+}
+
+GameOrdinal::GameOrdinal(const GameOrdinal&) noexcept = default;
+
+GameOrdinal::GameOrdinal(GameOrdinal&&) noexcept = default;
+
+GameOrdinal::~GameOrdinal() noexcept = default;
+
+GameOrdinal& GameOrdinal::operator=(const GameOrdinal&) noexcept = default;
+
+GameOrdinal& GameOrdinal::operator=(GameOrdinal&&) noexcept = default;
+
 std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
     const noexcept {
   HMODULE library_handle = reinterpret_cast<HMODULE>(base_address);
   const CHAR* func_ordinal = reinterpret_cast<const CHAR*>(ordinal());
 
-  return reinterpret_cast<std::intptr_t>(
-      GetProcAddress(library_handle, func_ordinal));
+  FARPROC func_address = GetProcAddress(library_handle, func_ordinal);
+
+  return reinterpret_cast<std::intptr_t>(func_address);
+}
+
+int GameOrdinal::ordinal() const noexcept {
+  return ordinal_;
 }
 
 } // namespace sgd2mapi

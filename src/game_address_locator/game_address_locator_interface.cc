@@ -36,45 +36,10 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
-
-#include <cstdint>
-
 #include "game_address_locator_interface.h"
-
-#if defined(SGD2MAPI_DLLEXPORT)
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
 
 namespace sgd2mapi {
 
-class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
-public:
-  explicit GameOrdinal(int ordinal) noexcept;
-
-  explicit GameOrdinal(const GameOrdinal& rhs) noexcept;
-  explicit GameOrdinal(GameOrdinal&& rhs) noexcept;
-
-  ~GameOrdinal() noexcept override;
-
-  GameOrdinal& operator=(const GameOrdinal&) noexcept;
-  GameOrdinal& operator=(GameOrdinal&&) noexcept;
-
-  std::intptr_t ResolveGameAddress(std::intptr_t base_address)
-      const noexcept override;
-
-  int ordinal() const noexcept;
-
-private:
-  int ordinal_;
-};
+GameAddressLocatorInterface::~GameAddressLocatorInterface() noexcept = default;
 
 } // namespace sgd2mapi
-
-#undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
