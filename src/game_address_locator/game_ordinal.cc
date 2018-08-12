@@ -40,6 +40,9 @@
 
 #include <windows.h>
 #include <cstdint>
+#include <string>
+
+#include <boost/format.hpp>
 
 namespace sgd2mapi {
 
@@ -63,6 +66,18 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
   const CHAR* func_ordinal = reinterpret_cast<const CHAR*>(ordinal());
 
   FARPROC func_address = GetProcAddress(library_handle, func_ordinal);
+
+  if (func_address == nullptr) {
+    std::wstring error_message = (boost::wformat(
+        L"The function with ordinal %1% could not be found."
+    ) % ordinal()).str();
+
+    MessageBoxW(nullptr,
+                error_message.data(),
+                L"Failed to Locate Function",
+                MB_OK | MB_ICONERROR);
+    std::exit(0);
+  }
 
   return reinterpret_cast<std::intptr_t>(func_address);
 }
