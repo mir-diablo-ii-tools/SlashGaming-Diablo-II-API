@@ -79,17 +79,23 @@ class DLLEXPORT GamePatchBase {
   bool is_patch_applied() const noexcept;
 
   /**
-   * Returns the number of bytes needed to apply this patch.
+   * Returns the buffer storing the patch data.
    */
-  std::size_t patch_size() const noexcept;
+  const std::vector<std::uint8_t>& patch_buffer() const noexcept;
+
 
  protected:
   /**
    * Initializes the patch destination and patch size of this patch.
    */
-  GamePatchBase(const GameAddress& game_address, std::size_t patch_size);
-
-  GamePatchBase(GameAddress&& game_address, std::size_t patch_size);
+  GamePatchBase(const GameAddress& game_address,
+                const std::vector<std::uint8_t>& patch_buffer);
+  GamePatchBase(GameAddress&& game_address,
+                const std::vector<std::uint8_t>& patch_buffer);
+  GamePatchBase(const GameAddress& game_address,
+                std::vector<std::uint8_t>&& patch_buffer);
+  GamePatchBase(GameAddress&& game_address,
+                std::vector<std::uint8_t>&& patch_buffer);
 
   GamePatchBase(const GamePatchBase&);
   GamePatchBase(GamePatchBase&&) noexcept;
@@ -101,10 +107,9 @@ class DLLEXPORT GamePatchBase {
 
  private:
   GameAddress game_address_;
-  std::size_t patch_size_;
-
   bool is_patch_applied_;
-  std::vector<std::int8_t> old_bytes_;
+  std::vector<std::uint8_t> old_bytes_;
+  std::vector<std::uint8_t> patch_buffer_;
 };
 
 } // namespace sgd2mapi

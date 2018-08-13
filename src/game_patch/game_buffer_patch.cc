@@ -50,38 +50,34 @@ namespace sgd2mapi {
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    const std::int8_t buffer[],
+    const std::uint8_t* buffer,
     std::size_t patch_size)
-    : GamePatchBase(game_address, patch_size),
-      buffer_(buffer, buffer + patch_size) {
+    : GamePatchBase(game_address, std::vector(buffer,
+                                              buffer + patch_size)) {
 }
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    const std::vector<std::int8_t>& buffer)
-    : GamePatchBase(game_address, buffer.size()),
-      buffer_(buffer) {
+    const std::vector<std::uint8_t>& buffer)
+    : GamePatchBase(game_address, buffer) {
 }
 
 GameBufferPatch::GameBufferPatch(
     GameAddress&& game_address,
-    const std::vector<std::int8_t>& buffer)
-    : GamePatchBase(std::move(game_address), buffer_.size()),
-      buffer_(buffer) {
+    const std::vector<std::uint8_t>& buffer)
+    : GamePatchBase(std::move(game_address), buffer) {
 }
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    std::vector<std::int8_t>&& buffer)
-    : GamePatchBase(game_address, buffer.size()),
-      buffer_(std::move(buffer)) {
+    std::vector<std::uint8_t>&& buffer)
+    : GamePatchBase(game_address, std::move(buffer)) {
 }
 
 GameBufferPatch::GameBufferPatch(
     GameAddress&& game_address,
-    std::vector<std::int8_t>&& buffer)
-    : GamePatchBase(std::move(game_address), buffer.size()),
-      buffer_(std::move(buffer)) {
+    std::vector<std::uint8_t>&& buffer)
+    : GamePatchBase(std::move(game_address), std::move(buffer)) {
 }
 
 GameBufferPatch::GameBufferPatch(const GameBufferPatch&) = default;
@@ -95,23 +91,5 @@ GameBufferPatch& GameBufferPatch::operator=(const GameBufferPatch&)
 
 GameBufferPatch& GameBufferPatch::operator=(GameBufferPatch&&)
     noexcept = default;
-
-void GameBufferPatch::Apply() noexcept {
-  if (is_patch_applied()) {
-    return;
-  }
-
-  std::intptr_t address = game_address().address();
-  WriteProcessMemory(GetCurrentProcess(),
-                     reinterpret_cast<void*>(address),
-                     buffer().data(),
-                     patch_size(),
-                     nullptr);
-  GamePatchBase::Apply();
-}
-
-const std::vector<std::int8_t>& GameBufferPatch::buffer() const noexcept {
-  return buffer_;
-}
 
 } // namespace sgd2mapi

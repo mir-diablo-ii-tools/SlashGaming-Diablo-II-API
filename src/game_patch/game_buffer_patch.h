@@ -67,7 +67,7 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
    */
   GameBufferPatch(
       const GameAddress& game_address,
-      const std::int8_t buffer[],
+      const std::uint8_t* buffer,
       std::size_t patch_size);
 
   /**
@@ -75,28 +75,28 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
    */
   GameBufferPatch(
       const GameAddress& game_address,
-      const std::vector<std::int8_t>& buffer);
+      const std::vector<std::uint8_t>& buffer);
 
   /**
    * Creates an instance of BufferPatch.
    */
   GameBufferPatch(
       GameAddress&& game_address,
-      const std::vector<std::int8_t>& buffer);
+      const std::vector<std::uint8_t>& buffer);
 
   /**
    * Creates an instance of BufferPatch.
    */
   GameBufferPatch(
       const GameAddress& game_address,
-      std::vector<std::int8_t>&& buffer);
+      std::vector<std::uint8_t>&& buffer);
 
   /**
    * Creates an instance of BufferPatch.
    */
   GameBufferPatch(
       GameAddress&& game_address,
-      std::vector<std::int8_t>&& buffer);
+      std::vector<std::uint8_t>&& buffer);
 
   GameBufferPatch(const GameBufferPatch&);
 
@@ -107,13 +107,6 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
   GameBufferPatch& operator=(const GameBufferPatch&);
 
   GameBufferPatch& operator=(GameBufferPatch&&) noexcept;
-
-  void Apply() noexcept override;
-
-  const std::vector<std::int8_t>& buffer() const noexcept;
-
- private:
-  std::vector<std::int8_t> buffer_;
 };
 
 } // namespace sgd2mapi

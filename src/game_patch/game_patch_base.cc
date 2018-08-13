@@ -49,24 +49,46 @@ namespace sgd2mapi {
 
 GamePatchBase::GamePatchBase(
     const GameAddress& game_address,
-    std::size_t patch_size)
+    const std::vector<std::uint8_t>& patch_buffer)
     : game_address_(game_address),
-      patch_size_(patch_size),
+      patch_buffer_(patch_buffer),
       is_patch_applied_(false),
-      old_bytes_(reinterpret_cast<std::int8_t*>(game_address.address()),
-                 reinterpret_cast<std::int8_t*>(game_address.address()
-                                                + patch_size)) {
+      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address.address()),
+                 reinterpret_cast<std::uint8_t*>(game_address.address()
+                                                 + patch_buffer.size())) {
 }
 
 GamePatchBase::GamePatchBase(
     GameAddress&& game_address,
-    std::size_t patch_size)
+    const std::vector<std::uint8_t>& patch_buffer)
     : game_address_(std::move(game_address)),
-      patch_size_(patch_size),
+      patch_buffer_(patch_buffer),
       is_patch_applied_(false),
-      old_bytes_(reinterpret_cast<std::int8_t*>(game_address_.address()),
-                 reinterpret_cast<std::int8_t*>(game_address_.address()
-                                                + patch_size)) {
+      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address_.address()),
+                 reinterpret_cast<std::uint8_t*>(game_address_.address()
+                                                 + patch_buffer.size())) {
+}
+
+GamePatchBase::GamePatchBase(
+    const GameAddress& game_address,
+    std::vector<std::uint8_t>&& patch_buffer)
+    : game_address_(game_address),
+      patch_buffer_(std::move(patch_buffer)),
+      is_patch_applied_(false),
+      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address.address()),
+                 reinterpret_cast<std::uint8_t*>(game_address.address()
+                                                 + patch_buffer_.size())) {
+}
+
+GamePatchBase::GamePatchBase(
+    GameAddress&& game_address,
+    std::vector<std::uint8_t>&& patch_buffer)
+    : game_address_(std::move(game_address)),
+      patch_buffer_(std::move(patch_buffer)),
+      is_patch_applied_(false),
+      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address_.address()),
+                 reinterpret_cast<std::uint8_t*>(game_address_.address()
+                                                 + patch_buffer_.size())) {
 }
 
 GamePatchBase::GamePatchBase(const GamePatchBase&) = default;
@@ -82,6 +104,18 @@ GamePatchBase& GamePatchBase::operator=(const GamePatchBase&) = default;
 GamePatchBase& GamePatchBase::operator=(GamePatchBase&&) noexcept = default;
 
 void GamePatchBase::Apply() noexcept {
+  if (is_patch_applied()) {
+    return;
+  }
+
+  // Replace the data at the destination with the values in the patch buffer.
+  std::intptr_t address = game_address().address();
+  WriteProcessMemory(GetCurrentProcess(),
+                     reinterpret_cast<void*>(address),
+                     patch_buffer().data(),
+                     patch_buffer().size(),
+                     nullptr);
+
   is_patch_applied_ = true;
 }
 
@@ -108,8 +142,8 @@ bool GamePatchBase::is_patch_applied() const noexcept {
   return is_patch_applied_;
 }
 
-std::size_t GamePatchBase::patch_size() const noexcept {
-  return patch_size_;
+const std::vector<std::uint8_t>& GamePatchBase::patch_buffer() const noexcept {
+  return patch_buffer_;
 }
 
 } // namespace sgd2mapi
