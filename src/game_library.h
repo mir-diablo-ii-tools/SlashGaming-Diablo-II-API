@@ -68,28 +68,26 @@ enum class DefaultLibrary {
 };
 
 class DLLEXPORT GameLibrary {
-public:
-  explicit GameLibrary(enum DefaultLibrary library) noexcept;
-  explicit GameLibrary(std::string_view library_path) noexcept;
+ public:
+  explicit GameLibrary(enum DefaultLibrary library);
+  explicit GameLibrary(std::string_view library_path);
 
-  explicit GameLibrary(const GameLibrary& rhs) noexcept = default;
-  explicit GameLibrary(GameLibrary&& rhs) noexcept = default;
+  GameLibrary(const GameLibrary& rhs);
+  GameLibrary(GameLibrary&& rhs) noexcept;
 
-  ~GameLibrary();
+  virtual ~GameLibrary() noexcept;
 
-  GameLibrary& operator=(const GameLibrary& rhs) noexcept = default;
-  GameLibrary& operator=(GameLibrary&& rhs) noexcept = default;
+  GameLibrary& operator=(const GameLibrary& rhs);
+  GameLibrary& operator=(GameLibrary&& rhs) noexcept;
 
   static std::string_view GetLibraryPathWithRedirect(
       enum DefaultLibrary library) noexcept;
 
   std::string library_path() const noexcept;
 
-  constexpr std::intptr_t base_address() const noexcept {
-    return base_address_;
-  }
+  std::intptr_t base_address() const noexcept;
 
-private:
+ private:
   std::string library_path_;
   std::intptr_t base_address_;
 };

@@ -57,8 +57,8 @@ class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
  public:
   explicit GameOffset(std::intptr_t offset) noexcept;
 
-  explicit GameOffset(const GameOffset&) noexcept;
-  explicit GameOffset(GameOffset&&) noexcept;
+  GameOffset(const GameOffset&) noexcept;
+  GameOffset(GameOffset&&) noexcept;
 
   ~GameOffset() noexcept override;
 

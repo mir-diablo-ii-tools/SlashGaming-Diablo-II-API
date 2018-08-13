@@ -41,6 +41,7 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
+#include <utility>
 
 #include "../game_address.h"
 
@@ -48,20 +49,37 @@ namespace sgd2mapi {
 
 GamePatchBase::GamePatchBase(
     const GameAddress& game_address,
-    size_t patch_size) noexcept
+    std::size_t patch_size)
     : game_address_(game_address),
       patch_size_(patch_size),
-      old_bytes_(game_address.address(),
-                 game_address.address() + patch_size) {
+      is_patch_applied_(false),
+      old_bytes_(reinterpret_cast<std::int8_t*>(game_address.address()),
+                 reinterpret_cast<std::int8_t*>(game_address.address()
+                                                + patch_size)) {
+}
+
+GamePatchBase::GamePatchBase(
+    GameAddress&& game_address,
+    std::size_t patch_size)
+    : game_address_(std::move(game_address)),
+      patch_size_(patch_size),
+      is_patch_applied_(false),
+      old_bytes_(reinterpret_cast<std::int8_t*>(game_address_.address()),
+                 reinterpret_cast<std::int8_t*>(game_address_.address()
+                                                + patch_size)) {
 }
 
 GamePatchBase::GamePatchBase(const GamePatchBase&) = default;
 
-GamePatchBase::GamePatchBase(GamePatchBase&&) = default;
+GamePatchBase::GamePatchBase(GamePatchBase&&) noexcept = default;
 
 GamePatchBase::~GamePatchBase() noexcept {
   Remove();
 }
+
+GamePatchBase& GamePatchBase::operator=(const GamePatchBase&) = default;
+
+GamePatchBase& GamePatchBase::operator=(GamePatchBase&&) noexcept = default;
 
 void GamePatchBase::Apply() noexcept {
   is_patch_applied_ = true;

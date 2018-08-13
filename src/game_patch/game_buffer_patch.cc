@@ -41,8 +41,8 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "game_patch_base.h"
 
@@ -51,30 +51,50 @@ namespace sgd2mapi {
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
     const std::int8_t buffer[],
-    std::size_t patch_size) noexcept
+    std::size_t patch_size)
     : GamePatchBase(game_address, patch_size),
       buffer_(buffer, buffer + patch_size) {
 }
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    const std::vector<std::int8_t>& buffer) noexcept
+    const std::vector<std::int8_t>& buffer)
     : GamePatchBase(game_address, buffer.size()),
       buffer_(buffer) {
 }
 
 GameBufferPatch::GameBufferPatch(
+    GameAddress&& game_address,
+    const std::vector<std::int8_t>& buffer)
+    : GamePatchBase(std::move(game_address), buffer_.size()),
+      buffer_(buffer) {
+}
+
+GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    std::vector<std::int8_t>&& buffer) noexcept
+    std::vector<std::int8_t>&& buffer)
     : GamePatchBase(game_address, buffer.size()),
+      buffer_(std::move(buffer)) {
+}
+
+GameBufferPatch::GameBufferPatch(
+    GameAddress&& game_address,
+    std::vector<std::int8_t>&& buffer)
+    : GamePatchBase(std::move(game_address), buffer.size()),
       buffer_(std::move(buffer)) {
 }
 
 GameBufferPatch::GameBufferPatch(const GameBufferPatch&) = default;
 
-GameBufferPatch::GameBufferPatch(GameBufferPatch&&) = default;
+GameBufferPatch::GameBufferPatch(GameBufferPatch&&) noexcept = default;
 
 GameBufferPatch::~GameBufferPatch() = default;
+
+GameBufferPatch& GameBufferPatch::operator=(const GameBufferPatch&)
+    = default;
+
+GameBufferPatch& GameBufferPatch::operator=(GameBufferPatch&&)
+    noexcept = default;
 
 void GameBufferPatch::Apply() noexcept {
   if (is_patch_applied()) {
@@ -85,7 +105,7 @@ void GameBufferPatch::Apply() noexcept {
   WriteProcessMemory(GetCurrentProcess(),
                      reinterpret_cast<void*>(address),
                      buffer().data(),
-                     buffer().size(),
+                     patch_size(),
                      nullptr);
   GamePatchBase::Apply();
 }

@@ -56,25 +56,23 @@
 
 namespace sgd2mapi {
 
-class DLLEXPORT GameLibraryTable {
-public:
+class GameLibraryTable {
+ public:
   GameLibraryTable(const GameLibraryTable& rhs) = delete;
   GameLibraryTable(GameLibraryTable&& rhs) = delete;
 
   GameLibraryTable operator=(const GameLibraryTable& rhs) = delete;
   GameLibraryTable operator=(GameLibraryTable&& rhs) = delete;
 
-  const GameLibrary& GetGameLibrary(enum DefaultLibrary library)
-      noexcept;
-  const GameLibrary& GetGameLibrary(std::string_view library_path)
-      noexcept;
-
   static GameLibraryTable& GetInstance();
 
-private:
+  const GameLibrary& GetGameLibrary(enum DefaultLibrary library) noexcept;
+  const GameLibrary& GetGameLibrary(std::string_view library_path) noexcept;
+
+ private:
   std::unordered_map<std::string, GameLibrary> libraries_;
 
-  explicit GameLibraryTable() noexcept;
+  GameLibraryTable();
 };
 
 } // namespace sgd2mapi

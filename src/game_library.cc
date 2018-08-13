@@ -40,6 +40,7 @@
 
 #include <windows.h>
 #include <cstdint>
+#include <cstdlib>
 #include <memory>
 #include <optional>
 #include <string>
@@ -97,11 +98,11 @@ std::optional<std::intptr_t> GetLibraryBaseAddress(
 
 } // namespace
 
-GameLibrary::GameLibrary(enum DefaultLibrary library) noexcept :
+GameLibrary::GameLibrary(enum DefaultLibrary library) :
     GameLibrary(GetLibraryPathWithRedirect(library)) {
 }
 
-GameLibrary::GameLibrary(std::string_view library_path) noexcept :
+GameLibrary::GameLibrary(std::string_view library_path) :
     library_path_(library_path) {
   auto base_address = GetLibraryBaseAddress(library_path_);
   if (!base_address.has_value()) {
@@ -115,9 +116,17 @@ GameLibrary::GameLibrary(std::string_view library_path) noexcept :
   base_address_ = base_address.value();
 }
 
+GameLibrary::GameLibrary(const GameLibrary& rhs) = default;
+
+GameLibrary::GameLibrary(GameLibrary&& rhs) noexcept = default;
+
 GameLibrary::~GameLibrary() noexcept {
   FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
 }
+
+GameLibrary& GameLibrary::operator=(const GameLibrary& rhs) = default;
+
+GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept = default;
 
 std::string_view GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library) noexcept {
@@ -131,6 +140,10 @@ std::string_view GameLibrary::GetLibraryPathWithRedirect(
 
 std::string GameLibrary::library_path() const noexcept {
   return library_path_;
+}
+
+std::intptr_t GameLibrary::base_address() const noexcept {
+  return base_address_;
 }
 
 } // namespace sgd2mapi

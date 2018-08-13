@@ -87,19 +87,20 @@ class DLLEXPORT GamePatchBase {
   /**
    * Initializes the patch destination and patch size of this patch.
    */
-  explicit GamePatchBase(const GameAddress& game_address, size_t patch_size)
-      noexcept;
+  GamePatchBase(const GameAddress& game_address, std::size_t patch_size);
 
-  explicit GamePatchBase(const GamePatchBase&);
-  explicit GamePatchBase(GamePatchBase&&);
+  GamePatchBase(GameAddress&& game_address, std::size_t patch_size);
+
+  GamePatchBase(const GamePatchBase&);
+  GamePatchBase(GamePatchBase&&) noexcept;
 
   virtual ~GamePatchBase() noexcept;
 
-  GamePatchBase& operator=(const GamePatchBase&) = default;
-  GamePatchBase& operator=(GamePatchBase&&) = default;
+  GamePatchBase& operator=(const GamePatchBase&);
+  GamePatchBase& operator=(GamePatchBase&&) noexcept;
 
  private:
-  const GameAddress game_address_;
+  GameAddress game_address_;
   std::size_t patch_size_;
 
   bool is_patch_applied_;

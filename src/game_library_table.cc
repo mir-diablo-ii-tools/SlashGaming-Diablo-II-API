@@ -44,8 +44,7 @@
 
 namespace sgd2mapi {
 
-GameLibraryTable::GameLibraryTable() noexcept {
-}
+GameLibraryTable::GameLibraryTable() = default;
 
 const GameLibrary& GameLibraryTable::GetGameLibrary(
     std::string_view library_path) noexcept {

@@ -55,7 +55,7 @@
 namespace sgd2mapi {
 namespace {
 
-constexpr const frozen::unordered_map game_versions_by_file_version =
+constexpr const frozen::unordered_map kGameVersionByFileVersion =
     frozen::make_unordered_map<frozen::string, enum GameVersion>({
         { "1.0.3.0", GameVersion::k1_03 },
         { "1.0.4.0", GameVersion::k1_04 },
@@ -223,10 +223,10 @@ std::optional<std::string> ExtractFileVersionString(std::string_view file_name)
 
 constexpr std::optional<enum GameVersion> GetGameVersionByFileVersion(
     std::string_view version_string) {
-  auto found_version_pair = game_versions_by_file_version.find(
+  auto found_version_pair = kGameVersionByFileVersion.find(
       frozen::string(version_string.data(), version_string.length()));
 
-  return (found_version_pair != game_versions_by_file_version.cend())
+  return (found_version_pair != kGameVersionByFileVersion.cend())
       ? std::make_optional(found_version_pair->second)
       : std::nullopt;
 }

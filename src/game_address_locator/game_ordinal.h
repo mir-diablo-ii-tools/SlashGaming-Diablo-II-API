@@ -54,11 +54,11 @@
 namespace sgd2mapi {
 
 class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
-public:
+ public:
   explicit GameOrdinal(int ordinal) noexcept;
 
-  explicit GameOrdinal(const GameOrdinal& rhs) noexcept;
-  explicit GameOrdinal(GameOrdinal&& rhs) noexcept;
+  GameOrdinal(const GameOrdinal& rhs) noexcept;
+  GameOrdinal(GameOrdinal&& rhs) noexcept;
 
   ~GameOrdinal() noexcept override;
 
@@ -70,7 +70,7 @@ public:
 
   int ordinal() const noexcept;
 
-private:
+ private:
   int ordinal_;
 };
 

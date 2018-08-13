@@ -56,7 +56,7 @@ namespace {
 
 std::intptr_t ResolveGameAddress(
     std::string_view library_path,
-    std::unordered_map<
+    const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept {
@@ -92,7 +92,7 @@ std::intptr_t ResolveGameAddress(
 
 GameAddress::GameAddress(
     std::string_view library_path,
-    std::unordered_map<
+    const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
@@ -100,17 +100,8 @@ GameAddress::GameAddress(
 }
 
 GameAddress::GameAddress(
-    std::string_view library_path,
-    std::unordered_map<
-        enum GameVersion,
-        std::shared_ptr<GameAddressLocatorInterface>
-    >&& address_locators) noexcept
-    : GameAddress(library_path, address_locators) {
-}
-
-GameAddress::GameAddress(
     enum DefaultLibrary library,
-    std::unordered_map<
+    const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
@@ -118,13 +109,16 @@ GameAddress::GameAddress(
                   address_locators) {
 }
 
-GameAddress::GameAddress(
-    enum DefaultLibrary library,
-    std::unordered_map<
-        enum GameVersion,
-        std::shared_ptr<GameAddressLocatorInterface>
-    >&& address_locators) noexcept
-    : GameAddress(library, address_locators) {
+GameAddress::GameAddress(const GameAddress&) noexcept = default;
+
+GameAddress::GameAddress(GameAddress&&) noexcept = default;
+
+GameAddress& GameAddress::operator=(const GameAddress&) noexcept = default;
+
+GameAddress& GameAddress::operator=(GameAddress&&) noexcept = default;
+
+std::intptr_t GameAddress::address() const noexcept {
+  return address_;
 }
 
 } // namespace sgd2mapi
