@@ -146,4 +146,8 @@ const std::vector<std::uint8_t>& GamePatchBase::patch_buffer() const noexcept {
   return patch_buffer_;
 }
 
+std::size_t GamePatchBase::patch_size() const noexcept {
+  return patch_buffer().size();
+}
+
 } // namespace sgd2mapi

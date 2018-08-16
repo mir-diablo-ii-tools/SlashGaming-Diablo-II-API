@@ -83,6 +83,10 @@ class DLLEXPORT GamePatchBase {
    */
   const std::vector<std::uint8_t>& patch_buffer() const noexcept;
 
+  /**
+   * Returns the number of bytes needed to apply this patch.
+   */
+  std::size_t patch_size() const noexcept;
 
  protected:
   /**
