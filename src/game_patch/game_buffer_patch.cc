@@ -52,8 +52,8 @@ GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
     const std::uint8_t* buffer,
     std::size_t patch_size)
-    : GamePatchBase(game_address, std::vector(buffer,
-                                              buffer + patch_size)) {
+    : GamePatchBase(game_address,
+                    std::vector(buffer, buffer + patch_size)) {
 }
 
 GameBufferPatch::GameBufferPatch(

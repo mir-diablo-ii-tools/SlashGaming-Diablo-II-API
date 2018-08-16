@@ -62,8 +62,8 @@ enum class OpCode : std::uint8_t {
 
 constexpr frozen::unordered_map kOpCodeByBranchType =
   frozen::make_unordered_map<enum BranchType, enum OpCode>({
-    {BranchType::kCall, OpCode::kCall},
-    {BranchType::kJump, OpCode::kJump}
+      {BranchType::kCall, OpCode::kCall},
+      {BranchType::kJump, OpCode::kJump}
   });
 
 std::vector<std::uint8_t> CreateReplaceBuffer(
@@ -74,8 +74,8 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
   // Check that the patch size is large enough to allow the interception.
   if (patch_size < sizeof(std::intptr_t) + 1) {
     std::wstring error_message = (boost::wformat(
-      L"The patch size specified at address %X is too small to perform an "
-      L"interception patch."
+        L"The patch size specified at address %X is too small to perform an "
+        L"interception patch."
     ) % game_address.address()).str();
 
     MessageBoxW(nullptr,
@@ -87,8 +87,8 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
 
   // Create a buffer full of NOPs.
   std::vector<std::uint8_t> buffer(
-    patch_size,
-    static_cast<std::uint8_t>(OpCode::kNop));
+      patch_size,
+      static_cast<std::uint8_t>(OpCode::kNop));
 
   // Set the first byte in the buffer to the branch operation opcode byte.
   buffer[0] = static_cast<std::uint8_t>(kOpCodeByBranchType.at(branch_type));
@@ -111,8 +111,8 @@ GameInterceptionPatch::GameInterceptionPatch(
     std::intptr_t func_ptr,
     std::size_t patch_size)
     : GamePatchBase(
-        game_address,
-        CreateReplaceBuffer(branch_type, game_address, patch_size)),
+          game_address,
+          CreateReplaceBuffer(branch_type, game_address, patch_size)),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
 }
@@ -123,8 +123,8 @@ GameInterceptionPatch::GameInterceptionPatch(
     std::intptr_t func_ptr,
     std::size_t patch_size)
     : GamePatchBase(
-        std::move(game_address),
-        CreateReplaceBuffer(branch_type, game_address, patch_size)),
+          std::move(game_address),
+          CreateReplaceBuffer(branch_type, game_address, patch_size)),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
 }

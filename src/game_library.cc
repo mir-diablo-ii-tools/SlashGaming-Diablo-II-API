@@ -47,6 +47,7 @@
 #include <string_view>
 
 #include <boost/nowide/convert.hpp>
+#include <boost/format.hpp>
 #include <frozen/string.h>
 #include <frozen/unordered_map.h>
 #include "game_version.h"
@@ -106,11 +107,14 @@ GameLibrary::GameLibrary(std::string_view library_path)
     : library_path_(library_path) {
   auto base_address = GetLibraryBaseAddress(library_path);
   if (!base_address.has_value()) {
+    std::wstring error_message = (boost::wformat(
+        L"Module base address detection for %s failed.")
+        % library_path.data()).str();
     MessageBoxW(nullptr,
-                L"Module base address detection failed.",
+                error_message.data(),
                 L"Module Failed to Load",
                 MB_OK | MB_ICONERROR);
-    std::exit(0);
+    std::exit(EXIT_FAILURE);
   }
 
   base_address_ = base_address.value();

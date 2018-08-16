@@ -105,11 +105,11 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile(
       if (locator_type == kLocatorTypeOffset) {
         final_game_address =
             GameOffset(locator_value)
-                    .ResolveGameAddress(game_library.base_address());
+                      .ResolveGameAddress(game_library.base_address());
       } else if (locator_type == kLocatorTypeOrdinal) {
         final_game_address =
             GameOrdinal(locator_value)
-                    .ResolveGameAddress(game_library.base_address());
+                       .ResolveGameAddress(game_library.base_address());
       }
 
       address_table.insert_or_assign(full_game_address_name,
@@ -123,7 +123,7 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile(
 } // namespace
 
 GameAddressTable::GameAddressTable(std::string_view table_path)
-  : address_table_(ReadTableFile(table_path)) {
+    : address_table_(ReadTableFile(table_path)) {
 }
 
 const GameAddressTable& GameAddressTable::GetInstance() {
@@ -133,8 +133,7 @@ const GameAddressTable& GameAddressTable::GetInstance() {
   return instance;
 }
 
-std::intptr_t GameAddressTable::GetAddress(
-    std::string_view address_name) {
+std::intptr_t GameAddressTable::GetAddress(std::string_view address_name) {
   return GetInstance().address_table_.at(address_name.data());
 }
 

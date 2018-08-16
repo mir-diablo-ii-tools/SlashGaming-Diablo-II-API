@@ -45,6 +45,7 @@
 #include <string_view>
 #include <unordered_map>
 
+#include <boost/format.hpp>
 #include "game_address_locator.h"
 #include "game_library.h"
 #include "game_library_table.h"
@@ -77,12 +78,16 @@ std::intptr_t ResolveGameAddress(
     resolved_address =
         running_address_locator->ResolveGameAddress(base_address);
   } catch (std::out_of_range&) {
+    std::wstring error_message = (boost::wformat(
+        L"Game address not defined for the game version: %s. The game will "
+        L"nowexit.") % RunningGameVersion::GetVersionName(
+                           RunningGameVersion::GetInstance().game_version()
+                       ).data()).str();
     MessageBoxW(nullptr,
-                L"Game address not defined for this game version. The game "
-                L"will now exit.",
+                error_message.data(),
                 L"Error: Missing Game Address",
                 MB_OK | MB_ICONERROR);
-    std::exit(0);
+    std::exit(EXIT_FAILURE);
   }
 
   return resolved_address;

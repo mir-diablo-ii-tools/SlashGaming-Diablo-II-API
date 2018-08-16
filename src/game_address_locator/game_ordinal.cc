@@ -40,6 +40,7 @@
 
 #include <windows.h>
 #include <cstdint>
+#include <cstdlib>
 #include <string>
 
 #include <boost/format.hpp>
@@ -48,6 +49,16 @@ namespace sgd2mapi {
 
 GameOrdinal::GameOrdinal(int ordinal) noexcept
     : ordinal_(ordinal) {
+  if ((ordinal & 0xFFFF) != ordinal) {
+    std::wstring error_message = (boost::wformat(
+        L"Invalid ordinal value %d. The leftmost four bytes of an ordinal must"
+        L"be zero.") % ordinal).str();
+    MessageBoxW(nullptr,
+                error_message.data(),
+                L"Invalid Ordinal Value",
+                MB_OK | MB_ICONERROR);
+    std::exit(EXIT_FAILURE);
+  }
 }
 
 GameOrdinal::GameOrdinal(const GameOrdinal&) noexcept = default;
@@ -69,7 +80,7 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
 
   if (func_address == nullptr) {
     std::wstring error_message = (boost::wformat(
-        L"The function with ordinal %1% could not be found."
+        L"The function with ordinal %d could not be found."
     ) % ordinal()).str();
 
     MessageBoxW(nullptr,

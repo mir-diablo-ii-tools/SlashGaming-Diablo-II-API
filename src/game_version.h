@@ -71,11 +71,11 @@ enum class GameVersion : int {
  */
 class DLLEXPORT RunningGameVersion {
  public:
-  RunningGameVersion(const RunningGameVersion& rhs) = delete;
-  RunningGameVersion(RunningGameVersion&& rhs) = delete;
+  RunningGameVersion(const RunningGameVersion&) = delete;
+  RunningGameVersion(RunningGameVersion&&) = delete;
 
-  RunningGameVersion operator=(const RunningGameVersion& rhs) = delete;
-  RunningGameVersion operator=(RunningGameVersion&& rhs) = delete;
+  RunningGameVersion operator=(const RunningGameVersion&) = delete;
+  RunningGameVersion operator=(RunningGameVersion&&) = delete;
 
   /**
    * Returns the singleton instance of RunningGameVersion.

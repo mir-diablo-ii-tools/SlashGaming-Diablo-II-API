@@ -40,6 +40,7 @@
 
 #include <windows.h>
 
+#include <cstdlib>
 #include <memory>
 #include <optional>
 #include <sstream>
@@ -91,80 +92,80 @@ constexpr const frozen::unordered_map kGameVersionByFileVersion =
 
 constexpr const frozen::unordered_map kGameVersionToString =
     frozen::make_unordered_map<enum GameVersion, frozen::string>({
-      {GameVersion::k1_00, "1.00"},
-      {GameVersion::k1_01, "1.01"},
-      {GameVersion::k1_02, "1.02"},
-      {GameVersion::k1_03, "1.03"},
-      {GameVersion::k1_04, "1.04"},
-      // 1.04B and 1.04C use the same DLLs
-      {GameVersion::k1_04B, "1.04B"},
-      {GameVersion::k1_05, "1.05"},
-      {GameVersion::k1_05B, "1.05B"},
-      {GameVersion::k1_06, "1.06"},
-      {GameVersion::k1_06B, "1.06B"},
-      {GameVersion::k1_07, "1.07"},
-      {GameVersion::k1_08, "1.08"},
-      {GameVersion::k1_09, "1.09"},
-      {GameVersion::k1_09B, "1.09B"},
-      {GameVersion::k1_09C, "1.09C"},
-      {GameVersion::k1_09D, "1.09D"},
-      {GameVersion::k1_09E, "1.09E"},
-      {GameVersion::k1_10Beta, "1.10 Beta"},
-      {GameVersion::k1_10SBeta, "1.10S Beta"},
-      {GameVersion::k1_10, "1.10"},
-      {GameVersion::k1_11, "1.11" },
-      {GameVersion::k1_11B, "1.11B"},
-      {GameVersion::k1_12A, "1.12A"},
-      {GameVersion::k1_13ABeta, "1.13A Beta"},
-      {GameVersion::k1_13C, "1.13C"},
-      {GameVersion::k1_13D, "1.13D"},
-      {GameVersion::kClassic1_14A, "Classic 1.14A"},
-      {GameVersion::kLod1_14A, "LoD 1.14A"},
-      {GameVersion::kClassic1_14B, "Classic 1.14B"},
-      {GameVersion::kLod1_14B, "LoD 1.14B"},
-      {GameVersion::kClassic1_14C, "Classic 1.14C"},
-      {GameVersion::kLod1_14C, "LoD 1.14C"},
-      {GameVersion::kClassic1_14D, "Classic 1.14D"},
-      {GameVersion::kLod1_14D, "LoD 1.14D"}
+        {GameVersion::k1_00, "1.00"},
+        {GameVersion::k1_01, "1.01"},
+        {GameVersion::k1_02, "1.02"},
+        {GameVersion::k1_03, "1.03"},
+        {GameVersion::k1_04, "1.04"},
+        // 1.04B and 1.04C use the same DLLs
+        {GameVersion::k1_04B, "1.04B"},
+        {GameVersion::k1_05, "1.05"},
+        {GameVersion::k1_05B, "1.05B"},
+        {GameVersion::k1_06, "1.06"},
+        {GameVersion::k1_06B, "1.06B"},
+        {GameVersion::k1_07, "1.07"},
+        {GameVersion::k1_08, "1.08"},
+        {GameVersion::k1_09, "1.09"},
+        {GameVersion::k1_09B, "1.09B"},
+        {GameVersion::k1_09C, "1.09C"},
+        {GameVersion::k1_09D, "1.09D"},
+        {GameVersion::k1_09E, "1.09E"},
+        {GameVersion::k1_10Beta, "1.10 Beta"},
+        {GameVersion::k1_10SBeta, "1.10S Beta"},
+        {GameVersion::k1_10, "1.10"},
+        {GameVersion::k1_11, "1.11" },
+        {GameVersion::k1_11B, "1.11B"},
+        {GameVersion::k1_12A, "1.12A"},
+        {GameVersion::k1_13ABeta, "1.13A Beta"},
+        {GameVersion::k1_13C, "1.13C"},
+        {GameVersion::k1_13D, "1.13D"},
+        {GameVersion::kClassic1_14A, "Classic 1.14A"},
+        {GameVersion::kLod1_14A, "LoD 1.14A"},
+        {GameVersion::kClassic1_14B, "Classic 1.14B"},
+        {GameVersion::kLod1_14B, "LoD 1.14B"},
+        {GameVersion::kClassic1_14C, "Classic 1.14C"},
+        {GameVersion::kLod1_14C, "LoD 1.14C"},
+        {GameVersion::kClassic1_14D, "Classic 1.14D"},
+        {GameVersion::kLod1_14D, "LoD 1.14D"}
     });
 
 constexpr const frozen::unordered_map kStringToGameVersion =
     frozen::make_unordered_map<frozen::string, enum GameVersion>({
-      {"1.00", GameVersion::k1_00},
-      {"1.01", GameVersion::k1_01},
-      {"1.02", GameVersion::k1_02},
-      {"1.03", GameVersion::k1_03},
-      {"1.04", GameVersion::k1_04},
-      {"1.04B", GameVersion::k1_04B},
-      {"1.04C", GameVersion::k1_04C},
-      {"1.05", GameVersion::k1_05},
-      {"1.05B", GameVersion::k1_05B},
-      {"1.06", GameVersion::k1_06},
-      {"1.06B", GameVersion::k1_06B},
-      {"1.07", GameVersion::k1_07},
-      {"1.08", GameVersion::k1_08},
-      {"1.09", GameVersion::k1_09, },
-      {"1.09B", GameVersion::k1_09B},
-      {"1.09C", GameVersion::k1_09C},
-      {"1.09D", GameVersion::k1_09D},
-      {"1.09E", GameVersion::k1_09E},
-      {"1.10 Beta", GameVersion::k1_10Beta},
-      {"1.10S Beta", GameVersion::k1_10SBeta},
-      {"1.10", GameVersion::k1_10},
-      {"1.11", GameVersion::k1_11},
-      {"1.11B", GameVersion::k1_11B},
-      {"1.12A", GameVersion::k1_12A},
-      {"1.13A Beta", GameVersion::k1_13ABeta},
-      {"1.13C", GameVersion::k1_13C},
-      {"1.13D", GameVersion::k1_13D},
-      {"Classic 1.14A", GameVersion::kClassic1_14A},
-      {"LoD 1.14A", GameVersion::kLod1_14A},
-      {"Classic 1.14B", GameVersion::kClassic1_14B},
-      {"LoD 1.14B", GameVersion::kLod1_14B},
-      {"Classic 1.14C", GameVersion::kClassic1_14C},
-      {"LoD 1.14C", GameVersion::kLod1_14C},
-      {"Classic 1.14D", GameVersion::kClassic1_14D},
-      {"LoD 1.14D", GameVersion::kLod1_14D}
+        {"1.00", GameVersion::k1_00},
+        {"1.01", GameVersion::k1_01},
+        {"1.02", GameVersion::k1_02},
+        {"1.03", GameVersion::k1_03},
+        {"1.04", GameVersion::k1_04},
+        {"1.04B", GameVersion::k1_04B},
+        {"1.04C", GameVersion::k1_04C},
+        {"1.05", GameVersion::k1_05},
+        {"1.05B", GameVersion::k1_05B},
+        {"1.06", GameVersion::k1_06},
+        {"1.06B", GameVersion::k1_06B},
+        {"1.07", GameVersion::k1_07},
+        {"1.08", GameVersion::k1_08},
+        {"1.09", GameVersion::k1_09, },
+        {"1.09B", GameVersion::k1_09B},
+        {"1.09C", GameVersion::k1_09C},
+        {"1.09D", GameVersion::k1_09D},
+        {"1.09E", GameVersion::k1_09E},
+        {"1.10 Beta", GameVersion::k1_10Beta},
+        {"1.10S Beta", GameVersion::k1_10SBeta},
+        {"1.10", GameVersion::k1_10},
+        {"1.11", GameVersion::k1_11},
+        {"1.11B", GameVersion::k1_11B},
+        {"1.12A", GameVersion::k1_12A},
+        {"1.13A Beta", GameVersion::k1_13ABeta},
+        {"1.13C", GameVersion::k1_13C},
+        {"1.13D", GameVersion::k1_13D},
+        {"Classic 1.14A", GameVersion::kClassic1_14A},
+        {"LoD 1.14A", GameVersion::kLod1_14A},
+        {"Classic 1.14B", GameVersion::kClassic1_14B},
+        {"LoD 1.14B", GameVersion::kLod1_14B},
+        {"Classic 1.14C", GameVersion::kClassic1_14C},
+        {"LoD 1.14C", GameVersion::kLod1_14C},
+        {"Classic 1.14D", GameVersion::kClassic1_14D},
+        {"LoD 1.14D", GameVersion::kLod1_14D}
     });
 
 std::optional<std::string> ExtractFileVersionString(std::string_view file_name)
@@ -245,7 +246,7 @@ enum GameVersion DetermineRunningGameVersion() noexcept {
         "Failed to extract file version from Game.exe.",
         "Error Detecting Game Version",
         MB_OK | MB_ICONSTOP);
-    std::exit(0);
+    std::exit(EXIT_FAILURE);
   }
 
   enum GameVersion game_version;
@@ -258,7 +259,7 @@ enum GameVersion DetermineRunningGameVersion() noexcept {
         "Failed to determine game version using file information.",
         "Error Detecting Game Version",
         MB_OK | MB_ICONSTOP);
-    std::exit(0);
+    std::exit(EXIT_FAILURE);
   }
 
   return game_version;
