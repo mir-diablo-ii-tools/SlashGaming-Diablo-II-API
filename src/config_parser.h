@@ -64,8 +64,8 @@ class DLLEXPORT ConfigParser {
 
   static ConfigParser& GetInstance() noexcept;
 
-  std::string config_path() const noexcept;
-  std::string address_table_path() const noexcept;
+  std::string_view config_path() const noexcept;
+  std::string_view address_table_path() const noexcept;
 
  private:
   ConfigParser(std::string_view config_path) noexcept;

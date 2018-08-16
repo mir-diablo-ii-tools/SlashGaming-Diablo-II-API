@@ -83,13 +83,13 @@ class DLLEXPORT GameLibrary {
   static std::string_view GetLibraryPathWithRedirect(
       enum DefaultLibrary library) noexcept;
 
-  std::string library_path() const noexcept;
-
   std::intptr_t base_address() const noexcept;
 
+  std::string_view library_path() const noexcept;
+
  private:
-  std::string library_path_;
   std::intptr_t base_address_;
+  std::string library_path_;
 };
 
 } // namespace sgd2mapi

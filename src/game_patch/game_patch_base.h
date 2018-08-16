@@ -60,13 +60,13 @@ class DLLEXPORT GamePatchBase {
   /**
    * Applies the patch to the game.
    */
-  virtual void Apply() noexcept;
+  void Apply() noexcept;
 
   /**
    * Removes the effects of the patch by restoring the patched entries to their
    * original values.
    */
-  virtual void Remove() noexcept;
+  void Remove() noexcept;
 
   /**
    * Returns the game address used by this patch.

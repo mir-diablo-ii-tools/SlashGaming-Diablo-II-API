@@ -58,19 +58,19 @@ namespace sgd2mapi {
 
 class DLLEXPORT GameAddressTable {
  public:
-  GameAddressTable(const GameAddressTable& rhs) = delete;
-  GameAddressTable(GameAddressTable&& rhs) = delete;
+  GameAddressTable(const GameAddressTable&) = delete;
+  GameAddressTable(GameAddressTable&&) = delete;
 
-  GameAddressTable& operator=(const GameAddressTable& rhs) = delete;
-  GameAddressTable& operator=(GameAddressTable&& rhs) = delete;
+  GameAddressTable& operator=(const GameAddressTable&) = delete;
+  GameAddressTable& operator=(GameAddressTable&&) = delete;
 
-  static std::intptr_t GetAddress(std::string_view address_name) noexcept;
+  static std::intptr_t GetAddress(std::string_view address_name);
 
  private:
   std::unordered_map<std::string, std::intptr_t> address_table_;
 
   explicit GameAddressTable(std::string_view table_path);
-  static const GameAddressTable& GetInstance() noexcept;
+  static const GameAddressTable& GetInstance();
 };
 
 } // namespace sgd2mapi

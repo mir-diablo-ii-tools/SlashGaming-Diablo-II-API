@@ -98,13 +98,13 @@ std::optional<std::intptr_t> GetLibraryBaseAddress(
 
 } // namespace
 
-GameLibrary::GameLibrary(enum DefaultLibrary library) :
-    GameLibrary(GetLibraryPathWithRedirect(library)) {
+GameLibrary::GameLibrary(enum DefaultLibrary library)
+    : GameLibrary(GetLibraryPathWithRedirect(library)) {
 }
 
-GameLibrary::GameLibrary(std::string_view library_path) :
-    library_path_(library_path) {
-  auto base_address = GetLibraryBaseAddress(library_path_);
+GameLibrary::GameLibrary(std::string_view library_path)
+    : library_path_(library_path) {
+  auto base_address = GetLibraryBaseAddress(library_path);
   if (!base_address.has_value()) {
     MessageBoxW(nullptr,
                 L"Module base address detection failed.",
@@ -116,17 +116,17 @@ GameLibrary::GameLibrary(std::string_view library_path) :
   base_address_ = base_address.value();
 }
 
-GameLibrary::GameLibrary(const GameLibrary& rhs) = default;
+GameLibrary::GameLibrary(const GameLibrary&) = default;
 
-GameLibrary::GameLibrary(GameLibrary&& rhs) noexcept = default;
+GameLibrary::GameLibrary(GameLibrary&&) noexcept = default;
 
 GameLibrary::~GameLibrary() noexcept {
   FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
 }
 
-GameLibrary& GameLibrary::operator=(const GameLibrary& rhs) = default;
+GameLibrary& GameLibrary::operator=(const GameLibrary&) = default;
 
-GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept = default;
+GameLibrary& GameLibrary::operator=(GameLibrary&&) noexcept = default;
 
 std::string_view GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library) noexcept {
@@ -138,12 +138,12 @@ std::string_view GameLibrary::GetLibraryPathWithRedirect(
   return kDefaultLibraryPathById.at(library).data();
 }
 
-std::string GameLibrary::library_path() const noexcept {
-  return library_path_;
-}
-
 std::intptr_t GameLibrary::base_address() const noexcept {
   return base_address_;
+}
+
+std::string_view GameLibrary::library_path() const noexcept {
+  return library_path_;
 }
 
 } // namespace sgd2mapi

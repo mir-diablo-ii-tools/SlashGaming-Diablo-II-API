@@ -66,13 +66,11 @@ constexpr std::string_view kLocatorValueKey = "Locator Value";
 constexpr std::string_view kLocatorTypeOffset = "Offset";
 constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
 
-std::unordered_map<std::string, std::intptr_t> ReadTableFile() noexcept {
-  ConfigParser& config_parser = ConfigParser::GetInstance();
-
+std::unordered_map<std::string, std::intptr_t> ReadTableFile(
+    std::string_view table_file_path) {
   // Read the address table into JSON.
   nlohmann::json address_table_json;
-  if (std::ifstream address_table_file(
-          config_parser.address_table_path().data());
+  if (std::ifstream address_table_file(table_file_path.data());
       address_table_file.good()) {
     address_table_json = nlohmann::json::parse(address_table_file);
   }
@@ -125,10 +123,10 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile() noexcept {
 } // namespace
 
 GameAddressTable::GameAddressTable(std::string_view table_path)
-  : address_table_(ReadTableFile()) {
+  : address_table_(ReadTableFile(table_path)) {
 }
 
-const GameAddressTable& GameAddressTable::GetInstance() noexcept {
+const GameAddressTable& GameAddressTable::GetInstance() {
   static GameAddressTable instance(
       ConfigParser::GetInstance().address_table_path()
   );
@@ -136,7 +134,7 @@ const GameAddressTable& GameAddressTable::GetInstance() noexcept {
 }
 
 std::intptr_t GameAddressTable::GetAddress(
-    std::string_view address_name) noexcept {
+    std::string_view address_name) {
   return GetInstance().address_table_.at(address_name.data());
 }
 

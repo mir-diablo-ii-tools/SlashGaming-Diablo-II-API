@@ -52,7 +52,7 @@
 namespace sgd2mapi {
 
 class DLLEXPORT GameAddressLocatorInterface {
-public:
+ public:
   virtual std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept = 0;
 

@@ -165,11 +165,11 @@ ConfigParser& ConfigParser::GetInstance() noexcept {
   return instance;
 }
 
-std::string ConfigParser::address_table_path() const noexcept {
+std::string_view ConfigParser::address_table_path() const noexcept {
   return address_table_path_;
 }
 
-std::string ConfigParser::config_path() const noexcept {
+std::string_view ConfigParser::config_path() const noexcept {
   return config_path_;
 }
 

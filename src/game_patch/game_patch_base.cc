@@ -51,44 +51,44 @@ GamePatchBase::GamePatchBase(
     const GameAddress& game_address,
     const std::vector<std::uint8_t>& patch_buffer)
     : game_address_(game_address),
-      patch_buffer_(patch_buffer),
       is_patch_applied_(false),
       old_bytes_(reinterpret_cast<std::uint8_t*>(game_address.address()),
                  reinterpret_cast<std::uint8_t*>(game_address.address()
-                                                 + patch_buffer.size())) {
+                                                 + patch_buffer.size())),
+      patch_buffer_(patch_buffer) {
 }
 
 GamePatchBase::GamePatchBase(
     GameAddress&& game_address,
     const std::vector<std::uint8_t>& patch_buffer)
     : game_address_(std::move(game_address)),
-      patch_buffer_(patch_buffer),
       is_patch_applied_(false),
       old_bytes_(reinterpret_cast<std::uint8_t*>(game_address_.address()),
                  reinterpret_cast<std::uint8_t*>(game_address_.address()
-                                                 + patch_buffer.size())) {
+                                                 + patch_buffer.size())),
+      patch_buffer_(patch_buffer) {
 }
 
 GamePatchBase::GamePatchBase(
     const GameAddress& game_address,
     std::vector<std::uint8_t>&& patch_buffer)
     : game_address_(game_address),
-      patch_buffer_(std::move(patch_buffer)),
       is_patch_applied_(false),
       old_bytes_(reinterpret_cast<std::uint8_t*>(game_address.address()),
                  reinterpret_cast<std::uint8_t*>(game_address.address()
-                                                 + patch_buffer_.size())) {
+                                                 + patch_buffer_.size())),
+      patch_buffer_(std::move(patch_buffer)) {
 }
 
 GamePatchBase::GamePatchBase(
     GameAddress&& game_address,
     std::vector<std::uint8_t>&& patch_buffer)
     : game_address_(std::move(game_address)),
-      patch_buffer_(std::move(patch_buffer)),
       is_patch_applied_(false),
       old_bytes_(reinterpret_cast<std::uint8_t*>(game_address_.address()),
                  reinterpret_cast<std::uint8_t*>(game_address_.address()
-                                                 + patch_buffer_.size())) {
+                                                 + patch_buffer_.size())),
+      patch_buffer_(std::move(patch_buffer)) {
 }
 
 GamePatchBase::GamePatchBase(const GamePatchBase&) = default;
