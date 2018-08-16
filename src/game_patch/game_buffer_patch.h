@@ -111,4 +111,5 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
 
 } // namespace sgd2mapi
 
+#undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_H_

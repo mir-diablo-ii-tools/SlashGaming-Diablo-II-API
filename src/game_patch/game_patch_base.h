@@ -118,4 +118,5 @@ class DLLEXPORT GamePatchBase {
 
 } // namespace sgd2mapi
 
+#undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_
