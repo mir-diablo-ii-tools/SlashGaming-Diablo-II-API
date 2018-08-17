@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_version.h"
+#include "../include/game_version.h"
 
 #include <windows.h>
 
@@ -50,7 +50,7 @@
 #include <boost/nowide/convert.hpp>
 #include <frozen/string.h>
 #include <frozen/unordered_map.h>
-#include "game_library.h"
+#include "../include/game_library.h"
 
 
 namespace sgd2mapi {

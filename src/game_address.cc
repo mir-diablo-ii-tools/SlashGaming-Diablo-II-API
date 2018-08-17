@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_address.h"
+#include "../include/game_address.h"
 
 #include <windows.h>
 #include <cstdlib>
@@ -46,10 +46,10 @@
 #include <unordered_map>
 
 #include <boost/format.hpp>
-#include "game_address_locator.h"
-#include "game_library.h"
-#include "game_library_table.h"
-#include "game_version.h"
+#include "../include/game_address_locator.h"
+#include "../include/game_library.h"
+#include "../include/game_library_table.h"
+#include "../include/game_version.h"
 
 namespace sgd2mapi {
 

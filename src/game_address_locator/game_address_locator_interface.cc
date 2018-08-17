@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_address_locator_interface.h"
+#include "../../include/game_address_locator/game_address_locator_interface.h"
 
 namespace sgd2mapi {
 

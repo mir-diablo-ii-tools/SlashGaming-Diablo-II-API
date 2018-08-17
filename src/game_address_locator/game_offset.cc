@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_offset.h"
+#include "../../include/game_address_locator/game_offset.h"
 
 #include <cstdint>
 

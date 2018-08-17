@@ -36,14 +36,14 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_patch_base.h"
+#include "../../include/game_patch/game_patch_base.h"
 
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
 #include <utility>
 
-#include "../game_address.h"
+#include "../../include/game_address.h"
 
 namespace sgd2mapi {
 

@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_buffer_patch.h"
+#include "../../include/game_patch/game_buffer_patch.h"
 
 #include <windows.h>
 #include <cstdint>
@@ -44,7 +44,7 @@
 #include <utility>
 #include <vector>
 
-#include "game_patch_base.h"
+#include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
 

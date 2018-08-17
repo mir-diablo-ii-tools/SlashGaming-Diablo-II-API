@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_interception_patch.h"
+#include "../../include/game_patch/game_interception_patch.h"
 
 #include <windows.h>
 #include <cstdint>
@@ -46,8 +46,8 @@
 
 #include <boost/format.hpp>
 #include <frozen/unordered_map.h>
-#include "../game_address.h"
-#include "game_patch_base.h"
+#include "../../include/game_address.h"
+#include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
 

@@ -36,11 +36,11 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_library_table.h"
+#include "../include/game_library_table.h"
 
 #include <string_view>
 
-#include "game_library.h"
+#include "../include/game_library.h"
 
 namespace sgd2mapi {
 

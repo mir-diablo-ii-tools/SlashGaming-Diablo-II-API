@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "config_parser.h"
+#include "../include/config_parser.h"
 
 #include <fstream>
 #include <string>
