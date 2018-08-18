@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "../include/game_address_table.h"
+#include "game_address_table.h"
 
 #include <cstdint>
 #include <fstream>
@@ -47,10 +47,10 @@
 #include <boost/filesystem.hpp>
 #include <nlohmann/json.hpp>
 
-#include "../include/config_parser.h"
+#include "config_parser.h"
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
-#include "../include/game_library_table.h"
+#include "game_library_table.h"
 #include "../include/game_version.h"
 
 namespace sgd2mapi {

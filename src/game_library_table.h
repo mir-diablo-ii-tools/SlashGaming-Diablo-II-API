@@ -44,15 +44,7 @@
 #include <string_view>
 #include <unordered_map>
 
-#include "game_library.h"
-
-#if defined(SGD2MAPI_DLLEXPORT)
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
+#include "../include/game_library.h"
 
 namespace sgd2mapi {
 
@@ -77,5 +69,4 @@ class GameLibraryTable {
 
 } // namespace sgd2mapi
 
-#undef DLLEXPORT
 #endif // SGD2MAPI_GAME_LIBRARY_TABLE_H_

@@ -48,7 +48,7 @@
 #include <boost/format.hpp>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
-#include "../include/game_library_table.h"
+#include "game_library_table.h"
 #include "../include/game_version.h"
 
 namespace sgd2mapi {

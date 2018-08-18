@@ -36,45 +36,35 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_CONFIG_PARSER_H_
-#define SGD2MAPI_CONFIG_PARSER_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_H_
+#define SGD2MAPI_GAME_ADDRESS_TABLE_H_
 
+#include <cstdint>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 
-#if defined(SGD2MAPI_DLLEXPORT)
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
+#include "../include/game_address.h"
 
 namespace sgd2mapi {
 
-constexpr std::string_view kConfigPath = "./SlashGaming-Config.json";
-
-class DLLEXPORT ConfigParser {
+class GameAddressTable {
  public:
-  ConfigParser(const ConfigParser&) = delete;
-  ConfigParser(ConfigParser&&) = delete;
+  GameAddressTable(const GameAddressTable&) = delete;
+  GameAddressTable(GameAddressTable&&) = delete;
 
-  ConfigParser& operator=(const ConfigParser&) = delete;
-  ConfigParser& operator=(ConfigParser&&) = delete;
+  GameAddressTable& operator=(const GameAddressTable&) = delete;
+  GameAddressTable& operator=(GameAddressTable&&) = delete;
 
-  static ConfigParser& GetInstance() noexcept;
-
-  std::string_view config_path() const noexcept;
-  std::string_view address_table_path() const noexcept;
+  static std::intptr_t GetAddress(std::string_view address_name);
 
  private:
-  ConfigParser(std::string_view config_path) noexcept;
+  std::unordered_map<std::string, std::intptr_t> address_table_;
 
-  std::string config_path_;
-  std::string address_table_path_;
+  explicit GameAddressTable(std::string_view table_path);
+  static const GameAddressTable& GetInstance();
 };
 
 } // namespace sgd2mapi
 
-#undef DLLEXPORT
-#endif // SGD2MAPI_CONFIG_PARSER_H_
+#endif // SGD2MAPI_GAME_ADDRESS_TABLE_H_

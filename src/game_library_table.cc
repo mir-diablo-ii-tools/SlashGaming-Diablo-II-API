@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "../include/game_library_table.h"
+#include "game_library_table.h"
 
 #include <string_view>
 
