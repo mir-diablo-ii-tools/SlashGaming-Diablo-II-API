@@ -39,9 +39,11 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
 #define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
 
-#include <cstdint>
-
 #include "game_address_locator_interface.h"
+
+#ifdef __cplusplus
+#include <cstdint>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -75,6 +77,33 @@ class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
 };
 
 } // namespace sgd2mapi
+
+/**
+ * C Interface
+ */
+
+struct SGD2MAPI_GameOrdinal;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void sgd2mapi_game_ordinal_create(
+    struct SGD2MAPI_GameOrdinal* game_ordinal,
+    int ordinal
+);
+
+DLLEXPORT void sgd2mapi_game_ordinal_destroy(
+    struct SGD2MAPI_GameOrdinal* game_ordinal
+);
+
+DLLEXPORT int sgd2mapi_game_ordinal_get_ordinal(
+    const struct SGD2MAPI_GameOrdinal* game_ordinal
+);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_

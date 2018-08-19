@@ -64,3 +64,30 @@ std::intptr_t GameOffset::offset() const noexcept {
 }
 
 } // namespace sgd2mapi
+
+/**
+ * C Interface
+ */
+
+struct SGD2MAPI_GameOffset {
+  sgd2mapi::GameOffset* game_offset;
+};
+
+void sgd2mapi_game_offset_create(
+    struct SGD2MAPI_GameOffset* game_offset,
+    std::intptr_t offset
+) {
+  game_offset->game_offset = new sgd2mapi::GameOffset(offset);
+}
+
+void sgd2mapi_game_offset_destroy(
+    struct SGD2MAPI_GameOffset* game_offset
+) {
+  delete game_offset->game_offset;
+}
+
+std::intptr_t sgd2mapi_game_offset_get_offset(
+    const struct SGD2MAPI_GameOffset* game_offset
+) {
+  return game_offset->game_offset->offset();
+}

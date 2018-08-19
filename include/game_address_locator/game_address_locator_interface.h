@@ -39,7 +39,9 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
 #define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
 
+#ifdef __cplusplus
 #include <cstdint>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -49,17 +51,19 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 class DLLEXPORT GameAddressLocatorInterface {
  public:
+  virtual ~GameAddressLocatorInterface() noexcept;
+
   virtual std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept = 0;
-
-  virtual ~GameAddressLocatorInterface() noexcept;
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_

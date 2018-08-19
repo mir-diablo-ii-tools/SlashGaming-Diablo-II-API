@@ -98,3 +98,30 @@ int GameOrdinal::ordinal() const noexcept {
 }
 
 } // namespace sgd2mapi
+
+/**
+ * C Interface
+ */
+
+struct SGD2MAPI_GameOrdinal {
+  sgd2mapi::GameOrdinal* game_ordinal;
+};
+
+void sgd2mapi_game_ordinal_create(
+    struct SGD2MAPI_GameOrdinal* game_ordinal,
+    int ordinal
+) {
+  game_ordinal->game_ordinal = new sgd2mapi::GameOrdinal(ordinal);
+}
+
+void sgd2mapi_game_ordinal_destroy(
+    struct SGD2MAPI_GameOrdinal* game_ordinal
+) {
+  delete game_ordinal->game_ordinal;
+}
+
+int sgd2mapi_game_ordinal_get_ordinal(
+    const struct SGD2MAPI_GameOrdinal* game_ordinal
+) {
+  return game_ordinal->game_ordinal->ordinal();
+}

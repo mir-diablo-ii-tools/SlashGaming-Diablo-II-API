@@ -39,9 +39,13 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
 #define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
 
-#include <cstdint>
+#include <stdint.h>
 
 #include "game_address_locator_interface.h"
+
+#ifdef __cplusplus
+#include <cstdint>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -51,6 +55,7 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
@@ -75,6 +80,34 @@ class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
+
+/**
+ * C Interface
+ */
+
+struct SGD2MAPI_GameOffset;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void sgd2mapi_game_offset_create(
+    struct SGD2MAPI_GameOffset* game_offset,
+    intptr_t offset
+);
+
+DLLEXPORT void sgd2mapi_game_offset_destroy(
+    struct SGD2MAPI_GameOffset* game_offset
+);
+
+DLLEXPORT intptr_t sgd2mapi_game_offset_get_offset(
+    const struct SGD2MAPI_GameOffset* game_offset
+);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
