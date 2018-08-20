@@ -39,9 +39,11 @@
 #ifndef SGD2MAPI_GAME_LIBRARY_H_
 #define SGD2MAPI_GAME_LIBRARY_H_
 
+#ifdef __cplusplus
 #include <cstdint>
 #include <string>
 #include <string_view>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -51,6 +53,7 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -61,12 +64,11 @@ constexpr std::string_view kGameExecutable = "Game.exe";
 /**
  * The default libraries that are used by Diablo II.
  */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
+enum class DefaultLibrary;
 
+/**
+ * A class that corresponds to a library used by the game.
+ */
 class DLLEXPORT GameLibrary {
  public:
   explicit GameLibrary(enum DefaultLibrary library);
@@ -93,6 +95,27 @@ class DLLEXPORT GameLibrary {
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
+
+/**
+ * C Interface
+ */
+
+/**
+ * The default libraries that are used by Diablo II. Disabled if compiling as
+ * C++ code.
+ */
+enum SGD2MAPI_DefaultLibrary
+#ifdef __cplusplus
+{};
+
+enum class sgd2mapi::DefaultLibrary
+#endif // __cplusplus
+{
+  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
+  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
+};
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_LIBRARY_H_
