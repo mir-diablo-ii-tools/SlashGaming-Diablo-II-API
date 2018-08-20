@@ -134,8 +134,7 @@ GameLibrary& GameLibrary::operator=(GameLibrary&&) noexcept = default;
 
 std::string_view GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library) noexcept {
-  if (RunningGameVersion::IsGameVersionAtLeast1_14(
-          RunningGameVersion::GetInstance().game_version())) {
+  if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
     return kGameExecutable.data();
   }
 

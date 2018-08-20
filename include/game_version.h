@@ -39,8 +39,11 @@
 #ifndef SGD2MAPI_GAME_VERSION_H_
 #define SGD2MAPI_GAME_VERSION_H_
 
-#include <string>
+#include <stdbool.h>
+
+#ifdef __cplusplus
 #include <string_view>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -50,65 +53,119 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
  * The Diablo II game versions supported and recognized.
  */
-enum class GameVersion : int {
+enum class GameVersion;
+
+/**
+ * Returns the identifier of the game version associated with the specified
+ * string.
+ */
+DLLEXPORT enum GameVersion GetGameVersionId(std::string_view game_version_name)
+    noexcept;
+
+/**
+ * Returns a view to the string associated with the specified game version.
+ */
+DLLEXPORT std::string_view GetGameVersionName(enum GameVersion game_version)
+    noexcept;
+
+/**
+ * Returns the identifier of the running game version.
+ */
+DLLEXPORT enum GameVersion GetRunningGameVersionId() noexcept;
+
+/**
+ * Returns a view to the string associated with the running game version.
+ */
+DLLEXPORT std::string_view GetRunningGameVersionName() noexcept;
+
+/**
+ * Returns whether the specified game version is at least 1.14.
+ */
+DLLEXPORT bool IsGameVersionAtLeast1_14(enum GameVersion game_version)
+    noexcept;
+
+/**
+ * Returns whether the running game version is at least 1.14.
+ */
+DLLEXPORT bool IsRunningGameVersionAtLeast1_14() noexcept;
+
+} // namespace sgd2mapi
+#endif // __cplusplus
+
+/**
+ * C Interface
+ */
+
+/**
+ * The Diablo II game versions supported and recognized. Disabled if compiling
+ * as C++ code.
+ */
+enum SGD2MAPI_GameVersion
+#ifdef __cplusplus
+{};
+
+enum class sgd2mapi::GameVersion
+#endif // __cplusplus
+{
   k1_00, k1_01, k1_02, k1_03, k1_04, k1_04B, k1_04C = k1_04B, k1_05,
   k1_05B, k1_06, k1_06B, k1_07, k1_08, k1_09, k1_09B, k1_09C, k1_09D, k1_09E,
   k1_10, k1_10Beta, k1_10SBeta, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C,
   k1_13D,
 
-  kClassic1_14A, kClassic1_14B, kClassic1_14C, kClassic1_14D,
-  kLod1_14A, kLod1_14B, kLod1_14C, kLod1_14D,
+  kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
+  kClassic1_14D, kLod1_14D,
 };
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
 /**
- * A singleton class that detects the game version on runtime and stores this
- * information.
+ * Returns a view to the string associated with the specified game version.
  */
-class DLLEXPORT RunningGameVersion {
- public:
-  RunningGameVersion(const RunningGameVersion&) = delete;
-  RunningGameVersion(RunningGameVersion&&) = delete;
+DLLEXPORT const char* sgd2mapi_get_game_version_name(
+    enum SGD2MAPI_GameVersion game_version
+);
 
-  RunningGameVersion operator=(const RunningGameVersion&) = delete;
-  RunningGameVersion operator=(RunningGameVersion&&) = delete;
+/**
+ * Returns the identifier of the game version associated with the specified
+ * string.
+ */
+DLLEXPORT enum SGD2MAPI_GameVersion sgd2mapi_get_game_version_id(
+    const char* game_version_name
+);
 
-  /**
-   * Returns the singleton instance of RunningGameVersion.
-   */
-  static RunningGameVersion& GetInstance() noexcept;
+/**
+ * Returns the identifier of the running game version.
+ */
+DLLEXPORT enum SGD2MAPI_GameVersion sgd2mapi_get_running_game_version_id();
 
-  /**
-   * Returns whether the Diablo II game version is at least 1.14.
-   */
-  static bool IsGameVersionAtLeast1_14(enum GameVersion game_version) noexcept;
+/**
+ * Returns a view to the string associated with the running game version.
+ */
+DLLEXPORT const char* sgd2mapi_get_running_game_version_name();
 
-  static std::string GetVersionName(enum GameVersion game_version)
-      noexcept;
+/**
+ * Returns whether the Diablo II game version is at least 1.14.
+ */
+DLLEXPORT bool sgd2mapi_is_game_version_at_least_1_14(
+    enum SGD2MAPI_GameVersion game_version
+);
 
-  static enum GameVersion GetVersionId(std::string_view game_version_name)
-      noexcept;
+/**
+ * Returns whether the running game version is at least 1.14.
+ */
+DLLEXPORT bool sgd2mapi_is_running_game_version_at_least_1_14();
 
-  /**
-   * Returns the running game's version.
-   */
-  constexpr GameVersion game_version() const noexcept {
-    return game_version_;
-  }
-
-  std::string game_version_id() const noexcept;
-
- private:
-  enum GameVersion game_version_;
-
-  explicit RunningGameVersion() noexcept;
-};
-
-} // namespace sgd2mapi
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_VERSION_H_

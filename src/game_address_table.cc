@@ -78,8 +78,7 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile(
   // Parse the JSON into the address table.
   std::unordered_map<std::string, std::intptr_t> address_table;
 
-  std::string version_name =
-      RunningGameVersion::GetInstance().game_version_id();
+  std::string_view version_name = GetRunningGameVersionName();
   for (const auto& library_items : address_table_json.items()) {
     const std::string library_name = library_items.key();
     const std::string library_path = library_name + ".dll";
@@ -96,7 +95,7 @@ std::unordered_map<std::string, std::intptr_t> ReadTableFile(
 
       // Determine the destination game address.
       LocatorByVersion locator_by_version = item.value();
-      Locator locator = locator_by_version.at(version_name);
+      Locator locator = locator_by_version.at(version_name.data());
 
       std::string locator_type = locator.at(kLocatorTypeKey.data());
       std::intptr_t locator_value = locator.at(kLocatorValueKey.data());

@@ -265,38 +265,121 @@ enum GameVersion DetermineRunningGameVersion() noexcept {
   return game_version;
 }
 
+/**
+ * A singleton class that detects the game version on runtime and stores this
+ * information.
+ */
+class RunningGameVersion {
+ public:
+  RunningGameVersion(const RunningGameVersion&) = delete;
+  RunningGameVersion(RunningGameVersion&&) = delete;
+
+  RunningGameVersion operator=(const RunningGameVersion&) = delete;
+  RunningGameVersion operator=(RunningGameVersion&&) = delete;
+
+  /**
+   * Returns the singleton instance of RunningGameVersion.
+   */
+  static RunningGameVersion& GetInstance() noexcept {
+    static RunningGameVersion instance;
+    return instance;
+  }
+
+  /**
+   * Returns the running game's version.
+   */
+  constexpr enum GameVersion game_version_id() const noexcept {
+    return game_version_id_;
+  }
+
+  constexpr std::string_view game_version_name() const noexcept {
+    return game_version_name_;
+  }
+
+ private:
+  enum GameVersion game_version_id_;
+  std::string_view game_version_name_;
+
+  RunningGameVersion() noexcept
+    : game_version_id_(DetermineRunningGameVersion()),
+      game_version_name_(GetGameVersionName(game_version_id())) {
+  }
+};
+
 } // namespace
 
-RunningGameVersion::RunningGameVersion() noexcept :
-    game_version_(DetermineRunningGameVersion()) {
-}
-
-bool RunningGameVersion::IsGameVersionAtLeast1_14(
-    enum GameVersion game_version) noexcept {
-  return !(game_version >= GameVersion::k1_00
-             && game_version <= GameVersion::k1_13D);
-}
-
-RunningGameVersion& RunningGameVersion::GetInstance() noexcept {
-  static RunningGameVersion instance;
-  return instance;
-}
-
-std::string RunningGameVersion::GetVersionName(
-    enum GameVersion game_version) noexcept {
-  return kGameVersionToString.at(game_version).data();
-}
-
-enum GameVersion RunningGameVersion::GetVersionId(
-    std::string_view game_version_name) noexcept {
+enum GameVersion GetGameVersionId(std::string_view game_version_name) noexcept {
   frozen::string frozen_name = frozen::string(
       game_version_name.data(),
-      game_version_name.length());
+      game_version_name.length()
+  );
   return kStringToGameVersion.at(frozen_name);
 }
 
-std::string RunningGameVersion::game_version_id() const noexcept {
-  return GetVersionName(game_version());
+std::string_view GetGameVersionName(enum GameVersion game_version) noexcept {
+  return kGameVersionToString.at(game_version).data();
+}
+
+enum GameVersion GetRunningGameVersionId() noexcept {
+  return RunningGameVersion::GetInstance().game_version_id();
+}
+
+std::string_view GetRunningGameVersionName() noexcept {
+  return RunningGameVersion::GetInstance().game_version_name();
+}
+
+bool IsGameVersionAtLeast1_14(enum GameVersion game_version) noexcept {
+  return !(game_version >= GameVersion::k1_00
+               && game_version <= GameVersion::k1_13D);
+}
+
+bool IsRunningGameVersionAtLeast1_14() noexcept {
+  return
+      IsGameVersionAtLeast1_14(
+          RunningGameVersion::GetInstance().game_version_id()
+      );
 }
 
 } // namespace sgd2mapi
+
+/**
+ * C Interface
+ */
+
+const char* sgd2mapi_get_game_version_name(
+    enum SGD2MAPI_GameVersion game_version
+) {
+  return sgd2mapi::GetGameVersionName(
+      static_cast<sgd2mapi::GameVersion>(game_version)
+  ).data();
+}
+
+enum SGD2MAPI_GameVersion sgd2mapi_get_game_version_id(
+    const char* game_version_name
+) {
+  return static_cast<enum SGD2MAPI_GameVersion>(
+      sgd2mapi::GetGameVersionId(game_version_name)
+  );
+}
+
+enum SGD2MAPI_GameVersion sgd2mapi_get_running_game_version_id() {
+  return static_cast<enum SGD2MAPI_GameVersion>(
+      sgd2mapi::GetRunningGameVersionId()
+  );
+}
+
+const char* sgd2mapi_get_running_game_version_name() {
+  return sgd2mapi::GetRunningGameVersionName().data();
+}
+
+bool sgd2mapi_is_game_version_at_least_1_14(
+    enum SGD2MAPI_GameVersion game_version
+) {
+  return sgd2mapi::IsGameVersionAtLeast1_14(
+      static_cast<sgd2mapi::GameVersion>(game_version)
+  );
+}
+
+bool sgd2mapi_is_running_game_version_at_least_1_14() {
+  return sgd2mapi::IsRunningGameVersionAtLeast1_14();
+}
