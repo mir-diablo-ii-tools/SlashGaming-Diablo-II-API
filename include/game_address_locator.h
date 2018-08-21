@@ -43,9 +43,4 @@
 #include "game_address_locator/game_offset.h"
 #include "game_address_locator/game_ordinal.h"
 
-#define game_address_locator_destroy(X) _Generic((X), \
-    struct SGD2MAPI_GameOffset: sgd2mapi_game_offset_destroy, \
-    struct SGD2MAPI_GameOrdinal: sgd2mapi_game_ordinal_destroy \
-)(X)
-
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
