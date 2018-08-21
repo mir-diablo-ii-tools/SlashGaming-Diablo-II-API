@@ -39,12 +39,17 @@
 #ifndef SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_H_
 #define SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_H_
 
-#include <cstdint>
-#include <cstdlib>
-#include <vector>
+#include <stdint.h>
+#include <stdlib.h>
 
 #include "../game_address.h"
 #include "game_patch_base.h"
+
+#ifdef __cplusplus
+#include <cstdint>
+#include <cstdlib>
+#include <vector>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -54,6 +59,7 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -110,6 +116,66 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
+
+struct SGD2MAPI_GameBufferPatch;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
+    struct SGD2MAPI_GameBufferPatch* dest,
+    const struct SGD2MAPI_GameAddress* game_address,
+    const uint8_t buffer[],
+    size_t patch_size
+);
+
+DLLEXPORT void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
+    struct SGD2MAPI_GamePatchBase* dest,
+    const struct SGD2MAPI_GameAddress* game_address,
+    const uint8_t buffer[],
+    size_t patch_size
+);
+
+/**
+ * Initializes the value of the specified destination with a new
+ * GameBufferPatch using the specified parameters.
+ */
+#define sgd2mapi_game_buffer_patch_create( \
+    dest, \
+    game_address, \
+    buffer, \
+    patch_size \
+) _Generic( \
+    (dest), \
+    struct SGD2MAPI_GameBufferPatch*: \
+        sgd2mapi_game_buffer_patch_create_as_game_buffer_patch, \
+    struct SGD2MAPI_GamePatchBase*: \
+        sgd2mapi_game_buffer_patch_create_as_game_patch_base \
+)(dest, game_address, buffer, patch_size)
+
+DLLEXPORT void sgd2mapi_game_buffer_patch_destroy(
+    struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+);
+
+DLLEXPORT void sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
+    struct SGD2MAPI_GamePatchBase* dest,
+    const struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+);
+
+#define sgd2mapi_game_buffer_patch_downcast( \
+    dest, \
+    game_buffer_patch \
+) _Generic( \
+    (dest), \
+    struct SGD2MAPI_GamePatchBase*: \
+        sgd2mapi_game_buffer_patch_downcast_to_game_patch_base \
+)(dest, game_buffer_patch)
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_H_

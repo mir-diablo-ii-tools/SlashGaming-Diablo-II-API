@@ -44,6 +44,9 @@
 #include <utility>
 #include <vector>
 
+#include "../c_interface/game_address.h"
+#include "c_interface/game_buffer_patch.h"
+#include "c_interface/game_patch_base.h"
 #include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
@@ -53,7 +56,7 @@ GameBufferPatch::GameBufferPatch(
     const std::uint8_t* buffer,
     std::size_t patch_size)
     : GamePatchBase(game_address,
-                    std::vector(buffer, buffer + patch_size)) {
+                    std::vector<std::uint8_t>(buffer, buffer + patch_size)) {
 }
 
 GameBufferPatch::GameBufferPatch(
@@ -93,3 +96,42 @@ GameBufferPatch& GameBufferPatch::operator=(GameBufferPatch&&)
     noexcept = default;
 
 } // namespace sgd2mapi
+
+void sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
+    struct SGD2MAPI_GameBufferPatch* dest,
+    const struct SGD2MAPI_GameAddress* game_address,
+    const std::uint8_t buffer[],
+    std::size_t patch_size
+) {
+  dest->game_buffer_patch = new sgd2mapi::GameBufferPatch(
+      *(game_address->game_address),
+      buffer,
+      patch_size
+  );
+}
+
+void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
+    struct SGD2MAPI_GamePatchBase* dest,
+    const struct SGD2MAPI_GameAddress* game_address,
+    const std::uint8_t buffer[],
+    std::size_t patch_size
+) {
+  dest->game_patch = new sgd2mapi::GameBufferPatch(
+      *(game_address->game_address),
+      buffer,
+      patch_size
+  );
+}
+
+void sgd2mapi_game_buffer_patch_destroy(
+    struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+) {
+  delete game_buffer_patch->game_buffer_patch;
+}
+
+void sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
+    struct SGD2MAPI_GamePatchBase* dest,
+    const struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+) {
+  dest->game_patch = game_buffer_patch->game_buffer_patch;
+}
