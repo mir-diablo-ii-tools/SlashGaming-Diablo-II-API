@@ -47,10 +47,7 @@
  */
 
 struct SGD2MAPI_GameOffset {
-  union {
-    sgd2mapi::GameAddressLocatorInterface* game_address_locator;
-    sgd2mapi::GameOffset* game_offset;
-  };
+  sgd2mapi::GameOffset* game_offset;
 };
 
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_OFFSET_H_

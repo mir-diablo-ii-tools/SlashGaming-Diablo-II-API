@@ -47,10 +47,7 @@
  */
 
 struct SGD2MAPI_GameOrdinal {
-  union {
-    sgd2mapi::GameAddressLocatorInterface* game_address_locator;
-    sgd2mapi::GameOrdinal* game_ordinal;
-  };
+  sgd2mapi::GameOrdinal* game_ordinal;
 };
 
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_ORDINAL_H_

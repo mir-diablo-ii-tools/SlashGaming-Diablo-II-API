@@ -130,7 +130,7 @@ void sgd2mapi_game_ordinal_downcast_to_game_address_locator(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
-  dest->game_address_locator = game_ordinal->game_address_locator;
+  dest->game_address_locator = game_ordinal->game_ordinal;
 }
 
 int sgd2mapi_game_ordinal_get_ordinal(

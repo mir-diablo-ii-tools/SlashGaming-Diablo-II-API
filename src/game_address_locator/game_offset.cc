@@ -97,7 +97,7 @@ void sgd2mapi_game_offset_downcast_to_game_address_locator(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOffset* game_offset
 ) {
-  dest->game_address_locator = game_offset->game_address_locator;
+  dest->game_address_locator = game_offset->game_offset;
 }
 
 std::intptr_t sgd2mapi_game_offset_get_offset(
