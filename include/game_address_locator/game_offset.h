@@ -92,17 +92,42 @@ struct SGD2MAPI_GameOffset;
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void sgd2mapi_game_offset_create(
-    struct SGD2MAPI_GameOffset* game_offset,
+DLLEXPORT void sgd2mapi_game_offset_create_as_game_address_locator(
+    struct SGD2MAPI_GameAddressLocatorInterface* dest,
     intptr_t offset
 );
+
+DLLEXPORT void sgd2mapi_game_offset_create_as_game_offset(
+    struct SGD2MAPI_GameOffset* dest,
+    intptr_t offset
+);
+
+#define sgd2mapi_game_offset_create(game_offset, offset) _Generic( \
+    (game_offset), \
+    struct SGD2MAPI_GameOffset*: \
+        sgd2mapi_game_offset_create_as_game_offset, \
+    struct SGD2MAPI_GameAddressLocatorInterface*: \
+        sgd2mapi_game_offset_create_as_game_address_locator \
+)(game_offset, offset)
 
 DLLEXPORT void sgd2mapi_game_offset_destroy(
     struct SGD2MAPI_GameOffset* game_offset
 );
 
-DLLEXPORT intptr_t sgd2mapi_game_offset_get_offset(
+DLLEXPORT void sgd2mapi_game_offset_downcast_to_game_address_locator(
+    struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOffset* game_offset
+);
+
+#define sgd2mapi_game_offset_downcast(dest, game_offset) _Generic( \
+    (dest), \
+    struct SGD2MAPI_GameAddressLocatorInterface*: \
+        sgd2mapi_game_offset_downcast_to_game_address_locator \
+)(dest, game_offset)
+
+
+DLLEXPORT intptr_t sgd2mapi_game_offset_get_offset(
+    struct SGD2MAPI_GameOffset* game_offset
 );
 
 #ifdef __cplusplus

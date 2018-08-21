@@ -44,6 +44,9 @@
 #include <string>
 
 #include <boost/format.hpp>
+#include "../../include/game_address_locator/game_address_locator_interface.h"
+#include "c_interface/game_address_locator_interface.h"
+#include "c_interface/game_ordinal.h"
 
 namespace sgd2mapi {
 
@@ -103,21 +106,31 @@ int GameOrdinal::ordinal() const noexcept {
  * C Interface
  */
 
-struct SGD2MAPI_GameOrdinal {
-  sgd2mapi::GameOrdinal* game_ordinal;
-};
-
-void sgd2mapi_game_ordinal_create(
-    struct SGD2MAPI_GameOrdinal* game_ordinal,
+void sgd2mapi_game_ordinal_create_as_game_address_locator(
+    struct SGD2MAPI_GameAddressLocatorInterface* dest,
     int ordinal
 ) {
-  game_ordinal->game_ordinal = new sgd2mapi::GameOrdinal(ordinal);
+  dest->game_address_locator = new sgd2mapi::GameOrdinal(ordinal);
+}
+
+void sgd2mapi_game_ordinal_create_as_game_ordinal(
+    struct SGD2MAPI_GameOrdinal* dest,
+    int ordinal
+) {
+  dest->game_ordinal = new sgd2mapi::GameOrdinal(ordinal);
 }
 
 void sgd2mapi_game_ordinal_destroy(
     struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
   delete game_ordinal->game_ordinal;
+}
+
+void sgd2mapi_game_ordinal_downcast_to_game_address_locator(
+    struct SGD2MAPI_GameAddressLocatorInterface* dest,
+    const struct SGD2MAPI_GameOrdinal* game_ordinal
+) {
+  dest->game_address_locator = game_ordinal->game_address_locator;
 }
 
 int sgd2mapi_game_ordinal_get_ordinal(

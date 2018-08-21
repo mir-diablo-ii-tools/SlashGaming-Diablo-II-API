@@ -65,5 +65,23 @@ class DLLEXPORT GameAddressLocatorInterface {
 } // namespace sgd2mapi
 #endif // __cplusplus
 
+/**
+ * C Interface
+ */
+
+struct SGD2MAPI_GameAddressLocatorInterface;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void sgd2mapi_game_address_locator_destroy(
+    struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator
+);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
