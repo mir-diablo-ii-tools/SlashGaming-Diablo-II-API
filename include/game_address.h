@@ -39,14 +39,18 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_H_
 #define SGD2MAPI_GAME_ADDRESS_H_
 
-#include <cstdint>
-#include <memory>
-#include <string_view>
-#include <unordered_map>
+#include <stdint.h>
 
 #include "game_address_locator.h"
 #include "game_library.h"
 #include "game_version.h"
+
+#ifdef __cplusplus
+#include <cstdint>
+#include <memory>
+#include <string_view>
+#include <unordered_map>
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -56,10 +60,19 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 class DLLEXPORT GameAddress {
  public:
+  explicit GameAddress(std::intptr_t address) noexcept;
+
+  GameAddress(std::string_view library_path,
+              const GameAddressLocatorInterface& address_locator) noexcept;
+
+  GameAddress(enum DefaultLibrary library,
+              const GameAddressLocatorInterface& address_locator) noexcept;
+
   GameAddress(std::string_view library_path,
               const std::unordered_map<
                   enum GameVersion,
@@ -85,7 +98,56 @@ class DLLEXPORT GameAddress {
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+struct SGD2MAPI_GameAddress;
+
+DLLEXPORT void sgd2mapi_game_address_create_from_library_path(
+    struct SGD2MAPI_GameAddress* dest,
+    const char* library_path,
+    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+);
+
+DLLEXPORT void sgd2mapi_game_address_create_from_library_id(
+    struct SGD2MAPI_GameAddress* dest,
+    enum SGD2MAPI_DefaultLibrary library_id,
+    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+);
+
+/**
+ * Initializes the value of the specified destination with a new GameAddress
+ * using the specified parameters. The library can be either a library ID or
+ * the null-terminated string name of the library. The game address locator
+ * array is a pointer to a one-dimensional array of pointers to
+ * GameAddressLocator objects.
+ */
+#define sgd2mapi_game_address_create( \
+    dest, \
+    library, \
+    game_address_locators\
+) _Generic( \
+    (library), \
+    char*: \
+        sgd2mapi_game_address_create_from_library_path \
+    struct SGD2MAPI_GameAddressLocatorInterface*: \
+        sgd2mapi_game_address_create_from_library_id \
+)(dest, library, game_address_locators)
+
+DLLEXPORT void sgd2mapi_game_address_destroy(
+    struct SGD2MAPI_GameAddress* game_address
+);
+
+DLLEXPORT intptr_t sgd2mapi_game_address_get_address(
+    const struct SGD2MAPI_GameAddress* game_address
+);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_H_

@@ -46,6 +46,8 @@
 #include <unordered_map>
 
 #include <boost/format.hpp>
+#include "c_interface/game_address.h"
+#include "game_address_locator/c_interface/game_address_locator_interface.h"
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -54,6 +56,23 @@
 namespace sgd2mapi {
 
 namespace {
+
+std::intptr_t ResolveGameAddress(
+    std::string_view library_path,
+    const GameAddressLocatorInterface& address_locator
+) noexcept {
+
+  // Figure out which game library is specified.
+  const GameLibrary& address_library =
+      GameLibraryTable::GetInstance().GetGameLibrary(library_path);
+
+  // Calculate the resolved address
+  std::intptr_t base_address = address_library.base_address();
+  std::intptr_t resolved_address =
+      address_locator.ResolveGameAddress(base_address);
+
+  return resolved_address;
+}
 
 std::intptr_t ResolveGameAddress(
     std::string_view library_path,
@@ -92,6 +111,25 @@ std::intptr_t ResolveGameAddress(
 
 } // namespace
 
+GameAddress::GameAddress(std::intptr_t address) noexcept
+    : address_(address) {
+}
+
+GameAddress::GameAddress(
+    std::string_view library_path,
+    const GameAddressLocatorInterface& address_locator
+) noexcept
+    : address_(ResolveGameAddress(library_path, address_locator)) {
+}
+
+GameAddress::GameAddress(
+    enum DefaultLibrary library,
+    const GameAddressLocatorInterface& address_locator
+) noexcept
+    : GameAddress(GameLibrary::GetLibraryPathWithRedirect(library),
+                  address_locator) {
+}
+
 GameAddress::GameAddress(
     std::string_view library_path,
     const std::unordered_map<
@@ -124,3 +162,46 @@ std::intptr_t GameAddress::address() const noexcept {
 }
 
 } // namespace sgd2mapi
+
+void sgd2mapi_game_address_create_from_library_path(
+    struct SGD2MAPI_GameAddress* game_address,
+    const char* library_path,
+    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+) {
+  int game_version_value =
+      static_cast<int>(sgd2mapi::GetRunningGameVersionId());
+  const sgd2mapi::GameAddressLocatorInterface& address_locator =
+      *(game_address_locators[game_version_value]->game_address_locator);
+
+  game_address->game_address =
+      new sgd2mapi::GameAddress(library_path, address_locator);
+}
+
+void sgd2mapi_game_address_create_from_library_id(
+    struct SGD2MAPI_GameAddress* game_address,
+    enum SGD2MAPI_DefaultLibrary library_id,
+    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+) {
+  int game_version_value =
+      static_cast<int>(sgd2mapi::GetRunningGameVersionId());
+  const sgd2mapi::GameAddressLocatorInterface& address_locator =
+      *(game_address_locators[game_version_value]->game_address_locator);
+
+  enum sgd2mapi::DefaultLibrary converted_library_id =
+      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+
+  game_address->game_address =
+      new sgd2mapi::GameAddress(converted_library_id, address_locator);
+}
+
+void sgd2mapi_game_address_destroy(
+    struct SGD2MAPI_GameAddress* game_address
+) {
+  delete game_address->game_address;
+}
+
+std::intptr_t sgd2mapi_game_address_get_address(
+    const struct SGD2MAPI_GameAddress* game_address
+) {
+  return game_address->game_address->address();
+}
