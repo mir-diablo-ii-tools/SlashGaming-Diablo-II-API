@@ -39,11 +39,13 @@
 #ifndef SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_
 #define SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_
 
+#include "../game_address.h"
+
+#ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
 #include <vector>
-
-#include "../game_address.h"
+#endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
@@ -53,10 +55,13 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 class DLLEXPORT GamePatchBase {
  public:
+  virtual ~GamePatchBase() noexcept;
+
   /**
    * Applies the patch to the game.
    */
@@ -104,8 +109,6 @@ class DLLEXPORT GamePatchBase {
   GamePatchBase(const GamePatchBase&);
   GamePatchBase(GamePatchBase&&) noexcept;
 
-  virtual ~GamePatchBase() noexcept;
-
   GamePatchBase& operator=(const GamePatchBase&);
   GamePatchBase& operator=(GamePatchBase&&) noexcept;
 
@@ -117,6 +120,29 @@ class DLLEXPORT GamePatchBase {
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
+
+struct SGD2MAPI_GamePatchBase;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void sgd2mapi_game_patch_base_destory(
+    struct SGD2MAPI_GamePatchBase* game_patch
+);
+
+DLLEXPORT void sgd2mapi_game_patch_base_apply(
+    struct SGD2MAPI_GamePatchBase* game_patch
+);
+
+DLLEXPORT void sgd2mapi_game_patch_base_remove(
+    struct SGD2MAPI_GamePatchBase* game_patch
+);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_

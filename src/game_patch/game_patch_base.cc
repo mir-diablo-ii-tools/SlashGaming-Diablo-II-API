@@ -44,6 +44,7 @@
 #include <utility>
 
 #include "../../include/game_address.h"
+#include "c_interface/game_patch_base.h"
 
 namespace sgd2mapi {
 
@@ -151,3 +152,21 @@ std::size_t GamePatchBase::patch_size() const noexcept {
 }
 
 } // namespace sgd2mapi
+
+void sgd2mapi_game_patch_base_destory(
+    struct SGD2MAPI_GamePatchBase* game_patch
+) {
+  delete game_patch->game_patch;
+}
+
+void sgd2mapi_game_patch_base_apply(
+    struct SGD2MAPI_GamePatchBase* game_patch
+) {
+  game_patch->game_patch->Apply();
+}
+
+void sgd2mapi_game_patch_base_remove(
+    struct SGD2MAPI_GamePatchBase* game_patch
+) {
+  game_patch->game_patch->Remove();
+}
