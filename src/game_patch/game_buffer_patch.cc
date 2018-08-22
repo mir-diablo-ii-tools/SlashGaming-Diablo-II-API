@@ -120,10 +120,17 @@ void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
     const std::uint8_t buffer[],
     std::size_t patch_size
 ) {
-  dest->game_patch = new sgd2mapi::GameBufferPatch(
-      *(game_address->game_address),
+  struct SGD2MAPI_GameBufferPatch game_buffer_patch;
+  sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
+      &game_buffer_patch,
+      game_address,
       buffer,
       patch_size
+  );
+
+  sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
+      dest,
+      &game_buffer_patch
   );
 }
 

@@ -84,7 +84,16 @@ void sgd2mapi_game_offset_create_as_game_address_locator(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     std::intptr_t offset
 ) {
-  dest->game_address_locator = new sgd2mapi::GameOffset(offset);
+  struct SGD2MAPI_GameOffset game_offset;
+  sgd2mapi_game_offset_create_as_game_offset(
+      &game_offset,
+      offset
+  );
+
+  sgd2mapi_game_offset_downcast_to_game_address_locator(
+      dest,
+      &game_offset
+  );
 }
 
 void sgd2mapi_game_offset_destroy(
