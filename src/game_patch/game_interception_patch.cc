@@ -46,7 +46,10 @@
 
 #include <boost/format.hpp>
 #include <frozen/unordered_map.h>
+#include "../c_interface/game_address.h"
 #include "../../include/game_address.h"
+#include "c_interface/game_interception_patch.h"
+#include "c_interface/game_patch_base.h"
 #include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
@@ -152,3 +155,60 @@ std::intptr_t GameInterceptionPatch::func_ptr() const noexcept {
 }
 
 } // namespace sgd2mapi
+
+/**
+ * C Interface
+ */
+
+void sgd2mapi_game_interception_patch_create_as_game_interception_patch(
+    struct SGD2MAPI_GameInterceptionPatch* dest,
+    const struct SGD2MAPI_GameAddress* game_address,
+    enum SGD2MAPI_BranchType branch_type,
+    void* func(),
+    std::size_t patch_size
+) {
+  enum sgd2mapi::BranchType converted_branch_type =
+      static_cast<sgd2mapi::BranchType>(branch_type);
+
+  dest->game_interception_patch = new sgd2mapi::GameInterceptionPatch(
+      *(game_address->game_address),
+      converted_branch_type,
+      std::function(func),
+      patch_size
+  );
+}
+
+void sgd2mapi_game_interception_patch_create_as_game_patch_base(
+    struct SGD2MAPI_GamePatchBase* dest,
+    const struct SGD2MAPI_GameAddress* game_address,
+    enum SGD2MAPI_BranchType branch_type,
+    void* func(),
+    size_t patch_size
+) {
+  struct SGD2MAPI_GameInterceptionPatch game_interception_patch;
+  sgd2mapi_game_interception_patch_create_as_game_interception_patch(
+      &game_interception_patch,
+      game_address,
+      branch_type,
+      func,
+      patch_size
+  );
+
+  sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
+      dest,
+      &game_interception_patch
+  );
+}
+
+void sgd2mapi_game_interception_patch_destroy(
+    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+) {
+  delete game_interception_patch->game_interception_patch;
+}
+
+void sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
+    struct SGD2MAPI_GamePatchBase* dest,
+    const struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+) {
+  dest->game_patch = game_interception_patch->game_interception_patch;
+}
