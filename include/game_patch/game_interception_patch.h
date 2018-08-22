@@ -81,10 +81,13 @@ class DLLEXPORT GameInterceptionPatch : public GamePatchBase {
       std::function<T> func,
       std::size_t patch_size)
   : GameInterceptionPatch(
-      game_address,
-      branch_type,
-      static_cast<std::intptr_t>(func.target()),
-      patch_size) {
+        game_address,
+        branch_type,
+        reinterpret_cast<std::intptr_t>(
+            func.template target<void(*)(void*)>()
+        ),
+        patch_size
+    ) {
   }
 
   template<typename T>
@@ -94,10 +97,13 @@ class DLLEXPORT GameInterceptionPatch : public GamePatchBase {
       std::function<T> func,
       std::size_t patch_size)
   : GameInterceptionPatch(
-      std::move(game_address),
-      branch_type,
-      static_cast<std::intptr_t>(func.target()),
-      patch_size) {
+        std::move(game_address),
+        branch_type,
+        reinterpret_cast<std::intptr_t>(
+            func.template target<void(*)(void*)>()
+        ),
+        patch_size
+    ) {
   }
 
   GameInterceptionPatch(const GameInterceptionPatch&);
