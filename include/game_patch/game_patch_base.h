@@ -132,16 +132,16 @@ struct SGD2MAPI_GamePatchBase;
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void sgd2mapi_game_patch_base_destory(
-    struct SGD2MAPI_GamePatchBase* game_patch
+DLLEXPORT void sgd2mapi_game_patch_base_destroy(
+    struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
 DLLEXPORT void sgd2mapi_game_patch_base_apply(
-    struct SGD2MAPI_GamePatchBase* game_patch
+    struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
 DLLEXPORT void sgd2mapi_game_patch_base_remove(
-    struct SGD2MAPI_GamePatchBase* game_patch
+    struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
 #ifdef __cplusplus

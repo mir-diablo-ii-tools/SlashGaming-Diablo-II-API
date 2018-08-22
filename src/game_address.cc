@@ -164,34 +164,47 @@ std::intptr_t GameAddress::address() const noexcept {
 } // namespace sgd2mapi
 
 void sgd2mapi_game_address_create_from_library_path(
-    struct SGD2MAPI_GameAddress* game_address,
+    struct SGD2MAPI_GameAddress* dest,
     const char* library_path,
-    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+    const struct SGD2MAPI_GameAddressLocatorInterface**
+        game_address_locator_interfaces
 ) {
+  // Pull the game address locator corresponding to the running game version.
   int game_version_value =
       static_cast<int>(sgd2mapi::GetRunningGameVersionId());
-  const sgd2mapi::GameAddressLocatorInterface& address_locator =
-      *(game_address_locators[game_version_value]->game_address_locator);
+  const struct SGD2MAPI_GameAddressLocatorInterface*
+      running_game_address_locator_interface =
+          game_address_locator_interfaces[game_version_value];
 
-  game_address->game_address =
-      new sgd2mapi::GameAddress(library_path, address_locator);
+  // Extract the actual address locator to call the C++ constructor.
+  const sgd2mapi::GameAddressLocatorInterface& actual_address_locator =
+      *(running_game_address_locator_interface
+            ->game_address_locator_interface);
+
+  dest->game_address = new sgd2mapi::GameAddress(
+      library_path,
+      actual_address_locator
+  );
 }
 
 void sgd2mapi_game_address_create_from_library_id(
-    struct SGD2MAPI_GameAddress* game_address,
+    struct SGD2MAPI_GameAddress* dest,
     enum SGD2MAPI_DefaultLibrary library_id,
-    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+    const struct SGD2MAPI_GameAddressLocatorInterface**
+        game_address_locator_interfaces
 ) {
-  int game_version_value =
-      static_cast<int>(sgd2mapi::GetRunningGameVersionId());
-  const sgd2mapi::GameAddressLocatorInterface& address_locator =
-      *(game_address_locators[game_version_value]->game_address_locator);
-
+  // Get the string name of the default library so that the other constructor
+  // can be used.
   enum sgd2mapi::DefaultLibrary converted_library_id =
-      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+      static_cast<enum sgd2mapi::DefaultLibrary>(library_id);
+  std::string_view library_name =
+      sgd2mapi::GameLibrary::GetLibraryPathWithRedirect(converted_library_id);
 
-  game_address->game_address =
-      new sgd2mapi::GameAddress(converted_library_id, address_locator);
+  sgd2mapi_game_address_create_from_library_path(
+      dest,
+      library_name.data(),
+      game_address_locator_interfaces
+  );
 }
 
 void sgd2mapi_game_address_destroy(

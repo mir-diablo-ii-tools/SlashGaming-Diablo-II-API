@@ -50,8 +50,8 @@ GameAddressLocatorInterface::~GameAddressLocatorInterface() noexcept = default;
  * C Interface
  */
 
-void sgd2mapi_game_address_locator_destroy(
-    struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator
+void sgd2mapi_game_address_locator_interface_destroy(
+    struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
 ) {
-  delete game_address_locator->game_address_locator;
+  delete game_address_locator_interface->game_address_locator_interface;
 }

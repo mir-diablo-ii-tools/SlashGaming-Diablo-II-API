@@ -183,7 +183,7 @@ void sgd2mapi_game_interception_patch_create_as_game_patch_base(
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
     void* func(),
-    size_t patch_size
+    std::size_t patch_size
 ) {
   struct SGD2MAPI_GameInterceptionPatch game_interception_patch;
   sgd2mapi_game_interception_patch_create_as_game_interception_patch(
@@ -210,5 +210,5 @@ void sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
 ) {
-  dest->game_patch = game_interception_patch->game_interception_patch;
+  dest->game_patch_base = game_interception_patch->game_interception_patch;
 }

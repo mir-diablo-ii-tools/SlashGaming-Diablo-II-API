@@ -39,12 +39,7 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_ORDINAL_H_
 #define SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_ORDINAL_H_
 
-#include "../../../include/game_address_locator/game_address_locator_interface.h"
 #include "../../../include/game_address_locator/game_ordinal.h"
-
-/**
- * C Interface
- */
 
 struct SGD2MAPI_GameOrdinal {
   sgd2mapi::GameOrdinal* game_ordinal;

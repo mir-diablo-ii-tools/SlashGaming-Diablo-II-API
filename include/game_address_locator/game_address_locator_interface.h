@@ -75,8 +75,8 @@ struct SGD2MAPI_GameAddressLocatorInterface;
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void sgd2mapi_game_address_locator_destroy(
-    struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator
+DLLEXPORT void sgd2mapi_game_address_locator_interface_destroy(
+    struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
 );
 
 #ifdef __cplusplus

@@ -39,7 +39,6 @@
 #ifndef SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_INTERCEPTION_PATCH_H_
 #define SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_INTERCEPTION_PATCH_H_
 
-#include "../../../include/game_patch/game_patch_base.h"
 #include "../../../include/game_patch/game_interception_patch.h"
 
 struct SGD2MAPI_GameInterceptionPatch {

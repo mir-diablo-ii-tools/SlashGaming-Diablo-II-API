@@ -109,13 +109,15 @@ struct SGD2MAPI_GameAddress;
 DLLEXPORT void sgd2mapi_game_address_create_from_library_path(
     struct SGD2MAPI_GameAddress* dest,
     const char* library_path,
-    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+    const struct SGD2MAPI_GameAddressLocatorInterface**
+        game_address_locator_interfaces
 );
 
 DLLEXPORT void sgd2mapi_game_address_create_from_library_id(
     struct SGD2MAPI_GameAddress* dest,
     enum SGD2MAPI_DefaultLibrary library_id,
-    const struct SGD2MAPI_GameAddressLocatorInterface* game_address_locators[]
+    const struct SGD2MAPI_GameAddressLocatorInterface**
+        game_address_locator_interfaces
 );
 
 /**
@@ -128,14 +130,14 @@ DLLEXPORT void sgd2mapi_game_address_create_from_library_id(
 #define sgd2mapi_game_address_create( \
     dest, \
     library, \
-    game_address_locators\
+    game_address_locator_interfaces \
 ) _Generic( \
     (library), \
     char*: \
-        sgd2mapi_game_address_create_from_library_path \
+        sgd2mapi_game_address_create_from_library_path, \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
         sgd2mapi_game_address_create_from_library_id \
-)(dest, library, game_address_locators)
+)(dest, library, game_address_locator_interfaces)
 
 DLLEXPORT void sgd2mapi_game_address_destroy(
     struct SGD2MAPI_GameAddress* game_address

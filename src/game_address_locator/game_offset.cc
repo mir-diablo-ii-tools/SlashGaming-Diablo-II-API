@@ -73,14 +73,7 @@ std::intptr_t GameOffset::offset() const noexcept {
  * C Interface
  */
 
-void sgd2mapi_game_offset_create_as_game_offset(
-    struct SGD2MAPI_GameOffset* dest,
-    std::intptr_t offset
-) {
-  dest->game_offset = new sgd2mapi::GameOffset(offset);
-}
-
-void sgd2mapi_game_offset_create_as_game_address_locator(
+void sgd2mapi_game_offset_create_as_game_address_locator_interface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     std::intptr_t offset
 ) {
@@ -90,10 +83,17 @@ void sgd2mapi_game_offset_create_as_game_address_locator(
       offset
   );
 
-  sgd2mapi_game_offset_downcast_to_game_address_locator(
+  sgd2mapi_game_offset_downcast_to_game_address_locator_interface(
       dest,
       &game_offset
   );
+}
+
+void sgd2mapi_game_offset_create_as_game_offset(
+    struct SGD2MAPI_GameOffset* dest,
+    std::intptr_t offset
+) {
+  dest->game_offset = new sgd2mapi::GameOffset(offset);
 }
 
 void sgd2mapi_game_offset_destroy(
@@ -102,11 +102,11 @@ void sgd2mapi_game_offset_destroy(
   delete game_offset->game_offset;
 }
 
-void sgd2mapi_game_offset_downcast_to_game_address_locator(
+void sgd2mapi_game_offset_downcast_to_game_address_locator_interface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOffset* game_offset
 ) {
-  dest->game_address_locator = game_offset->game_offset;
+  dest->game_address_locator_interface = game_offset->game_offset;
 }
 
 std::intptr_t sgd2mapi_game_offset_get_offset(

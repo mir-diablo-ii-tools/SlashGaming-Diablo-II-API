@@ -39,12 +39,7 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_OFFSET_H_
 #define SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_OFFSET_H_
 
-#include "../../../include/game_address_locator/game_address_locator_interface.h"
 #include "../../../include/game_address_locator/game_offset.h"
-
-/**
- * C Interface
- */
 
 struct SGD2MAPI_GameOffset {
   sgd2mapi::GameOffset* game_offset;

@@ -42,7 +42,7 @@
 #include "../../../include/game_patch/game_patch_base.h"
 
 struct SGD2MAPI_GamePatchBase {
-  sgd2mapi::GamePatchBase* game_patch;
+  sgd2mapi::GamePatchBase* game_patch_base;
 };
 
 #endif // SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_PATCH_BASE_H_

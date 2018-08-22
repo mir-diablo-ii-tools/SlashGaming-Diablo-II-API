@@ -41,12 +41,8 @@
 
 #include "../../../include/game_address_locator/game_address_locator_interface.h"
 
-/**
- * C Interface
- */
-
 struct SGD2MAPI_GameAddressLocatorInterface {
-  sgd2mapi::GameAddressLocatorInterface* game_address_locator;
+  sgd2mapi::GameAddressLocatorInterface* game_address_locator_interface;
 };
 
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_C_INTERFACE_GAME_ADDRESS_LOCATOR_INTERFACE_H_

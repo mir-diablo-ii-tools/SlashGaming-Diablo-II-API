@@ -39,6 +39,8 @@
 #ifndef SGD2MAPI_GAME_PATCH_GAME_INTERCEPTION_PATCH_H_
 #define SGD2MAPI_GAME_PATCH_GAME_INTERCEPTION_PATCH_H_
 
+#include <stdlib.h>
+
 #include "../game_address.h"
 #include "game_patch_base.h"
 
