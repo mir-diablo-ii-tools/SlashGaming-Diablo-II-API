@@ -146,3 +146,15 @@ void sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
 ) {
   dest->game_patch_base = game_buffer_patch->game_buffer_patch;
 }
+
+void sgd2mapi_game_buffer_patch_apply(
+    struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+) {
+  game_buffer_patch->game_buffer_patch->Apply();
+}
+
+void sgd2mapi_game_buffer_patch_remove(
+    struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+) {
+  game_buffer_patch->game_buffer_patch->Remove();
+}

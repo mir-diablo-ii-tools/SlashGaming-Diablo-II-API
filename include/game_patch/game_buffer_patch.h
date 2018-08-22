@@ -177,6 +177,14 @@ DLLEXPORT void sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
         sgd2mapi_game_buffer_patch_downcast_to_game_patch_base \
 )(dest, game_buffer_patch)
 
+DLLEXPORT void sgd2mapi_game_buffer_patch_apply(
+    struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+);
+
+DLLEXPORT void sgd2mapi_game_buffer_patch_remove(
+    struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+);
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus

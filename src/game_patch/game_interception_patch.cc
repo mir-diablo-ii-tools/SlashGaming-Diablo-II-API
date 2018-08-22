@@ -212,3 +212,15 @@ void sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
 ) {
   dest->game_patch_base = game_interception_patch->game_interception_patch;
 }
+
+void sgd2mapi_game_interception_patch_apply(
+    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+) {
+  game_interception_patch->game_interception_patch->Apply();
+}
+
+void sgd2mapi_game_interception_patch_remove(
+    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+) {
+  game_interception_patch->game_interception_patch->Remove();
+}

@@ -226,6 +226,14 @@ DLLEXPORT void sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
         sgd2mapi_game_interception_patch_downcast_to_game_patch_base \
 )(dest, game_interception_patch)
 
+DLLEXPORT void sgd2mapi_game_interception_patch_apply(
+    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+);
+
+DLLEXPORT void sgd2mapi_game_interception_patch_remove(
+    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+);
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
