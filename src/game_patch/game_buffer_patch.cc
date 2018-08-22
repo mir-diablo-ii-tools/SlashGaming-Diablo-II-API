@@ -97,6 +97,10 @@ GameBufferPatch& GameBufferPatch::operator=(GameBufferPatch&&)
 
 } // namespace sgd2mapi
 
+/**
+ * C Interface
+ */
+
 void sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
     struct SGD2MAPI_GameBufferPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,

@@ -153,6 +153,10 @@ std::size_t GamePatchBase::patch_size() const noexcept {
 
 } // namespace sgd2mapi
 
+/**
+ * C Interface
+ */
+
 void sgd2mapi_game_patch_base_destory(
     struct SGD2MAPI_GamePatchBase* game_patch
 ) {

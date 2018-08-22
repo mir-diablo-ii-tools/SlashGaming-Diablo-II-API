@@ -118,6 +118,10 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
 } // namespace sgd2mapi
 #endif // __cplusplus
 
+/**
+ * C Interface
+ */
+
 struct SGD2MAPI_GameBufferPatch;
 
 #ifdef __cplusplus

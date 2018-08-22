@@ -122,6 +122,10 @@ class DLLEXPORT GamePatchBase {
 } // namespace sgd2mapi
 #endif // __cplusplus
 
+/**
+ * C Interface
+ */
+
 struct SGD2MAPI_GamePatchBase;
 
 #ifdef __cplusplus
