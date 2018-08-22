@@ -53,6 +53,7 @@
 #define DLLEXPORT
 #endif
 
+#ifdef __cplusplus
 namespace sgd2mapi {
 
 class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
@@ -77,6 +78,7 @@ class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
 };
 
 } // namespace sgd2mapi
+#endif // __cplusplus
 
 /**
  * C Interface
