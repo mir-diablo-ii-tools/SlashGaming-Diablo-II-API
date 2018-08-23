@@ -58,6 +58,9 @@ namespace sgd2mapi {
 
 class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
  public:
+  /**
+   * Creates a new instance of GameOrdinal.
+   */
   explicit GameOrdinal(int ordinal) noexcept;
 
   GameOrdinal(const GameOrdinal& rhs) noexcept;
@@ -71,6 +74,9 @@ class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
   std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept override;
 
+  /**
+   * Returns the ordinal value of this game ordinal.
+   */
   int ordinal() const noexcept;
 
  private:
@@ -101,8 +107,7 @@ DLLEXPORT void sgd2mapi_game_ordinal_create_as_game_ordinal(
 );
 
 /**
- * Initializes the value of the specified destination with a new GameOrdinal
- * using the specified parameters.
+ * Initializes the specified destination with a new GameOrdinal.
  */
 #define sgd2mapi_game_ordinal_create(dest, ordinal) _Generic( \
     (dest), \
@@ -112,23 +117,32 @@ DLLEXPORT void sgd2mapi_game_ordinal_create_as_game_ordinal(
         sgd2mapi_game_ordinal_create_as_game_ordinal \
 )(dest, ordinal)
 
+/**
+ * Frees the memory used by the specified game locator.
+ */
 DLLEXPORT void sgd2mapi_game_ordinal_destroy(
     struct SGD2MAPI_GameOrdinal* game_ordinal
 );
 
 DLLEXPORT
-void sgd2mapi_game_ordinal_downcast_to_game_address_locator_interface(
+void sgd2mapi_game_ordinal_upcast_to_game_address_locator_interface(
     struct SGD2MAPI_GameAddressLocatorInterface*
         game_address_locator_interface,
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 );
 
-#define sgd2mapi_game_ordinal_downcast(dest, game_ordinal) _Generic( \
+/**
+ * Upcasts the game locator to a parent type, into the destination.
+ */
+#define sgd2mapi_game_ordinal_upcast(dest, game_ordinal) _Generic( \
     (dest), \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
-        sgd2mapi_game_ordinal_downcast_to_game_address_locator_interface \
+        sgd2mapi_game_ordinal_upcast_to_game_address_locator_interface \
 )(dest, game_ordinal)
 
+/**
+ * Returns the ordinal value of the game ordinal.
+ */
 DLLEXPORT int sgd2mapi_game_ordinal_get_ordinal(
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 );

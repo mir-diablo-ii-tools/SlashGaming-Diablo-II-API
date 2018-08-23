@@ -63,7 +63,8 @@ class DLLEXPORT GamePatchBase {
   virtual ~GamePatchBase() noexcept;
 
   /**
-   * Applies the patch to the game.
+   * Applies the patch by replacing the bytes at its target address with the
+   * bytes stored in its buffer.
    */
   void Apply() noexcept;
 
@@ -95,16 +96,36 @@ class DLLEXPORT GamePatchBase {
 
  protected:
   /**
-   * Initializes the patch destination and patch size of this patch.
+   * Initializes this patch's target game address and patch buffer.
    */
-  GamePatchBase(const GameAddress& game_address,
-                const std::vector<std::uint8_t>& patch_buffer);
-  GamePatchBase(GameAddress&& game_address,
-                const std::vector<std::uint8_t>& patch_buffer);
-  GamePatchBase(const GameAddress& game_address,
-                std::vector<std::uint8_t>&& patch_buffer);
-  GamePatchBase(GameAddress&& game_address,
-                std::vector<std::uint8_t>&& patch_buffer);
+  GamePatchBase(
+      const GameAddress& game_address,
+      const std::vector<std::uint8_t>& patch_buffer
+  );
+
+  /**
+   * Initializes this patch's target game address and patch buffer.
+   */
+  GamePatchBase(
+      GameAddress&& game_address,
+      const std::vector<std::uint8_t>& patch_buffer
+  );
+
+  /**
+   * Initializes this patch's target game address and patch buffer.
+   */
+  GamePatchBase(
+      const GameAddress& game_address,
+      std::vector<std::uint8_t>&& patch_buffer
+  );
+
+  /**
+   * Initializes this patch's target game address and patch buffer.
+   */
+  GamePatchBase(
+      GameAddress&& game_address,
+      std::vector<std::uint8_t>&& patch_buffer
+  );
 
   GamePatchBase(const GamePatchBase&);
   GamePatchBase(GamePatchBase&&) noexcept;
@@ -132,14 +153,25 @@ struct SGD2MAPI_GamePatchBase;
 extern "C" {
 #endif // __cplusplus
 
+/**
+ * Frees the memory used by the specified game patch.
+ */
 DLLEXPORT void sgd2mapi_game_patch_base_destroy(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
+/**
+ * Applies the game patch by replacing the bytes at its target address with the
+ * bytes stored in its buffer.
+ */
 DLLEXPORT void sgd2mapi_game_patch_base_apply(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
+/**
+ * Removes the effects of the game patch by restoring the original state of the
+ * bytes at its target address.
+ */
 DLLEXPORT void sgd2mapi_game_patch_base_remove(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 );

@@ -50,45 +50,65 @@ namespace sgd2mapi {
 
 GamePatchBase::GamePatchBase(
     const GameAddress& game_address,
-    const std::vector<std::uint8_t>& patch_buffer)
+    const std::vector<std::uint8_t>& patch_buffer
+)
     : game_address_(game_address),
       is_patch_applied_(false),
-      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address.address()),
-                 reinterpret_cast<std::uint8_t*>(game_address.address()
-                                                 + patch_buffer.size())),
+      old_bytes_(
+          reinterpret_cast<std::uint8_t*>(game_address.address()),
+          reinterpret_cast<std::uint8_t*>(
+              game_address.address()
+              + patch_buffer.size()
+          )
+      ),
       patch_buffer_(patch_buffer) {
 }
 
 GamePatchBase::GamePatchBase(
     GameAddress&& game_address,
-    const std::vector<std::uint8_t>& patch_buffer)
+    const std::vector<std::uint8_t>& patch_buffer
+)
     : game_address_(std::move(game_address)),
       is_patch_applied_(false),
-      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address_.address()),
-                 reinterpret_cast<std::uint8_t*>(game_address_.address()
-                                                 + patch_buffer.size())),
+      old_bytes_(
+          reinterpret_cast<std::uint8_t*>(game_address_.address()),
+          reinterpret_cast<std::uint8_t*>(
+              game_address_.address()
+              + patch_buffer.size()
+          )
+      ),
       patch_buffer_(patch_buffer) {
 }
 
 GamePatchBase::GamePatchBase(
     const GameAddress& game_address,
-    std::vector<std::uint8_t>&& patch_buffer)
+    std::vector<std::uint8_t>&& patch_buffer
+)
     : game_address_(game_address),
       is_patch_applied_(false),
-      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address.address()),
-                 reinterpret_cast<std::uint8_t*>(game_address.address()
-                                                 + patch_buffer_.size())),
+      old_bytes_(
+          reinterpret_cast<std::uint8_t*>(game_address.address()),
+          reinterpret_cast<std::uint8_t*>(
+              game_address.address()
+              + patch_buffer_.size()
+          )
+      ),
       patch_buffer_(std::move(patch_buffer)) {
 }
 
 GamePatchBase::GamePatchBase(
     GameAddress&& game_address,
-    std::vector<std::uint8_t>&& patch_buffer)
+    std::vector<std::uint8_t>&& patch_buffer
+)
     : game_address_(std::move(game_address)),
       is_patch_applied_(false),
-      old_bytes_(reinterpret_cast<std::uint8_t*>(game_address_.address()),
-                 reinterpret_cast<std::uint8_t*>(game_address_.address()
-                                                 + patch_buffer_.size())),
+      old_bytes_(
+          reinterpret_cast<std::uint8_t*>(game_address_.address()),
+          reinterpret_cast<std::uint8_t*>(
+              game_address_.address()
+              + patch_buffer_.size()
+          )
+      ),
       patch_buffer_(std::move(patch_buffer)) {
 }
 
@@ -111,11 +131,13 @@ void GamePatchBase::Apply() noexcept {
 
   // Replace the data at the destination with the values in the patch buffer.
   std::intptr_t address = game_address().address();
-  WriteProcessMemory(GetCurrentProcess(),
-                     reinterpret_cast<void*>(address),
-                     patch_buffer().data(),
-                     patch_buffer().size(),
-                     nullptr);
+  WriteProcessMemory(
+      GetCurrentProcess(),
+      reinterpret_cast<void*>(address),
+      patch_buffer().data(),
+      patch_buffer().size(),
+      nullptr
+  );
 
   is_patch_applied_ = true;
 }
@@ -127,11 +149,13 @@ void GamePatchBase::Remove() noexcept {
 
   // Restore the old state of the destination.
   std::intptr_t address = game_address().address();
-  WriteProcessMemory(GetCurrentProcess(),
-                     reinterpret_cast<void*>(address),
-                     old_bytes_.data(),
-                     old_bytes_.size(),
-                     nullptr);
+  WriteProcessMemory(
+      GetCurrentProcess(),
+      reinterpret_cast<void*>(address),
+      old_bytes_.data(),
+      old_bytes_.size(),
+      nullptr
+  );
   is_patch_applied_ = false;
 }
 

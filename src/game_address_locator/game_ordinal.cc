@@ -56,10 +56,12 @@ GameOrdinal::GameOrdinal(int ordinal) noexcept
     std::wstring error_message = (boost::wformat(
         L"Invalid ordinal value %d. The leftmost four bytes of an ordinal must"
         L"be zero.") % ordinal).str();
-    MessageBoxW(nullptr,
-                error_message.data(),
-                L"Invalid Ordinal Value",
-                MB_OK | MB_ICONERROR);
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Invalid Ordinal Value",
+        MB_OK | MB_ICONERROR
+    );
     std::exit(EXIT_FAILURE);
   }
 }
@@ -86,10 +88,12 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
         L"The function with ordinal %d could not be found."
     ) % ordinal()).str();
 
-    MessageBoxW(nullptr,
-                error_message.data(),
-                L"Failed to Locate Function",
-                MB_OK | MB_ICONERROR);
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Failed to Locate Function",
+        MB_OK | MB_ICONERROR
+    );
     std::exit(0);
   }
 
@@ -116,7 +120,7 @@ void sgd2mapi_game_ordinal_create_as_game_address_locator_interface(
       ordinal
   );
 
-  sgd2mapi_game_ordinal_downcast_to_game_address_locator_interface(
+  sgd2mapi_game_ordinal_upcast_to_game_address_locator_interface(
       dest,
       &game_ordinal
   );
@@ -135,7 +139,7 @@ void sgd2mapi_game_ordinal_destroy(
   delete game_ordinal->game_ordinal;
 }
 
-void sgd2mapi_game_ordinal_downcast_to_game_address_locator_interface(
+void sgd2mapi_game_ordinal_upcast_to_game_address_locator_interface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {

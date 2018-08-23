@@ -64,15 +64,16 @@ enum class OpCode : std::uint8_t {
 };
 
 constexpr frozen::unordered_map kOpCodeByBranchType =
-  frozen::make_unordered_map<enum BranchType, enum OpCode>({
-      {BranchType::kCall, OpCode::kCall},
-      {BranchType::kJump, OpCode::kJump}
-  });
+    frozen::make_unordered_map<enum BranchType, enum OpCode>({
+        {BranchType::kCall, OpCode::kCall},
+        {BranchType::kJump, OpCode::kJump}
+    });
 
 std::vector<std::uint8_t> CreateReplaceBuffer(
     enum BranchType branch_type,
     const GameAddress& game_address,
-    std::size_t patch_size) {
+    std::size_t patch_size
+) {
 
   // Check that the patch size is large enough to allow the interception.
   if (patch_size < sizeof(std::intptr_t) + 1) {
@@ -81,17 +82,20 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
         L"interception patch."
     ) % game_address.address()).str();
 
-    MessageBoxW(nullptr,
-                error_message.data(),
-                L"Failed to Patch Game",
-                MB_OK | MB_ICONERROR);
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Failed to Patch Game",
+        MB_OK | MB_ICONERROR
+    );
     std::exit(EXIT_FAILURE);
   }
 
   // Create a buffer full of NOPs.
   std::vector<std::uint8_t> buffer(
       patch_size,
-      static_cast<std::uint8_t>(OpCode::kNop));
+      static_cast<std::uint8_t>(OpCode::kNop)
+  );
 
   // Set the first byte in the buffer to the branch operation opcode byte.
   buffer[0] = static_cast<std::uint8_t>(kOpCodeByBranchType.at(branch_type));
@@ -127,7 +131,8 @@ GameInterceptionPatch::GameInterceptionPatch(
     std::size_t patch_size)
     : GamePatchBase(
           std::move(game_address),
-          CreateReplaceBuffer(branch_type, game_address, patch_size)),
+          CreateReplaceBuffer(branch_type, game_address, patch_size)
+      ),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
 }
@@ -141,10 +146,12 @@ GameInterceptionPatch::GameInterceptionPatch(GameInterceptionPatch&&)
 GameInterceptionPatch::~GameInterceptionPatch() = default;
 
 GameInterceptionPatch& GameInterceptionPatch::operator=(
-    const GameInterceptionPatch&) = default;
+    const GameInterceptionPatch&
+) = default;
 
 GameInterceptionPatch& GameInterceptionPatch::operator=(
-    GameInterceptionPatch&&) noexcept = default;
+    GameInterceptionPatch&&
+) noexcept = default;
 
 enum BranchType GameInterceptionPatch::branch_type() const noexcept {
   return branch_type_;
@@ -194,7 +201,7 @@ void sgd2mapi_game_interception_patch_create_as_game_patch_base(
       patch_size
   );
 
-  sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
+  sgd2mapi_game_interception_patch_upcast_to_game_patch_base(
       dest,
       &game_interception_patch
   );
@@ -206,7 +213,7 @@ void sgd2mapi_game_interception_patch_destroy(
   delete game_interception_patch->game_interception_patch;
 }
 
-void sgd2mapi_game_interception_patch_downcast_to_game_patch_base(
+void sgd2mapi_game_interception_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
 ) {

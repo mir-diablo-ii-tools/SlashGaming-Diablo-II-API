@@ -60,6 +60,9 @@ namespace sgd2mapi {
 
 class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
  public:
+  /**
+   * Creates a new instance of GameOffset.
+   */
   explicit GameOffset(std::intptr_t offset) noexcept;
 
   GameOffset(const GameOffset&) noexcept;
@@ -73,6 +76,9 @@ class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
   std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept override;
 
+  /**
+   * Returns the offset of this game locator.
+   */
   std::intptr_t offset() const noexcept;
 
  private:
@@ -102,6 +108,9 @@ DLLEXPORT void sgd2mapi_game_offset_create_as_game_offset(
     intptr_t offset
 );
 
+/**
+ * Initializes the specified destination with a new GameOffset.
+ */
 #define sgd2mapi_game_offset_create(dest, offset) _Generic( \
     (dest), \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
@@ -110,24 +119,32 @@ DLLEXPORT void sgd2mapi_game_offset_create_as_game_offset(
         sgd2mapi_game_offset_create_as_game_offset \
 )(dest, offset)
 
+/**
+ * Frees the memory used by the specified game locator.
+ */
 DLLEXPORT void sgd2mapi_game_offset_destroy(
     struct SGD2MAPI_GameOffset* game_offset
 );
 
-DLLEXPORT void sgd2mapi_game_offset_downcast_to_game_address_locator_interface(
+DLLEXPORT void sgd2mapi_game_offset_upcast_to_game_address_locator_interface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOffset* game_offset
 );
 
-#define sgd2mapi_game_offset_downcast(dest, game_offset) _Generic( \
+/**
+ * Upcasts the game locator to a parent type, into the destination.
+ */
+#define sgd2mapi_game_offset_upcast(dest, game_offset) _Generic( \
     (dest), \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
-        sgd2mapi_game_offset_downcast_to_game_address_locator \
+        sgd2mapi_game_offset_upcast_to_game_address_locator \
 )(dest, game_offset)
 
-
+/**
+ * Returns the offset of the game locator.
+ */
 DLLEXPORT intptr_t sgd2mapi_game_offset_get_offset(
-    struct SGD2MAPI_GameOffset* game_offset
+    const struct SGD2MAPI_GameOffset* game_offset
 );
 
 #ifdef __cplusplus

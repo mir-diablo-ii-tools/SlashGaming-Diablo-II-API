@@ -54,32 +54,39 @@ namespace sgd2mapi {
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
     const std::uint8_t* buffer,
-    std::size_t patch_size)
-    : GamePatchBase(game_address,
-                    std::vector<std::uint8_t>(buffer, buffer + patch_size)) {
+    std::size_t patch_size
+)
+    : GamePatchBase(
+          game_address,
+          std::vector<std::uint8_t>(buffer, buffer + patch_size)
+      ) {
 }
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    const std::vector<std::uint8_t>& buffer)
+    const std::vector<std::uint8_t>& buffer
+)
     : GamePatchBase(game_address, buffer) {
 }
 
 GameBufferPatch::GameBufferPatch(
     GameAddress&& game_address,
-    const std::vector<std::uint8_t>& buffer)
+    const std::vector<std::uint8_t>& buffer
+)
     : GamePatchBase(std::move(game_address), buffer) {
 }
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    std::vector<std::uint8_t>&& buffer)
+    std::vector<std::uint8_t>&& buffer
+)
     : GamePatchBase(game_address, std::move(buffer)) {
 }
 
 GameBufferPatch::GameBufferPatch(
     GameAddress&& game_address,
-    std::vector<std::uint8_t>&& buffer)
+    std::vector<std::uint8_t>&& buffer
+)
     : GamePatchBase(std::move(game_address), std::move(buffer)) {
 }
 
@@ -128,7 +135,7 @@ void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
       patch_size
   );
 
-  sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
+  sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
       dest,
       &game_buffer_patch
   );
@@ -140,7 +147,7 @@ void sgd2mapi_game_buffer_patch_destroy(
   delete game_buffer_patch->game_buffer_patch;
 }
 
-void sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
+void sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {

@@ -58,6 +58,10 @@ class DLLEXPORT GameAddressLocatorInterface {
  public:
   virtual ~GameAddressLocatorInterface() noexcept;
 
+  /**
+   * Resolves the destination game address, using the provided library base
+   * address.
+   */
   virtual std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept = 0;
 };
@@ -75,6 +79,9 @@ struct SGD2MAPI_GameAddressLocatorInterface;
 extern "C" {
 #endif // __cplusplus
 
+/**
+ * Frees the memory used by the specified game address locator.
+ */
 DLLEXPORT void sgd2mapi_game_address_locator_interface_destroy(
     struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
 );

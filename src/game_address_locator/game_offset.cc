@@ -51,11 +51,13 @@ GameOffset::GameOffset(std::intptr_t offset) noexcept
 }
 
 GameOffset::GameOffset(const GameOffset&) noexcept = default;
+
 GameOffset::GameOffset(GameOffset&&) noexcept = default;
 
 GameOffset::~GameOffset() noexcept = default;
 
 GameOffset& GameOffset::operator=(const GameOffset&) noexcept = default;
+
 GameOffset& GameOffset::operator=(GameOffset&&) noexcept = default;
 
 std::intptr_t GameOffset::ResolveGameAddress(std::intptr_t base_address)
@@ -83,7 +85,7 @@ void sgd2mapi_game_offset_create_as_game_address_locator_interface(
       offset
   );
 
-  sgd2mapi_game_offset_downcast_to_game_address_locator_interface(
+  sgd2mapi_game_offset_upcast_to_game_address_locator_interface(
       dest,
       &game_offset
   );
@@ -102,7 +104,7 @@ void sgd2mapi_game_offset_destroy(
   delete game_offset->game_offset;
 }
 
-void sgd2mapi_game_offset_downcast_to_game_address_locator_interface(
+void sgd2mapi_game_offset_upcast_to_game_address_locator_interface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOffset* game_offset
 ) {
@@ -110,7 +112,7 @@ void sgd2mapi_game_offset_downcast_to_game_address_locator_interface(
 }
 
 std::intptr_t sgd2mapi_game_offset_get_offset(
-    struct SGD2MAPI_GameOffset* game_offset
+    const struct SGD2MAPI_GameOffset* game_offset
 ) {
   return game_offset->game_offset->offset();
 }

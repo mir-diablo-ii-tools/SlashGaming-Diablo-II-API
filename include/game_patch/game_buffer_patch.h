@@ -63,46 +63,56 @@
 namespace sgd2mapi {
 
 /**
- * A patch that replaces the destination address with the bytes stored in a
- * buffer.
+ * A patch that replaces the bytes at a destination address with 8-bit bytes
+ * stored in a buffer.
  */
 class DLLEXPORT GameBufferPatch : public GamePatchBase {
  public:
   /**
-   * Creates an instance of BufferPatch.
+   * Creates an instance of GameBufferPatch, specifying the patch buffer with
+   * an array of 8-bit bytes.
    */
   GameBufferPatch(
       const GameAddress& game_address,
       const std::uint8_t* buffer,
-      std::size_t patch_size);
+      std::size_t patch_size
+  );
 
   /**
-   * Creates an instance of BufferPatch.
+   * Creates an instance of GameBufferPatch, specifying the patch buffer with a
+   * vector of 8-bit bytes.
    */
   GameBufferPatch(
       const GameAddress& game_address,
-      const std::vector<std::uint8_t>& buffer);
+      const std::vector<std::uint8_t>& buffer
+  );
 
   /**
-   * Creates an instance of BufferPatch.
+   * Creates an instance of GameBufferPatch, specifying the patch buffer with a
+   * vector of 8-bit bytes.
    */
   GameBufferPatch(
       GameAddress&& game_address,
-      const std::vector<std::uint8_t>& buffer);
+      const std::vector<std::uint8_t>& buffer
+  );
 
   /**
-   * Creates an instance of BufferPatch.
+   * Creates an instance of GameBufferPatch, specifying the patch buffer with a
+   * vector of 8-bit bytes.
    */
   GameBufferPatch(
       const GameAddress& game_address,
-      std::vector<std::uint8_t>&& buffer);
+      std::vector<std::uint8_t>&& buffer
+  );
 
   /**
-   * Creates an instance of BufferPatch.
+   * Creates an instance of GameBufferPatch, specifying the patch buffer with a
+   * vector of 8-bit bytes.
    */
   GameBufferPatch(
       GameAddress&& game_address,
-      std::vector<std::uint8_t>&& buffer);
+      std::vector<std::uint8_t>&& buffer
+  );
 
   GameBufferPatch(const GameBufferPatch&);
 
@@ -143,8 +153,8 @@ DLLEXPORT void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
 );
 
 /**
- * Initializes the value of the specified destination with a new
- * GameBufferPatch using the specified parameters.
+ * Initializes the specified destination with a new GameBufferPatch, specifying
+ * the patch buffer with an array of 8-bit bytes.
  */
 #define sgd2mapi_game_buffer_patch_create( \
     dest, \
@@ -159,28 +169,42 @@ DLLEXPORT void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
         sgd2mapi_game_buffer_patch_create_as_game_patch_base \
 )(dest, game_address, buffer, patch_size)
 
+/**
+ * Frees the memory used by the specified game patch.
+ */
 DLLEXPORT void sgd2mapi_game_buffer_patch_destroy(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 );
 
-DLLEXPORT void sgd2mapi_game_buffer_patch_downcast_to_game_patch_base(
+DLLEXPORT void sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 );
 
-#define sgd2mapi_game_buffer_patch_downcast( \
+/**
+ * Upcasts the game patch to a parent type, into the destination.
+ */
+#define sgd2mapi_game_buffer_patch_upcast( \
     dest, \
     game_buffer_patch \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_buffer_patch_downcast_to_game_patch_base \
+        sgd2mapi_game_buffer_patch_upcast_to_game_patch_base \
 )(dest, game_buffer_patch)
 
+/**
+ * Applies the game patch by replacing the bytes at its target address
+ * with the bytes stored in its buffer.
+ */
 DLLEXPORT void sgd2mapi_game_buffer_patch_apply(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 );
 
+/**
+ * Removes the effects of the game patch by restoring the original state of the
+ * bytes at its target address.
+ */
 DLLEXPORT void sgd2mapi_game_buffer_patch_remove(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 );
