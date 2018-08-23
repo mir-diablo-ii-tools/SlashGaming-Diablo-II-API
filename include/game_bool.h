@@ -36,18 +36,14 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_GAME_BOOL_H_
+#define SGD2MAPI_GAME_BOOL_H_
 
-#include "game_address.h"
-#include "game_address_locator.h"
-#include "game_bool.h"
-#include "game_constant.h"
-#include "game_data.h"
-#include "game_func.h"
-#include "game_library.h"
-#include "game_patch.h"
-#include "game_struct.h"
-#include "game_version.h"
+#include <stdint.h>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+typedef int8_t bool8;
+typedef int16_t bool16;
+typedef int32_t bool32;
+typedef int64_t bool64;
+
+#endif // SGD2MAPI_GAME_BOOL_H_
