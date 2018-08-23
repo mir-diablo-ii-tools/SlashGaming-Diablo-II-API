@@ -56,6 +56,10 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
+/**
+ * A game address locator that uses an ordinal value to specify a location in
+ * game memory.
+ */
 class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
  public:
   /**

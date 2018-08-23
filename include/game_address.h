@@ -63,27 +63,57 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
+/**
+ * A class containing a location in the game memory.
+ */
 class DLLEXPORT GameAddress {
  public:
+  /**
+   * Create a new instance of GameAddress, directly specifying the address.
+   */
   explicit GameAddress(std::intptr_t address) noexcept;
 
-  GameAddress(std::string_view library_path,
-              const GameAddressLocatorInterface& address_locator) noexcept;
+  /**
+   * Create a new instance of GameAddress, specifying the library path and a
+   * game address locator.
+   */
+  GameAddress(
+      std::string_view library_path,
+      const GameAddressLocatorInterface& address_locator
+  ) noexcept;
 
-  GameAddress(enum DefaultLibrary library,
-              const GameAddressLocatorInterface& address_locator) noexcept;
+  /**
+   * Create a new instance of GameAddress, specifying the library ID and a
+   * game address locator.
+   */
+  GameAddress(
+      enum DefaultLibrary library,
+      const GameAddressLocatorInterface& address_locator
+  ) noexcept;
 
-  GameAddress(std::string_view library_path,
-              const std::unordered_map<
-                  enum GameVersion,
-                  std::shared_ptr<GameAddressLocatorInterface>
-              >& address_locators) noexcept;
+  /**
+   * Create a new instance of GameAddress, specifying the library path and a
+   * version to game address locator map.
+   */
+  GameAddress(
+      std::string_view library_path,
+      const std::unordered_map<
+          enum GameVersion,
+          std::shared_ptr<GameAddressLocatorInterface>
+      >& address_locators
+  ) noexcept;
 
-  GameAddress(enum DefaultLibrary library,
-              const std::unordered_map<
-                  enum GameVersion,
-                  std::shared_ptr<GameAddressLocatorInterface>
-              >& address_locators) noexcept;
+  /**
+   * Create a new instance of GameAddress, specifying the library ID and a
+   * game address locator.
+   */
+  GameAddress(
+      enum DefaultLibrary library,
+      const std::unordered_map<
+          enum GameVersion,
+          std::shared_ptr<GameAddressLocatorInterface>
+      >& address_locators
+  ) noexcept;
 
   GameAddress(const GameAddress&) noexcept;
   GameAddress(GameAddress&&) noexcept;
@@ -91,6 +121,9 @@ class DLLEXPORT GameAddress {
   GameAddress& operator=(const GameAddress&) noexcept;
   GameAddress& operator=(GameAddress&&) noexcept;
 
+  /**
+   * Returns the address of this GameAddress.
+   */
   std::intptr_t address() const noexcept;
 
  private:
@@ -139,10 +172,16 @@ DLLEXPORT void sgd2mapi_game_address_create_from_library_id(
         sgd2mapi_game_address_create_from_library_id \
 )(dest, library, game_address_locator_interfaces)
 
+/**
+ * Frees the memory used by the specified game address.
+ */
 DLLEXPORT void sgd2mapi_game_address_destroy(
     struct SGD2MAPI_GameAddress* game_address
 );
 
+/**
+ * Returns the address value of the game address.
+ */
 DLLEXPORT intptr_t sgd2mapi_game_address_get_address(
     const struct SGD2MAPI_GameAddress* game_address
 );

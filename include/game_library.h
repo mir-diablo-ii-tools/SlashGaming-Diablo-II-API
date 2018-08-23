@@ -71,22 +71,35 @@ enum class DefaultLibrary;
  */
 class DLLEXPORT GameLibrary {
  public:
+  /**
+   * Creates a new instance of a GameLibrary using the default library ID.
+   */
   explicit GameLibrary(enum DefaultLibrary library);
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
   explicit GameLibrary(std::string_view library_path);
 
-  GameLibrary(const GameLibrary& rhs);
-  GameLibrary(GameLibrary&& rhs) noexcept;
+  GameLibrary(const GameLibrary&);
+  GameLibrary(GameLibrary&&) noexcept;
 
   virtual ~GameLibrary() noexcept;
 
-  GameLibrary& operator=(const GameLibrary& rhs);
-  GameLibrary& operator=(GameLibrary&& rhs) noexcept;
+  GameLibrary& operator=(const GameLibrary&);
+  GameLibrary& operator=(GameLibrary&&) noexcept;
 
   static std::string_view GetLibraryPathWithRedirect(
       enum DefaultLibrary library) noexcept;
 
+  /**
+   * Returns the base address value of this GameLibrary.
+   */
   std::intptr_t base_address() const noexcept;
 
+  /**
+   * Returns the library path of this GameLibrary.
+   */
   std::string_view library_path() const noexcept;
 
  private:

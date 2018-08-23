@@ -79,7 +79,8 @@ std::intptr_t ResolveGameAddress(
     const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators) noexcept {
+    >& address_locators
+) noexcept {
   enum GameVersion current_version = GetRunningGameVersionId();
 
   const GameLibrary& address_library =
@@ -99,10 +100,12 @@ std::intptr_t ResolveGameAddress(
     std::wstring error_message = (boost::wformat(
         L"Game address not defined for the game version: %s. The game will "
         L"nowexit.") % GetRunningGameVersionName().data()).str();
-    MessageBoxW(nullptr,
-                error_message.data(),
-                L"Error: Missing Game Address",
-                MB_OK | MB_ICONERROR);
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Error: Missing Game Address",
+        MB_OK | MB_ICONERROR
+    );
     std::exit(EXIT_FAILURE);
   }
 
@@ -126,8 +129,10 @@ GameAddress::GameAddress(
     enum DefaultLibrary library,
     const GameAddressLocatorInterface& address_locator
 ) noexcept
-    : GameAddress(GameLibrary::GetLibraryPathWithRedirect(library),
-                  address_locator) {
+    : GameAddress(
+          GameLibrary::GetLibraryPathWithRedirect(library),
+          address_locator
+      ) {
 }
 
 GameAddress::GameAddress(
@@ -145,8 +150,10 @@ GameAddress::GameAddress(
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
-    : GameAddress(GameLibrary::GetLibraryPathWithRedirect(library),
-                  address_locators) {
+    : GameAddress(
+          GameLibrary::GetLibraryPathWithRedirect(library),
+          address_locators
+      ) {
 }
 
 GameAddress::GameAddress(const GameAddress&) noexcept = default;

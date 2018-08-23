@@ -54,6 +54,10 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
+/**
+ * An interface for game address locator implementations that specify a
+ * location in game memory.
+ */
 class DLLEXPORT GameAddressLocatorInterface {
  public:
   virtual ~GameAddressLocatorInterface() noexcept;

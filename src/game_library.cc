@@ -81,7 +81,10 @@ constexpr const auto kDefaultLibraryPathById =
     });
 
 std::optional<std::intptr_t> GetLibraryBaseAddress(
-    std::string_view library_path) noexcept {
+    std::string_view library_path
+) noexcept {
+  // Convert the library path to wstring, to allow it to work correctly under
+  // Windows.
   std::wstring library_path_wide;
   try {
     library_path_wide = boost::nowide::widen(library_path.data());
@@ -110,10 +113,12 @@ GameLibrary::GameLibrary(std::string_view library_path)
     std::wstring error_message = (boost::wformat(
         L"Module base address detection for %s failed.")
         % library_path.data()).str();
-    MessageBoxW(nullptr,
-                error_message.data(),
-                L"Module Failed to Load",
-                MB_OK | MB_ICONERROR);
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Module Failed to Load",
+        MB_OK | MB_ICONERROR
+    );
     std::exit(EXIT_FAILURE);
   }
 
@@ -133,7 +138,9 @@ GameLibrary& GameLibrary::operator=(const GameLibrary&) = default;
 GameLibrary& GameLibrary::operator=(GameLibrary&&) noexcept = default;
 
 std::string_view GameLibrary::GetLibraryPathWithRedirect(
-    enum DefaultLibrary library) noexcept {
+    enum DefaultLibrary library
+) noexcept {
+  // Redirect if the game version is 1.14 or higher.
   if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
     return kGameExecutable.data();
   }

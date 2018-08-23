@@ -58,6 +58,11 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
+/**
+ * An interface for game patch implementations that is capable of replacing
+ * game memory with that in a buffer and restoring the original state of the
+ * game memory.
+ */
 class DLLEXPORT GamePatchBase {
  public:
   virtual ~GamePatchBase() noexcept;

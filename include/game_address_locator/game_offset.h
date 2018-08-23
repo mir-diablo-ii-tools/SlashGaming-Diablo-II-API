@@ -58,6 +58,10 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
+/**
+ * A game address locator that uses an offset value to specify a location in
+ * game memory.
+ */
 class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
  public:
   /**
@@ -141,7 +145,7 @@ DLLEXPORT void sgd2mapi_game_offset_upcast_to_game_address_locator_interface(
 )(dest, game_offset)
 
 /**
- * Returns the offset of the game locator.
+ * Returns the offset value of the game locator.
  */
 DLLEXPORT intptr_t sgd2mapi_game_offset_get_offset(
     const struct SGD2MAPI_GameOffset* game_offset
