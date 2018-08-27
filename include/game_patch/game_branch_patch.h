@@ -36,8 +36,8 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_GAME_INTERCEPTION_PATCH_H_
-#define SGD2MAPI_GAME_PATCH_GAME_INTERCEPTION_PATCH_H_
+#ifndef SGD2MAPI_GAME_PATCH_GAME_BRANCH_PATCH_H_
+#define SGD2MAPI_GAME_PATCH_GAME_BRANCH_PATCH_H_
 
 #include <stdlib.h>
 
@@ -63,30 +63,29 @@
 namespace sgd2mapi {
 
 /**
- * The branch types that are used to call the specified interception function.
- * A call saves some state defined by the architecture, with the purpose of
- * returning to the calling function. A jump does not save any state
- * information.
+ * The branch types that are used to call an inserted function. A call saves
+ * some state defined by the architecture, with the purpose of returning to the
+ * calling function. A jump does not save any state information.
  */
 enum class BranchType;
 
 /**
- * A patch that replaces the first bytes with a function call, then replaces
- * the rest of the bytes with no-op instructions.
+ * A patch that replaces the first bytes with a branch to a function, then
+ * replaces the rest of the bytes with no-op instructions.
  */
-class DLLEXPORT GameInterceptionPatch : public GamePatchBase {
+class DLLEXPORT GameBranchPatch : public GamePatchBase {
  public:
   /**
-   * Creates a new instance of GameInterceptionPatch.
+   * Creates a new instance of GameBranchPatch.
    */
   template<typename T>
-  GameInterceptionPatch(
+  GameBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
       std::function<T> func,
       std::size_t patch_size
   )
-      : GameInterceptionPatch(
+      : GameBranchPatch(
             game_address,
             branch_type,
             reinterpret_cast<std::intptr_t>(
@@ -97,16 +96,16 @@ class DLLEXPORT GameInterceptionPatch : public GamePatchBase {
   }
 
   /**
-   * Creates a new instance of GameInterceptionPatch.
+   * Creates a new instance of GameBranchPatch.
    */
   template<typename T>
-  GameInterceptionPatch(
+  GameBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
       std::function<T> func,
       std::size_t patch_size
   )
-      : GameInterceptionPatch(
+      : GameBranchPatch(
             std::move(game_address),
             branch_type,
             reinterpret_cast<std::intptr_t>(
@@ -116,35 +115,35 @@ class DLLEXPORT GameInterceptionPatch : public GamePatchBase {
         ) {
   }
 
-  GameInterceptionPatch(const GameInterceptionPatch&);
+  GameBranchPatch(const GameBranchPatch&);
 
-  GameInterceptionPatch(GameInterceptionPatch&&) noexcept;
+  GameBranchPatch(GameBranchPatch&&) noexcept;
 
-  ~GameInterceptionPatch() override;
+  ~GameBranchPatch() override;
 
-  GameInterceptionPatch& operator=(const GameInterceptionPatch&);
+  GameBranchPatch& operator=(const GameBranchPatch&);
 
-  GameInterceptionPatch& operator=(GameInterceptionPatch&&) noexcept;
+  GameBranchPatch& operator=(GameBranchPatch&&) noexcept;
 
   /**
-   * Returns the branch opcode used for calling the interception function.
+   * Returns the branch opcode used for calling the inserted function.
    */
   enum BranchType branch_type() const noexcept;
 
   /**
-   * Returns the pointer to the interception function.
+   * Returns the pointer to the inserted function.
    */
   std::intptr_t func_ptr() const noexcept;
 
  private:
-  GameInterceptionPatch(
+  GameBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
       std::intptr_t func_ptr,
       std::size_t patch_size
   );
 
-  GameInterceptionPatch(
+  GameBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
       std::intptr_t func_ptr,
@@ -162,13 +161,14 @@ class DLLEXPORT GameInterceptionPatch : public GamePatchBase {
  * C Interface
  */
 
-struct SGD2MAPI_GameInterceptionPatch;
+struct SGD2MAPI_GameBranchPatch;
 
 /**
- * The branch types that are used to call the specified interception function.
- * A call saves some state defined by the architecture, with the purpose of
- * returning to the calling function. A jump does not save any state
- * information.
+ * The branch types that are used to call an inserted function. A call saves
+ * some state defined by the architecture, with the purpose of returning to the
+ * calling function. A jump does not save any state information. Disabled if
+ * compiling as C++ code.
+ *
  */
 enum SGD2MAPI_BranchType
 #ifdef __cplusplus
@@ -185,16 +185,15 @@ enum class sgd2mapi::BranchType
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT
-void sgd2mapi_game_interception_patch_create_as_game_interception_patch(
-    struct SGD2MAPI_GameInterceptionPatch* dest,
+DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
+    struct SGD2MAPI_GameBranchPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
     void* func(),
     size_t patch_size
 );
 
-DLLEXPORT void sgd2mapi_game_interception_patch_create_as_game_patch_base(
+DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
@@ -203,10 +202,10 @@ DLLEXPORT void sgd2mapi_game_interception_patch_create_as_game_patch_base(
 );
 
 /**
- * Initializes the specified destination with a new GameInterceptionPatch,
+ * Initializes the specified destination with a new GameBranchPatch,
  * specifying the patch buffer with an array of 8-bit bytes.
  */
-#define sgd2mapi_game_interception_patch_create( \
+#define sgd2mapi_game_branch_patch_create( \
     dest, \
     game_address, \
     branch_type, \
@@ -214,50 +213,50 @@ DLLEXPORT void sgd2mapi_game_interception_patch_create_as_game_patch_base(
     patch_size \
 ) _Generic( \
     (dest), \
-    struct SGD2MAPI_GameInterceptionPatch*: \
-        sgd2mapi_game_interception_patch_create_as_game_interception_patch, \
+    struct SGD2MAPI_GameBranchPatch*: \
+        sgd2mapi_game_branch_patch_create_as_game_branch_patch, \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_interception_patch_create_as_game_patch_base \
+        sgd2mapi_game_branch_patch_create_as_game_patch_base \
 )(dest, game_address, branch_type, func, patch_size)
 
 /**
  * Frees the memory used by the specified game patch.
  */
-DLLEXPORT void sgd2mapi_game_interception_patch_destroy(
-    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+DLLEXPORT void sgd2mapi_game_branch_patch_destroy(
+    struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
-DLLEXPORT void sgd2mapi_game_interception_patch_upcast_to_game_patch_base(
+DLLEXPORT void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+    const struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
 /**
  * Upcasts the game patch to a parent type, into the destination.
  */
-#define sgd2mapi_game_interception_patch_upcast( \
+#define sgd2mapi_game_branch_patch_upcast( \
     dest, \
-    game_interception_patch \
+    game_branch_patch \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_interception_patch_upcast_to_game_patch_base \
-)(dest, game_interception_patch)
+        sgd2mapi_game_branch_patch_upcast_to_game_patch_base \
+)(dest, game_branch_patch)
 
 /**
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */
-DLLEXPORT void sgd2mapi_game_interception_patch_apply(
-    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+DLLEXPORT void sgd2mapi_game_branch_patch_apply(
+    struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
 /**
  * Removes the effects of the game patch by restoring the original state of the
  * bytes at its target address.
  */
-DLLEXPORT void sgd2mapi_game_interception_patch_remove(
-    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+DLLEXPORT void sgd2mapi_game_branch_patch_remove(
+    struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
 #ifdef __cplusplus
@@ -265,4 +264,4 @@ DLLEXPORT void sgd2mapi_game_interception_patch_remove(
 #endif // __cplusplus
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_PATCH_GAME_INTERCEPTION_PATCH_H_
+#endif // SGD2MAPI_GAME_PATCH_GAME_BRANCH_PATCH_H_

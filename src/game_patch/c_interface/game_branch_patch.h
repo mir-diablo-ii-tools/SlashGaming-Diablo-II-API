@@ -36,13 +36,13 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_INTERCEPTION_PATCH_H_
-#define SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_INTERCEPTION_PATCH_H_
+#ifndef SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_BRANCH_PATCH_H_
+#define SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_BRANCH_PATCH_H_
 
-#include "../../../include/game_patch/game_interception_patch.h"
+#include "../../../include/game_patch/game_branch_patch.h"
 
-struct SGD2MAPI_GameInterceptionPatch {
-  sgd2mapi::GameInterceptionPatch* game_interception_patch;
+struct SGD2MAPI_GameBranchPatch {
+  sgd2mapi::GameBranchPatch* game_branch_patch;
 };
 
-#endif // SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_INTERCEPTION_PATCH_H_
+#endif // SGD2MAPI_GAME_PATCH_C_INTERFACE_GAME_BRANCH_PATCH_H_

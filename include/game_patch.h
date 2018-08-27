@@ -39,8 +39,8 @@
 #ifndef SGD2MAPI_GAME_PATCH_H_
 #define SGD2MAPI_GAME_PATCH_H_
 
+#include "game_patch/game_branch_patch.h"
 #include "game_patch/game_buffer_patch.h"
-#include "game_patch/game_interception_patch.h"
 #include "game_patch/game_patch_base.h"
 
 #endif // SGD2MAPI_GAME_PATCH_H_

@@ -36,7 +36,7 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "../../include/game_patch/game_interception_patch.h"
+#include "../../include/game_patch/game_branch_patch.h"
 
 #include <windows.h>
 #include <cstdint>
@@ -48,7 +48,7 @@
 #include <frozen/unordered_map.h>
 #include "../c_interface/game_address.h"
 #include "../../include/game_address.h"
-#include "c_interface/game_interception_patch.h"
+#include "c_interface/game_branch_patch.h"
 #include "c_interface/game_patch_base.h"
 #include "../../include/game_patch/game_patch_base.h"
 
@@ -75,11 +75,12 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
     std::size_t patch_size
 ) {
 
-  // Check that the patch size is large enough to allow the interception.
+  // Check that the patch size is large enough to allow the insertion of the
+  // branch call.
   if (patch_size < sizeof(std::intptr_t) + 1) {
     std::wstring error_message = (boost::wformat(
-        L"The patch size specified at address %X is too small to perform an "
-        L"interception patch."
+        L"The patch size specified at address %X is too small to perform a "
+        L"branch patch."
     ) % game_address.address()).str();
 
     MessageBoxW(
@@ -100,7 +101,7 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
   // Set the first byte in the buffer to the branch operation opcode byte.
   buffer[0] = static_cast<std::uint8_t>(kOpCodeByBranchType.at(branch_type));
 
-  // Set the next bytes to the address of the interception function.
+  // Set the next bytes to the address of the inserted function.
   std::intptr_t address_buffer = game_address.address();
   for (std::size_t i = 0; i < sizeof(address_buffer); i += 1) {
     buffer[i + 1] = (address_buffer >> (i * (sizeof(buffer[0]) * 8))) & 0xFF;
@@ -112,7 +113,7 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
 
 } // namespace
 
-GameInterceptionPatch::GameInterceptionPatch(
+GameBranchPatch::GameBranchPatch(
     const GameAddress& game_address,
     enum BranchType branch_type,
     std::intptr_t func_ptr,
@@ -124,7 +125,7 @@ GameInterceptionPatch::GameInterceptionPatch(
       func_ptr_(func_ptr) {
 }
 
-GameInterceptionPatch::GameInterceptionPatch(
+GameBranchPatch::GameBranchPatch(
     GameAddress&& game_address,
     enum BranchType branch_type,
     std::intptr_t func_ptr,
@@ -137,27 +138,27 @@ GameInterceptionPatch::GameInterceptionPatch(
       func_ptr_(func_ptr) {
 }
 
-GameInterceptionPatch::GameInterceptionPatch(const GameInterceptionPatch&)
+GameBranchPatch::GameBranchPatch(const GameBranchPatch&)
     = default;
 
-GameInterceptionPatch::GameInterceptionPatch(GameInterceptionPatch&&)
+GameBranchPatch::GameBranchPatch(GameBranchPatch&&)
     noexcept = default;
 
-GameInterceptionPatch::~GameInterceptionPatch() = default;
+GameBranchPatch::~GameBranchPatch() = default;
 
-GameInterceptionPatch& GameInterceptionPatch::operator=(
-    const GameInterceptionPatch&
+GameBranchPatch& GameBranchPatch::operator=(
+    const GameBranchPatch&
 ) = default;
 
-GameInterceptionPatch& GameInterceptionPatch::operator=(
-    GameInterceptionPatch&&
+GameBranchPatch& GameBranchPatch::operator=(
+    GameBranchPatch&&
 ) noexcept = default;
 
-enum BranchType GameInterceptionPatch::branch_type() const noexcept {
+enum BranchType GameBranchPatch::branch_type() const noexcept {
   return branch_type_;
 }
 
-std::intptr_t GameInterceptionPatch::func_ptr() const noexcept {
+std::intptr_t GameBranchPatch::func_ptr() const noexcept {
   return func_ptr_;
 }
 
@@ -167,8 +168,8 @@ std::intptr_t GameInterceptionPatch::func_ptr() const noexcept {
  * C Interface
  */
 
-void sgd2mapi_game_interception_patch_create_as_game_interception_patch(
-    struct SGD2MAPI_GameInterceptionPatch* dest,
+void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
+    struct SGD2MAPI_GameBranchPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
     void* func(),
@@ -177,7 +178,7 @@ void sgd2mapi_game_interception_patch_create_as_game_interception_patch(
   enum sgd2mapi::BranchType converted_branch_type =
       static_cast<sgd2mapi::BranchType>(branch_type);
 
-  dest->game_interception_patch = new sgd2mapi::GameInterceptionPatch(
+  dest->game_branch_patch = new sgd2mapi::GameBranchPatch(
       *(game_address->game_address),
       converted_branch_type,
       std::function(func),
@@ -185,49 +186,49 @@ void sgd2mapi_game_interception_patch_create_as_game_interception_patch(
   );
 }
 
-void sgd2mapi_game_interception_patch_create_as_game_patch_base(
+void sgd2mapi_game_branch_patch_create_as_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
     void* func(),
     std::size_t patch_size
 ) {
-  struct SGD2MAPI_GameInterceptionPatch game_interception_patch;
-  sgd2mapi_game_interception_patch_create_as_game_interception_patch(
-      &game_interception_patch,
+  struct SGD2MAPI_GameBranchPatch game_branch_patch;
+  sgd2mapi_game_branch_patch_create_as_game_branch_patch(
+      &game_branch_patch,
       game_address,
       branch_type,
       func,
       patch_size
   );
 
-  sgd2mapi_game_interception_patch_upcast_to_game_patch_base(
+  sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
       dest,
-      &game_interception_patch
+      &game_branch_patch
   );
 }
 
-void sgd2mapi_game_interception_patch_destroy(
-    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+void sgd2mapi_game_branch_patch_destroy(
+    struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  delete game_interception_patch->game_interception_patch;
+  delete game_branch_patch->game_branch_patch;
 }
 
-void sgd2mapi_game_interception_patch_upcast_to_game_patch_base(
+void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+    const struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  dest->game_patch_base = game_interception_patch->game_interception_patch;
+  dest->game_patch_base = game_branch_patch->game_branch_patch;
 }
 
-void sgd2mapi_game_interception_patch_apply(
-    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+void sgd2mapi_game_branch_patch_apply(
+    struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  game_interception_patch->game_interception_patch->Apply();
+  game_branch_patch->game_branch_patch->Apply();
 }
 
-void sgd2mapi_game_interception_patch_remove(
-    struct SGD2MAPI_GameInterceptionPatch* game_interception_patch
+void sgd2mapi_game_branch_patch_remove(
+    struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  game_interception_patch->game_interception_patch->Remove();
+  game_branch_patch->game_branch_patch->Remove();
 }
