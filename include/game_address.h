@@ -69,11 +69,6 @@ namespace sgd2mapi {
 class DLLEXPORT GameAddress {
  public:
   /**
-   * Create a new instance of GameAddress, directly specifying the address.
-   */
-  explicit GameAddress(std::intptr_t address) noexcept;
-
-  /**
    * Create a new instance of GameAddress, specifying the library path and a
    * game address locator.
    */

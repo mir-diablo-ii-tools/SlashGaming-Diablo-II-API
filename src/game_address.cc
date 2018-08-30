@@ -114,10 +114,6 @@ std::intptr_t ResolveGameAddress(
 
 } // namespace
 
-GameAddress::GameAddress(std::intptr_t address) noexcept
-    : address_(address) {
-}
-
 GameAddress::GameAddress(
     std::string_view library_path,
     const GameAddressLocatorInterface& address_locator
