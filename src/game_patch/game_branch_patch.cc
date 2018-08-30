@@ -46,6 +46,7 @@
 
 #include <boost/format.hpp>
 #include <frozen/unordered_map.h>
+#include "../architecture_opcode.h"
 #include "../c_interface/game_address.h"
 #include "../../include/game_address.h"
 #include "c_interface/game_branch_patch.h"
@@ -57,12 +58,6 @@ namespace sgd2mapi {
 namespace {
 
 #if defined(__i386__)
-enum class OpCode : std::uint8_t {
-  kCall = 0xE8,
-  kJump = 0xE9,
-  kNop = 0x90
-};
-
 constexpr frozen::unordered_map kOpCodeByBranchType =
     frozen::make_unordered_map<enum BranchType, enum OpCode>({
         {BranchType::kCall, OpCode::kCall},
@@ -138,17 +133,13 @@ GameBranchPatch::GameBranchPatch(
       func_ptr_(func_ptr) {
 }
 
-GameBranchPatch::GameBranchPatch(const GameBranchPatch&)
-    = default;
+GameBranchPatch::GameBranchPatch(const GameBranchPatch&) = default;
 
-GameBranchPatch::GameBranchPatch(GameBranchPatch&&)
-    noexcept = default;
+GameBranchPatch::GameBranchPatch(GameBranchPatch&&) noexcept = default;
 
 GameBranchPatch::~GameBranchPatch() = default;
 
-GameBranchPatch& GameBranchPatch::operator=(
-    const GameBranchPatch&
-) = default;
+GameBranchPatch& GameBranchPatch::operator=(const GameBranchPatch&) = default;
 
 GameBranchPatch& GameBranchPatch::operator=(
     GameBranchPatch&&
