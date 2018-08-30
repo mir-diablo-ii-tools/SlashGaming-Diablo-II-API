@@ -39,6 +39,7 @@
 #include "../../include/game_patch/game_nop_patch.h"
 
 #include <cstdlib>
+#include <utility>
 #include <vector>
 
 #include "../architecture_opcode.h"
