@@ -43,7 +43,7 @@
 
 namespace sgd2mapi {
 
-enum OpCode
+enum class OpCode
 #if defined(__i386__)
 : std::uint8_t {
   kCall = 0xE8,

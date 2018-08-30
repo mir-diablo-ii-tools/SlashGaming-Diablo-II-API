@@ -56,7 +56,10 @@ GameNopPatch::GameNopPatch(
 )
     : GamePatchBase(
           game_address,
-          std::vector<uint8_t>(patch_size, OpCode::kNop)
+          std::vector<std::uint8_t>(
+              patch_size,
+              static_cast<std::uint8_t>(OpCode::kNop)
+          )
       ) {
 }
 
@@ -66,7 +69,10 @@ GameNopPatch::GameNopPatch(
 )
     : GamePatchBase(
           std::move(game_address),
-          std::vector<uint8_t>(patch_size, OpCode::kNop)
+          std::vector<std::uint8_t>(
+              patch_size,
+              static_cast<std::uint8_t>(OpCode::kNop)
+          )
       ) {
 }
 
