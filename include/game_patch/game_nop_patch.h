@@ -71,7 +71,15 @@ class DLLEXPORT GameNopPatch : public GamePatchBase {
       std::size_t patch_size
   );
 
+  GameNopPatch(const GameNopPatch&);
+
+  GameNopPatch(GameNopPatch&&) noexcept;
+
   ~GameNopPatch() override;
+
+  GameNopPatch& operator=(const GameNopPatch&);
+
+  GameNopPatch& operator=(GameNopPatch&&) noexcept;
 };
 
 } // namespace sgd2mapi

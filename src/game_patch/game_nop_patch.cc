@@ -77,7 +77,15 @@ GameNopPatch::GameNopPatch(
       ) {
 }
 
+GameNopPatch::GameNopPatch(const GameNopPatch&) = default;
+
+GameNopPatch::GameNopPatch(GameNopPatch&&) noexcept = default;
+
 GameNopPatch::~GameNopPatch() = default;
+
+GameNopPatch& GameNopPatch::operator=(const GameNopPatch&) = default;
+
+GameNopPatch& GameNopPatch::operator=(GameNopPatch&&) noexcept = default;
 
 } // namespace sgd2mapi
 
