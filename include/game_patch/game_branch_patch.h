@@ -47,7 +47,6 @@
 #ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
-#include <functional>
 #include <vector>
 #endif // __cplusplus
 
@@ -78,19 +77,17 @@ class DLLEXPORT GameBranchPatch : public GamePatchBase {
   /**
    * Creates a new instance of GameBranchPatch.
    */
-  template<typename T>
+  template<typename T, typename... Args>
   GameBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
-      std::function<T> func,
+      T func(Args...),
       std::size_t patch_size
   )
       : GameBranchPatch(
             game_address,
             branch_type,
-            reinterpret_cast<std::intptr_t>(
-                func.template target<void(*)(void*)>()
-            ),
+            reinterpret_cast<std::intptr_t>(func),
             patch_size
         ) {
   }
@@ -98,19 +95,17 @@ class DLLEXPORT GameBranchPatch : public GamePatchBase {
   /**
    * Creates a new instance of GameBranchPatch.
    */
-  template<typename T>
+  template<typename T, typename... Args>
   GameBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
-      std::function<T> func,
+      T func(Args...),
       std::size_t patch_size
   )
       : GameBranchPatch(
             std::move(game_address),
             branch_type,
-            reinterpret_cast<std::intptr_t>(
-                func.template target<void(*)(void*)>()
-            ),
+            reinterpret_cast<std::intptr_t>(func),
             patch_size
         ) {
   }

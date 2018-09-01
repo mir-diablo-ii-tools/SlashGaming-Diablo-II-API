@@ -172,7 +172,7 @@ void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
   dest->game_branch_patch = new sgd2mapi::GameBranchPatch(
       *(game_address->game_address),
       converted_branch_type,
-      std::function(func),
+      func,
       patch_size
   );
 }
