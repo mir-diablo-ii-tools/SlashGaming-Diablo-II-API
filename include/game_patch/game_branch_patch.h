@@ -203,7 +203,7 @@ DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_patch_base(
 
 /**
  * Initializes the specified destination with a new GameBranchPatch,
- * specifying the patch buffer with an array of 8-bit bytes.
+ * specifying the branch type, the function to branch to, and the patch size.
  */
 #define sgd2mapi_game_branch_patch_create( \
     dest, \
