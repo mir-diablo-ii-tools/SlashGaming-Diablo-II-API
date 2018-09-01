@@ -90,7 +90,7 @@ GamePatchBase::GamePatchBase(
           reinterpret_cast<std::uint8_t*>(game_address.address()),
           reinterpret_cast<std::uint8_t*>(
               game_address.address()
-              + patch_buffer_.size()
+              + patch_buffer.size()
           )
       ),
       patch_buffer_(std::move(patch_buffer)) {
@@ -106,7 +106,7 @@ GamePatchBase::GamePatchBase(
           reinterpret_cast<std::uint8_t*>(game_address_.address()),
           reinterpret_cast<std::uint8_t*>(
               game_address_.address()
-              + patch_buffer_.size()
+              + patch_buffer.size()
           )
       ),
       patch_buffer_(std::move(patch_buffer)) {
