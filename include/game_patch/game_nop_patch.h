@@ -61,11 +61,21 @@ namespace sgd2mapi {
 
 class DLLEXPORT GameNopPatch : public GamePatchBase {
  public:
+  /**
+   * Creates a new instance of GameNopPatch, filling the patch buffer with as
+   * many no-op instructions that can fit in a patch buffer of the specified
+   * size.
+   */
   GameNopPatch(
       const GameAddress& game_address,
       std::size_t patch_size
   );
 
+  /**
+   * Creates a new instance of GameNopPatch, filling the patch buffer with as
+   * many no-op instructions that can fit in a patch buffer of the specified
+   * size.
+   */
   GameNopPatch(
       GameAddress&& game_address,
       std::size_t patch_size
