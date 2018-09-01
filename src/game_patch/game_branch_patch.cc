@@ -207,9 +207,9 @@ void sgd2mapi_game_branch_patch_destroy(
 
 void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameBranchPatch* game_branch_patch
+    const struct SGD2MAPI_GameBranchPatch* src
 ) {
-  dest->game_patch_base = game_branch_patch->game_branch_patch;
+  dest->game_patch_base = src->game_branch_patch;
 }
 
 void sgd2mapi_game_branch_patch_apply(

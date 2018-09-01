@@ -223,7 +223,7 @@ DLLEXPORT void sgd2mapi_game_branch_patch_destroy(
 
 DLLEXPORT void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameBranchPatch* game_branch_patch
+    const struct SGD2MAPI_GameBranchPatch* src
 );
 
 /**
@@ -231,12 +231,12 @@ DLLEXPORT void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
  */
 #define sgd2mapi_game_branch_patch_upcast( \
     dest, \
-    game_branch_patch \
+    src \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GamePatchBase*: \
         sgd2mapi_game_branch_patch_upcast_to_game_patch_base \
-)(dest, game_branch_patch)
+)(dest, src)
 
 /**
  * Applies the game patch by replacing the bytes at its target address with the

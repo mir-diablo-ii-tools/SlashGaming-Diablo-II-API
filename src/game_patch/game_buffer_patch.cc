@@ -149,9 +149,9 @@ void sgd2mapi_game_buffer_patch_destroy(
 
 void sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+    const struct SGD2MAPI_GameBufferPatch* src
 ) {
-  dest->game_patch_base = game_buffer_patch->game_buffer_patch;
+  dest->game_patch_base = src->game_buffer_patch;
 }
 
 void sgd2mapi_game_buffer_patch_apply(

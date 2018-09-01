@@ -178,7 +178,7 @@ DLLEXPORT void sgd2mapi_game_buffer_patch_destroy(
 
 DLLEXPORT void sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
     struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameBufferPatch* game_buffer_patch
+    const struct SGD2MAPI_GameBufferPatch* src
 );
 
 /**
@@ -186,12 +186,12 @@ DLLEXPORT void sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
  */
 #define sgd2mapi_game_buffer_patch_upcast( \
     dest, \
-    game_buffer_patch \
+    src \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GamePatchBase*: \
         sgd2mapi_game_buffer_patch_upcast_to_game_patch_base \
-)(dest, game_buffer_patch)
+)(dest, src)
 
 /**
  * Applies the game patch by replacing the bytes at its target address
