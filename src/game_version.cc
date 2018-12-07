@@ -47,126 +47,122 @@
 #include <string>
 #include <string_view>
 
+#include <boost/bimap.hpp>
 #include <boost/nowide/convert.hpp>
-#include <frozen/string.h>
-#include <frozen/unordered_map.h>
 #include "../include/game_library.h"
 
 
 namespace sgd2mapi {
 namespace {
 
-constexpr const frozen::unordered_map kGameVersionByFileVersion =
-    frozen::make_unordered_map<frozen::string, enum GameVersion>({
-        { "1.0.3.0", GameVersion::k1_03 },
-        { "1.0.4.0", GameVersion::k1_04 },
+using GameVersionAndFileVersionBimapType = boost::bimap<
+    enum GameVersion, std::string_view
+>;
+
+using GameVersionAndStringBimapType = boost::bimap<
+    enum GameVersion, std::string_view
+>;
+
+const GameVersionAndFileVersionBimapType& GetGameVersionAndFileVersionBimap() {
+  static const std::array<
+      GameVersionAndFileVersionBimapType::value_type, 29
+  > version_array = {{
+        // TODO(Mir Drualga): 1.00 & 1.01 have the same version #, but use
+        // completely different DLLs
+        { GameVersion::k1_00, "1.0.0.1" },
+        { GameVersion::k1_02, "1.0.2.0" },
+        { GameVersion::k1_03, "1.0.3.0" },
+        { GameVersion::k1_04, "1.0.4.0" },
         // 1.04B and 1.04C use the same DLLs
-        { "1.0.4.1", GameVersion::k1_04B },
-        { "1.0.4.2", GameVersion::k1_04C },
-        { "1.0.5.0", GameVersion::k1_05 },
-        { "1.0.5.1", GameVersion::k1_05B },
+        { GameVersion::k1_04B, "1.0.4.1" },
+        { GameVersion::k1_04C, "1.0.4.2" },
+        { GameVersion::k1_05, "1.0.5.0" },
+        { GameVersion::k1_05B, "1.0.5.1" },
         // TODO(Mir Drualga): 1.06 & 1.06B have the same version #, but use
         // completely different DLLs
-        { "1.0.6.0", GameVersion::k1_06 },
-        { "1.0.7.0", GameVersion::k1_07 },
-        { "1.0.8.28", GameVersion::k1_08 },
-        { "1.0.9.19", GameVersion::k1_09 },
-        { "1.0.9.20", GameVersion::k1_09B },
-        { "1.0.9.21", GameVersion::k1_09C },
-        { "1.0.9.22", GameVersion::k1_09D },
-        { "1.0.9.23", GameVersion::k1_09E },
-        { "1.0.10.9", GameVersion::k1_10Beta },
-        { "1.0.10.10", GameVersion::k1_10SBeta },
-        { "1.0.10.39", GameVersion::k1_10 },
-        { "1.0.11.45", GameVersion::k1_11 },
-        { "1.0.11.46", GameVersion::k1_11B },
-        { "1.0.12.49", GameVersion::k1_12A },
-        { "1.0.13.55", GameVersion::k1_13ABeta },
-        { "1.0.13.60", GameVersion::k1_13C },
-        { "1.0.13.64", GameVersion::k1_13D },
-        { "1.14.0.64", GameVersion::kLod1_14A },
-        { "1.14.1.68", GameVersion::kLod1_14B },
-        { "1.14.2.70", GameVersion::kLod1_14C },
-        { "1.14.3.71", GameVersion::kLod1_14D }
-    });
+        { GameVersion::k1_06, "1.0.6.0" },
+        // TODO(Mir Drualga): 1.07 Beta & 1.07 have the same version #, but use
+        // completely different DLLs
+        { GameVersion::k1_07, "1.0.7.0" },
+        { GameVersion::k1_08, "1.0.8.28" },
+        { GameVersion::k1_09, "1.0.9.19" },
+        { GameVersion::k1_09B, "1.0.9.20" },
+        { GameVersion::k1_09C, "1.0.9.21" },
+        { GameVersion::k1_09D, "1.0.9.22" },
+        { GameVersion::k1_09E, "1.0.9.23" },
+        { GameVersion::k1_10Beta, "1.0.10.9" },
+        { GameVersion::k1_10SBeta, "1.0.10.10" },
+        { GameVersion::k1_10, "1.0.10.39" },
+        { GameVersion::k1_11, "1.0.11.45" },
+        { GameVersion::k1_11B, "1.0.11.46" },
+        { GameVersion::k1_12A, "1.0.12.49" },
+        { GameVersion::k1_13ABeta, "1.0.13.55" },
+        { GameVersion::k1_13C, "1.0.13.60" },
+        { GameVersion::k1_13D, "1.0.13.64" },
+        { GameVersion::kLod1_14A, "1.14.0.64" },
+        { GameVersion::kLod1_14B, "1.14.1.68" },
+        { GameVersion::kLod1_14C, "1.14.2.70" },
+        { GameVersion::kLod1_14D, "1.14.3.71" }
+  }};
 
-constexpr const frozen::unordered_map kGameVersionToString =
-    frozen::make_unordered_map<enum GameVersion, frozen::string>({
-        {GameVersion::k1_00, "1.00"},
-        {GameVersion::k1_01, "1.01"},
-        {GameVersion::k1_02, "1.02"},
-        {GameVersion::k1_03, "1.03"},
-        {GameVersion::k1_04, "1.04"},
-        // 1.04B and 1.04C use the same DLLs
-        {GameVersion::k1_04B, "1.04B"},
-        {GameVersion::k1_05, "1.05"},
-        {GameVersion::k1_05B, "1.05B"},
-        {GameVersion::k1_06, "1.06"},
-        {GameVersion::k1_06B, "1.06B"},
-        {GameVersion::k1_07, "1.07"},
-        {GameVersion::k1_08, "1.08"},
-        {GameVersion::k1_09, "1.09"},
-        {GameVersion::k1_09B, "1.09B"},
-        {GameVersion::k1_09C, "1.09C"},
-        {GameVersion::k1_09D, "1.09D"},
-        {GameVersion::k1_09E, "1.09E"},
-        {GameVersion::k1_10Beta, "1.10 Beta"},
-        {GameVersion::k1_10SBeta, "1.10S Beta"},
-        {GameVersion::k1_10, "1.10"},
-        {GameVersion::k1_11, "1.11" },
-        {GameVersion::k1_11B, "1.11B"},
-        {GameVersion::k1_12A, "1.12A"},
-        {GameVersion::k1_13ABeta, "1.13A Beta"},
-        {GameVersion::k1_13C, "1.13C"},
-        {GameVersion::k1_13D, "1.13D"},
-        {GameVersion::kClassic1_14A, "Classic 1.14A"},
-        {GameVersion::kLod1_14A, "LoD 1.14A"},
-        {GameVersion::kClassic1_14B, "Classic 1.14B"},
-        {GameVersion::kLod1_14B, "LoD 1.14B"},
-        {GameVersion::kClassic1_14C, "Classic 1.14C"},
-        {GameVersion::kLod1_14C, "LoD 1.14C"},
-        {GameVersion::kClassic1_14D, "Classic 1.14D"},
-        {GameVersion::kLod1_14D, "LoD 1.14D"}
-    });
+  static const GameVersionAndFileVersionBimapType
+      game_version_and_file_version_bimap(
+          version_array.cbegin(),
+          version_array.cend()
+      );
 
-constexpr const frozen::unordered_map kStringToGameVersion =
-    frozen::make_unordered_map<frozen::string, enum GameVersion>({
-        {"1.00", GameVersion::k1_00},
-        {"1.01", GameVersion::k1_01},
-        {"1.02", GameVersion::k1_02},
-        {"1.03", GameVersion::k1_03},
-        {"1.04", GameVersion::k1_04},
-        {"1.04B", GameVersion::k1_04B},
-        {"1.04C", GameVersion::k1_04C},
-        {"1.05", GameVersion::k1_05},
-        {"1.05B", GameVersion::k1_05B},
-        {"1.06", GameVersion::k1_06},
-        {"1.06B", GameVersion::k1_06B},
-        {"1.07", GameVersion::k1_07},
-        {"1.08", GameVersion::k1_08},
-        {"1.09", GameVersion::k1_09, },
-        {"1.09B", GameVersion::k1_09B},
-        {"1.09C", GameVersion::k1_09C},
-        {"1.09D", GameVersion::k1_09D},
-        {"1.09E", GameVersion::k1_09E},
-        {"1.10 Beta", GameVersion::k1_10Beta},
-        {"1.10S Beta", GameVersion::k1_10SBeta},
-        {"1.10", GameVersion::k1_10},
-        {"1.11", GameVersion::k1_11},
-        {"1.11B", GameVersion::k1_11B},
-        {"1.12A", GameVersion::k1_12A},
-        {"1.13A Beta", GameVersion::k1_13ABeta},
-        {"1.13C", GameVersion::k1_13C},
-        {"1.13D", GameVersion::k1_13D},
-        {"Classic 1.14A", GameVersion::kClassic1_14A},
-        {"LoD 1.14A", GameVersion::kLod1_14A},
-        {"Classic 1.14B", GameVersion::kClassic1_14B},
-        {"LoD 1.14B", GameVersion::kLod1_14B},
-        {"Classic 1.14C", GameVersion::kClassic1_14C},
-        {"LoD 1.14C", GameVersion::kLod1_14C},
-        {"Classic 1.14D", GameVersion::kClassic1_14D},
-        {"LoD 1.14D", GameVersion::kLod1_14D}
-    });
+  return game_version_and_file_version_bimap;
+}
+
+const GameVersionAndStringBimapType& GetGameVersionAndStringBimap() {
+  static const std::array<
+      GameVersionAndStringBimapType::value_type, 36
+  > version_array = {{
+        { GameVersion::k1_00, "1.00" },
+        { GameVersion::k1_01, "1.01" },
+        { GameVersion::k1_02, "1.02" },
+        { GameVersion::k1_03, "1.03" },
+        { GameVersion::k1_04, "1.04" },
+        { GameVersion::k1_04B, "1.04B" },
+        { GameVersion::k1_04C, "1.04C" },
+        { GameVersion::k1_05, "1.05" },
+        { GameVersion::k1_05B, "1.05B" },
+        { GameVersion::k1_06, "1.06" },
+        { GameVersion::k1_06B, "1.06B" },
+        { GameVersion::k1_07Beta, "1.07 Beta" },
+        { GameVersion::k1_07, "1.07" },
+        { GameVersion::k1_08, "1.08" },
+        { GameVersion::k1_09, "1.09" },
+        { GameVersion::k1_09B, "1.09B" },
+        { GameVersion::k1_09C, "1.09C" },
+        { GameVersion::k1_09D, "1.09D" },
+        { GameVersion::k1_09E, "1.09E" },
+        { GameVersion::k1_10Beta, "1.10 Beta" },
+        { GameVersion::k1_10SBeta, "1.10S Beta" },
+        { GameVersion::k1_10, "1.10" },
+        { GameVersion::k1_11, "1.11" },
+        { GameVersion::k1_11B, "1.11B" },
+        { GameVersion::k1_12A, "1.12A" },
+        { GameVersion::k1_13ABeta, "1.13A Beta" },
+        { GameVersion::k1_13C, "1.13C" },
+        { GameVersion::k1_13D, "1.13D" },
+        { GameVersion::kClassic1_14A, "Classic 1.14A" },
+        { GameVersion::kLod1_14A, "LoD 1.14A" },
+        { GameVersion::kClassic1_14B, "Classic 1.14B" },
+        { GameVersion::kLod1_14B, "LoD 1.14B" },
+        { GameVersion::kClassic1_14C, "Classic 1.14C" },
+        { GameVersion::kLod1_14C, "LoD 1.14C" },
+        { GameVersion::kClassic1_14D, "Classic 1.14D" },
+        { GameVersion::kLod1_14D, "LoD 1.14D" }
+  }};
+
+  static const GameVersionAndStringBimapType game_version_and_string_bimap(
+      version_array.cbegin(),
+      version_array.cend()
+  );
+
+  return game_version_and_string_bimap;
+}
 
 std::optional<std::string> ExtractFileVersionString(std::string_view file_name)
     noexcept {
@@ -222,12 +218,15 @@ std::optional<std::string> ExtractFileVersionString(std::string_view file_name)
   return stringStream.str();
 }
 
-constexpr std::optional<enum GameVersion> GetGameVersionByFileVersion(
+std::optional<enum GameVersion> GetGameVersionByFileVersion(
     std::string_view version_string) {
-  auto found_version_pair = kGameVersionByFileVersion.find(
-      frozen::string(version_string.data(), version_string.length()));
+  const auto& game_versions_by_file_version =
+      GetGameVersionAndFileVersionBimap().right;
+  auto found_version_pair = game_versions_by_file_version.find(
+      version_string
+  );
 
-  return (found_version_pair != kGameVersionByFileVersion.cend())
+  return (found_version_pair != game_versions_by_file_version.end())
       ? std::make_optional(found_version_pair->second)
       : std::nullopt;
 }
@@ -309,15 +308,11 @@ class RunningGameVersion {
 } // namespace
 
 enum GameVersion GetGameVersionId(std::string_view game_version_name) noexcept {
-  frozen::string frozen_name = frozen::string(
-      game_version_name.data(),
-      game_version_name.length()
-  );
-  return kStringToGameVersion.at(frozen_name);
+  return GetGameVersionAndStringBimap().right.at(game_version_name);
 }
 
 std::string_view GetGameVersionName(enum GameVersion game_version) noexcept {
-  return kGameVersionToString.at(game_version).data();
+  return GetGameVersionAndStringBimap().left.at(game_version);
 }
 
 enum GameVersion GetRunningGameVersionId() noexcept {
