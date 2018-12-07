@@ -128,11 +128,16 @@ class DLLEXPORT GameAddress {
 } // namespace sgd2mapi
 #endif // __cplusplus
 
+/**
+ * C Interface
+ */
+
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
+struct SGD2MAPI_GameAddress;
+
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-
-struct SGD2MAPI_GameAddress;
 
 DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
     struct SGD2MAPI_GameAddress* dest,
@@ -184,6 +189,8 @@ DLLEXPORT intptr_t SGD2MAPI_GameAddress_GetAddress(
 #ifdef __cplusplus
 }
 #endif // __cplusplus
+
+#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_H_

@@ -152,6 +152,7 @@ class DLLEXPORT GamePatchBase {
  * C Interface
  */
 
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 struct SGD2MAPI_GamePatchBase;
 
 #ifdef __cplusplus
@@ -184,6 +185,8 @@ DLLEXPORT void SGD2MAPI_GamePatchBase_Remove(
 #ifdef __cplusplus
 }
 #endif // __cplusplus
+
+#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_

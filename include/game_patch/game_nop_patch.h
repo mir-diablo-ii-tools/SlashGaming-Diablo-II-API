@@ -99,6 +99,7 @@ class DLLEXPORT GameNopPatch : public GamePatchBase {
  * C Interface
  */
 
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 struct SGD2MAPI_GameNopPatch;
 
 #ifdef __cplusplus
@@ -175,6 +176,8 @@ DLLEXPORT void SGD2MAPI_GameNopPatch_Remove(
 #ifdef __cplusplus
 }
 #endif // __cplusplus
+
+#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_H_

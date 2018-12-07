@@ -96,6 +96,7 @@ class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
  * C Interface
  */
 
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 struct SGD2MAPI_GameOffset;
 
 #ifdef __cplusplus
@@ -154,6 +155,8 @@ DLLEXPORT intptr_t SGD2MAPI_GameOffset_GetOffset(
 #ifdef __cplusplus
 }
 #endif // __cplusplus
+
+#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_

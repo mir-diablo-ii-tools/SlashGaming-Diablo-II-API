@@ -94,6 +94,7 @@ class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
  * C Interface
  */
 
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 struct SGD2MAPI_GameOrdinal;
 
 #ifdef __cplusplus
@@ -153,6 +154,8 @@ DLLEXPORT int SGD2MAPI_GameOrdinal_GetOrdinal(
 #ifdef __cplusplus
 }
 #endif // __cplusplus
+
+#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
