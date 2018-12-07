@@ -46,39 +46,55 @@
 #include <string>
 #include <string_view>
 
+#include <boost/bimap.hpp>
 #include <boost/nowide/convert.hpp>
 #include <boost/format.hpp>
-#include <frozen/string.h>
-#include <frozen/unordered_map.h>
 #include "../include/game_version.h"
 
 namespace sgd2mapi {
 
 namespace {
 
-constexpr const auto kDefaultLibraryPathById =
-    frozen::make_unordered_map<enum DefaultLibrary, frozen::string>({
-        { DefaultLibrary::kBNClient, "BNClient.dll" },
-        { DefaultLibrary::kD2Client, "D2Client.dll" },
-        { DefaultLibrary::kD2CMP, "D2CMP.dll" },
-        { DefaultLibrary::kD2Common, "D2Common.dll" },
-        { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
-        { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
-        { DefaultLibrary::kD2Game, "D2Game.dll" },
-        { DefaultLibrary::kD2GDI, "D2GDI.dll" },
-        { DefaultLibrary::kD2GFX, "D2GFX.dll" },
-        { DefaultLibrary::kD2Glide, "D2Glide.dll" },
-        { DefaultLibrary::kD2Lang, "D2Lang.dll" },
-        { DefaultLibrary::kD2Launch, "D2Launch.dll" },
-        { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
-        { DefaultLibrary::kD2Multi, "D2Multi.dll" },
-        { DefaultLibrary::kD2Net, "D2Net.dll" },
-        { DefaultLibrary::kD2Server, "D2Server.dll" },
-        { DefaultLibrary::kD2Sound, "D2Sound.dll" },
-        { DefaultLibrary::kD2Win, "D2Win.dll" },
-        { DefaultLibrary::kFog, "Fog.dll" },
-        { DefaultLibrary::kStorm, "Storm.dll" },
-    });
+using DefaultLibraryAndLibraryPathBimap = boost::bimap<
+    enum DefaultLibrary,
+    std::string_view
+>;
+
+const DefaultLibraryAndLibraryPathBimap&
+    GetDefaultLibraryAndLibraryPathBimap() {
+  static const std::array<
+      DefaultLibraryAndLibraryPathBimap::value_type, 20
+  > library_array = {{
+      { DefaultLibrary::kBNClient, "BNClient.dll" },
+      { DefaultLibrary::kD2Client, "D2Client.dll" },
+      { DefaultLibrary::kD2CMP, "D2CMP.dll" },
+      { DefaultLibrary::kD2Common, "D2Common.dll" },
+      { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
+      { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
+      { DefaultLibrary::kD2Game, "D2Game.dll" },
+      { DefaultLibrary::kD2GDI, "D2GDI.dll" },
+      { DefaultLibrary::kD2GFX, "D2GFX.dll" },
+      { DefaultLibrary::kD2Glide, "D2Glide.dll" },
+      { DefaultLibrary::kD2Lang, "D2Lang.dll" },
+      { DefaultLibrary::kD2Launch, "D2Launch.dll" },
+      { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
+      { DefaultLibrary::kD2Multi, "D2Multi.dll" },
+      { DefaultLibrary::kD2Net, "D2Net.dll" },
+      { DefaultLibrary::kD2Server, "D2Server.dll" },
+      { DefaultLibrary::kD2Sound, "D2Sound.dll" },
+      { DefaultLibrary::kD2Win, "D2Win.dll" },
+      { DefaultLibrary::kFog, "Fog.dll" },
+      { DefaultLibrary::kStorm, "Storm.dll" }
+  }};
+
+  static const DefaultLibraryAndLibraryPathBimap
+      default_library_and_library_path(
+          library_array.cbegin(),
+          library_array.cend()
+      );
+
+  return default_library_and_library_path;
+}
 
 std::optional<std::intptr_t> GetLibraryBaseAddress(
     std::string_view library_path
@@ -145,7 +161,7 @@ std::string_view GameLibrary::GetLibraryPathWithRedirect(
     return kGameExecutable.data();
   }
 
-  return kDefaultLibraryPathById.at(library).data();
+  return GetDefaultLibraryAndLibraryPathBimap().left.at(library).data();
 }
 
 std::intptr_t GameLibrary::base_address() const noexcept {

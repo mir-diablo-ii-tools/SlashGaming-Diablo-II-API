@@ -45,7 +45,6 @@
 #include <vector>
 
 #include <boost/format.hpp>
-#include <frozen/unordered_map.h>
 #include "../architecture_opcode.h"
 #include "../c_interface/game_address.h"
 #include "../../include/game_address.h"
@@ -57,12 +56,20 @@ namespace sgd2mapi {
 
 namespace {
 
+using BranchTypeAndOpcodeMapType = std::unordered_map<
+    enum BranchType,
+    enum OpCode
+>;
+
 #if defined(__i386__)
-constexpr frozen::unordered_map kOpCodeByBranchType =
-    frozen::make_unordered_map<enum BranchType, enum OpCode>({
-        {BranchType::kCall, OpCode::kCall},
-        {BranchType::kJump, OpCode::kJump}
-    });
+const BranchTypeAndOpcodeMapType& GetOpCodeByBranchTypeMap() {
+  static const BranchTypeAndOpcodeMapType op_code_by_branch_type = {
+      { BranchType::kCall, OpCode::kCall },
+      { BranchType::kJump, OpCode::kJump }
+  };
+
+  return op_code_by_branch_type;
+}
 
 std::vector<std::uint8_t> CreateReplaceBuffer(
     enum BranchType branch_type,
@@ -94,7 +101,8 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
   );
 
   // Set the first byte in the buffer to the branch operation opcode byte.
-  buffer[0] = static_cast<std::uint8_t>(kOpCodeByBranchType.at(branch_type));
+  enum OpCode op_code = GetOpCodeByBranchTypeMap().at(branch_type);
+  buffer[0] = static_cast<std::uint8_t>(op_code);
 
   // Set the next bytes to the address of the inserted function.
   std::intptr_t address_buffer = game_address.address();
