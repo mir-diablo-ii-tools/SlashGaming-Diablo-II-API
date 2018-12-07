@@ -56,16 +56,19 @@ namespace sgd2mapi {
 namespace {
 
 using GameVersionAndFileVersionBimapType = boost::bimap<
-    enum GameVersion, std::string_view
+    enum GameVersion,
+    std::string_view
 >;
 
 using GameVersionAndStringBimapType = boost::bimap<
-    enum GameVersion, std::string_view
+    enum GameVersion,
+    std::string_view
 >;
 
 const GameVersionAndFileVersionBimapType& GetGameVersionAndFileVersionBimap() {
   static const std::array<
-      GameVersionAndFileVersionBimapType::value_type, 29
+      GameVersionAndFileVersionBimapType::value_type,
+      29
   > version_array = {{
         // TODO(Mir Drualga): 1.00 & 1.01 have the same version #, but use
         // completely different DLLs
@@ -116,7 +119,8 @@ const GameVersionAndFileVersionBimapType& GetGameVersionAndFileVersionBimap() {
 
 const GameVersionAndStringBimapType& GetGameVersionAndStringBimap() {
   static const std::array<
-      GameVersionAndStringBimapType::value_type, 36
+      GameVersionAndStringBimapType::value_type,
+      36
   > version_array = {{
         { GameVersion::k1_00, "1.00" },
         { GameVersion::k1_01, "1.01" },
