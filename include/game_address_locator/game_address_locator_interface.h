@@ -86,8 +86,8 @@ extern "C" {
 /**
  * Frees the memory used by the specified game address locator.
  */
-DLLEXPORT void sgd2mapi_game_address_locator_interface_destroy(
-    struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
+DLLEXPORT void SGD2MAPI_GameAddressLocatorInterface_Destroy(
+  struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
 );
 
 #ifdef __cplusplus

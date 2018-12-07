@@ -102,12 +102,12 @@ struct SGD2MAPI_GameOffset;
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void sgd2mapi_game_offset_create_as_game_address_locator_interface(
+DLLEXPORT void SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     intptr_t offset
 );
 
-DLLEXPORT void sgd2mapi_game_offset_create_as_game_offset(
+DLLEXPORT void SGD2MAPI_GameOffset_CreateAsGameOffset(
     struct SGD2MAPI_GameOffset* dest,
     intptr_t offset
 );
@@ -115,22 +115,22 @@ DLLEXPORT void sgd2mapi_game_offset_create_as_game_offset(
 /**
  * Initializes the specified destination with a new GameOffset.
  */
-#define sgd2mapi_game_offset_create(dest, offset) _Generic( \
+#define SGD2MAPI_GameOffset_Create(dest, offset) _Generic( \
     (dest), \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
-        sgd2mapi_game_offset_create_as_game_address_locator_interface, \
+        SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface, \
     struct SGD2MAPI_GameOffset*: \
-        sgd2mapi_game_offset_create_as_game_offset \
+        SGD2MAPI_GameOffset_CreateAsGameOffset \
 )(dest, offset)
 
 /**
  * Frees the memory used by the specified game locator.
  */
-DLLEXPORT void sgd2mapi_game_offset_destroy(
+DLLEXPORT void SGD2MAPI_GameOffset_Destroy(
     struct SGD2MAPI_GameOffset* game_offset
 );
 
-DLLEXPORT void sgd2mapi_game_offset_upcast_to_game_address_locator_interface(
+DLLEXPORT void SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOffset* game_offset
 );
@@ -138,16 +138,16 @@ DLLEXPORT void sgd2mapi_game_offset_upcast_to_game_address_locator_interface(
 /**
  * Upcasts the game locator to a parent type, into the destination.
  */
-#define sgd2mapi_game_offset_upcast(dest, game_offset) _Generic( \
+#define SGD2MAPI_GameOffset_upcast(dest, game_offset) _Generic( \
     (dest), \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
-        sgd2mapi_game_offset_upcast_to_game_address_locator \
+        SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface \
 )(dest, game_offset)
 
 /**
  * Returns the offset value of the game locator.
  */
-DLLEXPORT intptr_t sgd2mapi_game_offset_get_offset(
+DLLEXPORT intptr_t SGD2MAPI_GameOffset_GetOffset(
     const struct SGD2MAPI_GameOffset* game_offset
 );
 

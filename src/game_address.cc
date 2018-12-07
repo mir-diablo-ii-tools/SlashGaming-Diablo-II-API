@@ -166,7 +166,7 @@ std::intptr_t GameAddress::address() const noexcept {
 
 } // namespace sgd2mapi
 
-void sgd2mapi_game_address_create_from_library_path(
+void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
     struct SGD2MAPI_GameAddress* dest,
     const char* library_path,
     const struct SGD2MAPI_GameAddressLocatorInterface**
@@ -190,7 +190,7 @@ void sgd2mapi_game_address_create_from_library_path(
   );
 }
 
-void sgd2mapi_game_address_create_from_library_id(
+void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
     struct SGD2MAPI_GameAddress* dest,
     enum SGD2MAPI_DefaultLibrary library_id,
     const struct SGD2MAPI_GameAddressLocatorInterface**
@@ -203,20 +203,20 @@ void sgd2mapi_game_address_create_from_library_id(
   std::string_view library_name =
       sgd2mapi::GameLibrary::GetLibraryPathWithRedirect(converted_library_id);
 
-  sgd2mapi_game_address_create_from_library_path(
+  SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
       dest,
       library_name.data(),
       game_address_locator_interfaces
   );
 }
 
-void sgd2mapi_game_address_destroy(
+void SGD2MAPI_GameAddress_Destroy(
     struct SGD2MAPI_GameAddress* game_address
 ) {
   delete game_address->game_address;
 }
 
-std::intptr_t sgd2mapi_game_address_get_address(
+std::intptr_t SGD2MAPI_GameAddress_GetAddress(
     const struct SGD2MAPI_GameAddress* game_address
 ) {
   return game_address->game_address->address();

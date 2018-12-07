@@ -108,7 +108,7 @@ GameBufferPatch& GameBufferPatch::operator=(GameBufferPatch&&)
  * C Interface
  */
 
-void sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
+void SGD2MAPI_GameBufferPatch_CreateAsGameBufferPatch(
     struct SGD2MAPI_GameBufferPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     const std::uint8_t buffer[],
@@ -121,46 +121,46 @@ void sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
   );
 }
 
-void sgd2mapi_game_buffer_patch_create_as_game_patch_base(
+void SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     const std::uint8_t buffer[],
     std::size_t patch_size
 ) {
   struct SGD2MAPI_GameBufferPatch game_buffer_patch;
-  sgd2mapi_game_buffer_patch_create_as_game_buffer_patch(
+  SGD2MAPI_GameBufferPatch_CreateAsGameBufferPatch(
       &game_buffer_patch,
       game_address,
       buffer,
       patch_size
   );
 
-  sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
+  SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
       dest,
       &game_buffer_patch
   );
 }
 
-void sgd2mapi_game_buffer_patch_destroy(
+void SGD2MAPI_GameBufferPatch_Destroy(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {
   delete game_buffer_patch->game_buffer_patch;
 }
 
-void sgd2mapi_game_buffer_patch_upcast_to_game_patch_base(
+void SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameBufferPatch* src
 ) {
   dest->game_patch_base = src->game_buffer_patch;
 }
 
-void sgd2mapi_game_buffer_patch_apply(
+void SGD2MAPI_GameBufferPatch_Apply(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {
   game_buffer_patch->game_buffer_patch->Apply();
 }
 
-void sgd2mapi_game_buffer_patch_remove(
+void SGD2MAPI_GameBufferPatch_Remove(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {
   game_buffer_patch->game_buffer_patch->Remove();

@@ -181,19 +181,19 @@ std::size_t GamePatchBase::patch_size() const noexcept {
  * C Interface
  */
 
-void sgd2mapi_game_patch_base_destroy(
+void SGD2MAPI_GamePatchBase_Destroy(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 ) {
   delete game_patch_base->game_patch_base;
 }
 
-void sgd2mapi_game_patch_base_apply(
+void SGD2MAPI_GamePatchBase_Apply(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 ) {
   game_patch_base->game_patch_base->Apply();
 }
 
-void sgd2mapi_game_patch_base_remove(
+void SGD2MAPI_GamePatchBase_Remove(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 ) {
   game_patch_base->game_patch_base->Remove();

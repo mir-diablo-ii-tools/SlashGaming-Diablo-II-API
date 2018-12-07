@@ -161,7 +161,7 @@ extern "C" {
 /**
  * Frees the memory used by the specified game patch.
  */
-DLLEXPORT void sgd2mapi_game_patch_base_destroy(
+DLLEXPORT void SGD2MAPI_GamePatchBase_Destroy(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
@@ -169,7 +169,7 @@ DLLEXPORT void sgd2mapi_game_patch_base_destroy(
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */
-DLLEXPORT void sgd2mapi_game_patch_base_apply(
+DLLEXPORT void SGD2MAPI_GamePatchBase_Apply(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 
@@ -177,7 +177,7 @@ DLLEXPORT void sgd2mapi_game_patch_base_apply(
  * Removes the effects of the game patch by restoring the original state of the
  * bytes at its target address.
  */
-DLLEXPORT void sgd2mapi_game_patch_base_remove(
+DLLEXPORT void SGD2MAPI_GamePatchBase_Remove(
     struct SGD2MAPI_GamePatchBase* game_patch_base
 );
 

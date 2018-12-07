@@ -129,7 +129,7 @@ extern "C" {
 /**
  * Returns a view to the string associated with the specified game version.
  */
-DLLEXPORT const char* sgd2mapi_get_game_version_name(
+DLLEXPORT const char* SGD2MAPI_GetGameVersionName(
     enum SGD2MAPI_GameVersion game_version
 );
 
@@ -137,31 +137,31 @@ DLLEXPORT const char* sgd2mapi_get_game_version_name(
  * Returns the identifier of the game version associated with the specified
  * string.
  */
-DLLEXPORT enum SGD2MAPI_GameVersion sgd2mapi_get_game_version_id(
+DLLEXPORT enum SGD2MAPI_GameVersion SGD2MAPI_GetGameVersionId(
     const char* game_version_name
 );
 
 /**
  * Returns the identifier of the running game version.
  */
-DLLEXPORT enum SGD2MAPI_GameVersion sgd2mapi_get_running_game_version_id();
+DLLEXPORT enum SGD2MAPI_GameVersion SGD2MAPI_GetRunningGameVersionId();
 
 /**
  * Returns a view to the string associated with the running game version.
  */
-DLLEXPORT const char* sgd2mapi_get_running_game_version_name();
+DLLEXPORT const char* SGD2MAPI_GetRunningGameVersionName();
 
 /**
  * Returns whether the Diablo II game version is at least 1.14.
  */
-DLLEXPORT bool sgd2mapi_is_game_version_at_least_1_14(
+DLLEXPORT bool SGD2MAPI_IsGameVersionAtLeast1_14(
     enum SGD2MAPI_GameVersion game_version
 );
 
 /**
  * Returns whether the running game version is at least 1.14.
  */
-DLLEXPORT bool sgd2mapi_is_running_game_version_at_least_1_14();
+DLLEXPORT bool SGD2MAPI_IsRunningGameVersionAtLeast1_14();
 
 #ifdef __cplusplus
 }

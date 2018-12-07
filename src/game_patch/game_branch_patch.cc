@@ -167,7 +167,7 @@ std::intptr_t GameBranchPatch::func_ptr() const noexcept {
  * C Interface
  */
 
-void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
+void SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch(
     struct SGD2MAPI_GameBranchPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
@@ -185,7 +185,7 @@ void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
   );
 }
 
-void sgd2mapi_game_branch_patch_create_as_game_patch_base(
+void SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
@@ -193,7 +193,7 @@ void sgd2mapi_game_branch_patch_create_as_game_patch_base(
     std::size_t patch_size
 ) {
   struct SGD2MAPI_GameBranchPatch game_branch_patch;
-  sgd2mapi_game_branch_patch_create_as_game_branch_patch(
+  SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch(
       &game_branch_patch,
       game_address,
       branch_type,
@@ -201,32 +201,32 @@ void sgd2mapi_game_branch_patch_create_as_game_patch_base(
       patch_size
   );
 
-  sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
+  SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
       dest,
       &game_branch_patch
   );
 }
 
-void sgd2mapi_game_branch_patch_destroy(
+void SGD2MAPI_GameBranchPatch_Destroy(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
   delete game_branch_patch->game_branch_patch;
 }
 
-void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
+void SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameBranchPatch* src
 ) {
   dest->game_patch_base = src->game_branch_patch;
 }
 
-void sgd2mapi_game_branch_patch_apply(
+void SGD2MAPI_GameBranchPatch_Apply(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
   game_branch_patch->game_branch_patch->Apply();
 }
 
-void sgd2mapi_game_branch_patch_remove(
+void SGD2MAPI_GameBranchPatch_Remove(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
   game_branch_patch->game_branch_patch->Remove();

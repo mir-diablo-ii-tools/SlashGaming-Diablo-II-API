@@ -345,7 +345,7 @@ bool IsRunningGameVersionAtLeast1_14() noexcept {
  * C Interface
  */
 
-const char* sgd2mapi_get_game_version_name(
+const char* SGD2MAPI_GetGameVersionName(
     enum SGD2MAPI_GameVersion game_version
 ) {
   return sgd2mapi::GetGameVersionName(
@@ -353,7 +353,7 @@ const char* sgd2mapi_get_game_version_name(
   ).data();
 }
 
-enum SGD2MAPI_GameVersion sgd2mapi_get_game_version_id(
+enum SGD2MAPI_GameVersion SGD2MAPI_GetGameVersionId(
     const char* game_version_name
 ) {
   return static_cast<enum SGD2MAPI_GameVersion>(
@@ -361,17 +361,17 @@ enum SGD2MAPI_GameVersion sgd2mapi_get_game_version_id(
   );
 }
 
-enum SGD2MAPI_GameVersion sgd2mapi_get_running_game_version_id() {
+enum SGD2MAPI_GameVersion SGD2MAPI_GetRunningGameVersionId() {
   return static_cast<enum SGD2MAPI_GameVersion>(
       sgd2mapi::GetRunningGameVersionId()
   );
 }
 
-const char* sgd2mapi_get_running_game_version_name() {
+const char* SGD2MAPI_GetRunningGameVersionName() {
   return sgd2mapi::GetRunningGameVersionName().data();
 }
 
-bool sgd2mapi_is_game_version_at_least_1_14(
+bool SGD2MAPI_IsGameVersionAtLeast1_14(
     enum SGD2MAPI_GameVersion game_version
 ) {
   return sgd2mapi::IsGameVersionAtLeast1_14(
@@ -379,6 +379,6 @@ bool sgd2mapi_is_game_version_at_least_1_14(
   );
 }
 
-bool sgd2mapi_is_running_game_version_at_least_1_14() {
+bool SGD2MAPI_IsRunningGameVersionAtLeast1_14() {
   return sgd2mapi::IsRunningGameVersionAtLeast1_14();
 }

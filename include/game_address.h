@@ -134,14 +134,14 @@ extern "C" {
 
 struct SGD2MAPI_GameAddress;
 
-DLLEXPORT void sgd2mapi_game_address_create_from_library_path(
+DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
     struct SGD2MAPI_GameAddress* dest,
     const char* library_path,
     const struct SGD2MAPI_GameAddressLocatorInterface**
         game_address_locator_interfaces
 );
 
-DLLEXPORT void sgd2mapi_game_address_create_from_library_id(
+DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
     struct SGD2MAPI_GameAddress* dest,
     enum SGD2MAPI_DefaultLibrary library_id,
     const struct SGD2MAPI_GameAddressLocatorInterface**
@@ -155,29 +155,29 @@ DLLEXPORT void sgd2mapi_game_address_create_from_library_id(
  * array is a pointer to a one-dimensional array of pointers to
  * GameAddressLocator objects.
  */
-#define sgd2mapi_game_address_create( \
+#define SGD2MAPI_GameAddress_Create( \
     dest, \
     library, \
     game_address_locator_interfaces \
 ) _Generic( \
     (library), \
     char*: \
-        sgd2mapi_game_address_create_from_library_path, \
+        SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath, \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
-        sgd2mapi_game_address_create_from_library_id \
+        SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId \
 )(dest, library, game_address_locator_interfaces)
 
 /**
  * Frees the memory used by the specified game address.
  */
-DLLEXPORT void sgd2mapi_game_address_destroy(
+DLLEXPORT void SGD2MAPI_GameAddress_Destroy(
     struct SGD2MAPI_GameAddress* game_address
 );
 
 /**
  * Returns the address value of the game address.
  */
-DLLEXPORT intptr_t sgd2mapi_game_address_get_address(
+DLLEXPORT intptr_t SGD2MAPI_GameAddress_GetAddress(
     const struct SGD2MAPI_GameAddress* game_address
 );
 

@@ -110,43 +110,43 @@ int GameOrdinal::ordinal() const noexcept {
  * C Interface
  */
 
-void sgd2mapi_game_ordinal_create_as_game_address_locator_interface(
+void SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     int ordinal
 ) {
   struct SGD2MAPI_GameOrdinal game_ordinal;
-  sgd2mapi_game_ordinal_create_as_game_ordinal(
+  SGD2MAPI_GameOrdinal_CreateAsGameOrdinal(
       &game_ordinal,
       ordinal
   );
 
-  sgd2mapi_game_ordinal_upcast_to_game_address_locator_interface(
+  SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
       dest,
       &game_ordinal
   );
 }
 
-void sgd2mapi_game_ordinal_create_as_game_ordinal(
+void SGD2MAPI_GameOrdinal_CreateAsGameOrdinal(
     struct SGD2MAPI_GameOrdinal* dest,
     int ordinal
 ) {
   dest->game_ordinal = new sgd2mapi::GameOrdinal(ordinal);
 }
 
-void sgd2mapi_game_ordinal_destroy(
+void SGD2MAPI_GameOrdinal_Destroy(
     struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
   delete game_ordinal->game_ordinal;
 }
 
-void sgd2mapi_game_ordinal_upcast_to_game_address_locator_interface(
+void SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
     struct SGD2MAPI_GameAddressLocatorInterface* dest,
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
   dest->game_address_locator_interface = game_ordinal->game_ordinal;
 }
 
-int sgd2mapi_game_ordinal_get_ordinal(
+int SGD2MAPI_GameOrdinal_GetOrdinal(
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
   return game_ordinal->game_ordinal->ordinal();

@@ -105,13 +105,13 @@ struct SGD2MAPI_GameNopPatch;
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void sgd2mapi_game_nop_patch_create_as_game_nop_patch(
+DLLEXPORT void SGD2MAPI_GameNopPatch_CreateAsGameNopPatch(
     struct SGD2MAPI_GameNopPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     size_t patch_size
 );
 
-DLLEXPORT void sgd2mapi_game_nop_patch_create_as_game_patch_base(
+DLLEXPORT void SGD2MAPI_GameNopPatch_CreateAsGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     size_t patch_size
@@ -122,24 +122,24 @@ DLLEXPORT void sgd2mapi_game_nop_patch_create_as_game_patch_base(
  * patch buffer with as many no-op instructions that can fit in a patch buffer
  * of the specified size.
  */
-#define sgd2mapi_game_nop_patch_create( \
+#define SGD2MAPI_GameNopPatch_Create( \
     dest \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GameNopPatch*: \
-        sgd2mapi_game_nop_patch_create_as_game_nop_patch, \
+        SGD2MAPI_GameNopPatch_CreateAsGameNopPatch, \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_nop_patch_create_as_game_patch_base \
+        SGD2MAPI_GameNopPatch_CreateAsGamePatchBase \
 )(dest)
 
 /**
  * Frees the memory used by the specified game patch.
  */
-DLLEXPORT void sgd2mapi_game_nop_patch_destroy(
+DLLEXPORT void SGD2MAPI_GameNopPatch_Destroy(
     struct SGD2MAPI_GameNopPatch* game_nop_patch
 );
 
-DLLEXPORT void sgd2mapi_game_nop_patch_upcast_to_game_patch_base(
+DLLEXPORT void SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameNopPatch* src
 );
@@ -147,20 +147,20 @@ DLLEXPORT void sgd2mapi_game_nop_patch_upcast_to_game_patch_base(
 /**
  * Upcasts the game patch to a parent type, into the destination.
  */
-#define sgd2mapi_game_nop_patch_upcast( \
+#define SGD2MAPI_GameNopPatch_Upcast( \
     dest, \
     src \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_nop_patch_upcast_to_game_patch_base \
+        SGD2MAPI_GameNopPatch_UpcastToGamePatchBase \
 )(dest, src)
 
 /**
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */
-DLLEXPORT void sgd2mapi_game_nop_patch_apply(
+DLLEXPORT void SGD2MAPI_GameNopPatch_Apply(
     struct SGD2MAPI_GameNopPatch* game_nop_patch
 );
 
@@ -168,7 +168,7 @@ DLLEXPORT void sgd2mapi_game_nop_patch_apply(
  * Removes the effects of the game patch by restoring the original state of the
  * bytes at its target address.
  */
-DLLEXPORT void sgd2mapi_game_nop_patch_remove(
+DLLEXPORT void SGD2MAPI_GameNopPatch_Remove(
     struct SGD2MAPI_GameNopPatch* game_nop_patch
 );
 

@@ -180,7 +180,7 @@ enum class sgd2mapi::BranchType
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
+DLLEXPORT void SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch(
     struct SGD2MAPI_GameBranchPatch* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
@@ -188,7 +188,7 @@ DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_branch_patch(
     size_t patch_size
 );
 
-DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_patch_base(
+DLLEXPORT void SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameAddress* game_address,
     enum SGD2MAPI_BranchType branch_type,
@@ -200,7 +200,7 @@ DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_patch_base(
  * Initializes the specified destination with a new GameBranchPatch,
  * specifying the branch type, the function to branch to, and the patch size.
  */
-#define sgd2mapi_game_branch_patch_create( \
+#define SGD2MAPI_GameBranchPatch_Create( \
     dest, \
     game_address, \
     branch_type, \
@@ -209,19 +209,19 @@ DLLEXPORT void sgd2mapi_game_branch_patch_create_as_game_patch_base(
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GameBranchPatch*: \
-        sgd2mapi_game_branch_patch_create_as_game_branch_patch, \
+        SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch, \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_branch_patch_create_as_game_patch_base \
+        SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase \
 )(dest, game_address, branch_type, func, patch_size)
 
 /**
  * Frees the memory used by the specified game patch.
  */
-DLLEXPORT void sgd2mapi_game_branch_patch_destroy(
+DLLEXPORT void SGD2MAPI_GameBranchPatch_Destroy(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
-DLLEXPORT void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
+DLLEXPORT void SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
     struct SGD2MAPI_GamePatchBase* dest,
     const struct SGD2MAPI_GameBranchPatch* src
 );
@@ -229,20 +229,20 @@ DLLEXPORT void sgd2mapi_game_branch_patch_upcast_to_game_patch_base(
 /**
  * Upcasts the game patch to a parent type, into the destination.
  */
-#define sgd2mapi_game_branch_patch_upcast( \
+#define SGD2MAPI_GameBranchPatch_Upcast( \
     dest, \
     src \
 ) _Generic( \
     (dest), \
     struct SGD2MAPI_GamePatchBase*: \
-        sgd2mapi_game_branch_patch_upcast_to_game_patch_base \
+        SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase \
 )(dest, src)
 
 /**
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */
-DLLEXPORT void sgd2mapi_game_branch_patch_apply(
+DLLEXPORT void SGD2MAPI_GameBranchPatch_Apply(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
@@ -250,7 +250,7 @@ DLLEXPORT void sgd2mapi_game_branch_patch_apply(
  * Removes the effects of the game patch by restoring the original state of the
  * bytes at its target address.
  */
-DLLEXPORT void sgd2mapi_game_branch_patch_remove(
+DLLEXPORT void SGD2MAPI_GameBranchPatch_Remove(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 );
 
