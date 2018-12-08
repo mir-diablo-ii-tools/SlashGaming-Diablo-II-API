@@ -153,7 +153,10 @@ class DLLEXPORT GamePatchBase {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GamePatchBase;
+struct SGD2MAPI_GamePatchBase {
+  // sgd2mapi::GamePatchBase*
+  void* game_patch_base;
+};
 
 #ifdef __cplusplus
 extern "C" {

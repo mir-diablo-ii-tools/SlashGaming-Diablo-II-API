@@ -133,7 +133,10 @@ class DLLEXPORT GameAddress {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddress;
+struct SGD2MAPI_GameAddress {
+  // sgd2mapi::GameAddress*
+  void* game_address;
+};
 
 #ifdef __cplusplus
 extern "C" {

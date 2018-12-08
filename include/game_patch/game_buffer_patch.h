@@ -133,7 +133,10 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameBufferPatch;
+struct SGD2MAPI_GameBufferPatch {
+  // sgd2mapi::GameBufferPatch*
+  void* game_buffer_patch;
+};
 
 #ifdef __cplusplus
 extern "C" {

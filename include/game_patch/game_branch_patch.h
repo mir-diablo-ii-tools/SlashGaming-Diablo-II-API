@@ -157,7 +157,10 @@ class DLLEXPORT GameBranchPatch : public GamePatchBase {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameBranchPatch;
+struct SGD2MAPI_GameBranchPatch {
+  // sgd2mapi::GameBranchPatch*
+  void* game_branch_patch;
+};
 
 /**
  * The branch types that are used to call an inserted function. A call saves

@@ -78,7 +78,10 @@ class DLLEXPORT GameAddressLocatorInterface {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddressLocatorInterface;
+struct SGD2MAPI_GameAddressLocatorInterface {
+  // sgd2mapi::GameAddressLocatorInterface*
+  void* game_address_locator_interface;
+};
 
 #ifdef __cplusplus
 extern "C" {

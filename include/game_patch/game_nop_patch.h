@@ -100,7 +100,10 @@ class DLLEXPORT GameNopPatch : public GamePatchBase {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameNopPatch;
+struct SGD2MAPI_GameNopPatch {
+  // sgd2mapi::GameNopPatch*
+  void* game_nop_patch;
+};
 
 #ifdef __cplusplus
 extern "C" {
