@@ -41,8 +41,6 @@
 #include <cstdint>
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
-#include "c_interface/game_address_locator_interface.h"
-#include "c_interface/game_offset.h"
 
 namespace sgd2mapi {
 
@@ -101,7 +99,10 @@ void SGD2MAPI_GameOffset_CreateAsGameOffset(
 void SGD2MAPI_GameOffset_Destroy(
     struct SGD2MAPI_GameOffset* game_offset
 ) {
-  delete game_offset->game_offset;
+  sgd2mapi::GameOffset* actual_game_offset =
+      static_cast<sgd2mapi::GameOffset*>(game_offset->game_offset);
+
+  delete actual_game_offset;
 }
 
 void SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
@@ -114,5 +115,7 @@ void SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
 std::intptr_t SGD2MAPI_GameOffset_GetOffset(
     const struct SGD2MAPI_GameOffset* game_offset
 ) {
-  return game_offset->game_offset->offset();
+  const sgd2mapi::GameOffset* actual_game_offset =
+      static_cast<const sgd2mapi::GameOffset*>(game_offset->game_offset);
+  return actual_game_offset->offset();
 }

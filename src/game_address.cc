@@ -46,8 +46,6 @@
 #include <unordered_map>
 
 #include <boost/format.hpp>
-#include "c_interface/game_address.h"
-#include "game_address_locator/c_interface/game_address_locator_interface.h"
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -179,10 +177,16 @@ void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
       running_game_address_locator_interface =
           game_address_locator_interfaces[game_version_value];
 
+  const sgd2mapi::GameAddressLocatorInterface*
+      actual_game_address_locator_interface =
+          static_cast<sgd2mapi::GameAddressLocatorInterface*>(
+              running_game_address_locator_interface
+                  ->game_address_locator_interface
+          );
+
   // Extract the actual address locator to call the C++ constructor.
   const sgd2mapi::GameAddressLocatorInterface& actual_address_locator =
-      *(running_game_address_locator_interface
-            ->game_address_locator_interface);
+      *(actual_game_address_locator_interface);
 
   dest->game_address = new sgd2mapi::GameAddress(
       library_path,
@@ -213,11 +217,17 @@ void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
 void SGD2MAPI_GameAddress_Destroy(
     struct SGD2MAPI_GameAddress* game_address
 ) {
-  delete game_address->game_address;
+  sgd2mapi::GameAddress* actual_game_address =
+      static_cast<sgd2mapi::GameAddress*>(game_address->game_address);
+
+  delete actual_game_address;
 }
 
 std::intptr_t SGD2MAPI_GameAddress_GetAddress(
     const struct SGD2MAPI_GameAddress* game_address
 ) {
-  return game_address->game_address->address();
+  const sgd2mapi::GameAddress* actual_game_address =
+      static_cast<const sgd2mapi::GameAddress*>(game_address->game_address);
+
+  return actual_game_address->address();
 }

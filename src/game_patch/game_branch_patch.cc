@@ -46,10 +46,7 @@
 
 #include <boost/format.hpp>
 #include "../architecture_opcode.h"
-#include "../c_interface/game_address.h"
 #include "../../include/game_address.h"
-#include "c_interface/game_branch_patch.h"
-#include "c_interface/game_patch_base.h"
 #include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
@@ -177,8 +174,11 @@ void SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch(
   enum sgd2mapi::BranchType converted_branch_type =
       static_cast<sgd2mapi::BranchType>(branch_type);
 
+  const sgd2mapi::GameAddress* actual_game_address =
+      static_cast<const sgd2mapi::GameAddress*>(game_address->game_address);
+
   dest->game_branch_patch = new sgd2mapi::GameBranchPatch(
-      *(game_address->game_address),
+      *(actual_game_address),
       converted_branch_type,
       func,
       patch_size
@@ -210,7 +210,12 @@ void SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
 void SGD2MAPI_GameBranchPatch_Destroy(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  delete game_branch_patch->game_branch_patch;
+  sgd2mapi::GameBranchPatch* actual_game_branch_patch =
+      static_cast<sgd2mapi::GameBranchPatch*>(
+          game_branch_patch->game_branch_patch
+      );
+
+  delete actual_game_branch_patch;
 }
 
 void SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
@@ -223,11 +228,21 @@ void SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
 void SGD2MAPI_GameBranchPatch_Apply(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  game_branch_patch->game_branch_patch->Apply();
+  sgd2mapi::GameBranchPatch* actual_game_branch_patch =
+      static_cast<sgd2mapi::GameBranchPatch*>(
+          game_branch_patch->game_branch_patch
+      );
+
+  actual_game_branch_patch->Apply();
 }
 
 void SGD2MAPI_GameBranchPatch_Remove(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  game_branch_patch->game_branch_patch->Remove();
+  sgd2mapi::GameBranchPatch* actual_game_branch_patch =
+      static_cast<sgd2mapi::GameBranchPatch*>(
+          game_branch_patch->game_branch_patch
+      );
+
+  actual_game_branch_patch->Remove();
 }

@@ -38,8 +38,6 @@
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
 
-#include "c_interface/game_address_locator_interface.h"
-
 namespace sgd2mapi {
 
 GameAddressLocatorInterface::~GameAddressLocatorInterface() noexcept = default;
@@ -53,5 +51,11 @@ GameAddressLocatorInterface::~GameAddressLocatorInterface() noexcept = default;
 void SGD2MAPI_GameAddressLocatorInterface_Destroy(
     struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
 ) {
-  delete game_address_locator_interface->game_address_locator_interface;
+  sgd2mapi::GameAddressLocatorInterface*
+      actual_game_address_locator_interface =
+          static_cast<sgd2mapi::GameAddressLocatorInterface*>(
+              game_address_locator_interface->game_address_locator_interface
+          );
+
+  delete actual_game_address_locator_interface;
 }

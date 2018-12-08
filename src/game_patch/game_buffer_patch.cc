@@ -44,9 +44,6 @@
 #include <utility>
 #include <vector>
 
-#include "../c_interface/game_address.h"
-#include "c_interface/game_buffer_patch.h"
-#include "c_interface/game_patch_base.h"
 #include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
@@ -114,8 +111,11 @@ void SGD2MAPI_GameBufferPatch_CreateAsGameBufferPatch(
     const std::uint8_t buffer[],
     std::size_t patch_size
 ) {
+  const sgd2mapi::GameAddress* actual_game_address =
+      static_cast<const sgd2mapi::GameAddress*>(game_address->game_address);
+
   dest->game_buffer_patch = new sgd2mapi::GameBufferPatch(
-      *(game_address->game_address),
+      *(actual_game_address),
       buffer,
       patch_size
   );
@@ -144,7 +144,12 @@ void SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
 void SGD2MAPI_GameBufferPatch_Destroy(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {
-  delete game_buffer_patch->game_buffer_patch;
+  sgd2mapi::GameBufferPatch* actual_game_buffer_patch =
+      static_cast<sgd2mapi::GameBufferPatch*>(
+          game_buffer_patch->game_buffer_patch
+      );
+
+  delete actual_game_buffer_patch;
 }
 
 void SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
@@ -157,11 +162,21 @@ void SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
 void SGD2MAPI_GameBufferPatch_Apply(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {
-  game_buffer_patch->game_buffer_patch->Apply();
+  sgd2mapi::GameBufferPatch* actual_game_buffer_patch =
+      static_cast<sgd2mapi::GameBufferPatch*>(
+          game_buffer_patch->game_buffer_patch
+      );
+
+  actual_game_buffer_patch->Apply();
 }
 
 void SGD2MAPI_GameBufferPatch_Remove(
     struct SGD2MAPI_GameBufferPatch* game_buffer_patch
 ) {
-  game_buffer_patch->game_buffer_patch->Remove();
+  sgd2mapi::GameBufferPatch* actual_game_buffer_patch =
+      static_cast<sgd2mapi::GameBufferPatch*>(
+          game_buffer_patch->game_buffer_patch
+      );
+
+  actual_game_buffer_patch->Remove();
 }

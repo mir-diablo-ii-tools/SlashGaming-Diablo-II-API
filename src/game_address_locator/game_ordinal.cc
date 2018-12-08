@@ -45,8 +45,6 @@
 
 #include <boost/format.hpp>
 #include "../../include/game_address_locator/game_address_locator_interface.h"
-#include "c_interface/game_address_locator_interface.h"
-#include "c_interface/game_ordinal.h"
 
 namespace sgd2mapi {
 
@@ -136,7 +134,10 @@ void SGD2MAPI_GameOrdinal_CreateAsGameOrdinal(
 void SGD2MAPI_GameOrdinal_Destroy(
     struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
-  delete game_ordinal->game_ordinal;
+  sgd2mapi::GameOrdinal* actual_game_ordinal =
+      static_cast<sgd2mapi::GameOrdinal*>(game_ordinal->game_ordinal);
+
+  delete actual_game_ordinal;
 }
 
 void SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
@@ -149,5 +150,8 @@ void SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
 int SGD2MAPI_GameOrdinal_GetOrdinal(
     const struct SGD2MAPI_GameOrdinal* game_ordinal
 ) {
-  return game_ordinal->game_ordinal->ordinal();
+  const sgd2mapi::GameOrdinal* actual_game_ordinal =
+      static_cast<const sgd2mapi::GameOrdinal*>(game_ordinal->game_ordinal);
+
+  return actual_game_ordinal->ordinal();
 }

@@ -43,10 +43,7 @@
 #include <vector>
 
 #include "../architecture_opcode.h"
-#include "../c_interface/game_address.h"
 #include "../../include/game_address.h"
-#include "c_interface/game_nop_patch.h"
-#include "c_interface/game_patch_base.h"
 #include "../../include/game_patch/game_patch_base.h"
 
 namespace sgd2mapi {
@@ -98,8 +95,11 @@ void SGD2MAPI_GameNopPatch_CreateAsGameNopPatch(
     const struct SGD2MAPI_GameAddress* game_address,
     std::size_t patch_size
 ) {
+  const sgd2mapi::GameAddress* actual_game_address =
+      static_cast<const sgd2mapi::GameAddress*>(game_address->game_address);
+
   dest->game_nop_patch = new sgd2mapi::GameNopPatch(
-      *(game_address->game_address),
+      *(actual_game_address),
       patch_size
   );
 }
@@ -125,7 +125,10 @@ void SGD2MAPI_GameNopPatch_CreateAsGamePatchBase(
 void SGD2MAPI_GameNopPatch_Destroy(
     struct SGD2MAPI_GameNopPatch* game_nop_patch
 ) {
-  delete game_nop_patch->game_nop_patch;
+  sgd2mapi::GameNopPatch* actual_game_nop_patch =
+      static_cast<sgd2mapi::GameNopPatch*>(game_nop_patch->game_nop_patch);
+
+  delete actual_game_nop_patch;
 }
 
 void SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
@@ -138,11 +141,17 @@ void SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
 void SGD2MAPI_GameNopPatch_Apply(
     struct SGD2MAPI_GameNopPatch* game_nop_patch
 ) {
-  game_nop_patch->game_nop_patch->Apply();
+  sgd2mapi::GameNopPatch* actual_game_nop_patch =
+      static_cast<sgd2mapi::GameNopPatch*>(game_nop_patch->game_nop_patch);
+
+  actual_game_nop_patch->Apply();
 }
 
 void SGD2MAPI_GameNopPatch_Remove(
     struct SGD2MAPI_GameNopPatch* game_nop_patch
 ) {
-  game_nop_patch->game_nop_patch->Remove();
+  sgd2mapi::GameNopPatch* actual_game_nop_patch =
+      static_cast<sgd2mapi::GameNopPatch*>(game_nop_patch->game_nop_patch);
+
+  actual_game_nop_patch->Remove();
 }
