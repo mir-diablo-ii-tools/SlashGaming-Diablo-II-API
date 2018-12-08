@@ -171,7 +171,7 @@ DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
     (library), \
     char*: \
         SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath, \
-    struct SGD2MAPI_GameAddressLocatorInterface*: \
+    int: \
         SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId \
 )(dest, library, game_address_locator_interfaces)
 

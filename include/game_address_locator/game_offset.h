@@ -142,7 +142,7 @@ DLLEXPORT void SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
 /**
  * Upcasts the game locator to a parent type, into the destination.
  */
-#define SGD2MAPI_GameOffset_upcast(dest, game_offset) _Generic( \
+#define SGD2MAPI_GameOffset_Upcast(dest, game_offset) _Generic( \
     (dest), \
     struct SGD2MAPI_GameAddressLocatorInterface*: \
         SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface \
