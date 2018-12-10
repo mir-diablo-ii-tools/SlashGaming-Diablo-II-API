@@ -16,6 +16,10 @@
 *.cbp
 *.layout
 *.depend
+*.mk
+*.project
+*.workspace
+Makefile
 
 *.vcxproj
 *.filters
@@ -26,3 +30,8 @@
 */CMakeFiles/*
 CMakeCache.txt
 *.cmake
+
+.build-debug/*
+.codelite/*
+
+Debug/*

@@ -1,0 +1,85 @@
+/**
+ * SlashGaming Diablo II Modding API
+ * Copyright (C) 2018  SlashGaming Community
+ *
+ * This file is part of SlashGaming Diablo II Modding API.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Additional permissions under GNU Affero General Public License version 3
+ *  section 7
+ *
+ *  If you modify this Program, or any covered work, by linking or combining
+ *  it with Diablo II (or a modified version of that game and its
+ *  libraries), containing parts covered by the terms of Blizzard End User
+ *  License Agreement, the licensors of this Program grant you additional
+ *  permission to convey the resulting work. This additional permission is
+ *  also extended to any combination of expansions, mods, and remasters of
+ *  the game, provided that the game or its libraries do not link to this
+ *  Program.
+ *
+ *  If you modify this Program, or any covered work, by linking or combining
+ *  it with any Glide wrapper (or a modified version of that library),
+ *  containing parts not covered by a compatible license, provided that the
+ *  wrapper does not link to this Program, the licensors of this Program
+ *  grant you additional permission to convey the resulting work.
+ */
+
+#ifndef SLASHGAMING_RESOURCE_RC_
+#define SLASHGAMING_RESOURCE_RC_
+
+#include <windows.h>
+
+// VERSION INFORMATION
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+VS_VERSION_INFO    VERSIONINFO
+  FILEVERSION      0,0,1,0
+  PRODUCTVERSION   0,0,1,0
+  FILEFLAGSMASK    0x3fL // VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+  FILEFLAGS        0x1L  // VS_FF_DEBUG|VS_FF_PRIVATEBUILD|VS_FF_PRERELEASE
+#else
+  FILEFLAGS        0x0L  // final version
+#endif
+  FILEOS           VOS_NT_WINDOWS32
+  FILETYPE         VFT_DLL
+  FILESUBTYPE      VFT2_UNKNOWN // not used
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "040904E4" // Lang=US English, CharSet=Windows Multilingual
+    {
+      VALUE "Build",            "2018-12-09\0"
+      VALUE "Comments",         "Licensed under Affero GPL v3+, with exceptions.\0"
+      VALUE "CompanyName",      "SlashGaming\0"
+      VALUE "Developer",        "SlashGaming Community\0"
+      VALUE "FileDescription",  "Provides an API wrapper to Diablo II.\0"
+      VALUE "InternalName",     "SlashGaming Diablo II API\0"
+      VALUE "LegalCopyright",   "Copyright (C) 2018  SlashGaming\0"
+      VALUE "LegalTrademarks",  "All rights reserved.\0"
+      VALUE "PrivateBuild",     "\0"
+      VALUE "ProductName",      "SlashGaming Diablo II API\0"
+      VALUE "ProductVersion",   "0.0.1.0\0"
+      VALUE "SpecialBuild",     "\0"
+      VALUE "Support",          "reddit.com/r/SlashDiablo\0"
+    } // BLOCK "040904E4"
+  } // BLOCK "StringFileInfo"
+  BLOCK "VarFileInfo"
+  {
+    VALUE "Translation", 0x409, 1252 // 1252 = 0x04E4
+  } // BLOCK "VarFileInfo"
+}
+
+#endif // SLASHGAMING_RESOURCE_RC_
