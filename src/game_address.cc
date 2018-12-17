@@ -51,6 +51,9 @@
 #include "game_library_table.h"
 #include "../include/game_version.h"
 
+#include "c/game_address.h"
+#include "game_address_locator/c/game_address_locator_interface.h"
+
 namespace sgd2mapi {
 
 namespace {
@@ -164,70 +167,67 @@ std::intptr_t GameAddress::address() const noexcept {
 
 } // namespace sgd2mapi
 
-void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
-    struct SGD2MAPI_GameAddress* dest,
+struct SGD2MAPI_GameAddress*
+SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
     const char* library_path,
-    const struct SGD2MAPI_GameAddressLocatorInterface**
-        game_address_locator_interfaces
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interfaces[]
 ) {
   // Pull the game address locator corresponding to the running game version.
   int game_version_value =
       static_cast<int>(sgd2mapi::GetRunningGameVersionId());
   const struct SGD2MAPI_GameAddressLocatorInterface*
       running_game_address_locator_interface =
-          game_address_locator_interfaces[game_version_value];
+          c_game_address_locator_interfaces[game_version_value];
 
   const sgd2mapi::GameAddressLocatorInterface*
       actual_game_address_locator_interface =
-          static_cast<sgd2mapi::GameAddressLocatorInterface*>(
-              running_game_address_locator_interface
-                  ->game_address_locator_interface
-          );
+          running_game_address_locator_interface->actual_ptr.get();
 
-  // Extract the actual address locator to call the C++ constructor.
-  const sgd2mapi::GameAddressLocatorInterface& actual_address_locator =
-      *(actual_game_address_locator_interface);
+  // Create a new game address and return it.
+  struct SGD2MAPI_GameAddress* c_game_address =
+      new SGD2MAPI_GameAddress;
+  c_game_address->actual_ptr =
+      std::make_shared<sgd2mapi::GameAddress>(
+          library_path,
+          *actual_game_address_locator_interface
+      );
 
-  dest->game_address = new sgd2mapi::GameAddress(
-      library_path,
-      actual_address_locator
-  );
+  return c_game_address;
 }
 
-void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
-    struct SGD2MAPI_GameAddress* dest,
-    enum SGD2MAPI_DefaultLibrary library_id,
+struct SGD2MAPI_GameAddress*
+SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
+    enum SGD2MAPI_DefaultLibrary c_library_id,
     const struct SGD2MAPI_GameAddressLocatorInterface**
-        game_address_locator_interfaces
+        c_game_address_locator_interfaces
 ) {
   // Get the string name of the default library so that the other constructor
   // can be used.
-  enum sgd2mapi::DefaultLibrary converted_library_id =
-      static_cast<enum sgd2mapi::DefaultLibrary>(library_id);
+  enum sgd2mapi::DefaultLibrary actual_library_id =
+      static_cast<enum sgd2mapi::DefaultLibrary>(c_library_id);
   std::string_view library_name =
-      sgd2mapi::GameLibrary::GetLibraryPathWithRedirect(converted_library_id);
+      sgd2mapi::GameLibrary::GetLibraryPathWithRedirect(actual_library_id);
 
-  SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
-      dest,
-      library_name.data(),
-      game_address_locator_interfaces
-  );
+  SGD2MAPI_GameAddress* c_game_address =
+      SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
+          library_name.data(),
+          c_game_address_locator_interfaces
+      );
+
+  return c_game_address;
 }
 
-void SGD2MAPI_GameAddress_Destroy(
-    struct SGD2MAPI_GameAddress* game_address
+void
+SGD2MAPI_GameAddress_Destroy(
+    struct SGD2MAPI_GameAddress* c_game_address
 ) {
-  sgd2mapi::GameAddress* actual_game_address =
-      static_cast<sgd2mapi::GameAddress*>(game_address->game_address);
-
-  delete actual_game_address;
+  delete c_game_address;
 }
 
-std::intptr_t SGD2MAPI_GameAddress_GetAddress(
-    const struct SGD2MAPI_GameAddress* game_address
+std::intptr_t
+SGD2MAPI_GameAddress_GetAddress(
+    const struct SGD2MAPI_GameAddress* c_game_address
 ) {
-  const sgd2mapi::GameAddress* actual_game_address =
-      static_cast<const sgd2mapi::GameAddress*>(game_address->game_address);
-
-  return actual_game_address->address();
+  return c_game_address->actual_ptr->address();
 }

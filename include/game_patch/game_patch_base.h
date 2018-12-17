@@ -153,10 +153,7 @@ class DLLEXPORT GamePatchBase {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GamePatchBase {
-  // sgd2mapi::GamePatchBase*
-  void* game_patch_base;
-};
+struct SGD2MAPI_GamePatchBase;
 
 #ifdef __cplusplus
 extern "C" {
@@ -165,24 +162,27 @@ extern "C" {
 /**
  * Frees the memory used by the specified game patch.
  */
-DLLEXPORT void SGD2MAPI_GamePatchBase_Destroy(
-    struct SGD2MAPI_GamePatchBase* game_patch_base
+DLLEXPORT void
+SGD2MAPI_GamePatchBase_Destroy(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
 );
 
 /**
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */
-DLLEXPORT void SGD2MAPI_GamePatchBase_Apply(
-    struct SGD2MAPI_GamePatchBase* game_patch_base
+DLLEXPORT void
+SGD2MAPI_GamePatchBase_Apply(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
 );
 
 /**
  * Removes the effects of the game patch by restoring the original state of the
  * bytes at its target address.
  */
-DLLEXPORT void SGD2MAPI_GamePatchBase_Remove(
-    struct SGD2MAPI_GamePatchBase* game_patch_base
+DLLEXPORT void
+SGD2MAPI_GamePatchBase_Remove(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
 );
 
 #ifdef __cplusplus

@@ -133,40 +133,44 @@ class DLLEXPORT GameAddress {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddress {
-  // sgd2mapi::GameAddress*
-  void* game_address;
-};
+struct SGD2MAPI_GameAddress;
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
-    struct SGD2MAPI_GameAddress* dest,
+/**
+ * Creates a new GameAddress. The base library is specified using its name.
+ * The game address locators are specified as an array of pointers to
+ * GameAddressLocators.
+ */
+DLLEXPORT struct SGD2MAPI_GameAddress*
+SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
     const char* library_path,
-    const struct SGD2MAPI_GameAddressLocatorInterface**
-        game_address_locator_interfaces
-);
-
-DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
-    struct SGD2MAPI_GameAddress* dest,
-    enum SGD2MAPI_DefaultLibrary library_id,
-    const struct SGD2MAPI_GameAddressLocatorInterface**
-        game_address_locator_interfaces
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        game_address_locator_interfaces[]
 );
 
 /**
- * Initializes the value of the specified destination with a new GameAddress
- * using the specified parameters. The library can be either a library ID or
- * the null-terminated string name of the library. The game address locator
- * array is a pointer to a one-dimensional array of pointers to
- * GameAddressLocator objects.
+ * Creates a new GameAddress. The base library is specified using its ID.
+ * The game address locators are specified as an array of pointers to
+ * GameAddressLocators.
+ */
+DLLEXPORT struct SGD2MAPI_GameAddress*
+SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
+    enum SGD2MAPI_DefaultLibrary c_library_id,
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interfaces[]
+);
+
+/**
+ * Create a new GameAddress. The base library is specified using its ID or its
+ * name. The game address locators are specified as an array of pointers to
+ * GameAddressLocators.
  */
 #define SGD2MAPI_GameAddress_Create( \
-    dest, \
     library, \
-    game_address_locator_interfaces \
+    c_game_address_locator_interfaces \
 ) _Generic( \
     (library), \
     char*: \
@@ -178,15 +182,17 @@ DLLEXPORT void SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
 /**
  * Frees the memory used by the specified game address.
  */
-DLLEXPORT void SGD2MAPI_GameAddress_Destroy(
-    struct SGD2MAPI_GameAddress* game_address
+DLLEXPORT void
+SGD2MAPI_GameAddress_Destroy(
+    struct SGD2MAPI_GameAddress* c_game_address
 );
 
 /**
  * Returns the address value of the game address.
  */
-DLLEXPORT intptr_t SGD2MAPI_GameAddress_GetAddress(
-    const struct SGD2MAPI_GameAddress* game_address
+DLLEXPORT intptr_t
+SGD2MAPI_GameAddress_GetAddress(
+    const struct SGD2MAPI_GameAddress* c_game_address
 );
 
 #ifdef __cplusplus
