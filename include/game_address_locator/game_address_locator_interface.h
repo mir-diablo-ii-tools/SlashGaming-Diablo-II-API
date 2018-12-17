@@ -78,10 +78,7 @@ class DLLEXPORT GameAddressLocatorInterface {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddressLocatorInterface {
-  // sgd2mapi::GameAddressLocatorInterface*
-  void* game_address_locator_interface;
-};
+struct SGD2MAPI_GameAddressLocatorInterface;
 
 #ifdef __cplusplus
 extern "C" {
@@ -90,8 +87,10 @@ extern "C" {
 /**
  * Frees the memory used by the specified game address locator.
  */
-DLLEXPORT void SGD2MAPI_GameAddressLocatorInterface_Destroy(
-  struct SGD2MAPI_GameAddressLocatorInterface* game_address_locator_interface
+DLLEXPORT void
+SGD2MAPI_GameAddressLocatorInterface_Destroy(
+  struct SGD2MAPI_GameAddressLocatorInterface*
+      c_game_address_locator_interface
 );
 
 #ifdef __cplusplus

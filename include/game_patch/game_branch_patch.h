@@ -157,10 +157,7 @@ class DLLEXPORT GameBranchPatch : public GamePatchBase {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameBranchPatch {
-  // sgd2mapi::GameBranchPatch*
-  void* game_branch_patch;
-};
+struct SGD2MAPI_GameBranchPatch;
 
 /**
  * The branch types that are used to call an inserted function. A call saves
@@ -184,78 +181,72 @@ enum class sgd2mapi::BranchType
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch(
-    struct SGD2MAPI_GameBranchPatch* dest,
-    const struct SGD2MAPI_GameAddress* game_address,
-    enum SGD2MAPI_BranchType branch_type,
-    void* func(),
-    size_t patch_size
-);
-
-DLLEXPORT void SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
-    struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameAddress* game_address,
-    enum SGD2MAPI_BranchType branch_type,
+/**
+ * Creates a new GameBranchPatch. The patch buffer is configured by the
+ * specified branch type, the function to branch to, and the patch size.
+ */
+DLLEXPORT struct SGD2MAPI_GameBranchPatch*
+SGD2MAPI_GameBranchPatch_Create(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    enum SGD2MAPI_BranchType c_branch_type,
     void* func(),
     size_t patch_size
 );
 
 /**
- * Initializes the specified destination with a new GameBranchPatch,
- * specifying the branch type, the function to branch to, and the patch size.
+ * Creates a new GameBranchPatch. The patch buffer is configured by the
+ * specified branch type, the function to branch to, and the patch size.
  */
-#define SGD2MAPI_GameBranchPatch_Create( \
-    dest, \
-    game_address, \
-    branch_type, \
-    func, \
-    patch_size \
-) _Generic( \
-    (dest), \
-    struct SGD2MAPI_GameBranchPatch*: \
-        SGD2MAPI_GameBranchPatch_CreateAsGameBranchPatch, \
-    struct SGD2MAPI_GamePatchBase*: \
-        SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase \
-)(dest, game_address, branch_type, func, patch_size)
+DLLEXPORT struct SGD2MAPI_GamePatchBase*
+SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    enum SGD2MAPI_BranchType c_branch_type,
+    void* func(),
+    size_t patch_size
+);
 
 /**
  * Frees the memory used by the specified game patch.
  */
-DLLEXPORT void SGD2MAPI_GameBranchPatch_Destroy(
-    struct SGD2MAPI_GameBranchPatch* game_branch_patch
-);
-
-DLLEXPORT void SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-    struct SGD2MAPI_GamePatchBase* dest,
-    const struct SGD2MAPI_GameBranchPatch* src
+DLLEXPORT void
+SGD2MAPI_GameBranchPatch_Destroy(
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 );
 
 /**
- * Upcasts the game patch to a parent type, into the destination.
+ * Creates an upcast of the specified game patch to a
+ * GamePatchBase.
  */
-#define SGD2MAPI_GameBranchPatch_Upcast( \
-    dest, \
-    src \
-) _Generic( \
-    (dest), \
-    struct SGD2MAPI_GamePatchBase*: \
-        SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase \
-)(dest, src)
+DLLEXPORT struct SGD2MAPI_GamePatchBase*
+SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
+    const struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a
+ * GamePatchBase and destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchBase*
+SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
+);
 
 /**
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */
-DLLEXPORT void SGD2MAPI_GameBranchPatch_Apply(
-    struct SGD2MAPI_GameBranchPatch* game_branch_patch
+DLLEXPORT void
+SGD2MAPI_GameBranchPatch_Apply(
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 );
 
 /**
  * Removes the effects of the game patch by restoring the original state of the
  * bytes at its target address.
  */
-DLLEXPORT void SGD2MAPI_GameBranchPatch_Remove(
-    struct SGD2MAPI_GameBranchPatch* game_branch_patch
+DLLEXPORT void
+SGD2MAPI_GameBranchPatch_Remove(
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 );
 
 #ifdef __cplusplus

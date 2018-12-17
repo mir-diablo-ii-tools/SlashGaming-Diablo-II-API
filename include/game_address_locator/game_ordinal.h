@@ -95,63 +95,60 @@ class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOrdinal {
-  // sgd2mapi::GameOrdinal*
-  void* game_ordinal;
-};
+struct SGD2MAPI_GameOrdinal;
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
-    struct SGD2MAPI_GameAddressLocatorInterface* dest,
-    int ordinal
-);
-
-DLLEXPORT void SGD2MAPI_GameOrdinal_CreateAsGameOrdinal(
-    struct SGD2MAPI_GameOrdinal* dest,
+/**
+ * Creates a new GameOrdinal.
+ */
+DLLEXPORT struct SGD2MAPI_GameOrdinal*
+SGD2MAPI_GameOrdinal_Create(
     int ordinal
 );
 
 /**
- * Initializes the specified destination with a new GameOrdinal.
+ * Creates a new GameOrdinal, upcasted to a GameAddressLocatorInterface.
  */
-#define SGD2MAPI_GameOrdinal_Create(dest, ordinal) _Generic( \
-    (dest), \
-    struct SGD2MAPI_GameAddressLocatorInterface*: \
-        SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface, \
-    struct SGD2MAPI_GameOrdinal*: \
-        SGD2MAPI_GameOrdinal_CreateAsGameOrdinal \
-)(dest, ordinal)
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
+    int ordinal
+);
 
 /**
  * Frees the memory used by the specified game locator.
  */
-DLLEXPORT void SGD2MAPI_GameOrdinal_Destroy(
-    struct SGD2MAPI_GameOrdinal* game_ordinal
-);
-
-DLLEXPORT void SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    struct SGD2MAPI_GameAddressLocatorInterface*
-        game_address_locator_interface,
-    const struct SGD2MAPI_GameOrdinal* game_ordinal
+DLLEXPORT void
+SGD2MAPI_GameOrdinal_Destroy(
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
 );
 
 /**
- * Upcasts the game locator to a parent type, into the destination.
+ * Creates an upcast of the specified game locator to a
+ * GameAddressLocatorInterface.
  */
-#define SGD2MAPI_GameOrdinal_Upcast(dest, game_ordinal) _Generic( \
-    (dest), \
-    struct SGD2MAPI_GameAddressLocatorInterface*: \
-        SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface \
-)(dest, game_ordinal)
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
+    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+);
 
 /**
- * Returns the ordinal value of the game ordinal.
+ * Creates an upcast of the specified game locator to a
+ * GameAddressLocatorInterface and destroys the specified game locator.
  */
-DLLEXPORT int SGD2MAPI_GameOrdinal_GetOrdinal(
-    const struct SGD2MAPI_GameOrdinal* game_ordinal
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterfaceThenDestroy(
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+);
+
+/**
+ * Returns the ordinal value of the game locator.
+ */
+DLLEXPORT int
+SGD2MAPI_GameOrdinal_GetOrdinal(
+    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
 );
 
 #ifdef __cplusplus

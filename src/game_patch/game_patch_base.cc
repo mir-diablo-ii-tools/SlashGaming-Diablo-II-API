@@ -42,8 +42,11 @@
 #include <cstdint>
 #include <cstdlib>
 #include <utility>
+#include <vector>
 
 #include "../../include/game_address.h"
+
+#include "c/game_patch_base.h"
 
 namespace sgd2mapi {
 
@@ -180,29 +183,23 @@ std::size_t GamePatchBase::patch_size() const noexcept {
  * C Interface
  */
 
-void SGD2MAPI_GamePatchBase_Destroy(
-    struct SGD2MAPI_GamePatchBase* game_patch_base
+void
+SGD2MAPI_GamePatchBase_Destroy(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
 ) {
-  sgd2mapi::GamePatchBase* actual_game_patch_base =
-      static_cast<sgd2mapi::GamePatchBase*>(game_patch_base->game_patch_base);
-
-  delete actual_game_patch_base;
+  delete c_game_patch_base;
 }
 
-void SGD2MAPI_GamePatchBase_Apply(
-    struct SGD2MAPI_GamePatchBase* game_patch_base
+void
+SGD2MAPI_GamePatchBase_Apply(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
 ) {
-  sgd2mapi::GamePatchBase* actual_game_patch_base =
-      static_cast<sgd2mapi::GamePatchBase*>(game_patch_base->game_patch_base);
-
-  actual_game_patch_base->Apply();
+  c_game_patch_base->actual_ptr->Apply();
 }
 
-void SGD2MAPI_GamePatchBase_Remove(
-    struct SGD2MAPI_GamePatchBase* game_patch_base
+void
+SGD2MAPI_GamePatchBase_Remove(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
 ) {
-  sgd2mapi::GamePatchBase* actual_game_patch_base =
-      static_cast<sgd2mapi::GamePatchBase*>(game_patch_base->game_patch_base);
-
-  actual_game_patch_base->Remove();
+  c_game_patch_base->actual_ptr->Remove();
 }

@@ -36,23 +36,13 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "../../include/game_address_locator/game_address_locator_interface.h"
+#ifndef SGD2MAPI_GAME_PATCH_C_GAME_NOP_PATCH_H_
+#define SGD2MAPI_GAME_PATCH_C_GAME_NOP_PATCH_H_
 
-#include "c/game_address_locator_interface.h"
+#include "../../../include/game_patch/game_buffer_patch.h"
 
-namespace sgd2mapi {
+struct SGD2MAPI_GameNopPatch {
+  std::shared_ptr<sgd2mapi::GameNopPatch> actual_ptr;
+};
 
-GameAddressLocatorInterface::~GameAddressLocatorInterface() noexcept = default;
-
-} // namespace sgd2mapi
-
-/**
- * C Interface
- */
-
-void SGD2MAPI_GameAddressLocatorInterface_Destroy(
-    struct SGD2MAPI_GameAddressLocatorInterface*
-        c_game_address_locator_interface
-) {
-  delete c_game_address_locator_interface;
-}
+#endif // SGD2MAPI_GAME_PATCH_C_GAME_NOP_PATCH_H_
