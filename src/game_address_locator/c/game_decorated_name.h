@@ -36,12 +36,15 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_C_GAME_DECORATED_NAME_H_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_C_GAME_DECORATED_NAME_H_
 
-#include "game_address_locator/game_address_locator_interface.h"
-#include "game_address_locator/game_decorated_name.h"
-#include "game_address_locator/game_offset.h"
-#include "game_address_locator/game_ordinal.h"
+#include <memory>
 
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
+#include "../../../include/game_address_locator/game_decorated_name.h"
+
+struct SGD2MAPI_GameDecoratedName {
+  std::shared_ptr<sgd2mapi::GameDecoratedName> actual_ptr;
+};
+
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_C_GAME_DECORATED_NAME_H_

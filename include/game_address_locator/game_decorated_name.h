@@ -36,11 +36,15 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_H_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_H_
+
+#include "game_address_locator_interface.h"
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <string>
+#include <string_view>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -54,20 +58,25 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
-/**
- * An interface for game address locator implementations that specify a
- * location in game memory.
- */
-class DLLEXPORT GameAddressLocatorInterface {
+class DLLEXPORT GameDecoratedName : public GameAddressLocatorInterface {
  public:
-  virtual ~GameAddressLocatorInterface();
+  explicit GameDecoratedName(std::string_view decorated_name);
 
-  /**
-   * Resolves the destination game address, using the provided library base
-   * address.
-   */
-  virtual std::intptr_t ResolveGameAddress(std::intptr_t base_address)
-      const noexcept = 0;
+  GameDecoratedName(const GameDecoratedName&);
+  GameDecoratedName(GameDecoratedName&&);
+
+  ~GameDecoratedName() override;
+
+  GameDecoratedName& operator=(const GameDecoratedName&);
+  GameDecoratedName& operator=(GameDecoratedName&&);
+
+  std::intptr_t ResolveGameAddress(std::intptr_t base_address)
+      const noexcept override;
+
+  std::string_view decorated_name() const;
+
+ private:
+  std::string decorated_name_;
 };
 
 } // namespace sgd2mapi
@@ -78,20 +87,42 @@ class DLLEXPORT GameAddressLocatorInterface {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddressLocatorInterface;
+struct SGD2MAPI_GameDecoratedName;
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-/**
- * Frees the memory used by the specified game address locator.
- */
-DLLEXPORT void
-SGD2MAPI_GameAddressLocatorInterface_Destroy(
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface
+DLLEXPORT struct SGD2MAPI_GameDecoratedName*
+SGD2MAPI_GameDecoratedName_Create(
+    const char decorated_name[]
 );
+
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameDecoratedName_CreateAsGameAddressLocatorInterface(
+    const char decorated_name[]
+);
+
+DLLEXPORT void
+SGD2MAPI_GameDecoratedName_Destroy(
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+);
+
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
+    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+);
+
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterfaceThenDestroy(
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+);
+
+DLLEXPORT const char*
+SGD2MAPI_GameDecoratedName_GetDecoratedName(
+    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+);
+
 
 #ifdef __cplusplus
 }
@@ -100,4 +131,4 @@ SGD2MAPI_GameAddressLocatorInterface_Destroy(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_H_

@@ -36,59 +36,50 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "../../include/game_address_locator/game_ordinal.h"
+#include "../../include/game_address_locator/game_decorated_name.h"
 
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include <string>
+#include <string_view>
 
 #include <boost/format.hpp>
-#include "../../include/game_address_locator/game_address_locator_interface.h"
 
 #include "c/game_address_locator_interface.h"
-#include "c/game_ordinal.h"
+#include "c/game_decorated_name.h"
 
 namespace sgd2mapi {
 
-GameOrdinal::GameOrdinal(int ordinal) noexcept
-    : ordinal_(ordinal) {
-  if ((ordinal & 0xFFFF) != ordinal) {
-    std::wstring error_message = (boost::wformat(
-        L"Invalid ordinal value %d. The leftmost four bytes of an ordinal must"
-        L"be zero.") % ordinal).str();
-    MessageBoxW(
-        nullptr,
-        error_message.data(),
-        L"Invalid Ordinal Value",
-        MB_OK | MB_ICONERROR
-    );
-    std::exit(EXIT_FAILURE);
-  }
+GameDecoratedName::GameDecoratedName(std::string_view decorated_name)
+    : decorated_name_(decorated_name.data()) {
 }
 
-GameOrdinal::GameOrdinal(const GameOrdinal&) noexcept = default;
+GameDecoratedName::GameDecoratedName(const GameDecoratedName&) = default;
 
-GameOrdinal::GameOrdinal(GameOrdinal&&) noexcept = default;
+GameDecoratedName::GameDecoratedName(GameDecoratedName&&) = default;
 
-GameOrdinal::~GameOrdinal() noexcept = default;
+GameDecoratedName::~GameDecoratedName() = default;
 
-GameOrdinal& GameOrdinal::operator=(const GameOrdinal&) noexcept = default;
+GameDecoratedName& GameDecoratedName::operator=(
+    const GameDecoratedName&
+) = default;
 
-GameOrdinal& GameOrdinal::operator=(GameOrdinal&&) noexcept = default;
+GameDecoratedName& GameDecoratedName::operator=(GameDecoratedName&&) = default;
 
-std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
-    const noexcept {
+std::intptr_t GameDecoratedName::ResolveGameAddress(
+    std::intptr_t base_address
+) const noexcept {
   HMODULE library_handle = reinterpret_cast<HMODULE>(base_address);
-  const CHAR* func_ordinal = reinterpret_cast<const CHAR*>(ordinal());
+  const CHAR* c_decorated_name = decorated_name().data();
 
-  FARPROC func_address = GetProcAddress(library_handle, func_ordinal);
+  FARPROC func_address = GetProcAddress(library_handle, c_decorated_name);
 
   if (func_address == nullptr) {
     std::wstring error_message = (boost::wformat(
-        L"The data or function with the ordinal %d could not be found."
-    ) % ordinal()).str();
+        L"The data or function with the name %s could not be found."
+    ) % decorated_name().data()).str();
 
     MessageBoxW(
         nullptr,
@@ -102,8 +93,8 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
   return reinterpret_cast<std::intptr_t>(func_address);
 }
 
-int GameOrdinal::ordinal() const noexcept {
-  return ordinal_;
+std::string_view GameDecoratedName::decorated_name() const {
+  return decorated_name_.data();
 }
 
 } // namespace sgd2mapi
@@ -112,69 +103,76 @@ int GameOrdinal::ordinal() const noexcept {
  * C Interface
  */
 
-struct SGD2MAPI_GameOrdinal*
-SGD2MAPI_GameOrdinal_Create(
-    int ordinal
+struct SGD2MAPI_GameDecoratedName*
+SGD2MAPI_GameDecoratedName_Create(
+    const char decorated_name[]
 ) {
-  struct SGD2MAPI_GameOrdinal* c_game_ordinal = new SGD2MAPI_GameOrdinal;
-  c_game_ordinal->actual_ptr =
-      std::make_shared<sgd2mapi::GameOrdinal>(ordinal);
+  struct SGD2MAPI_GameDecoratedName* c_game_decorated_name =
+      new SGD2MAPI_GameDecoratedName;
 
-  return c_game_ordinal;
+  c_game_decorated_name->actual_ptr =
+      std::make_shared<sgd2mapi::GameDecoratedName>(
+          decorated_name
+      );
+
+  return c_game_decorated_name;
 }
 
 struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
-    int ordinal
+SGD2MAPI_GameDecoratedName_CreateAsGameAddressLocatorInterface(
+    const char decorated_name[]
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =
           new SGD2MAPI_GameAddressLocatorInterface;
 
   c_game_address_locator_interface->actual_ptr =
-      std::make_shared<sgd2mapi::GameOrdinal>(ordinal);
+      std::make_shared<sgd2mapi::GameDecoratedName>(
+          decorated_name
+      );
 
   return c_game_address_locator_interface;
 }
 
-void SGD2MAPI_GameOrdinal_Destroy(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+void
+SGD2MAPI_GameDecoratedName_Destroy(
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
-  delete c_game_ordinal;
+  delete c_game_decorated_name;
 }
 
 struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
+    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =
           new SGD2MAPI_GameAddressLocatorInterface;
 
   c_game_address_locator_interface->actual_ptr =
-      c_game_ordinal->actual_ptr;
+      c_game_decorated_name->actual_ptr;
 
   return c_game_address_locator_interface;
 }
 
 struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterfaceThenDestroy(
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =
-          SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-              c_game_ordinal
+          SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
+              c_game_decorated_name
           );
 
-  SGD2MAPI_GameOrdinal_Destroy(c_game_ordinal);
+  SGD2MAPI_GameDecoratedName_Destroy(c_game_decorated_name);
 
   return c_game_address_locator_interface;
 }
 
-int
-SGD2MAPI_GameOrdinal_GetOrdinal(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+const char*
+SGD2MAPI_GameDecoratedName_GetDecoratedName(
+    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
-  return c_game_ordinal->actual_ptr->ordinal();
+  return c_game_decorated_name->actual_ptr->decorated_name().data();
 }
