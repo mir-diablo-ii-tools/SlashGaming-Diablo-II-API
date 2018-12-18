@@ -87,13 +87,13 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
 
   if (func_address == nullptr) {
     std::wstring error_message = (boost::wformat(
-        L"The function with ordinal %d could not be found."
+        L"The data or function with the ordinal %d could not be found."
     ) % ordinal()).str();
 
     MessageBoxW(
         nullptr,
         error_message.data(),
-        L"Failed to Locate Function",
+        L"Failed to Locate Address",
         MB_OK | MB_ICONERROR
     );
     std::exit(0);
