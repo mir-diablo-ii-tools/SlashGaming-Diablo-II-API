@@ -39,7 +39,6 @@
 #include "game_address_table.h"
 
 #include <cstdint>
-#include <fstream>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -61,11 +60,11 @@ GameAddressTable::GameAddressTable(const boost::filesystem::path& table_path)
 }
 
 const GameAddressTable& GameAddressTable::GetInstance() {
-  std::string_view address_table_directory =
+  const boost::filesystem::path& address_table_directory =
       ConfigParser::GetInstance().address_table_path();
   std::string_view running_game_version_name = GetRunningGameVersionName();
 
-  boost::filesystem::path table_file(address_table_directory.data());
+  boost::filesystem::path table_file(address_table_directory);
   table_file /= running_game_version_name.data();
   table_file += ".txt";
 
