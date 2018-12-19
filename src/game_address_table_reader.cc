@@ -48,6 +48,7 @@
 #include <unordered_map>
 
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -125,15 +126,23 @@ ReadTsvTableFile(
       std::regex_constants::ECMAScript | std::regex::icase
   );
 
-  std::unordered_map<std::string, std::intptr_t> address_table;
-
   // Open the file and check for it to be valid.
   boost::filesystem::ifstream address_table_file_stream(
       table_file_path
   );
 
   if (!address_table_file_stream) {
-    return address_table;
+    std::wstring error_message = (boost::wformat(
+        L"The address table located at %s could not be found."
+    ) % table_file_path.c_str()).str();
+
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Could Not Locate Address Table",
+        MB_OK | MB_ICONERROR
+    );
+    std::exit(0);
   }
 
   // Discard the header line, because it's for humans.
@@ -141,6 +150,8 @@ ReadTsvTableFile(
       std::numeric_limits<std::streamsize>::max(),
       '\n'
   );
+
+  std::unordered_map<std::string, std::intptr_t> address_table;
 
   // Read each line.
   for (std::string line; std::getline(address_table_file_stream, line); ) {
