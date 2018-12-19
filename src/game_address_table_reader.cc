@@ -38,14 +38,16 @@
 
 #include "game_address_table_reader.h"
 
+#include <windows.h>
 #include <cstdint>
+#include <cstdlib>
 #include <charconv>
-#include <fstream>
 #include <regex>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include <boost/filesystem.hpp>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -116,7 +118,7 @@ ResolveAddress(
 
 std::unordered_map<std::string, std::intptr_t>
 ReadTsvTableFile(
-    std::string_view table_file_path
+    const boost::filesystem::path& table_file_path
 ) {
   static const std::regex kLineRegex(
       "(.*?)\t(.*?)\t(.*?)\t([^\t]*)(.*)",
@@ -126,7 +128,9 @@ ReadTsvTableFile(
   std::unordered_map<std::string, std::intptr_t> address_table;
 
   // Open the file and check for it to be valid.
-  std::ifstream address_table_file_stream(table_file_path.data());
+  boost::filesystem::ifstream address_table_file_stream(
+      table_file_path
+  );
 
   if (!address_table_file_stream) {
     return address_table;

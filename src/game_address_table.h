@@ -44,6 +44,7 @@
 #include <string_view>
 #include <unordered_map>
 
+#include <boost/filesystem.hpp>
 #include "../include/game_address.h"
 
 namespace sgd2mapi {
@@ -61,7 +62,7 @@ class GameAddressTable {
  private:
   std::unordered_map<std::string, std::intptr_t> address_table_;
 
-  explicit GameAddressTable(std::string_view table_path);
+  explicit GameAddressTable(const boost::filesystem::path& table_path);
   static const GameAddressTable& GetInstance();
 };
 

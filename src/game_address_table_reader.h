@@ -39,14 +39,17 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
 #define SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
 
-#include <string_view>
+#include <cstdint>
+#include <string>
 #include <unordered_map>
+
+#include <boost/filesystem.hpp>
 
 namespace sgd2mapi {
 
 std::unordered_map<std::string, std::intptr_t>
 ReadTsvTableFile(
-    std::string_view file_path
+    const boost::filesystem::path& file_path
 );
 
 } // namespace sgd2mapi

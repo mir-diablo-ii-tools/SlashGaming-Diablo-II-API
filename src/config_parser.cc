@@ -66,8 +66,8 @@ constexpr std::string_view kMinorVersionBKey = "Minor Version B";
 constexpr int kMinorVersionBValue = 0;
 
 constexpr std::string_view kAddressTablePathKey =
-    "Address Table Path";
-constexpr std::string_view kDefaultAddressTablePath = "./AddressTable.json";
+    "Address Table Directory Path";
+constexpr std::string_view kDefaultAddressTableDirectory = "Address Table";
 
 void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   auto& main_entry = config_json[kMainEntryKey.data()];
@@ -122,7 +122,7 @@ void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   // Add missing values.
   if (auto& entry = main_entry[kAddressTablePathKey.data()];
       !entry.is_string()) {
-    entry = kDefaultAddressTablePath;
+    entry = kDefaultAddressTableDirectory;
   }
 }
 
