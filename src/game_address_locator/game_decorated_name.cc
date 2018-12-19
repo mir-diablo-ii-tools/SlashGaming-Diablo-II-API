@@ -58,7 +58,7 @@ GameDecoratedName::GameDecoratedName(std::string_view decorated_name)
 
 GameDecoratedName::GameDecoratedName(const GameDecoratedName&) = default;
 
-GameDecoratedName::GameDecoratedName(GameDecoratedName&&) = default;
+GameDecoratedName::GameDecoratedName(GameDecoratedName&&) noexcept = default;
 
 GameDecoratedName::~GameDecoratedName() = default;
 
@@ -66,7 +66,9 @@ GameDecoratedName& GameDecoratedName::operator=(
     const GameDecoratedName&
 ) = default;
 
-GameDecoratedName& GameDecoratedName::operator=(GameDecoratedName&&) = default;
+GameDecoratedName& GameDecoratedName::operator=(
+    GameDecoratedName&&
+) noexcept = default;
 
 std::intptr_t GameDecoratedName::ResolveGameAddress(
     std::intptr_t base_address

@@ -42,6 +42,8 @@
 #include <string>
 #include <string_view>
 
+#include <boost/filesystem.hpp>
+
 namespace sgd2mapi {
 
 constexpr std::string_view kConfigPath = "./SlashGaming-Config.json";
@@ -56,14 +58,14 @@ class ConfigParser {
 
   static ConfigParser& GetInstance() noexcept;
 
-  std::string_view config_path() const noexcept;
-  std::string_view address_table_path() const noexcept;
+  const boost::filesystem::path& config_path() const noexcept;
+  const boost::filesystem::path& address_table_path() const noexcept;
 
  private:
-  ConfigParser(std::string_view config_path) noexcept;
+  ConfigParser(const boost::filesystem::path& config_path) noexcept;
 
-  std::string config_path_;
-  std::string address_table_path_;
+  boost::filesystem::path config_path_;
+  boost::filesystem::path address_table_path_;
 };
 
 } // namespace sgd2mapi

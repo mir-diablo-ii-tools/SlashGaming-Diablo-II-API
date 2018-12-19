@@ -99,8 +99,8 @@ std::intptr_t ResolveGameAddress(
         running_address_locator->ResolveGameAddress(base_address);
   } catch (std::out_of_range&) {
     std::wstring error_message = (boost::wformat(
-        L"Game address not defined for the game version: %s. The game will "
-        L"nowexit.") % GetRunningGameVersionName().data()).str();
+        L"Game address not defined for the game version: %s"
+    )% GetRunningGameVersionName().data()).str();
     MessageBoxW(
         nullptr,
         error_message.data(),

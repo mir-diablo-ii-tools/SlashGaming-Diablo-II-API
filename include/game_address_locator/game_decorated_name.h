@@ -63,12 +63,12 @@ class DLLEXPORT GameDecoratedName : public GameAddressLocatorInterface {
   explicit GameDecoratedName(std::string_view decorated_name);
 
   GameDecoratedName(const GameDecoratedName&);
-  GameDecoratedName(GameDecoratedName&&);
+  GameDecoratedName(GameDecoratedName&&) noexcept;
 
   ~GameDecoratedName() override;
 
   GameDecoratedName& operator=(const GameDecoratedName&);
-  GameDecoratedName& operator=(GameDecoratedName&&);
+  GameDecoratedName& operator=(GameDecoratedName&&) noexcept;
 
   std::intptr_t ResolveGameAddress(std::intptr_t base_address)
       const noexcept override;

@@ -36,46 +36,22 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_address_table.h"
+#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
+#define SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
 
 #include <cstdint>
 #include <string>
-#include <string_view>
 #include <unordered_map>
 
 #include <boost/filesystem.hpp>
-#include <nlohmann/json.hpp>
-
-#include "config_parser.h"
-#include "../include/game_address_locator.h"
-#include "game_address_table_reader.h"
-#include "../include/game_library.h"
-#include "game_library_table.h"
-#include "../include/game_version.h"
 
 namespace sgd2mapi {
 
-GameAddressTable::GameAddressTable(const boost::filesystem::path& table_path)
-    : address_table_(ReadTsvTableFile(table_path)) {
-}
-
-const GameAddressTable& GameAddressTable::GetInstance() {
-  const boost::filesystem::path& address_table_directory =
-      ConfigParser::GetInstance().address_table_path();
-  std::string_view running_game_version_name = GetRunningGameVersionName();
-
-  boost::filesystem::path table_file(address_table_directory);
-  table_file /= running_game_version_name.data();
-  table_file += ".txt";
-
-  static GameAddressTable instance(
-      table_file
-  );
-  return instance;
-}
-
-std::intptr_t GameAddressTable::GetAddress(std::string_view address_name) {
-  return GetInstance().address_table_.at(address_name.data());
-}
+std::unordered_map<std::string, std::intptr_t>
+ReadTsvTableFile(
+    const boost::filesystem::path& file_path
+);
 
 } // namespace sgd2mapi
+
+#endif // SGD2MAPI_GAME_ADDRESS_TABLE_READER_TSV_GAME_ADDRESS_TABLE_READER_H_

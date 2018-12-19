@@ -38,7 +38,6 @@
 
 #include "config_parser.h"
 
-#include <fstream>
 #include <string>
 #include <string_view>
 
@@ -66,8 +65,8 @@ constexpr std::string_view kMinorVersionBKey = "Minor Version B";
 constexpr int kMinorVersionBValue = 0;
 
 constexpr std::string_view kAddressTablePathKey =
-    "Address Table Path";
-constexpr std::string_view kDefaultAddressTablePath = "./AddressTable.json";
+    "Address Table Directory Path";
+constexpr std::string_view kDefaultAddressTableDirectory = "Address Table";
 
 void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   auto& main_entry = config_json[kMainEntryKey.data()];
@@ -122,21 +121,23 @@ void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   // Add missing values.
   if (auto& entry = main_entry[kAddressTablePathKey.data()];
       !entry.is_string()) {
-    entry = kDefaultAddressTablePath;
+    entry = kDefaultAddressTableDirectory;
   }
 }
 
-nlohmann::json ParseConfig(std::string_view config_path) noexcept {
+nlohmann::json ParseConfig(
+    const boost::filesystem::path& config_path
+) noexcept {
   // Create the config file if it doesn't exist.
-  if (!boost::filesystem::exists(config_path.data())) {
-    std::ofstream config_file(config_path.data());
+  if (!boost::filesystem::exists(config_path)) {
+    boost::filesystem::ofstream config_file(config_path);
     config_file << "{}" << std::endl;
   }
 
   // Read the config file, if read permissions are enabled, for processing.
   nlohmann::json config_json;
 
-  if (std::ifstream config_file(config_path.data());
+  if (boost::filesystem::ifstream config_file(config_path);
       config_file.good()) {
     config_json = nlohmann::json::parse(config_file);
   }
@@ -144,7 +145,7 @@ nlohmann::json ParseConfig(std::string_view config_path) noexcept {
   AddMissingConfigEntries(config_json);
 
   // Write to the config file any new default values.
-  if (std::ofstream config_file(config_path.data());
+  if (boost::filesystem::ofstream config_file(config_path);
       config_file.good()) {
     config_file << config_json << std::endl;
   }
@@ -154,22 +155,27 @@ nlohmann::json ParseConfig(std::string_view config_path) noexcept {
 
 } // namespace
 
-ConfigParser::ConfigParser(std::string_view config_path) noexcept
+ConfigParser::ConfigParser(
+    const boost::filesystem::path& config_path
+) noexcept
     : config_path_(config_path) {
   nlohmann::json main_entry = ParseConfig(config_path);
-  address_table_path_ = main_entry.at(kAddressTablePathKey.data());
+  address_table_path_ =
+      main_entry.at(kAddressTablePathKey.data()).get<std::string>();
 }
 
 ConfigParser& ConfigParser::GetInstance() noexcept {
-  static ConfigParser instance(kConfigPath);
+  static ConfigParser instance(kConfigPath.data());
   return instance;
 }
 
-std::string_view ConfigParser::address_table_path() const noexcept {
+const boost::filesystem::path&
+ConfigParser::address_table_path() const noexcept {
   return address_table_path_;
 }
 
-std::string_view ConfigParser::config_path() const noexcept {
+const boost::filesystem::path&
+ConfigParser::config_path() const noexcept {
   return config_path_;
 }
 
