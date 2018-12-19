@@ -49,11 +49,6 @@ ReadTsvTableFile(
     std::string_view file_path
 );
 
-std::unordered_map<std::string, std::intptr_t>
-ReadJsonTableFile(
-    std::string_view file_path
-);
-
 } // namespace sgd2mapi
 
 #endif // SGD2MAPI_GAME_ADDRESS_TABLE_READER_TSV_GAME_ADDRESS_TABLE_READER_H_

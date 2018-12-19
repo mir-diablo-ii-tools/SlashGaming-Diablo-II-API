@@ -46,7 +46,6 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <nlohmann/json.hpp>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -62,9 +61,6 @@ constexpr std::string_view kLocatorValueKey = "Locator Value";
 constexpr std::string_view kLocatorTypeOffset = "Offset";
 constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
 constexpr std::string_view kLocatorTypeDecoratedName = "Decorated Name";
-
-using Locator = std::unordered_map<std::string, nlohmann::json>;
-using LocatorByVersion = std::unordered_map<std::string, Locator>;
 
 std::intptr_t
 ResolveLocatorAndGetAddress(
@@ -168,57 +164,6 @@ ReadTsvTableFile(
         std::move(full_address_name),
         resolved_game_address
     );
-  }
-
-  return address_table;
-}
-
-std::unordered_map<std::string, std::intptr_t>
-ReadJsonTableFile(
-    std::string_view table_file_path
-) {
-  // Read the address table into JSON.
-  nlohmann::json address_table_json;
-  if (std::ifstream address_table_file(table_file_path.data());
-      address_table_file.good()) {
-    address_table_json = nlohmann::json::parse(address_table_file);
-  }
-
-  // Parse the JSON into the address table.
-  std::unordered_map<std::string, std::intptr_t> address_table;
-
-  std::string_view version_name = GetRunningGameVersionName();
-  for (const auto& library_items : address_table_json.items()) {
-    const std::string library_name = library_items.key();
-    const std::string library_path = library_name + ".dll";
-    const GameLibrary& game_library =
-        GameLibraryTable::GetInstance().GetGameLibrary(library_path);
-    std::intptr_t base_address = game_library.base_address();
-
-    for (const auto& item : library_items.value().items()) {
-      std::string game_address_name = item.key();
-
-      // Determine the destination game address.
-      LocatorByVersion locator_by_version = item.value();
-      Locator locator = locator_by_version.at(version_name.data());
-
-      std::string locator_type = locator.at(kLocatorTypeKey.data());
-      std::string locator_value = locator.at(kLocatorValueKey.data());
-
-      std::intptr_t resolved_game_address = ResolveLocatorAndGetAddress(
-          base_address,
-          locator_type,
-          locator_value
-      );
-
-      // Determine the full game address name.
-      std::string full_address_name = library_name + "_" + game_address_name;
-
-      address_table.insert_or_assign(
-          std::move(full_address_name),
-          resolved_game_address
-      );
-    }
   }
 
   return address_table;
