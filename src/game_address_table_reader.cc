@@ -80,8 +80,8 @@ ResolveLocatorAndGetAddress(
   } else if (locator_type == kLocatorTypeOrdinal) {
     int ordinal;
     std::from_chars(
-        &locator_value.front(),
-        &locator_value.back(),
+        locator_value.data(),
+        locator_value.data() + locator_value.length(),
         ordinal
     );
 
@@ -117,7 +117,6 @@ ResolveAddress(
 }
 
 } // namespace
-
 
 std::unordered_map<std::string, std::intptr_t>
 ReadTsvTableFile(
