@@ -36,39 +36,24 @@
  *  grant you additional permission to convey the resulting work.
  */
 
-#include "game_address_table.h"
+#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
+#define SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
 
-#include <cstdint>
-#include <fstream>
-#include <string>
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/filesystem.hpp>
-#include <nlohmann/json.hpp>
-
-#include "config_parser.h"
-#include "../include/game_address_locator.h"
-#include "game_address_table_reader.h"
-#include "../include/game_library.h"
-#include "game_library_table.h"
-#include "../include/game_version.h"
-
 namespace sgd2mapi {
 
-GameAddressTable::GameAddressTable(std::string_view table_path)
-    : address_table_(ReadTsvTableFile(table_path)) {
-}
+std::unordered_map<std::string, std::intptr_t>
+ReadTsvTableFile(
+    std::string_view file_path
+);
 
-const GameAddressTable& GameAddressTable::GetInstance() {
-  static GameAddressTable instance(
-      ConfigParser::GetInstance().address_table_path()
-  );
-  return instance;
-}
-
-std::intptr_t GameAddressTable::GetAddress(std::string_view address_name) {
-  return GetInstance().address_table_.at(address_name.data());
-}
+std::unordered_map<std::string, std::intptr_t>
+ReadJsonTableFile(
+    std::string_view file_path
+);
 
 } // namespace sgd2mapi
+
+#endif // SGD2MAPI_GAME_ADDRESS_TABLE_READER_TSV_GAME_ADDRESS_TABLE_READER_H_
