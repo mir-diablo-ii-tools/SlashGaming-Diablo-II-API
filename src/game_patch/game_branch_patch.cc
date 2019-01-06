@@ -63,7 +63,7 @@ using BranchTypeAndOpcodeMapType = std::unordered_map<
     enum OpCode
 >;
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_M_IX86)
 const BranchTypeAndOpcodeMapType& GetOpCodeByBranchTypeMap() {
   static const BranchTypeAndOpcodeMapType op_code_by_branch_type = {
       { BranchType::kCall, OpCode::kCall },
