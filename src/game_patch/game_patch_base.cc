@@ -126,7 +126,7 @@ GamePatchBase& GamePatchBase::operator=(const GamePatchBase&) = default;
 
 GamePatchBase& GamePatchBase::operator=(GamePatchBase&&) noexcept = default;
 
-void GamePatchBase::Apply() noexcept {
+void GamePatchBase::Apply() {
   if (is_patch_applied()) {
     return;
   }
@@ -144,7 +144,7 @@ void GamePatchBase::Apply() noexcept {
   is_patch_applied_ = true;
 }
 
-void GamePatchBase::Remove() noexcept {
+void GamePatchBase::Remove() {
   if (!is_patch_applied()) {
     return;
   }

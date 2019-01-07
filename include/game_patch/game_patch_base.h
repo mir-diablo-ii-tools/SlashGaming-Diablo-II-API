@@ -71,13 +71,13 @@ class DLLEXPORT GamePatchBase {
    * Applies the patch by replacing the bytes at its target address with the
    * bytes stored in its buffer.
    */
-  void Apply() noexcept;
+  virtual void Apply();
 
   /**
    * Removes the effects of the patch by restoring the patched entries to their
    * original values.
    */
-  void Remove() noexcept;
+  virtual void Remove();
 
   /**
    * Returns the game address used by this patch.
