@@ -102,8 +102,6 @@ DLLEXPORT bool IsRunningGameVersionAtLeast1_14() noexcept;
  * C Interface
  */
 
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-
 /**
  * The Diablo II game versions supported and recognized. Disabled if compiling
  * as C++ code.
@@ -123,6 +121,8 @@ enum class sgd2mapi::GameVersion
   kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
   kClassic1_14D, kLod1_14D,
 };
+
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #ifdef __cplusplus
 extern "C" {
