@@ -173,6 +173,10 @@ const std::vector<std::uint8_t>& GamePatchBase::patch_buffer() const noexcept {
   return patch_buffer_;
 }
 
+const std::vector<std::uint8_t>& GamePatchBase::old_bytes() const noexcept {
+  return old_bytes_;
+}
+
 std::size_t GamePatchBase::patch_size() const noexcept {
   return patch_buffer().size();
 }

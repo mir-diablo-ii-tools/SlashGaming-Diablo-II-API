@@ -95,6 +95,11 @@ class DLLEXPORT GamePatchBase {
   const std::vector<std::uint8_t>& patch_buffer() const noexcept;
 
   /**
+   * Returns the buffer storing the original data before patching.
+   */
+  const std::vector<std::uint8_t>& old_bytes() const noexcept;
+
+  /**
    * Returns the number of bytes needed to apply this patch.
    */
   std::size_t patch_size() const noexcept;
