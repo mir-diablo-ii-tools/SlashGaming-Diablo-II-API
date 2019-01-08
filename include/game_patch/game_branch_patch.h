@@ -156,7 +156,6 @@ class DLLEXPORT GameBranchPatch : public GamePatchBase {
  * C Interface
  */
 
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 struct SGD2MAPI_GameBranchPatch;
 
 /**
@@ -176,6 +175,8 @@ enum class sgd2mapi::BranchType
   kCall,
   kJump,
 };
+
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #ifdef __cplusplus
 extern "C" {
