@@ -107,6 +107,11 @@ class DLLEXPORT GameLibrary {
   std::string library_path_;
 };
 
+std::string_view
+GetGameExecutable(
+    void
+);
+
 } // namespace sgd2mapi
 #endif // __cplusplus
 
@@ -129,6 +134,23 @@ enum class sgd2mapi::DefaultLibrary
   kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
   kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
 };
+
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+const char*
+SGD2MAPI_GetGameExecutable(
+    void
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_LIBRARY_H_

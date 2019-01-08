@@ -172,4 +172,18 @@ std::string_view GameLibrary::library_path() const noexcept {
   return library_path_;
 }
 
+std::string_view
+GetGameExecutable(
+    void
+) {
+  return kGameExecutable;
+}
+
 } // namespace sgd2mapi
+
+const char*
+SGD2MAPI_GetGameExecutable(
+    void
+) {
+  return sgd2mapi::GetGameExecutable().data();
+}
