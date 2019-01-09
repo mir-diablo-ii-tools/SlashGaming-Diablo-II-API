@@ -75,6 +75,7 @@ const BranchTypeAndOpcodeMapType& GetOpCodeByBranchTypeMap() {
 
 std::vector<std::uint8_t> CreateReplaceBuffer(
     enum BranchType branch_type,
+    std::intptr_t func_ptr,
     const GameAddress& game_address,
     std::size_t patch_size
 ) {
@@ -107,9 +108,13 @@ std::vector<std::uint8_t> CreateReplaceBuffer(
   buffer[0] = static_cast<std::uint8_t>(op_code);
 
   // Set the next bytes to the address of the inserted function.
-  std::intptr_t address_buffer = game_address.address();
-  for (std::size_t i = 0; i < sizeof(address_buffer); i += 1) {
-    buffer[i + 1] = (address_buffer >> (i * (sizeof(buffer[0]) * 8))) & 0xFF;
+  std::intptr_t func_buffer = func_ptr
+      - game_address.address()
+      - sizeof(std::int8_t)
+      - sizeof(func_ptr);
+
+  for (std::size_t i = 0; i < sizeof(func_buffer); i += 1) {
+    buffer[i + 1] = (func_buffer >> (i * (sizeof(buffer[0]) * 8))) & 0xFF;
   }
 
   return buffer;
@@ -125,7 +130,7 @@ GameBranchPatch::GameBranchPatch(
     std::size_t patch_size)
     : GamePatchBase(
           game_address,
-          CreateReplaceBuffer(branch_type, game_address, patch_size)),
+          CreateReplaceBuffer(branch_type, func_ptr, game_address, patch_size)),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
 }
@@ -137,7 +142,7 @@ GameBranchPatch::GameBranchPatch(
     std::size_t patch_size)
     : GamePatchBase(
           std::move(game_address),
-          CreateReplaceBuffer(branch_type, game_address, patch_size)
+          CreateReplaceBuffer(branch_type, func_ptr, game_address, patch_size)
       ),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
