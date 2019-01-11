@@ -1,8 +1,8 @@
+*.a
+*.dll
 *.exe
 *.o
 *.lib
-*.a
-*.dll
 *.def
 *.dep
 *.bin
@@ -21,6 +21,11 @@
 *.workspace
 Makefile
 
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
 *.vcxproj
 *.filters
 *.sdf
@@ -34,4 +39,6 @@ CMakeCache.txt
 .build-debug/*
 .codelite/*
 
-Debug/*
+.vs/
+Debug/
+Release/
