@@ -57,11 +57,6 @@
 namespace sgd2mapi {
 
 /**
- * The executable used to run the game.
- */
-constexpr std::string_view kGameExecutable = "Game.exe";
-
-/**
  * The default libraries that are used by Diablo II.
  */
 enum class DefaultLibrary;

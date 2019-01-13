@@ -60,6 +60,11 @@ using DefaultLibraryAndLibraryPathBimap = boost::bimap<
     std::string_view
 >;
 
+/**
+ * The executable used to run the game.
+ */
+constexpr std::string_view kGameExecutable = "Game.exe";
+
 const DefaultLibraryAndLibraryPathBimap&
     GetDefaultLibraryAndLibraryPathBimap() {
   static const std::array<

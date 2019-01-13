@@ -242,7 +242,7 @@ enum GameVersion DetermineRunningGameVersion() noexcept {
 
   try {
     game_version_string =
-        ExtractFileVersionString(kGameExecutable).value();
+        ExtractFileVersionString(GetGameExecutable()).value();
   } catch (const std::bad_optional_access&) {
     MessageBoxA(
         nullptr,
