@@ -44,7 +44,6 @@
 #include <nlohmann/json.hpp>
 
 namespace sgd2mapi {
-
 namespace {
 
 constexpr std::string_view kMainEntryKey = "SGD2MAPI";
@@ -124,7 +123,8 @@ void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   }
 }
 
-nlohmann::json ParseConfig(
+nlohmann::json
+ParseConfig(
     const boost::filesystem::path& config_path
 ) noexcept {
   // Create the config file if it doesn't exist.
@@ -163,18 +163,25 @@ ConfigParser::ConfigParser(
       main_entry.at(kAddressTablePathKey.data()).get<std::string>();
 }
 
-ConfigParser& ConfigParser::GetInstance() noexcept {
+ConfigParser&
+ConfigParser::GetInstance(
+    void
+) noexcept {
   static ConfigParser instance(kConfigPath.data());
   return instance;
 }
 
 const boost::filesystem::path&
-ConfigParser::address_table_path() const noexcept {
+ConfigParser::address_table_path(
+    void
+) const noexcept {
   return address_table_path_;
 }
 
 const boost::filesystem::path&
-ConfigParser::config_path() const noexcept {
+ConfigParser::config_path(
+    void
+) const noexcept {
   return config_path_;
 }
 

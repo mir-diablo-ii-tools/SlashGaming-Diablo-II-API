@@ -113,19 +113,34 @@ GamePatchBase::GamePatchBase(
       patch_buffer_(std::move(patch_buffer)) {
 }
 
-GamePatchBase::GamePatchBase(const GamePatchBase&) = default;
+GamePatchBase::GamePatchBase(
+    const GamePatchBase&
+) = default;
 
-GamePatchBase::GamePatchBase(GamePatchBase&&) noexcept = default;
+GamePatchBase::GamePatchBase(
+    GamePatchBase&&
+) noexcept = default;
 
-GamePatchBase::~GamePatchBase() noexcept {
+GamePatchBase::~GamePatchBase(
+    void
+) noexcept {
   Remove();
 }
 
-GamePatchBase& GamePatchBase::operator=(const GamePatchBase&) = default;
+GamePatchBase&
+GamePatchBase::operator=(
+    const GamePatchBase&
+) = default;
 
-GamePatchBase& GamePatchBase::operator=(GamePatchBase&&) noexcept = default;
+GamePatchBase&
+GamePatchBase::operator=(
+    GamePatchBase&&
+) noexcept = default;
 
-void GamePatchBase::Apply() {
+void
+GamePatchBase::Apply(
+    void
+) {
   if (is_patch_applied()) {
     return;
   }
@@ -143,7 +158,10 @@ void GamePatchBase::Apply() {
   is_patch_applied_ = true;
 }
 
-void GamePatchBase::Remove() {
+void
+GamePatchBase::Remove(
+    void
+) {
   if (!is_patch_applied()) {
     return;
   }
@@ -160,23 +178,38 @@ void GamePatchBase::Remove() {
   is_patch_applied_ = false;
 }
 
-const GameAddress& GamePatchBase::game_address() const noexcept {
+const GameAddress&
+GamePatchBase::game_address(
+    void
+) const noexcept {
   return game_address_;
 }
 
-bool GamePatchBase::is_patch_applied() const noexcept {
+bool
+GamePatchBase::is_patch_applied(
+    void
+) const noexcept {
   return is_patch_applied_;
 }
 
-const std::vector<std::uint8_t>& GamePatchBase::patch_buffer() const noexcept {
+const std::vector<std::uint8_t>&
+GamePatchBase::patch_buffer(
+    void
+) const noexcept {
   return patch_buffer_;
 }
 
-const std::vector<std::uint8_t>& GamePatchBase::old_bytes() const noexcept {
+const std::vector<std::uint8_t>&
+GamePatchBase::old_bytes(
+    void
+) const noexcept {
   return old_bytes_;
 }
 
-std::size_t GamePatchBase::patch_size() const noexcept {
+std::size_t
+GamePatchBase::patch_size(
+    void
+) const noexcept {
   return patch_buffer().size();
 }
 

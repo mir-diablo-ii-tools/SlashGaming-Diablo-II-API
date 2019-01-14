@@ -64,44 +64,68 @@ namespace sgd2mapi {
  */
 class DLLEXPORT GamePatchBase {
  public:
-  virtual ~GamePatchBase() noexcept;
+  virtual
+  ~GamePatchBase(
+      void
+  ) noexcept;
 
   /**
    * Applies the patch by replacing the bytes at its target address with the
    * bytes stored in its buffer.
    */
-  virtual void Apply();
+  virtual void
+  Apply(
+      void
+  );
 
   /**
    * Removes the effects of the patch by restoring the patched entries to their
    * original values.
    */
-  virtual void Remove();
+  virtual void
+  Remove(
+      void
+  );
 
   /**
    * Returns the game address used by this patch.
    */
-  const GameAddress& game_address() const noexcept;
+  const GameAddress&
+  game_address(
+      void
+  ) const noexcept;
 
   /**
    * Returns whether or not the patch has been applied.
    */
-  bool is_patch_applied() const noexcept;
+  bool
+  is_patch_applied(
+      void
+  ) const noexcept;
 
   /**
    * Returns the buffer storing the patch data.
    */
-  const std::vector<std::uint8_t>& patch_buffer() const noexcept;
+  const std::vector<std::uint8_t>&
+  patch_buffer(
+      void
+  ) const noexcept;
 
   /**
    * Returns the buffer storing the original data before patching.
    */
-  const std::vector<std::uint8_t>& old_bytes() const noexcept;
+  const std::vector<std::uint8_t>&
+  old_bytes(
+      void
+  ) const noexcept;
 
   /**
    * Returns the number of bytes needed to apply this patch.
    */
-  std::size_t patch_size() const noexcept;
+  std::size_t
+  patch_size(
+      void
+  ) const noexcept;
 
  protected:
   /**
@@ -136,11 +160,22 @@ class DLLEXPORT GamePatchBase {
       std::vector<std::uint8_t>&& patch_buffer
   );
 
-  GamePatchBase(const GamePatchBase&);
-  GamePatchBase(GamePatchBase&&) noexcept;
+  GamePatchBase(
+      const GamePatchBase&
+  );
 
-  GamePatchBase& operator=(const GamePatchBase&);
-  GamePatchBase& operator=(GamePatchBase&&) noexcept;
+  GamePatchBase(
+      GamePatchBase&&
+  ) noexcept;
+
+  GamePatchBase&
+  operator=(
+      const GamePatchBase&
+  );
+  GamePatchBase&
+  operator=(
+      GamePatchBase&&
+  ) noexcept;
 
  private:
   GameAddress game_address_;

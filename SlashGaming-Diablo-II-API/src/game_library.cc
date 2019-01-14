@@ -51,7 +51,6 @@
 #include "../include/game_version.h"
 
 namespace sgd2mapi {
-
 namespace {
 
 using DefaultLibraryAndLibraryPathBimap = boost::bimap<
@@ -65,7 +64,9 @@ using DefaultLibraryAndLibraryPathBimap = boost::bimap<
 constexpr std::string_view kGameExecutable = "Game.exe";
 
 const DefaultLibraryAndLibraryPathBimap&
-    GetDefaultLibraryAndLibraryPathBimap() {
+GetDefaultLibraryAndLibraryPathBimap(
+    void
+) {
   static const std::array<
       DefaultLibraryAndLibraryPathBimap::value_type, 20
   > library_array = {{
@@ -100,7 +101,8 @@ const DefaultLibraryAndLibraryPathBimap&
   return default_library_and_library_path;
 }
 
-std::optional<std::intptr_t> GetLibraryBaseAddress(
+std::optional<std::intptr_t>
+GetLibraryBaseAddress(
     std::string_view library_path
 ) noexcept {
   // Convert the library path to wstring, to allow it to work correctly under
@@ -122,11 +124,15 @@ std::optional<std::intptr_t> GetLibraryBaseAddress(
 
 } // namespace
 
-GameLibrary::GameLibrary(enum DefaultLibrary library)
+GameLibrary::GameLibrary(
+    enum DefaultLibrary library
+)
     : GameLibrary(GetLibraryPathWithRedirect(library)) {
 }
 
-GameLibrary::GameLibrary(std::string_view library_path)
+GameLibrary::GameLibrary(
+    std::string_view library_path
+)
     : library_path_(library_path) {
   auto base_address = GetLibraryBaseAddress(library_path);
   if (!base_address.has_value()) {
@@ -145,19 +151,32 @@ GameLibrary::GameLibrary(std::string_view library_path)
   base_address_ = base_address.value();
 }
 
-GameLibrary::GameLibrary(const GameLibrary&) = default;
+GameLibrary::GameLibrary(
+    const GameLibrary&
+) = default;
 
-GameLibrary::GameLibrary(GameLibrary&&) noexcept = default;
+GameLibrary::GameLibrary(
+    GameLibrary&&
+) noexcept = default;
 
-GameLibrary::~GameLibrary() noexcept {
+GameLibrary::~GameLibrary(
+    void
+) noexcept {
   FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
 }
 
-GameLibrary& GameLibrary::operator=(const GameLibrary&) = default;
+GameLibrary&
+GameLibrary::operator=(
+    const GameLibrary&
+) = default;
 
-GameLibrary& GameLibrary::operator=(GameLibrary&&) noexcept = default;
+GameLibrary&
+GameLibrary::operator=(
+    GameLibrary&&
+) noexcept = default;
 
-std::string_view GameLibrary::GetLibraryPathWithRedirect(
+std::string_view
+GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) noexcept {
   // Redirect if the game version is 1.14 or higher.
@@ -168,11 +187,17 @@ std::string_view GameLibrary::GetLibraryPathWithRedirect(
   return GetDefaultLibraryAndLibraryPathBimap().left.at(library).data();
 }
 
-std::intptr_t GameLibrary::base_address() const noexcept {
+std::intptr_t
+GameLibrary::base_address(
+    void
+) const noexcept {
   return base_address_;
 }
 
-std::string_view GameLibrary::library_path() const noexcept {
+std::string_view
+GameLibrary::library_path(
+    void
+) const noexcept {
   return library_path_;
 }
 

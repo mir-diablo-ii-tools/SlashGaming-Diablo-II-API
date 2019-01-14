@@ -43,10 +43,14 @@
 
 namespace sgd2mapi {
 
-GameLibraryTable::GameLibraryTable() = default;
+GameLibraryTable::GameLibraryTable(
+    void
+) = default;
 
-const GameLibrary& GameLibraryTable::GetGameLibrary(
-    std::string_view library_path) noexcept {
+const GameLibrary&
+GameLibraryTable::GetGameLibrary(
+    std::string_view library_path
+) noexcept {
   auto found_game_address = libraries_.find(library_path.data());
   if (found_game_address == libraries_.cend()) {
     const auto insert_result = libraries_.insert_or_assign(
@@ -58,14 +62,19 @@ const GameLibrary& GameLibraryTable::GetGameLibrary(
   return found_game_address->second;
 }
 
-const GameLibrary& GameLibraryTable::GetGameLibrary(
-    enum DefaultLibrary library) noexcept {
+const GameLibrary&
+GameLibraryTable::GetGameLibrary(
+    enum DefaultLibrary library
+) noexcept {
   std::string_view library_path = GameLibrary::GetLibraryPathWithRedirect(
       library);
   return GetGameLibrary(library_path);
 }
 
-GameLibraryTable& GameLibraryTable::GetInstance() {
+GameLibraryTable&
+GameLibraryTable::GetInstance(
+    void
+) {
   static GameLibraryTable instance;
   return instance;
 }

@@ -58,7 +58,8 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
-class DLLEXPORT GameNopPatch : public GamePatchBase {
+class DLLEXPORT GameNopPatch
+    : public GamePatchBase {
  public:
   /**
    * Creates a new instance of GameNopPatch, filling the patch buffer with as
@@ -80,15 +81,27 @@ class DLLEXPORT GameNopPatch : public GamePatchBase {
       std::size_t patch_size
   );
 
-  GameNopPatch(const GameNopPatch&);
+  GameNopPatch(
+      const GameNopPatch&
+  );
 
-  GameNopPatch(GameNopPatch&&) noexcept;
+  GameNopPatch(
+      GameNopPatch&&
+  ) noexcept;
 
-  ~GameNopPatch() override;
+  ~GameNopPatch(
+      void
+  ) override;
 
-  GameNopPatch& operator=(const GameNopPatch&);
+  GameNopPatch&
+  operator=(
+      const GameNopPatch&
+  );
 
-  GameNopPatch& operator=(GameNopPatch&&) noexcept;
+  GameNopPatch&
+  operator=(
+      GameNopPatch&&
+  ) noexcept;
 };
 
 } // namespace sgd2mapi

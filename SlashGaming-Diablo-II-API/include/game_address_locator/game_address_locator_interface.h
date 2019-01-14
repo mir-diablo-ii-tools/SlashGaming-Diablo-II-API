@@ -59,14 +59,19 @@ namespace sgd2mapi {
  */
 class DLLEXPORT GameAddressLocatorInterface {
  public:
-  virtual ~GameAddressLocatorInterface();
+  virtual
+  ~GameAddressLocatorInterface(
+      void
+  );
 
   /**
    * Resolves the destination game address, using the provided library base
    * address.
    */
-  virtual std::intptr_t ResolveGameAddress(std::intptr_t base_address)
-      const noexcept = 0;
+  virtual std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const noexcept = 0;
 };
 
 } // namespace sgd2mapi
@@ -88,8 +93,8 @@ extern "C" {
  */
 DLLEXPORT void
 SGD2MAPI_GameAddressLocatorInterface_Destroy(
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface
+    struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
 );
 
 #ifdef __cplusplus

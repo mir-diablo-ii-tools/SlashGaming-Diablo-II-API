@@ -54,7 +54,7 @@ namespace sgd2mapi {
 
 GameBufferPatch::GameBufferPatch(
     const GameAddress& game_address,
-    const std::uint8_t* buffer,
+    const std::uint8_t buffer[],
     std::size_t patch_size
 )
     : GamePatchBase(
@@ -91,17 +91,25 @@ GameBufferPatch::GameBufferPatch(
     : GamePatchBase(std::move(game_address), std::move(buffer)) {
 }
 
-GameBufferPatch::GameBufferPatch(const GameBufferPatch&) = default;
+GameBufferPatch::GameBufferPatch(
+    const GameBufferPatch&
+) = default;
 
-GameBufferPatch::GameBufferPatch(GameBufferPatch&&) noexcept = default;
+GameBufferPatch::GameBufferPatch(
+    GameBufferPatch&&
+) noexcept = default;
 
-GameBufferPatch::~GameBufferPatch() = default;
+GameBufferPatch::~GameBufferPatch(
+    void
+) = default;
 
-GameBufferPatch& GameBufferPatch::operator=(const GameBufferPatch&)
-    = default;
+GameBufferPatch& GameBufferPatch::operator=(
+    const GameBufferPatch&
+) = default;
 
-GameBufferPatch& GameBufferPatch::operator=(GameBufferPatch&&)
-    noexcept = default;
+GameBufferPatch& GameBufferPatch::operator=(
+    GameBufferPatch&&
+) noexcept = default;
 
 } // namespace sgd2mapi
 

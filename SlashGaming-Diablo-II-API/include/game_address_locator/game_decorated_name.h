@@ -57,22 +57,44 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
-class DLLEXPORT GameDecoratedName : public GameAddressLocatorInterface {
+class DLLEXPORT GameDecoratedName
+    : public GameAddressLocatorInterface {
  public:
-  explicit GameDecoratedName(std::string_view decorated_name);
+  explicit GameDecoratedName(
+      std::string_view decorated_name
+  );
 
-  GameDecoratedName(const GameDecoratedName&);
-  GameDecoratedName(GameDecoratedName&&) noexcept;
+  GameDecoratedName(
+      const GameDecoratedName&
+  );
 
-  ~GameDecoratedName() override;
+  GameDecoratedName(
+      GameDecoratedName&&
+  ) noexcept;
 
-  GameDecoratedName& operator=(const GameDecoratedName&);
-  GameDecoratedName& operator=(GameDecoratedName&&) noexcept;
+  ~GameDecoratedName(
+      void
+  ) override;
 
-  std::intptr_t ResolveGameAddress(std::intptr_t base_address)
-      const noexcept override;
+  GameDecoratedName&
+  operator=(
+      const GameDecoratedName&
+  );
 
-  std::string_view decorated_name() const;
+  GameDecoratedName&
+  operator=(
+      GameDecoratedName&&
+  ) noexcept;
+
+  std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const noexcept override;
+
+  std::string_view
+  decorated_name(
+      void
+  ) const;
 
  private:
   std::string decorated_name_;

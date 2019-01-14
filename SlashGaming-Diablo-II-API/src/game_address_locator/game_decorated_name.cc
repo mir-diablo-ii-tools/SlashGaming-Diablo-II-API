@@ -51,25 +51,36 @@
 
 namespace sgd2mapi {
 
-GameDecoratedName::GameDecoratedName(std::string_view decorated_name)
+GameDecoratedName::GameDecoratedName(
+    std::string_view decorated_name
+)
     : decorated_name_(decorated_name.data()) {
 }
 
-GameDecoratedName::GameDecoratedName(const GameDecoratedName&) = default;
-
-GameDecoratedName::GameDecoratedName(GameDecoratedName&&) noexcept = default;
-
-GameDecoratedName::~GameDecoratedName() = default;
-
-GameDecoratedName& GameDecoratedName::operator=(
+GameDecoratedName::GameDecoratedName(
     const GameDecoratedName&
 ) = default;
 
-GameDecoratedName& GameDecoratedName::operator=(
+GameDecoratedName::GameDecoratedName(
     GameDecoratedName&&
 ) noexcept = default;
 
-std::intptr_t GameDecoratedName::ResolveGameAddress(
+GameDecoratedName::~GameDecoratedName(
+    void
+) = default;
+
+GameDecoratedName&
+GameDecoratedName::operator=(
+    const GameDecoratedName&
+) = default;
+
+GameDecoratedName&
+GameDecoratedName::operator=(
+    GameDecoratedName&&
+) noexcept = default;
+
+std::intptr_t
+GameDecoratedName::ResolveGameAddress(
     std::intptr_t base_address
 ) const noexcept {
   HMODULE library_handle = reinterpret_cast<HMODULE>(base_address);
@@ -94,7 +105,10 @@ std::intptr_t GameDecoratedName::ResolveGameAddress(
   return reinterpret_cast<std::intptr_t>(func_address);
 }
 
-std::string_view GameDecoratedName::decorated_name() const {
+std::string_view
+GameDecoratedName::decorated_name(
+    void
+) const {
   return decorated_name_.data();
 }
 

@@ -49,19 +49,42 @@ constexpr std::string_view kConfigPath = "./SlashGaming-Config.json";
 
 class ConfigParser {
  public:
-  ConfigParser(const ConfigParser&) = delete;
-  ConfigParser(ConfigParser&&) = delete;
+  ConfigParser(
+      const ConfigParser&
+  ) = delete;
 
-  ConfigParser& operator=(const ConfigParser&) = delete;
-  ConfigParser& operator=(ConfigParser&&) = delete;
+  ConfigParser(
+      ConfigParser&&
+  ) = delete;
 
-  static ConfigParser& GetInstance() noexcept;
+  ConfigParser&
+  operator=(
+      const ConfigParser&
+  ) = delete;
 
-  const boost::filesystem::path& config_path() const noexcept;
-  const boost::filesystem::path& address_table_path() const noexcept;
+  ConfigParser& operator=(
+      ConfigParser&&
+  ) = delete;
+
+  static ConfigParser&
+  GetInstance(
+      void
+  ) noexcept;
+
+  const boost::filesystem::path&
+  config_path(
+      void
+  ) const noexcept;
+
+  const boost::filesystem::path&
+  address_table_path(
+      void
+  ) const noexcept;
 
  private:
-  ConfigParser(const boost::filesystem::path& config_path) noexcept;
+  ConfigParser(
+      const boost::filesystem::path& config_path
+  ) noexcept;
 
   boost::filesystem::path config_path_;
   boost::filesystem::path address_table_path_;

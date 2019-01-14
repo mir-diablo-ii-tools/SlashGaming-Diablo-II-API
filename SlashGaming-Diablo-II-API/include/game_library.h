@@ -68,33 +68,60 @@ class DLLEXPORT GameLibrary {
   /**
    * Creates a new instance of a GameLibrary using the default library ID.
    */
-  explicit GameLibrary(enum DefaultLibrary library);
+  explicit GameLibrary(
+      enum DefaultLibrary library
+  );
 
   /**
    * Creates a new instance of a GameLibrary using the library path.
    */
-  explicit GameLibrary(std::string_view library_path);
+  explicit GameLibrary(
+      std::string_view library_path
+  );
 
-  GameLibrary(const GameLibrary&);
-  GameLibrary(GameLibrary&&) noexcept;
+  GameLibrary(
+      const GameLibrary&
+  );
 
-  virtual ~GameLibrary() noexcept;
+  GameLibrary(
+      GameLibrary&&
+  ) noexcept;
 
-  GameLibrary& operator=(const GameLibrary&);
-  GameLibrary& operator=(GameLibrary&&) noexcept;
+  virtual
+  ~GameLibrary(
+      void
+  ) noexcept;
 
-  static std::string_view GetLibraryPathWithRedirect(
-      enum DefaultLibrary library) noexcept;
+  GameLibrary&
+  operator=(
+      const GameLibrary&
+  );
+
+  GameLibrary&
+  operator=(
+      GameLibrary&&
+  ) noexcept;
+
+  static std::string_view
+  GetLibraryPathWithRedirect(
+      enum DefaultLibrary library
+  ) noexcept;
 
   /**
    * Returns the base address value of this GameLibrary.
    */
-  std::intptr_t base_address() const noexcept;
+  std::intptr_t
+  base_address(
+      void
+  ) const noexcept;
 
   /**
    * Returns the library path of this GameLibrary.
    */
-  std::string_view library_path() const noexcept;
+  std::string_view
+  library_path(
+      void
+  ) const noexcept;
 
  private:
   std::intptr_t base_address_;

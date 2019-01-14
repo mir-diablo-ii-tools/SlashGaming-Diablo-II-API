@@ -50,19 +50,38 @@ namespace sgd2mapi {
 
 class GameAddressTable {
  public:
-  GameAddressTable(const GameAddressTable&) = delete;
-  GameAddressTable(GameAddressTable&&) = delete;
+  GameAddressTable(
+      const GameAddressTable&
+  ) = delete;
 
-  GameAddressTable& operator=(const GameAddressTable&) = delete;
-  GameAddressTable& operator=(GameAddressTable&&) = delete;
+  GameAddressTable(
+      GameAddressTable&&
+  ) = delete;
 
-  static std::intptr_t GetAddress(std::string_view address_name);
+  GameAddressTable& operator=(
+      const GameAddressTable&
+  ) = delete;
+
+  GameAddressTable& operator=(
+      GameAddressTable&&
+  ) = delete;
+
+  static std::intptr_t
+  GetAddress(
+      std::string_view address_name
+  );
 
  private:
   std::unordered_map<std::string, std::intptr_t> address_table_;
 
-  explicit GameAddressTable(const boost::filesystem::path& table_path);
-  static const GameAddressTable& GetInstance();
+  explicit GameAddressTable(
+      const boost::filesystem::path& table_path
+  );
+
+  static const GameAddressTable&
+  GetInstance(
+      void
+  );
 };
 
 } // namespace sgd2mapi

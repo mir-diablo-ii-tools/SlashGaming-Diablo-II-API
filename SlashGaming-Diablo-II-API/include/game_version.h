@@ -64,35 +64,50 @@ enum class GameVersion;
  * Returns the identifier of the game version associated with the specified
  * string.
  */
-DLLEXPORT enum GameVersion GetGameVersionId(std::string_view game_version_name)
-    noexcept;
+DLLEXPORT enum GameVersion
+GetGameVersionId(
+    std::string_view game_version_name
+) noexcept;
 
 /**
  * Returns a view to the string associated with the specified game version.
  */
-DLLEXPORT std::string_view GetGameVersionName(enum GameVersion game_version)
-    noexcept;
+DLLEXPORT std::string_view
+GetGameVersionName(
+    enum GameVersion game_version
+) noexcept;
 
 /**
  * Returns the identifier of the running game version.
  */
-DLLEXPORT enum GameVersion GetRunningGameVersionId() noexcept;
+DLLEXPORT enum GameVersion
+GetRunningGameVersionId(
+    void
+) noexcept;
 
 /**
  * Returns a view to the string associated with the running game version.
  */
-DLLEXPORT std::string_view GetRunningGameVersionName() noexcept;
+DLLEXPORT std::string_view
+GetRunningGameVersionName(
+    void
+) noexcept;
 
 /**
  * Returns whether the specified game version is at least 1.14.
  */
-DLLEXPORT bool IsGameVersionAtLeast1_14(enum GameVersion game_version)
-    noexcept;
+DLLEXPORT bool
+IsGameVersionAtLeast1_14(
+    enum GameVersion game_version
+) noexcept;
 
 /**
  * Returns whether the running game version is at least 1.14.
  */
-DLLEXPORT bool IsRunningGameVersionAtLeast1_14() noexcept;
+DLLEXPORT bool
+IsRunningGameVersionAtLeast1_14(
+    void
+) noexcept;
 
 } // namespace sgd2mapi
 #endif // __cplusplus
@@ -130,7 +145,8 @@ extern "C" {
 /**
  * Returns a view to the string associated with the specified game version.
  */
-DLLEXPORT const char* SGD2MAPI_GetGameVersionName(
+DLLEXPORT const char*
+SGD2MAPI_GetGameVersionName(
     enum SGD2MAPI_GameVersion game_version
 );
 
@@ -138,31 +154,42 @@ DLLEXPORT const char* SGD2MAPI_GetGameVersionName(
  * Returns the identifier of the game version associated with the specified
  * string.
  */
-DLLEXPORT enum SGD2MAPI_GameVersion SGD2MAPI_GetGameVersionId(
+DLLEXPORT enum SGD2MAPI_GameVersion
+SGD2MAPI_GetGameVersionId(
     const char* game_version_name
 );
 
 /**
  * Returns the identifier of the running game version.
  */
-DLLEXPORT enum SGD2MAPI_GameVersion SGD2MAPI_GetRunningGameVersionId();
+DLLEXPORT enum SGD2MAPI_GameVersion
+SGD2MAPI_GetRunningGameVersionId(
+    void
+);
 
 /**
  * Returns a view to the string associated with the running game version.
  */
-DLLEXPORT const char* SGD2MAPI_GetRunningGameVersionName();
+DLLEXPORT const char*
+SGD2MAPI_GetRunningGameVersionName(
+    void
+);
 
 /**
  * Returns whether the Diablo II game version is at least 1.14.
  */
-DLLEXPORT bool SGD2MAPI_IsGameVersionAtLeast1_14(
+DLLEXPORT bool
+SGD2MAPI_IsGameVersionAtLeast1_14(
     enum SGD2MAPI_GameVersion game_version
 );
 
 /**
  * Returns whether the running game version is at least 1.14.
  */
-DLLEXPORT bool SGD2MAPI_IsRunningGameVersionAtLeast1_14();
+DLLEXPORT bool
+SGD2MAPI_IsRunningGameVersionAtLeast1_14(
+    void
+);
 
 #ifdef __cplusplus
 }

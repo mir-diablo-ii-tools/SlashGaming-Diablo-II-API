@@ -71,7 +71,8 @@ enum class BranchType;
  * A patch that replaces the first bytes with a branch to a function, then
  * replaces the rest of the bytes with no-op instructions.
  */
-class DLLEXPORT GameBranchPatch : public GamePatchBase {
+class DLLEXPORT GameBranchPatch
+    : public GamePatchBase {
  public:
   /**
    * Creates a new instance of GameBranchPatch.
@@ -109,25 +110,43 @@ class DLLEXPORT GameBranchPatch : public GamePatchBase {
         ) {
   }
 
-  GameBranchPatch(const GameBranchPatch&);
+  GameBranchPatch(
+      const GameBranchPatch&
+  );
 
-  GameBranchPatch(GameBranchPatch&&) noexcept;
+  GameBranchPatch(
+      GameBranchPatch&&
+  ) noexcept;
 
-  ~GameBranchPatch() override;
+  ~GameBranchPatch(
+      void
+  ) override;
 
-  GameBranchPatch& operator=(const GameBranchPatch&);
+  GameBranchPatch&
+  operator=(
+      const GameBranchPatch&
+  );
 
-  GameBranchPatch& operator=(GameBranchPatch&&) noexcept;
+  GameBranchPatch&
+  operator=(
+      GameBranchPatch&&
+  ) noexcept;
 
   /**
    * Returns the branch opcode used for calling the inserted function.
    */
-  enum BranchType branch_type() const noexcept;
+  enum BranchType
+  branch_type(
+      void
+  ) const noexcept;
 
   /**
    * Returns the pointer to the inserted function.
    */
-  std::intptr_t func_ptr() const noexcept;
+  std::intptr_t
+  func_ptr(
+      void
+  ) const noexcept;
 
  private:
   GameBranchPatch(

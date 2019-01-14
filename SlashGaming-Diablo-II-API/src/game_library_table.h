@@ -49,21 +49,45 @@ namespace sgd2mapi {
 
 class GameLibraryTable {
  public:
-  GameLibraryTable(const GameLibraryTable& rhs) = delete;
-  GameLibraryTable(GameLibraryTable&& rhs) = delete;
+  GameLibraryTable(
+      const GameLibraryTable& rhs
+  ) = delete;
 
-  GameLibraryTable operator=(const GameLibraryTable& rhs) = delete;
-  GameLibraryTable operator=(GameLibraryTable&& rhs) = delete;
+  GameLibraryTable(
+      GameLibraryTable&& rhs
+  ) = delete;
 
-  static GameLibraryTable& GetInstance();
+  GameLibraryTable
+  operator=(
+      const GameLibraryTable& rhs
+  ) = delete;
 
-  const GameLibrary& GetGameLibrary(enum DefaultLibrary library) noexcept;
-  const GameLibrary& GetGameLibrary(std::string_view library_path) noexcept;
+  GameLibraryTable
+  operator=(
+      GameLibraryTable&& rhs
+  ) = delete;
+
+  static GameLibraryTable&
+  GetInstance(
+      void
+  );
+
+  const GameLibrary&
+  GetGameLibrary(
+      enum DefaultLibrary library
+  ) noexcept;
+
+  const GameLibrary&
+  GetGameLibrary(
+      std::string_view library_path
+  ) noexcept;
 
  private:
   std::unordered_map<std::string, GameLibrary> libraries_;
 
-  GameLibraryTable();
+  GameLibraryTable(
+      void
+  );
 };
 
 } // namespace sgd2mapi

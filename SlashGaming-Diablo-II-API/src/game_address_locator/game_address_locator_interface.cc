@@ -41,7 +41,9 @@
 
 namespace sgd2mapi {
 
-GameAddressLocatorInterface::~GameAddressLocatorInterface() noexcept = default;
+GameAddressLocatorInterface::~GameAddressLocatorInterface(
+    void
+) noexcept = default;
 
 } // namespace sgd2mapi
 

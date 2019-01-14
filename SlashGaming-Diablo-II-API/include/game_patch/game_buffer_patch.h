@@ -65,7 +65,8 @@ namespace sgd2mapi {
  * A patch that replaces the bytes at a destination address with 8-bit bytes
  * stored in a buffer.
  */
-class DLLEXPORT GameBufferPatch : public GamePatchBase {
+class DLLEXPORT GameBufferPatch
+    : public GamePatchBase {
  public:
   /**
    * Creates an instance of GameBufferPatch, specifying the patch buffer with
@@ -73,7 +74,7 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
    */
   GameBufferPatch(
       const GameAddress& game_address,
-      const std::uint8_t* buffer,
+      const std::uint8_t buffer[],
       std::size_t patch_size
   );
 
@@ -113,15 +114,27 @@ class DLLEXPORT GameBufferPatch : public GamePatchBase {
       std::vector<std::uint8_t>&& buffer
   );
 
-  GameBufferPatch(const GameBufferPatch&);
+  GameBufferPatch(
+      const GameBufferPatch&
+  );
 
-  GameBufferPatch(GameBufferPatch&&) noexcept;
+  GameBufferPatch(
+      GameBufferPatch&&
+  ) noexcept;
 
-  ~GameBufferPatch() override;
+  ~GameBufferPatch(
+      void
+  ) override;
 
-  GameBufferPatch& operator=(const GameBufferPatch&);
+  GameBufferPatch&
+  operator=(
+      const GameBufferPatch&
+  );
 
-  GameBufferPatch& operator=(GameBufferPatch&&) noexcept;
+  GameBufferPatch&
+  operator=(
+      GameBufferPatch&&
+  ) noexcept;
 };
 
 } // namespace sgd2mapi

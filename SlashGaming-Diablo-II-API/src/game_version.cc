@@ -64,7 +64,10 @@ using GameVersionAndStringBimapType = boost::bimap<
     std::string_view
 >;
 
-const GameVersionAndFileVersionBimapType& GetGameVersionAndFileVersionBimap() {
+const GameVersionAndFileVersionBimapType&
+GetGameVersionAndFileVersionBimap(
+    void
+) {
   static const std::array<
       GameVersionAndFileVersionBimapType::value_type,
       29
@@ -116,7 +119,10 @@ const GameVersionAndFileVersionBimapType& GetGameVersionAndFileVersionBimap() {
   return game_version_and_file_version_bimap;
 }
 
-const GameVersionAndStringBimapType& GetGameVersionAndStringBimap() {
+const GameVersionAndStringBimapType&
+GetGameVersionAndStringBimap(
+    void
+) {
   static const std::array<
       GameVersionAndStringBimapType::value_type,
       36
@@ -167,8 +173,9 @@ const GameVersionAndStringBimapType& GetGameVersionAndStringBimap() {
   return game_version_and_string_bimap;
 }
 
-std::optional<std::string> ExtractFileVersionString(std::string_view file_name)
-    noexcept {
+std::optional<std::string> ExtractFileVersionString(
+    std::string_view file_name
+) noexcept {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.
 
@@ -221,8 +228,10 @@ std::optional<std::string> ExtractFileVersionString(std::string_view file_name)
   return stringStream.str();
 }
 
-std::optional<enum GameVersion> GetGameVersionByFileVersion(
-    std::string_view version_string) {
+std::optional<enum GameVersion>
+GetGameVersionByFileVersion(
+    std::string_view version_string
+) {
   const auto& game_versions_by_file_version =
       GetGameVersionAndFileVersionBimap().right;
   auto found_version_pair = game_versions_by_file_version.find(
@@ -234,7 +243,10 @@ std::optional<enum GameVersion> GetGameVersionByFileVersion(
       : std::nullopt;
 }
 
-enum GameVersion DetermineRunningGameVersion() noexcept {
+enum GameVersion
+DetermineRunningGameVersion(
+    void
+) noexcept {
   // TODO(Mir Drualga): Figure out how to get versions 1.06(B) and 1.14+
   // classic detection.
   std::string game_version_string;
@@ -273,16 +285,31 @@ enum GameVersion DetermineRunningGameVersion() noexcept {
  */
 class RunningGameVersion {
  public:
-  RunningGameVersion(const RunningGameVersion&) = delete;
-  RunningGameVersion(RunningGameVersion&&) = delete;
+  RunningGameVersion(
+      const RunningGameVersion&
+  ) = delete;
 
-  RunningGameVersion operator=(const RunningGameVersion&) = delete;
-  RunningGameVersion operator=(RunningGameVersion&&) = delete;
+  RunningGameVersion(
+      RunningGameVersion&&
+  ) = delete;
+
+  RunningGameVersion&
+  operator=(
+      const RunningGameVersion&
+  ) = delete;
+
+  RunningGameVersion&
+  operator=(
+      RunningGameVersion&&
+  ) = delete;
 
   /**
    * Returns the singleton instance of RunningGameVersion.
    */
-  static RunningGameVersion& GetInstance() noexcept {
+  static RunningGameVersion&
+  GetInstance(
+      void
+  ) noexcept {
     static RunningGameVersion instance;
     return instance;
   }
@@ -290,11 +317,17 @@ class RunningGameVersion {
   /**
    * Returns the running game's version.
    */
-  constexpr enum GameVersion game_version_id() const noexcept {
+  constexpr enum GameVersion
+  game_version_id(
+      void
+  ) const noexcept {
     return game_version_id_;
   }
 
-  constexpr std::string_view game_version_name() const noexcept {
+  constexpr std::string_view
+  game_version_name(
+      void
+  ) const noexcept {
     return game_version_name_;
   }
 
@@ -302,7 +335,9 @@ class RunningGameVersion {
   enum GameVersion game_version_id_;
   std::string_view game_version_name_;
 
-  RunningGameVersion() noexcept
+  RunningGameVersion(
+      void
+  ) noexcept
     : game_version_id_(DetermineRunningGameVersion()),
       game_version_name_(GetGameVersionName(game_version_id())) {
   }
@@ -310,32 +345,49 @@ class RunningGameVersion {
 
 } // namespace
 
-enum GameVersion GetGameVersionId(std::string_view game_version_name) noexcept {
+enum GameVersion
+GetGameVersionId(
+    std::string_view game_version_name
+) noexcept {
   return GetGameVersionAndStringBimap().right.at(game_version_name);
 }
 
-std::string_view GetGameVersionName(enum GameVersion game_version) noexcept {
+std::string_view
+GetGameVersionName(
+    enum GameVersion game_version
+) noexcept {
   return GetGameVersionAndStringBimap().left.at(game_version);
 }
 
-enum GameVersion GetRunningGameVersionId() noexcept {
+enum GameVersion
+GetRunningGameVersionId(
+    void
+) noexcept {
   return RunningGameVersion::GetInstance().game_version_id();
 }
 
-std::string_view GetRunningGameVersionName() noexcept {
+std::string_view
+GetRunningGameVersionName(
+    void
+) noexcept {
   return RunningGameVersion::GetInstance().game_version_name();
 }
 
-bool IsGameVersionAtLeast1_14(enum GameVersion game_version) noexcept {
+bool
+IsGameVersionAtLeast1_14(
+    enum GameVersion game_version
+) noexcept {
   return !(game_version >= GameVersion::k1_00
                && game_version <= GameVersion::k1_13D);
 }
 
-bool IsRunningGameVersionAtLeast1_14() noexcept {
-  return
-      IsGameVersionAtLeast1_14(
-          RunningGameVersion::GetInstance().game_version_id()
-      );
+bool
+IsRunningGameVersionAtLeast1_14(
+    void
+) noexcept {
+  return IsGameVersionAtLeast1_14(
+      RunningGameVersion::GetInstance().game_version_id()
+  );
 }
 
 } // namespace sgd2mapi
@@ -344,7 +396,8 @@ bool IsRunningGameVersionAtLeast1_14() noexcept {
  * C Interface
  */
 
-const char* SGD2MAPI_GetGameVersionName(
+const char*
+SGD2MAPI_GetGameVersionName(
     enum SGD2MAPI_GameVersion game_version
 ) {
   return sgd2mapi::GetGameVersionName(
@@ -352,7 +405,8 @@ const char* SGD2MAPI_GetGameVersionName(
   ).data();
 }
 
-enum SGD2MAPI_GameVersion SGD2MAPI_GetGameVersionId(
+enum SGD2MAPI_GameVersion
+SGD2MAPI_GetGameVersionId(
     const char* game_version_name
 ) {
   return static_cast<enum SGD2MAPI_GameVersion>(
@@ -360,17 +414,24 @@ enum SGD2MAPI_GameVersion SGD2MAPI_GetGameVersionId(
   );
 }
 
-enum SGD2MAPI_GameVersion SGD2MAPI_GetRunningGameVersionId() {
+enum SGD2MAPI_GameVersion
+SGD2MAPI_GetRunningGameVersionId(
+    void
+) {
   return static_cast<enum SGD2MAPI_GameVersion>(
       sgd2mapi::GetRunningGameVersionId()
   );
 }
 
-const char* SGD2MAPI_GetRunningGameVersionName() {
+const char*
+SGD2MAPI_GetRunningGameVersionName(
+    void
+) {
   return sgd2mapi::GetRunningGameVersionName().data();
 }
 
-bool SGD2MAPI_IsGameVersionAtLeast1_14(
+bool
+SGD2MAPI_IsGameVersionAtLeast1_14(
     enum SGD2MAPI_GameVersion game_version
 ) {
   return sgd2mapi::IsGameVersionAtLeast1_14(
@@ -378,6 +439,9 @@ bool SGD2MAPI_IsGameVersionAtLeast1_14(
   );
 }
 
-bool SGD2MAPI_IsRunningGameVersionAtLeast1_14() {
+bool
+SGD2MAPI_IsRunningGameVersionAtLeast1_14(
+    void
+) {
   return sgd2mapi::IsRunningGameVersionAtLeast1_14();
 }

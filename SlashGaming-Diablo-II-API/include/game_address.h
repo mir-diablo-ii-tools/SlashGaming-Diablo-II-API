@@ -109,16 +109,31 @@ class DLLEXPORT GameAddress {
       >& address_locators
   ) noexcept;
 
-  GameAddress(const GameAddress&) noexcept;
-  GameAddress(GameAddress&&) noexcept;
+  GameAddress(
+      const GameAddress&
+  ) noexcept;
 
-  GameAddress& operator=(const GameAddress&) noexcept;
-  GameAddress& operator=(GameAddress&&) noexcept;
+  GameAddress(
+      GameAddress&&
+  ) noexcept;
+
+  GameAddress&
+  operator=(
+      const GameAddress&
+  ) noexcept;
+
+  GameAddress&
+  operator=(
+      GameAddress&&
+  ) noexcept;
 
   /**
    * Returns the address of this GameAddress.
    */
-  std::intptr_t address() const noexcept;
+  std::intptr_t
+  address(
+      void
+  ) const noexcept;
 
  private:
   std::intptr_t address_;

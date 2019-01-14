@@ -63,7 +63,10 @@ using BranchTypeAndOpcodeMapType = std::unordered_map<
 >;
 
 #if defined(__i386__) || defined(_M_IX86)
-const BranchTypeAndOpcodeMapType& GetOpCodeByBranchTypeMap() {
+const BranchTypeAndOpcodeMapType&
+GetOpCodeByBranchTypeMap(
+    void
+) {
   static const BranchTypeAndOpcodeMapType op_code_by_branch_type = {
       { BranchType::kCall, OpCode::kCall },
       { BranchType::kJump, OpCode::kJump }
@@ -72,7 +75,8 @@ const BranchTypeAndOpcodeMapType& GetOpCodeByBranchTypeMap() {
   return op_code_by_branch_type;
 }
 
-std::vector<std::uint8_t> CreateReplaceBuffer(
+std::vector<std::uint8_t>
+CreateReplaceBuffer(
     enum BranchType branch_type,
     std::intptr_t func_ptr,
     const GameAddress& game_address,
@@ -126,7 +130,8 @@ GameBranchPatch::GameBranchPatch(
     const GameAddress& game_address,
     enum BranchType branch_type,
     std::intptr_t func_ptr,
-    std::size_t patch_size)
+    std::size_t patch_size
+)
     : GamePatchBase(
           game_address,
           CreateReplaceBuffer(branch_type, func_ptr, game_address, patch_size)),
@@ -138,7 +143,8 @@ GameBranchPatch::GameBranchPatch(
     GameAddress&& game_address,
     enum BranchType branch_type,
     std::intptr_t func_ptr,
-    std::size_t patch_size)
+    std::size_t patch_size
+)
     : GamePatchBase(
           std::move(game_address),
           CreateReplaceBuffer(branch_type, func_ptr, game_address, patch_size)
@@ -147,23 +153,39 @@ GameBranchPatch::GameBranchPatch(
       func_ptr_(func_ptr) {
 }
 
-GameBranchPatch::GameBranchPatch(const GameBranchPatch&) = default;
+GameBranchPatch::GameBranchPatch(
+    const GameBranchPatch&
+) = default;
 
-GameBranchPatch::GameBranchPatch(GameBranchPatch&&) noexcept = default;
-
-GameBranchPatch::~GameBranchPatch() = default;
-
-GameBranchPatch& GameBranchPatch::operator=(const GameBranchPatch&) = default;
-
-GameBranchPatch& GameBranchPatch::operator=(
+GameBranchPatch::GameBranchPatch(
     GameBranchPatch&&
 ) noexcept = default;
 
-enum BranchType GameBranchPatch::branch_type() const noexcept {
+GameBranchPatch::~GameBranchPatch(
+    void
+) = default;
+
+GameBranchPatch&
+GameBranchPatch::operator=(
+    const GameBranchPatch&
+) = default;
+
+GameBranchPatch&
+GameBranchPatch::operator=(
+    GameBranchPatch&&
+) noexcept = default;
+
+enum BranchType
+GameBranchPatch::branch_type(
+    void
+) const noexcept {
   return branch_type_;
 }
 
-std::intptr_t GameBranchPatch::func_ptr() const noexcept {
+std::intptr_t
+GameBranchPatch::func_ptr(
+    void
+) const noexcept {
   return func_ptr_;
 }
 

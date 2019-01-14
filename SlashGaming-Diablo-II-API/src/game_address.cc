@@ -54,10 +54,10 @@
 #include "game_address_locator/c/game_address_locator_interface.h"
 
 namespace sgd2mapi {
-
 namespace {
 
-std::intptr_t ResolveGameAddress(
+std::intptr_t
+ResolveGameAddress(
     std::string_view library_path,
     const GameAddressLocatorInterface& address_locator
 ) noexcept {
@@ -74,7 +74,8 @@ std::intptr_t ResolveGameAddress(
   return resolved_address;
 }
 
-std::intptr_t ResolveGameAddress(
+std::intptr_t
+ResolveGameAddress(
     std::string_view library_path,
     const std::unordered_map<
         enum GameVersion,
@@ -152,15 +153,28 @@ GameAddress::GameAddress(
       ) {
 }
 
-GameAddress::GameAddress(const GameAddress&) noexcept = default;
+GameAddress::GameAddress(
+    const GameAddress&
+) noexcept = default;
 
-GameAddress::GameAddress(GameAddress&&) noexcept = default;
+GameAddress::GameAddress(
+    GameAddress&&
+) noexcept = default;
 
-GameAddress& GameAddress::operator=(const GameAddress&) noexcept = default;
+GameAddress&
+GameAddress::operator=(
+    const GameAddress&
+) noexcept = default;
 
-GameAddress& GameAddress::operator=(GameAddress&&) noexcept = default;
+GameAddress&
+GameAddress::operator=(
+    GameAddress&&
+) noexcept = default;
 
-std::intptr_t GameAddress::address() const noexcept {
+std::intptr_t
+GameAddress::address(
+    void
+) const noexcept {
   return address_;
 }
 

@@ -59,28 +59,48 @@ namespace sgd2mapi {
  * A game address locator that uses an ordinal value to specify a location in
  * game memory.
  */
-class DLLEXPORT GameOrdinal : public GameAddressLocatorInterface {
+class DLLEXPORT GameOrdinal
+    : public GameAddressLocatorInterface {
  public:
   /**
    * Creates a new instance of GameOrdinal.
    */
-  explicit GameOrdinal(int ordinal) noexcept;
+  explicit GameOrdinal(
+      int ordinal
+  ) noexcept;
 
-  GameOrdinal(const GameOrdinal& rhs) noexcept;
-  GameOrdinal(GameOrdinal&& rhs) noexcept;
+  GameOrdinal(
+      const GameOrdinal& rhs
+  ) noexcept;
 
-  ~GameOrdinal() noexcept override;
+  GameOrdinal(
+      GameOrdinal&& rhs
+  ) noexcept;
 
-  GameOrdinal& operator=(const GameOrdinal&) noexcept;
-  GameOrdinal& operator=(GameOrdinal&&) noexcept;
+  ~GameOrdinal(
+      void
+  ) noexcept override;
 
-  std::intptr_t ResolveGameAddress(std::intptr_t base_address)
-      const noexcept override;
+  GameOrdinal&
+  operator=(
+      const GameOrdinal&
+  ) noexcept;
+
+  GameOrdinal&
+  operator=(
+      GameOrdinal&&
+  ) noexcept;
+
+  std::intptr_t ResolveGameAddress(
+      std::intptr_t base_address
+  ) const noexcept override;
 
   /**
    * Returns the ordinal value of this game ordinal.
    */
-  int ordinal() const noexcept;
+  int ordinal(
+      void
+  ) const noexcept;
 
  private:
   int ordinal_;

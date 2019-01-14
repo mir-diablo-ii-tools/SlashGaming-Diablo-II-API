@@ -51,7 +51,9 @@
 
 namespace sgd2mapi {
 
-GameOrdinal::GameOrdinal(int ordinal) noexcept
+GameOrdinal::GameOrdinal(
+    int ordinal
+) noexcept
     : ordinal_(ordinal) {
   if ((ordinal & 0xFFFF) != ordinal) {
     std::wstring error_message = (boost::wformat(
@@ -63,22 +65,36 @@ GameOrdinal::GameOrdinal(int ordinal) noexcept
         L"Invalid Ordinal Value",
         MB_OK | MB_ICONERROR
     );
-    std::exit(EXIT_FAILURE);
+    std::exit(0);
   }
 }
 
-GameOrdinal::GameOrdinal(const GameOrdinal&) noexcept = default;
+GameOrdinal::GameOrdinal(
+    const GameOrdinal&
+) noexcept = default;
 
-GameOrdinal::GameOrdinal(GameOrdinal&&) noexcept = default;
+GameOrdinal::GameOrdinal(
+    GameOrdinal&&
+) noexcept = default;
 
-GameOrdinal::~GameOrdinal() noexcept = default;
+GameOrdinal::~GameOrdinal(
+    void
+) noexcept = default;
 
-GameOrdinal& GameOrdinal::operator=(const GameOrdinal&) noexcept = default;
+GameOrdinal&
+GameOrdinal::operator=(
+    const GameOrdinal&
+) noexcept = default;
 
-GameOrdinal& GameOrdinal::operator=(GameOrdinal&&) noexcept = default;
+GameOrdinal&
+GameOrdinal::operator=(
+    GameOrdinal&&
+) noexcept = default;
 
-std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
-    const noexcept {
+std::intptr_t
+GameOrdinal::ResolveGameAddress(
+    std::intptr_t base_address
+) const noexcept {
   HMODULE library_handle = reinterpret_cast<HMODULE>(base_address);
   const CHAR* func_ordinal = reinterpret_cast<const CHAR*>(ordinal());
 
@@ -101,7 +117,10 @@ std::intptr_t GameOrdinal::ResolveGameAddress(std::intptr_t base_address)
   return reinterpret_cast<std::intptr_t>(func_address);
 }
 
-int GameOrdinal::ordinal() const noexcept {
+int
+GameOrdinal::ordinal(
+    void
+) const noexcept {
   return ordinal_;
 }
 
@@ -136,7 +155,8 @@ SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
   return c_game_address_locator_interface;
 }
 
-void SGD2MAPI_GameOrdinal_Destroy(
+void
+SGD2MAPI_GameOrdinal_Destroy(
     struct SGD2MAPI_GameOrdinal* c_game_ordinal
 ) {
   delete c_game_ordinal;

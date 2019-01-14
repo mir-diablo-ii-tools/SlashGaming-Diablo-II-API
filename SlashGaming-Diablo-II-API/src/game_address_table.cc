@@ -54,11 +54,16 @@
 
 namespace sgd2mapi {
 
-GameAddressTable::GameAddressTable(const boost::filesystem::path& table_path)
+GameAddressTable::GameAddressTable(
+    const boost::filesystem::path& table_path
+)
     : address_table_(ReadTsvTableFile(table_path)) {
 }
 
-const GameAddressTable& GameAddressTable::GetInstance() {
+const GameAddressTable&
+GameAddressTable::GetInstance(
+    void
+) {
   const boost::filesystem::path& address_table_directory =
       ConfigParser::GetInstance().address_table_path();
   std::string_view running_game_version_name = GetRunningGameVersionName();
@@ -73,7 +78,10 @@ const GameAddressTable& GameAddressTable::GetInstance() {
   return instance;
 }
 
-std::intptr_t GameAddressTable::GetAddress(std::string_view address_name) {
+std::intptr_t
+GameAddressTable::GetAddress(
+    std::string_view address_name
+) {
   return GetInstance().address_table_.at(address_name.data());
 }
 

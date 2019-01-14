@@ -61,28 +61,50 @@ namespace sgd2mapi {
  * A game address locator that uses an offset value to specify a location in
  * game memory.
  */
-class DLLEXPORT GameOffset : public GameAddressLocatorInterface {
+class DLLEXPORT GameOffset
+    : public GameAddressLocatorInterface {
  public:
   /**
    * Creates a new instance of GameOffset.
    */
-  explicit GameOffset(std::intptr_t offset) noexcept;
+  explicit GameOffset(
+      std::intptr_t offset
+  ) noexcept;
 
-  GameOffset(const GameOffset&) noexcept;
-  GameOffset(GameOffset&&) noexcept;
+  GameOffset(
+      const GameOffset&
+  ) noexcept;
 
-  ~GameOffset() noexcept override;
+  GameOffset(
+      GameOffset&&
+  ) noexcept;
 
-  GameOffset& operator=(const GameOffset&) noexcept;
-  GameOffset& operator=(GameOffset&&) noexcept;
+  ~GameOffset(
+      void
+  ) noexcept override;
 
-  std::intptr_t ResolveGameAddress(std::intptr_t base_address)
-      const noexcept override;
+  GameOffset&
+  operator=(
+      const GameOffset&
+  ) noexcept;
+
+  GameOffset&
+  operator=(
+      GameOffset&&
+  ) noexcept;
+
+  std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const noexcept override;
 
   /**
    * Returns the offset of this game locator.
    */
-  std::intptr_t offset() const noexcept;
+  std::intptr_t
+  offset(
+      void
+  ) const noexcept;
 
  private:
   std::intptr_t offset_;
