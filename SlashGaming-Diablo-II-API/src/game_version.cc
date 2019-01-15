@@ -47,9 +47,9 @@
 #include <string_view>
 
 #include <boost/bimap.hpp>
+#include <boost/format.hpp>
 #include <boost/nowide/convert.hpp>
 #include "../include/game_library.h"
-
 
 namespace sgd2mapi {
 namespace {
@@ -233,19 +233,36 @@ std::optional<std::string> ExtractFileVersionString(
   return stringStream.str();
 }
 
-std::optional<enum GameVersion>
+enum GameVersion
 GetGameVersionByFileVersion(
     std::string_view version_string
 ) {
   const auto& game_versions_by_file_version =
       GetGameVersionAndFileVersionBimap().right;
-  auto found_version_pair = game_versions_by_file_version.find(
-      version_string
-  );
 
-  return (found_version_pair != game_versions_by_file_version.end())
-      ? std::make_optional(found_version_pair->second)
-      : std::nullopt;
+  try {
+    return game_versions_by_file_version.at(version_string);
+  } catch(const std::out_of_range& e) {
+    constexpr std::wstring_view error_format_message =
+        L"File: %s, Line %d \n"
+        L"Could not determine the game version from the file version: %s";
+
+    std::wstring full_message = (
+        boost::wformat(error_format_message.data())
+            % __FILE__
+            % __LINE__
+            % version_string.data()
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        error_format_message.data(),
+        L"Failed to Determine Game Version",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
 }
 
 enum GameVersion
@@ -269,18 +286,9 @@ DetermineRunningGameVersion(
     std::exit(0);
   }
 
-  enum GameVersion game_version;
-
-  try {
-    game_version = GetGameVersionByFileVersion(game_version_string).value();
-  } catch (const std::bad_optional_access&) {
-    MessageBoxA(
-        nullptr,
-        "Failed to determine game version using file information.",
-        "Error Detecting Game Version",
-        MB_OK | MB_ICONSTOP);
-    std::exit(EXIT_FAILURE);
-  }
+  enum GameVersion game_version = GetGameVersionByFileVersion(
+      game_version_string
+  );
 
   return game_version;
 }
