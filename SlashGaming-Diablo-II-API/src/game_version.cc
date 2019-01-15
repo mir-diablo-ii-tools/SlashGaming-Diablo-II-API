@@ -182,20 +182,25 @@ std::optional<std::string> ExtractFileVersionString(
 
   // Check version size.
   DWORD version_handle;
-  DWORD version_size = GetFileVersionInfoSizeW(
+  DWORD file_version_info_size = GetFileVersionInfoSizeW(
       file_path_text_wide.data(),
       &version_handle
   );
 
-  if (version_size == 0) {
+  if (file_version_info_size == 0) {
     return std::nullopt;
   }
 
   // Get the file version info.
-  auto version_data = std::make_unique<wchar_t[]>(version_size);
+  auto file_version_info = std::make_unique<wchar_t[]>(file_version_info_size);
+  BOOL is_get_file_version_info_success = GetFileVersionInfoW(
+      file_path_text_wide.data(),
+      version_handle,
+      file_version_info_size,
+      file_version_info.get()
+  );
 
-  if (!GetFileVersionInfoW(file_path_text_wide.data(), version_handle,
-                           version_size, version_data.get())) {
+  if (!is_get_file_version_info_success) {
     return std::nullopt;
   }
 
@@ -204,10 +209,14 @@ std::optional<std::string> ExtractFileVersionString(
   UINT version_info_size;
   VS_FIXEDFILEINFO* version_info;
 
-  if (!VerQueryValueW(version_data.get(), L"\\", (LPVOID*)&version_info,
-                      &version_info_size)
-      || version_info_size <= 0
-      || version_info->dwSignature != 0xfeef04bd) {
+  BOOL is_ver_query_value_success = VerQueryValueW(
+      file_version_info.get(),
+      L"\\",
+      reinterpret_cast<LPVOID*>(&version_info),
+      &version_info_size
+  );
+
+  if (!is_ver_query_value_success) {
     return std::nullopt;
   }
 
@@ -216,10 +225,10 @@ std::optional<std::string> ExtractFileVersionString(
   // come from dwFileVersionMS, last two come from dwFileVersionLS
   std::ostringstream stringStream;
 
-  stringStream << ((version_info->dwFileVersionMS >> 16) & 0xffff) << ".";
-  stringStream << ((version_info->dwFileVersionMS >> 0) & 0xffff) << ".";
-  stringStream << ((version_info->dwFileVersionLS >> 16) & 0xffff) << ".";
-  stringStream << ((version_info->dwFileVersionLS >> 0) & 0xffff);
+  stringStream << ((version_info->dwFileVersionMS >> 16) & 0xFFFF) << ".";
+  stringStream << ((version_info->dwFileVersionMS >> 0) & 0xFFFF) << ".";
+  stringStream << ((version_info->dwFileVersionLS >> 16) & 0xFFFF) << ".";
+  stringStream << ((version_info->dwFileVersionLS >> 0) & 0xFFFF);
 
   return stringStream.str();
 }
