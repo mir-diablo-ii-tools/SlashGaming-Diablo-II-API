@@ -45,7 +45,7 @@
 
 namespace sgd2mapi {
 
-constexpr std::string_view kConfigPath = "./SlashGaming-Config.json";
+constexpr std::string_view kConfigPath = u8"./SlashGaming-Config.json";
 
 class ConfigParser {
  public:

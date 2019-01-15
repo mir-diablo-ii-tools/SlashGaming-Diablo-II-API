@@ -46,25 +46,25 @@
 namespace sgd2mapi {
 namespace {
 
-constexpr std::string_view kMainEntryKey = "SGD2MAPI";
+constexpr std::string_view kMainEntryKey = u8"SGD2MAPI";
 
-constexpr std::string_view kMetaDataKey = "!!!Metadata (Do not modify)!!!";
+constexpr std::string_view kMetaDataKey = u8"!!!Metadata (Do not modify)!!!";
 
 // Note that this signifies the last version where the config formatting and
 // entries were updated. These values do not need to change with respect to API
 // file version!
-constexpr std::string_view kMajorVersionAKey = "Major Version A";
+constexpr std::string_view kMajorVersionAKey = u8"Major Version A";
 constexpr int kMajorVersionAValue = 0;
-constexpr std::string_view kMajorVersionBKey = "Major Version B";
+constexpr std::string_view kMajorVersionBKey = u8"Major Version B";
 constexpr int kMajorVersionBValue = 1;
-constexpr std::string_view kMinorVersionAKey = "Minor Version A";
+constexpr std::string_view kMinorVersionAKey = u8"Minor Version A";
 constexpr int kMinorVersionAValue = 0;
-constexpr std::string_view kMinorVersionBKey = "Minor Version B";
+constexpr std::string_view kMinorVersionBKey = u8"Minor Version B";
 constexpr int kMinorVersionBValue = 0;
 
 constexpr std::string_view kAddressTablePathKey =
-    "Address Table Directory Path";
-constexpr std::string_view kDefaultAddressTableDirectory = "Address Table";
+    u8"Address Table Directory Path";
+constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
 
 void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   auto& main_entry = config_json[kMainEntryKey.data()];
@@ -130,7 +130,7 @@ ParseConfig(
   // Create the config file if it doesn't exist.
   if (!boost::filesystem::exists(config_path)) {
     boost::filesystem::ofstream config_file(config_path);
-    config_file << "{}" << std::endl;
+    config_file << u8"{}" << std::endl;
   }
 
   // Read the config file, if read permissions are enabled, for processing.

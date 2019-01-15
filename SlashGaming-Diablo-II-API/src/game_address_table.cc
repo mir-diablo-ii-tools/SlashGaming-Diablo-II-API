@@ -70,7 +70,7 @@ GameAddressTable::GetInstance(
 
   boost::filesystem::path table_file(address_table_directory);
   table_file /= running_game_version_name.data();
-  table_file += ".txt";
+  table_file += u8".txt";
 
   static GameAddressTable instance(
       table_file

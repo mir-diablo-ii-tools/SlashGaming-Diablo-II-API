@@ -57,12 +57,12 @@ namespace sgd2mapi {
 
 namespace {
 
-constexpr std::string_view kLocatorTypeKey = "Locator Type";
-constexpr std::string_view kLocatorValueKey = "Locator Value";
+constexpr std::string_view kLocatorTypeKey = u8"Locator Type";
+constexpr std::string_view kLocatorValueKey = u8"Locator Value";
 
-constexpr std::string_view kLocatorTypeOffset = "Offset";
-constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
-constexpr std::string_view kLocatorTypeDecoratedName = "Decorated Name";
+constexpr std::string_view kLocatorTypeOffset = u8"Offset";
+constexpr std::string_view kLocatorTypeOrdinal = u8"Ordinal";
+constexpr std::string_view kLocatorTypeDecoratedName = u8"Decorated Name";
 
 std::intptr_t
 ResolveLocatorAndGetAddress(
@@ -99,7 +99,7 @@ ResolveAddress(
     std::string_view locator_value
 ) {
   std::string library_file_name = library_name.data();
-  library_file_name += ".dll";
+  library_file_name += u8".dll";
 
   const GameLibrary& game_library =
       GameLibraryTable::GetInstance().GetGameLibrary(library_file_name);
@@ -121,7 +121,7 @@ ReadTsvTableFile(
     const boost::filesystem::path& table_file_path
 ) {
   static const std::regex kLineRegex(
-      "(.*?)\t(.*?)\t(.*?)\t([^\t]*)(.*)",
+      u8"(.*?)\t(.*?)\t(.*?)\t([^\t]*)(.*)",
       std::regex_constants::ECMAScript | std::regex::icase
   );
 
@@ -172,7 +172,7 @@ ReadTsvTableFile(
         locator_value
     );
 
-    std::string full_address_name = library_name + "_" + address_name;
+    std::string full_address_name = library_name + u8"_" + address_name;
 
     address_table.insert_or_assign(
         std::move(full_address_name),
