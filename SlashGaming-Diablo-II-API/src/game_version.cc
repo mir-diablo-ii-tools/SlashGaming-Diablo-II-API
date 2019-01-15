@@ -293,7 +293,7 @@ GetGameVersionByFileVersion(
   } catch(const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s, Line %d \n"
-        L"Could not determine the game version from the file version: %s";
+        L"Could not determine the game version from the file version: %s.";
 
     std::wstring full_message = (
         boost::wformat(kErrorFormatMessage.data())
@@ -400,14 +400,59 @@ enum GameVersion
 GetGameVersionId(
     std::string_view game_version_name
 ) noexcept {
-  return GetGameVersionAndStringBimap().right.at(game_version_name);
+  try {
+    return GetGameVersionAndStringBimap().right.at(game_version_name);
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: %s, Line %d \n"
+        L"Could not determine the game version ID from the version name: %s.";
+
+    std::wstring full_message = (
+        boost::wformat(kErrorFormatMessage.data())
+            % __FILE__
+            % __LINE__
+            % game_version_name.data()
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"Failed to Determine Game Version ID",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
 }
 
 std::string_view
 GetGameVersionName(
     enum GameVersion game_version
 ) noexcept {
-  return GetGameVersionAndStringBimap().left.at(game_version);
+  try {
+    return GetGameVersionAndStringBimap().left.at(game_version);
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: %s, Line %d \n"
+        L"Could not determine the game version name from the game version ID: "
+        L"%d.";
+
+    std::wstring full_message = (
+        boost::wformat(kErrorFormatMessage.data())
+            % __FILE__
+            % __LINE__
+            % static_cast<int>(game_version)
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"Failed to Determine Game Version ID",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
 }
 
 enum GameVersion

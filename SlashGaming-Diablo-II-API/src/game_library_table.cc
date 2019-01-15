@@ -61,7 +61,7 @@ GameLibraryTable::GetGameLibrary(
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s, Line %d \n"
-        L"Could not determine the game library from the file path: %s";
+        L"Could not determine the game library from the file path: %s.";
 
     std::wstring full_message = (
         boost::wformat(kErrorFormatMessage.data())

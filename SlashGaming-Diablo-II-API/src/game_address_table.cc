@@ -37,12 +37,15 @@
 
 #include "game_address_table.h"
 
+#include <windows.h>
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include <nlohmann/json.hpp>
 
 #include "config_parser.h"
@@ -82,7 +85,29 @@ std::intptr_t
 GameAddressTable::GetAddress(
     std::string_view address_name
 ) {
-  return GetInstance().address_table_.at(address_name.data());
+  try {
+    return GetInstance().address_table_.at(address_name.data());
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: %s, Line %d \n"
+        L"Address not defined for %s.";
+
+    std::wstring full_message = (
+        boost::wformat(kErrorFormatMessage.data())
+            % __FILE__
+            % __LINE__
+            % address_name.data()
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"Address Not Defined",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
 }
 
 } // namespace sgd2mapi

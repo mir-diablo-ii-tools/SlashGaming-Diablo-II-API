@@ -180,7 +180,29 @@ GameLibrary::GetLibraryPathWithRedirect(
     return kGameExecutable;
   }
 
-  return GetDefaultLibraryAndLibraryPathBimap().left.at(library);
+  try {
+    return GetDefaultLibraryAndLibraryPathBimap().left.at(library);
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: %s, Line %d \n"
+        L"Could not determine the game library path from the library ID: %s.";
+
+    std::wstring full_message = (
+        boost::wformat(kErrorFormatMessage.data())
+            % __FILE__
+            % __LINE__
+            % static_cast<int>(library)
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"Failed to Determine Game Library Path",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
 }
 
 std::intptr_t
