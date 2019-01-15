@@ -41,7 +41,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
-#include <optional>
 #include <string>
 
 #include <boost/bimap.hpp>
@@ -57,6 +56,10 @@ using DefaultLibraryAndLibraryPathBimap = boost::bimap<
     enum DefaultLibrary,
     boost::filesystem::path
 >;
+
+constexpr std::wstring_view kFunctionFailErrorFormat =
+    L"File: %s, Line: %d \n"
+    L"The function %s failed with error code %x.";
 
 /**
  * The executable used to run the game.
@@ -101,7 +104,7 @@ GetDefaultLibraryAndLibraryPathBimap(
   return default_library_and_library_path;
 }
 
-std::optional<std::intptr_t>
+std::intptr_t
 GetLibraryBaseAddress(
     const boost::filesystem::path& library_path
 ) noexcept {
@@ -109,7 +112,21 @@ GetLibraryBaseAddress(
 
   HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
   if (base_address == nullptr) {
-    return std::nullopt;
+    std::wstring full_message = (
+        boost::wformat(kFunctionFailErrorFormat.data())
+            % __FILE__
+            % __LINE__
+            % u8"LoadLibraryW"
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"LoadLibraryW Failed",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
   }
 
   return reinterpret_cast<std::intptr_t>(base_address);
@@ -126,22 +143,8 @@ GameLibrary::GameLibrary(
 GameLibrary::GameLibrary(
     const boost::filesystem::path& library_path
 )
-    : library_path_(library_path) {
-  auto base_address = GetLibraryBaseAddress(library_path);
-  if (!base_address.has_value()) {
-    std::wstring error_message = (boost::wformat(
-        L"Module base address detection for %s failed.")
-        % library_path).str();
-    MessageBoxW(
-        nullptr,
-        error_message.data(),
-        L"Module Failed to Load",
-        MB_OK | MB_ICONERROR
-    );
-    std::exit(EXIT_FAILURE);
-  }
-
-  base_address_ = base_address.value();
+    : library_path_(library_path),
+      base_address_(GetLibraryBaseAddress(library_path)) {
 }
 
 GameLibrary::GameLibrary(

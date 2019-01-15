@@ -87,30 +87,34 @@ ResolveGameAddress(
   const GameLibrary& address_library =
       GameLibraryTable::GetInstance().GetGameLibrary(library_path);
 
-  std::intptr_t resolved_address;
-
   try {
     const auto& running_address_locator =
         address_locators.at(current_version);
 
     std::intptr_t base_address = address_library.base_address();
 
-    resolved_address =
-        running_address_locator->ResolveGameAddress(base_address);
-  } catch (std::out_of_range&) {
-    std::wstring error_message = (boost::wformat(
-        L"Game address not defined for the game version: %s"
-    )% GetRunningGameVersionName().data()).str();
+    return running_address_locator->ResolveGameAddress(base_address);
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view error_format_message =
+        L"File: %s, Line %d \n"
+        L"Could not determine the game address.";
+
+    std::wstring full_message = (
+        boost::wformat(error_format_message.data())
+            % __FILE__
+            % __LINE__
+            % library_path
+    ).str();
+
     MessageBoxW(
         nullptr,
-        error_message.data(),
-        L"Error: Missing Game Address",
+        error_format_message.data(),
+        L"Failed to Determine Game Address",
         MB_OK | MB_ICONERROR
     );
-    std::exit(EXIT_FAILURE);
-  }
 
-  return resolved_address;
+    std::exit(0);
+  }
 }
 
 } // namespace

@@ -37,7 +37,12 @@
 
 #include "game_library_table.h"
 
+#include <windows.h>
+#include <string>
+#include <string_view>
+
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include "../include/game_library.h"
 
 namespace sgd2mapi {
@@ -50,15 +55,29 @@ const GameLibrary&
 GameLibraryTable::GetGameLibrary(
     const boost::filesystem::path& library_path
 ) noexcept {
-  auto found_game_address = libraries_.find(library_path);
-  if (found_game_address == libraries_.cend()) {
-    const auto insert_result = libraries_.insert_or_assign(
-        library_path,
-        GameLibrary(library_path));
-    found_game_address = insert_result.first;
-  }
+  try {
+    return libraries_.at(library_path);
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view error_format_message =
+        L"File: %s, Line %d \n"
+        L"Could not determine the game library from the file path: %s";
 
-  return found_game_address->second;
+    std::wstring full_message = (
+        boost::wformat(error_format_message.data())
+            % __FILE__
+            % __LINE__
+            % library_path
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        error_format_message.data(),
+        L"Failed to Determine Game Library",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
 }
 
 const GameLibrary&
