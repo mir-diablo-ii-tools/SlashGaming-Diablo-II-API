@@ -43,10 +43,10 @@
 #include <memory>
 #include <optional>
 #include <string>
-#include <string_view>
 
 #include <boost/bimap.hpp>
 #include <boost/nowide/convert.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include "../include/game_version.h"
 
@@ -55,13 +55,13 @@ namespace {
 
 using DefaultLibraryAndLibraryPathBimap = boost::bimap<
     enum DefaultLibrary,
-    std::string_view
+    boost::filesystem::path
 >;
 
 /**
  * The executable used to run the game.
  */
-constexpr std::string_view kGameExecutable = "Game.exe";
+const boost::filesystem::path kGameExecutable = "Game.exe";
 
 const DefaultLibraryAndLibraryPathBimap&
 GetDefaultLibraryAndLibraryPathBimap(
@@ -103,18 +103,11 @@ GetDefaultLibraryAndLibraryPathBimap(
 
 std::optional<std::intptr_t>
 GetLibraryBaseAddress(
-    std::string_view library_path
+    const boost::filesystem::path& library_path
 ) noexcept {
-  // Convert the library path to wstring, to allow it to work correctly under
-  // Windows.
-  std::wstring library_path_wide;
-  try {
-    library_path_wide = boost::nowide::widen(library_path.data());
-  } catch (boost::locale::conv::conversion_error&) {
-    return std::nullopt;
-  }
+  std::wstring library_path_text_wide = library_path.wstring();
 
-  HMODULE base_address = LoadLibraryW(library_path_wide.data());
+  HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
   if (base_address == nullptr) {
     return std::nullopt;
   }
@@ -131,14 +124,14 @@ GameLibrary::GameLibrary(
 }
 
 GameLibrary::GameLibrary(
-    std::string_view library_path
+    const boost::filesystem::path& library_path
 )
     : library_path_(library_path) {
   auto base_address = GetLibraryBaseAddress(library_path);
   if (!base_address.has_value()) {
     std::wstring error_message = (boost::wformat(
         L"Module base address detection for %s failed.")
-        % library_path.data()).str();
+        % library_path).str();
     MessageBoxW(
         nullptr,
         error_message.data(),
@@ -175,16 +168,16 @@ GameLibrary::operator=(
     GameLibrary&&
 ) noexcept = default;
 
-std::string_view
+const boost::filesystem::path&
 GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) noexcept {
   // Redirect if the game version is 1.14 or higher.
   if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
-    return kGameExecutable.data();
+    return kGameExecutable;
   }
 
-  return GetDefaultLibraryAndLibraryPathBimap().left.at(library).data();
+  return GetDefaultLibraryAndLibraryPathBimap().left.at(library);
 }
 
 std::intptr_t
@@ -194,14 +187,14 @@ GameLibrary::base_address(
   return base_address_;
 }
 
-std::string_view
+const boost::filesystem::path&
 GameLibrary::library_path(
     void
 ) const noexcept {
   return library_path_;
 }
 
-std::string_view
+const boost::filesystem::path&
 GetGameExecutable(
     void
 ) {
@@ -214,5 +207,5 @@ const char*
 SGD2MAPI_GetGameExecutable(
     void
 ) {
-  return sgd2mapi::GetGameExecutable().data();
+  return sgd2mapi::GetGameExecutable().string().data();
 }

@@ -174,22 +174,18 @@ GetGameVersionAndStringBimap(
 }
 
 std::optional<std::string> ExtractFileVersionString(
-    std::string_view file_name
+    const boost::filesystem::path& file_path
 ) noexcept {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.
-
-  std::wstring file_name_wide;
-  try {
-    file_name_wide = boost::nowide::widen(file_name.data());
-  } catch (boost::locale::conv::conversion_error&) {
-    return std::nullopt;
-  }
+  std::wstring file_path_text_wide = file_path.wstring();
 
   // Check version size.
   DWORD version_handle;
-  DWORD version_size = GetFileVersionInfoSizeW(file_name_wide.data(),
-                                               &version_handle);
+  DWORD version_size = GetFileVersionInfoSizeW(
+      file_path_text_wide.data(),
+      &version_handle
+  );
 
   if (version_size == 0) {
     return std::nullopt;
@@ -198,7 +194,7 @@ std::optional<std::string> ExtractFileVersionString(
   // Get the file version info.
   auto version_data = std::make_unique<wchar_t[]>(version_size);
 
-  if (!GetFileVersionInfoW(file_name_wide.data(), version_handle,
+  if (!GetFileVersionInfoW(file_path_text_wide.data(), version_handle,
                            version_size, version_data.get())) {
     return std::nullopt;
   }
@@ -252,15 +248,16 @@ DetermineRunningGameVersion(
   std::string game_version_string;
 
   try {
-    game_version_string =
-        ExtractFileVersionString(GetGameExecutable()).value();
+    game_version_string = ExtractFileVersionString(
+        GetGameExecutable()
+    ).value();
   } catch (const std::bad_optional_access&) {
     MessageBoxA(
         nullptr,
         "Failed to extract file version from Game.exe.",
         "Error Detecting Game Version",
         MB_OK | MB_ICONSTOP);
-    std::exit(EXIT_FAILURE);
+    std::exit(0);
   }
 
   enum GameVersion game_version;

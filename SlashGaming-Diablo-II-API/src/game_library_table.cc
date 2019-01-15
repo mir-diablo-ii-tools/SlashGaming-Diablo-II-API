@@ -37,8 +37,7 @@
 
 #include "game_library_table.h"
 
-#include <string_view>
-
+#include <boost/filesystem.hpp>
 #include "../include/game_library.h"
 
 namespace sgd2mapi {
@@ -49,12 +48,12 @@ GameLibraryTable::GameLibraryTable(
 
 const GameLibrary&
 GameLibraryTable::GetGameLibrary(
-    std::string_view library_path
+    const boost::filesystem::path& library_path
 ) noexcept {
-  auto found_game_address = libraries_.find(library_path.data());
+  auto found_game_address = libraries_.find(library_path);
   if (found_game_address == libraries_.cend()) {
     const auto insert_result = libraries_.insert_or_assign(
-        library_path.data(),
+        library_path,
         GameLibrary(library_path));
     found_game_address = insert_result.first;
   }
@@ -66,8 +65,10 @@ const GameLibrary&
 GameLibraryTable::GetGameLibrary(
     enum DefaultLibrary library
 ) noexcept {
-  std::string_view library_path = GameLibrary::GetLibraryPathWithRedirect(
-      library);
+  const boost::filesystem::path& library_path =
+      GameLibrary::GetLibraryPathWithRedirect(
+          library
+      );
   return GetGameLibrary(library_path);
 }
 
