@@ -38,6 +38,7 @@
 #include "game_library_table.h"
 
 #include <windows.h>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 
@@ -58,12 +59,12 @@ GameLibraryTable::GetGameLibrary(
   try {
     return libraries_.at(library_path);
   } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view error_format_message =
+    constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s, Line %d \n"
         L"Could not determine the game library from the file path: %s";
 
     std::wstring full_message = (
-        boost::wformat(error_format_message.data())
+        boost::wformat(kErrorFormatMessage.data())
             % __FILE__
             % __LINE__
             % library_path
@@ -71,7 +72,7 @@ GameLibraryTable::GetGameLibrary(
 
     MessageBoxW(
         nullptr,
-        error_format_message.data(),
+        full_message.data(),
         L"Failed to Determine Game Library",
         MB_OK | MB_ICONERROR
     );

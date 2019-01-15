@@ -95,12 +95,12 @@ ResolveGameAddress(
 
     return running_address_locator->ResolveGameAddress(base_address);
   } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view error_format_message =
+    constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s, Line %d \n"
         L"Could not determine the game address.";
 
     std::wstring full_message = (
-        boost::wformat(error_format_message.data())
+        boost::wformat(kErrorFormatMessage.data())
             % __FILE__
             % __LINE__
             % library_path
@@ -108,7 +108,7 @@ ResolveGameAddress(
 
     MessageBoxW(
         nullptr,
-        error_format_message.data(),
+        full_message.data(),
         L"Failed to Determine Game Address",
         MB_OK | MB_ICONERROR
     );

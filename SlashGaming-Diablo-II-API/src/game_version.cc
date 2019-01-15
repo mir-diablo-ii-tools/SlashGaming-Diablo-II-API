@@ -291,12 +291,12 @@ GetGameVersionByFileVersion(
   try {
     return game_versions_by_file_version.at(version_string);
   } catch(const std::out_of_range& e) {
-    constexpr std::wstring_view error_format_message =
+    constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s, Line %d \n"
         L"Could not determine the game version from the file version: %s";
 
     std::wstring full_message = (
-        boost::wformat(error_format_message.data())
+        boost::wformat(kErrorFormatMessage.data())
             % __FILE__
             % __LINE__
             % version_string.data()
@@ -304,7 +304,7 @@ GetGameVersionByFileVersion(
 
     MessageBoxW(
         nullptr,
-        error_format_message.data(),
+        full_message.data(),
         L"Failed to Determine Game Version",
         MB_OK | MB_ICONERROR
     );
