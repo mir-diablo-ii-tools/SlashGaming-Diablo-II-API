@@ -182,7 +182,7 @@ GameAddress::address(
 
 struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
-    const char* library_path,
+    const char library_path[],
     const struct SGD2MAPI_GameAddressLocatorInterface*
         c_game_address_locator_interfaces[]
 ) {
@@ -212,8 +212,8 @@ SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
 struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
     enum SGD2MAPI_DefaultLibrary c_library_id,
-    const struct SGD2MAPI_GameAddressLocatorInterface**
-        c_game_address_locator_interfaces
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interfaces[]
 ) {
   // Get the string name of the default library so that the other constructor
   // can be used.

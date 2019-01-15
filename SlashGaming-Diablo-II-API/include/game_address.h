@@ -154,13 +154,13 @@ extern "C" {
 #endif // __cplusplus
 
 /**
- * Creates a new GameAddress. The base library is specified using its name.
- * The game address locators are specified as an array of pointers to
- * GameAddressLocators.
+ * Creates a new GameAddress. The base library is specified using its name,
+ * encoded in UTF-8. The game address locators are specified as an array of
+ * pointers to GameAddressLocators.
  */
 DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
-    const char* library_path,
+    const char library_path[],
     const struct SGD2MAPI_GameAddressLocatorInterface*
         game_address_locator_interfaces[]
 );
