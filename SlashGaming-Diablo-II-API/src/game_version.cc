@@ -64,6 +64,10 @@ using GameVersionAndStringBimapType = boost::bimap<
     std::string_view
 >;
 
+constexpr std::wstring_view kFunctionFailErrorFormat =
+    L"File: %s, Line: %d \n"
+    L"The function %s failed with error code %x.";
+
 const GameVersionAndFileVersionBimapType&
 GetGameVersionAndFileVersionBimap(
     void
@@ -173,7 +177,7 @@ GetGameVersionAndStringBimap(
   return game_version_and_string_bimap;
 }
 
-std::optional<std::string> ExtractFileVersionString(
+std::string ExtractFileVersionString(
     const boost::filesystem::path& file_path
 ) noexcept {
   // All the code for this function originated from StackOverflow user
@@ -188,7 +192,22 @@ std::optional<std::string> ExtractFileVersionString(
   );
 
   if (file_version_info_size == 0) {
-    return std::nullopt;
+    std::wstring full_message = (
+        boost::wformat(kFunctionFailErrorFormat.data())
+            % __FILE__
+            % __LINE__
+            % u8"GetFileVersionInfoSizeW"
+            % GetLastError()
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"GetFileVersionInfoSizeW Failed",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
   }
 
   // Get the file version info.
@@ -201,7 +220,22 @@ std::optional<std::string> ExtractFileVersionString(
   );
 
   if (!is_get_file_version_info_success) {
-    return std::nullopt;
+    std::wstring full_message = (
+        boost::wformat(kFunctionFailErrorFormat.data())
+            % __FILE__
+            % __LINE__
+            % u8"GetFileVersionInfoW"
+            % GetLastError()
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"GetFileVersionInfoW Failed",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
   }
 
   // Gather all of the information into the specified buffer, then check
@@ -217,7 +251,22 @@ std::optional<std::string> ExtractFileVersionString(
   );
 
   if (!is_ver_query_value_success) {
-    return std::nullopt;
+    std::wstring full_message = (
+        boost::wformat(kFunctionFailErrorFormat.data())
+            % __FILE__
+            % __LINE__
+            % u8"VerQueryValueW"
+            % GetLastError()
+    ).str();
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"VerQueryValueW Failed",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
   }
 
   // Doesn't matter if you are on 32 bit or 64 bit,
@@ -225,9 +274,9 @@ std::optional<std::string> ExtractFileVersionString(
   // come from dwFileVersionMS, last two come from dwFileVersionLS
   std::ostringstream stringStream;
 
-  stringStream << ((version_info->dwFileVersionMS >> 16) & 0xFFFF) << ".";
-  stringStream << ((version_info->dwFileVersionMS >> 0) & 0xFFFF) << ".";
-  stringStream << ((version_info->dwFileVersionLS >> 16) & 0xFFFF) << ".";
+  stringStream << ((version_info->dwFileVersionMS >> 16) & 0xFFFF) << u8".";
+  stringStream << ((version_info->dwFileVersionMS >> 0) & 0xFFFF) << u8".";
+  stringStream << ((version_info->dwFileVersionLS >> 16) & 0xFFFF) << u8".";
   stringStream << ((version_info->dwFileVersionLS >> 0) & 0xFFFF);
 
   return stringStream.str();
@@ -271,20 +320,9 @@ DetermineRunningGameVersion(
 ) noexcept {
   // TODO(Mir Drualga): Figure out how to get versions 1.06(B) and 1.14+
   // classic detection.
-  std::string game_version_string;
-
-  try {
-    game_version_string = ExtractFileVersionString(
-        GetGameExecutable()
-    ).value();
-  } catch (const std::bad_optional_access&) {
-    MessageBoxA(
-        nullptr,
-        "Failed to extract file version from Game.exe.",
-        "Error Detecting Game Version",
-        MB_OK | MB_ICONSTOP);
-    std::exit(0);
-  }
+  std::string game_version_string = ExtractFileVersionString(
+      GetGameExecutable()
+  );
 
   enum GameVersion game_version = GetGameVersionByFileVersion(
       game_version_string
