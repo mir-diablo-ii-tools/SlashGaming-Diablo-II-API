@@ -177,7 +177,7 @@ GameLibrary::GetLibraryPathWithRedirect(
 ) noexcept {
   // Redirect if the game version is 1.14 or higher.
   if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
-    return kGameExecutable;
+    return GetGameExecutable();
   }
 
   try {
