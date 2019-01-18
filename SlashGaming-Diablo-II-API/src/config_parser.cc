@@ -37,10 +37,11 @@
 
 #include "config_parser.h"
 
+#include <filesystem>
+#include <fstream>
 #include <string>
 #include <string_view>
 
-#include <boost/filesystem.hpp>
 #include <nlohmann/json.hpp>
 
 namespace sgd2mapi {
@@ -125,18 +126,18 @@ void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
 
 nlohmann::json
 ParseConfig(
-    const boost::filesystem::path& config_path
+    const std::filesystem::path& config_path
 ) noexcept {
   // Create the config file if it doesn't exist.
-  if (!boost::filesystem::exists(config_path)) {
-    boost::filesystem::ofstream config_file(config_path);
+  if (!std::filesystem::exists(config_path)) {
+    std::ofstream config_file(config_path);
     config_file << u8"{}" << std::endl;
   }
 
   // Read the config file, if read permissions are enabled, for processing.
   nlohmann::json config_json;
 
-  if (boost::filesystem::ifstream config_file(config_path);
+  if (std::ifstream config_file(config_path);
       config_file.good()) {
     config_json = nlohmann::json::parse(config_file);
   }
@@ -144,7 +145,7 @@ ParseConfig(
   AddMissingConfigEntries(config_json);
 
   // Write to the config file any new default values.
-  if (boost::filesystem::ofstream config_file(config_path);
+  if (std::ofstream config_file(config_path);
       config_file.good()) {
     config_file << config_json << std::endl;
   }
@@ -155,7 +156,7 @@ ParseConfig(
 } // namespace
 
 ConfigParser::ConfigParser(
-    const boost::filesystem::path& config_path
+    const std::filesystem::path& config_path
 ) noexcept
     : config_path_(config_path) {
   nlohmann::json main_entry = ParseConfig(config_path);
@@ -171,14 +172,14 @@ ConfigParser::GetInstance(
   return instance;
 }
 
-const boost::filesystem::path&
+const std::filesystem::path&
 ConfigParser::address_table_path(
     void
 ) const noexcept {
   return address_table_path_;
 }
 
-const boost::filesystem::path&
+const std::filesystem::path&
 ConfigParser::config_path(
     void
 ) const noexcept {

@@ -41,12 +41,13 @@
 #include <cstdint>
 #include <cstdlib>
 #include <charconv>
+#include <filesystem>
+#include <fstream>
 #include <regex>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
@@ -118,7 +119,7 @@ ResolveAddress(
 
 std::unordered_map<std::string, std::intptr_t>
 ReadTsvTableFile(
-    const boost::filesystem::path& table_file_path
+    const std::filesystem::path& table_file_path
 ) {
   static const std::regex kLineRegex(
       u8"(.*?)\t(.*?)\t(.*?)\t([^\t]*)(.*)",
@@ -126,7 +127,7 @@ ReadTsvTableFile(
   );
 
   // Open the file and check for it to be valid.
-  boost::filesystem::ifstream address_table_file_stream(
+  std::ifstream address_table_file_stream(
       table_file_path
   );
 

@@ -40,12 +40,12 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
+#include <filesystem>
 #include <memory>
 #include <string>
 
 #include <boost/bimap.hpp>
 #include <boost/nowide/convert.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include "../include/game_version.h"
 
@@ -54,7 +54,7 @@ namespace {
 
 using DefaultLibraryAndLibraryPathBimap = boost::bimap<
     enum DefaultLibrary,
-    boost::filesystem::path
+    std::filesystem::path
 >;
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
@@ -64,7 +64,7 @@ constexpr std::wstring_view kFunctionFailErrorFormat =
 /**
  * The executable used to run the game.
  */
-const boost::filesystem::path kGameExecutable = u8"Game.exe";
+const std::filesystem::path kGameExecutable = u8"Game.exe";
 
 const DefaultLibraryAndLibraryPathBimap&
 GetDefaultLibraryAndLibraryPathBimap(
@@ -106,7 +106,7 @@ GetDefaultLibraryAndLibraryPathBimap(
 
 std::intptr_t
 GetLibraryBaseAddress(
-    const boost::filesystem::path& library_path
+    const std::filesystem::path& library_path
 ) noexcept {
   std::wstring library_path_text_wide = library_path.wstring();
 
@@ -141,7 +141,7 @@ GameLibrary::GameLibrary(
 }
 
 GameLibrary::GameLibrary(
-    const boost::filesystem::path& library_path
+    const std::filesystem::path& library_path
 )
     : library_path_(library_path),
       base_address_(GetLibraryBaseAddress(library_path)) {
@@ -171,7 +171,7 @@ GameLibrary::operator=(
     GameLibrary&&
 ) noexcept = default;
 
-const boost::filesystem::path&
+const std::filesystem::path&
 GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) noexcept {
@@ -212,14 +212,14 @@ GameLibrary::base_address(
   return base_address_;
 }
 
-const boost::filesystem::path&
+const std::filesystem::path&
 GameLibrary::library_path(
     void
 ) const noexcept {
   return library_path_;
 }
 
-const boost::filesystem::path&
+const std::filesystem::path&
 GetGameExecutable(
     void
 ) {

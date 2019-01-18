@@ -38,11 +38,11 @@
 #include "game_library_table.h"
 
 #include <windows.h>
+#include <filesystem>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include "../include/game_library.h"
 
@@ -54,7 +54,7 @@ GameLibraryTable::GameLibraryTable(
 
 const GameLibrary&
 GameLibraryTable::GetGameLibrary(
-    const boost::filesystem::path& library_path
+    const std::filesystem::path& library_path
 ) noexcept {
   try {
     return libraries_.at(library_path);
@@ -85,7 +85,7 @@ const GameLibrary&
 GameLibraryTable::GetGameLibrary(
     enum DefaultLibrary library
 ) noexcept {
-  const boost::filesystem::path& library_path =
+  const std::filesystem::path& library_path =
       GameLibrary::GetLibraryPathWithRedirect(
           library
       );

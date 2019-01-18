@@ -177,7 +177,7 @@ GetGameVersionAndStringBimap(
 }
 
 std::string ExtractFileVersionString(
-    const boost::filesystem::path& file_path
+    const std::filesystem::path& file_path
 ) noexcept {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.

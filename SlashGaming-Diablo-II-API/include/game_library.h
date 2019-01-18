@@ -39,10 +39,9 @@
 #define SGD2MAPI_GAME_LIBRARY_H_
 
 #ifdef __cplusplus
+#include <filesystem>
 #include <cstdint>
 #include <string>
-
-#include <boost/filesystem.hpp>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -77,14 +76,14 @@ class DLLEXPORT GameLibrary {
    * Creates a new instance of a GameLibrary using the library path.
    */
   explicit GameLibrary(
-      const boost::filesystem::path& library_path
+      const std::filesystem::path& library_path
   );
 
   /**
    * Creates a new instance of a GameLibrary using the library path.
    */
   explicit GameLibrary(
-      boost::filesystem::path&& library_path
+      std::filesystem::path&& library_path
   ) noexcept;
 
   GameLibrary(
@@ -110,7 +109,7 @@ class DLLEXPORT GameLibrary {
       GameLibrary&&
   ) noexcept;
 
-  static const boost::filesystem::path&
+  static const std::filesystem::path&
   GetLibraryPathWithRedirect(
       enum DefaultLibrary library
   ) noexcept;
@@ -126,17 +125,17 @@ class DLLEXPORT GameLibrary {
   /**
    * Returns the library path of this GameLibrary.
    */
-  const boost::filesystem::path&
+  const std::filesystem::path&
   library_path(
       void
   ) const noexcept;
 
  private:
   std::intptr_t base_address_;
-  boost::filesystem::path library_path_;
+  std::filesystem::path library_path_;
 };
 
-const boost::filesystem::path&
+const std::filesystem::path&
 GetGameExecutable(
     void
 );

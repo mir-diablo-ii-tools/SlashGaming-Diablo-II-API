@@ -38,10 +38,9 @@
 #ifndef SGD2MAPI_CONFIG_PARSER_H_
 #define SGD2MAPI_CONFIG_PARSER_H_
 
+#include <filesystem>
 #include <string>
 #include <string_view>
-
-#include <boost/filesystem.hpp>
 
 namespace sgd2mapi {
 
@@ -71,23 +70,23 @@ class ConfigParser {
       void
   ) noexcept;
 
-  const boost::filesystem::path&
+  const std::filesystem::path&
   config_path(
       void
   ) const noexcept;
 
-  const boost::filesystem::path&
+  const std::filesystem::path&
   address_table_path(
       void
   ) const noexcept;
 
  private:
   ConfigParser(
-      const boost::filesystem::path& config_path
+      const std::filesystem::path& config_path
   ) noexcept;
 
-  boost::filesystem::path config_path_;
-  boost::filesystem::path address_table_path_;
+  std::filesystem::path config_path_;
+  std::filesystem::path address_table_path_;
 };
 
 } // namespace sgd2mapi

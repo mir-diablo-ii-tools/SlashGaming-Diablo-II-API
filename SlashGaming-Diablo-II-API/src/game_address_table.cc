@@ -39,12 +39,12 @@
 
 #include <windows.h>
 #include <cstdint>
+#include <filesystem>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <nlohmann/json.hpp>
 
@@ -58,7 +58,7 @@
 namespace sgd2mapi {
 
 GameAddressTable::GameAddressTable(
-    const boost::filesystem::path& table_path
+    const std::filesystem::path& table_path
 )
     : address_table_(ReadTsvTableFile(table_path)) {
 }
@@ -67,11 +67,11 @@ const GameAddressTable&
 GameAddressTable::GetInstance(
     void
 ) {
-  const boost::filesystem::path& address_table_directory =
+  const std::filesystem::path& address_table_directory =
       ConfigParser::GetInstance().address_table_path();
   std::string_view running_game_version_name = GetRunningGameVersionName();
 
-  boost::filesystem::path table_file(address_table_directory);
+  std::filesystem::path table_file(address_table_directory);
   table_file /= running_game_version_name.data();
   table_file += u8".txt";
 

@@ -38,12 +38,12 @@
 #include "../include/game_address.h"
 
 #include <windows.h>
+#include <filesystem>
 #include <cstdlib>
 #include <memory>
 #include <stdexcept>
 #include <unordered_map>
 
-#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
@@ -58,7 +58,7 @@ namespace {
 
 std::intptr_t
 ResolveGameAddress(
-    const boost::filesystem::path& library_path,
+    const std::filesystem::path& library_path,
     const GameAddressLocatorInterface& address_locator
 ) noexcept {
 
@@ -76,7 +76,7 @@ ResolveGameAddress(
 
 std::intptr_t
 ResolveGameAddress(
-    const boost::filesystem::path& library_path,
+    const std::filesystem::path& library_path,
     const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
@@ -120,7 +120,7 @@ ResolveGameAddress(
 } // namespace
 
 GameAddress::GameAddress(
-    const boost::filesystem::path& library_path,
+    const std::filesystem::path& library_path,
     const GameAddressLocatorInterface& address_locator
 ) noexcept
     : address_(ResolveGameAddress(library_path, address_locator)) {
@@ -137,7 +137,7 @@ GameAddress::GameAddress(
 }
 
 GameAddress::GameAddress(
-    const boost::filesystem::path& library_path,
+    const std::filesystem::path& library_path,
     const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>

@@ -39,11 +39,11 @@
 #define SGD2MAPI_GAME_ADDRESS_TABLE_H_
 
 #include <cstdint>
+#include <filesystem>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/filesystem.hpp>
 #include "../include/game_address.h"
 
 namespace sgd2mapi {
@@ -75,7 +75,7 @@ class GameAddressTable {
   std::unordered_map<std::string, std::intptr_t> address_table_;
 
   explicit GameAddressTable(
-      const boost::filesystem::path& table_path
+      const std::filesystem::path& table_path
   );
 
   static const GameAddressTable&

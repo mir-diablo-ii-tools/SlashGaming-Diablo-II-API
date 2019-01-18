@@ -39,10 +39,10 @@
 #define SGD2MAPI_GAME_LIBRARY_TABLE_H_
 
 #include <cstdint>
+#include <filesystem>
 #include <string>
-#include <unordered_map>
+#include <map>
 
-#include <boost/filesystem.hpp>
 #include "../include/game_library.h"
 
 namespace sgd2mapi {
@@ -79,11 +79,11 @@ class GameLibraryTable {
 
   const GameLibrary&
   GetGameLibrary(
-      const boost::filesystem::path& library_path
+      const std::filesystem::path& library_path
   ) noexcept;
 
  private:
-  std::map<boost::filesystem::path, GameLibrary> libraries_;
+  std::map<std::filesystem::path, GameLibrary> libraries_;
 
   GameLibraryTable(
       void

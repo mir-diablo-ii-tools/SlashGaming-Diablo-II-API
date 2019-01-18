@@ -46,10 +46,9 @@
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <unordered_map>
-
-#include <boost/filesystem.hpp>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -73,7 +72,7 @@ class DLLEXPORT GameAddress {
    * game address locator.
    */
   GameAddress(
-      const boost::filesystem::path& library_path,
+      const std::filesystem::path& library_path,
       const GameAddressLocatorInterface& address_locator
   ) noexcept;
 
@@ -91,7 +90,7 @@ class DLLEXPORT GameAddress {
    * version to game address locator map.
    */
   GameAddress(
-      const boost::filesystem::path& library_path,
+      const std::filesystem::path& library_path,
       const std::unordered_map<
           enum GameVersion,
           std::shared_ptr<GameAddressLocatorInterface>
