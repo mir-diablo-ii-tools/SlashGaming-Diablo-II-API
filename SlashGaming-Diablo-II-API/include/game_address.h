@@ -47,7 +47,6 @@
 #ifdef __cplusplus
 #include <cstdint>
 #include <filesystem>
-#include <memory>
 #include <unordered_map>
 #endif // __cplusplus
 
@@ -93,7 +92,7 @@ class DLLEXPORT GameAddress {
       const std::filesystem::path& library_path,
       const std::unordered_map<
           enum GameVersion,
-          std::shared_ptr<GameAddressLocatorInterface>
+          const GameAddressLocatorInterface&
       >& address_locators
   ) noexcept;
 
@@ -105,7 +104,7 @@ class DLLEXPORT GameAddress {
       enum DefaultLibrary library,
       const std::unordered_map<
           enum GameVersion,
-          std::shared_ptr<GameAddressLocatorInterface>
+          const GameAddressLocatorInterface&
       >& address_locators
   ) noexcept;
 
