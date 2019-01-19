@@ -45,8 +45,8 @@
 #include <string>
 
 #include <boost/bimap.hpp>
-#include <boost/nowide/convert.hpp>
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include "../include/game_version.h"
 
 namespace sgd2mapi {
@@ -58,7 +58,8 @@ using DefaultLibraryAndLibraryPathBimap = boost::bimap<
 >;
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: %s, Line: %d \n"
+    L"File: %s \n"
+    L"Line: %d \n"
     L"The function %s failed with error code %x.";
 
 /**
@@ -112,12 +113,12 @@ GetLibraryBaseAddress(
 
   HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
   if (base_address == nullptr) {
-    std::wstring full_message = (
-        boost::wformat(kFunctionFailErrorFormat.data())
-            % __FILE__
-            % __LINE__
-            % u8"LoadLibraryW"
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kFunctionFailErrorFormat,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        L"LoadLibraryW"
+    );
 
     MessageBoxW(
         nullptr,
@@ -184,15 +185,16 @@ GameLibrary::GetLibraryPathWithRedirect(
     return GetDefaultLibraryAndLibraryPathBimap().left.at(library);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
+        L"File: %s \n"
+        L"Line: %d \n"
         L"Could not determine the game library path from the library ID: %s.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % static_cast<int>(library)
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        static_cast<int>(library)
+    );
 
     MessageBoxW(
         nullptr,

@@ -44,7 +44,8 @@
 #include <utility>
 #include <vector>
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include "../architecture_opcode.h"
 #include "../../include/game_address.h"
 #include "../../include/game_patch/game_patch_base.h"
@@ -86,10 +87,11 @@ CreateReplaceBuffer(
   // Check that the patch size is large enough to allow the insertion of the
   // branch call.
   if (patch_size < sizeof(std::intptr_t) + 1) {
-    std::wstring error_message = (boost::wformat(
+    std::wstring error_message = fmt::sprintf(
         L"The patch size specified at address %X is too small to perform a "
-        L"branch patch."
-    ) % game_address.address()).str();
+        L"branch patch.",
+        game_address.address()
+    );
 
     MessageBoxW(
         nullptr,
@@ -97,7 +99,7 @@ CreateReplaceBuffer(
         L"Failed to Patch Game",
         MB_OK | MB_ICONERROR
     );
-    std::exit(EXIT_FAILURE);
+    std::exit(0);
   }
 
   // Create a buffer full of NOPs.

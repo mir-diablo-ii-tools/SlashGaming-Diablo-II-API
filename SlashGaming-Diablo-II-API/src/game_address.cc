@@ -44,7 +44,8 @@
 #include <stdexcept>
 #include <unordered_map>
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -96,15 +97,16 @@ ResolveGameAddress(
     return running_address_locator->ResolveGameAddress(base_address);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
+        L"File: %s \n"
+        L"Line: %d \n"
         L"Could not determine the game address.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % library_path
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        library_path
+    );
 
     MessageBoxW(
         nullptr,

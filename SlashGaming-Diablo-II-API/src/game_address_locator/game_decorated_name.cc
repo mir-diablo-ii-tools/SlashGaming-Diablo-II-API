@@ -44,7 +44,8 @@
 #include <string>
 #include <string_view>
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 
 #include "c/game_address_locator_interface.h"
 #include "c/game_decorated_name.h"
@@ -89,9 +90,10 @@ GameDecoratedName::ResolveGameAddress(
   FARPROC func_address = GetProcAddress(library_handle, c_decorated_name);
 
   if (func_address == nullptr) {
-    std::wstring error_message = (boost::wformat(
-        L"The data or function with the name %s could not be found."
-    ) % decorated_name().data()).str();
+    std::wstring error_message = fmt::sprintf(
+        L"The data or function with the name %s could not be found.",
+        fmt::to_wstring(decorated_name())
+    );
 
     MessageBoxW(
         nullptr,

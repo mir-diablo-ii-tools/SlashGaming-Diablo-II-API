@@ -46,8 +46,8 @@
 #include <string_view>
 
 #include <boost/bimap.hpp>
-#include <boost/format.hpp>
-#include <boost/nowide/convert.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include "../include/game_library.h"
 
 namespace sgd2mapi {
@@ -191,13 +191,13 @@ std::string ExtractFileVersionString(
   );
 
   if (file_version_info_size == 0) {
-    std::wstring full_message = (
-        boost::wformat(kFunctionFailErrorFormat.data())
-            % __FILE__
-            % __LINE__
-            % u8"GetFileVersionInfoSizeW"
-            % GetLastError()
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kFunctionFailErrorFormat.data(),
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        L"GetFileVersionInfoSizeW",
+        GetLastError()
+    );
 
     MessageBoxW(
         nullptr,
@@ -219,13 +219,13 @@ std::string ExtractFileVersionString(
   );
 
   if (!is_get_file_version_info_success) {
-    std::wstring full_message = (
-        boost::wformat(kFunctionFailErrorFormat.data())
-            % __FILE__
-            % __LINE__
-            % u8"GetFileVersionInfoW"
-            % GetLastError()
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kFunctionFailErrorFormat,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        L"GetFileVersionInfoW",
+        GetLastError()
+    );
 
     MessageBoxW(
         nullptr,
@@ -250,13 +250,13 @@ std::string ExtractFileVersionString(
   );
 
   if (!is_ver_query_value_success) {
-    std::wstring full_message = (
-        boost::wformat(kFunctionFailErrorFormat.data())
-            % __FILE__
-            % __LINE__
-            % u8"VerQueryValueW"
-            % GetLastError()
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kFunctionFailErrorFormat,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        L"VerQueryValueW",
+        GetLastError()
+    );
 
     MessageBoxW(
         nullptr,
@@ -295,12 +295,12 @@ GetGameVersionByFileVersion(
         L"File: %s, Line %d \n"
         L"Could not determine the game version from the file version: %s.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % version_string.data()
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        fmt::to_wstring(version_string)
+    );
 
     MessageBoxW(
         nullptr,
@@ -404,15 +404,16 @@ GetGameVersionId(
     return GetGameVersionAndStringBimap().right.at(game_version_name);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
+        L"File: %s \n"
+        L"Line: %d \n"
         L"Could not determine the game version ID from the version name: %s.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % game_version_name.data()
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        fmt::to_wstring(game_version_name)
+    );
 
     MessageBoxW(
         nullptr,
@@ -433,16 +434,17 @@ GetGameVersionName(
     return GetGameVersionAndStringBimap().left.at(game_version);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
+        L"File: %s \n"
+        L"Line: %d \n"
         L"Could not determine the game version name from the game version ID: "
         L"%d.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % static_cast<int>(game_version)
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        static_cast<int>(game_version)
+    );
 
     MessageBoxW(
         nullptr,

@@ -43,7 +43,8 @@
 #include <string>
 #include <string_view>
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include "../include/game_library.h"
 
 namespace sgd2mapi {
@@ -60,15 +61,16 @@ GameLibraryTable::GetGameLibrary(
     return libraries_.at(library_path);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
+        L"File: %s \n"
+        L"Line: %d \n"
         L"Could not determine the game library from the file path: %s.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % library_path
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        library_path
+    );
 
     MessageBoxW(
         nullptr,

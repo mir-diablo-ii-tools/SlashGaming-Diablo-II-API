@@ -48,7 +48,7 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/format.hpp>
+#include <fmt/printf.h>
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -132,9 +132,10 @@ ReadTsvTableFile(
   );
 
   if (!address_table_file_stream) {
-    std::wstring error_message = (boost::wformat(
-        L"The address table located at %s could not be found."
-    ) % table_file_path.c_str()).str();
+    std::wstring error_message = fmt::sprintf(
+        L"The address table located at %s could not be found.",
+        table_file_path
+    );
 
     MessageBoxW(
         nullptr,

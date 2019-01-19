@@ -43,7 +43,8 @@
 #include <memory>
 #include <string>
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include "../../include/game_address_locator/game_address_locator_interface.h"
 
 #include "c/game_address_locator_interface.h"
@@ -56,9 +57,11 @@ GameOrdinal::GameOrdinal(
 ) noexcept
     : ordinal_(ordinal) {
   if ((ordinal & 0xFFFF) != ordinal) {
-    std::wstring error_message = (boost::wformat(
+    std::wstring error_message = fmt::sprintf(
         L"Invalid ordinal value %d. The leftmost four bytes of an ordinal must"
-        L"be zero.") % ordinal).str();
+        L"be zero.",
+        ordinal
+    );
     MessageBoxW(
         nullptr,
         error_message.data(),
@@ -101,9 +104,10 @@ GameOrdinal::ResolveGameAddress(
   FARPROC func_address = GetProcAddress(library_handle, func_ordinal);
 
   if (func_address == nullptr) {
-    std::wstring error_message = (boost::wformat(
-        L"The data or function with the ordinal %d could not be found."
-    ) % ordinal()).str();
+    std::wstring error_message = fmt::sprintf(
+        L"The data or function with the ordinal %d could not be found.",
+        ordinal()
+    );
 
     MessageBoxW(
         nullptr,

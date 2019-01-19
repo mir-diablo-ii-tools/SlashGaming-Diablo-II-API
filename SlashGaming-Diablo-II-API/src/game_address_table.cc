@@ -45,7 +45,8 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 #include <nlohmann/json.hpp>
 
 #include "config_parser.h"
@@ -89,15 +90,16 @@ GameAddressTable::GetAddress(
     return GetInstance().address_table_.at(address_name.data());
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
+        L"File: %s \n"
+        L"Line: %d \n"
         L"Address not defined for %s.";
 
-    std::wstring full_message = (
-        boost::wformat(kErrorFormatMessage.data())
-            % __FILE__
-            % __LINE__
-            % address_name.data()
-    ).str();
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        fmt::to_wstring(address_name)
+    );
 
     MessageBoxW(
         nullptr,
