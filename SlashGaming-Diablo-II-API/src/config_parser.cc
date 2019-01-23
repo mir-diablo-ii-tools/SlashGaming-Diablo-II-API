@@ -39,6 +39,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <string>
 #include <string_view>
 
@@ -46,6 +47,10 @@
 
 namespace sgd2mapi {
 namespace {
+
+constexpr std::string_view kGlobalEntryKey = u8"!!!Globals!!!";
+constexpr std::string_view kConfigTabWidthKey = u8"Config Tab Width";
+constexpr int kDefaultConfigTabWidthValue = 4;
 
 constexpr std::string_view kMainEntryKey = u8"SGD2MAPI";
 
@@ -67,7 +72,15 @@ constexpr std::string_view kAddressTablePathKey =
     u8"Address Table Directory Path";
 constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
 
-void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
+void
+AddMissingConfigEntries(
+    nlohmann::json& config_json
+) noexcept {
+  auto& global_entry = config_json[kGlobalEntryKey.data()];
+  if (!global_entry.is_object()) {
+    global_entry = {};
+  }
+
   auto& main_entry = config_json[kMainEntryKey.data()];
   if (!main_entry.is_object()) {
     main_entry = {};
@@ -118,6 +131,12 @@ void AddMissingConfigEntries(nlohmann::json& config_json) noexcept {
   }
 
   // Add missing values.
+
+  if (auto& entry = global_entry[kConfigTabWidthKey.data()];
+      !entry.is_number()) {
+    entry = kDefaultConfigTabWidthValue;
+  }
+
   if (auto& entry = main_entry[kAddressTablePathKey.data()];
       !entry.is_string()) {
     entry = kDefaultAddressTableDirectory;
@@ -147,7 +166,12 @@ ParseConfig(
   // Write to the config file any new default values.
   if (std::ofstream config_file(config_path);
       config_file.good()) {
-    config_file << config_json << std::endl;
+    int tab_width =
+        config_json[kGlobalEntryKey.data()][kConfigTabWidthKey.data()];
+
+    config_file << std::setw(tab_width)
+        << config_json
+        << std::endl;
   }
 
   return config_json.at(kMainEntryKey.data());
