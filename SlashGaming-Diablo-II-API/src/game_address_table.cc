@@ -58,6 +58,21 @@
 
 namespace sgd2mapi {
 
+const std::filesystem::path&
+GetTableFilePath(
+    void
+) {
+  const std::filesystem::path& address_table_directory =
+      ConfigParser::GetInstance().address_table_path();
+  std::string_view running_game_version_name = GetRunningGameVersionName();
+
+  std::filesystem::path table_file_path(address_table_directory);
+  table_file_path /= running_game_version_name;
+  table_file_path += u8".txt";
+
+  return table_file_path;
+}
+
 GameAddressTable::GameAddressTable(
     const std::filesystem::path& table_path
 )
@@ -68,16 +83,8 @@ const GameAddressTable&
 GameAddressTable::GetInstance(
     void
 ) {
-  const std::filesystem::path& address_table_directory =
-      ConfigParser::GetInstance().address_table_path();
-  std::string_view running_game_version_name = GetRunningGameVersionName();
-
-  std::filesystem::path table_file(address_table_directory);
-  table_file /= running_game_version_name.data();
-  table_file += u8".txt";
-
   static GameAddressTable instance(
-      table_file
+      GetTableFilePath()
   );
   return instance;
 }
