@@ -39,50 +39,16 @@
 #define SGD2MAPI_GAME_ADDRESS_TABLE_H_
 
 #include <cstdint>
-#include <filesystem>
-#include <string>
 #include <string_view>
-#include <unordered_map>
 
 #include "../include/game_address.h"
 
 namespace sgd2mapi {
 
-class GameAddressTable {
- public:
-  GameAddressTable(
-      const GameAddressTable&
-  ) = delete;
-
-  GameAddressTable(
-      GameAddressTable&&
-  ) = delete;
-
-  GameAddressTable& operator=(
-      const GameAddressTable&
-  ) = delete;
-
-  GameAddressTable& operator=(
-      GameAddressTable&&
-  ) = delete;
-
-  static std::intptr_t
-  GetAddress(
-      std::string_view address_name
-  );
-
- private:
-  std::unordered_map<std::string, std::intptr_t> address_table_;
-
-  explicit GameAddressTable(
-      const std::filesystem::path& table_path
-  );
-
-  static const GameAddressTable&
-  GetInstance(
-      void
-  );
-};
+std::intptr_t
+GetRawAddress(
+    std::string_view address_name
+);
 
 } // namespace sgd2mapi
 

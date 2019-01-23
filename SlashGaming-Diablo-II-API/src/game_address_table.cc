@@ -57,6 +57,7 @@
 #include "../include/game_version.h"
 
 namespace sgd2mapi {
+namespace {
 
 const std::filesystem::path&
 GetTableFilePath(
@@ -64,7 +65,8 @@ GetTableFilePath(
 ) {
   const std::filesystem::path& address_table_directory =
       ConfigParser::GetInstance().address_table_path();
-  std::string_view running_game_version_name = GetRunningGameVersionName();
+  std::string_view running_game_version_name =
+      GetRunningGameVersionName();
 
   std::filesystem::path table_file_path(address_table_directory);
   table_file_path /= running_game_version_name;
@@ -73,28 +75,26 @@ GetTableFilePath(
   return table_file_path;
 }
 
-GameAddressTable::GameAddressTable(
-    const std::filesystem::path& table_path
-)
-    : address_table_(ReadTsvTableFile(table_path)) {
+const std::unordered_map<std::string, std::intptr_t>&
+GetAddressTable() {
+  static std::unordered_map<
+      std::string,
+      std::intptr_t
+  > game_address_table(
+      ReadTsvTableFile(GetTableFilePath())
+  );
+
+  return game_address_table;
 }
 
-const GameAddressTable&
-GameAddressTable::GetInstance(
-    void
-) {
-  static GameAddressTable instance(
-      GetTableFilePath()
-  );
-  return instance;
-}
+} // namespace
 
 std::intptr_t
-GameAddressTable::GetAddress(
+GetRawAddress(
     std::string_view address_name
 ) {
   try {
-    return GetInstance().address_table_.at(address_name.data());
+    return GetAddressTable().at(address_name.data());
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
