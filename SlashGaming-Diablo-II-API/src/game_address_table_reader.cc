@@ -127,13 +127,9 @@ ReadTsvTableFile(
   );
 
   // Open the file and check for it to be valid.
-  std::ifstream address_table_file_stream(
-      table_file_path
-  );
-
-  if (!address_table_file_stream) {
+  if (!std::filesystem::exists(table_file_path)) {
     std::wstring error_message = fmt::sprintf(
-        L"The address table located at %s could not be found.",
+        L"The file %s does not exist.",
         table_file_path
     );
 
@@ -141,6 +137,26 @@ ReadTsvTableFile(
         nullptr,
         error_message.data(),
         L"Could Not Locate Address Table",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
+
+  std::ifstream address_table_file_stream(
+      table_file_path
+  );
+
+  if (!address_table_file_stream) {
+    std::wstring error_message = fmt::sprintf(
+        L"The address table could not be opened.",
+        table_file_path
+    );
+
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Could Not Open Address Table",
         MB_OK | MB_ICONERROR
     );
     std::exit(0);
