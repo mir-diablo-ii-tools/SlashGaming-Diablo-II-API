@@ -72,6 +72,14 @@ constexpr std::string_view kAddressTablePathKey =
     u8"Address Table Directory Path";
 constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
 
+const std::filesystem::path&
+GetConfigPath(
+    void
+) {
+  static std::filesystem::path kConfigPath = u8"SlashGaming-Config.json";
+  return kConfigPath;
+}
+
 void
 AddMissingConfigEntries(
     nlohmann::json& config_json
@@ -192,7 +200,7 @@ ConfigParser&
 ConfigParser::GetInstance(
     void
 ) noexcept {
-  static ConfigParser instance(kConfigPath.data());
+  static ConfigParser instance(GetConfigPath());
   return instance;
 }
 
