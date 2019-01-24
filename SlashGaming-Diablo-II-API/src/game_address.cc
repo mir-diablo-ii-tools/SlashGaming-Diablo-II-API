@@ -80,7 +80,7 @@ ResolveGameAddress(
     const std::filesystem::path& library_path,
     const std::unordered_map<
         enum GameVersion,
-        const GameAddressLocatorInterface&
+        std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators
 ) noexcept {
   enum GameVersion current_version = GetRunningGameVersionId();
@@ -94,7 +94,7 @@ ResolveGameAddress(
 
     std::intptr_t base_address = address_library.base_address();
 
-    return running_address_locator.ResolveGameAddress(base_address);
+    return running_address_locator->ResolveGameAddress(base_address);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
@@ -142,7 +142,7 @@ GameAddress::GameAddress(
     const std::filesystem::path& library_path,
     const std::unordered_map<
         enum GameVersion,
-        const GameAddressLocatorInterface&
+        std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
     : address_(ResolveGameAddress(library_path, address_locators)) {
 }
@@ -151,7 +151,7 @@ GameAddress::GameAddress(
     enum DefaultLibrary library,
     const std::unordered_map<
         enum GameVersion,
-        const GameAddressLocatorInterface&
+        std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
     : GameAddress(
           GameLibrary::GetLibraryPathWithRedirect(library),
