@@ -75,6 +75,13 @@ GameOffset::operator=(
     GameOffset&&
 ) noexcept = default;
 
+GameAddressLocatorInterface*
+GameOffset::Clone(
+    void
+) const {
+  return new GameOffset(*this);
+}
+
 std::intptr_t
 GameOffset::ResolveGameAddress(
     std::intptr_t base_address

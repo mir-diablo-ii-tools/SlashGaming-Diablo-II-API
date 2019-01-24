@@ -91,7 +91,13 @@ class DLLEXPORT GameOrdinal
       GameOrdinal&&
   ) noexcept;
 
-  std::intptr_t ResolveGameAddress(
+  GameAddressLocatorInterface*
+  Clone(
+      void
+  ) const override;
+
+  std::intptr_t
+  ResolveGameAddress(
       std::intptr_t base_address
   ) const noexcept override;
 

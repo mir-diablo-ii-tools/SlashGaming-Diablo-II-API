@@ -80,6 +80,13 @@ GameDecoratedName::operator=(
     GameDecoratedName&&
 ) noexcept = default;
 
+GameAddressLocatorInterface*
+GameDecoratedName::Clone(
+    void
+) const {
+  return new GameDecoratedName(*this);
+}
+
 std::intptr_t
 GameDecoratedName::ResolveGameAddress(
     std::intptr_t base_address

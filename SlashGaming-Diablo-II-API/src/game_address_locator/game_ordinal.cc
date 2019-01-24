@@ -94,6 +94,13 @@ GameOrdinal::operator=(
     GameOrdinal&&
 ) noexcept = default;
 
+GameAddressLocatorInterface*
+GameOrdinal::Clone(
+    void
+) const {
+  return new GameOrdinal(*this);
+}
+
 std::intptr_t
 GameOrdinal::ResolveGameAddress(
     std::intptr_t base_address

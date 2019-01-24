@@ -86,6 +86,11 @@ class DLLEXPORT GameDecoratedName
       GameDecoratedName&&
   ) noexcept;
 
+  GameAddressLocatorInterface*
+  Clone(
+      void
+  ) const override;
+
   std::intptr_t
   ResolveGameAddress(
       std::intptr_t base_address

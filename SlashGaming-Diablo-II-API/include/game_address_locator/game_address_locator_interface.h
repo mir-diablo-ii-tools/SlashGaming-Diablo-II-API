@@ -65,6 +65,14 @@ class DLLEXPORT GameAddressLocatorInterface {
   );
 
   /**
+   * Clones this game address locator and returns a pointer to the clone.
+   */
+  virtual GameAddressLocatorInterface*
+  Clone(
+      void
+  ) const = 0;
+
+  /**
    * Resolves the destination game address, using the provided library base
    * address.
    */
