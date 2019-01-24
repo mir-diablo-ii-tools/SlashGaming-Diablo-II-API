@@ -125,7 +125,7 @@ GameAddress::GameAddress(
     const std::filesystem::path& library_path,
     const GameAddressLocatorInterface& address_locator
 ) noexcept
-    : address_(ResolveGameAddress(library_path, address_locator)) {
+    : raw_address_(ResolveGameAddress(library_path, address_locator)) {
 }
 
 GameAddress::GameAddress(
@@ -144,7 +144,7 @@ GameAddress::GameAddress(
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators) noexcept
-    : address_(ResolveGameAddress(library_path, address_locators)) {
+    : raw_address_(ResolveGameAddress(library_path, address_locators)) {
 }
 
 GameAddress::GameAddress(
@@ -178,10 +178,10 @@ GameAddress::operator=(
 ) noexcept = default;
 
 std::intptr_t
-GameAddress::address(
+GameAddress::raw_address(
     void
 ) const noexcept {
-  return address_;
+  return raw_address_;
 }
 
 } // namespace sgd2mapi
@@ -256,8 +256,8 @@ SGD2MAPI_GameAddress_Destroy(
 }
 
 std::intptr_t
-SGD2MAPI_GameAddress_GetAddress(
+SGD2MAPI_GameAddress_GetRawAddress(
     const struct SGD2MAPI_GameAddress* c_game_address
 ) {
-  return c_game_address->actual_ptr->address();
+  return c_game_address->actual_ptr->raw_address();
 }

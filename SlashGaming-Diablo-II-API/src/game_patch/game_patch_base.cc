@@ -56,9 +56,9 @@ GamePatchBase::GamePatchBase(
     : game_address_(game_address),
       is_patch_applied_(false),
       old_bytes_(
-          reinterpret_cast<std::uint8_t*>(game_address.address()),
+          reinterpret_cast<std::uint8_t*>(game_address.raw_address()),
           reinterpret_cast<std::uint8_t*>(
-              game_address.address()
+              game_address.raw_address()
               + patch_buffer.size()
           )
       ),
@@ -72,9 +72,9 @@ GamePatchBase::GamePatchBase(
     : game_address_(std::move(game_address)),
       is_patch_applied_(false),
       old_bytes_(
-          reinterpret_cast<std::uint8_t*>(game_address_.address()),
+          reinterpret_cast<std::uint8_t*>(game_address_.raw_address()),
           reinterpret_cast<std::uint8_t*>(
-              game_address_.address()
+              game_address_.raw_address()
               + patch_buffer.size()
           )
       ),
@@ -88,9 +88,9 @@ GamePatchBase::GamePatchBase(
     : game_address_(game_address),
       is_patch_applied_(false),
       old_bytes_(
-          reinterpret_cast<std::uint8_t*>(game_address.address()),
+          reinterpret_cast<std::uint8_t*>(game_address.raw_address()),
           reinterpret_cast<std::uint8_t*>(
-              game_address.address()
+              game_address.raw_address()
               + patch_buffer.size()
           )
       ),
@@ -104,9 +104,9 @@ GamePatchBase::GamePatchBase(
     : game_address_(std::move(game_address)),
       is_patch_applied_(false),
       old_bytes_(
-          reinterpret_cast<std::uint8_t*>(game_address_.address()),
+          reinterpret_cast<std::uint8_t*>(game_address_.raw_address()),
           reinterpret_cast<std::uint8_t*>(
-              game_address_.address()
+              game_address_.raw_address()
               + patch_buffer.size()
           )
       ),
@@ -146,7 +146,7 @@ GamePatchBase::Apply(
   }
 
   // Replace the data at the destination with the values in the patch buffer.
-  std::intptr_t address = game_address().address();
+  std::intptr_t address = game_address().raw_address();
   WriteProcessMemory(
       GetCurrentProcess(),
       reinterpret_cast<void*>(address),
@@ -167,7 +167,7 @@ GamePatchBase::Remove(
   }
 
   // Restore the old state of the destination.
-  std::intptr_t address = game_address().address();
+  std::intptr_t address = game_address().raw_address();
   WriteProcessMemory(
       GetCurrentProcess(),
       reinterpret_cast<void*>(address),

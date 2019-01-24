@@ -90,7 +90,7 @@ CreateReplaceBuffer(
     std::wstring error_message = fmt::sprintf(
         L"The patch size specified at address %X is too small to perform a "
         L"branch patch.",
-        game_address.address()
+        game_address.raw_address()
     );
 
     MessageBoxW(
@@ -114,7 +114,7 @@ CreateReplaceBuffer(
 
   // Set the next bytes to the address of the inserted function.
   std::intptr_t func_buffer = func_ptr
-      - game_address.address()
+      - game_address.raw_address()
       - sizeof(std::int8_t)
       - sizeof(func_ptr);
 

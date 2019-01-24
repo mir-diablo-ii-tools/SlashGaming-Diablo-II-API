@@ -131,12 +131,12 @@ class DLLEXPORT GameAddress {
    * Returns the address of this GameAddress.
    */
   std::intptr_t
-  address(
+  raw_address(
       void
   ) const noexcept;
 
  private:
-  std::intptr_t address_;
+  std::intptr_t raw_address_;
 };
 
 } // namespace sgd2mapi
@@ -205,7 +205,7 @@ SGD2MAPI_GameAddress_Destroy(
  * Returns the address value of the game address.
  */
 DLLEXPORT intptr_t
-SGD2MAPI_GameAddress_GetAddress(
+SGD2MAPI_GameAddress_GetRawAddress(
     const struct SGD2MAPI_GameAddress* c_game_address
 );
 
