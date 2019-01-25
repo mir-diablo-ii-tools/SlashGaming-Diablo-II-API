@@ -43,12 +43,14 @@
 #include <charconv>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <regex>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
 #include <fmt/printf.h>
+#include "../include/game_address.h"
 #include "../include/game_address_locator.h"
 #include "../include/game_library.h"
 #include "game_library_table.h"
@@ -65,13 +67,12 @@ constexpr std::string_view kLocatorTypeOffset = u8"Offset";
 constexpr std::string_view kLocatorTypeOrdinal = u8"Ordinal";
 constexpr std::string_view kLocatorTypeDecoratedName = u8"Decorated Name";
 
-std::intptr_t
-ResolveLocatorAndGetAddress(
-    std::intptr_t game_library_base_address,
+std::shared_ptr<GameAddressLocatorInterface>
+ResolveLocator(
     std::string_view locator_type,
     std::string_view locator_value
 ) {
-  std::unique_ptr<GameAddressLocatorInterface> game_address_locator;
+  std::shared_ptr<GameAddressLocatorInterface> game_address_locator;
 
   if (locator_type == kLocatorTypeOffset) {
     int offset = std::stoi(locator_value.data(), 0, 16);
@@ -89,10 +90,10 @@ ResolveLocatorAndGetAddress(
     game_address_locator = std::make_unique<GameDecoratedName>(locator_value);
   }
 
-  return game_address_locator->ResolveGameAddress(game_library_base_address);
+  return game_address_locator;
 }
 
-std::intptr_t
+GameAddress
 ResolveAddress(
     std::string_view library_name,
     std::string_view address_name,
@@ -106,18 +107,22 @@ ResolveAddress(
       GameLibraryTable::GetInstance().GetGameLibrary(library_file_name);
   std::intptr_t game_library_base_address = game_library.base_address();
 
-  std::intptr_t resolved_game_address = ResolveLocatorAndGetAddress(
-      game_library_base_address,
+  std::shared_ptr<
+      GameAddressLocatorInterface
+  > address_locator = ResolveLocator(
       locator_type,
       locator_value
   );
 
-  return resolved_game_address;
+  return GameAddress(
+      game_library.library_path(),
+      std::move(address_locator)
+  );
 }
 
 } // namespace
 
-std::unordered_map<std::string, std::intptr_t>
+std::unordered_map<std::string, GameAddress>
 ReadTsvTableFile(
     const std::filesystem::path& table_file_path
 ) {
@@ -168,7 +173,7 @@ ReadTsvTableFile(
       '\n'
   );
 
-  std::unordered_map<std::string, std::intptr_t> address_table;
+  std::unordered_map<std::string, GameAddress> address_table;
 
   // Read each line.
   for (std::string line; std::getline(address_table_file_stream, line); ) {
@@ -183,7 +188,7 @@ ReadTsvTableFile(
     const std::string& locator_type = matches[3];
     const std::string& locator_value = matches[4];
 
-    std::intptr_t resolved_game_address = ResolveAddress(
+    GameAddress resolved_game_address = ResolveAddress(
         library_name,
         address_name,
         locator_type,

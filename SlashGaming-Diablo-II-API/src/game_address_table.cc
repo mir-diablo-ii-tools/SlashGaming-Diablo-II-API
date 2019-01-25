@@ -75,11 +75,11 @@ GetTableFilePath(
   return table_file_path;
 }
 
-const std::unordered_map<std::string, std::intptr_t>&
+const std::unordered_map<std::string, GameAddress>&
 GetAddressTable() {
   static std::unordered_map<
       std::string,
-      std::intptr_t
+      GameAddress
   > game_address_table(
       ReadTsvTableFile(GetTableFilePath())
   );
@@ -89,8 +89,8 @@ GetAddressTable() {
 
 } // namespace
 
-std::intptr_t
-GetRawAddress(
+const GameAddress&
+GetGameAddress(
     std::string_view address_name
 ) {
   try {
@@ -117,6 +117,13 @@ GetRawAddress(
 
     std::exit(0);
   }
+}
+
+std::intptr_t
+GetRawAddress(
+    std::string_view address_name
+) {
+  return GetGameAddress(address_name).raw_address();
 }
 
 } // namespace sgd2mapi

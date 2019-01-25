@@ -45,6 +45,11 @@
 
 namespace sgd2mapi {
 
+const GameAddress&
+GetGameAddress(
+    std::string_view address_name
+);
+
 std::intptr_t
 GetRawAddress(
     std::string_view address_name

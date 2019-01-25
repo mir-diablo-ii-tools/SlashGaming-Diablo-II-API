@@ -43,9 +43,11 @@
 #include <string>
 #include <unordered_map>
 
+#include "../include/game_address.h"
+
 namespace sgd2mapi {
 
-std::unordered_map<std::string, std::intptr_t>
+std::unordered_map<std::string, GameAddress>
 ReadTsvTableFile(
     const std::filesystem::path& file_path
 );
