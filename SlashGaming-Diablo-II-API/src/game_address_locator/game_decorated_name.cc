@@ -53,6 +53,24 @@
 namespace sgd2mapi {
 
 GameDecoratedName::GameDecoratedName(
+    const char decorated_name[]
+)
+    : decorated_name_(decorated_name) {
+}
+
+GameDecoratedName::GameDecoratedName(
+    const std::string& decorated_name
+)
+    : decorated_name_(decorated_name) {
+}
+
+GameDecoratedName::GameDecoratedName(
+    std::string&& decorated_name
+)
+    : decorated_name_(std::move(decorated_name)) {
+}
+
+GameDecoratedName::GameDecoratedName(
     std::string_view decorated_name
 )
     : decorated_name_(decorated_name.data()) {

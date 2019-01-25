@@ -61,7 +61,32 @@ class DLLEXPORT GameDecoratedName
     : public GameAddressLocatorInterface {
  public:
   /**
-   * Creates a new instance of GameDecoratedName.
+   * Creates a new instance of GameDecoratedName using a null-terminated array
+   * encoded in 7-bit ASCII.
+   */
+  explicit GameDecoratedName(
+      const char decorated_name[]
+  );
+
+  /**
+   * Creates a new instance of GameDecoratedName using a string encoded in
+   * 7-bit ASCII.
+   */
+  explicit GameDecoratedName(
+      const std::string& decorated_name
+  );
+
+  /**
+   * Creates a new instance of GameDecoratedName using a string encoded in
+   * 7-bit ASCII.
+   */
+  explicit GameDecoratedName(
+      std::string&& decorated_name
+  );
+
+  /**
+   * Creates a new instance of GameDecoratedName using a string view
+   * encoded in 7-bit ASCII.
    */
   explicit GameDecoratedName(
       std::string_view decorated_name
