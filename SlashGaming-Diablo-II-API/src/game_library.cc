@@ -62,11 +62,6 @@ constexpr std::wstring_view kFunctionFailErrorFormat =
     L"Line: %d \n"
     L"The function %s failed with error code %x.";
 
-/**
- * The executable used to run the game.
- */
-const std::filesystem::path kGameExecutable = u8"Game.exe";
-
 const DefaultLibraryAndLibraryPathBimap&
 GetDefaultLibraryAndLibraryPathBimap(
     void
@@ -179,6 +174,32 @@ GameLibrary::operator=(
     GameLibrary&&
 ) noexcept = default;
 
+std::intptr_t
+GameLibrary::base_address(
+    void
+) const noexcept {
+  return base_address_;
+}
+
+const std::filesystem::path&
+GameLibrary::library_path(
+    void
+) const noexcept {
+  return library_path_;
+}
+
+const std::filesystem::path&
+GetGameExecutable(
+    void
+) {
+  /**
+   * The executable used to run the game.
+   */
+  const std::filesystem::path kGameExecutable = u8"Game.exe";
+
+  return kGameExecutable;
+}
+
 const std::filesystem::path&
 GetLibraryPathWithRedirect(
     enum DefaultLibrary library
@@ -212,27 +233,6 @@ GetLibraryPathWithRedirect(
 
     std::exit(0);
   }
-}
-
-std::intptr_t
-GameLibrary::base_address(
-    void
-) const noexcept {
-  return base_address_;
-}
-
-const std::filesystem::path&
-GameLibrary::library_path(
-    void
-) const noexcept {
-  return library_path_;
-}
-
-const std::filesystem::path&
-GetGameExecutable(
-    void
-) {
-  return kGameExecutable;
 }
 
 } // namespace sgd2mapi
