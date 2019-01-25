@@ -77,12 +77,48 @@ class DLLEXPORT GameAddress {
   );
 
   /**
+   * Create a new instance of GameAddress, specifying the library path and a
+   * game address locator.
+   */
+  GameAddress(
+      std::filesystem::path&& library_path,
+      const GameAddressLocatorInterface& address_locator
+  );
+
+  /**
+   * Create a new instance of GameAddress, specifying the library path and a
+   * game address locator.
+   */
+  GameAddress(
+      const std::filesystem::path& library_path,
+      std::shared_ptr<GameAddressLocatorInterface> address_locator
+  );
+
+  /**
+   * Create a new instance of GameAddress, specifying the library path and a
+   * game address locator.
+   */
+  GameAddress(
+      std::filesystem::path&& library_path,
+      std::shared_ptr<GameAddressLocatorInterface> address_locator
+  );
+
+  /**
    * Create a new instance of GameAddress, specifying the library ID and a
    * game address locator.
    */
   GameAddress(
       enum DefaultLibrary library,
       const GameAddressLocatorInterface& address_locator
+  );
+
+  /**
+   * Create a new instance of GameAddress, specifying the library ID and a
+   * game address locator.
+   */
+  GameAddress(
+      enum DefaultLibrary library,
+      std::shared_ptr<GameAddressLocatorInterface> address_locator
   );
 
   /**
@@ -98,6 +134,18 @@ class DLLEXPORT GameAddress {
   );
 
   /**
+   * Create a new instance of GameAddress, specifying the library path and a
+   * version to game address locator map.
+   */
+  GameAddress(
+      std::filesystem::path&& library_path,
+      const std::unordered_map<
+          enum GameVersion,
+          std::shared_ptr<GameAddressLocatorInterface>
+      >& address_locators
+  );
+
+  /**
    * Create a new instance of GameAddress, specifying the library ID and a
    * game address locator.
    */
@@ -128,6 +176,22 @@ class DLLEXPORT GameAddress {
   ) noexcept;
 
   /**
+   * Returns the library path of this GameAddress.
+   */
+  const std::filesystem::path&
+  library_path(
+      void
+  ) const noexcept;
+
+  /**
+   * Returns the address locator of this GameAddress.
+   */
+  const std::shared_ptr<GameAddressLocatorInterface>&
+  address_locator(
+      void
+  ) const noexcept;
+
+  /**
    * Returns the address of this GameAddress.
    */
   std::intptr_t
@@ -136,6 +200,8 @@ class DLLEXPORT GameAddress {
   ) const noexcept;
 
  private:
+  std::filesystem::path library_path_;
+  std::shared_ptr<GameAddressLocatorInterface> address_locator_;
   std::intptr_t raw_address_;
 };
 
