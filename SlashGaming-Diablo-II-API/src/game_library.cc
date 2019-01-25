@@ -149,6 +149,13 @@ GameLibrary::GameLibrary(
 }
 
 GameLibrary::GameLibrary(
+    std::filesystem::path&& library_path
+)
+    : library_path_(std::move(library_path)),
+      base_address_(GetLibraryBaseAddress(library_path_)) {
+}
+
+GameLibrary::GameLibrary(
     const GameLibrary&
 ) = default;
 
