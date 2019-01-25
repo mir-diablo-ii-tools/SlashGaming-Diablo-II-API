@@ -76,7 +76,9 @@ GetTableFilePath(
 }
 
 const std::unordered_map<std::string, GameAddress>&
-GetAddressTable() {
+GetAddressTable(
+    void
+) {
   static std::unordered_map<
       std::string,
       GameAddress
