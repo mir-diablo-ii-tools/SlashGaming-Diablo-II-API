@@ -67,11 +67,11 @@ class DLLEXPORT GameOrdinal
    */
   explicit GameOrdinal(
       int ordinal
-  ) noexcept;
+  );
 
   GameOrdinal(
       const GameOrdinal& rhs
-  ) noexcept;
+  );
 
   GameOrdinal(
       GameOrdinal&& rhs
@@ -79,12 +79,12 @@ class DLLEXPORT GameOrdinal
 
   ~GameOrdinal(
       void
-  ) noexcept override;
+  ) override;
 
   GameOrdinal&
   operator=(
       const GameOrdinal&
-  ) noexcept;
+  );
 
   GameOrdinal&
   operator=(
@@ -99,10 +99,10 @@ class DLLEXPORT GameOrdinal
   std::intptr_t
   ResolveGameAddress(
       std::intptr_t base_address
-  ) const noexcept override;
+  ) const override;
 
   /**
-   * Returns the ordinal value of this game ordinal.
+   * Returns the ordinal value of this GameOrdinal.
    */
   int ordinal(
       void

@@ -83,7 +83,7 @@ GetConfigPath(
 void
 AddMissingConfigEntries(
     nlohmann::json& config_json
-) noexcept {
+) {
   auto& global_entry = config_json[kGlobalEntryKey.data()];
   if (!global_entry.is_object()) {
     global_entry = {};
@@ -154,7 +154,7 @@ AddMissingConfigEntries(
 nlohmann::json
 ParseConfig(
     const std::filesystem::path& config_path
-) noexcept {
+) {
   // Create the config file if it doesn't exist.
   if (!std::filesystem::exists(config_path)) {
     std::ofstream config_file(config_path);
@@ -189,7 +189,7 @@ ParseConfig(
 
 ConfigParser::ConfigParser(
     const std::filesystem::path& config_path
-) noexcept
+)
     : config_path_(config_path) {
   nlohmann::json main_entry = ParseConfig(config_path);
   address_table_path_ =
@@ -199,7 +199,7 @@ ConfigParser::ConfigParser(
 ConfigParser&
 ConfigParser::GetInstance(
     void
-) noexcept {
+) {
   static ConfigParser instance(GetConfigPath());
   return instance;
 }

@@ -178,7 +178,7 @@ GetGameVersionAndStringBimap(
 
 std::string ExtractFileVersionString(
     const std::filesystem::path& file_path
-) noexcept {
+) {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.
   std::wstring file_path_text_wide = file_path.wstring();
@@ -316,7 +316,7 @@ GetGameVersionByFileVersion(
 enum GameVersion
 DetermineRunningGameVersion(
     void
-) noexcept {
+) {
   // TODO(Mir Drualga): Figure out how to get versions 1.06(B) and 1.14+
   // classic detection.
   std::string game_version_string = ExtractFileVersionString(
@@ -360,7 +360,7 @@ class RunningGameVersion {
   static RunningGameVersion&
   GetInstance(
       void
-  ) noexcept {
+  ) {
     static RunningGameVersion instance;
     return instance;
   }
@@ -388,7 +388,7 @@ class RunningGameVersion {
 
   RunningGameVersion(
       void
-  ) noexcept
+  )
     : game_version_id_(DetermineRunningGameVersion()),
       game_version_name_(GetGameVersionName(game_version_id())) {
   }
@@ -399,7 +399,7 @@ class RunningGameVersion {
 enum GameVersion
 GetGameVersionId(
     std::string_view game_version_name
-) noexcept {
+) {
   try {
     return GetGameVersionAndStringBimap().right.at(game_version_name);
   } catch (const std::out_of_range& e) {
@@ -429,7 +429,7 @@ GetGameVersionId(
 std::string_view
 GetGameVersionName(
     enum GameVersion game_version
-) noexcept {
+) {
   try {
     return GetGameVersionAndStringBimap().left.at(game_version);
   } catch (const std::out_of_range& e) {
@@ -460,21 +460,21 @@ GetGameVersionName(
 enum GameVersion
 GetRunningGameVersionId(
     void
-) noexcept {
+) {
   return RunningGameVersion::GetInstance().game_version_id();
 }
 
 std::string_view
 GetRunningGameVersionName(
     void
-) noexcept {
+) {
   return RunningGameVersion::GetInstance().game_version_name();
 }
 
 bool
 IsGameVersionAtLeast1_14(
     enum GameVersion game_version
-) noexcept {
+) {
   return !(game_version >= GameVersion::k1_00
                && game_version <= GameVersion::k1_13D);
 }
@@ -482,7 +482,7 @@ IsGameVersionAtLeast1_14(
 bool
 IsRunningGameVersionAtLeast1_14(
     void
-) noexcept {
+) {
   return IsGameVersionAtLeast1_14(
       RunningGameVersion::GetInstance().game_version_id()
   );

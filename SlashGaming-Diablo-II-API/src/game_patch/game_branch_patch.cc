@@ -55,7 +55,6 @@
 #include "c/game_patch_base.h"
 
 namespace sgd2mapi {
-
 namespace {
 
 using BranchTypeAndOpcodeMapType = std::unordered_map<

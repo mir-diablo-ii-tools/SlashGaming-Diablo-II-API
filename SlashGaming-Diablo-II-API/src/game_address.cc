@@ -61,7 +61,7 @@ std::intptr_t
 ResolveGameAddress(
     const std::filesystem::path& library_path,
     const GameAddressLocatorInterface& address_locator
-) noexcept {
+) {
 
   // Figure out which game library is specified.
   const GameLibrary& address_library =
@@ -82,7 +82,7 @@ ResolveGameAddress(
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators
-) noexcept {
+) {
   enum GameVersion current_version = GetRunningGameVersionId();
 
   const GameLibrary& address_library =
@@ -124,14 +124,14 @@ ResolveGameAddress(
 GameAddress::GameAddress(
     const std::filesystem::path& library_path,
     const GameAddressLocatorInterface& address_locator
-) noexcept
+)
     : raw_address_(ResolveGameAddress(library_path, address_locator)) {
 }
 
 GameAddress::GameAddress(
     enum DefaultLibrary library,
     const GameAddressLocatorInterface& address_locator
-) noexcept
+)
     : GameAddress(
           GameLibrary::GetLibraryPathWithRedirect(library),
           address_locator
@@ -144,7 +144,7 @@ GameAddress::GameAddress(
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators
-) noexcept
+)
     : raw_address_(ResolveGameAddress(library_path, address_locators)) {
 }
 
@@ -154,7 +154,7 @@ GameAddress::GameAddress(
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
     >& address_locators
-) noexcept
+)
     : GameAddress(
           GameLibrary::GetLibraryPathWithRedirect(library),
           address_locators
@@ -163,7 +163,7 @@ GameAddress::GameAddress(
 
 GameAddress::GameAddress(
     const GameAddress&
-) noexcept = default;
+) = default;
 
 GameAddress::GameAddress(
     GameAddress&&
@@ -172,7 +172,7 @@ GameAddress::GameAddress(
 GameAddress&
 GameAddress::operator=(
     const GameAddress&
-) noexcept = default;
+) = default;
 
 GameAddress&
 GameAddress::operator=(

@@ -75,12 +75,12 @@ class GameLibraryTable {
   const GameLibrary&
   GetGameLibrary(
       enum DefaultLibrary library
-  ) noexcept;
+  );
 
   const GameLibrary&
   GetGameLibrary(
       const std::filesystem::path& library_path
-  ) noexcept;
+  );
 
  private:
   std::map<std::filesystem::path, GameLibrary> libraries_;

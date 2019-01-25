@@ -84,7 +84,7 @@ class DLLEXPORT GameLibrary {
    */
   explicit GameLibrary(
       std::filesystem::path&& library_path
-  ) noexcept;
+  );
 
   GameLibrary(
       const GameLibrary&
@@ -97,7 +97,7 @@ class DLLEXPORT GameLibrary {
   virtual
   ~GameLibrary(
       void
-  ) noexcept;
+  );
 
   GameLibrary&
   operator=(
@@ -112,7 +112,7 @@ class DLLEXPORT GameLibrary {
   static const std::filesystem::path&
   GetLibraryPathWithRedirect(
       enum DefaultLibrary library
-  ) noexcept;
+  );
 
   /**
    * Returns the base address value of this GameLibrary.

@@ -66,7 +66,7 @@ class ConfigParser {
   static ConfigParser&
   GetInstance(
       void
-  ) noexcept;
+  );
 
   const std::filesystem::path&
   config_path(
@@ -81,7 +81,7 @@ class ConfigParser {
  private:
   ConfigParser(
       const std::filesystem::path& config_path
-  ) noexcept;
+  );
 
   std::filesystem::path config_path_;
   std::filesystem::path address_table_path_;

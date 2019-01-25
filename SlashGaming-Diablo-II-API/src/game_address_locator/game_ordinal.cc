@@ -54,7 +54,7 @@ namespace sgd2mapi {
 
 GameOrdinal::GameOrdinal(
     int ordinal
-) noexcept
+)
     : ordinal_(ordinal) {
   if ((ordinal & 0xFFFF) != ordinal) {
     std::wstring error_message = fmt::sprintf(
@@ -74,7 +74,7 @@ GameOrdinal::GameOrdinal(
 
 GameOrdinal::GameOrdinal(
     const GameOrdinal&
-) noexcept = default;
+) = default;
 
 GameOrdinal::GameOrdinal(
     GameOrdinal&&
@@ -82,12 +82,12 @@ GameOrdinal::GameOrdinal(
 
 GameOrdinal::~GameOrdinal(
     void
-) noexcept = default;
+) = default;
 
 GameOrdinal&
 GameOrdinal::operator=(
     const GameOrdinal&
-) noexcept = default;
+) = default;
 
 GameOrdinal&
 GameOrdinal::operator=(
@@ -104,7 +104,7 @@ GameOrdinal::Clone(
 std::intptr_t
 GameOrdinal::ResolveGameAddress(
     std::intptr_t base_address
-) const noexcept {
+) const {
   HMODULE library_handle = reinterpret_cast<HMODULE>(base_address);
   const CHAR* func_ordinal = reinterpret_cast<const CHAR*>(ordinal());
 

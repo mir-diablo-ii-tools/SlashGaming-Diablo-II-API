@@ -67,7 +67,7 @@ enum class GameVersion;
 DLLEXPORT enum GameVersion
 GetGameVersionId(
     std::string_view game_version_name
-) noexcept;
+);
 
 /**
  * Returns a view to the string associated with the specified game version.
@@ -75,7 +75,7 @@ GetGameVersionId(
 DLLEXPORT std::string_view
 GetGameVersionName(
     enum GameVersion game_version
-) noexcept;
+);
 
 /**
  * Returns the identifier of the running game version.
@@ -83,7 +83,7 @@ GetGameVersionName(
 DLLEXPORT enum GameVersion
 GetRunningGameVersionId(
     void
-) noexcept;
+);
 
 /**
  * Returns a view to the string associated with the running game version.
@@ -91,7 +91,7 @@ GetRunningGameVersionId(
 DLLEXPORT std::string_view
 GetRunningGameVersionName(
     void
-) noexcept;
+);
 
 /**
  * Returns whether the specified game version is at least 1.14.
@@ -99,7 +99,7 @@ GetRunningGameVersionName(
 DLLEXPORT bool
 IsGameVersionAtLeast1_14(
     enum GameVersion game_version
-) noexcept;
+);
 
 /**
  * Returns whether the running game version is at least 1.14.
@@ -107,7 +107,7 @@ IsGameVersionAtLeast1_14(
 DLLEXPORT bool
 IsRunningGameVersionAtLeast1_14(
     void
-) noexcept;
+);
 
 } // namespace sgd2mapi
 #endif // __cplusplus

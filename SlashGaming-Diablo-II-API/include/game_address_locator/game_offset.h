@@ -69,11 +69,11 @@ class DLLEXPORT GameOffset
    */
   explicit GameOffset(
       std::intptr_t offset
-  ) noexcept;
+  );
 
   GameOffset(
       const GameOffset&
-  ) noexcept;
+  );
 
   GameOffset(
       GameOffset&&
@@ -81,12 +81,12 @@ class DLLEXPORT GameOffset
 
   ~GameOffset(
       void
-  ) noexcept override;
+  ) override;
 
   GameOffset&
   operator=(
       const GameOffset&
-  ) noexcept;
+  );
 
   GameOffset&
   operator=(
@@ -101,10 +101,10 @@ class DLLEXPORT GameOffset
   std::intptr_t
   ResolveGameAddress(
       std::intptr_t base_address
-  ) const noexcept override;
+  ) const override;
 
   /**
-   * Returns the offset of this game locator.
+   * Returns the offset of this GameOffset.
    */
   std::intptr_t
   offset(

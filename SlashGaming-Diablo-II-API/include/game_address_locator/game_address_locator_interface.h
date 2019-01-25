@@ -79,7 +79,7 @@ class DLLEXPORT GameAddressLocatorInterface {
   virtual std::intptr_t
   ResolveGameAddress(
       std::intptr_t base_address
-  ) const noexcept = 0;
+  ) const = 0;
 };
 
 } // namespace sgd2mapi

@@ -67,7 +67,7 @@ class DLLEXPORT GamePatchBase {
   virtual
   ~GamePatchBase(
       void
-  ) noexcept;
+  );
 
   /**
    * Applies the patch by replacing the bytes at its target address with the

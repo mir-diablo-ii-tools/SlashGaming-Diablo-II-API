@@ -90,7 +90,7 @@ GameDecoratedName::Clone(
 std::intptr_t
 GameDecoratedName::ResolveGameAddress(
     std::intptr_t base_address
-) const noexcept {
+) const {
   HMODULE library_handle = reinterpret_cast<HMODULE>(base_address);
   const CHAR* c_decorated_name = decorated_name().data();
 
@@ -114,11 +114,11 @@ GameDecoratedName::ResolveGameAddress(
   return reinterpret_cast<std::intptr_t>(func_address);
 }
 
-std::string_view
+const std::string&
 GameDecoratedName::decorated_name(
     void
-) const {
-  return decorated_name_.data();
+) const noexcept {
+  return decorated_name_;
 }
 
 } // namespace sgd2mapi

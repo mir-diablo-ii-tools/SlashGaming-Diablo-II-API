@@ -108,7 +108,7 @@ GetDefaultLibraryAndLibraryPathBimap(
 std::intptr_t
 GetLibraryBaseAddress(
     const std::filesystem::path& library_path
-) noexcept {
+) {
   std::wstring library_path_text_wide = library_path.wstring();
 
   HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
@@ -158,7 +158,7 @@ GameLibrary::GameLibrary(
 
 GameLibrary::~GameLibrary(
     void
-) noexcept {
+) {
   FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
 }
 
@@ -175,7 +175,7 @@ GameLibrary::operator=(
 const std::filesystem::path&
 GameLibrary::GetLibraryPathWithRedirect(
     enum DefaultLibrary library
-) noexcept {
+) {
   // Redirect if the game version is 1.14 or higher.
   if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
     return GetGameExecutable();

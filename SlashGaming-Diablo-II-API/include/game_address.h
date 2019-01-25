@@ -74,7 +74,7 @@ class DLLEXPORT GameAddress {
   GameAddress(
       const std::filesystem::path& library_path,
       const GameAddressLocatorInterface& address_locator
-  ) noexcept;
+  );
 
   /**
    * Create a new instance of GameAddress, specifying the library ID and a
@@ -83,7 +83,7 @@ class DLLEXPORT GameAddress {
   GameAddress(
       enum DefaultLibrary library,
       const GameAddressLocatorInterface& address_locator
-  ) noexcept;
+  );
 
   /**
    * Create a new instance of GameAddress, specifying the library path and a
@@ -95,7 +95,7 @@ class DLLEXPORT GameAddress {
           enum GameVersion,
           std::shared_ptr<GameAddressLocatorInterface>
       >& address_locators
-  ) noexcept;
+  );
 
   /**
    * Create a new instance of GameAddress, specifying the library ID and a
@@ -107,11 +107,11 @@ class DLLEXPORT GameAddress {
           enum GameVersion,
           std::shared_ptr<GameAddressLocatorInterface>
       >& address_locators
-  ) noexcept;
+  );
 
   GameAddress(
       const GameAddress&
-  ) noexcept;
+  );
 
   GameAddress(
       GameAddress&&
@@ -120,7 +120,7 @@ class DLLEXPORT GameAddress {
   GameAddress&
   operator=(
       const GameAddress&
-  ) noexcept;
+  );
 
   GameAddress&
   operator=(

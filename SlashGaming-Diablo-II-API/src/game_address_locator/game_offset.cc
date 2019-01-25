@@ -49,13 +49,13 @@ namespace sgd2mapi {
 
 GameOffset::GameOffset(
     std::intptr_t offset
-) noexcept
+)
     : offset_(offset) {
 }
 
 GameOffset::GameOffset(
     const GameOffset&
-) noexcept = default;
+) = default;
 
 GameOffset::GameOffset(
     GameOffset&&
@@ -63,12 +63,12 @@ GameOffset::GameOffset(
 
 GameOffset::~GameOffset(
     void
-) noexcept = default;
+) = default;
 
 GameOffset&
 GameOffset::operator=(
     const GameOffset&
-) noexcept = default;
+) = default;
 
 GameOffset&
 GameOffset::operator=(
@@ -85,7 +85,7 @@ GameOffset::Clone(
 std::intptr_t
 GameOffset::ResolveGameAddress(
     std::intptr_t base_address
-) const noexcept {
+) const {
   return base_address + offset();
 }
 

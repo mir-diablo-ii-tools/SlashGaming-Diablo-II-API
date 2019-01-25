@@ -123,7 +123,7 @@ GamePatchBase::GamePatchBase(
 
 GamePatchBase::~GamePatchBase(
     void
-) noexcept {
+) {
   Remove();
 }
 

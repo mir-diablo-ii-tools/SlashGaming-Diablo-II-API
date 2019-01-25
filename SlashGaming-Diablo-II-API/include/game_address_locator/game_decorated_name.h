@@ -60,6 +60,9 @@ namespace sgd2mapi {
 class DLLEXPORT GameDecoratedName
     : public GameAddressLocatorInterface {
  public:
+  /**
+   * Creates a new instance of GameDecoratedName.
+   */
   explicit GameDecoratedName(
       std::string_view decorated_name
   );
@@ -94,12 +97,16 @@ class DLLEXPORT GameDecoratedName
   std::intptr_t
   ResolveGameAddress(
       std::intptr_t base_address
-  ) const noexcept override;
+  ) const override;
 
-  std::string_view
+  /**
+   * Returns the decorated name of this GameDecoratedName, represented with
+   * a string encoded in 7-bit ASCII.
+   */
+  const std::string&
   decorated_name(
       void
-  ) const;
+  ) const noexcept;
 
  private:
   std::string decorated_name_;

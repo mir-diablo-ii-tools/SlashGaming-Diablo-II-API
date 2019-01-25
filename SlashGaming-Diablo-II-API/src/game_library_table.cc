@@ -56,7 +56,7 @@ GameLibraryTable::GameLibraryTable(
 const GameLibrary&
 GameLibraryTable::GetGameLibrary(
     const std::filesystem::path& library_path
-) noexcept {
+) {
   try {
     return libraries_.at(library_path);
   } catch (const std::out_of_range& e) {
@@ -86,7 +86,7 @@ GameLibraryTable::GetGameLibrary(
 const GameLibrary&
 GameLibraryTable::GetGameLibrary(
     enum DefaultLibrary library
-) noexcept {
+) {
   const std::filesystem::path& library_path =
       GameLibrary::GetLibraryPathWithRedirect(
           library
