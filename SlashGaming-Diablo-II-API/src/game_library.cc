@@ -173,7 +173,7 @@ GameLibrary::operator=(
 ) noexcept = default;
 
 const std::filesystem::path&
-GameLibrary::GetLibraryPathWithRedirect(
+GetLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.

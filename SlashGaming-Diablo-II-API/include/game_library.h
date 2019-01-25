@@ -109,11 +109,6 @@ class DLLEXPORT GameLibrary {
       GameLibrary&&
   ) noexcept;
 
-  static const std::filesystem::path&
-  GetLibraryPathWithRedirect(
-      enum DefaultLibrary library
-  );
-
   /**
    * Returns the base address value of this GameLibrary.
    */
@@ -138,6 +133,11 @@ class DLLEXPORT GameLibrary {
 const std::filesystem::path&
 GetGameExecutable(
     void
+);
+
+const std::filesystem::path&
+GetLibraryPathWithRedirect(
+    enum DefaultLibrary library
 );
 
 } // namespace sgd2mapi

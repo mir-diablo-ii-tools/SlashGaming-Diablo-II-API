@@ -88,7 +88,7 @@ GameLibraryTable::GetGameLibrary(
     enum DefaultLibrary library
 ) {
   const std::filesystem::path& library_path =
-      GameLibrary::GetLibraryPathWithRedirect(
+      GetLibraryPathWithRedirect(
           library
       );
   return GetGameLibrary(library_path);
