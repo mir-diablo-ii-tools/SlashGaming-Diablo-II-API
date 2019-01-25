@@ -51,7 +51,8 @@ GameAddressLocatorInterface::~GameAddressLocatorInterface(
  * C Interface
  */
 
-void SGD2MAPI_GameAddressLocatorInterface_Destroy(
+void
+SGD2MAPI_GameAddressLocatorInterface_Destroy(
     struct SGD2MAPI_GameAddressLocatorInterface*
         c_game_address_locator_interface
 ) {

@@ -143,7 +143,8 @@ GameAddress::GameAddress(
     const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators) noexcept
+    >& address_locators
+) noexcept
     : raw_address_(ResolveGameAddress(library_path, address_locators)) {
 }
 
@@ -152,7 +153,8 @@ GameAddress::GameAddress(
     const std::unordered_map<
         enum GameVersion,
         std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators) noexcept
+    >& address_locators
+) noexcept
     : GameAddress(
           GameLibrary::GetLibraryPathWithRedirect(library),
           address_locators
