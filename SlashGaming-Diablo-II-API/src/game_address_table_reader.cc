@@ -103,8 +103,7 @@ ResolveAddress(
   std::string library_file_name = library_name.data();
   library_file_name += u8".dll";
 
-  const GameLibrary& game_library =
-      GameLibraryTable::GetInstance().GetGameLibrary(library_file_name);
+  const GameLibrary& game_library = GetGameLibrary(library_file_name);
   std::intptr_t game_library_base_address = game_library.base_address();
 
   std::shared_ptr<

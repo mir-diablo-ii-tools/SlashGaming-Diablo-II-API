@@ -48,17 +48,25 @@
 #include "../include/game_library.h"
 
 namespace sgd2mapi {
+namespace {
 
-GameLibraryTable::GameLibraryTable(
+std::map<std::filesystem::path, GameLibrary>&
+GetLibrariesByPaths(
     void
-) = default;
+) {
+  static std::map<std::filesystem::path, GameLibrary> libraries_by_paths;
+  return libraries_by_paths;
+}
+
+} // namespace
+
 
 const GameLibrary&
-GameLibraryTable::GetGameLibrary(
+GetGameLibrary(
     const std::filesystem::path& library_path
 ) {
   try {
-    return libraries_.at(library_path);
+    return GetLibrariesByPaths().at(library_path);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
@@ -84,7 +92,7 @@ GameLibraryTable::GetGameLibrary(
 }
 
 const GameLibrary&
-GameLibraryTable::GetGameLibrary(
+GetGameLibrary(
     enum DefaultLibrary library
 ) {
   const std::filesystem::path& library_path =
@@ -92,14 +100,6 @@ GameLibraryTable::GetGameLibrary(
           library
       );
   return GetGameLibrary(library_path);
-}
-
-GameLibraryTable&
-GameLibraryTable::GetInstance(
-    void
-) {
-  static GameLibraryTable instance;
-  return instance;
 }
 
 } // namespace sgd2mapi

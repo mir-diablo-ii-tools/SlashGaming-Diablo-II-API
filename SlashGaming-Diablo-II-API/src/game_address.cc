@@ -64,8 +64,7 @@ ResolveRawAddress(
 ) {
 
   // Figure out which game library is specified.
-  const GameLibrary& address_library =
-      GameLibraryTable::GetInstance().GetGameLibrary(library_path);
+  const GameLibrary& address_library = GetGameLibrary(library_path);
 
   // Calculate the resolved address
   std::intptr_t base_address = address_library.base_address();
@@ -85,8 +84,7 @@ ResolveGameAddressLocator(
 ) {
   enum GameVersion current_version = GetRunningGameVersionId();
 
-  const GameLibrary& address_library =
-      GameLibraryTable::GetInstance().GetGameLibrary(library_path);
+  const GameLibrary& address_library = GetGameLibrary(library_path);
 
   try {
     return address_locators.at(current_version);

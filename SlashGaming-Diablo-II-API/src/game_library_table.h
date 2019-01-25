@@ -47,48 +47,15 @@
 
 namespace sgd2mapi {
 
-class GameLibraryTable {
- public:
-  GameLibraryTable(
-      const GameLibraryTable& rhs
-  ) = delete;
+const GameLibrary&
+GetGameLibrary(
+    enum DefaultLibrary library
+);
 
-  GameLibraryTable(
-      GameLibraryTable&& rhs
-  ) = delete;
-
-  GameLibraryTable
-  operator=(
-      const GameLibraryTable& rhs
-  ) = delete;
-
-  GameLibraryTable
-  operator=(
-      GameLibraryTable&& rhs
-  ) = delete;
-
-  static GameLibraryTable&
-  GetInstance(
-      void
-  );
-
-  const GameLibrary&
-  GetGameLibrary(
-      enum DefaultLibrary library
-  );
-
-  const GameLibrary&
-  GetGameLibrary(
-      const std::filesystem::path& library_path
-  );
-
- private:
-  std::map<std::filesystem::path, GameLibrary> libraries_;
-
-  GameLibraryTable(
-      void
-  );
-};
+const GameLibrary&
+GetGameLibrary(
+    const std::filesystem::path& library_path
+);
 
 } // namespace sgd2mapi
 
