@@ -36,3 +36,171 @@
  */
 
 #include "game_library.h"
+
+#include <windows.h>
+#include <cstdint>
+#include <filesystem>
+#include <map>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+
+#include <fmt/format.h>
+#include <fmt/printf.h>
+
+namespace sgd2mapi {
+namespace {
+
+constexpr std::wstring_view kFunctionFailErrorFormat =
+    L"File: %s \n"
+    L"Line: %d \n"
+    L"The function %s failed with error code %x.";
+
+std::intptr_t
+GetLibraryBaseAddress(
+    const std::filesystem::path& library_path
+) {
+  std::wstring library_path_text_wide = library_path.wstring();
+
+  HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
+  if (base_address == nullptr) {
+    std::wstring full_message = fmt::sprintf(
+        kFunctionFailErrorFormat,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        L"LoadLibraryW"
+    );
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"LoadLibraryW Failed",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
+
+  return reinterpret_cast<std::intptr_t>(base_address);
+}
+
+std::map<std::filesystem::path, GameLibrary>&
+GetLibrariesByPaths(
+    void
+) {
+  static std::map<std::filesystem::path, GameLibrary> libraries_by_paths;
+  return libraries_by_paths;
+}
+
+} // namespace
+
+GameLibrary::GameLibrary(
+  enum DefaultLibrary library
+)
+  : GameLibrary(GetDefaultLibraryPathWithRedirect(library)) {
+}
+
+GameLibrary::GameLibrary(
+  const std::filesystem::path& library_path
+)
+  : library_path_(library_path),
+  base_address_(GetLibraryBaseAddress(library_path)) {
+}
+
+GameLibrary::GameLibrary(
+  std::filesystem::path&& library_path
+)
+  : library_path_(std::move(library_path)),
+  base_address_(GetLibraryBaseAddress(library_path_)) {
+}
+
+GameLibrary::GameLibrary(
+  const GameLibrary&
+) = default;
+
+GameLibrary::GameLibrary(
+  GameLibrary&&
+) noexcept = default;
+
+GameLibrary::~GameLibrary(
+  void
+) {
+  FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
+}
+
+GameLibrary&
+GameLibrary::operator=(
+  const GameLibrary&
+  ) = default;
+
+GameLibrary&
+GameLibrary::operator=(
+  GameLibrary&&
+  ) noexcept = default;
+
+std::intptr_t
+GameLibrary::base_address(
+  void
+) const noexcept {
+  return base_address_;
+}
+
+const std::filesystem::path&
+GameLibrary::library_path(
+  void
+) const noexcept {
+  return library_path_;
+}
+
+const GameLibrary&
+GetGameLibrary(
+    const std::filesystem::path& library_path
+) {
+  std::map<std::filesystem::path, GameLibrary>& libraries_by_paths =
+      GetLibrariesByPaths();
+
+  if (libraries_by_paths.count(library_path) == 0) {
+    libraries_by_paths.emplace(
+        library_path,
+        GameLibrary(library_path)
+    );
+  }
+
+  try {
+    return GetLibrariesByPaths().at(library_path);
+  } catch (const std::out_of_range& e) {
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: %s \n"
+        L"Line: %d \n"
+        L"Could not determine the game library from the file path: %s.";
+
+    std::wstring full_message = fmt::sprintf(
+        kErrorFormatMessage,
+        fmt::to_wstring(__FILE__),
+        __LINE__,
+        library_path
+    );
+
+    MessageBoxW(
+        nullptr,
+        full_message.data(),
+        L"Failed to Determine Game Library",
+        MB_OK | MB_ICONERROR
+    );
+
+    std::exit(0);
+  }
+}
+
+const GameLibrary&
+GetGameLibrary(
+    enum DefaultLibrary library
+) {
+  const std::filesystem::path& library_path =
+      GetDefaultLibraryPathWithRedirect(
+          library
+      );
+  return GetGameLibrary(library_path);
+}
+
+} // namespace sgd2mapi

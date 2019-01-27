@@ -38,4 +38,93 @@
 #ifndef SGD2MAPI_GAME_LIBRARY_H_
 #define SGD2MAPI_GAME_LIBRARY_H_
 
+#include <cstdint>
+#include <filesystem>
+
+#include "../include/default_game_library.h"
+
+namespace sgd2mapi {
+
+/**
+ * A class that corresponds to a library used by the game.
+ */
+class GameLibrary {
+ public:
+  /**
+   * Creates a new instance of a GameLibrary using the default library ID.
+   */
+  explicit GameLibrary(
+      enum DefaultLibrary library
+  );
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
+  explicit GameLibrary(
+      const std::filesystem::path& library_path
+  );
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
+  explicit GameLibrary(
+      std::filesystem::path&& library_path
+  );
+
+  GameLibrary(
+      const GameLibrary&
+  );
+
+  GameLibrary(
+      GameLibrary&&
+  ) noexcept;
+
+  virtual
+  ~GameLibrary(
+      void
+  );
+
+  GameLibrary&
+  operator=(
+      const GameLibrary&
+  );
+
+  GameLibrary&
+  operator=(
+      GameLibrary&&
+  ) noexcept;
+
+  /**
+   * Returns the base address value of this GameLibrary.
+   */
+  std::intptr_t
+  base_address(
+      void
+  ) const noexcept;
+
+  /**
+   * Returns the library path of this GameLibrary.
+   */
+  const std::filesystem::path&
+  library_path(
+      void
+  ) const noexcept;
+
+ private:
+  std::intptr_t base_address_;
+  std::filesystem::path library_path_;
+};
+
+const GameLibrary&
+GetGameLibrary(
+    enum DefaultLibrary library
+);
+
+const GameLibrary&
+GetGameLibrary(
+    const std::filesystem::path& library_path
+);
+
+} // namespace sgd2mapi
+
 #endif // SGD2MAPI_GAME_LIBRARY_H_

@@ -53,11 +53,6 @@
 namespace sgd2mapi {
 namespace {
 
-constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: %s \n"
-    L"Line: %d \n"
-    L"The function %s failed with error code %x.";
-
 const std::unordered_map<
     enum DefaultLibrary,
     std::filesystem::path
@@ -94,93 +89,7 @@ GetPathsByDefaultLibraryMap(
   return paths_by_default_libraries;
 }
 
-std::intptr_t
-GetLibraryBaseAddress(
-    const std::filesystem::path& library_path
-) {
-  std::wstring library_path_text_wide = library_path.wstring();
-
-  HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
-  if (base_address == nullptr) {
-    std::wstring full_message = fmt::sprintf(
-        kFunctionFailErrorFormat,
-        fmt::to_wstring(__FILE__),
-        __LINE__,
-        L"LoadLibraryW"
-    );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"LoadLibraryW Failed",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
-  }
-
-  return reinterpret_cast<std::intptr_t>(base_address);
-}
-
 } // namespace
-
-GameLibrary::GameLibrary(
-    enum DefaultLibrary library
-)
-    : GameLibrary(GetDefaultLibraryPathWithRedirect(library)) {
-}
-
-GameLibrary::GameLibrary(
-    const std::filesystem::path& library_path
-)
-    : library_path_(library_path),
-      base_address_(GetLibraryBaseAddress(library_path)) {
-}
-
-GameLibrary::GameLibrary(
-    std::filesystem::path&& library_path
-)
-    : library_path_(std::move(library_path)),
-      base_address_(GetLibraryBaseAddress(library_path_)) {
-}
-
-GameLibrary::GameLibrary(
-    const GameLibrary&
-) = default;
-
-GameLibrary::GameLibrary(
-    GameLibrary&&
-) noexcept = default;
-
-GameLibrary::~GameLibrary(
-    void
-) {
-  FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
-}
-
-GameLibrary&
-GameLibrary::operator=(
-    const GameLibrary&
-) = default;
-
-GameLibrary&
-GameLibrary::operator=(
-    GameLibrary&&
-) noexcept = default;
-
-std::intptr_t
-GameLibrary::base_address(
-    void
-) const noexcept {
-  return base_address_;
-}
-
-const std::filesystem::path&
-GameLibrary::library_path(
-    void
-) const noexcept {
-  return library_path_;
-}
 
 const std::filesystem::path&
 GetGameExecutablePath(
@@ -249,7 +158,43 @@ SGD2MAPI_GetGameExecutablePath(
 
 std::size_t
 SGD2MAPI_GetGameExecutablePathSize(
-  void
+    void
 ) {
   return sgd2mapi::GetGameExecutablePath().u8string().size();
+}
+
+char*
+GetDefaultLibraryPathWithRedirect(
+    char dest[],
+    enum SGD2MAPI_DefaultLibrary library
+) {
+  enum sgd2mapi::DefaultLibrary actual_default_library =
+      static_cast<sgd2mapi::DefaultLibrary>(library);
+
+  const std::filesystem::path& default_library_path =
+      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+
+  std::string default_library_path_text =
+      default_library_path.u8string();
+
+  std::copy(
+      default_library_path_text.cbegin(),
+      default_library_path_text.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+std::size_t
+GetDefaultLibraryPathSizeWithRedirect(
+    enum SGD2MAPI_DefaultLibrary library
+) {
+  enum sgd2mapi::DefaultLibrary actual_default_library =
+      static_cast<sgd2mapi::DefaultLibrary>(library);
+
+  const std::filesystem::path& default_library_path =
+      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+
+  return default_library_path.u8string().size();
 }

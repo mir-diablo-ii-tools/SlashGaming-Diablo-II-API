@@ -60,76 +60,6 @@ namespace sgd2mapi {
  */
 enum class DefaultLibrary;
 
-/**
- * A class that corresponds to a library used by the game.
- */
-class DLLEXPORT GameLibrary {
- public:
-  /**
-   * Creates a new instance of a GameLibrary using the default library ID.
-   */
-  explicit GameLibrary(
-      enum DefaultLibrary library
-  );
-
-  /**
-   * Creates a new instance of a GameLibrary using the library path.
-   */
-  explicit GameLibrary(
-      const std::filesystem::path& library_path
-  );
-
-  /**
-   * Creates a new instance of a GameLibrary using the library path.
-   */
-  explicit GameLibrary(
-      std::filesystem::path&& library_path
-  );
-
-  GameLibrary(
-      const GameLibrary&
-  );
-
-  GameLibrary(
-      GameLibrary&&
-  ) noexcept;
-
-  virtual
-  ~GameLibrary(
-      void
-  );
-
-  GameLibrary&
-  operator=(
-      const GameLibrary&
-  );
-
-  GameLibrary&
-  operator=(
-      GameLibrary&&
-  ) noexcept;
-
-  /**
-   * Returns the base address value of this GameLibrary.
-   */
-  std::intptr_t
-  base_address(
-      void
-  ) const noexcept;
-
-  /**
-   * Returns the library path of this GameLibrary.
-   */
-  const std::filesystem::path&
-  library_path(
-      void
-  ) const noexcept;
-
- private:
-  std::intptr_t base_address_;
-  std::filesystem::path library_path_;
-};
-
 const std::filesystem::path&
 GetGameExecutablePath(
     void
@@ -177,6 +107,17 @@ SGD2MAPI_GetGameExecutablePath(
 size_t
 SGD2MAPI_GetGameExecutablePathSize(
     void
+);
+
+char*
+GetDefaultLibraryPathWithRedirect(
+    char dest[],
+    enum SGD2MAPI_DefaultLibrary library
+);
+
+size_t
+GetDefaultLibraryPathSizeWithRedirect(
+    enum SGD2MAPI_DefaultLibrary library
 );
 
 #ifdef __cplusplus
