@@ -40,6 +40,7 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -237,9 +238,21 @@ GetLibraryPathWithRedirect(
 
 } // namespace sgd2mapi
 
-const char*
-SGD2MAPI_GetGameExecutable(
-    void
+char*
+SGD2MAPI_GetGameExecutablePath(
+  char dest[]
 ) {
-  return sgd2mapi::GetGameExecutable().string().data();
+  std::string game_executable_path_text =
+      sgd2mapi::GetGameExecutable().u8string();
+
+  std::strcpy(dest, game_executable_path_text.data());
+
+  return dest;
+}
+
+std::size_t
+SGD2MAPI_GetGameExecutablePathSize(
+  void
+) {
+  return sgd2mapi::GetGameExecutable().u8string().size();
 }

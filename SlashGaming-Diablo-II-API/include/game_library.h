@@ -169,8 +169,13 @@ enum class sgd2mapi::DefaultLibrary
 extern "C" {
 #endif // __cplusplus
 
-const char*
-SGD2MAPI_GetGameExecutable(
+char*
+SGD2MAPI_GetGameExecutablePath(
+    char dest[]
+);
+
+size_t
+SGD2MAPI_GetGameExecutablePathSize(
     void
 );
 
