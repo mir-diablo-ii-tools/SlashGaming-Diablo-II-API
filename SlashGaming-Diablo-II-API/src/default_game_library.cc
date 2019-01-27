@@ -160,7 +160,7 @@ std::size_t
 SGD2MAPI_GetGameExecutablePathSize(
     void
 ) {
-  return sgd2mapi::GetGameExecutablePath().u8string().size();
+  return sgd2mapi::GetGameExecutablePath().u8string().size() + 1;
 }
 
 char*
@@ -196,5 +196,5 @@ GetDefaultLibraryPathSizeWithRedirect(
   const std::filesystem::path& default_library_path =
       sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
-  return default_library_path.u8string().size();
+  return default_library_path.u8string().size() + 1;
 }
