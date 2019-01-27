@@ -44,8 +44,8 @@
 #include <filesystem>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
-#include <boost/bimap.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../include/game_version.h"
@@ -53,23 +53,22 @@
 namespace sgd2mapi {
 namespace {
 
-using DefaultLibraryAndLibraryPathBimap = boost::bimap<
-    enum DefaultLibrary,
-    std::filesystem::path
->;
-
 constexpr std::wstring_view kFunctionFailErrorFormat =
     L"File: %s \n"
     L"Line: %d \n"
     L"The function %s failed with error code %x.";
 
-const DefaultLibraryAndLibraryPathBimap&
-GetDefaultLibraryAndLibraryPathBimap(
+const std::unordered_map<
+    enum DefaultLibrary,
+    std::filesystem::path
+>&
+GetPathsByDefaultLibraryMap(
     void
 ) {
-  static const std::array<
-      DefaultLibraryAndLibraryPathBimap::value_type, 20
-  > library_array = {{
+  static const std::unordered_map<
+      enum DefaultLibrary,
+      std::filesystem::path
+  > paths_by_default_libraries = {
       { DefaultLibrary::kBNClient, u8"BNClient.dll" },
       { DefaultLibrary::kD2Client, u8"D2Client.dll" },
       { DefaultLibrary::kD2CMP, u8"D2CMP.dll" },
@@ -90,15 +89,9 @@ GetDefaultLibraryAndLibraryPathBimap(
       { DefaultLibrary::kD2Win, u8"D2Win.dll" },
       { DefaultLibrary::kFog, u8"Fog.dll" },
       { DefaultLibrary::kStorm, u8"Storm.dll" }
-  }};
+  };
 
-  static const DefaultLibraryAndLibraryPathBimap
-      default_library_and_library_path(
-          library_array.cbegin(),
-          library_array.cend()
-      );
-
-  return default_library_and_library_path;
+  return paths_by_default_libraries;
 }
 
 std::intptr_t
@@ -211,7 +204,7 @@ GetLibraryPathWithRedirect(
   }
 
   try {
-    return GetDefaultLibraryAndLibraryPathBimap().left.at(library);
+    return GetPathsByDefaultLibraryMap().at(library);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
