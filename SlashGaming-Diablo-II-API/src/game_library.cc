@@ -40,7 +40,7 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
-#include <cstring>
+#include <algorithm>
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -245,7 +245,11 @@ SGD2MAPI_GetGameExecutablePath(
   std::string game_executable_path_text =
       sgd2mapi::GetGameExecutablePath().u8string();
 
-  std::strcpy(dest, game_executable_path_text.data());
+  std::copy(
+      game_executable_path_text.cbegin(),
+      game_executable_path_text.cend(),
+      dest
+  );
 
   return dest;
 }
