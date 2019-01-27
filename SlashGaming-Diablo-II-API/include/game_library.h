@@ -136,7 +136,7 @@ GetGameExecutablePath(
 );
 
 const std::filesystem::path&
-GetLibraryPathWithRedirect(
+GetDefaultLibraryPathWithRedirect(
     enum DefaultLibrary library
 );
 

@@ -161,7 +161,7 @@ GameAddress::GameAddress(
     const GameAddressLocatorInterface& address_locator
 )
     : GameAddress(
-          GetLibraryPathWithRedirect(library),
+          GetDefaultLibraryPathWithRedirect(library),
           address_locator
       ) {
 }
@@ -171,7 +171,7 @@ GameAddress::GameAddress(
     std::shared_ptr<GameAddressLocatorInterface> address_locator
 )
     : GameAddress(
-          GetLibraryPathWithRedirect(library),
+          GetDefaultLibraryPathWithRedirect(library),
           std::move(address_locator)
       ) {
 }
@@ -216,7 +216,7 @@ GameAddress::GameAddress(
     >& address_locators
 )
     : GameAddress(
-          GetLibraryPathWithRedirect(library),
+          GetDefaultLibraryPathWithRedirect(library),
           address_locators
       ) {
 }

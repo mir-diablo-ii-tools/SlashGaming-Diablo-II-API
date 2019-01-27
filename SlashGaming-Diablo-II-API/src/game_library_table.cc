@@ -106,7 +106,7 @@ GetGameLibrary(
     enum DefaultLibrary library
 ) {
   const std::filesystem::path& library_path =
-      GetLibraryPathWithRedirect(
+      GetDefaultLibraryPathWithRedirect(
           library
       );
   return GetGameLibrary(library_path);

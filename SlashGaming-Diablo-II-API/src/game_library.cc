@@ -127,7 +127,7 @@ GetLibraryBaseAddress(
 GameLibrary::GameLibrary(
     enum DefaultLibrary library
 )
-    : GameLibrary(GetLibraryPathWithRedirect(library)) {
+    : GameLibrary(GetDefaultLibraryPathWithRedirect(library)) {
 }
 
 GameLibrary::GameLibrary(
