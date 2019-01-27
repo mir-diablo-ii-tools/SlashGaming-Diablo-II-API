@@ -64,7 +64,7 @@ GetTableFilePath(
     void
 ) {
   const std::filesystem::path& address_table_directory =
-      ConfigParser::GetInstance().address_table_path();
+      GetAddressTableDirectoryPath();
   std::string_view running_game_version_name =
       GetRunningGameVersionName();
 

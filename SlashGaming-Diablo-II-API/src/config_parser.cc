@@ -68,7 +68,7 @@ constexpr int kMinorVersionAValue = 0;
 constexpr std::string_view kMinorVersionBKey = u8"Minor Version B";
 constexpr int kMinorVersionBValue = 0;
 
-constexpr std::string_view kAddressTablePathKey =
+constexpr std::string_view kAddressTableDirectoryPathKey =
     u8"Address Table Directory Path";
 constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
 
@@ -145,7 +145,7 @@ AddMissingConfigEntries(
     entry = kDefaultConfigTabWidthValue;
   }
 
-  if (auto& entry = main_entry[kAddressTablePathKey.data()];
+  if (auto& entry = main_entry[kAddressTableDirectoryPathKey.data()];
       !entry.is_string()) {
     entry = kDefaultAddressTableDirectory;
   }
@@ -161,11 +161,11 @@ ParseConfig(
     config_file << u8"{}" << std::endl;
   }
 
-  // Read the config file, if read permissions are enabled, for processing.
+  // Read the config file for processing, if all other conditions are good.
   nlohmann::json config_json;
 
   if (std::ifstream config_file(config_path);
-      config_file.good()) {
+      config_file) {
     config_json = nlohmann::json::parse(config_file);
   }
 
@@ -173,7 +173,7 @@ ParseConfig(
 
   // Write to the config file any new default values.
   if (std::ofstream config_file(config_path);
-      config_file.good()) {
+      config_file) {
     int tab_width =
         config_json[kGlobalEntryKey.data()][kConfigTabWidthKey.data()];
 
@@ -182,40 +182,47 @@ ParseConfig(
         << std::endl;
   }
 
-  return config_json.at(kMainEntryKey.data());
+  return config_json;
+}
+
+nlohmann::json&
+GetConfig(
+    void
+) {
+  static nlohmann::json config = ParseConfig(
+      GetConfigPath()
+  );
+  return config;
+}
+
+std::filesystem::path
+ParseAddressTableDirectoryPath(
+    void
+) {
+  nlohmann::json& config = GetConfig();
+  auto& address_table_path_raw_value =
+      config[kMainEntryKey.data()][kAddressTableDirectoryPathKey.data()];
+
+  if (!address_table_path_raw_value.is_string()) {
+    address_table_path_raw_value = kDefaultAddressTableDirectory.data();
+  }
+
+  std::filesystem::path address_table_directory_path =
+      address_table_path_raw_value.get<std::string>();
+
+  return address_table_directory_path;
 }
 
 } // namespace
 
-ConfigParser::ConfigParser(
-    const std::filesystem::path& config_path
-)
-    : config_path_(config_path) {
-  nlohmann::json main_entry = ParseConfig(config_path);
-  address_table_path_ =
-      main_entry.at(kAddressTablePathKey.data()).get<std::string>();
-}
-
-ConfigParser&
-ConfigParser::GetInstance(
+const std::filesystem::path&
+GetAddressTableDirectoryPath(
     void
 ) {
-  static ConfigParser instance(GetConfigPath());
-  return instance;
-}
-
-const std::filesystem::path&
-ConfigParser::address_table_path(
-    void
-) const noexcept {
-  return address_table_path_;
-}
-
-const std::filesystem::path&
-ConfigParser::config_path(
-    void
-) const noexcept {
-  return config_path_;
+  static std::filesystem::path address_table_path(
+      ParseAddressTableDirectoryPath()
+  );
+  return address_table_path;
 }
 
 } // namespace sgd2mapi

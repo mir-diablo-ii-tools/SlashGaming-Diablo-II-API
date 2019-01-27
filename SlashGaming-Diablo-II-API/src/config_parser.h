@@ -44,48 +44,10 @@
 
 namespace sgd2mapi {
 
-class ConfigParser {
- public:
-  ConfigParser(
-      const ConfigParser&
-  ) = delete;
-
-  ConfigParser(
-      ConfigParser&&
-  ) = delete;
-
-  ConfigParser&
-  operator=(
-      const ConfigParser&
-  ) = delete;
-
-  ConfigParser& operator=(
-      ConfigParser&&
-  ) = delete;
-
-  static ConfigParser&
-  GetInstance(
-      void
-  );
-
-  const std::filesystem::path&
-  config_path(
-      void
-  ) const noexcept;
-
-  const std::filesystem::path&
-  address_table_path(
-      void
-  ) const noexcept;
-
- private:
-  ConfigParser(
-      const std::filesystem::path& config_path
-  );
-
-  std::filesystem::path config_path_;
-  std::filesystem::path address_table_path_;
-};
+const std::filesystem::path&
+GetAddressTableDirectoryPath(
+    void
+);
 
 } // namespace sgd2mapi
 
