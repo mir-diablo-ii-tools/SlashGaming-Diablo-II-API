@@ -190,7 +190,7 @@ GameLibrary::library_path(
 }
 
 const std::filesystem::path&
-GetGameExecutable(
+GetGameExecutablePath(
     void
 ) {
   /**
@@ -207,7 +207,7 @@ GetLibraryPathWithRedirect(
 ) {
   // Redirect if the game version is 1.14 or higher.
   if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
-    return GetGameExecutable();
+    return GetGameExecutablePath();
   }
 
   try {
@@ -243,7 +243,7 @@ SGD2MAPI_GetGameExecutablePath(
   char dest[]
 ) {
   std::string game_executable_path_text =
-      sgd2mapi::GetGameExecutable().u8string();
+      sgd2mapi::GetGameExecutablePath().u8string();
 
   std::strcpy(dest, game_executable_path_text.data());
 
@@ -254,5 +254,5 @@ std::size_t
 SGD2MAPI_GetGameExecutablePathSize(
   void
 ) {
-  return sgd2mapi::GetGameExecutable().u8string().size();
+  return sgd2mapi::GetGameExecutablePath().u8string().size();
 }

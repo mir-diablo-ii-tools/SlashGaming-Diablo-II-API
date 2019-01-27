@@ -131,7 +131,7 @@ class DLLEXPORT GameLibrary {
 };
 
 const std::filesystem::path&
-GetGameExecutable(
+GetGameExecutablePath(
     void
 );
 
