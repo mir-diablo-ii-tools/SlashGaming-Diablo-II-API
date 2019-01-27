@@ -40,6 +40,7 @@
 #include <windows.h>
 
 #include <cstdlib>
+#include <filesystem>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -48,7 +49,7 @@
 #include <boost/bimap.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include "../include/game_library.h"
+#include "../include/default_game_library.h"
 
 namespace sgd2mapi {
 namespace {
@@ -330,70 +331,6 @@ DetermineRunningGameVersion(
   return game_version;
 }
 
-/**
- * A singleton class that detects the game version on runtime and stores this
- * information.
- */
-class RunningGameVersion {
- public:
-  RunningGameVersion(
-      const RunningGameVersion&
-  ) = delete;
-
-  RunningGameVersion(
-      RunningGameVersion&&
-  ) = delete;
-
-  RunningGameVersion&
-  operator=(
-      const RunningGameVersion&
-  ) = delete;
-
-  RunningGameVersion&
-  operator=(
-      RunningGameVersion&&
-  ) = delete;
-
-  /**
-   * Returns the singleton instance of RunningGameVersion.
-   */
-  static RunningGameVersion&
-  GetInstance(
-      void
-  ) {
-    static RunningGameVersion instance;
-    return instance;
-  }
-
-  /**
-   * Returns the running game's version.
-   */
-  constexpr enum GameVersion
-  game_version_id(
-      void
-  ) const noexcept {
-    return game_version_id_;
-  }
-
-  constexpr std::string_view
-  game_version_name(
-      void
-  ) const noexcept {
-    return game_version_name_;
-  }
-
- private:
-  enum GameVersion game_version_id_;
-  std::string_view game_version_name_;
-
-  RunningGameVersion(
-      void
-  )
-    : game_version_id_(DetermineRunningGameVersion()),
-      game_version_name_(GetGameVersionName(game_version_id())) {
-  }
-};
-
 } // namespace
 
 enum GameVersion
@@ -461,14 +398,19 @@ enum GameVersion
 GetRunningGameVersionId(
     void
 ) {
-  return RunningGameVersion::GetInstance().game_version_id();
+  static enum GameVersion running_game_version_id =
+      DetermineRunningGameVersion();
+  return running_game_version_id;
 }
 
 std::string_view
 GetRunningGameVersionName(
     void
 ) {
-  return RunningGameVersion::GetInstance().game_version_name();
+  static std::string_view running_game_version_name = GetGameVersionName(
+      GetRunningGameVersionId()
+  );
+  return running_game_version_name;
 }
 
 bool
@@ -484,7 +426,7 @@ IsRunningGameVersionAtLeast1_14(
     void
 ) {
   return IsGameVersionAtLeast1_14(
-      RunningGameVersion::GetInstance().game_version_id()
+      GetRunningGameVersionId()
   );
 }
 
