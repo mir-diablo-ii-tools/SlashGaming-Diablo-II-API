@@ -65,6 +65,16 @@ const GameLibrary&
 GetGameLibrary(
     const std::filesystem::path& library_path
 ) {
+  std::map<std::filesystem::path, GameLibrary>& libraries_by_paths =
+      GetLibrariesByPaths();
+
+  if (libraries_by_paths.count(library_path) == 0) {
+    libraries_by_paths.emplace(
+        library_path,
+        GameLibrary(library_path)
+    );
+  }
+
   try {
     return GetLibrariesByPaths().at(library_path);
   } catch (const std::out_of_range& e) {
