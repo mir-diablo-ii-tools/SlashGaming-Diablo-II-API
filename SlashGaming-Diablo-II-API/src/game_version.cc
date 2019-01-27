@@ -320,7 +320,7 @@ DetermineRunningGameVersion(
   // TODO(Mir Drualga): Figure out how to get versions 1.06(B) and 1.14+
   // classic detection.
   std::string game_version_string = ExtractFileVersionString(
-      GetGameExecutable()
+      GetGameExecutablePath()
   );
 
   enum GameVersion game_version = GetGameVersionByFileVersion(
