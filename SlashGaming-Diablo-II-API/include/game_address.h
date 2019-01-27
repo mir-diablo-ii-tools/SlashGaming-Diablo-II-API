@@ -165,6 +165,11 @@ class DLLEXPORT GameAddress {
       GameAddress&&
   ) noexcept;
 
+  virtual
+  ~GameAddress(
+      void
+  );
+
   GameAddress&
   operator=(
       const GameAddress&

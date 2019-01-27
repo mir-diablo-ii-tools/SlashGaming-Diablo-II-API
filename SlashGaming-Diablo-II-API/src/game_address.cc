@@ -229,6 +229,10 @@ GameAddress::GameAddress(
     GameAddress&&
 ) noexcept = default;
 
+GameAddress::~GameAddress(
+  void
+) = default;
+
 GameAddress&
 GameAddress::operator=(
     const GameAddress&
