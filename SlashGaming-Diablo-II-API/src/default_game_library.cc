@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "../include/game_library.h"
+#include "../include/default_game_library.h"
 
 #include <windows.h>
 #include <cstdint>

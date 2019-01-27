@@ -45,7 +45,7 @@
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include "../include/game_library.h"
+#include "../include/default_game_library.h"
 
 namespace sgd2mapi {
 namespace {

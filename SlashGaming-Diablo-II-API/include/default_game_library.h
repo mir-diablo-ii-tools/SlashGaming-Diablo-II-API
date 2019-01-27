@@ -35,8 +35,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_LIBRARY_H_
-#define SGD2MAPI_GAME_LIBRARY_H_
+#ifndef SGD2MAPI_DEFAULT_GAME_LIBRARY_H_
+#define SGD2MAPI_DEFAULT_GAME_LIBRARY_H_
 
 #ifdef __cplusplus
 #include <filesystem>
@@ -186,4 +186,4 @@ SGD2MAPI_GetGameExecutablePathSize(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_LIBRARY_H_
+#endif // SGD2MAPI_DEFAULT_GAME_LIBRARY_H_

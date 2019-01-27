@@ -41,7 +41,7 @@
 #include <stdint.h>
 
 #include "game_address_locator.h"
-#include "game_library.h"
+#include "default_game_library.h"
 #include "game_version.h"
 
 #ifdef __cplusplus

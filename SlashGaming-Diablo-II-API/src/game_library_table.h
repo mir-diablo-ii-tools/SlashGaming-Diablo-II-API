@@ -43,7 +43,7 @@
 #include <string>
 #include <map>
 
-#include "../include/game_library.h"
+#include "../include/default_game_library.h"
 
 namespace sgd2mapi {
 

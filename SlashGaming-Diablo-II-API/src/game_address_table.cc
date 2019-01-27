@@ -52,7 +52,7 @@
 #include "config_parser.h"
 #include "../include/game_address_locator.h"
 #include "game_address_table_reader.h"
-#include "../include/game_library.h"
+#include "../include/default_game_library.h"
 #include "game_library_table.h"
 #include "../include/game_version.h"
 
