@@ -206,7 +206,7 @@ GetLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
-  if (IsGameVersionAtLeast1_14(GetRunningGameVersionId())) {
+  if (IsRunningGameVersionAtLeast1_14()) {
     return GetGameExecutablePath();
   }
 
