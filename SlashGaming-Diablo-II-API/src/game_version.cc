@@ -43,7 +43,6 @@
 #include <algorithm>
 #include <filesystem>
 #include <memory>
-#include <sstream>
 #include <string>
 #include <string_view>
 
@@ -178,7 +177,8 @@ GetGameVersionAndStringBimap(
   return game_version_and_string_bimap;
 }
 
-std::string ExtractFileVersionString(
+std::string
+ExtractFileVersionString(
     const std::filesystem::path& file_path
 ) {
   // All the code for this function originated from StackOverflow user
@@ -273,14 +273,13 @@ std::string ExtractFileVersionString(
   // Doesn't matter if you are on 32 bit or 64 bit,
   // DWORD is always 32 bits, so first two revision numbers
   // come from dwFileVersionMS, last two come from dwFileVersionLS
-  std::ostringstream stringStream;
-
-  stringStream << ((version_info->dwFileVersionMS >> 16) & 0xFFFF) << u8".";
-  stringStream << ((version_info->dwFileVersionMS >> 0) & 0xFFFF) << u8".";
-  stringStream << ((version_info->dwFileVersionLS >> 16) & 0xFFFF) << u8".";
-  stringStream << ((version_info->dwFileVersionLS >> 0) & 0xFFFF);
-
-  return stringStream.str();
+  return fmt::sprintf(
+      u8"%d.%d.%d.%d",
+      (version_info->dwFileVersionMS >> 16) & 0xFFFF,
+      (version_info->dwFileVersionMS >> 0) & 0xFFFF,
+      (version_info->dwFileVersionLS >> 16) & 0xFFFF,
+      (version_info->dwFileVersionLS >> 0) & 0xFFFF
+  );
 }
 
 enum GameVersion
