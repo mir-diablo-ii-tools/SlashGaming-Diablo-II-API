@@ -61,15 +61,6 @@ namespace sgd2mapi {
 enum class GameVersion;
 
 /**
- * Returns the identifier of the game version associated with the specified
- * string.
- */
-DLLEXPORT enum GameVersion
-GetGameVersionId(
-    std::string_view game_version_name
-);
-
-/**
  * Returns a view to the string associated with the specified game version.
  */
 DLLEXPORT std::string_view
@@ -150,14 +141,6 @@ SGD2MAPI_GetGameVersionName(
     enum SGD2MAPI_GameVersion game_version
 );
 
-/**
- * Returns the identifier of the game version associated with the specified
- * string.
- */
-DLLEXPORT enum SGD2MAPI_GameVersion
-SGD2MAPI_GetGameVersionId(
-    const char* game_version_name
-);
 
 /**
  * Returns the identifier of the running game version.
