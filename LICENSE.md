@@ -1,5 +1,5 @@
 # SlashGaming Diablo II Modding API
-Copyright (C) 2018  SlashGaming Community
+Copyright (C) 2018-2019  Mir Drualga
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -23,14 +23,13 @@ libraries), containing parts covered by the terms of Blizzard End User
 License Agreement, the licensors of this Program grant you additional
 permission to convey the resulting work. This additional permission is
 also extended to any combination of expansions, mods, and remasters of
-the game, provided that the game or its libraries do not link to this
-Program.
+the game.
 
 If you modify this Program, or any covered work, by linking or combining
 it with any Glide wrapper (or a modified version of that library),
-containing parts not covered by a compatible license, provided that the
-wrapper does not link to this Program, the licensors of this Program
-grant you additional permission to convey the resulting work.
+containing parts not covered by a compatible license, the licensors of
+this Program grant you additional permission to convey the resulting
+work.
 
 # JSON for Modern C++
 Copyright (c) 2013-2018 Niels Lohmann
