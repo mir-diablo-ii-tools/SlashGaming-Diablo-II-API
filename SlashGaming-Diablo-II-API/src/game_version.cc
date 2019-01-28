@@ -315,6 +315,14 @@ GetGameVersionByFileVersion(
 }
 
 enum GameVersion
+GetGameVersionByLibraryData(
+    enum GameVersion game_version
+) {
+  // TODO (Mir Drualga): Implement this function.
+  return static_cast<enum GameVersion>(0);
+}
+
+enum GameVersion
 DetermineRunningGameVersion(
     void
 ) {
@@ -324,9 +332,15 @@ DetermineRunningGameVersion(
       GetGameExecutablePath()
   );
 
+  // Perform first stage game version detection using the executable file
+  // name.
   enum GameVersion game_version = GetGameVersionByFileVersion(
       game_version_string
   );
+
+  // Perform second stage game version detection by checking the bytes of game
+  // libraries.
+  game_version = GetGameVersionByLibraryData(game_version);
 
   return game_version;
 }
