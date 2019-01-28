@@ -39,6 +39,7 @@
 #define SGD2MAPI_GAME_VERSION_H_
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 #include <string_view>
@@ -134,13 +135,23 @@ extern "C" {
 #endif // __cplusplus
 
 /**
- * Returns a view to the string associated with the specified game version.
+ * Copies the UTF-8 encoded string associated with the specified game version
+ * into the specified destination buffer.
  */
-DLLEXPORT const char*
+DLLEXPORT char*
 SGD2MAPI_GetGameVersionName(
+    char dest[],
     enum SGD2MAPI_GameVersion game_version
 );
 
+/**
+ * Returns the number of bytes needed to copy the UTF-8 encoded string
+ * associated with the specified game version.
+ */
+DLLEXPORT size_t
+SGD2MAPI_GetGameVersionNameSize(
+    enum SGD2MAPI_GameVersion game_version
+);
 
 /**
  * Returns the identifier of the running game version.
@@ -151,10 +162,20 @@ SGD2MAPI_GetRunningGameVersionId(
 );
 
 /**
- * Returns a view to the string associated with the running game version.
+ * Copies the UTF-8 encoded string associated with the running game version
+ * into the specified destination buffer.
  */
-DLLEXPORT const char*
+DLLEXPORT char*
 SGD2MAPI_GetRunningGameVersionName(
+    char dest[]
+);
+
+/**
+ * Returns the number of bytes needed to copy the UTF-8 encoded string
+ * associated with the running game version.
+ */
+DLLEXPORT size_t
+SGD2MAPI_GetRunningGameVersionNameSize(
     void
 );
 

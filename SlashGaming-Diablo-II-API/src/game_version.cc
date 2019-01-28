@@ -38,8 +38,9 @@
 #include "../include/game_version.h"
 
 #include <windows.h>
-
+#include <cstdint>
 #include <cstdlib>
+#include <algorithm>
 #include <filesystem>
 #include <memory>
 #include <sstream>
@@ -333,36 +334,6 @@ DetermineRunningGameVersion(
 
 } // namespace
 
-enum GameVersion
-GetGameVersionId(
-    std::string_view game_version_name
-) {
-  try {
-    return GetGameVersionAndStringBimap().right.at(game_version_name);
-  } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
-        L"Could not determine the game version ID from the version name: %s.";
-
-    std::wstring full_message = fmt::sprintf(
-        kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
-        __LINE__,
-        fmt::to_wstring(game_version_name)
-    );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"Failed to Determine Game Version ID",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
-  }
-}
-
 std::string_view
 GetGameVersionName(
     enum GameVersion game_version
@@ -436,22 +407,39 @@ IsRunningGameVersionAtLeast1_14(
  * C Interface
  */
 
-const char*
+char*
 SGD2MAPI_GetGameVersionName(
+    char dest[],
     enum SGD2MAPI_GameVersion game_version
 ) {
-  return sgd2mapi::GetGameVersionName(
-      static_cast<sgd2mapi::GameVersion>(game_version)
-  ).data();
+  sgd2mapi::GameVersion actual_game_version_id =
+      static_cast<sgd2mapi::GameVersion>(game_version);
+
+  std::string_view game_version_name = sgd2mapi::GetGameVersionName(
+      actual_game_version_id
+  );
+
+  std::copy(
+      game_version_name.cbegin(),
+      game_version_name.cend(),
+      dest
+  );
+
+  return dest;
 }
 
-enum SGD2MAPI_GameVersion
-SGD2MAPI_GetGameVersionId(
-    const char* game_version_name
+std::size_t
+SGD2MAPI_GetGameVersionNameSize(
+    enum SGD2MAPI_GameVersion game_version
 ) {
-  return static_cast<enum SGD2MAPI_GameVersion>(
-      sgd2mapi::GetGameVersionId(game_version_name)
+  sgd2mapi::GameVersion actual_game_version_id =
+    static_cast<sgd2mapi::GameVersion>(game_version);
+
+  std::string_view game_version_name = sgd2mapi::GetGameVersionName(
+    actual_game_version_id
   );
+
+  return game_version_name.size() + 1;
 }
 
 enum SGD2MAPI_GameVersion
@@ -463,11 +451,30 @@ SGD2MAPI_GetRunningGameVersionId(
   );
 }
 
-const char*
+char*
 SGD2MAPI_GetRunningGameVersionName(
+    char dest[]
+) {
+  std::string_view game_version_name =
+      sgd2mapi::GetRunningGameVersionName();
+
+  std::copy(
+      game_version_name.cbegin(),
+      game_version_name.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+std::size_t
+SGD2MAPI_GetRunningGameVersionNameSize(
     void
 ) {
-  return sgd2mapi::GetRunningGameVersionName().data();
+  std::string_view game_version_name =
+    sgd2mapi::GetRunningGameVersionName();
+
+  return game_version_name.size() + 1;
 }
 
 bool
