@@ -38,13 +38,13 @@
 #ifndef SGD2MAPI_SGD2MAPI_H_
 #define SGD2MAPI_SGD2MAPI_H_
 
+#include "default_game_library.h"
 #include "game_address.h"
 #include "game_address_locator.h"
 #include "game_bool.h"
 #include "game_constant.h"
 #include "game_data.h"
 #include "game_func.h"
-#include "game_library.h"
 #include "game_patch.h"
 #include "game_struct.h"
 #include "game_version.h"
