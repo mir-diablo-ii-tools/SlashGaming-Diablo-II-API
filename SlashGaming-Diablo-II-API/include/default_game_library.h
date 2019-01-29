@@ -60,12 +60,12 @@ namespace sgd2mapi {
  */
 enum class DefaultLibrary;
 
-const std::filesystem::path&
+DLLEXPORT const std::filesystem::path&
 GetGameExecutablePath(
     void
 );
 
-const std::filesystem::path&
+DLLEXPORT const std::filesystem::path&
 GetDefaultLibraryPathWithRedirect(
     enum DefaultLibrary library
 );
@@ -99,23 +99,23 @@ enum class sgd2mapi::DefaultLibrary
 extern "C" {
 #endif // __cplusplus
 
-char*
+DLLEXPORT char*
 SGD2MAPI_GetGameExecutablePath(
     char dest[]
 );
 
-size_t
+DLLEXPORT size_t
 SGD2MAPI_GetGameExecutablePathSize(
     void
 );
 
-char*
+DLLEXPORT char*
 GetDefaultLibraryPathWithRedirect(
     char dest[],
     enum SGD2MAPI_DefaultLibrary library
 );
 
-size_t
+DLLEXPORT size_t
 GetDefaultLibraryPathSizeWithRedirect(
     enum SGD2MAPI_DefaultLibrary library
 );
