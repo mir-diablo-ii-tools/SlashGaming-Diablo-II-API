@@ -104,7 +104,7 @@ GetGameExecutablePath(
 }
 
 const std::filesystem::path&
-GetLibraryPathWithRedirect(
+GetDefaultLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
