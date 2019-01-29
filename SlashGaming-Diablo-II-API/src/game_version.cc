@@ -342,7 +342,7 @@ GetGameVersionByLibraryData(
       bool is_range_equal = std::equal(
           check_values.cbegin(),
           check_values.cend(),
-          raw_address
+          reinterpret_cast<BYTE*>(raw_address)
       );
 
       if (is_range_equal) {
