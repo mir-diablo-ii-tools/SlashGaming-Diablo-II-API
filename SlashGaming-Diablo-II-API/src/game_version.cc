@@ -50,6 +50,7 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../include/default_game_library.h"
+#include "../include/game_address.h"
 
 namespace sgd2mapi {
 namespace {
@@ -319,7 +320,44 @@ GetGameVersionByLibraryData(
     enum GameVersion game_version
 ) {
   // TODO (Mir Drualga): Implement this function.
-  return static_cast<enum GameVersion>(0);
+
+  // When detecting game address, we need to specify the library as a path and
+  // not with the enum. The enum requires knowledge of the current game
+  // version, and if this function is called, we know that the game version is
+  // not yet known.
+
+  switch (game_version) {
+    case GameVersion::k1_06: {
+      constexpr std::array<BYTE, 6> check_values = {
+          0xA0, 0x24, 0x30, 0xC4, 0x6F, 0xC3
+      };
+
+      GameAddress game_address(
+          u8"D2Client.dll",
+          GameOffset(0x9B80)
+      );
+
+      std::intptr_t raw_address = game_address.raw_address();
+
+      bool is_range_equal = std::equal(
+          check_values.cbegin(),
+          check_values.cend(),
+          raw_address
+      );
+
+      if (is_range_equal) {
+        return GameVersion::k1_06;
+      } else {
+        return GameVersion::k1_06B;
+      }
+
+      break;
+    }
+
+    default: {
+      return game_version;
+    }
+  }
 }
 
 enum GameVersion
