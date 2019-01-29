@@ -523,7 +523,7 @@ SGD2MAPI_GetRunningGameVersionNameSize(
     void
 ) {
   std::string_view game_version_name =
-    sgd2mapi::GetRunningGameVersionName();
+      sgd2mapi::GetRunningGameVersionName();
 
   return game_version_name.size() + 1;
 }
