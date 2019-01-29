@@ -98,7 +98,7 @@ GetGameExecutablePath(
   /**
    * The executable used to run the game.
    */
-  const std::filesystem::path kGameExecutable = u8"Game.exe";
+  static std::filesystem::path kGameExecutable = u8"Game.exe";
 
   return kGameExecutable;
 }
