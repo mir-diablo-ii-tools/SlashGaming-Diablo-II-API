@@ -187,10 +187,10 @@ ExtractFileVersionString(
   std::wstring file_path_text_wide = file_path.wstring();
 
   // Check version size.
-  DWORD version_handle;
+  DWORD ignored;
   DWORD file_version_info_size = GetFileVersionInfoSizeW(
       file_path_text_wide.data(),
-      &version_handle
+      &ignored
   );
 
   if (file_version_info_size == 0) {
@@ -216,7 +216,7 @@ ExtractFileVersionString(
   auto file_version_info = std::make_unique<wchar_t[]>(file_version_info_size);
   BOOL is_get_file_version_info_success = GetFileVersionInfoW(
       file_path_text_wide.data(),
-      version_handle,
+      ignored,
       file_version_info_size,
       file_version_info.get()
   );
