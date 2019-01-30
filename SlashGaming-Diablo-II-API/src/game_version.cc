@@ -381,6 +381,8 @@ GetGameVersionByLibraryData(
       offset_value = 0x3ADF0;
       matching_version = GameVersion::kClassic1_14B;
       non_matching_version = GameVersion::kLod1_14B;
+
+      break;
     }
 
     case GameVersion::kLod1_14C: {
@@ -392,6 +394,8 @@ GetGameVersionByLibraryData(
       offset_value = 0x3ADF0;
       matching_version = GameVersion::kClassic1_14C;
       non_matching_version = GameVersion::kLod1_14C;
+
+      break;
     }
 
    case GameVersion::kLod1_14D: {
@@ -403,6 +407,8 @@ GetGameVersionByLibraryData(
       offset_value = 0x3F4F0;
       matching_version = GameVersion::kClassic1_14D;
       non_matching_version = GameVersion::kLod1_14D;
+
+      break;
     }
 
     default: {
