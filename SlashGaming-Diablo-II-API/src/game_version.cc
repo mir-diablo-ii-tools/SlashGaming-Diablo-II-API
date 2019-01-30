@@ -348,7 +348,7 @@ GetGameVersionByLibraryData(
 
     case GameVersion::k1_07: {
       expected_values = {
-          0xA0, 0x54, 0x4C, 0x71, 0x08, 0xC3
+          0xA0, 0x54, 0x4C, 0x11, 0x10, 0xC3
       };
 
       library_path = u8"D2Client.dll";
