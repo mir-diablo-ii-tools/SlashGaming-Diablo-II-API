@@ -72,12 +72,12 @@ class GameLibrary {
   );
 
   GameLibrary(
-      const GameLibrary&
+      const GameLibrary& rhs
   );
 
   GameLibrary(
-      GameLibrary&&
-  ) noexcept;
+      GameLibrary&& rhs
+  );
 
   virtual
   ~GameLibrary(
@@ -86,13 +86,13 @@ class GameLibrary {
 
   GameLibrary&
   operator=(
-      const GameLibrary&
+      const GameLibrary& rhs
   );
 
   GameLibrary&
   operator=(
-      GameLibrary&&
-  ) noexcept;
+      GameLibrary&& rhs
+  );
 
   /**
    * Returns the base address value of this GameLibrary.
@@ -111,8 +111,8 @@ class GameLibrary {
   ) const noexcept;
 
  private:
-  std::intptr_t base_address_;
   std::filesystem::path library_path_;
+  std::intptr_t base_address_;
 };
 
 const GameLibrary&
