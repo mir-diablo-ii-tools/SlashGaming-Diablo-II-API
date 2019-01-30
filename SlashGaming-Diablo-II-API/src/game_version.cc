@@ -326,37 +326,96 @@ GetGameVersionByLibraryData(
   // version, and if this function is called, we know that the game version is
   // not yet known.
 
+  std::vector<BYTE> expected_values;
+  std::filesystem::path library_path;
+  std::intptr_t offset_value;
+  enum GameVersion matching_version;
+  enum GameVersion non_matching_version;
+
   switch (game_version) {
     case GameVersion::k1_06: {
-      constexpr std::array<BYTE, 6> expected_values = {
+      expected_values = {
           0xA0, 0x24, 0x30, 0xC4, 0x6F, 0xC3
       };
 
-      GameAddress game_address(
-          u8"D2Client.dll",
-          GameOffset(0x9B80)
-      );
-
-      std::intptr_t raw_address = game_address.raw_address();
-
-      bool is_range_equal = std::equal(
-          expected_values.cbegin(),
-          expected_values.cend(),
-          reinterpret_cast<const BYTE*>(raw_address)
-      );
-
-      if (is_range_equal) {
-        return GameVersion::k1_06;
-      } else {
-        return GameVersion::k1_06B;
-      }
+      library_path = u8"D2Client.dll",
+      offset_value = 0x9B80;
+      matching_version = GameVersion::k1_06;
+      non_matching_version = GameVersion::k1_06B;
 
       break;
+    }
+
+    case GameVersion::k1_07: {
+      expected_values = {
+          0xA0, 0x54, 0x4C, 0x71, 0x08, 0xC3
+      };
+
+      library_path = u8"D2Client.dll";
+      offset_value = 0xB2B0;
+      matching_version = GameVersion::k1_07Beta;
+      non_matching_version = GameVersion::k1_07;
+
+      break;
+    }
+
+    case GameVersion::kLod1_14A: {
+      expected_values = {
+          0xA0, 0xCC, 0xE1, 0x82, 0x00, 0xC3
+      };
+
+      library_path = u8"Game.exe";
+      offset_value = 0x52360;
+      matching_version = GameVersion::kClassic1_14A;
+      non_matching_version = GameVersion::kLod1_14A;
+
+      break;
+    }
+
+    case GameVersion::kLod1_14B: {
+      expected_values = {
+          0xA0, 0x4C, 0x6C, 0x79, 0x00, 0xC3
+      };
+
+      library_path = u8"Game.exe";
+      offset_value = 0x3ADF0;
+      matching_version = GameVersion::kClassic1_14B;
+      non_matching_version = GameVersion::kLod1_14B;
+    }
+
+    case GameVersion::kLod1_14C: {
+      expected_values = {
+          0xA0, 0xC4, 0xEB, 0x79, 0x00, 0xC3
+      };
+
+      library_path = u8"Game.exe";
+      offset_value = 0x3F4F0;
+      matching_version = GameVersion::kClassic1_14D;
+      non_matching_version = GameVersion::kLod1_14D;
     }
 
     default: {
       return game_version;
     }
+  }
+
+  GameAddress game_address(
+      std::move(library_path),
+      GameOffset(offset_value)
+  );
+
+  std::intptr_t raw_address = game_address.raw_address();
+
+  bool is_range_equal = std::equal(
+      expected_values.cbegin(),
+      expected_values.cend(),
+      reinterpret_cast<const BYTE*>(raw_address)
+  );
+
+  if (is_range_equal) {
+    return matching_version;
+  } else {
+    return non_matching_version;
   }
 }
 
