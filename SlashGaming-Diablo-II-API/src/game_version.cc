@@ -328,7 +328,7 @@ GetGameVersionByLibraryData(
 
   switch (game_version) {
     case GameVersion::k1_06: {
-      constexpr std::array<BYTE, 6> check_values = {
+      constexpr std::array<BYTE, 6> expected_values = {
           0xA0, 0x24, 0x30, 0xC4, 0x6F, 0xC3
       };
 
@@ -340,9 +340,9 @@ GetGameVersionByLibraryData(
       std::intptr_t raw_address = game_address.raw_address();
 
       bool is_range_equal = std::equal(
-          check_values.cbegin(),
-          check_values.cend(),
-          reinterpret_cast<BYTE*>(raw_address)
+          expected_values.cbegin(),
+          expected_values.cend(),
+          reinterpret_cast<const BYTE*>(raw_address)
       );
 
       if (is_range_equal) {
