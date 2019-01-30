@@ -385,6 +385,17 @@ GetGameVersionByLibraryData(
 
     case GameVersion::kLod1_14C: {
       expected_values = {
+          0xA0, 0x4C, 0x5C, 0x79, 0x00, 0xC3
+      };
+
+      library_path = u8"Game.exe";
+      offset_value = 0x3ADF0;
+      matching_version = GameVersion::kClassic1_14C;
+      non_matching_version = GameVersion::kLod1_14C;
+    }
+
+   case GameVersion::kLod1_14D: {
+      expected_values = {
           0xA0, 0xC4, 0xEB, 0x79, 0x00, 0xC3
       };
 
