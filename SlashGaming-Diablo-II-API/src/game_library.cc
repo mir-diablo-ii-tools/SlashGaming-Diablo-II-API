@@ -95,59 +95,83 @@ GetLibrariesByPaths(
 } // namespace
 
 GameLibrary::GameLibrary(
-  enum DefaultLibrary library
+    enum DefaultLibrary library
 )
-  : GameLibrary(GetDefaultLibraryPathWithRedirect(library)) {
+    : GameLibrary(GetDefaultLibraryPathWithRedirect(library)) {
 }
 
 GameLibrary::GameLibrary(
   const std::filesystem::path& library_path
 )
-  : library_path_(library_path),
-  base_address_(GetLibraryBaseAddress(library_path)) {
+    : library_path_(library_path),
+      base_address_(GetLibraryBaseAddress(library_path)) {
 }
 
 GameLibrary::GameLibrary(
-  std::filesystem::path&& library_path
+    std::filesystem::path&& library_path
 )
-  : library_path_(std::move(library_path)),
-  base_address_(GetLibraryBaseAddress(library_path_)) {
+    : library_path_(std::move(library_path)),
+      base_address_(GetLibraryBaseAddress(library_path_)) {
 }
 
 GameLibrary::GameLibrary(
-  const GameLibrary&
-) = default;
+    const GameLibrary& rhs
+)
+    : library_path_(rhs.library_path_),
+      base_address_(GetLibraryBaseAddress(library_path_)) {
+};
 
 GameLibrary::GameLibrary(
-  GameLibrary&&
-) noexcept = default;
+    GameLibrary&& rhs
+)
+    : library_path_(std::move(rhs.library_path_)),
+      base_address_(GetLibraryBaseAddress(library_path_)) {
+};
 
 GameLibrary::~GameLibrary(
-  void
+    void
 ) {
   FreeLibrary(reinterpret_cast<HMODULE>(base_address()));
 }
 
 GameLibrary&
 GameLibrary::operator=(
-  const GameLibrary&
-  ) = default;
+    const GameLibrary& rhs
+) {
+  if (this == &rhs) {
+    return *this;
+  }
+
+  this->library_path_ = rhs.library_path_;
+  this->base_address_ = GetLibraryBaseAddress(library_path_);
+
+  return *this;
+}
 
 GameLibrary&
 GameLibrary::operator=(
-  GameLibrary&&
-  ) noexcept = default;
+    GameLibrary&& rhs
+) {
+  if (this == &rhs) {
+    return *this;
+  }
+
+  this->library_path_ = std::move(rhs.library_path_);
+  this->base_address_ = GetLibraryBaseAddress(this->library_path());
+
+  return *this;
+}
 
 std::intptr_t
 GameLibrary::base_address(
-  void
+    void
 ) const noexcept {
   return base_address_;
 }
 
 const std::filesystem::path&
 GameLibrary::library_path(
-  void
+    void
 ) const noexcept {
   return library_path_;
 }
@@ -160,7 +184,7 @@ GetGameLibrary(
       GetLibrariesByPaths();
 
   if (libraries_by_paths.count(library_path) == 0) {
-    libraries_by_paths.emplace(
+    libraries_by_paths.insert_or_assign(
         library_path,
         GameLibrary(library_path)
     );

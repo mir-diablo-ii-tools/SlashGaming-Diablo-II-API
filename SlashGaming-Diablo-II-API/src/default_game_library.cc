@@ -98,13 +98,13 @@ GetGameExecutablePath(
   /**
    * The executable used to run the game.
    */
-  const std::filesystem::path kGameExecutable = u8"Game.exe";
+  static std::filesystem::path kGameExecutable = u8"Game.exe";
 
   return kGameExecutable;
 }
 
 const std::filesystem::path&
-GetLibraryPathWithRedirect(
+GetDefaultLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
