@@ -442,8 +442,6 @@ enum GameVersion
 DetermineRunningGameVersion(
     void
 ) {
-  // TODO(Mir Drualga): Figure out how to get versions 1.06(B) and 1.14+
-  // classic detection.
   std::string game_version_string = ExtractFileVersionString(
       GetGameExecutablePath()
   );
@@ -563,10 +561,10 @@ SGD2MAPI_GetGameVersionNameSize(
     enum SGD2MAPI_GameVersion game_version
 ) {
   sgd2mapi::GameVersion actual_game_version_id =
-    static_cast<sgd2mapi::GameVersion>(game_version);
+      static_cast<sgd2mapi::GameVersion>(game_version);
 
   std::string_view game_version_name = sgd2mapi::GetGameVersionName(
-    actual_game_version_id
+      actual_game_version_id
   );
 
   return game_version_name.size() + 1;
