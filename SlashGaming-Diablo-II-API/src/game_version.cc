@@ -79,7 +79,7 @@ GetGameVersionAndFileVersionBimap(
   > version_array = {{
         // TODO(Mir Drualga): 1.00 & 1.01 have the same version #, but use
         // completely different DLLs
-        { GameVersion::k1_00, u8"1.0.0.1" },
+        { GameVersion::k1_01, u8"1.0.0.1" },
         { GameVersion::k1_02, u8"1.0.2.0" },
         { GameVersion::k1_03, u8"1.0.3.0" },
         { GameVersion::k1_04, u8"1.0.4.0" },
@@ -319,8 +319,6 @@ enum GameVersion
 GetGameVersionByLibraryData(
     enum GameVersion game_version
 ) {
-  // TODO (Mir Drualga): Implement this function.
-
   // When detecting game address, we need to specify the library as a path and
   // not with the enum. The enum requires knowledge of the current game
   // version, and if this function is called, we know that the game version is
@@ -333,6 +331,19 @@ GetGameVersionByLibraryData(
   enum GameVersion non_matching_version;
 
   switch (game_version) {
+    case GameVersion::k1_01: {
+      expected_values = {
+          0xA0, 0xDC, 0xED, 0x12, 0x10, 0xC3
+      };
+
+      library_path = u8"D2Client.dll";
+      offset_value = 0x12E30;
+      matching_version = GameVersion::k1_00;
+      non_matching_version = GameVersion::k1_01;
+
+      break;
+    }
+
     case GameVersion::k1_06: {
       expected_values = {
           0xA0, 0x24, 0x30, 0xC4, 0x6F, 0xC3
