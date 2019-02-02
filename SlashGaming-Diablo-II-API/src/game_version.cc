@@ -45,6 +45,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 
 #include <boost/bimap.hpp>
 #include <fmt/format.h>
@@ -54,11 +55,6 @@
 
 namespace sgd2mapi {
 namespace {
-
-using GameVersionAndFileVersionBimapType = boost::bimap<
-    enum GameVersion,
-    std::string_view
->;
 
 using GameVersionAndStringBimapType = boost::bimap<
     enum GameVersion,
@@ -71,59 +67,56 @@ constexpr std::wstring_view kFunctionFailErrorFormat =
     L"\n"
     L"The function %s failed with error code %x.";
 
-const GameVersionAndFileVersionBimapType&
-GetGameVersionAndFileVersionBimap(
+const std::unordered_map<
+    std::string_view,
+    enum GameVersion
+>&
+GetGameVersionByFileVersion(
     void
 ) {
-  static const std::array<
-      GameVersionAndFileVersionBimapType::value_type,
-      29
-  > version_array = {{
-        // TODO(Mir Drualga): 1.00 & 1.01 have the same version #, but use
-        // completely different DLLs
-        { GameVersion::k1_01, u8"1.0.0.1" },
-        { GameVersion::k1_02, u8"1.0.2.0" },
-        { GameVersion::k1_03, u8"1.0.3.0" },
-        { GameVersion::k1_04, u8"1.0.4.0" },
-        // 1.04B and 1.04C use the same DLLs
-        { GameVersion::k1_04B, u8"1.0.4.1" },
-        { GameVersion::k1_04C, u8"1.0.4.2" },
-        { GameVersion::k1_05, u8"1.0.5.0" },
-        { GameVersion::k1_05B, u8"1.0.5.1" },
-        // TODO(Mir Drualga): 1.06 & 1.06B have the same version #, but use
-        // completely different DLLs
-        { GameVersion::k1_06, u8"1.0.6.0" },
-        // TODO(Mir Drualga): 1.07 Beta & 1.07 have the same version #, but use
-        // completely different DLLs
-        { GameVersion::k1_07, u8"1.0.7.0" },
-        { GameVersion::k1_08, u8"1.0.8.28" },
-        { GameVersion::k1_09, u8"1.0.9.19" },
-        { GameVersion::k1_09B, u8"1.0.9.20" },
-        { GameVersion::k1_09C, u8"1.0.9.21" },
-        { GameVersion::k1_09D, u8"1.0.9.22" },
-        { GameVersion::k1_09E, u8"1.0.9.23" },
-        { GameVersion::k1_10Beta, u8"1.0.10.9" },
-        { GameVersion::k1_10SBeta, u8"1.0.10.10" },
-        { GameVersion::k1_10, u8"1.0.10.39" },
-        { GameVersion::k1_11, u8"1.0.11.45" },
-        { GameVersion::k1_11B, u8"1.0.11.46" },
-        { GameVersion::k1_12A, u8"1.0.12.49" },
-        { GameVersion::k1_13ABeta, u8"1.0.13.55" },
-        { GameVersion::k1_13C, u8"1.0.13.60" },
-        { GameVersion::k1_13D, u8"1.0.13.64" },
-        { GameVersion::kLod1_14A, u8"1.14.0.64" },
-        { GameVersion::kLod1_14B, u8"1.14.1.68" },
-        { GameVersion::kLod1_14C, u8"1.14.2.70" },
-        { GameVersion::kLod1_14D, u8"1.14.3.71" }
-  }};
+  static const std::unordered_map<
+      std::string_view,
+      enum GameVersion
+  > game_version_by_file_version = {
+        // 1.00 & 1.01 have the same version #, but use completely different
+        // DLLs.
+        { u8"1.0.0.1", GameVersion::k1_01 },
+        { u8"1.0.2.0", GameVersion::k1_02 },
+        { u8"1.0.3.0", GameVersion::k1_03 },
+        { u8"1.0.4.0", GameVersion::k1_04 },
+        // 1.04B and 1.04C use the same DLLs.
+        { u8"1.0.4.1", GameVersion::k1_04B },
+        { u8"1.0.4.2", GameVersion::k1_04C },
+        { u8"1.0.5.0", GameVersion::k1_05 },
+        { u8"1.0.5.1", GameVersion::k1_05B },
+        // 1.06 & 1.06B have the same version #, but use completely different
+        // DLLs.
+        { u8"1.0.6.0", GameVersion::k1_06 },
+        // 1.07 Beta & 1.07 have the same version #, but use completely
+        // different DLLs.
+        { u8"1.0.7.0", GameVersion::k1_07 },
+        { u8"1.0.8.28", GameVersion::k1_08 },
+        { u8"1.0.9.19", GameVersion::k1_09 },
+        { u8"1.0.9.20", GameVersion::k1_09B },
+        { u8"1.0.9.21", GameVersion::k1_09C },
+        { u8"1.0.9.22", GameVersion::k1_09D },
+        { u8"1.0.9.23", GameVersion::k1_09E },
+        { u8"1.0.10.9", GameVersion::k1_10Beta },
+        { u8"1.0.10.10", GameVersion::k1_10SBeta },
+        { u8"1.0.10.39", GameVersion::k1_10 },
+        { u8"1.0.11.45", GameVersion::k1_11 },
+        { u8"1.0.11.46", GameVersion::k1_11B },
+        { u8"1.0.12.49", GameVersion::k1_12A },
+        { u8"1.0.13.55", GameVersion::k1_13ABeta },
+        { u8"1.0.13.60", GameVersion::k1_13C },
+        { u8"1.0.13.64", GameVersion::k1_13D },
+        { u8"1.14.0.64", GameVersion::kLod1_14A },
+        { u8"1.14.1.68", GameVersion::kLod1_14B },
+        { u8"1.14.2.70", GameVersion::kLod1_14C },
+        { u8"1.14.3.71", GameVersion::kLod1_14D }
+  };
 
-  static const GameVersionAndFileVersionBimapType
-      game_version_and_file_version_bimap(
-          version_array.cbegin(),
-          version_array.cend()
-      );
-
-  return game_version_and_file_version_bimap;
+  return game_version_by_file_version;
 }
 
 const GameVersionAndStringBimapType&
@@ -139,6 +132,7 @@ GetGameVersionAndStringBimap(
         { GameVersion::k1_02, u8"1.02" },
         { GameVersion::k1_03, u8"1.03" },
         { GameVersion::k1_04, u8"1.04" },
+        // 1.04B and 1.04C use the same DLLs.
         { GameVersion::k1_04B, u8"1.04B" },
         { GameVersion::k1_04C, u8"1.04C" },
         { GameVersion::k1_05, u8"1.05" },
@@ -290,7 +284,7 @@ GetGameVersionByFileVersion(
     std::string_view version_string
 ) {
   const auto& game_versions_by_file_version =
-      GetGameVersionAndFileVersionBimap().right;
+      GetGameVersionByFileVersion();
 
   try {
     return game_versions_by_file_version.at(version_string);
