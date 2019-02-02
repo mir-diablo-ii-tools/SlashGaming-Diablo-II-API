@@ -65,13 +65,13 @@ const std::unordered_map<
     std::string_view,
     enum GameVersion
 >&
-GetGameVersionByFileVersion(
+GetGameVersionsByFileVersions(
     void
 ) {
   static const std::unordered_map<
       std::string_view,
       enum GameVersion
-  > game_version_by_file_version = {
+  > game_versions_by_file_versions = {
         // 1.00 & 1.01 have the same version #, but use completely different
         // DLLs.
         { u8"1.0.0.1", GameVersion::k1_01 },
@@ -107,7 +107,7 @@ GetGameVersionByFileVersion(
         { u8"1.14.3.71", GameVersion::kLod1_14D }
   };
 
-  return game_version_by_file_version;
+  return game_versions_by_file_versions;
 }
 
 const std::unordered_map<
@@ -265,14 +265,14 @@ ExtractFileVersionString(
 }
 
 enum GameVersion
-GetGameVersionByFileVersion(
+DetermineGameVersionByFileVersion(
     std::string_view version_string
 ) {
-  const auto& game_versions_by_file_version =
-      GetGameVersionByFileVersion();
+  const auto& game_versions_by_file_versions =
+      GetGameVersionsByFileVersions();
 
   try {
-    return game_versions_by_file_version.at(version_string);
+    return game_versions_by_file_versions.at(version_string);
   } catch(const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
@@ -441,7 +441,7 @@ DetermineRunningGameVersion(
 
   // Perform first stage game version detection using the executable file
   // name.
-  enum GameVersion game_version = GetGameVersionByFileVersion(
+  enum GameVersion game_version = DetermineGameVersionByFileVersion(
       game_version_string
   );
 
