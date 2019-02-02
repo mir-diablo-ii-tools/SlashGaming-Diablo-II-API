@@ -47,7 +47,6 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/bimap.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../include/default_game_library.h"
@@ -55,11 +54,6 @@
 
 namespace sgd2mapi {
 namespace {
-
-using GameVersionAndStringBimapType = boost::bimap<
-    enum GameVersion,
-    std::string_view
->;
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
     L"File: %s \n"
@@ -116,13 +110,17 @@ GetGameVersionByFileVersion(
   return game_version_by_file_version;
 }
 
-const GameVersionAndStringBimapType&
-GetGameVersionAndStringBimap(
+const std::unordered_map<
+    enum GameVersion,
+    std::string_view
+>&
+GetGameVersionNamesByGameVersionIds(
     void
 ) {
-  static const std::vector<
-      GameVersionAndStringBimapType::value_type
-  > version_array = {
+  static const std::unordered_map<
+      enum GameVersion,
+      std::string_view
+  > game_version_names_by_game_version_ids = {
         { GameVersion::k1_00, u8"1.00" },
         { GameVersion::k1_01, u8"1.01" },
         { GameVersion::k1_02, u8"1.02" },
@@ -158,12 +156,7 @@ GetGameVersionAndStringBimap(
         { GameVersion::kLod1_14D, u8"LoD 1.14D" }
   };
 
-  static const GameVersionAndStringBimapType game_version_and_string_bimap(
-      std::make_move_iterator(version_array.cbegin()),
-      std::make_move_iterator(version_array.cend())
-  );
-
-  return game_version_and_string_bimap;
+  return game_version_names_by_game_version_ids;
 }
 
 std::string
@@ -466,7 +459,7 @@ GetGameVersionName(
     enum GameVersion game_version
 ) {
   try {
-    return GetGameVersionAndStringBimap().left.at(game_version);
+    return GetGameVersionNamesByGameVersionIds().at(game_version);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
