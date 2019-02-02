@@ -67,12 +67,12 @@ const BranchTypeAndOpcodeMapType&
 GetOpCodeByBranchTypeMap(
     void
 ) {
-  static const BranchTypeAndOpcodeMapType op_code_by_branch_type = {
+  static const BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
       { BranchType::kCall, OpCode::kCall },
       { BranchType::kJump, OpCode::kJump }
   };
 
-  return op_code_by_branch_type;
+  return op_codes_by_branch_types;
 }
 
 std::vector<std::uint8_t>
