@@ -66,7 +66,9 @@ using GameVersionAndStringBimapType = boost::bimap<
 >;
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: %s, Line: %d \n"
+    L"File: %s \n"
+    L"Line: %d \n"
+    L"\n"
     L"The function %s failed with error code %x.";
 
 const GameVersionAndFileVersionBimapType&
@@ -294,8 +296,11 @@ GetGameVersionByFileVersion(
     return game_versions_by_file_version.at(version_string);
   } catch(const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s, Line %d \n"
-        L"Could not determine the game version from the file version: %s.";
+        L"File: %s \n"
+        L"Line: %d \n"
+        L"\n"
+        L"Could not determine the game version from the file version:"
+        L"\"%s\".";
 
     std::wstring full_message = fmt::sprintf(
         kErrorFormatMessage,
@@ -482,6 +487,7 @@ GetGameVersionName(
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: %s \n"
         L"Line: %d \n"
+        L"\n"
         L"Could not determine the game version name from the game version ID: "
         L"%d.";
 
