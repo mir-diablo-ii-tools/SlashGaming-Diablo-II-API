@@ -57,7 +57,6 @@
 #include "../include/game_version.h"
 
 namespace sgd2mapi {
-
 namespace {
 
 constexpr std::string_view kLocatorTypeKey = u8"Locator Type";
@@ -95,15 +94,12 @@ ResolveLocator(
 
 GameAddress
 ResolveAddress(
-    std::string_view library_name,
+    const std::filesystem::path& library_path,
     std::string_view address_name,
     std::string_view locator_type,
     std::string_view locator_value
 ) {
-  std::string library_file_name = library_name.data();
-  library_file_name += u8".dll";
-
-  const GameLibrary& game_library = GetGameLibrary(library_file_name);
+  const GameLibrary& game_library = GetGameLibrary(library_path);
   std::intptr_t game_library_base_address = game_library.base_address();
 
   std::shared_ptr<
@@ -182,19 +178,27 @@ ReadTsvTableFile(
     }
 
     // Pull the column data.
-    const std::string& library_name = matches[1];
+    const std::string& library_path_text = matches[1];
     const std::string& address_name = matches[2];
     const std::string& locator_type = matches[3];
     const std::string& locator_value = matches[4];
 
+    std::filesystem::path library_path = std::filesystem::u8path(
+        library_path_text
+    );
+
     GameAddress resolved_game_address = ResolveAddress(
-        library_name,
+        library_path,
         address_name,
         locator_type,
         locator_value
     );
 
-    std::string full_address_name = library_name + u8"_" + address_name;
+    library_path.replace_extension();
+
+    std::string full_address_name = library_path.filename().u8string()
+        + u8"_"
+        + address_name;
 
     address_table.insert_or_assign(
         std::move(full_address_name),
