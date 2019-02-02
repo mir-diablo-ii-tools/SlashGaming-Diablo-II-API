@@ -85,8 +85,8 @@ GetGameVersionByFileVersion(
         { u8"1.0.3.0", GameVersion::k1_03 },
         { u8"1.0.4.0", GameVersion::k1_04 },
         // 1.04B and 1.04C use the same DLLs.
-        { u8"1.0.4.1", GameVersion::k1_04B },
-        { u8"1.0.4.2", GameVersion::k1_04C },
+        { u8"1.0.4.1", GameVersion::k1_04B_C },
+        { u8"1.0.4.2", GameVersion::k1_04B_C },
         { u8"1.0.5.0", GameVersion::k1_05 },
         { u8"1.0.5.1", GameVersion::k1_05B },
         // 1.06 & 1.06B have the same version #, but use completely different
@@ -123,18 +123,16 @@ const GameVersionAndStringBimapType&
 GetGameVersionAndStringBimap(
     void
 ) {
-  static const std::array<
-      GameVersionAndStringBimapType::value_type,
-      36
-  > version_array = {{
+  static const std::vector<
+      GameVersionAndStringBimapType::value_type
+  > version_array = {
         { GameVersion::k1_00, u8"1.00" },
         { GameVersion::k1_01, u8"1.01" },
         { GameVersion::k1_02, u8"1.02" },
         { GameVersion::k1_03, u8"1.03" },
         { GameVersion::k1_04, u8"1.04" },
         // 1.04B and 1.04C use the same DLLs.
-        { GameVersion::k1_04B, u8"1.04B" },
-        { GameVersion::k1_04C, u8"1.04C" },
+        { GameVersion::k1_04B_C, u8"1.04B/C" },
         { GameVersion::k1_05, u8"1.05" },
         { GameVersion::k1_05B, u8"1.05B" },
         { GameVersion::k1_06, u8"1.06" },
@@ -164,11 +162,11 @@ GetGameVersionAndStringBimap(
         { GameVersion::kLod1_14C, u8"LoD 1.14C" },
         { GameVersion::kClassic1_14D, u8"Classic 1.14D" },
         { GameVersion::kLod1_14D, u8"LoD 1.14D" }
-  }};
+  };
 
   static const GameVersionAndStringBimapType game_version_and_string_bimap(
-      version_array.cbegin(),
-      version_array.cend()
+      std::make_move_iterator(version_array.cbegin()),
+      std::make_move_iterator(version_array.cend())
   );
 
   return game_version_and_string_bimap;

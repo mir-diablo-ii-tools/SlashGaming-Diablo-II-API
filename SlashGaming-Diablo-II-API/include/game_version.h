@@ -119,10 +119,9 @@ enum SGD2MAPI_GameVersion
 enum class sgd2mapi::GameVersion
 #endif // __cplusplus
 {
-  k1_00, k1_01, k1_02, k1_03, k1_04, k1_04B, k1_04C = k1_04B, k1_05,
-  k1_05B, k1_06, k1_06B, k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09C,
-  k1_09D, k1_09E, k1_10, k1_10Beta, k1_10SBeta, k1_11, k1_11B, k1_12A,
-  k1_13ABeta, k1_13C, k1_13D,
+  k1_00, k1_01, k1_02, k1_03, k1_04, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
+  k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09C, k1_09D, k1_09E, k1_10,
+  k1_10Beta, k1_10SBeta, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
 
   kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
   kClassic1_14D, kLod1_14D,
