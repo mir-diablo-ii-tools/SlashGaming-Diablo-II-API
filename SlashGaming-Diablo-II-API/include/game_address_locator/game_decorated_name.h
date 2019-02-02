@@ -40,6 +40,8 @@
 
 #include "game_address_locator_interface.h"
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 #include <cstdint>
 #include <string>
@@ -54,11 +56,27 @@
 #define DLLEXPORT
 #endif
 
+struct SGD2MAPI_GameDecoratedName;
+
 #ifdef __cplusplus
+struct SGD2MAPI_GameDecoratedName
+    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+ public:
+  /**
+   * Returns the decorated name of this GameDecoratedName, represented with
+   * a string encoded in 7-bit ASCII.
+   */
+  virtual const std::string&
+  decorated_name(
+      void
+  ) const noexcept = 0;
+};
+
 namespace sgd2mapi {
 
 class DLLEXPORT GameDecoratedName
-    : public GameAddressLocatorInterface {
+    : public GameAddressLocatorInterface,
+      public ::SGD2MAPI_GameDecoratedName {
  public:
   /**
    * Creates a new instance of GameDecoratedName using a null-terminated array
@@ -131,7 +149,7 @@ class DLLEXPORT GameDecoratedName
   const std::string&
   decorated_name(
       void
-  ) const noexcept;
+  ) const noexcept override;
 
  private:
   std::string decorated_name_;
@@ -145,7 +163,6 @@ class DLLEXPORT GameDecoratedName
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameDecoratedName;
 
 #ifdef __cplusplus
 extern "C" {
@@ -171,16 +188,16 @@ SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
     const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 );
 
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
-);
-
-DLLEXPORT const char*
+DLLEXPORT char*
 SGD2MAPI_GameDecoratedName_GetDecoratedName(
+    char dest[],
     const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 );
 
+DLLEXPORT size_t
+SGD2MAPI_GameDecoratedName_GetDecoratedNameSize(
+    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+);
 
 #ifdef __cplusplus
 }

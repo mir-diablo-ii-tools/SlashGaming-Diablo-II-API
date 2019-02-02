@@ -54,7 +54,20 @@
 #define DLLEXPORT
 #endif
 
+struct SGD2MAPI_GameOffset;
+
 #ifdef __cplusplus
+struct DLLEXPORT SGD2MAPI_GameOffset
+    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+  /**
+   * Returns the offset of this GameOffset.
+   */
+  virtual std::intptr_t
+  offset(
+      void
+  ) const noexcept = 0;
+};
+
 namespace sgd2mapi {
 
 /**
@@ -62,7 +75,8 @@ namespace sgd2mapi {
  * game memory.
  */
 class DLLEXPORT GameOffset
-    : public GameAddressLocatorInterface {
+    : public GameAddressLocatorInterface,
+      public ::SGD2MAPI_GameOffset {
  public:
   /**
    * Creates a new instance of GameOffset.
@@ -109,7 +123,7 @@ class DLLEXPORT GameOffset
   std::intptr_t
   offset(
       void
-  ) const noexcept;
+  ) const noexcept override;
 
  private:
   std::intptr_t offset_;
@@ -123,25 +137,24 @@ class DLLEXPORT GameOffset
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOffset;
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
 /**
- * Creates a new GameOffset, upcasted to a GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
-    intptr_t offset
-);
-
-/**
  * Creates a new GameOffset.
  */
 DLLEXPORT struct SGD2MAPI_GameOffset*
 SGD2MAPI_GameOffset_Create(
+    intptr_t offset
+);
+
+/**
+ * Creates a new GameOffset, upcasted to a GameAddressLocatorInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
     intptr_t offset
 );
 
@@ -159,15 +172,6 @@ SGD2MAPI_GameOffset_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface and destroys the specified game locator.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterfaceThenDestroy(
     struct SGD2MAPI_GameOffset* c_game_offset
 );
 

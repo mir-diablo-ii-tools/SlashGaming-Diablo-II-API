@@ -37,7 +37,7 @@
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
 
-#include "c/game_address_locator_interface.h"
+#include <cstdint>
 
 namespace sgd2mapi {
 
@@ -46,6 +46,10 @@ GameAddressLocatorInterface::~GameAddressLocatorInterface(
 ) = default;
 
 } // namespace sgd2mapi
+
+SGD2MAPI_GameAddressLocatorInterface::~SGD2MAPI_GameAddressLocatorInterface(
+    void
+) = default;
 
 /**
  * C Interface
@@ -57,4 +61,21 @@ SGD2MAPI_GameAddressLocatorInterface_Destroy(
         c_game_address_locator_interface
 ) {
   delete c_game_address_locator_interface;
+}
+
+struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameAddressLocatorInterface_Clone(
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
+) {
+  return c_game_address_locator_interface->Clone();
+}
+
+std::intptr_t
+SGD2MAPI_GameAddressLocatorInterface_ResolveGameAddress(
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface,
+    std::intptr_t base_address
+) {
+  return c_game_address_locator_interface->ResolveGameAddress(base_address);
 }

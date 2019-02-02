@@ -42,9 +42,6 @@
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
 
-#include "c/game_address_locator_interface.h"
-#include "c/game_offset.h"
-
 namespace sgd2mapi {
 
 GameOffset::GameOffset(
@@ -106,11 +103,8 @@ struct SGD2MAPI_GameOffset*
 SGD2MAPI_GameOffset_Create(
     std::intptr_t offset
 ) {
-  struct SGD2MAPI_GameOffset* c_game_offset = new SGD2MAPI_GameOffset;
-  c_game_offset->actual_ptr =
-      std::make_shared<sgd2mapi::GameOffset>(
-          offset
-      );
+  struct SGD2MAPI_GameOffset* c_game_offset =
+      new sgd2mapi::GameOffset(offset);
 
   return c_game_offset;
 }
@@ -119,16 +113,7 @@ struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
     std::intptr_t offset
 ) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-
-  c_game_address_locator_interface->actual_ptr =
-      std::make_shared<sgd2mapi::GameOffset>(
-          offset
-      );
-
-  return c_game_address_locator_interface;
+  return ::SGD2MAPI_GameOffset_Create(offset);
 }
 
 void
@@ -140,32 +125,14 @@ SGD2MAPI_GameOffset_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOffset* c_game_offset
-) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-  c_game_address_locator_interface->actual_ptr = c_game_offset->actual_ptr;
-
-  return c_game_address_locator_interface;
-}
-
-struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterfaceThenDestroy(
     struct SGD2MAPI_GameOffset* c_game_offset
 ) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-
-  SGD2MAPI_GameOffset_Destroy(c_game_offset);
-
-  return c_game_address_locator_interface;
+  return c_game_offset;
 }
 
 std::intptr_t
 SGD2MAPI_GameOffset_GetOffset(
     const struct SGD2MAPI_GameOffset* c_game_offset
 ) {
-  return c_game_offset->actual_ptr->offset();
+  return c_game_offset->offset();
 }

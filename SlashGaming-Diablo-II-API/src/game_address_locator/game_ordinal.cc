@@ -40,15 +40,11 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
-#include <memory>
 #include <string>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/game_address_locator/game_address_locator_interface.h"
-
-#include "c/game_address_locator_interface.h"
-#include "c/game_ordinal.h"
 
 namespace sgd2mapi {
 
@@ -145,9 +141,8 @@ struct SGD2MAPI_GameOrdinal*
 SGD2MAPI_GameOrdinal_Create(
     int ordinal
 ) {
-  struct SGD2MAPI_GameOrdinal* c_game_ordinal = new SGD2MAPI_GameOrdinal;
-  c_game_ordinal->actual_ptr =
-      std::make_shared<sgd2mapi::GameOrdinal>(ordinal);
+  struct SGD2MAPI_GameOrdinal* c_game_ordinal =
+      new sgd2mapi::GameOrdinal(ordinal);
 
   return c_game_ordinal;
 }
@@ -156,14 +151,7 @@ struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
     int ordinal
 ) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-
-  c_game_address_locator_interface->actual_ptr =
-      std::make_shared<sgd2mapi::GameOrdinal>(ordinal);
-
-  return c_game_address_locator_interface;
+  return ::SGD2MAPI_GameOrdinal_Create(ordinal);
 }
 
 void
@@ -175,36 +163,14 @@ SGD2MAPI_GameOrdinal_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
-) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-
-  c_game_address_locator_interface->actual_ptr =
-      c_game_ordinal->actual_ptr;
-
-  return c_game_address_locator_interface;
-}
-
-struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterfaceThenDestroy(
     struct SGD2MAPI_GameOrdinal* c_game_ordinal
 ) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-              c_game_ordinal
-          );
-
-  SGD2MAPI_GameOrdinal_Destroy(c_game_ordinal);
-
-  return c_game_address_locator_interface;
+  return c_game_ordinal;
 }
 
 int
 SGD2MAPI_GameOrdinal_GetOrdinal(
     const struct SGD2MAPI_GameOrdinal* c_game_ordinal
 ) {
-  return c_game_ordinal->actual_ptr->ordinal();
+  return c_game_ordinal->ordinal();
 }

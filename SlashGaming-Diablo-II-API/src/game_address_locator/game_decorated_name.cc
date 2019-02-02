@@ -40,15 +40,13 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
-#include <memory>
+#include <algorithm>
 #include <string>
 #include <string_view>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
-
-#include "c/game_address_locator_interface.h"
-#include "c/game_decorated_name.h"
+#include "../../include/game_address_locator/game_address_locator_interface.h"
 
 namespace sgd2mapi {
 
@@ -150,12 +148,7 @@ SGD2MAPI_GameDecoratedName_Create(
     const char decorated_name[]
 ) {
   struct SGD2MAPI_GameDecoratedName* c_game_decorated_name =
-      new SGD2MAPI_GameDecoratedName;
-
-  c_game_decorated_name->actual_ptr =
-      std::make_shared<sgd2mapi::GameDecoratedName>(
-          decorated_name
-      );
+      new sgd2mapi::GameDecoratedName(decorated_name);
 
   return c_game_decorated_name;
 }
@@ -164,16 +157,7 @@ struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameDecoratedName_CreateAsGameAddressLocatorInterface(
     const char decorated_name[]
 ) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-
-  c_game_address_locator_interface->actual_ptr =
-      std::make_shared<sgd2mapi::GameDecoratedName>(
-          decorated_name
-      );
-
-  return c_game_address_locator_interface;
+  return SGD2MAPI_GameDecoratedName_Create(decorated_name);
 }
 
 void
@@ -185,36 +169,33 @@ SGD2MAPI_GameDecoratedName_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
-) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          new SGD2MAPI_GameAddressLocatorInterface;
-
-  c_game_address_locator_interface->actual_ptr =
-      c_game_decorated_name->actual_ptr;
-
-  return c_game_address_locator_interface;
-}
-
-struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterfaceThenDestroy(
     struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
-  struct SGD2MAPI_GameAddressLocatorInterface*
-      c_game_address_locator_interface =
-          SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
-              c_game_decorated_name
-          );
-
-  SGD2MAPI_GameDecoratedName_Destroy(c_game_decorated_name);
-
-  return c_game_address_locator_interface;
+  return c_game_decorated_name;
 }
 
-const char*
+char*
 SGD2MAPI_GameDecoratedName_GetDecoratedName(
+    char dest[],
     const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
-  return c_game_decorated_name->actual_ptr->decorated_name().data();
+  const std::string& decorated_name =
+      c_game_decorated_name->decorated_name();
+
+  std::copy(
+      decorated_name.cbegin(),
+      decorated_name.cend(),
+      dest
+  );
+
+  dest[decorated_name.size()] = '\0';
+
+  return dest;
+}
+
+std::size_t
+SGD2MAPI_GameDecoratedName_GetDecoratedNameSize(
+    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+) {
+  return c_game_decorated_name->decorated_name().size() + 1;
 }

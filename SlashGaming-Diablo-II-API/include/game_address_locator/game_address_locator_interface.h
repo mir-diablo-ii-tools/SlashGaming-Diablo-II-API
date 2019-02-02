@@ -38,6 +38,8 @@
 #ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
 #define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 #include <cstdint>
 #endif // __cplusplus
@@ -50,24 +52,20 @@
 #define DLLEXPORT
 #endif
 
-#ifdef __cplusplus
-namespace sgd2mapi {
+struct SGD2MAPI_GameAddressLocatorInterface;
 
-/**
- * An interface for game address locator implementations that specify a
- * location in game memory.
- */
-class DLLEXPORT GameAddressLocatorInterface {
+#ifdef __cplusplus
+struct DLLEXPORT SGD2MAPI_GameAddressLocatorInterface {
  public:
   virtual
-  ~GameAddressLocatorInterface(
+  ~SGD2MAPI_GameAddressLocatorInterface(
       void
   );
 
   /**
    * Clones this game address locator and returns a pointer to the clone.
    */
-  virtual GameAddressLocatorInterface*
+  virtual SGD2MAPI_GameAddressLocatorInterface*
   Clone(
       void
   ) const = 0;
@@ -82,6 +80,20 @@ class DLLEXPORT GameAddressLocatorInterface {
   ) const = 0;
 };
 
+namespace sgd2mapi {
+
+/**
+ * An interface for game address locator implementations that specify a
+ * location in game memory.
+ */
+class DLLEXPORT GameAddressLocatorInterface
+    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+ public:
+  ~GameAddressLocatorInterface(
+      void
+  ) override;
+};
+
 } // namespace sgd2mapi
 #endif // __cplusplus
 
@@ -90,7 +102,6 @@ class DLLEXPORT GameAddressLocatorInterface {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddressLocatorInterface;
 
 #ifdef __cplusplus
 extern "C" {
@@ -103,6 +114,19 @@ DLLEXPORT void
 SGD2MAPI_GameAddressLocatorInterface_Destroy(
     struct SGD2MAPI_GameAddressLocatorInterface*
         c_game_address_locator_interface
+);
+
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameAddressLocatorInterface_Clone(
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
+);
+
+DLLEXPORT intptr_t
+SGD2MAPI_GameAddressLocatorInterface_ResolveGameAddress(
+    const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface,
+    intptr_t base_address
 );
 
 #ifdef __cplusplus
