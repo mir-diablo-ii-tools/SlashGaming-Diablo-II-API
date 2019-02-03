@@ -94,10 +94,15 @@ class DLLEXPORT GameOffset
       GameOffset&&
   ) noexcept;
 
-  GameAddressLocatorInterface*
+  GameOffset*
   Clone(
       void
   ) const override;
+
+  GameOffset*
+  MoveToClone(
+      void
+  ) override;
 
   std::intptr_t
   ResolveGameAddress(

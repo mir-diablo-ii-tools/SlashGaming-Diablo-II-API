@@ -42,6 +42,7 @@
 #include <cstdlib>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
@@ -91,11 +92,20 @@ GameOrdinal::operator=(
     GameOrdinal&&
 ) noexcept = default;
 
-GameAddressLocatorInterface*
+GameOrdinal*
 GameOrdinal::Clone(
     void
 ) const {
   return new GameOrdinal(*this);
+}
+
+GameOrdinal*
+GameOrdinal::MoveToClone(
+    void
+) {
+  return new GameOrdinal(
+      std::move(this->ordinal_)
+  );
 }
 
 std::intptr_t

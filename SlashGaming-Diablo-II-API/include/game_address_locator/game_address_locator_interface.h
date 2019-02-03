@@ -74,6 +74,15 @@ class DLLEXPORT GameAddressLocatorInterface {
   ) const = 0;
 
   /**
+   * Destructively moves all data into a clone and returns a pointer to the
+   * clone.
+   */
+  virtual GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) = 0;
+
+  /**
    * Resolves the destination game address, using the provided library base
    * address.
    */
