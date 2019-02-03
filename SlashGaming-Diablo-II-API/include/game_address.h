@@ -73,7 +73,7 @@ class DLLEXPORT GameAddress {
    */
   GameAddress(
       const std::filesystem::path& library_path,
-      const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+      const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
   );
 
   /**
@@ -82,7 +82,7 @@ class DLLEXPORT GameAddress {
    */
   GameAddress(
       std::filesystem::path&& library_path,
-      const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+      const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
   );
 
   /**
@@ -91,7 +91,9 @@ class DLLEXPORT GameAddress {
    */
   GameAddress(
       const std::filesystem::path& library_path,
-      std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator
+      std::shared_ptr<
+          struct SGD2MAPI_GameAddressLocatorInterface
+      > address_locator
   );
 
   /**
@@ -100,7 +102,9 @@ class DLLEXPORT GameAddress {
    */
   GameAddress(
       std::filesystem::path&& library_path,
-      std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator
+      std::shared_ptr<
+          struct SGD2MAPI_GameAddressLocatorInterface
+      > address_locator
   );
 
   /**
@@ -109,7 +113,7 @@ class DLLEXPORT GameAddress {
    */
   GameAddress(
       enum DefaultLibrary library,
-      const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+      const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
   );
 
   /**
@@ -118,7 +122,9 @@ class DLLEXPORT GameAddress {
    */
   GameAddress(
       enum DefaultLibrary library,
-      std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator
+      std::shared_ptr<
+          struct SGD2MAPI_GameAddressLocatorInterface
+      > address_locator
   );
 
   /**
@@ -129,7 +135,9 @@ class DLLEXPORT GameAddress {
       const std::filesystem::path& library_path,
       const std::unordered_map<
           enum GameVersion,
-          std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+          std::shared_ptr<
+              struct SGD2MAPI_GameAddressLocatorInterface
+          >
       >& address_locators
   );
 
@@ -141,7 +149,9 @@ class DLLEXPORT GameAddress {
       std::filesystem::path&& library_path,
       const std::unordered_map<
           enum GameVersion,
-          std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+          std::shared_ptr<
+              struct SGD2MAPI_GameAddressLocatorInterface
+          >
       >& address_locators
   );
 
@@ -153,7 +163,9 @@ class DLLEXPORT GameAddress {
       enum DefaultLibrary library,
       const std::unordered_map<
           enum GameVersion,
-          std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+          std::shared_ptr<
+              struct SGD2MAPI_GameAddressLocatorInterface
+          >
       >& address_locators
   );
 
@@ -191,7 +203,7 @@ class DLLEXPORT GameAddress {
   /**
    * Returns the address locator of this GameAddress.
    */
-  const std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>&
+  const std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>&
   address_locator(
       void
   ) const noexcept;
@@ -206,7 +218,9 @@ class DLLEXPORT GameAddress {
 
  private:
   std::filesystem::path library_path_;
-  std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator_;
+  std::shared_ptr<
+      struct SGD2MAPI_GameAddressLocatorInterface
+  > address_locator_;
   std::intptr_t raw_address_;
 };
 

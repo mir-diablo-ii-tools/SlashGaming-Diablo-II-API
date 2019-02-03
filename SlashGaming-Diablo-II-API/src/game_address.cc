@@ -59,7 +59,7 @@ namespace {
 std::intptr_t
 ResolveRawAddress(
     const std::filesystem::path& library_path,
-    const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+    const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
 ) {
 
   // Figure out which game library is specified.
@@ -73,12 +73,14 @@ ResolveRawAddress(
   return resolved_address;
 }
 
-std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>
 ResolveGameAddressLocator(
     const std::filesystem::path& library_path,
     const std::unordered_map<
         enum GameVersion,
-        std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+        std::shared_ptr<
+            struct SGD2MAPI_GameAddressLocatorInterface
+        >
     >& address_locators
 ) {
   enum GameVersion current_version = GetRunningGameVersionId();
@@ -115,11 +117,11 @@ ResolveGameAddressLocator(
 
 GameAddress::GameAddress(
     const std::filesystem::path& library_path,
-    const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+    const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
 )
     : GameAddress(
           library_path,
-          std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>(
+          std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>(
               address_locator.Clone()
           )
       ) {
@@ -127,11 +129,11 @@ GameAddress::GameAddress(
 
 GameAddress::GameAddress(
     std::filesystem::path&& library_path,
-    const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+    const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
 )
     : GameAddress(
           std::move(library_path),
-          std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>(
+          std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>(
               address_locator.Clone()
           )
       ) {
@@ -139,7 +141,9 @@ GameAddress::GameAddress(
 
 GameAddress::GameAddress(
     const std::filesystem::path& library_path,
-    std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator
+    std::shared_ptr<
+        struct SGD2MAPI_GameAddressLocatorInterface
+    > address_locator
 )
     : library_path_(library_path),
       address_locator_(std::move(address_locator)),
@@ -148,7 +152,9 @@ GameAddress::GameAddress(
 
 GameAddress::GameAddress(
     std::filesystem::path&& library_path,
-    std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator
+    std::shared_ptr<
+        struct SGD2MAPI_GameAddressLocatorInterface
+    > address_locator
 )
     : library_path_(std::move(library_path)),
       address_locator_(std::move(address_locator)),
@@ -157,7 +163,7 @@ GameAddress::GameAddress(
 
 GameAddress::GameAddress(
     enum DefaultLibrary library,
-    const ::SGD2MAPI_GameAddressLocatorInterface& address_locator
+    const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
 )
     : GameAddress(
           GetDefaultLibraryPathWithRedirect(library),
@@ -167,7 +173,9 @@ GameAddress::GameAddress(
 
 GameAddress::GameAddress(
     enum DefaultLibrary library,
-    std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface> address_locator
+    std::shared_ptr<
+        struct SGD2MAPI_GameAddressLocatorInterface
+    > address_locator
 )
     : GameAddress(
           GetDefaultLibraryPathWithRedirect(library),
@@ -179,7 +187,7 @@ GameAddress::GameAddress(
     const std::filesystem::path& library_path,
     const std::unordered_map<
         enum GameVersion,
-        std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+        std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>
     >& address_locators
 )
     : GameAddress(
@@ -195,7 +203,7 @@ GameAddress::GameAddress(
     std::filesystem::path&& library_path,
     const std::unordered_map<
         enum GameVersion,
-        std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+        std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>
     >& address_locators
 )
     : GameAddress(
@@ -211,7 +219,7 @@ GameAddress::GameAddress(
     enum DefaultLibrary library,
     const std::unordered_map<
         enum GameVersion,
-        std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>
+        std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>
     >& address_locators
 )
     : GameAddress(
@@ -249,7 +257,7 @@ GameAddress::library_path(
   return library_path_;
 }
 
-const std::shared_ptr<::SGD2MAPI_GameAddressLocatorInterface>&
+const std::shared_ptr<struct SGD2MAPI_GameAddressLocatorInterface>&
 GameAddress::address_locator(
     void
 ) const noexcept {

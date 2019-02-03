@@ -87,7 +87,7 @@ namespace sgd2mapi {
  * location in game memory.
  */
 class DLLEXPORT GameAddressLocatorInterface
-    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+    : public virtual SGD2MAPI_GameAddressLocatorInterface {
  public:
   ~GameAddressLocatorInterface(
       void

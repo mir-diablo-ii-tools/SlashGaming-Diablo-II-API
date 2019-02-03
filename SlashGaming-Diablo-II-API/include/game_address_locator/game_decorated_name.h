@@ -60,7 +60,7 @@ struct SGD2MAPI_GameDecoratedName;
 
 #ifdef __cplusplus
 struct SGD2MAPI_GameDecoratedName
-    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+    : public virtual SGD2MAPI_GameAddressLocatorInterface {
  public:
   /**
    * Returns the decorated name of this GameDecoratedName, represented with

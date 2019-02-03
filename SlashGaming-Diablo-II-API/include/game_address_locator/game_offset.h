@@ -58,7 +58,7 @@ struct SGD2MAPI_GameOffset;
 
 #ifdef __cplusplus
 struct DLLEXPORT SGD2MAPI_GameOffset
-    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+    : public virtual SGD2MAPI_GameAddressLocatorInterface {
   /**
    * Returns the offset of this GameOffset.
    */

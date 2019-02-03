@@ -56,7 +56,7 @@ struct SGD2MAPI_GameOrdinal;
 
 #ifdef __cplusplus
 struct DLLEXPORT SGD2MAPI_GameOrdinal
-    : public virtual ::SGD2MAPI_GameAddressLocatorInterface {
+    : public virtual SGD2MAPI_GameAddressLocatorInterface {
  public:
   /**
    * Returns the ordinal value of this GameOrdinal.
