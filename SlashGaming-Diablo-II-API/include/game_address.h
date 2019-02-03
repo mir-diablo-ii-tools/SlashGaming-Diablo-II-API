@@ -85,6 +85,15 @@ class DLLEXPORT GameAddress {
       const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
   );
 
+    /**
+   * Create a new instance of GameAddress, specifying the library ID and a
+   * game address locator.
+   */
+  GameAddress(
+      enum DefaultLibrary library,
+      const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
+  );
+
   /**
    * Create a new instance of GameAddress, specifying the library path and a
    * game address locator.
@@ -105,15 +114,6 @@ class DLLEXPORT GameAddress {
       std::shared_ptr<
           struct SGD2MAPI_GameAddressLocatorInterface
       > address_locator
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library ID and a
-   * game address locator.
-   */
-  GameAddress(
-      enum DefaultLibrary library,
-      const struct SGD2MAPI_GameAddressLocatorInterface& address_locator
   );
 
   /**
