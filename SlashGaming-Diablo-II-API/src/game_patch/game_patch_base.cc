@@ -45,8 +45,6 @@
 
 #include "../../include/game_address.h"
 
-#include "c/game_patch_base.h"
-
 namespace sgd2mapi {
 
 GamePatchBase::GamePatchBase(

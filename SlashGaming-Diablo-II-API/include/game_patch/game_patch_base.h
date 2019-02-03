@@ -43,6 +43,7 @@
 #ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <vector>
 #endif // __cplusplus
 
@@ -195,6 +196,10 @@ class DLLEXPORT GamePatchBase {
 struct SGD2MAPI_GamePatchBase;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GamePatchBase {
+  std::shared_ptr<sgd2mapi::GamePatchBase> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

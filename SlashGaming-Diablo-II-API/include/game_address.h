@@ -221,6 +221,10 @@ class DLLEXPORT GameAddress {
 struct SGD2MAPI_GameAddress;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameAddress {
+  std::shared_ptr<sgd2mapi::GameAddress> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

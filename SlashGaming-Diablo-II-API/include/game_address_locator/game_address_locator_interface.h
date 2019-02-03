@@ -40,6 +40,7 @@
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <memory>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -93,6 +94,10 @@ class DLLEXPORT GameAddressLocatorInterface {
 struct SGD2MAPI_GameAddressLocatorInterface;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameAddressLocatorInterface {
+  std::shared_ptr<sgd2mapi::GameAddressLocatorInterface> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

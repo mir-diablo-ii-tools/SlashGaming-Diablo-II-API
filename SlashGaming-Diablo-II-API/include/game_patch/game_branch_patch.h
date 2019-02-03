@@ -46,6 +46,7 @@
 #ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <vector>
 #endif // __cplusplus
 
@@ -197,6 +198,10 @@ enum class sgd2mapi::BranchType
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameBranchPatch {
+  std::shared_ptr<sgd2mapi::GameBranchPatch> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

@@ -50,10 +50,6 @@
 #include "../../include/game_address.h"
 #include "../../include/game_patch/game_patch_base.h"
 
-#include "../c/game_address.h"
-#include "c/game_branch_patch.h"
-#include "c/game_patch_base.h"
-
 namespace sgd2mapi {
 namespace {
 

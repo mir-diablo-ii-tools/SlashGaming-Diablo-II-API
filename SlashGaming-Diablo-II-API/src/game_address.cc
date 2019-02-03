@@ -51,9 +51,6 @@
 #include "game_library.h"
 #include "../include/game_version.h"
 
-#include "c/game_address.h"
-#include "game_address_locator/c/game_address_locator_interface.h"
-
 namespace sgd2mapi {
 namespace {
 

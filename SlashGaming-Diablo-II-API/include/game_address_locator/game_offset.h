@@ -44,6 +44,7 @@
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <memory>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -126,6 +127,10 @@ class DLLEXPORT GameOffset
 struct SGD2MAPI_GameOffset;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameOffset {
+  std::shared_ptr<sgd2mapi::GameOffset> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

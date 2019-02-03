@@ -42,9 +42,6 @@
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
 
-#include "c/game_address_locator_interface.h"
-#include "c/game_offset.h"
-
 namespace sgd2mapi {
 
 GameOffset::GameOffset(

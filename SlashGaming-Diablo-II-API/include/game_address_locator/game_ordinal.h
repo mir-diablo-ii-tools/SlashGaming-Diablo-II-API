@@ -123,6 +123,10 @@ class DLLEXPORT GameOrdinal
 struct SGD2MAPI_GameOrdinal;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameOrdinal {
+  std::shared_ptr<sgd2mapi::GameOrdinal> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

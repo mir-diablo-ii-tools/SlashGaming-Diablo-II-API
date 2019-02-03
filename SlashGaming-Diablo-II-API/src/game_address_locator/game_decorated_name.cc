@@ -47,9 +47,6 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 
-#include "c/game_address_locator_interface.h"
-#include "c/game_decorated_name.h"
-
 namespace sgd2mapi {
 
 GameDecoratedName::GameDecoratedName(

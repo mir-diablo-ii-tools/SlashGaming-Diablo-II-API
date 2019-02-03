@@ -42,6 +42,7 @@
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <string_view>
 #endif // __cplusplus
@@ -148,6 +149,10 @@ class DLLEXPORT GameDecoratedName
 struct SGD2MAPI_GameDecoratedName;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameDecoratedName {
+  std::shared_ptr<sgd2mapi::GameDecoratedName> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

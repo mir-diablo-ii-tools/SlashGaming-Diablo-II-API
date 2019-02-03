@@ -46,10 +46,6 @@
 
 #include "../../include/game_patch/game_patch_base.h"
 
-#include "../c/game_address.h"
-#include "c/game_buffer_patch.h"
-#include "c/game_patch_base.h"
-
 namespace sgd2mapi {
 
 GameBufferPatch::GameBufferPatch(

@@ -45,6 +45,7 @@
 
 #ifdef __cplusplus
 #include <cstdlib>
+#include <memory>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -115,6 +116,10 @@ class DLLEXPORT GameNopPatch
 struct SGD2MAPI_GameNopPatch;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameNopPatch {
+  std::shared_ptr<sgd2mapi::GameNopPatch> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 
