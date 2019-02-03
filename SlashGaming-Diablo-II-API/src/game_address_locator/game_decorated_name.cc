@@ -43,6 +43,7 @@
 #include <algorithm>
 #include <string>
 #include <string_view>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
@@ -96,11 +97,18 @@ GameDecoratedName::operator=(
     GameDecoratedName&&
 ) noexcept = default;
 
-GameAddressLocatorInterface*
+struct SGD2MAPI_GameAddressLocatorInterface*
 GameDecoratedName::Clone(
     void
 ) const {
   return new GameDecoratedName(*this);
+}
+
+struct SGD2MAPI_GameAddressLocatorInterface*
+GameDecoratedName::MoveToClone(
+    void
+) {
+  return new GameDecoratedName(std::move(this->decorated_name_));
 }
 
 std::intptr_t

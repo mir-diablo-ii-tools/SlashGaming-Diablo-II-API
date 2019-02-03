@@ -71,6 +71,15 @@ struct DLLEXPORT SGD2MAPI_GameAddressLocatorInterface {
   ) const = 0;
 
   /**
+   * Moves all data in this game address locator to a clone and returns a
+   * pointer to the clone.
+   */
+  virtual SGD2MAPI_GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) = 0;
+
+  /**
    * Resolves the destination game address, using the provided library base
    * address.
    */
@@ -119,6 +128,12 @@ SGD2MAPI_GameAddressLocatorInterface_Destroy(
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameAddressLocatorInterface_Clone(
     const struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
+);
+
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameAddressLocatorInterface_MoveToClone(
+    struct SGD2MAPI_GameAddressLocatorInterface*
         c_game_address_locator_interface
 );
 

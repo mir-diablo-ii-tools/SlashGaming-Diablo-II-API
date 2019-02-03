@@ -41,6 +41,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <string>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
@@ -90,11 +91,18 @@ GameOrdinal::operator=(
     GameOrdinal&&
 ) noexcept = default;
 
-GameAddressLocatorInterface*
+struct SGD2MAPI_GameAddressLocatorInterface*
 GameOrdinal::Clone(
     void
 ) const {
   return new GameOrdinal(*this);
+}
+
+struct SGD2MAPI_GameAddressLocatorInterface*
+GameOrdinal::MoveToClone(
+    void
+) {
+  return new GameOrdinal(std::move(this->ordinal_));
 }
 
 std::intptr_t

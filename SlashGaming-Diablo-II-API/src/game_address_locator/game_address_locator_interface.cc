@@ -71,6 +71,14 @@ SGD2MAPI_GameAddressLocatorInterface_Clone(
   return c_game_address_locator_interface->Clone();
 }
 
+struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameAddressLocatorInterface_MoveToClone(
+    struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
+) {
+  return c_game_address_locator_interface->MoveToClone();
+}
+
 std::intptr_t
 SGD2MAPI_GameAddressLocatorInterface_ResolveGameAddress(
     const struct SGD2MAPI_GameAddressLocatorInterface*

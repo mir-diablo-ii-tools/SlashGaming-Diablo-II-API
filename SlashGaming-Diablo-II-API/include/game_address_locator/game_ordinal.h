@@ -75,7 +75,7 @@ namespace sgd2mapi {
  */
 class DLLEXPORT GameOrdinal
     : public GameAddressLocatorInterface,
-      public ::SGD2MAPI_GameOrdinal {
+      public SGD2MAPI_GameOrdinal {
  public:
   /**
    * Creates a new instance of GameOrdinal.
@@ -106,10 +106,15 @@ class DLLEXPORT GameOrdinal
       GameOrdinal&&
   ) noexcept;
 
-  GameAddressLocatorInterface*
+  struct SGD2MAPI_GameAddressLocatorInterface*
   Clone(
       void
   ) const override;
+
+  struct SGD2MAPI_GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) override;
 
   std::intptr_t
   ResolveGameAddress(

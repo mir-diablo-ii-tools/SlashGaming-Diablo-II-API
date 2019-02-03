@@ -76,7 +76,7 @@ namespace sgd2mapi {
 
 class DLLEXPORT GameDecoratedName
     : public GameAddressLocatorInterface,
-      public ::SGD2MAPI_GameDecoratedName {
+      public SGD2MAPI_GameDecoratedName {
  public:
   /**
    * Creates a new instance of GameDecoratedName using a null-terminated array
@@ -132,10 +132,15 @@ class DLLEXPORT GameDecoratedName
       GameDecoratedName&&
   ) noexcept;
 
-  GameAddressLocatorInterface*
+  struct SGD2MAPI_GameAddressLocatorInterface*
   Clone(
       void
   ) const override;
+
+  struct SGD2MAPI_GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) override;
 
   std::intptr_t
   ResolveGameAddress(

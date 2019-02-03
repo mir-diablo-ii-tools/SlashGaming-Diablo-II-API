@@ -76,7 +76,7 @@ namespace sgd2mapi {
  */
 class DLLEXPORT GameOffset
     : public GameAddressLocatorInterface,
-      public ::SGD2MAPI_GameOffset {
+      public SGD2MAPI_GameOffset {
  public:
   /**
    * Creates a new instance of GameOffset.
@@ -107,10 +107,15 @@ class DLLEXPORT GameOffset
       GameOffset&&
   ) noexcept;
 
-  GameAddressLocatorInterface*
+  struct SGD2MAPI_GameAddressLocatorInterface*
   Clone(
       void
   ) const override;
+
+  struct SGD2MAPI_GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) override;
 
   std::intptr_t
   ResolveGameAddress(
