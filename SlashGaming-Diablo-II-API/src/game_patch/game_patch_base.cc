@@ -45,8 +45,6 @@
 
 #include "../../include/game_address.h"
 
-#include "c/game_patch_base.h"
-
 namespace sgd2mapi {
 
 GamePatchBase::GamePatchBase(
@@ -230,12 +228,12 @@ void
 SGD2MAPI_GamePatchBase_Apply(
     struct SGD2MAPI_GamePatchBase* c_game_patch_base
 ) {
-  c_game_patch_base->actual_ptr->Apply();
+  c_game_patch_base->Apply();
 }
 
 void
 SGD2MAPI_GamePatchBase_Remove(
     struct SGD2MAPI_GamePatchBase* c_game_patch_base
 ) {
-  c_game_patch_base->actual_ptr->Remove();
+  c_game_patch_base->Remove();
 }

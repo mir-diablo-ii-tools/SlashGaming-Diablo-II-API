@@ -51,8 +51,6 @@
 #include "../../include/game_patch/game_patch_base.h"
 
 #include "../c/game_address.h"
-#include "c/game_branch_patch.h"
-#include "c/game_patch_base.h"
 
 namespace sgd2mapi {
 namespace {
@@ -176,6 +174,25 @@ GameBranchPatch::operator=(
     GameBranchPatch&&
 ) noexcept = default;
 
+GameBranchPatch*
+GameBranchPatch::Clone(
+    void
+) const {
+  return new GameBranchPatch(*this);
+}
+
+GameBranchPatch*
+GameBranchPatch::MoveToClone(
+    void
+) {
+  return new GameBranchPatch(
+      std::move(this->game_address()),
+      std::move(this->branch_type_),
+      std::move(this->func_ptr_),
+      std::move(this->patch_size())
+  );
+}
+
 enum BranchType
 GameBranchPatch::branch_type(
     void
@@ -203,18 +220,15 @@ SGD2MAPI_GameBranchPatch_Create(
     void* func(),
     std::size_t patch_size
 ) {
-  struct SGD2MAPI_GameBranchPatch* c_game_branch_patch =
-      new SGD2MAPI_GameBranchPatch;
-
   enum sgd2mapi::BranchType actual_branch_type =
       static_cast<sgd2mapi::BranchType>(c_branch_type);
 
   const sgd2mapi::GameAddress* actual_game_address =
       c_game_address->actual_ptr.get();
 
-  c_game_branch_patch->actual_ptr =
-      std::make_shared<sgd2mapi::GameBranchPatch>(
-          *(actual_game_address),
+  struct SGD2MAPI_GameBranchPatch* c_game_branch_patch =
+      new sgd2mapi::GameBranchPatch(
+          *actual_game_address,
           actual_branch_type,
           func,
           patch_size
@@ -230,24 +244,12 @@ SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
     void* func(),
     std::size_t patch_size
 ) {
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      new SGD2MAPI_GamePatchBase;
-
-  enum sgd2mapi::BranchType actual_branch_type =
-      static_cast<sgd2mapi::BranchType>(c_branch_type);
-
-  const sgd2mapi::GameAddress* actual_game_address =
-      c_game_address->actual_ptr.get();
-
-  c_game_patch_base->actual_ptr =
-      std::make_shared<sgd2mapi::GameBranchPatch>(
-          *(actual_game_address),
-          actual_branch_type,
-          func,
-          patch_size
-      );
-
-  return c_game_patch_base;
+  return SGD2MAPI_GameBranchPatch_Create(
+      c_game_address,
+      c_branch_type,
+      func,
+      patch_size
+  );
 }
 
 void
@@ -259,40 +261,21 @@ SGD2MAPI_GameBranchPatch_Destroy(
 
 struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-) {
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      new SGD2MAPI_GamePatchBase;
-
-  c_game_patch_base->actual_ptr = c_game_branch_patch->actual_ptr;
-
-  return c_game_patch_base;
-}
-
-struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
     struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 ) {
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-          c_game_branch_patch
-      );
-
-  SGD2MAPI_GameBranchPatch_Destroy(c_game_branch_patch);
-
-  return c_game_patch_base;
+  return c_game_branch_patch;
 }
 
 void
 SGD2MAPI_GameBranchPatch_Apply(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  game_branch_patch->actual_ptr->Apply();
+  game_branch_patch->Apply();
 }
 
 void
 SGD2MAPI_GameBranchPatch_Remove(
     struct SGD2MAPI_GameBranchPatch* game_branch_patch
 ) {
-  game_branch_patch->actual_ptr->Remove();
+  game_branch_patch->Remove();
 }

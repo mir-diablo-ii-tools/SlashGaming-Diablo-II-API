@@ -55,11 +55,18 @@
 #define DLLEXPORT
 #endif
 
+struct SGD2MAPI_GameNopPatch;
+
 #ifdef __cplusplus
+struct SGD2MAPI_GameNopPatch
+    : public virtual SGD2MAPI_GamePatchBase {
+};
+
 namespace sgd2mapi {
 
 class DLLEXPORT GameNopPatch
-    : public GamePatchBase {
+    : public GamePatchBase,
+      public SGD2MAPI_GameNopPatch {
  public:
   /**
    * Creates a new instance of GameNopPatch, filling the patch buffer with as
@@ -102,6 +109,16 @@ class DLLEXPORT GameNopPatch
   operator=(
       GameNopPatch&&
   ) noexcept;
+
+  GameNopPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameNopPatch*
+  MoveToClone(
+      void
+  ) override;
 };
 
 } // namespace sgd2mapi
@@ -151,7 +168,7 @@ DLLEXPORT void SGD2MAPI_GameNopPatch_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
 );
 
 /**

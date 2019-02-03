@@ -41,6 +41,7 @@
 #include <stdlib.h>
 
 #include "../game_address.h"
+#include "game_branch_patch_interface.h"
 #include "game_patch_base.h"
 
 #ifdef __cplusplus
@@ -57,22 +58,23 @@
 #define DLLEXPORT
 #endif
 
-#ifdef __cplusplus
-namespace sgd2mapi {
+struct SGD2MAPI_GameBranchPatch;
 
-/**
- * The branch types that are used to call an inserted function. A call saves
- * some state defined by the architecture, with the purpose of returning to the
- * calling function. A jump does not save any state information.
- */
-enum class BranchType;
+#ifdef __cplusplus
+struct SGD2MAPI_GameBranchPatch
+    : public virtual SGD2MAPI_GamePatchBase,
+      public virtual SGD2MAPI_GameBranchPatchInterface {
+};
+
+namespace sgd2mapi {
 
 /**
  * A patch that replaces the first bytes with a branch to a function, then
  * replaces the rest of the bytes with no-op instructions.
  */
 class DLLEXPORT GameBranchPatch
-    : public GamePatchBase {
+    : public GamePatchBase,
+      public SGD2MAPI_GameBranchPatch {
  public:
   /**
    * Creates a new instance of GameBranchPatch.
@@ -132,13 +134,23 @@ class DLLEXPORT GameBranchPatch
       GameBranchPatch&&
   ) noexcept;
 
+  GameBranchPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameBranchPatch*
+  MoveToClone(
+      void
+  ) override;
+
   /**
    * Returns the branch opcode used for calling the inserted function.
    */
   enum BranchType
   branch_type(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
   /**
    * Returns the pointer to the inserted function.
@@ -146,7 +158,7 @@ class DLLEXPORT GameBranchPatch
   std::intptr_t
   func_ptr(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
  private:
   GameBranchPatch(
@@ -173,26 +185,6 @@ class DLLEXPORT GameBranchPatch
 /**
  * C Interface
  */
-
-struct SGD2MAPI_GameBranchPatch;
-
-/**
- * The branch types that are used to call an inserted function. A call saves
- * some state defined by the architecture, with the purpose of returning to the
- * calling function. A jump does not save any state information. Disabled if
- * compiling as C++ code.
- *
- */
-enum SGD2MAPI_BranchType
-#ifdef __cplusplus
-{};
-
-enum class sgd2mapi::BranchType
-#endif // __cplusplus
-{
-  kCall,
-  kJump,
-};
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
@@ -238,15 +230,6 @@ SGD2MAPI_GameBranchPatch_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a
- * GamePatchBase and destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
     struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 );
 

@@ -58,7 +58,13 @@
 #define DLLEXPORT
 #endif
 
+struct SGD2MAPI_GameBufferPatch;
+
 #ifdef __cplusplus
+struct SGD2MAPI_GameBufferPatch
+    : public virtual SGD2MAPI_GamePatchBase {
+};
+
 namespace sgd2mapi {
 
 /**
@@ -66,7 +72,8 @@ namespace sgd2mapi {
  * stored in a buffer.
  */
 class DLLEXPORT GameBufferPatch
-    : public GamePatchBase {
+    : public GamePatchBase,
+      public SGD2MAPI_GameBufferPatch {
  public:
   /**
    * Creates an instance of GameBufferPatch, specifying the patch buffer with
@@ -135,6 +142,16 @@ class DLLEXPORT GameBufferPatch
   operator=(
       GameBufferPatch&&
   ) noexcept;
+
+  GameBufferPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameBufferPatch*
+  MoveToClone(
+      void
+  ) override;
 };
 
 } // namespace sgd2mapi
@@ -186,15 +203,6 @@ DLLEXPORT void SGD2MAPI_GameBufferPatch_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a
- * GamePatchBase and destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
     struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
 );
 

@@ -39,6 +39,7 @@
 #define SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_
 
 #include "../game_address.h"
+#include "game_patch_interface.h"
 
 #ifdef __cplusplus
 #include <cstdint>
@@ -54,7 +55,13 @@
 #define DLLEXPORT
 #endif
 
+struct SGD2MAPI_GamePatchBase;
+
 #ifdef __cplusplus
+struct SGD2MAPI_GamePatchBase
+    : public virtual SGD2MAPI_GamePatchInterface {
+};
+
 namespace sgd2mapi {
 
 /**
@@ -62,30 +69,30 @@ namespace sgd2mapi {
  * game memory with that in a buffer and restoring the original state of the
  * game memory.
  */
-class DLLEXPORT GamePatchBase {
+class DLLEXPORT GamePatchBase
+    : public virtual SGD2MAPI_GamePatchBase {
  public:
-  virtual
   ~GamePatchBase(
       void
-  );
+  ) override;
 
   /**
    * Applies the patch by replacing the bytes at its target address with the
    * bytes stored in its buffer.
    */
-  virtual void
+  void
   Apply(
       void
-  );
+  ) final override;
 
   /**
    * Removes the effects of the patch by restoring the patched entries to their
    * original values.
    */
-  virtual void
+  void
   Remove(
       void
-  );
+  ) final override;
 
   /**
    * Returns the game address used by this patch.
@@ -93,7 +100,7 @@ class DLLEXPORT GamePatchBase {
   const GameAddress&
   game_address(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
   /**
    * Returns whether or not the patch has been applied.
@@ -101,7 +108,7 @@ class DLLEXPORT GamePatchBase {
   bool
   is_patch_applied(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
   /**
    * Returns the buffer storing the patch data.
@@ -109,7 +116,7 @@ class DLLEXPORT GamePatchBase {
   const std::vector<std::uint8_t>&
   patch_buffer(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
   /**
    * Returns the buffer storing the original data before patching.
@@ -117,7 +124,7 @@ class DLLEXPORT GamePatchBase {
   const std::vector<std::uint8_t>&
   old_bytes(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
   /**
    * Returns the number of bytes needed to apply this patch.
@@ -125,7 +132,7 @@ class DLLEXPORT GamePatchBase {
   std::size_t
   patch_size(
       void
-  ) const noexcept;
+  ) const noexcept final override;
 
  protected:
   /**
@@ -172,6 +179,7 @@ class DLLEXPORT GamePatchBase {
   operator=(
       const GamePatchBase&
   );
+
   GamePatchBase&
   operator=(
       GamePatchBase&&
@@ -186,49 +194,6 @@ class DLLEXPORT GamePatchBase {
 
 } // namespace sgd2mapi
 #endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GamePatchBase;
-
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Frees the memory used by the specified game patch.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchBase_Destroy(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-/**
- * Applies the game patch by replacing the bytes at its target address with the
- * bytes stored in its buffer.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchBase_Apply(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-/**
- * Removes the effects of the game patch by restoring the original state of the
- * bytes at its target address.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchBase_Remove(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
 #endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_

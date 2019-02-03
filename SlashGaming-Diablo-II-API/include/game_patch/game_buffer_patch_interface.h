@@ -35,15 +35,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_C_GAME_PATCH_BASE_H_
-#define SGD2MAPI_GAME_PATCH_C_GAME_PATCH_BASE_H_
+#ifndef SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_INTERFACE_H_
+#define SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_INTERFACE_H_
 
-#include "../../../include/game_patch/game_patch_base.h"
+struct SGD2MAPI_GameBufferPatchInterface;
 
-#include <memory>
+/**
+ * Applies the game patch by replacing the bytes at its target address
+ * with the bytes stored in its buffer.
+ */
+DLLEXPORT void
+SGD2MAPI_GameBufferPatch_Apply(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+);
 
-struct SGD2MAPI_GamePatchBase {
-  std::shared_ptr<sgd2mapi::GamePatchBase> actual_ptr;
-};
+/**
+ * Removes the effects of the game patch by restoring the original state of the
+ * bytes at its target address.
+ */
+DLLEXPORT void
+SGD2MAPI_GameBufferPatch_Remove(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+);
 
-#endif // SGD2MAPI_GAME_PATCH_C_GAME_PATCH_BASE_H_
+#endif // SGD2MAPI_GAME_PATCH_GAME_BUFFER_PATCH_INTERFACE_H_

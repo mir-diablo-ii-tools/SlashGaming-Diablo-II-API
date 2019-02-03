@@ -35,15 +35,23 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_C_GAME_BUFFER_PATCH_H_
-#define SGD2MAPI_GAME_PATCH_C_GAME_BUFFER_PATCH_H_
+#ifndef SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_INTERFACE_H_
+#define SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_INTERFACE_H_
 
-#include "../../../include/game_patch/game_buffer_patch.h"
+#include "game_patch_interface.h"
 
-#include <memory>
+struct GameNopPatchInterface;
 
-struct SGD2MAPI_GameBufferPatch {
-  std::shared_ptr<sgd2mapi::GameBufferPatch> actual_ptr;
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+struct SGD2MAPI_GameNopPatchInterface
+    : public virtual SGD2MAPI_GamePatchInterface {
 };
 
-#endif // SGD2MAPI_GAME_PATCH_C_GAME_BUFFER_PATCH_H_
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+
+#endif // SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_INTERFACE_H_
