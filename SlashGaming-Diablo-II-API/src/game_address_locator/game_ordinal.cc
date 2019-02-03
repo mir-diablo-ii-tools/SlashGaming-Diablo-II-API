@@ -172,7 +172,7 @@ SGD2MAPI_GameOrdinal_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =

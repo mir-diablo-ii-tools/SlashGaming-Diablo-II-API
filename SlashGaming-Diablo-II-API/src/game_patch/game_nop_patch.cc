@@ -151,7 +151,7 @@ SGD2MAPI_GameNopPatch_Destroy(
 
 struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
 ) {
   struct SGD2MAPI_GamePatchBase* c_game_patch_base =
       new SGD2MAPI_GamePatchBase;

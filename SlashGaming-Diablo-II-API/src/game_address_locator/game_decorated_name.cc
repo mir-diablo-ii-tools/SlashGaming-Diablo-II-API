@@ -182,7 +182,7 @@ SGD2MAPI_GameDecoratedName_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =

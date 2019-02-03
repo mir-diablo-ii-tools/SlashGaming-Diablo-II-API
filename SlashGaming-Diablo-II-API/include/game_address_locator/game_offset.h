@@ -164,7 +164,7 @@ SGD2MAPI_GameOffset_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOffset* c_game_offset
+    struct SGD2MAPI_GameOffset* c_game_offset
 );
 
 /**

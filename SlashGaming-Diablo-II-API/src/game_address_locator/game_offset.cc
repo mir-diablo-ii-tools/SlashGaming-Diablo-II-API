@@ -137,7 +137,7 @@ SGD2MAPI_GameOffset_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOffset* c_game_offset
+    struct SGD2MAPI_GameOffset* c_game_offset
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =

@@ -173,7 +173,7 @@ SGD2MAPI_GameDecoratedName_Destroy(
 
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 );
 
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*

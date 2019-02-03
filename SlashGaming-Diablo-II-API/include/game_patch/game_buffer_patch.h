@@ -191,7 +191,7 @@ DLLEXPORT void SGD2MAPI_GameBufferPatch_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
 );
 
 /**

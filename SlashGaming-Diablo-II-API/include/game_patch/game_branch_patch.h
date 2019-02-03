@@ -243,7 +243,7 @@ SGD2MAPI_GameBranchPatch_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 );
 
 /**
