@@ -136,6 +136,50 @@ GameAddress::GameAddress(
 }
 
 GameAddress::GameAddress(
+    enum DefaultLibrary library,
+    const GameAddressLocatorInterface& address_locator
+)
+    : GameAddress(
+          GetDefaultLibraryPathWithRedirect(library),
+          address_locator
+      ) {
+}
+
+GameAddress::GameAddress(
+    const std::filesystem::path& library_path,
+    GameAddressLocatorInterface&& address_locator
+)
+    : GameAddress(
+          library_path,
+          std::shared_ptr<GameAddressLocatorInterface>(
+              address_locator.MoveToClone()
+          )
+      ) {
+}
+
+GameAddress::GameAddress(
+    std::filesystem::path&& library_path,
+    GameAddressLocatorInterface&& address_locator
+)
+    : GameAddress(
+          std::move(library_path),
+          std::shared_ptr<GameAddressLocatorInterface>(
+              address_locator.MoveToClone()
+          )
+      ) {
+}
+
+GameAddress::GameAddress(
+    enum DefaultLibrary library,
+    GameAddressLocatorInterface&& address_locator
+)
+    : GameAddress(
+          GetDefaultLibraryPathWithRedirect(library),
+          std::move(address_locator)
+      ) {
+}
+
+GameAddress::GameAddress(
     const std::filesystem::path& library_path,
     std::shared_ptr<GameAddressLocatorInterface> address_locator
 )
@@ -151,16 +195,6 @@ GameAddress::GameAddress(
     : library_path_(std::move(library_path)),
       address_locator_(std::move(address_locator)),
       raw_address_(ResolveRawAddress(library_path_, *address_locator_)) {
-}
-
-GameAddress::GameAddress(
-    enum DefaultLibrary library,
-    const GameAddressLocatorInterface& address_locator
-)
-    : GameAddress(
-          GetDefaultLibraryPathWithRedirect(library),
-          address_locator
-      ) {
 }
 
 GameAddress::GameAddress(
