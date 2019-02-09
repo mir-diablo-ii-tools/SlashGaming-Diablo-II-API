@@ -131,7 +131,13 @@ GameBranchPatch::GameBranchPatch(
 )
     : GamePatchBase(
           game_address,
-          CreateReplaceBuffer(branch_type, func_ptr, game_address, patch_size)),
+          CreateReplaceBuffer(
+              branch_type,
+              func_ptr,
+              game_address,
+              patch_size
+          )
+      ),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
 }
@@ -144,7 +150,12 @@ GameBranchPatch::GameBranchPatch(
 )
     : GamePatchBase(
           std::move(game_address),
-          CreateReplaceBuffer(branch_type, func_ptr, game_address, patch_size)
+          CreateReplaceBuffer(
+              branch_type,
+              func_ptr,
+              game_address,
+              patch_size
+          )
       ),
       branch_type_(branch_type),
       func_ptr_(func_ptr) {
