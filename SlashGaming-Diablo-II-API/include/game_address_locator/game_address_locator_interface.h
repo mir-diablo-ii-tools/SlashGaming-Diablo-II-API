@@ -40,6 +40,7 @@
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <memory>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -73,6 +74,15 @@ class DLLEXPORT GameAddressLocatorInterface {
   ) const = 0;
 
   /**
+   * Destructively moves all data into a clone and returns a pointer to the
+   * clone.
+   */
+  virtual GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) = 0;
+
+  /**
    * Resolves the destination game address, using the provided library base
    * address.
    */
@@ -93,6 +103,10 @@ class DLLEXPORT GameAddressLocatorInterface {
 struct SGD2MAPI_GameAddressLocatorInterface;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameAddressLocatorInterface {
+  std::shared_ptr<sgd2mapi::GameAddressLocatorInterface> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 

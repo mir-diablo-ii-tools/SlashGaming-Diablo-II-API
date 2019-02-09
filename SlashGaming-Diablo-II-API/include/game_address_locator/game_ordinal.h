@@ -91,10 +91,15 @@ class DLLEXPORT GameOrdinal
       GameOrdinal&&
   ) noexcept;
 
-  GameAddressLocatorInterface*
+  GameOrdinal*
   Clone(
       void
   ) const override;
+
+  GameOrdinal*
+  MoveToClone(
+      void
+  ) override;
 
   std::intptr_t
   ResolveGameAddress(
@@ -123,6 +128,10 @@ class DLLEXPORT GameOrdinal
 struct SGD2MAPI_GameOrdinal;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameOrdinal {
+  std::shared_ptr<sgd2mapi::GameOrdinal> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 
@@ -156,7 +165,7 @@ SGD2MAPI_GameOrdinal_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
 );
 
 /**

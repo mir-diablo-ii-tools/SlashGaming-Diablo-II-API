@@ -47,6 +47,7 @@
 #ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <vector>
 #endif // __cplusplus
 
@@ -135,6 +136,16 @@ class DLLEXPORT GameBufferPatch
   operator=(
       GameBufferPatch&&
   ) noexcept;
+
+  GameBufferPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameBufferPatch*
+  MoveToClone(
+      void
+  ) override;
 };
 
 } // namespace sgd2mapi
@@ -148,6 +159,10 @@ class DLLEXPORT GameBufferPatch
 struct SGD2MAPI_GameBufferPatch;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameBufferPatch {
+  std::shared_ptr<sgd2mapi::GameBufferPatch> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 
@@ -174,6 +189,17 @@ SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
 );
 
 /**
+ * Creates a new GameNopPatch, upcasted to a GamePatchBase. The patch buffer is
+ * specified as an array of 8-bit integrals.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_CreateAsGamePatchInterface(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    const uint8_t buffer[],
+    size_t patch_size
+);
+
+/**
  * Frees the memory used by the specified game patch.
  */
 DLLEXPORT void SGD2MAPI_GameBufferPatch_Destroy(
@@ -186,7 +212,7 @@ DLLEXPORT void SGD2MAPI_GameBufferPatch_Destroy(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
 );
 
 /**
@@ -195,6 +221,23 @@ SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface and
+ * destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
     struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
 );
 

@@ -46,10 +46,6 @@
 
 #include "../../include/game_patch/game_patch_base.h"
 
-#include "../c/game_address.h"
-#include "c/game_buffer_patch.h"
-#include "c/game_patch_base.h"
-
 namespace sgd2mapi {
 
 GameBufferPatch::GameBufferPatch(
@@ -103,13 +99,32 @@ GameBufferPatch::~GameBufferPatch(
     void
 ) = default;
 
-GameBufferPatch& GameBufferPatch::operator=(
+GameBufferPatch&
+GameBufferPatch::operator=(
     const GameBufferPatch&
 ) = default;
 
-GameBufferPatch& GameBufferPatch::operator=(
+GameBufferPatch&
+GameBufferPatch::operator=(
     GameBufferPatch&&
 ) noexcept = default;
+
+GameBufferPatch*
+GameBufferPatch::Clone(
+    void
+) const {
+  return new GameBufferPatch(*this);
+}
+
+GameBufferPatch*
+GameBufferPatch::MoveToClone(
+    void
+) {
+  return new GameBufferPatch(
+      std::move(this->game_address()),
+      std::move(this->patch_buffer())
+  );
+}
 
 } // namespace sgd2mapi
 
@@ -144,19 +159,34 @@ SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
     const std::uint8_t buffer[],
     std::size_t patch_size
 ) {
-  sgd2mapi::GameAddress* actual_game_address_ptr =
-      c_game_address->actual_ptr.get();
-
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      new SGD2MAPI_GamePatchBase;
-  c_game_patch_base->actual_ptr =
-      std::make_shared<sgd2mapi::GameBufferPatch>(
-          *actual_game_address_ptr,
+  struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch =
+      SGD2MAPI_GameBufferPatch_Create(
+          c_game_address,
           buffer,
           patch_size
       );
 
-  return c_game_patch_base;
+  return SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
+      c_game_buffer_patch
+  );
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_CreateAsGamePatchInterface(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    const std::uint8_t buffer[],
+    std::size_t patch_size
+) {
+  struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch =
+      SGD2MAPI_GameBufferPatch_Create(
+          c_game_address,
+          buffer,
+          patch_size
+      );
+
+  return SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
+      c_game_buffer_patch
+  );
 }
 
 void
@@ -168,7 +198,7 @@ SGD2MAPI_GameBufferPatch_Destroy(
 
 struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
 ) {
   struct SGD2MAPI_GamePatchBase* c_game_patch_base =
       new SGD2MAPI_GamePatchBase;
@@ -190,6 +220,32 @@ SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
   SGD2MAPI_GameBufferPatch_Destroy(c_game_buffer_patch);
 
   return c_game_patch_base;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      new SGD2MAPI_GamePatchInterface;
+
+  c_game_patch_interface->actual_ptr = c_game_buffer_patch->actual_ptr;
+
+  return c_game_patch_interface;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
+          c_game_buffer_patch
+      );
+
+  SGD2MAPI_GameBufferPatch_Destroy(c_game_buffer_patch);
+
+  return c_game_patch_interface;
 }
 
 void

@@ -37,8 +37,6 @@
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
 
-#include "c/game_address_locator_interface.h"
-
 namespace sgd2mapi {
 
 GameAddressLocatorInterface::~GameAddressLocatorInterface(

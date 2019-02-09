@@ -39,11 +39,9 @@
 
 #include <cstdint>
 #include <memory>
+#include <utility>
 
 #include "../../include/game_address_locator/game_address_locator_interface.h"
-
-#include "c/game_address_locator_interface.h"
-#include "c/game_offset.h"
 
 namespace sgd2mapi {
 
@@ -75,11 +73,20 @@ GameOffset::operator=(
     GameOffset&&
 ) noexcept = default;
 
-GameAddressLocatorInterface*
+GameOffset*
 GameOffset::Clone(
     void
 ) const {
   return new GameOffset(*this);
+}
+
+GameOffset*
+GameOffset::MoveToClone(
+    void
+) {
+  return new GameOffset(
+      std::move(this->offset_)
+  );
 }
 
 std::intptr_t
@@ -140,7 +147,7 @@ SGD2MAPI_GameOffset_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOffset* c_game_offset
+    struct SGD2MAPI_GameOffset* c_game_offset
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =

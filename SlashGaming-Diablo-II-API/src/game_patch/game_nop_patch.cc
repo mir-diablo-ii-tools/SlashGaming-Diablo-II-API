@@ -46,10 +46,6 @@
 #include "../../include/game_address.h"
 #include "../../include/game_patch/game_patch_base.h"
 
-#include "../c/game_address.h"
-#include "c/game_nop_patch.h"
-#include "c/game_patch_base.h"
-
 namespace sgd2mapi {
 
 GameNopPatch::GameNopPatch(
@@ -100,6 +96,23 @@ GameNopPatch::operator=(
     GameNopPatch&&
 ) noexcept = default;
 
+GameNopPatch*
+GameNopPatch::Clone(
+    void
+) const {
+  return new GameNopPatch(*this);
+}
+
+GameNopPatch*
+GameNopPatch::MoveToClone(
+    void
+) {
+  return new GameNopPatch(
+      std::move(this->game_address()),
+      std::move(this->patch_size())
+  );
+}
+
 } // namespace sgd2mapi
 
 /**
@@ -131,19 +144,31 @@ SGD2MAPI_GameNopPatch_CreateAsGamePatchBase(
     const struct SGD2MAPI_GameAddress* c_game_address,
     std::size_t patch_size
 ) {
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      new SGD2MAPI_GamePatchBase;
-
-  const sgd2mapi::GameAddress* actual_game_address =
-      c_game_address->actual_ptr.get();
-
-  c_game_patch_base->actual_ptr =
-      std::make_shared<sgd2mapi::GameNopPatch>(
-          *actual_game_address,
+  struct SGD2MAPI_GameNopPatch* c_game_nop_patch =
+      SGD2MAPI_GameNopPatch_Create(
+          c_game_address,
           patch_size
       );
 
-  return c_game_patch_base;
+  return SGD2MAPI_GameNopPatch_UpcastToGamePatchBaseThenDestroy(
+      c_game_nop_patch
+  );
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameNopPatch_CreateAsGamePatchInterface(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    std::size_t patch_size
+) {
+  struct SGD2MAPI_GameNopPatch* c_game_nop_patch =
+      SGD2MAPI_GameNopPatch_Create(
+          c_game_address,
+          patch_size
+      );
+
+  return SGD2MAPI_GameNopPatch_UpcastToGamePatchInterfaceThenDestroy(
+      c_game_nop_patch
+  );
 }
 
 void
@@ -155,7 +180,7 @@ SGD2MAPI_GameNopPatch_Destroy(
 
 struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
-    const struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
 ) {
   struct SGD2MAPI_GamePatchBase* c_game_patch_base =
       new SGD2MAPI_GamePatchBase;
@@ -177,6 +202,32 @@ SGD2MAPI_GameNopPatch_UpcastToGamePatchBaseThenDestroy(
   SGD2MAPI_GameNopPatch_Destroy(c_game_nop_patch);
 
   return c_game_patch_base;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameNopPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      new SGD2MAPI_GamePatchInterface;
+
+  c_game_patch_interface->actual_ptr = c_game_nop_patch->actual_ptr;
+
+  return c_game_patch_interface;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameNopPatch_UpcastToGamePatchInterfaceThenDestroy(
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      SGD2MAPI_GameNopPatch_UpcastToGamePatchInterface(
+          c_game_nop_patch
+      );
+
+  SGD2MAPI_GameNopPatch_Destroy(c_game_nop_patch);
+
+  return c_game_patch_interface;
 }
 
 void

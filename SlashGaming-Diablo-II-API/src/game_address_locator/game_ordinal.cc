@@ -42,13 +42,11 @@
 #include <cstdlib>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/game_address_locator/game_address_locator_interface.h"
-
-#include "c/game_address_locator_interface.h"
-#include "c/game_ordinal.h"
 
 namespace sgd2mapi {
 
@@ -94,11 +92,20 @@ GameOrdinal::operator=(
     GameOrdinal&&
 ) noexcept = default;
 
-GameAddressLocatorInterface*
+GameOrdinal*
 GameOrdinal::Clone(
     void
 ) const {
   return new GameOrdinal(*this);
+}
+
+GameOrdinal*
+GameOrdinal::MoveToClone(
+    void
+) {
+  return new GameOrdinal(
+      std::move(this->ordinal_)
+  );
 }
 
 std::intptr_t
@@ -175,7 +182,7 @@ SGD2MAPI_GameOrdinal_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =

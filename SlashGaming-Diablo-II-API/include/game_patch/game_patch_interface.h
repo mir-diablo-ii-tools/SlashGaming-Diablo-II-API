@@ -35,15 +35,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
-
-#include <stdint.h>
-
-#include "game_address_locator_interface.h"
+#ifndef SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_H_
+#define SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_H_
 
 #ifdef __cplusplus
-#include <cstdint>
 #include <memory>
 #endif // __cplusplus
 
@@ -58,70 +53,51 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
-/**
- * A game address locator that uses an offset value to specify a location in
- * game memory.
- */
-class DLLEXPORT GameOffset
-    : public GameAddressLocatorInterface {
+class DLLEXPORT GamePatchInterface {
  public:
-  /**
-   * Creates a new instance of GameOffset.
-   */
-  explicit GameOffset(
-      std::intptr_t offset
-  );
-
-  GameOffset(
-      const GameOffset&
-  );
-
-  GameOffset(
-      GameOffset&&
-  ) noexcept;
-
-  ~GameOffset(
+  virtual
+  ~GamePatchInterface(
       void
-  ) override;
-
-  GameOffset&
-  operator=(
-      const GameOffset&
   );
 
-  GameOffset&
-  operator=(
-      GameOffset&&
-  ) noexcept;
-
-  GameOffset*
+  /**
+   * Clones this game patch and returns a pointer to the clone.
+   */
+  virtual GamePatchInterface*
   Clone(
       void
-  ) const override;
-
-  GameOffset*
-  MoveToClone(
-      void
-  ) override;
-
-  std::intptr_t
-  ResolveGameAddress(
-      std::intptr_t base_address
-  ) const override;
+  ) const = 0;
 
   /**
-   * Returns the offset of this GameOffset.
+   * Destructively moves all data into a clone and returns a pointer to the
+   * clone.
    */
-  std::intptr_t
-  offset(
+  virtual GamePatchInterface*
+  MoveToClone(
       void
-  ) const noexcept;
+  ) = 0;
 
- private:
-  std::intptr_t offset_;
+  /**
+   * Applies the patch by replacing the values at its target address with the
+   * values stored in its buffer. Does nothing if the patch is applied.
+   */
+  virtual void
+  Apply(
+      void
+  ) = 0;
+
+  /**
+   * Removes the effects of the patch by restoring the patched entries to their
+   * original values. Does nothing if the patch is not been applied.
+   */
+  virtual void
+  Remove(
+      void
+  ) = 0;
 };
 
 } // namespace sgd2mapi
+
 #endif // __cplusplus
 
 /**
@@ -129,64 +105,41 @@ class DLLEXPORT GameOffset
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOffset;
+
+struct SGD2MAPI_GamePatchInterface;
 
 #ifdef __cplusplus
-struct SGD2MAPI_GameOffset {
-  std::shared_ptr<sgd2mapi::GameOffset> actual_ptr;
+struct SGD2MAPI_GamePatchInterface {
+  std::shared_ptr<sgd2mapi::GamePatchInterface> actual_ptr;
 };
 
 extern "C" {
 #endif // __cplusplus
 
 /**
- * Creates a new GameOffset, upcasted to a GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
-    intptr_t offset
-);
-
-/**
- * Creates a new GameOffset.
- */
-DLLEXPORT struct SGD2MAPI_GameOffset*
-SGD2MAPI_GameOffset_Create(
-    intptr_t offset
-);
-
-/**
- * Frees the memory used by the specified game locator.
+ * Frees the memory used by the specified game patch.
  */
 DLLEXPORT void
-SGD2MAPI_GameOffset_Destroy(
-    struct SGD2MAPI_GameOffset* c_game_offset
+SGD2MAPI_GamePatchInterface_Destroy(
+    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
 );
 
 /**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface.
+ * Applies the game patch by replacing the values at its target address with
+ * the values stored in its buffer.
  */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    struct SGD2MAPI_GameOffset* c_game_offset
+DLLEXPORT void
+SGD2MAPI_GamePatchInterface_Apply(
+    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
 );
 
 /**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface and destroys the specified game locator.
+ * Removes the effects of the game patch by restoring the original state of
+ * the values at its target address.
  */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Returns the offset value of the game locator.
- */
-DLLEXPORT intptr_t
-SGD2MAPI_GameOffset_GetOffset(
-    const struct SGD2MAPI_GameOffset* c_game_offset
+DLLEXPORT void
+SGD2MAPI_GamePatchInterface_Remove(
+    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
 );
 
 #ifdef __cplusplus
@@ -196,4 +149,4 @@ SGD2MAPI_GameOffset_GetOffset(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
+#endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_H_

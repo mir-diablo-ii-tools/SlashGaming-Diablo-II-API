@@ -35,15 +35,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_ADDRESS_H_
-#define SGD2MAPI_C_GAME_ADDRESS_H_
+#include "../../include/game_patch/game_patch_interface.h"
 
-#include "../../include/game_address.h"
+namespace sgd2mapi {
 
-#include <memory>
+GamePatchInterface::~GamePatchInterface(
+    void
+) = default;
 
-struct SGD2MAPI_GameAddress {
-  std::shared_ptr<sgd2mapi::GameAddress> actual_ptr;
-};
+} // namespace sgd2mapi
 
-#endif // SGD2MAPI_C_GAME_ADDRESS_H_
+void
+SGD2MAPI_GamePatchInterface_Destroy(
+    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
+) {
+  delete c_game_patch_interface;
+}
+
+void
+SGD2MAPI_GamePatchInterface_Apply(
+    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
+) {
+  c_game_patch_interface->actual_ptr->Apply();
+}
+
+void
+SGD2MAPI_GamePatchInterface_Remove(
+    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
+) {
+  c_game_patch_interface->actual_ptr->Remove();
+}

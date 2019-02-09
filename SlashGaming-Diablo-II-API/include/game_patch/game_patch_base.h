@@ -39,10 +39,12 @@
 #define SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_
 
 #include "../game_address.h"
+#include "game_patch_interface.h"
 
 #ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <vector>
 #endif // __cplusplus
 
@@ -62,30 +64,22 @@ namespace sgd2mapi {
  * game memory with that in a buffer and restoring the original state of the
  * game memory.
  */
-class DLLEXPORT GamePatchBase {
+class DLLEXPORT GamePatchBase
+    : public GamePatchInterface {
  public:
-  virtual
   ~GamePatchBase(
       void
-  );
+  ) override;
 
-  /**
-   * Applies the patch by replacing the bytes at its target address with the
-   * bytes stored in its buffer.
-   */
-  virtual void
+  void
   Apply(
       void
-  );
+  ) final override;
 
-  /**
-   * Removes the effects of the patch by restoring the patched entries to their
-   * original values.
-   */
-  virtual void
+  void
   Remove(
       void
-  );
+  ) final override;
 
   /**
    * Returns the game address used by this patch.
@@ -172,6 +166,7 @@ class DLLEXPORT GamePatchBase {
   operator=(
       const GamePatchBase&
   );
+
   GamePatchBase&
   operator=(
       GamePatchBase&&
@@ -195,6 +190,10 @@ class DLLEXPORT GamePatchBase {
 struct SGD2MAPI_GamePatchBase;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GamePatchBase {
+  std::shared_ptr<sgd2mapi::GamePatchBase> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 
@@ -203,6 +202,23 @@ extern "C" {
  */
 DLLEXPORT void
 SGD2MAPI_GamePatchBase_Destroy(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface and
+ * destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GamePatchBase_UpcastToGamePatchInterfaceThenDestroy(
     struct SGD2MAPI_GamePatchBase* c_game_patch_base
 );
 

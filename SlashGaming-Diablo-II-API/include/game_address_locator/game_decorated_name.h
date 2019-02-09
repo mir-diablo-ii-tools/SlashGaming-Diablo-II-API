@@ -42,6 +42,7 @@
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <string_view>
 #endif // __cplusplus
@@ -114,10 +115,15 @@ class DLLEXPORT GameDecoratedName
       GameDecoratedName&&
   ) noexcept;
 
-  GameAddressLocatorInterface*
+  GameDecoratedName*
   Clone(
       void
   ) const override;
+
+  GameDecoratedName*
+  MoveToClone(
+      void
+  ) override;
 
   std::intptr_t
   ResolveGameAddress(
@@ -148,6 +154,10 @@ class DLLEXPORT GameDecoratedName
 struct SGD2MAPI_GameDecoratedName;
 
 #ifdef __cplusplus
+struct SGD2MAPI_GameDecoratedName {
+  std::shared_ptr<sgd2mapi::GameDecoratedName> actual_ptr;
+};
+
 extern "C" {
 #endif // __cplusplus
 
@@ -168,7 +178,7 @@ SGD2MAPI_GameDecoratedName_Destroy(
 
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 );
 
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*

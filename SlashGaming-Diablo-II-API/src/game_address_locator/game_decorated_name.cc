@@ -43,12 +43,10 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
-
-#include "c/game_address_locator_interface.h"
-#include "c/game_decorated_name.h"
 
 namespace sgd2mapi {
 
@@ -98,11 +96,20 @@ GameDecoratedName::operator=(
     GameDecoratedName&&
 ) noexcept = default;
 
-GameAddressLocatorInterface*
+GameDecoratedName*
 GameDecoratedName::Clone(
     void
 ) const {
   return new GameDecoratedName(*this);
+}
+
+GameDecoratedName*
+GameDecoratedName::MoveToClone(
+    void
+) {
+  return new GameDecoratedName(
+      std::move(this->decorated_name_)
+  );
 }
 
 std::intptr_t
@@ -185,7 +192,7 @@ SGD2MAPI_GameDecoratedName_Destroy(
 
 struct SGD2MAPI_GameAddressLocatorInterface*
 SGD2MAPI_GameDecoratedName_UpcastToGameAddressLocatorInterface(
-    const struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
+    struct SGD2MAPI_GameDecoratedName* c_game_decorated_name
 ) {
   struct SGD2MAPI_GameAddressLocatorInterface*
       c_game_address_locator_interface =
