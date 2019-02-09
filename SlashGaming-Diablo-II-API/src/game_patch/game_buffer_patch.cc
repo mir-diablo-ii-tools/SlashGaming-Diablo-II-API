@@ -99,13 +99,32 @@ GameBufferPatch::~GameBufferPatch(
     void
 ) = default;
 
-GameBufferPatch& GameBufferPatch::operator=(
+GameBufferPatch&
+GameBufferPatch::operator=(
     const GameBufferPatch&
 ) = default;
 
-GameBufferPatch& GameBufferPatch::operator=(
+GameBufferPatch&
+GameBufferPatch::operator=(
     GameBufferPatch&&
 ) noexcept = default;
+
+GameBufferPatch*
+GameBufferPatch::Clone(
+    void
+) const {
+  return new GameBufferPatch(*this);
+}
+
+GameBufferPatch*
+GameBufferPatch::MoveToClone(
+    void
+) {
+  return new GameBufferPatch(
+      std::move(this->game_address()),
+      std::move(this->patch_buffer())
+  );
+}
 
 } // namespace sgd2mapi
 

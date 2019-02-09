@@ -103,6 +103,16 @@ class DLLEXPORT GameNopPatch
   operator=(
       GameNopPatch&&
   ) noexcept;
+
+  GameNopPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameNopPatch*
+  MoveToClone(
+      void
+  ) override;
 };
 
 } // namespace sgd2mapi

@@ -186,6 +186,25 @@ GameBranchPatch::func_ptr(
   return func_ptr_;
 }
 
+GameBranchPatch*
+GameBranchPatch::Clone(
+    void
+) const {
+  return new GameBranchPatch(*this);
+}
+
+GameBranchPatch*
+GameBranchPatch::MoveToClone(
+    void
+) {
+  return new GameBranchPatch(
+      std::move(this->game_address()),
+      std::move(this->branch_type_),
+      std::move(this->func_ptr_),
+      std::move(this->patch_size())
+  );
+}
+
 } // namespace sgd2mapi
 
 /**

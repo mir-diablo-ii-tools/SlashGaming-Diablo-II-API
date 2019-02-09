@@ -39,6 +39,7 @@
 #define SGD2MAPI_GAME_PATCH_GAME_PATCH_BASE_H_
 
 #include "../game_address.h"
+#include "game_patch_interface.h"
 
 #ifdef __cplusplus
 #include <cstdint>
@@ -63,30 +64,22 @@ namespace sgd2mapi {
  * game memory with that in a buffer and restoring the original state of the
  * game memory.
  */
-class DLLEXPORT GamePatchBase {
+class DLLEXPORT GamePatchBase
+    : public GamePatchInterface {
  public:
-  virtual
   ~GamePatchBase(
       void
-  );
+  ) override;
 
-  /**
-   * Applies the patch by replacing the bytes at its target address with the
-   * bytes stored in its buffer.
-   */
-  virtual void
+  void
   Apply(
       void
-  );
+  ) final override;
 
-  /**
-   * Removes the effects of the patch by restoring the patched entries to their
-   * original values.
-   */
-  virtual void
+  void
   Remove(
       void
-  );
+  ) final override;
 
   /**
    * Returns the game address used by this patch.
@@ -173,6 +166,7 @@ class DLLEXPORT GamePatchBase {
   operator=(
       const GamePatchBase&
   );
+
   GamePatchBase&
   operator=(
       GamePatchBase&&

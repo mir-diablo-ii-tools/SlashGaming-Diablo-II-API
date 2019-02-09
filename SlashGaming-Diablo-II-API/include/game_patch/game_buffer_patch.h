@@ -136,6 +136,16 @@ class DLLEXPORT GameBufferPatch
   operator=(
       GameBufferPatch&&
   ) noexcept;
+
+  GameBufferPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameBufferPatch*
+  MoveToClone(
+      void
+  ) override;
 };
 
 } // namespace sgd2mapi

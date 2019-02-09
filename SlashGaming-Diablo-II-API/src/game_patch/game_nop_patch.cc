@@ -96,6 +96,23 @@ GameNopPatch::operator=(
     GameNopPatch&&
 ) noexcept = default;
 
+GameNopPatch*
+GameNopPatch::Clone(
+    void
+) const {
+  return new GameNopPatch(*this);
+}
+
+GameNopPatch*
+GameNopPatch::MoveToClone(
+    void
+) {
+  return new GameNopPatch(
+      std::move(this->game_address()),
+      std::move(this->patch_size())
+  );
+}
+
 } // namespace sgd2mapi
 
 /**

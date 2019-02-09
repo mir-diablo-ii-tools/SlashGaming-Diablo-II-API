@@ -149,6 +149,16 @@ class DLLEXPORT GameBranchPatch
       void
   ) const noexcept;
 
+  GameBranchPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameBranchPatch*
+  MoveToClone(
+      void
+  ) override;
+
  private:
   GameBranchPatch(
       const GameAddress& game_address,
