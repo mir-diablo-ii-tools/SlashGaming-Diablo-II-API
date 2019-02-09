@@ -206,6 +206,23 @@ SGD2MAPI_GamePatchBase_Destroy(
 );
 
 /**
+ * Creates an upcast of the specified game patch to a GamePatchInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface and
+ * destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GamePatchBase_UpcastToGamePatchInterfaceThenDestroy(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
+);
+
+/**
  * Applies the game patch by replacing the bytes at its target address with the
  * bytes stored in its buffer.
  */

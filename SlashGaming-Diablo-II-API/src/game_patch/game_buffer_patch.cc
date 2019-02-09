@@ -159,19 +159,34 @@ SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
     const std::uint8_t buffer[],
     std::size_t patch_size
 ) {
-  sgd2mapi::GameAddress* actual_game_address_ptr =
-      c_game_address->actual_ptr.get();
-
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      new SGD2MAPI_GamePatchBase;
-  c_game_patch_base->actual_ptr =
-      std::make_shared<sgd2mapi::GameBufferPatch>(
-          *actual_game_address_ptr,
+  struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch =
+      SGD2MAPI_GameBufferPatch_Create(
+          c_game_address,
           buffer,
           patch_size
       );
 
-  return c_game_patch_base;
+  return SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
+      c_game_buffer_patch
+  );
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_CreateAsGamePatchInterface(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    const std::uint8_t buffer[],
+    std::size_t patch_size
+) {
+  struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch =
+      SGD2MAPI_GameBufferPatch_Create(
+          c_game_address,
+          buffer,
+          patch_size
+      );
+
+  return SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
+      c_game_buffer_patch
+  );
 }
 
 void
@@ -205,6 +220,32 @@ SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
   SGD2MAPI_GameBufferPatch_Destroy(c_game_buffer_patch);
 
   return c_game_patch_base;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      new SGD2MAPI_GamePatchInterface;
+
+  c_game_patch_interface->actual_ptr = c_game_buffer_patch->actual_ptr;
+
+  return c_game_patch_interface;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
+          c_game_buffer_patch
+      );
+
+  SGD2MAPI_GameBufferPatch_Destroy(c_game_buffer_patch);
+
+  return c_game_patch_interface;
 }
 
 void

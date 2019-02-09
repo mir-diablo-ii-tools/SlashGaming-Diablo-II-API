@@ -144,12 +144,23 @@ SGD2MAPI_GameNopPatch_Create(
 );
 
 /**
- * Creates a new GameNopPatch, upcasted to a GamePatchBase. The patch buffer is
- * filled with no-op instructions to fill at most the specified number of
+ * Creates a new GameNopPatch, upcasted to a GamePatchBase. The patch buffer
+ * is filled with no-op instructions to fill at most the specified number of
  * bytes.
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameNopPatch_CreateAsGamePatchBase(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    size_t patch_size
+);
+
+/**
+ * Creates a new GameNopPatch, upcasted to a GamePatchInterface. The patch
+ * buffer is filled with no-op instructions to fill at most the specified
+ * number of bytes.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameNopPatch_CreateAsGamePatchInterface(
     const struct SGD2MAPI_GameAddress* c_game_address,
     size_t patch_size
 );
@@ -175,6 +186,23 @@ SGD2MAPI_GameNopPatch_UpcastToGamePatchBase(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameNopPatch_UpcastToGamePatchBaseThenDestroy(
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameNopPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameNopPatch* c_game_nop_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface and
+ * destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameNopPatch_UpcastToGamePatchInterfaceThenDestroy(
     struct SGD2MAPI_GameNopPatch* c_game_nop_patch
 );
 

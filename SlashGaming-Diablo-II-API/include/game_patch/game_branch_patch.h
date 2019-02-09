@@ -228,11 +228,25 @@ SGD2MAPI_GameBranchPatch_Create(
 );
 
 /**
- * Creates a new GameBranchPatch. The patch buffer is configured by the
- * specified branch type, the function to branch to, and the patch size.
+ * Creates a new GameBranchPatch, upcasted to a GamePatchBase. The patch
+ * buffer is configured by the specified branch type, the function to branch
+ * to, and the patch size.
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    enum SGD2MAPI_BranchType c_branch_type,
+    void* func(),
+    size_t patch_size
+);
+
+/**
+ * Creates a new GameBranchPatch, upcasted to a GamePatchInterface. The patch
+ * buffer is configured by the specified branch type, the function to branch
+ * to, and the patch size.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBranchPatch_CreateAsGamePatchInterface(
     const struct SGD2MAPI_GameAddress* c_game_address,
     enum SGD2MAPI_BranchType c_branch_type,
     void* func(),
@@ -262,6 +276,23 @@ SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface and
+ * destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterfaceThenDestroy(
     struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
 );
 

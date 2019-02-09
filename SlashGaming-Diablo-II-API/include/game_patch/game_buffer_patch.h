@@ -189,6 +189,17 @@ SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
 );
 
 /**
+ * Creates a new GameNopPatch, upcasted to a GamePatchBase. The patch buffer is
+ * specified as an array of 8-bit integrals.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_CreateAsGamePatchInterface(
+    const struct SGD2MAPI_GameAddress* c_game_address,
+    const uint8_t buffer[],
+    size_t patch_size
+);
+
+/**
  * Frees the memory used by the specified game patch.
  */
 DLLEXPORT void SGD2MAPI_GameBufferPatch_Destroy(
@@ -210,6 +221,23 @@ SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
  */
 DLLEXPORT struct SGD2MAPI_GamePatchBase*
 SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
+);
+
+/**
+ * Creates an upcast of the specified game patch to a GamePatchInterface and
+ * destroys the specified game patch.
+ */
+DLLEXPORT struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
     struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
 );
 

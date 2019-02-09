@@ -224,6 +224,32 @@ SGD2MAPI_GamePatchBase_Destroy(
   delete c_game_patch_base;
 }
 
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      new SGD2MAPI_GamePatchInterface;
+
+  c_game_patch_interface->actual_ptr = c_game_patch_base->actual_ptr;
+
+  return c_game_patch_interface;
+}
+
+struct SGD2MAPI_GamePatchInterface*
+SGD2MAPI_GamePatchBase_UpcastToGamePatchInterfaceThenDestroy(
+    struct SGD2MAPI_GamePatchBase* c_game_patch_base
+) {
+  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
+      SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
+          c_game_patch_base
+      );
+
+  SGD2MAPI_GamePatchBase_Destroy(c_game_patch_base);
+
+  return c_game_patch_interface;
+}
+
 void
 SGD2MAPI_GamePatchBase_Apply(
     struct SGD2MAPI_GamePatchBase* c_game_patch_base
