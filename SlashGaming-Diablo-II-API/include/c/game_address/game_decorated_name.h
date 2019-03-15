@@ -35,15 +35,44 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_ADDRESS_H_
-#define SGD2MAPI_C_GAME_ADDRESS_H_
+#ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
+#define SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
 
-#include "game_address/game_decorated_name.h"
-#include "game_address/game_offset.h"
-#include "game_address/game_ordinal.h"
+#include "../../dllexport_define.inc"
 
-struct SGD2MAPI_GameAddress {
-  intptr_t raw_address;
-};
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-#endif // SGD2MAPI_C_GAME_ADDRESS_H_
+struct SGD2MAPI_GameAddress;
+
+/**
+ * Initializes a GameAddress. The base library is specified using its ID. The
+ * game address locator is specified as a string encoded in 7-bit ASCII, which
+ * represents the address's decorated name.
+ */
+DLLEXPORT void
+SGD2MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
+    struct SGD2MAPI_GameAddress* game_address,
+    int library_id,
+    const char decorated_name[]
+);
+
+/**
+ * Initializes a GameAddress. The base library is specified using its name,
+ * encoded in UTF-8. The game address locator is specified as a string encoded
+ * in 7-bit ASCII, which represents the address's decorated name.
+ */
+DLLEXPORT void
+SGD2MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
+    struct SGD2MAPI_GameAddress* game_address,
+    const char library_path[],
+    const char decorated_name[]
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
