@@ -47,13 +47,19 @@
 
 #include "../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
  * The Diablo II game versions supported and recognized.
  */
-enum class GameVersion;
+enum class GameVersion {
+  k1_00, k1_01, k1_02, k1_03, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
+  k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09D, k1_10Beta, k1_10SBeta,
+  k1_10, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
+
+  kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
+  kClassic1_14D, kLod1_14D,
+};
 
 /**
  * Returns a view to the UTF-8 encoded string associated with the specified
@@ -98,30 +104,6 @@ IsRunningGameVersionAtLeast1_14(
 );
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-/**
- * The Diablo II game versions supported and recognized. Disabled if compiling
- * as C++ code.
- */
-enum SGD2MAPI_GameVersion
-#ifdef __cplusplus
-{};
-
-enum class sgd2mapi::GameVersion
-#endif // __cplusplus
-{
-  k1_00, k1_01, k1_02, k1_03, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
-  k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09D, k1_10Beta, k1_10SBeta,
-  k1_10, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
-
-  kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
-  kClassic1_14D, kLod1_14D,
-};
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_VERSION_HPP_

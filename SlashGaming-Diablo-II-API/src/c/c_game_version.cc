@@ -35,99 +35,96 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_VERSION_H_
-#define SGD2MAPI_C_GAME_VERSION_H_
+#include "../../include/c/game_version.h"
 
-#include <stdint.h>
 #include <stddef.h>
+#include <algorithm>
 
-#include "game_bool.h"
+#include "../../include/c/game_bool.h"
+#include "../../include/cxx/game_version.hpp"
 
-#include "../dllexport_define.inc"
-
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-/**
- * The Diablo II game versions supported and recognized.
- */
-enum SGD2MAPI_GameVersion {
-  VERSION_1_00, VERSION_1_01, VERSION_1_02, VERSION_1_03, VERSION_1_04B_C,
-  VERSION_1_05, VERSION_1_05B, VERSION_1_06, VERSION_1_06B, VERSION_1_07_BETA,
-  VERSION_1_07, VERSION_1_08, VERSION_1_09, VERSION_1_09B, VERSION_1_09D,
-  VERSION_1_10_BETA, VERSION_1_10S_BETA, VERSION_1_10, VERSION_1_11,
-  VERSION_1_11B, VERSION_1_12A, VERSION_1_13A_BETA, VERSION_1_13C,
-  VERSION_1_13D,
-
-  CLASSIC_1_14A, LOD_1_14A, CLASSIC_1_14B, LOD_1_14B, CLASSIC_1_14C,
-  LOD_1_14C, CLASSIC_1_14D, LOD_1_14D,
-};
-
-/**
- * Copies the UTF-8 encoded string associated with the specified game version
- * into the specified destination buffer.
- */
-DLLEXPORT char*
+char*
 SGD2MAPI_GetGameVersionName(
     char dest[],
     int game_version_id
-);
+) {
+  sgd2mapi::GameVersion actual_game_version_id =
+      static_cast<sgd2mapi::GameVersion>(game_version_id);
 
-/**
- * Returns the number of bytes needed to copy the UTF-8 encoded string
- * associated with the specified game version.
- */
-DLLEXPORT size_t
+  std::string_view game_version_name = sgd2mapi::GetGameVersionName(
+      actual_game_version_id
+  );
+
+  std::copy(
+      game_version_name.cbegin(),
+      game_version_name.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+size_t
 SGD2MAPI_GetGameVersionNameSize(
     int game_version_id
-);
+) {
+  sgd2mapi::GameVersion actual_game_version_id =
+      static_cast<sgd2mapi::GameVersion>(game_version_id);
 
-/**
- * Returns the identifier of the running game version.
- */
-DLLEXPORT int
+  std::string_view game_version_name = sgd2mapi::GetGameVersionName(
+      actual_game_version_id
+  );
+
+  return game_version_name.size() + 1;
+}
+
+int
 SGD2MAPI_GetRunningGameVersionId(
     void
-);
+) {
+  return static_cast<enum SGD2MAPI_GameVersion>(
+      sgd2mapi::GetRunningGameVersionId()
+  );
+}
 
-/**
- * Copies the UTF-8 encoded string associated with the running game version
- * into the specified destination buffer.
- */
-DLLEXPORT char*
+char*
 SGD2MAPI_GetRunningGameVersionName(
     char dest[]
-);
+) {
+  std::string_view game_version_name =
+      sgd2mapi::GetRunningGameVersionName();
 
-/**
- * Returns the number of bytes needed to copy the UTF-8 encoded string
- * associated with the running game version.
- */
-DLLEXPORT size_t
+  std::copy(
+      game_version_name.cbegin(),
+      game_version_name.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+size_t
 SGD2MAPI_GetRunningGameVersionNameSize(
     void
-);
+) {
+  std::string_view game_version_name =
+      sgd2mapi::GetRunningGameVersionName();
 
-/**
- * Returns whether the Diablo II game version is at least 1.14.
- */
-DLLEXPORT bool8
+  return game_version_name.size() + 1;
+}
+
+bool8
 SGD2MAPI_IsGameVersionAtLeast1_14(
     int game_version_id
-);
+) {
+  return sgd2mapi::IsGameVersionAtLeast1_14(
+      static_cast<sgd2mapi::GameVersion>(game_version_id)
+  );
+}
 
-/**
- * Returns whether the running game version is at least 1.14.
- */
-DLLEXPORT bool8
+bool8
 SGD2MAPI_IsRunningGameVersionAtLeast1_14(
     void
-);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
-
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_VERSION_H_
+) {
+  return sgd2mapi::IsRunningGameVersionAtLeast1_14();
+}
