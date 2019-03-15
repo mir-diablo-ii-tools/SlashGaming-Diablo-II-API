@@ -35,18 +35,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_HPP_
-#define SGD2MAPI_SGD2MAPI_HPP_
+#ifndef SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#define SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
 
-#include "cxx/default_game_library.hpp"
-#include "cxx/game_address.hpp"
-#include "cxx/game_address_locator.hpp"
-#include "cxx/game_bool.hpp"
-#include "cxx/game_constant.hpp"
-#include "cxx/game_data.hpp"
-#include "cxx/game_func.hpp"
-#include "cxx/game_patch.hpp"
-#include "cxx/game_struct.hpp"
-#include "cxx/game_version.hpp"
+#include <cstdint>
 
-#endif // SGD2MAPI_SGD2MAPI_HPP_
+namespace sgd2mapi {
+
+enum class OpCode
+#if defined(__i386__) || defined(_M_IX86)
+: std::uint8_t {
+  kCall = 0xE8,
+  kJump = 0xE9,
+  kNop = 0x90
+};
+#endif
+
+} // namespace sgd2mapi
+
+#endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_

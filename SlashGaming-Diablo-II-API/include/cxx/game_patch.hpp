@@ -35,18 +35,12 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_HPP_
-#define SGD2MAPI_SGD2MAPI_HPP_
+#ifndef SGD2MAPI_CXX_GAME_PATCH_HPP_
+#define SGD2MAPI_CXX_GAME_PATCH_HPP_
 
-#include "cxx/default_game_library.hpp"
-#include "cxx/game_address.hpp"
-#include "cxx/game_address_locator.hpp"
-#include "cxx/game_bool.hpp"
-#include "cxx/game_constant.hpp"
-#include "cxx/game_data.hpp"
-#include "cxx/game_func.hpp"
-#include "cxx/game_patch.hpp"
-#include "cxx/game_struct.hpp"
-#include "cxx/game_version.hpp"
+#include "game_patch/game_branch_patch.hpp"
+#include "game_patch/game_buffer_patch.hpp"
+#include "game_patch/game_nop_patch.hpp"
+#include "game_patch/game_patch_base.hpp"
 
-#endif // SGD2MAPI_SGD2MAPI_HPP_
+#endif // SGD2MAPI_CXX_GAME_PATCH_HPP_
