@@ -45,7 +45,7 @@
 #include <string_view>
 #endif // __cplusplus
 
-#include "dllexport_define.inc"
+#include "../dllexport_define.inc"
 
 #ifdef __cplusplus
 namespace sgd2mapi {
@@ -196,5 +196,5 @@ SGD2MAPI_IsRunningGameVersionAtLeast1_14(
 
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
-#include "dllexport_undefine.inc"
+#include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_VERSION_HPP_

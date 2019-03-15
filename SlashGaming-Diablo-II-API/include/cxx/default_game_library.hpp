@@ -44,7 +44,7 @@
 #include <string>
 #endif // __cplusplus
 
-#include "dllexport_define.inc"
+#include "../dllexport_define.inc"
 
 #ifdef __cplusplus
 namespace sgd2mapi {
@@ -120,5 +120,5 @@ GetDefaultLibraryPathSizeWithRedirect(
 
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
-#include "dllexport_undefine.inc"
+#include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_

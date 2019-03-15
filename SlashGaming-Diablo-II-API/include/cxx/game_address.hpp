@@ -51,7 +51,7 @@
 #include <unordered_map>
 #endif // __cplusplus
 
-#include "dllexport_define.inc"
+#include "../dllexport_define.inc"
 
 #ifdef __cplusplus
 namespace sgd2mapi {
@@ -311,5 +311,5 @@ SGD2MAPI_GameAddress_GetRawAddress(
 
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
-#include "dllexport_undefine.inc"
+#include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_HPP_

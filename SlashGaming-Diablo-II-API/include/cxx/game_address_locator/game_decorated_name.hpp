@@ -47,7 +47,7 @@
 #include <string_view>
 #endif // __cplusplus
 
-#include "../dllexport_define.inc"
+#include "../../dllexport_define.inc"
 
 #ifdef __cplusplus
 namespace sgd2mapi {
@@ -192,5 +192,5 @@ SGD2MAPI_GameDecoratedName_GetDecoratedName(
 
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
-#include "../dllexport_undefine.inc"
+#include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_HPP_
