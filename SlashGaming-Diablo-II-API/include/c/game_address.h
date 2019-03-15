@@ -43,6 +43,8 @@
 #include "game_bool.h"
 #include "default_game_library.h"
 
+#include "../dllexport_define.inc"
+
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
@@ -54,7 +56,7 @@ struct SGD2MAPI_GameAddress;
  * address locator is specified as a string encoded in 7-bit ASCII, which
  * represents the address's decorated name.
  */
-struct SGD2MAPI_GameAddress*
+DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_LocateFromLibraryIdAndDecoratedName(
     int library_id,
     const char decorated_name[]
@@ -65,7 +67,7 @@ SGD2MAPI_GameAddress_LocateFromLibraryIdAndDecoratedName(
  * address locator is specified as the offset from the module base address to
  * the target address.
  */
-struct SGD2MAPI_GameAddress*
+DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_LocateFromLibraryIdAndOffset(
     int library_id,
     intptr_t offset
@@ -75,7 +77,7 @@ SGD2MAPI_GameAddress_LocateFromLibraryIdAndOffset(
  * Locates a GameAddress. The base library is specified using its ID. The game
  * address locator is specified as the address's ordinal value.
  */
-struct SGD2MAPI_GameAddress*
+DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_LocateFromLibraryIdOrdinal(
     int library_id,
     int ordinal
@@ -86,7 +88,7 @@ SGD2MAPI_GameAddress_LocateFromLibraryIdOrdinal(
  * encoded in UTF-8. The game address locator is specified as a string encoded
  * in 7-bit ASCII, which represents the address's decorated name.
  */
-struct SGD2MAPI_GameAddress*
+DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_LocateFromLibraryPathAndDecoratedName(
     const char library_path[],
     const char decorated_name[]
@@ -97,7 +99,7 @@ SGD2MAPI_GameAddress_LocateFromLibraryPathAndDecoratedName(
  * encoded in UTF-8. The game address locator is specified as the offset from
  * the module base address to the target address.
  */
-struct SGD2MAPI_GameAddress*
+DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_LocateFromLibraryPathAndOffset(
     const char library_path[],
     intptr_t offset
@@ -108,7 +110,7 @@ SGD2MAPI_GameAddress_LocateFromLibraryPathAndOffset(
  * encoded in UTF-8. The game address locator is specified as the address's
  * ordinal value.
  */
-struct SGD2MAPI_GameAddress*
+DLLEXPORT struct SGD2MAPI_GameAddress*
 SGD2MAPI_GameAddress_LocateFromLibraryPathAndOrdinal(
     const char library_path[],
     int ordinal
@@ -118,4 +120,5 @@ SGD2MAPI_GameAddress_LocateFromLibraryPathAndOrdinal(
 } // extern "C"
 #endif // __cplusplus
 
+#include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_ADDRESS_H_
