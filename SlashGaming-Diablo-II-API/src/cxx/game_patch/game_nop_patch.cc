@@ -128,7 +128,7 @@ SGD2MAPI_GameNopPatch_Create(
       new SGD2MAPI_GameNopPatch;
 
   const sgd2mapi::GameAddress* actual_game_address =
-      c_game_address->actual_ptr.get();
+      nullptr; // c_game_address->actual_ptr.get();
 
   c_game_nop_patch->actual_ptr =
       std::make_shared<sgd2mapi::GameNopPatch>(

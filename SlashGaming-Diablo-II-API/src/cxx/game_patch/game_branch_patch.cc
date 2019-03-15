@@ -236,7 +236,7 @@ SGD2MAPI_GameBranchPatch_Create(
       static_cast<sgd2mapi::BranchType>(c_branch_type);
 
   const sgd2mapi::GameAddress* actual_game_address =
-      c_game_address->actual_ptr.get();
+      nullptr;//c_game_address->actual_ptr.get();
 
   c_game_branch_patch->actual_ptr =
       std::make_shared<sgd2mapi::GameBranchPatch>(

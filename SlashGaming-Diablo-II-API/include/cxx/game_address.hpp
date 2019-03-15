@@ -38,22 +38,17 @@
 #ifndef SGD2MAPI_CXX_GAME_ADDRESS_HPP_
 #define SGD2MAPI_CXX_GAME_ADDRESS_HPP_
 
-#include <stdint.h>
+#include <cstdint>
+#include <filesystem>
+#include <memory>
+#include <unordered_map>
 
 #include "game_address_locator.hpp"
 #include "default_game_library.hpp"
 #include "game_version.hpp"
 
-#ifdef __cplusplus
-#include <cstdint>
-#include <filesystem>
-#include <memory>
-#include <unordered_map>
-#endif // __cplusplus
-
 #include "../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -232,84 +227,6 @@ class DLLEXPORT GameAddress {
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddress;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GameAddress {
-  std::shared_ptr<sgd2mapi::GameAddress> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Creates a new GameAddress. The base library is specified using its name,
- * encoded in UTF-8. The game address locators are specified as an array of
- * pointers to GameAddressLocators.
- */
-DLLEXPORT struct SGD2MAPI_GameAddress*
-SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath(
-    const char library_path[],
-    const struct SGD2MAPI_GameAddressLocatorInterface*
-        game_address_locator_interfaces[]
-);
-
-/**
- * Creates a new GameAddress. The base library is specified using its ID.
- * The game address locators are specified as an array of pointers to
- * GameAddressLocators.
- */
-DLLEXPORT struct SGD2MAPI_GameAddress*
-SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId(
-    enum SGD2MAPI_DefaultLibrary c_library_id,
-    const struct SGD2MAPI_GameAddressLocatorInterface*
-        c_game_address_locator_interfaces[]
-);
-
-/**
- * Create a new GameAddress. The base library is specified using its ID or its
- * name. The game address locators are specified as an array of pointers to
- * GameAddressLocators.
- */
-#define SGD2MAPI_GameAddress_Create( \
-    library, \
-    c_game_address_locator_interfaces \
-) _Generic( \
-    (library), \
-    char*: \
-        SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryPath, \
-    int: \
-        SGD2MAPI_GameAddress_CreateAsGameAddressFromLibraryId \
-)(dest, library, game_address_locator_interfaces)
-
-/**
- * Frees the memory used by the specified game address.
- */
-DLLEXPORT void
-SGD2MAPI_GameAddress_Destroy(
-    struct SGD2MAPI_GameAddress* c_game_address
-);
-
-/**
- * Returns the address value of the game address.
- */
-DLLEXPORT intptr_t
-SGD2MAPI_GameAddress_GetRawAddress(
-    const struct SGD2MAPI_GameAddress* c_game_address
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_HPP_

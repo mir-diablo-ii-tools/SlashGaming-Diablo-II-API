@@ -139,7 +139,7 @@ SGD2MAPI_GameBufferPatch_Create(
     std::size_t patch_size
 ) {
   sgd2mapi::GameAddress* actual_game_address_ptr =
-      c_game_address->actual_ptr.get();
+      nullptr; //c_game_address->actual_ptr.get();
 
   struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch =
       new SGD2MAPI_GameBufferPatch;
