@@ -35,37 +35,53 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
-#define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+#ifndef SGD2MAPI_C_DEFAULT_GAME_LIBRARY_H_
+#define SGD2MAPI_C_DEFAULT_GAME_LIBRARY_H_
 
-#include <cstdint>
-#include <filesystem>
-#include <string>
+#include <stddef.h>
 
 #include "../dllexport_define.inc"
 
-namespace sgd2mapi {
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
 /**
  * The default libraries that are used by Diablo II.
  */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
+enum SGD2MAPI_DefaultLibrary {
+  LIBRARY_BNCLIENT, LIBRARY_D2CLIENT, LIBRARY_D2CMP, LIBRARY_D2COMMON,
+  LIBRARY_D2DDRAW, LIBRARY_D2DIRECT3D, LIBRARY_D2GAME, LIBRARY_D2GDI,
+  LIBRARY_D2GFX, LIBRARY_D2GLIDE, LIBRARY_D2LANG, LIBRARY_D2LAUNCH,
+  LIBRARY_D2MCPCLIENT, LIBRARY_D2MULTI, LIBRARY_D2NET, LIBRARY_D2SERVER,
+  LIBRARY_D2SOUND, LIBRARY_D2WIN, LIBRARY_FOG, LIBRARY_STORM,
 };
 
-DLLEXPORT const std::filesystem::path&
-GetGameExecutablePath(
+DLLEXPORT char*
+SGD2MAPI_GetGameExecutablePath(
+    char dest[]
+);
+
+DLLEXPORT size_t
+SGD2MAPI_GetGameExecutablePathSize(
     void
 );
 
-DLLEXPORT const std::filesystem::path&
+DLLEXPORT char*
 GetDefaultLibraryPathWithRedirect(
-    enum DefaultLibrary library
+    char dest[],
+    int library_id
 );
 
-} // namespace sgd2mapi
+DLLEXPORT size_t
+GetDefaultLibraryPathWithRedirectSize(
+    int library_id
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+
+#endif // SGD2MAPI_C_DEFAULT_GAME_LIBRARY_H_

@@ -35,37 +35,70 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
-#define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+#include "../../include/c/default_game_library.h"
 
-#include <cstdint>
+#include <stddef.h>
+#include <algorithm>
 #include <filesystem>
 #include <string>
 
-#include "../dllexport_define.inc"
+#include "../../include/cxx/default_game_library.hpp"
 
-namespace sgd2mapi {
+char*
+SGD2MAPI_GetGameExecutablePath(
+  char dest[]
+) {
+  std::string game_executable_path_text =
+      sgd2mapi::GetGameExecutablePath().u8string();
 
-/**
- * The default libraries that are used by Diablo II.
- */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
+  std::copy(
+      game_executable_path_text.cbegin(),
+      game_executable_path_text.cend(),
+      dest
+  );
 
-DLLEXPORT const std::filesystem::path&
-GetGameExecutablePath(
+  return dest;
+}
+
+size_t
+SGD2MAPI_GetGameExecutablePathSize(
     void
-);
+) {
+  return sgd2mapi::GetGameExecutablePath().u8string().size() + 1;
+}
 
-DLLEXPORT const std::filesystem::path&
+char*
 GetDefaultLibraryPathWithRedirect(
-    enum DefaultLibrary library
-);
+    char dest[],
+    int library_id
+) {
+  enum sgd2mapi::DefaultLibrary actual_default_library =
+      static_cast<sgd2mapi::DefaultLibrary>(library_id);
 
-} // namespace sgd2mapi
+  const std::filesystem::path& default_library_path =
+      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+  std::string default_library_path_text =
+      default_library_path.u8string();
+
+  std::copy(
+      default_library_path_text.cbegin(),
+      default_library_path_text.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+size_t
+GetDefaultLibraryPathWithRedirectSize(
+    int library_id
+) {
+  enum sgd2mapi::DefaultLibrary actual_default_library =
+      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+
+  const std::filesystem::path& default_library_path =
+      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+
+  return default_library_path.u8string().size() + 1;
+}
