@@ -42,13 +42,7 @@
 #include <memory>
 #endif // __cplusplus
 
-#if defined(SGD2MAPI_DLLEXPORT)
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
+#include "../dllexport_define.inc"
 
 #ifdef __cplusplus
 namespace sgd2mapi {
@@ -148,5 +142,5 @@ SGD2MAPI_GamePatchInterface_Remove(
 
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
-#undef DLLEXPORT
+#include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
