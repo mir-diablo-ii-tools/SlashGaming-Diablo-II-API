@@ -38,12 +38,7 @@
 #ifndef SGD2MAPI_CXX_GAME_VERSION_HPP_
 #define SGD2MAPI_CXX_GAME_VERSION_HPP_
 
-#include <stdbool.h>
-#include <stdint.h>
-
-#ifdef __cplusplus
 #include <string_view>
-#endif // __cplusplus
 
 #include "../dllexport_define.inc"
 
