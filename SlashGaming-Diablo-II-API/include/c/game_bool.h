@@ -35,18 +35,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_BOOL_HPP_
-#define SGD2MAPI_CXX_GAME_BOOL_HPP_
+#ifndef SGD2MAPI_C_GAME_BOOL_H_
+#define SGD2MAPI_C_GAME_BOOL_H_
 
-#include <cstdint>
+#include <stdint.h>
 
-namespace sgd2mapi {
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-using bool8 = std::int8_t;
-using bool16 = std::int16_t;
-using bool32 = std::int32_t;
-using bool64 = std::int64_t;
+typedef int8_t bool8;
+typedef int16_t bool16;
+typedef int32_t bool32;
+typedef int64_t bool64;
 
-} // namespace sgd2mapi
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
-#endif // SGD2MAPI_CXX_GAME_BOOL_HPP_
+#endif // SGD2MAPI_C_GAME_BOOL_H_
