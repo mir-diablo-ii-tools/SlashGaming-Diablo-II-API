@@ -35,14 +35,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_H_
-#define SGD2MAPI_GAME_ADDRESS_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_HPP_
+#define SGD2MAPI_GAME_ADDRESS_HPP_
 
 #include <stdint.h>
 
-#include "game_address_locator.h"
-#include "default_game_library.h"
-#include "game_version.h"
+#include "game_address_locator.hpp"
+#include "default_game_library.hpp"
+#include "game_version.hpp"
 
 #ifdef __cplusplus
 #include <cstdint>
@@ -318,4 +318,4 @@ SGD2MAPI_GameAddress_GetRawAddress(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_H_
+#endif // SGD2MAPI_GAME_ADDRESS_HPP_

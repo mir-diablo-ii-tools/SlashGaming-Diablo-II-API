@@ -35,7 +35,12 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_FUNC_H_
-#define SGD2MAPI_GAME_FUNC_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_HPP_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_HPP_
 
-#endif // SGD2MAPI_GAME_FUNC_H_
+#include "game_address_locator/game_address_locator_interface.hpp"
+#include "game_address_locator/game_decorated_name.hpp"
+#include "game_address_locator/game_offset.hpp"
+#include "game_address_locator/game_ordinal.hpp"
+
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_HPP_

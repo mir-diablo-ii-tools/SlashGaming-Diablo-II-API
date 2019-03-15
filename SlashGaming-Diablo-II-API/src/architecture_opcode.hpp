@@ -35,12 +35,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
+#ifndef SGD2MAPI_ARCHITECTURE_OPCODE_HPP_
+#define SGD2MAPI_ARCHITECTURE_OPCODE_HPP_
 
-#include "game_address_locator/game_address_locator_interface.h"
-#include "game_address_locator/game_decorated_name.h"
-#include "game_address_locator/game_offset.h"
-#include "game_address_locator/game_ordinal.h"
+#include <cstdint>
 
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_H_
+namespace sgd2mapi {
+
+enum class OpCode
+#if defined(__i386__) || defined(_M_IX86)
+: std::uint8_t {
+  kCall = 0xE8,
+  kJump = 0xE9,
+  kNop = 0x90
+};
+#endif
+
+} // namespace sgd2mapi
+
+#endif // SGD2MAPI_ARCHITECTURE_OPCODE_HPP_

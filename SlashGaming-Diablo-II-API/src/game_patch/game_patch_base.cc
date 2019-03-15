@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "../../include/game_patch/game_patch_base.h"
+#include "../../include/game_patch/game_patch_base.hpp"
 
 #include <windows.h>
 #include <cstdint>
@@ -43,7 +43,7 @@
 #include <utility>
 #include <vector>
 
-#include "../../include/game_address.h"
+#include "../../include/game_address.hpp"
 
 namespace sgd2mapi {
 

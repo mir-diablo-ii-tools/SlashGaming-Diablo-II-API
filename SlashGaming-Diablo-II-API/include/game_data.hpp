@@ -35,22 +35,7 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_ARCHITECTURE_OPCODE_H_
-#define SGD2MAPI_ARCHITECTURE_OPCODE_H_
+#ifndef SGD2MAPI_GAME_DATA_HPP_
+#define SGD2MAPI_GAME_DATA_HPP_
 
-#include <cstdint>
-
-namespace sgd2mapi {
-
-enum class OpCode
-#if defined(__i386__) || defined(_M_IX86)
-: std::uint8_t {
-  kCall = 0xE8,
-  kJump = 0xE9,
-  kNop = 0x90
-};
-#endif
-
-} // namespace sgd2mapi
-
-#endif // SGD2MAPI_ARCHITECTURE_OPCODE_H_
+#endif // SGD2MAPI_GAME_DATA_HPP_

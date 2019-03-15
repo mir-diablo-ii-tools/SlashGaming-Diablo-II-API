@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "game_address_table.h"
+#include "game_address_table.hpp"
 
 #include <windows.h>
 #include <cstdint>
@@ -49,12 +49,12 @@
 #include <fmt/printf.h>
 #include <nlohmann/json.hpp>
 
-#include "config_parser.h"
-#include "../include/game_address_locator.h"
-#include "game_address_table_reader.h"
-#include "../include/default_game_library.h"
-#include "game_library.h"
-#include "../include/game_version.h"
+#include "config_parser.hpp"
+#include "../include/game_address_locator.hpp"
+#include "game_address_table_reader.hpp"
+#include "../include/default_game_library.hpp"
+#include "game_library.hpp"
+#include "../include/game_version.hpp"
 
 namespace sgd2mapi {
 namespace {

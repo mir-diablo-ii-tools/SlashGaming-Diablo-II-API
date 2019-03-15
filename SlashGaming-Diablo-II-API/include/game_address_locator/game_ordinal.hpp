@@ -35,11 +35,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_H_
-#define SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_HPP_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_HPP_
+
+#include "game_address_locator_interface.hpp"
 
 #ifdef __cplusplus
-#include <memory>
+#include <cstdint>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -53,51 +55,69 @@
 #ifdef __cplusplus
 namespace sgd2mapi {
 
-class DLLEXPORT GamePatchInterface {
+/**
+ * A game address locator that uses an ordinal value to specify a location in
+ * game memory.
+ */
+class DLLEXPORT GameOrdinal
+    : public GameAddressLocatorInterface {
  public:
-  virtual
-  ~GamePatchInterface(
-      void
+  /**
+   * Creates a new instance of GameOrdinal.
+   */
+  explicit GameOrdinal(
+      int ordinal
   );
 
-  /**
-   * Clones this game patch and returns a pointer to the clone.
-   */
-  virtual GamePatchInterface*
+  GameOrdinal(
+      const GameOrdinal& rhs
+  );
+
+  GameOrdinal(
+      GameOrdinal&& rhs
+  ) noexcept;
+
+  ~GameOrdinal(
+      void
+  ) override;
+
+  GameOrdinal&
+  operator=(
+      const GameOrdinal&
+  );
+
+  GameOrdinal&
+  operator=(
+      GameOrdinal&&
+  ) noexcept;
+
+  GameOrdinal*
   Clone(
       void
-  ) const = 0;
+  ) const override;
 
-  /**
-   * Destructively moves all data into a clone and returns a pointer to the
-   * clone.
-   */
-  virtual GamePatchInterface*
+  GameOrdinal*
   MoveToClone(
       void
-  ) = 0;
+  ) override;
+
+  std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const override;
 
   /**
-   * Applies the patch by replacing the values at its target address with the
-   * values stored in its buffer. Does nothing if the patch is applied.
+   * Returns the ordinal value of this GameOrdinal.
    */
-  virtual void
-  Apply(
+  int ordinal(
       void
-  ) = 0;
+  ) const noexcept;
 
-  /**
-   * Removes the effects of the patch by restoring the patched entries to their
-   * original values. Does nothing if the patch is not been applied.
-   */
-  virtual void
-  Remove(
-      void
-  ) = 0;
+ private:
+  int ordinal_;
 };
 
 } // namespace sgd2mapi
-
 #endif // __cplusplus
 
 /**
@@ -105,41 +125,64 @@ class DLLEXPORT GamePatchInterface {
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-
-struct SGD2MAPI_GamePatchInterface;
+struct SGD2MAPI_GameOrdinal;
 
 #ifdef __cplusplus
-struct SGD2MAPI_GamePatchInterface {
-  std::shared_ptr<sgd2mapi::GamePatchInterface> actual_ptr;
+struct SGD2MAPI_GameOrdinal {
+  std::shared_ptr<sgd2mapi::GameOrdinal> actual_ptr;
 };
 
 extern "C" {
 #endif // __cplusplus
 
 /**
- * Frees the memory used by the specified game patch.
+ * Creates a new GameOrdinal.
  */
-DLLEXPORT void
-SGD2MAPI_GamePatchInterface_Destroy(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
+DLLEXPORT struct SGD2MAPI_GameOrdinal*
+SGD2MAPI_GameOrdinal_Create(
+    int ordinal
 );
 
 /**
- * Applies the game patch by replacing the values at its target address with
- * the values stored in its buffer.
+ * Creates a new GameOrdinal, upcasted to a GameAddressLocatorInterface.
  */
-DLLEXPORT void
-SGD2MAPI_GamePatchInterface_Apply(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
+    int ordinal
 );
 
 /**
- * Removes the effects of the game patch by restoring the original state of
- * the values at its target address.
+ * Frees the memory used by the specified game locator.
  */
 DLLEXPORT void
-SGD2MAPI_GamePatchInterface_Remove(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
+SGD2MAPI_GameOrdinal_Destroy(
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+);
+
+/**
+ * Creates an upcast of the specified game locator to a
+ * GameAddressLocatorInterface.
+ */
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+);
+
+/**
+ * Creates an upcast of the specified game locator to a
+ * GameAddressLocatorInterface and destroys the specified game locator.
+ */
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterfaceThenDestroy(
+    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+);
+
+/**
+ * Returns the ordinal value of the game locator.
+ */
+DLLEXPORT int
+SGD2MAPI_GameOrdinal_GetOrdinal(
+    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
 );
 
 #ifdef __cplusplus
@@ -149,4 +192,4 @@ SGD2MAPI_GamePatchInterface_Remove(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_PATCH_GAME_PATCH_INTERFACE_H_
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_HPP_

@@ -35,8 +35,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_VERSION_H_
-#define SGD2MAPI_GAME_VERSION_H_
+#ifndef SGD2MAPI_GAME_VERSION_HPP_
+#define SGD2MAPI_GAME_VERSION_HPP_
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -203,4 +203,4 @@ SGD2MAPI_IsRunningGameVersionAtLeast1_14(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_VERSION_H_
+#endif // SGD2MAPI_GAME_VERSION_HPP_

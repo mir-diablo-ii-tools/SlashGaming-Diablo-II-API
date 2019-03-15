@@ -35,96 +35,23 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_DEFAULT_GAME_LIBRARY_H_
-#define SGD2MAPI_DEFAULT_GAME_LIBRARY_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_READER_HPP_
+#define SGD2MAPI_GAME_ADDRESS_TABLE_READER_HPP_
 
-#ifdef __cplusplus
-#include <filesystem>
 #include <cstdint>
+#include <filesystem>
 #include <string>
-#endif // __cplusplus
+#include <unordered_map>
 
-#if defined(SGD2MAPI_DLLEXPORT)
-#define DLLEXPORT __declspec(dllexport)
-#elif defined(SGD2MAPI_DLLIMPORT)
-#define DLLEXPORT __declspec(dllimport)
-#else
-#define DLLEXPORT
-#endif
+#include "../include/game_address.hpp"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
-/**
- * The default libraries that are used by Diablo II.
- */
-enum class DefaultLibrary;
-
-DLLEXPORT const std::filesystem::path&
-GetGameExecutablePath(
-    void
-);
-
-DLLEXPORT const std::filesystem::path&
-GetDefaultLibraryPathWithRedirect(
-    enum DefaultLibrary library
+std::unordered_map<std::string, GameAddress>
+ReadTsvTableFile(
+    const std::filesystem::path& file_path
 );
 
 } // namespace sgd2mapi
-#endif // __cplusplus
 
-/**
- * C Interface
- */
-
-/**
- * The default libraries that are used by Diablo II. Disabled if compiling as
- * C++ code.
- */
-enum SGD2MAPI_DefaultLibrary
-#ifdef __cplusplus
-{};
-
-enum class sgd2mapi::DefaultLibrary
-#endif // __cplusplus
-{
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-DLLEXPORT char*
-SGD2MAPI_GetGameExecutablePath(
-    char dest[]
-);
-
-DLLEXPORT size_t
-SGD2MAPI_GetGameExecutablePathSize(
-    void
-);
-
-DLLEXPORT char*
-GetDefaultLibraryPathWithRedirect(
-    char dest[],
-    enum SGD2MAPI_DefaultLibrary library
-);
-
-DLLEXPORT size_t
-GetDefaultLibraryPathSizeWithRedirect(
-    enum SGD2MAPI_DefaultLibrary library
-);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-
-#undef DLLEXPORT
-#endif // SGD2MAPI_DEFAULT_GAME_LIBRARY_H_
+#endif // SGD2MAPI_GAME_ADDRESS_TABLE_READER_TSV_GAME_ADDRESS_TABLE_READER_HPP_

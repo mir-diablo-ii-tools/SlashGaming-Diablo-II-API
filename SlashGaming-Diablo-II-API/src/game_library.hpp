@@ -35,26 +35,96 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_H_
-#define SGD2MAPI_GAME_ADDRESS_TABLE_H_
+#ifndef SGD2MAPI_GAME_LIBRARY_HPP_
+#define SGD2MAPI_GAME_LIBRARY_HPP_
 
 #include <cstdint>
-#include <string_view>
+#include <filesystem>
 
-#include "../include/game_address.h"
+#include "../include/default_game_library.hpp"
 
 namespace sgd2mapi {
 
-const GameAddress&
-GetGameAddress(
-    std::string_view address_name
+/**
+ * A class that corresponds to a library used by the game.
+ */
+class GameLibrary {
+ public:
+  /**
+   * Creates a new instance of a GameLibrary using the default library ID.
+   */
+  explicit GameLibrary(
+      enum DefaultLibrary library
+  );
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
+  explicit GameLibrary(
+      const std::filesystem::path& library_path
+  );
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
+  explicit GameLibrary(
+      std::filesystem::path&& library_path
+  );
+
+  GameLibrary(
+      const GameLibrary& rhs
+  );
+
+  GameLibrary(
+      GameLibrary&& rhs
+  );
+
+  virtual
+  ~GameLibrary(
+      void
+  );
+
+  GameLibrary&
+  operator=(
+      const GameLibrary& rhs
+  );
+
+  GameLibrary&
+  operator=(
+      GameLibrary&& rhs
+  );
+
+  /**
+   * Returns the base address value of this GameLibrary.
+   */
+  std::intptr_t
+  base_address(
+      void
+  ) const noexcept;
+
+  /**
+   * Returns the library path of this GameLibrary.
+   */
+  const std::filesystem::path&
+  library_path(
+      void
+  ) const noexcept;
+
+ private:
+  std::filesystem::path library_path_;
+  std::intptr_t base_address_;
+};
+
+const GameLibrary&
+GetGameLibrary(
+    enum DefaultLibrary library
 );
 
-std::intptr_t
-GetRawAddress(
-    std::string_view address_name
+const GameLibrary&
+GetGameLibrary(
+    const std::filesystem::path& library_path
 );
 
 } // namespace sgd2mapi
 
-#endif // SGD2MAPI_GAME_ADDRESS_TABLE_H_
+#endif // SGD2MAPI_GAME_LIBRARY_HPP_

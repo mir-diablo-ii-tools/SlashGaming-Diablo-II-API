@@ -35,20 +35,7 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CONFIG_PARSER_H_
-#define SGD2MAPI_CONFIG_PARSER_H_
+#ifndef SGD2MAPI_GAME_STRUCT_HPP_
+#define SGD2MAPI_GAME_STRUCT_HPP_
 
-#include <filesystem>
-#include <string>
-#include <string_view>
-
-namespace sgd2mapi {
-
-const std::filesystem::path&
-GetAddressTableDirectoryPath(
-    void
-);
-
-} // namespace sgd2mapi
-
-#endif // SGD2MAPI_CONFIG_PARSER_H_
+#endif // SGD2MAPI_GAME_STRUCT_HPP_

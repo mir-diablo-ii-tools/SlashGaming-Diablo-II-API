@@ -35,16 +35,16 @@
  *  work.
  */
 
-#include "../../include/game_patch/game_nop_patch.h"
+#include "../../include/game_patch/game_nop_patch.hpp"
 
 #include <cstdlib>
 #include <memory>
 #include <utility>
 #include <vector>
 
-#include "../architecture_opcode.h"
-#include "../../include/game_address.h"
-#include "../../include/game_patch/game_patch_base.h"
+#include "../architecture_opcode.hpp"
+#include "../../include/game_address.hpp"
+#include "../../include/game_patch/game_patch_base.hpp"
 
 namespace sgd2mapi {
 

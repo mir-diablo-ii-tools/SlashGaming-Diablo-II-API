@@ -35,13 +35,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_H_
-#define SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_H_
+#ifndef SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_HPP_
+#define SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_HPP_
 
 #include <stdlib.h>
 
-#include "../game_address.h"
-#include "game_patch_base.h"
+#include "../game_address.hpp"
+#include "game_patch_base.hpp"
 
 #ifdef __cplusplus
 #include <cstdlib>
@@ -231,4 +231,4 @@ SGD2MAPI_GameNopPatch_Remove(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_H_
+#endif // SGD2MAPI_GAME_PATCH_GAME_NOP_PATCH_HPP_

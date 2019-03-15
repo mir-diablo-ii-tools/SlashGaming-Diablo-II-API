@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "config_parser.h"
+#include "config_parser.hpp"
 
 #include <filesystem>
 #include <fstream>

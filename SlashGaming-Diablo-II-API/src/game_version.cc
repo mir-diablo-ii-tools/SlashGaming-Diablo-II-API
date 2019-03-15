@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "../include/game_version.h"
+#include "../include/game_version.hpp"
 
 #include <windows.h>
 #include <cstdint>
@@ -49,8 +49,8 @@
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include "../include/default_game_library.h"
-#include "../include/game_address.h"
+#include "../include/default_game_library.hpp"
+#include "../include/game_address.hpp"
 
 namespace sgd2mapi {
 namespace {

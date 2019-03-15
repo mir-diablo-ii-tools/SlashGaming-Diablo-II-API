@@ -35,13 +35,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_
 
-#include "game_address_locator_interface.h"
+#include <stdint.h>
+
+#include "game_address_locator_interface.hpp"
 
 #ifdef __cplusplus
 #include <cstdint>
+#include <memory>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -56,47 +59,47 @@
 namespace sgd2mapi {
 
 /**
- * A game address locator that uses an ordinal value to specify a location in
+ * A game address locator that uses an offset value to specify a location in
  * game memory.
  */
-class DLLEXPORT GameOrdinal
+class DLLEXPORT GameOffset
     : public GameAddressLocatorInterface {
  public:
   /**
-   * Creates a new instance of GameOrdinal.
+   * Creates a new instance of GameOffset.
    */
-  explicit GameOrdinal(
-      int ordinal
+  explicit GameOffset(
+      std::intptr_t offset
   );
 
-  GameOrdinal(
-      const GameOrdinal& rhs
+  GameOffset(
+      const GameOffset&
   );
 
-  GameOrdinal(
-      GameOrdinal&& rhs
+  GameOffset(
+      GameOffset&&
   ) noexcept;
 
-  ~GameOrdinal(
+  ~GameOffset(
       void
   ) override;
 
-  GameOrdinal&
+  GameOffset&
   operator=(
-      const GameOrdinal&
+      const GameOffset&
   );
 
-  GameOrdinal&
+  GameOffset&
   operator=(
-      GameOrdinal&&
+      GameOffset&&
   ) noexcept;
 
-  GameOrdinal*
+  GameOffset*
   Clone(
       void
   ) const override;
 
-  GameOrdinal*
+  GameOffset*
   MoveToClone(
       void
   ) override;
@@ -107,14 +110,15 @@ class DLLEXPORT GameOrdinal
   ) const override;
 
   /**
-   * Returns the ordinal value of this GameOrdinal.
+   * Returns the offset of this GameOffset.
    */
-  int ordinal(
+  std::intptr_t
+  offset(
       void
   ) const noexcept;
 
  private:
-  int ordinal_;
+  std::intptr_t offset_;
 };
 
 } // namespace sgd2mapi
@@ -125,38 +129,38 @@ class DLLEXPORT GameOrdinal
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOrdinal;
+struct SGD2MAPI_GameOffset;
 
 #ifdef __cplusplus
-struct SGD2MAPI_GameOrdinal {
-  std::shared_ptr<sgd2mapi::GameOrdinal> actual_ptr;
+struct SGD2MAPI_GameOffset {
+  std::shared_ptr<sgd2mapi::GameOffset> actual_ptr;
 };
 
 extern "C" {
 #endif // __cplusplus
 
 /**
- * Creates a new GameOrdinal.
+ * Creates a new GameOffset, upcasted to a GameAddressLocatorInterface.
  */
-DLLEXPORT struct SGD2MAPI_GameOrdinal*
-SGD2MAPI_GameOrdinal_Create(
-    int ordinal
+DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
+SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
+    intptr_t offset
 );
 
 /**
- * Creates a new GameOrdinal, upcasted to a GameAddressLocatorInterface.
+ * Creates a new GameOffset.
  */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
-    int ordinal
+DLLEXPORT struct SGD2MAPI_GameOffset*
+SGD2MAPI_GameOffset_Create(
+    intptr_t offset
 );
 
 /**
  * Frees the memory used by the specified game locator.
  */
 DLLEXPORT void
-SGD2MAPI_GameOrdinal_Destroy(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+SGD2MAPI_GameOffset_Destroy(
+    struct SGD2MAPI_GameOffset* c_game_offset
 );
 
 /**
@@ -164,8 +168,8 @@ SGD2MAPI_GameOrdinal_Destroy(
  * GameAddressLocatorInterface.
  */
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
+    struct SGD2MAPI_GameOffset* c_game_offset
 );
 
 /**
@@ -173,16 +177,16 @@ SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
  * GameAddressLocatorInterface and destroys the specified game locator.
  */
 DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
+SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterfaceThenDestroy(
+    struct SGD2MAPI_GameOffset* c_game_offset
 );
 
 /**
- * Returns the ordinal value of the game locator.
+ * Returns the offset value of the game locator.
  */
-DLLEXPORT int
-SGD2MAPI_GameOrdinal_GetOrdinal(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
+DLLEXPORT intptr_t
+SGD2MAPI_GameOffset_GetOffset(
+    const struct SGD2MAPI_GameOffset* c_game_offset
 );
 
 #ifdef __cplusplus
@@ -192,4 +196,4 @@ SGD2MAPI_GameOrdinal_GetOrdinal(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_H_
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_

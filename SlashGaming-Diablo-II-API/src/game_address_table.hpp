@@ -35,7 +35,26 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_DATA_H_
-#define SGD2MAPI_GAME_DATA_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_HPP_
+#define SGD2MAPI_GAME_ADDRESS_TABLE_HPP_
 
-#endif // SGD2MAPI_GAME_DATA_H_
+#include <cstdint>
+#include <string_view>
+
+#include "../include/game_address.hpp"
+
+namespace sgd2mapi {
+
+const GameAddress&
+GetGameAddress(
+    std::string_view address_name
+);
+
+std::intptr_t
+GetRawAddress(
+    std::string_view address_name
+);
+
+} // namespace sgd2mapi
+
+#endif // SGD2MAPI_GAME_ADDRESS_TABLE_HPP_

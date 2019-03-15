@@ -35,13 +35,13 @@
  *  work.
  */
 
-#include "../../include/game_address_locator/game_offset.h"
+#include "../../include/game_address_locator/game_offset.hpp"
 
 #include <cstdint>
 #include <memory>
 #include <utility>
 
-#include "../../include/game_address_locator/game_address_locator_interface.h"
+#include "../../include/game_address_locator/game_address_locator_interface.hpp"
 
 namespace sgd2mapi {
 

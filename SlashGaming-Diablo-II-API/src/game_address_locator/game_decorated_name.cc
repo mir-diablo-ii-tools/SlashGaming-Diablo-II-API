@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "../../include/game_address_locator/game_decorated_name.h"
+#include "../../include/game_address_locator/game_decorated_name.hpp"
 
 #include <windows.h>
 #include <cstdint>

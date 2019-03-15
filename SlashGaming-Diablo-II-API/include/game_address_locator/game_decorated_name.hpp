@@ -35,10 +35,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_H_
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_HPP_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_HPP_
 
-#include "game_address_locator_interface.h"
+#include "game_address_locator_interface.hpp"
 
 #ifdef __cplusplus
 #include <cstdint>
@@ -199,4 +199,4 @@ SGD2MAPI_GameDecoratedName_GetDecoratedName(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_H_
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_HPP_

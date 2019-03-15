@@ -35,12 +35,7 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_PATCH_H_
-#define SGD2MAPI_GAME_PATCH_H_
+#ifndef SGD2MAPI_GAME_FUNC_HPP_
+#define SGD2MAPI_GAME_FUNC_HPP_
 
-#include "game_patch/game_branch_patch.h"
-#include "game_patch/game_buffer_patch.h"
-#include "game_patch/game_nop_patch.h"
-#include "game_patch/game_patch_base.h"
-
-#endif // SGD2MAPI_GAME_PATCH_H_
+#endif // SGD2MAPI_GAME_FUNC_HPP_

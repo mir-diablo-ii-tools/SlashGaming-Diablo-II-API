@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "../../include/game_address_locator/game_ordinal.h"
+#include "../../include/game_address_locator/game_ordinal.hpp"
 
 #include <windows.h>
 #include <cstdint>
@@ -46,7 +46,7 @@
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include "../../include/game_address_locator/game_address_locator_interface.h"
+#include "../../include/game_address_locator/game_address_locator_interface.hpp"
 
 namespace sgd2mapi {
 

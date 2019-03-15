@@ -35,12 +35,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
+#ifndef SGD2MAPI_DEFAULT_GAME_LIBRARY_HPP_
+#define SGD2MAPI_DEFAULT_GAME_LIBRARY_HPP_
 
 #ifdef __cplusplus
+#include <filesystem>
 #include <cstdint>
-#include <memory>
+#include <string>
 #endif // __cplusplus
 
 #if defined(SGD2MAPI_DLLEXPORT)
@@ -55,42 +56,19 @@
 namespace sgd2mapi {
 
 /**
- * An interface for game address locator implementations that specify a
- * location in game memory.
+ * The default libraries that are used by Diablo II.
  */
-class DLLEXPORT GameAddressLocatorInterface {
- public:
-  virtual
-  ~GameAddressLocatorInterface(
-      void
-  );
+enum class DefaultLibrary;
 
-  /**
-   * Clones this game address locator and returns a pointer to the clone.
-   */
-  virtual GameAddressLocatorInterface*
-  Clone(
-      void
-  ) const = 0;
+DLLEXPORT const std::filesystem::path&
+GetGameExecutablePath(
+    void
+);
 
-  /**
-   * Destructively moves all data into a clone and returns a pointer to the
-   * clone.
-   */
-  virtual GameAddressLocatorInterface*
-  MoveToClone(
-      void
-  ) = 0;
-
-  /**
-   * Resolves the destination game address, using the provided library base
-   * address.
-   */
-  virtual std::intptr_t
-  ResolveGameAddress(
-      std::intptr_t base_address
-  ) const = 0;
-};
+DLLEXPORT const std::filesystem::path&
+GetDefaultLibraryPathWithRedirect(
+    enum DefaultLibrary library
+);
 
 } // namespace sgd2mapi
 #endif // __cplusplus
@@ -99,31 +77,54 @@ class DLLEXPORT GameAddressLocatorInterface {
  * C Interface
  */
 
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddressLocatorInterface;
-
+/**
+ * The default libraries that are used by Diablo II. Disabled if compiling as
+ * C++ code.
+ */
+enum SGD2MAPI_DefaultLibrary
 #ifdef __cplusplus
-struct SGD2MAPI_GameAddressLocatorInterface {
-  std::shared_ptr<sgd2mapi::GameAddressLocatorInterface> actual_ptr;
+{};
+
+enum class sgd2mapi::DefaultLibrary
+#endif // __cplusplus
+{
+  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
+  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
 };
 
+#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
+
+#ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-/**
- * Frees the memory used by the specified game address locator.
- */
-DLLEXPORT void
-SGD2MAPI_GameAddressLocatorInterface_Destroy(
-    struct SGD2MAPI_GameAddressLocatorInterface*
-        c_game_address_locator_interface
+DLLEXPORT char*
+SGD2MAPI_GetGameExecutablePath(
+    char dest[]
+);
+
+DLLEXPORT size_t
+SGD2MAPI_GetGameExecutablePathSize(
+    void
+);
+
+DLLEXPORT char*
+GetDefaultLibraryPathWithRedirect(
+    char dest[],
+    enum SGD2MAPI_DefaultLibrary library
+);
+
+DLLEXPORT size_t
+GetDefaultLibraryPathSizeWithRedirect(
+    enum SGD2MAPI_DefaultLibrary library
 );
 
 #ifdef __cplusplus
-}
+} // extern "C"
 #endif // __cplusplus
 
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_H_
+#endif // SGD2MAPI_DEFAULT_GAME_LIBRARY_HPP_

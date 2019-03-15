@@ -35,23 +35,12 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
-#define SGD2MAPI_GAME_ADDRESS_TABLE_READER_H_
+#ifndef SGD2MAPI_GAME_PATCH_HPP_
+#define SGD2MAPI_GAME_PATCH_HPP_
 
-#include <cstdint>
-#include <filesystem>
-#include <string>
-#include <unordered_map>
+#include "game_patch/game_branch_patch.hpp"
+#include "game_patch/game_buffer_patch.hpp"
+#include "game_patch/game_nop_patch.hpp"
+#include "game_patch/game_patch_base.hpp"
 
-#include "../include/game_address.h"
-
-namespace sgd2mapi {
-
-std::unordered_map<std::string, GameAddress>
-ReadTsvTableFile(
-    const std::filesystem::path& file_path
-);
-
-} // namespace sgd2mapi
-
-#endif // SGD2MAPI_GAME_ADDRESS_TABLE_READER_TSV_GAME_ADDRESS_TABLE_READER_H_
+#endif // SGD2MAPI_GAME_PATCH_HPP_

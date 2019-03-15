@@ -35,12 +35,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
-#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
-
-#include <stdint.h>
-
-#include "game_address_locator_interface.h"
+#ifndef SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
+#define SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
 
 #ifdef __cplusplus
 #include <cstdint>
@@ -59,66 +55,41 @@
 namespace sgd2mapi {
 
 /**
- * A game address locator that uses an offset value to specify a location in
- * game memory.
+ * An interface for game address locator implementations that specify a
+ * location in game memory.
  */
-class DLLEXPORT GameOffset
-    : public GameAddressLocatorInterface {
+class DLLEXPORT GameAddressLocatorInterface {
  public:
-  /**
-   * Creates a new instance of GameOffset.
-   */
-  explicit GameOffset(
-      std::intptr_t offset
-  );
-
-  GameOffset(
-      const GameOffset&
-  );
-
-  GameOffset(
-      GameOffset&&
-  ) noexcept;
-
-  ~GameOffset(
+  virtual
+  ~GameAddressLocatorInterface(
       void
-  ) override;
-
-  GameOffset&
-  operator=(
-      const GameOffset&
   );
 
-  GameOffset&
-  operator=(
-      GameOffset&&
-  ) noexcept;
-
-  GameOffset*
+  /**
+   * Clones this game address locator and returns a pointer to the clone.
+   */
+  virtual GameAddressLocatorInterface*
   Clone(
       void
-  ) const override;
-
-  GameOffset*
-  MoveToClone(
-      void
-  ) override;
-
-  std::intptr_t
-  ResolveGameAddress(
-      std::intptr_t base_address
-  ) const override;
+  ) const = 0;
 
   /**
-   * Returns the offset of this GameOffset.
+   * Destructively moves all data into a clone and returns a pointer to the
+   * clone.
    */
-  std::intptr_t
-  offset(
+  virtual GameAddressLocatorInterface*
+  MoveToClone(
       void
-  ) const noexcept;
+  ) = 0;
 
- private:
-  std::intptr_t offset_;
+  /**
+   * Resolves the destination game address, using the provided library base
+   * address.
+   */
+  virtual std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const = 0;
 };
 
 } // namespace sgd2mapi
@@ -129,64 +100,23 @@ class DLLEXPORT GameOffset
  */
 
 #if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOffset;
+struct SGD2MAPI_GameAddressLocatorInterface;
 
 #ifdef __cplusplus
-struct SGD2MAPI_GameOffset {
-  std::shared_ptr<sgd2mapi::GameOffset> actual_ptr;
+struct SGD2MAPI_GameAddressLocatorInterface {
+  std::shared_ptr<sgd2mapi::GameAddressLocatorInterface> actual_ptr;
 };
 
 extern "C" {
 #endif // __cplusplus
 
 /**
- * Creates a new GameOffset, upcasted to a GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
-    intptr_t offset
-);
-
-/**
- * Creates a new GameOffset.
- */
-DLLEXPORT struct SGD2MAPI_GameOffset*
-SGD2MAPI_GameOffset_Create(
-    intptr_t offset
-);
-
-/**
- * Frees the memory used by the specified game locator.
+ * Frees the memory used by the specified game address locator.
  */
 DLLEXPORT void
-SGD2MAPI_GameOffset_Destroy(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface and destroys the specified game locator.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Returns the offset value of the game locator.
- */
-DLLEXPORT intptr_t
-SGD2MAPI_GameOffset_GetOffset(
-    const struct SGD2MAPI_GameOffset* c_game_offset
+SGD2MAPI_GameAddressLocatorInterface_Destroy(
+    struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
 );
 
 #ifdef __cplusplus
@@ -196,4 +126,4 @@ SGD2MAPI_GameOffset_GetOffset(
 #endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #undef DLLEXPORT
-#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_OFFSET_H_
+#endif // SGD2MAPI_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
