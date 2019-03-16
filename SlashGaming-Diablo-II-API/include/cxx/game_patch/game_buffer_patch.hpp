@@ -38,22 +38,16 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BUFFER_PATCH_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_BUFFER_PATCH_HPP_
 
-#include <stdint.h>
-#include <stdlib.h>
-
-#include "../game_address.hpp"
-#include "game_patch_base.hpp"
-
-#ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include <vector>
-#endif // __cplusplus
+
+#include "../game_address.hpp"
+#include "game_patch_base.hpp"
 
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -143,121 +137,6 @@ class DLLEXPORT GameBufferPatch
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameBufferPatch;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GameBufferPatch {
-  std::shared_ptr<sgd2mapi::GameBufferPatch> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Creates a new GameNopPatch. The patch buffer is specified as an array
- * of 8-bit integrals.
- */
-DLLEXPORT struct SGD2MAPI_GameBufferPatch*
-SGD2MAPI_GameBufferPatch_Create(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    const uint8_t buffer[],
-    size_t patch_size
-);
-
-/**
- * Creates a new GameNopPatch, upcasted to a GamePatchBase. The patch buffer is
- * specified as an array of 8-bit integrals.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBufferPatch_CreateAsGamePatchBase(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    const uint8_t buffer[],
-    size_t patch_size
-);
-
-/**
- * Creates a new GameNopPatch, upcasted to a GamePatchBase. The patch buffer is
- * specified as an array of 8-bit integrals.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBufferPatch_CreateAsGamePatchInterface(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    const uint8_t buffer[],
-    size_t patch_size
-);
-
-/**
- * Frees the memory used by the specified game patch.
- */
-DLLEXPORT void SGD2MAPI_GameBufferPatch_Destroy(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a
- * GamePatchBase.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBufferPatch_UpcastToGamePatchBase(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a
- * GamePatchBase and destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBufferPatch_UpcastToGamePatchBaseThenDestroy(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a GamePatchInterface.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterface(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a GamePatchInterface and
- * destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBufferPatch_UpcastToGamePatchInterfaceThenDestroy(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Applies the game patch by replacing the bytes at its target address
- * with the bytes stored in its buffer.
- */
-DLLEXPORT void
-SGD2MAPI_GameBufferPatch_Apply(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-/**
- * Removes the effects of the game patch by restoring the original state of the
- * bytes at its target address.
- */
-DLLEXPORT void
-SGD2MAPI_GameBufferPatch_Remove(
-    struct SGD2MAPI_GameBufferPatch* c_game_buffer_patch
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_PATCH_GAME_BUFFER_PATCH_HPP_
