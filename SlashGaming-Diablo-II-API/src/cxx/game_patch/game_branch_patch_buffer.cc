@@ -142,7 +142,7 @@ CreateBranchPatchBuffer(
     std::intptr_t func_ptr,
     std::size_t patch_size
 ) {
-  std::vector<std::uint8_t> branch_patch_buffer;
+  std::vector<std::uint8_t> branch_patch_buffer(patch_size);
 
   enum sgd2mapi::OpCode actual_branch_type =
       GetOpCodeByBranchTypeMap().at(branch_type);
