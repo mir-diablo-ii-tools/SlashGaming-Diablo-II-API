@@ -38,21 +38,16 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_HPP_
 
-#include <stdlib.h>
-
-#include "../game_address.hpp"
-#include "game_patch_base.hpp"
-
-#ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include <vector>
-#endif // __cplusplus
+
+#include "../game_address.hpp"
+#include "game_patch_base.hpp"
 
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -60,7 +55,10 @@ namespace sgd2mapi {
  * some state defined by the architecture, with the purpose of returning to the
  * calling function. A jump does not save any state information.
  */
-enum class BranchType;
+enum class BranchType {
+  kCall,
+  kJump,
+};
 
 /**
  * A patch that replaces the first bytes with a branch to a function, then
@@ -173,146 +171,6 @@ class DLLEXPORT GameBranchPatch
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-struct SGD2MAPI_GameBranchPatch;
-
-/**
- * The branch types that are used to call an inserted function. A call saves
- * some state defined by the architecture, with the purpose of returning to the
- * calling function. A jump does not save any state information. Disabled if
- * compiling as C++ code.
- *
- */
-enum SGD2MAPI_BranchType
-#ifdef __cplusplus
-{};
-
-enum class sgd2mapi::BranchType
-#endif // __cplusplus
-{
-  kCall,
-  kJump,
-};
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-
-#ifdef __cplusplus
-struct SGD2MAPI_GameBranchPatch {
-  std::shared_ptr<sgd2mapi::GameBranchPatch> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Creates a new GameBranchPatch. The patch buffer is configured by the
- * specified branch type, the function to branch to, and the patch size.
- */
-DLLEXPORT struct SGD2MAPI_GameBranchPatch*
-SGD2MAPI_GameBranchPatch_Create(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    enum SGD2MAPI_BranchType c_branch_type,
-    void* func(),
-    size_t patch_size
-);
-
-/**
- * Creates a new GameBranchPatch, upcasted to a GamePatchBase. The patch
- * buffer is configured by the specified branch type, the function to branch
- * to, and the patch size.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    enum SGD2MAPI_BranchType c_branch_type,
-    void* func(),
-    size_t patch_size
-);
-
-/**
- * Creates a new GameBranchPatch, upcasted to a GamePatchInterface. The patch
- * buffer is configured by the specified branch type, the function to branch
- * to, and the patch size.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBranchPatch_CreateAsGamePatchInterface(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    enum SGD2MAPI_BranchType c_branch_type,
-    void* func(),
-    size_t patch_size
-);
-
-/**
- * Frees the memory used by the specified game patch.
- */
-DLLEXPORT void
-SGD2MAPI_GameBranchPatch_Destroy(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a
- * GamePatchBase.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a
- * GamePatchBase and destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a GamePatchInterface.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterface(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Creates an upcast of the specified game patch to a GamePatchInterface and
- * destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterfaceThenDestroy(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Applies the game patch by replacing the bytes at its target address with the
- * bytes stored in its buffer.
- */
-DLLEXPORT void
-SGD2MAPI_GameBranchPatch_Apply(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-/**
- * Removes the effects of the game patch by restoring the original state of the
- * bytes at its target address.
- */
-DLLEXPORT void
-SGD2MAPI_GameBranchPatch_Remove(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_HPP_

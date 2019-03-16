@@ -35,82 +35,59 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_patch/game_nop_patch.hpp"
+#include "../../include/c/game_patch.h"
 
-#include <cstdlib>
-#include <memory>
-#include <utility>
-#include <vector>
+#include <windows.h>
 
-#include "../architecture_opcode.hpp"
-#include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch/game_patch_base.hpp"
+#include "../../include/cxx/game_patch.hpp"
 
-namespace sgd2mapi {
-
-GameNopPatch::GameNopPatch(
-    const GameAddress& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          game_address,
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
-
-GameNopPatch::GameNopPatch(
-    GameAddress&& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          std::move(game_address),
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
-
-GameNopPatch::GameNopPatch(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch::GameNopPatch(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch::~GameNopPatch(
-    void
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch*
-GameNopPatch::Clone(
-    void
-) const {
-  return new GameNopPatch(*this);
-}
-
-GameNopPatch*
-GameNopPatch::MoveToClone(
-    void
+void SGD2MAPI_GamePatch_Deinit(
+  struct SGD2MAPI_GamePatch* game_patch
 ) {
-  return new GameNopPatch(
-      std::move(this->game_address()),
-      std::move(this->patch_size())
-  );
+  SGD2MAPI_GamePatch_Remove(game_patch);
+
+  delete game_patch->old_buffer;
+  delete game_patch->patch_buffer;
 }
 
-} // namespace sgd2mapi
+void SGD2MAPI_GamePatch_Apply(
+  struct SGD2MAPI_GamePatch* game_patch
+) {
+  if (game_patch->is_patch_applied) {
+    return;
+  }
+
+  intptr_t raw_address = game_patch->game_address.raw_address;
+
+  // Replace the data at the destination with the values in the patch buffer.
+  WriteProcessMemory(
+      GetCurrentProcess(),
+      reinterpret_cast<void*>(raw_address),
+      game_patch->patch_buffer,
+      game_patch->patch_size,
+      nullptr
+  );
+
+  game_patch->is_patch_applied = true;
+}
+
+void SGD2MAPI_GamePatch_Remove(
+  struct SGD2MAPI_GamePatch* game_patch
+) {
+  if (!game_patch->is_patch_applied) {
+    return;
+  }
+
+  intptr_t raw_address = game_patch->game_address.raw_address;
+
+  // Restore the old state of the destination.
+  WriteProcessMemory(
+      GetCurrentProcess(),
+      reinterpret_cast<void*>(raw_address),
+      game_patch->old_buffer,
+      game_patch->patch_size,
+      nullptr
+  );
+
+  game_patch->is_patch_applied = false;
+}

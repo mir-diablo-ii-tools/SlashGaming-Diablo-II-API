@@ -43,6 +43,7 @@
 #include <utility>
 #include <vector>
 
+#include "../../../include/c/game_patch.h"
 #include "../../../include/cxx/game_address.hpp"
 
 namespace sgd2mapi {
@@ -139,41 +140,32 @@ void
 GamePatchBase::Apply(
     void
 ) {
-  if (is_patch_applied()) {
-    return;
-  }
+  struct SGD2MAPI_GamePatch c_game_patch;
+  c_game_patch.patch_size = patch_buffer().size();
+  c_game_patch.game_address.raw_address = game_address().raw_address();
+  c_game_patch.is_patch_applied = is_patch_applied();
+  c_game_patch.old_buffer = old_bytes_.data();
+  c_game_patch.patch_buffer = patch_buffer_.data();
 
-  // Replace the data at the destination with the values in the patch buffer.
-  std::intptr_t address = game_address().raw_address();
-  WriteProcessMemory(
-      GetCurrentProcess(),
-      reinterpret_cast<void*>(address),
-      patch_buffer().data(),
-      patch_buffer().size(),
-      nullptr
-  );
+  SGD2MAPI_GamePatch_Apply(&c_game_patch);
 
-  is_patch_applied_ = true;
+  is_patch_applied_ = c_game_patch.is_patch_applied;
 }
 
 void
 GamePatchBase::Remove(
     void
 ) {
-  if (!is_patch_applied()) {
-    return;
-  }
+  struct SGD2MAPI_GamePatch c_game_patch;
+  c_game_patch.patch_size = patch_buffer().size();
+  c_game_patch.game_address.raw_address = game_address().raw_address();
+  c_game_patch.is_patch_applied = is_patch_applied();
+  c_game_patch.old_buffer = old_bytes_.data();
+  c_game_patch.patch_buffer = patch_buffer_.data();
 
-  // Restore the old state of the destination.
-  std::intptr_t address = game_address().raw_address();
-  WriteProcessMemory(
-      GetCurrentProcess(),
-      reinterpret_cast<void*>(address),
-      old_bytes_.data(),
-      old_bytes_.size(),
-      nullptr
-  );
-  is_patch_applied_ = false;
+  SGD2MAPI_GamePatch_Remove(&c_game_patch);
+
+  is_patch_applied_ = c_game_patch.is_patch_applied;
 }
 
 const GameAddress&
@@ -212,54 +204,3 @@ GamePatchBase::patch_size(
 }
 
 } // namespace sgd2mapi
-
-/**
- * C Interface
- */
-
-void
-SGD2MAPI_GamePatchBase_Destroy(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-) {
-  delete c_game_patch_base;
-}
-
-struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-) {
-  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
-      new SGD2MAPI_GamePatchInterface;
-
-  c_game_patch_interface->actual_ptr = c_game_patch_base->actual_ptr;
-
-  return c_game_patch_interface;
-}
-
-struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GamePatchBase_UpcastToGamePatchInterfaceThenDestroy(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-) {
-  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
-      SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
-          c_game_patch_base
-      );
-
-  SGD2MAPI_GamePatchBase_Destroy(c_game_patch_base);
-
-  return c_game_patch_interface;
-}
-
-void
-SGD2MAPI_GamePatchBase_Apply(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-) {
-  c_game_patch_base->actual_ptr->Apply();
-}
-
-void
-SGD2MAPI_GamePatchBase_Remove(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-) {
-  c_game_patch_base->actual_ptr->Remove();
-}

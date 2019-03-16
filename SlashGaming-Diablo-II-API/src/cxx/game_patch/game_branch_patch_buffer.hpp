@@ -35,82 +35,33 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_patch/game_nop_patch.hpp"
+#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_BUFFER_HPP_
+#define SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_BUFFER_HPP_
 
-#include <cstdlib>
-#include <memory>
-#include <utility>
+#include <cstdint>
 #include <vector>
 
-#include "../architecture_opcode.hpp"
+#include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch/game_patch_base.hpp"
+#include "../../../include/cxx/game_patch/game_branch_patch.hpp"
 
 namespace sgd2mapi {
 
-GameNopPatch::GameNopPatch(
+std::vector<std::uint8_t>
+CreateBranchPatchBuffer(
     const GameAddress& game_address,
+    enum BranchType branch_type,
+    std::intptr_t func_ptr,
     std::size_t patch_size
-)
-    : GamePatchBase(
-          game_address,
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
-
-GameNopPatch::GameNopPatch(
-    GameAddress&& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          std::move(game_address),
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
-
-GameNopPatch::GameNopPatch(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch::GameNopPatch(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch::~GameNopPatch(
-    void
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch*
-GameNopPatch::Clone(
-    void
-) const {
-  return new GameNopPatch(*this);
-}
-
-GameNopPatch*
-GameNopPatch::MoveToClone(
-    void
-) {
-  return new GameNopPatch(
-      std::move(this->game_address()),
-      std::move(this->patch_size())
-  );
-}
+);
 
 } // namespace sgd2mapi
+
+std::uint8_t* SGD2MAPI_CreateBranchPatchBuffer(
+    const SGD2MAPI_GameAddress& game_address,
+    int branch_type_id,
+    void (*func_ptr)(void),
+    std::size_t patch_size
+);
+
+#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_BUFFER_HPP_

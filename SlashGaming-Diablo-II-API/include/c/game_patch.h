@@ -35,82 +35,59 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_patch/game_nop_patch.hpp"
+#ifndef SGD2MAPI_C_GAME_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_H_
 
-#include <cstdlib>
-#include <memory>
-#include <utility>
-#include <vector>
+#include <stddef.h>
+#include <stdint.h>
 
-#include "../architecture_opcode.hpp"
-#include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch/game_patch_base.hpp"
+#include "game_bool.h"
+#include "game_address.h"
 
-namespace sgd2mapi {
+#include "game_patch/game_branch_patch.h"
+#include "game_patch/game_buffer_patch.h"
+#include "game_patch/game_nop_patch.h"
 
-GameNopPatch::GameNopPatch(
-    const GameAddress& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          game_address,
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
+#include "../dllexport_define.inc"
 
-GameNopPatch::GameNopPatch(
-    GameAddress&& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          std::move(game_address),
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-GameNopPatch::GameNopPatch(
-    const GameNopPatch&
-) = default;
+struct SGD2MAPI_GamePatch {
+  struct SGD2MAPI_GameAddress game_address;
+  bool8 is_patch_applied;
+  uint8_t* patch_buffer;
+  uint8_t* old_buffer;
+  size_t patch_size;
+};
 
-GameNopPatch::GameNopPatch(
-    GameNopPatch&&
-) noexcept = default;
+/**
+ * Deinitializes the specified game patch.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_Deinit(
+  struct SGD2MAPI_GamePatch* game_patch
+);
 
-GameNopPatch::~GameNopPatch(
-    void
-) = default;
+/**
+ * Applies the game patch by replacing the bytes at its target address with the
+ * bytes stored in its buffer.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_Apply(
+  struct SGD2MAPI_GamePatch* game_patch
+);
 
-GameNopPatch&
-GameNopPatch::operator=(
-    const GameNopPatch&
-) = default;
+/**
+ * Removes the effects of the game patch by restoring the original state of the
+ * bytes at its target address.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_Remove(
+  struct SGD2MAPI_GamePatch* game_patch
+);
 
-GameNopPatch&
-GameNopPatch::operator=(
-    GameNopPatch&&
-) noexcept = default;
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
-GameNopPatch*
-GameNopPatch::Clone(
-    void
-) const {
-  return new GameNopPatch(*this);
-}
-
-GameNopPatch*
-GameNopPatch::MoveToClone(
-    void
-) {
-  return new GameNopPatch(
-      std::move(this->game_address()),
-      std::move(this->patch_size())
-  );
-}
-
-} // namespace sgd2mapi
+#include "../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_PATCH_H_

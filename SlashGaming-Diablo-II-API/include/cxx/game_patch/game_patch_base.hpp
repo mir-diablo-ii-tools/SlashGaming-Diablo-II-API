@@ -41,16 +41,13 @@
 #include "../game_address.hpp"
 #include "game_patch_interface.hpp"
 
-#ifdef __cplusplus
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
 #include <vector>
-#endif // __cplusplus
 
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -174,71 +171,6 @@ class DLLEXPORT GamePatchBase
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GamePatchBase;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GamePatchBase {
-  std::shared_ptr<sgd2mapi::GamePatchBase> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Frees the memory used by the specified game patch.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchBase_Destroy(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-/**
- * Creates an upcast of the specified game patch to a GamePatchInterface.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GamePatchBase_UpcastToGamePatchInterface(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-/**
- * Creates an upcast of the specified game patch to a GamePatchInterface and
- * destroys the specified game patch.
- */
-DLLEXPORT struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GamePatchBase_UpcastToGamePatchInterfaceThenDestroy(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-/**
- * Applies the game patch by replacing the bytes at its target address with the
- * bytes stored in its buffer.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchBase_Apply(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-/**
- * Removes the effects of the game patch by restoring the original state of the
- * bytes at its target address.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchBase_Remove(
-    struct SGD2MAPI_GamePatchBase* c_game_patch_base
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_BASE_HPP_

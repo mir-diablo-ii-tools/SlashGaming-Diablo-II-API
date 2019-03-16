@@ -35,82 +35,45 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_patch/game_nop_patch.hpp"
+#ifndef SGD2MAPI_C_GAME_PATCH_GAME_BRANCH_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_GAME_BRANCH_PATCH_H_
 
-#include <cstdlib>
-#include <memory>
-#include <utility>
-#include <vector>
+#include <stddef.h>
 
-#include "../architecture_opcode.hpp"
-#include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch/game_patch_base.hpp"
+#include "../game_address.h"
+#include "../game_patch.h"
 
-namespace sgd2mapi {
+#include "../../dllexport_define.inc"
 
-GameNopPatch::GameNopPatch(
-    const GameAddress& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          game_address,
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-GameNopPatch::GameNopPatch(
-    GameAddress&& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          std::move(game_address),
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
+/**
+ * The branch types that are used to call an inserted function. A call saves
+ * some state defined by the architecture, with the purpose of returning to the
+ * calling function. A jump does not save any state information.
+ */
+enum SGD2MAPI_BranchType {
+  BRANCH_CALL,
+  BRANCH_JUMP,
+};
 
-GameNopPatch::GameNopPatch(
-    const GameNopPatch&
-) = default;
+/**
+ * Initializes a new GameBranchPatch. The patch buffer is configured by the
+ * specified branch type, the function to branch to, and the patch size.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_InitBranchPatch(
+    struct SGD2MAPI_GamePatch* game_patch,
+    const struct SGD2MAPI_GameAddress* game_address,
+    int branch_opcode,
+    void (*func_ptr)(void),
+    size_t patch_size
+);
 
-GameNopPatch::GameNopPatch(
-    GameNopPatch&&
-) noexcept = default;
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
-GameNopPatch::~GameNopPatch(
-    void
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch*
-GameNopPatch::Clone(
-    void
-) const {
-  return new GameNopPatch(*this);
-}
-
-GameNopPatch*
-GameNopPatch::MoveToClone(
-    void
-) {
-  return new GameNopPatch(
-      std::move(this->game_address()),
-      std::move(this->patch_size())
-  );
-}
-
-} // namespace sgd2mapi
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_PATCH_GAME_BRANCH_PATCH_H_

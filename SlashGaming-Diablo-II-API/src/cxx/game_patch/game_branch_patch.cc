@@ -48,80 +48,10 @@
 #include <fmt/printf.h>
 #include "../architecture_opcode.hpp"
 #include "../../../include/cxx/game_address.hpp"
+#include "game_branch_patch_buffer.hpp"
 #include "../../../include/cxx/game_patch/game_patch_base.hpp"
 
 namespace sgd2mapi {
-namespace {
-
-using BranchTypeAndOpcodeMapType = std::unordered_map<
-    enum BranchType,
-    enum OpCode
->;
-
-#if defined(__i386__) || defined(_M_IX86)
-const BranchTypeAndOpcodeMapType&
-GetOpCodeByBranchTypeMap(
-    void
-) {
-  static const BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
-      { BranchType::kCall, OpCode::kCall },
-      { BranchType::kJump, OpCode::kJump }
-  };
-
-  return op_codes_by_branch_types;
-}
-
-std::vector<std::uint8_t>
-CreateReplaceBuffer(
-    enum BranchType branch_type,
-    std::intptr_t func_ptr,
-    const GameAddress& game_address,
-    std::size_t patch_size
-) {
-
-  // Check that the patch size is large enough to allow the insertion of the
-  // branch call.
-  if (patch_size < sizeof(std::intptr_t) + 1) {
-    std::wstring error_message = fmt::sprintf(
-        L"The patch size specified at address %X is too small to perform a "
-        L"branch patch.",
-        game_address.raw_address()
-    );
-
-    MessageBoxW(
-        nullptr,
-        error_message.data(),
-        L"Failed to Patch Game",
-        MB_OK | MB_ICONERROR
-    );
-    std::exit(0);
-  }
-
-  // Create a buffer full of NOPs.
-  std::vector<std::uint8_t> buffer(
-      patch_size,
-      static_cast<std::uint8_t>(OpCode::kNop)
-  );
-
-  // Set the first byte in the buffer to the branch operation opcode byte.
-  enum OpCode op_code = GetOpCodeByBranchTypeMap().at(branch_type);
-  buffer[0] = static_cast<std::uint8_t>(op_code);
-
-  // Set the next bytes to the address of the inserted function.
-  std::intptr_t func_buffer = func_ptr
-      - game_address.raw_address()
-      - sizeof(std::int8_t)
-      - sizeof(func_ptr);
-
-  for (std::size_t i = 0; i < sizeof(func_buffer); i += 1) {
-    buffer[i + 1] = (func_buffer >> (i * (sizeof(buffer[0]) * 8))) & 0xFF;
-  }
-
-  return buffer;
-}
-#endif
-
-} // namespace
 
 GameBranchPatch::GameBranchPatch(
     const GameAddress& game_address,
@@ -131,10 +61,10 @@ GameBranchPatch::GameBranchPatch(
 )
     : GamePatchBase(
           game_address,
-          CreateReplaceBuffer(
+          CreateBranchPatchBuffer(
+              game_address,
               branch_type,
               func_ptr,
-              game_address,
               patch_size
           )
       ),
@@ -150,10 +80,10 @@ GameBranchPatch::GameBranchPatch(
 )
     : GamePatchBase(
           std::move(game_address),
-          CreateReplaceBuffer(
+          CreateBranchPatchBuffer(
+              game_address,
               branch_type,
               func_ptr,
-              game_address,
               patch_size
           )
       ),
@@ -217,147 +147,3 @@ GameBranchPatch::MoveToClone(
 }
 
 } // namespace sgd2mapi
-
-/**
- * C Interface
- */
-
-struct SGD2MAPI_GameBranchPatch*
-SGD2MAPI_GameBranchPatch_Create(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    enum SGD2MAPI_BranchType c_branch_type,
-    void* func(),
-    std::size_t patch_size
-) {
-  struct SGD2MAPI_GameBranchPatch* c_game_branch_patch =
-      new SGD2MAPI_GameBranchPatch;
-
-  enum sgd2mapi::BranchType actual_branch_type =
-      static_cast<sgd2mapi::BranchType>(c_branch_type);
-
-  const sgd2mapi::GameAddress* actual_game_address =
-      nullptr;//c_game_address->actual_ptr.get();
-
-  c_game_branch_patch->actual_ptr =
-      std::make_shared<sgd2mapi::GameBranchPatch>(
-          *(actual_game_address),
-          actual_branch_type,
-          func,
-          patch_size
-      );
-
-  return c_game_branch_patch;
-}
-
-struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_CreateAsGamePatchBase(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    enum SGD2MAPI_BranchType c_branch_type,
-    void* func(),
-    std::size_t patch_size
-) {
-  struct SGD2MAPI_GameBranchPatch* c_game_branch_patch =
-      SGD2MAPI_GameBranchPatch_Create(
-          c_game_address,
-          c_branch_type,
-          func,
-          patch_size
-      );
-
-  return SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
-      c_game_branch_patch
-  );
-}
-
-struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBranchPatch_CreateAsGamePatchInterface(
-    const struct SGD2MAPI_GameAddress* c_game_address,
-    enum SGD2MAPI_BranchType c_branch_type,
-    void* func(),
-    std::size_t patch_size
-) {
-  struct SGD2MAPI_GameBranchPatch* c_game_branch_patch =
-      SGD2MAPI_GameBranchPatch_Create(
-          c_game_address,
-          c_branch_type,
-          func,
-          patch_size
-      );
-
-  return SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterfaceThenDestroy(
-      c_game_branch_patch
-  );
-}
-
-void
-SGD2MAPI_GameBranchPatch_Destroy(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-) {
-  delete c_game_branch_patch;
-}
-
-struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-) {
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      new SGD2MAPI_GamePatchBase;
-
-  c_game_patch_base->actual_ptr = c_game_branch_patch->actual_ptr;
-
-  return c_game_patch_base;
-}
-
-struct SGD2MAPI_GamePatchBase*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchBaseThenDestroy(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-) {
-  struct SGD2MAPI_GamePatchBase* c_game_patch_base =
-      SGD2MAPI_GameBranchPatch_UpcastToGamePatchBase(
-          c_game_branch_patch
-      );
-
-  SGD2MAPI_GameBranchPatch_Destroy(c_game_branch_patch);
-
-  return c_game_patch_base;
-}
-
-struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterface(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-) {
-  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
-      new SGD2MAPI_GamePatchInterface;
-
-  c_game_patch_interface->actual_ptr = c_game_branch_patch->actual_ptr;
-
-  return c_game_patch_interface;
-}
-
-struct SGD2MAPI_GamePatchInterface*
-SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterfaceThenDestroy(
-    struct SGD2MAPI_GameBranchPatch* c_game_branch_patch
-) {
-  struct SGD2MAPI_GamePatchInterface* c_game_patch_interface =
-      SGD2MAPI_GameBranchPatch_UpcastToGamePatchInterface(
-          c_game_branch_patch
-      );
-
-  SGD2MAPI_GameBranchPatch_Destroy(c_game_branch_patch);
-
-  return c_game_patch_interface;
-}
-
-void
-SGD2MAPI_GameBranchPatch_Apply(
-    struct SGD2MAPI_GameBranchPatch* game_branch_patch
-) {
-  game_branch_patch->actual_ptr->Apply();
-}
-
-void
-SGD2MAPI_GameBranchPatch_Remove(
-    struct SGD2MAPI_GameBranchPatch* game_branch_patch
-) {
-  game_branch_patch->actual_ptr->Remove();
-}

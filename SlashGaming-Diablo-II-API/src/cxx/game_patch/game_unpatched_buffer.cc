@@ -35,82 +35,43 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_patch/game_nop_patch.hpp"
-
-#include <cstdlib>
-#include <memory>
-#include <utility>
+#include <cstdint>
 #include <vector>
 
-#include "../architecture_opcode.hpp"
+#include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch/game_patch_base.hpp"
 
 namespace sgd2mapi {
 
-GameNopPatch::GameNopPatch(
+std::vector<std::uint8_t>
+CreateUnpatchedBuffer(
     const GameAddress& game_address,
     std::size_t patch_size
-)
-    : GamePatchBase(
-          game_address,
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
-
-GameNopPatch::GameNopPatch(
-    GameAddress&& game_address,
-    std::size_t patch_size
-)
-    : GamePatchBase(
-          std::move(game_address),
-          std::vector<std::uint8_t>(
-              patch_size,
-              static_cast<std::uint8_t>(OpCode::kNop)
-          )
-      ) {
-}
-
-GameNopPatch::GameNopPatch(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch::GameNopPatch(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch::~GameNopPatch(
-    void
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    const GameNopPatch&
-) = default;
-
-GameNopPatch&
-GameNopPatch::operator=(
-    GameNopPatch&&
-) noexcept = default;
-
-GameNopPatch*
-GameNopPatch::Clone(
-    void
-) const {
-  return new GameNopPatch(*this);
-}
-
-GameNopPatch*
-GameNopPatch::MoveToClone(
-    void
 ) {
-  return new GameNopPatch(
-      std::move(this->game_address()),
-      std::move(this->patch_size())
+  std::vector<std::uint8_t> unpatched_buffer(
+      reinterpret_cast<std::uint8_t*>(game_address.raw_address()),
+      reinterpret_cast<std::uint8_t*>(
+          game_address.raw_address()
+          + patch_size
+      )
   );
+
+  return unpatched_buffer;
 }
 
 } // namespace sgd2mapi
+
+std::uint8_t* SGD2MAPI_CreateUnpatchedBuffer(
+    const SGD2MAPI_GameAddress& game_address,
+    std::size_t patch_size
+) {
+  std::uint8_t* unpatched_buffer = new std::uint8_t[patch_size];
+
+  std::copy_n(
+      reinterpret_cast<std::uint8_t*>(game_address.raw_address),
+      patch_size,
+      unpatched_buffer
+  );
+
+  return unpatched_buffer;
+}
