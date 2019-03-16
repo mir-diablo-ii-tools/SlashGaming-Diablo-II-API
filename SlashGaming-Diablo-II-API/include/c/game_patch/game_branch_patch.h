@@ -63,7 +63,7 @@ enum SGD2MAPI_BranchType {
  * Initializes a new GameBranchPatch. The patch buffer is configured by the
  * specified branch type, the function to branch to, and the patch size.
  */
-DLLEXPORT void SGD2MAPI_GamePatch_InitBranchPatch(
+DLLEXPORT void SGD2MAPI_GamePatch_InitGameBranchPatch(
     struct SGD2MAPI_GamePatch* game_patch,
     const struct SGD2MAPI_GameAddress* game_address,
     int branch_opcode,

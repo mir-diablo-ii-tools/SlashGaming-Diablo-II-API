@@ -41,7 +41,7 @@
 #include "../../cxx/game_patch/game_branch_patch_buffer.hpp"
 #include "../../cxx/game_patch/game_unpatched_buffer.hpp"
 
-void SGD2MAPI_GamePatch_InitBranchPatch(
+void SGD2MAPI_GamePatch_InitGameBranchPatch(
     struct SGD2MAPI_GamePatch* game_patch,
     const struct SGD2MAPI_GameAddress* game_address,
     int branch_opcode,
