@@ -38,10 +38,10 @@
 #ifndef SGD2MAPI_C_GAME_PATCH_H_
 #define SGD2MAPI_C_GAME_PATCH_H_
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#include "game_bool.h"
 #include "game_address.h"
 
 #include "game_patch/game_branch_patch.h"
@@ -56,7 +56,7 @@ extern "C" {
 
 struct SGD2MAPI_GamePatch {
   struct SGD2MAPI_GameAddress game_address;
-  bool8 is_patch_applied;
+  bool is_patch_applied;
   uint8_t* patch_buffer;
   uint8_t* old_buffer;
   size_t patch_size;

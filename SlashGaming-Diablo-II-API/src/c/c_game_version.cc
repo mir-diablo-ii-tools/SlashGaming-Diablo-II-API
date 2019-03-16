@@ -37,6 +37,7 @@
 
 #include "../../include/c/game_version.h"
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <algorithm>
 
@@ -113,7 +114,7 @@ SGD2MAPI_GetRunningGameVersionNameSize(
   return game_version_name.size() + 1;
 }
 
-bool8
+bool
 SGD2MAPI_IsGameVersionAtLeast1_14(
     int game_version_id
 ) {
@@ -122,7 +123,7 @@ SGD2MAPI_IsGameVersionAtLeast1_14(
   );
 }
 
-bool8
+bool
 SGD2MAPI_IsRunningGameVersionAtLeast1_14(
     void
 ) {
