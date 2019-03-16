@@ -35,76 +35,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
-#define SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
+#ifndef SGD2MAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
 
-#include <cstdlib>
-#include <memory>
+#include <stddef.h>
 
-#include "../game_address.hpp"
-#include "game_patch_base.hpp"
+#include "../game_address.h"
+#include "../game_patch.h"
 
 #include "../../dllexport_define.inc"
 
-namespace sgd2mapi {
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-class DLLEXPORT GameNopPatch
-    : public GamePatchBase {
- public:
-  /**
-   * Creates a new instance of GameNopPatch, filling the patch buffer with as
-   * many no-op instructions that can fit in a patch buffer of the specified
-   * size.
-   */
-  GameNopPatch(
-      const GameAddress& game_address,
-      std::size_t patch_size
-  );
+/**
+ * Initializes a new GameNopPatch. The patch buffer is filled with no-op
+ * instructions to fill at most the specified number of bytes.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_InitGameNopPatch(
+    struct SGD2MAPI_GamePatch* game_patch,
+    const struct SGD2MAPI_GameAddress* game_address,
+    size_t patch_size
+);
 
-  /**
-   * Creates a new instance of GameNopPatch, filling the patch buffer with as
-   * many no-op instructions that can fit in a patch buffer of the specified
-   * size.
-   */
-  GameNopPatch(
-      GameAddress&& game_address,
-      std::size_t patch_size
-  );
-
-  GameNopPatch(
-      const GameNopPatch&
-  );
-
-  GameNopPatch(
-      GameNopPatch&&
-  ) noexcept;
-
-  ~GameNopPatch(
-      void
-  ) override;
-
-  GameNopPatch&
-  operator=(
-      const GameNopPatch&
-  );
-
-  GameNopPatch&
-  operator=(
-      GameNopPatch&&
-  ) noexcept;
-
-  GameNopPatch*
-  Clone(
-      void
-  ) const override;
-
-  GameNopPatch*
-  MoveToClone(
-      void
-  ) override;
-};
-
-} // namespace sgd2mapi
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
+#endif // SGD2MAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_

@@ -35,76 +35,34 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
-#define SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
+#include "../../../include/c/game_patch/game_nop_patch.h"
 
-#include <cstdlib>
-#include <memory>
+#include <cstddef>
+#include <cstdint>
 
-#include "../game_address.hpp"
-#include "game_patch_base.hpp"
+#include "../../../include/c/game_patch.h"
+#include "../../cxx/architecture_opcode.hpp"
+#include "../../cxx/game_patch/game_unpatched_buffer.hpp"
 
-#include "../../dllexport_define.inc"
+void SGD2MAPI_GamePatch_InitGameNopPatch(
+    struct SGD2MAPI_GamePatch* game_patch,
+    const struct SGD2MAPI_GameAddress* game_address,
+    std::size_t patch_size
+) {
+  game_patch->game_address = *game_address;
+  game_patch->is_patch_applied = false;
+  game_patch->patch_size = patch_size;
 
-namespace sgd2mapi {
+  game_patch->patch_buffer = new std::uint8_t[patch_size];
 
-class DLLEXPORT GameNopPatch
-    : public GamePatchBase {
- public:
-  /**
-   * Creates a new instance of GameNopPatch, filling the patch buffer with as
-   * many no-op instructions that can fit in a patch buffer of the specified
-   * size.
-   */
-  GameNopPatch(
-      const GameAddress& game_address,
-      std::size_t patch_size
+  std::fill_n(
+      game_patch->patch_buffer,
+      patch_size,
+      static_cast<std::int8_t>(sgd2mapi::OpCode::kNop)
   );
 
-  /**
-   * Creates a new instance of GameNopPatch, filling the patch buffer with as
-   * many no-op instructions that can fit in a patch buffer of the specified
-   * size.
-   */
-  GameNopPatch(
-      GameAddress&& game_address,
-      std::size_t patch_size
+  game_patch->old_buffer = SGD2MAPI_CreateGameUnpatchedBuffer(
+      *game_address,
+      patch_size
   );
-
-  GameNopPatch(
-      const GameNopPatch&
-  );
-
-  GameNopPatch(
-      GameNopPatch&&
-  ) noexcept;
-
-  ~GameNopPatch(
-      void
-  ) override;
-
-  GameNopPatch&
-  operator=(
-      const GameNopPatch&
-  );
-
-  GameNopPatch&
-  operator=(
-      GameNopPatch&&
-  ) noexcept;
-
-  GameNopPatch*
-  Clone(
-      void
-  ) const override;
-
-  GameNopPatch*
-  MoveToClone(
-      void
-  ) override;
-};
-
-} // namespace sgd2mapi
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
+}
