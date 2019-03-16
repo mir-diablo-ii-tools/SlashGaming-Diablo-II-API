@@ -38,13 +38,10 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
 
-#ifdef __cplusplus
 #include <memory>
-#endif // __cplusplus
 
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 class DLLEXPORT GamePatchInterface {
@@ -91,56 +88,6 @@ class DLLEXPORT GamePatchInterface {
 };
 
 } // namespace sgd2mapi
-
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-
-struct SGD2MAPI_GamePatchInterface;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GamePatchInterface {
-  std::shared_ptr<sgd2mapi::GamePatchInterface> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Frees the memory used by the specified game patch.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchInterface_Destroy(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
-);
-
-/**
- * Applies the game patch by replacing the values at its target address with
- * the values stored in its buffer.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchInterface_Apply(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
-);
-
-/**
- * Removes the effects of the game patch by restoring the original state of
- * the values at its target address.
- */
-DLLEXPORT void
-SGD2MAPI_GamePatchInterface_Remove(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_

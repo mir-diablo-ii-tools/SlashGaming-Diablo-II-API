@@ -38,14 +38,11 @@
 #ifndef SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
 #define SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
 
-#ifdef __cplusplus
 #include <cstdint>
 #include <memory>
-#endif // __cplusplus
 
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -87,37 +84,6 @@ class DLLEXPORT GameAddressLocatorInterface {
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameAddressLocatorInterface;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GameAddressLocatorInterface {
-  std::shared_ptr<sgd2mapi::GameAddressLocatorInterface> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Frees the memory used by the specified game address locator.
- */
-DLLEXPORT void
-SGD2MAPI_GameAddressLocatorInterface_Destroy(
-    struct SGD2MAPI_GameAddressLocatorInterface*
-        c_game_address_locator_interface
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_

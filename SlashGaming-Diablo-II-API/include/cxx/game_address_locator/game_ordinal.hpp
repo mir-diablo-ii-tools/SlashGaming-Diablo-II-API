@@ -38,15 +38,12 @@
 #ifndef SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_HPP_
 #define SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_HPP_
 
-#include "game_address_locator_interface.hpp"
-
-#ifdef __cplusplus
 #include <cstdint>
-#endif // __cplusplus
+
+#include "game_address_locator_interface.hpp"
 
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -112,78 +109,6 @@ class DLLEXPORT GameOrdinal
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOrdinal;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GameOrdinal {
-  std::shared_ptr<sgd2mapi::GameOrdinal> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Creates a new GameOrdinal.
- */
-DLLEXPORT struct SGD2MAPI_GameOrdinal*
-SGD2MAPI_GameOrdinal_Create(
-    int ordinal
-);
-
-/**
- * Creates a new GameOrdinal, upcasted to a GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_CreateAsGameAddressLocatorInterface(
-    int ordinal
-);
-
-/**
- * Frees the memory used by the specified game locator.
- */
-DLLEXPORT void
-SGD2MAPI_GameOrdinal_Destroy(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterface(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface and destroys the specified game locator.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOrdinal_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameOrdinal* c_game_ordinal
-);
-
-/**
- * Returns the ordinal value of the game locator.
- */
-DLLEXPORT int
-SGD2MAPI_GameOrdinal_GetOrdinal(
-    const struct SGD2MAPI_GameOrdinal* c_game_ordinal
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_HPP_

@@ -38,18 +38,13 @@
 #ifndef SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_
 #define SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_
 
-#include <stdint.h>
+#include <cstdint>
+#include <memory>
 
 #include "game_address_locator_interface.hpp"
 
-#ifdef __cplusplus
-#include <cstdint>
-#include <memory>
-#endif // __cplusplus
-
 #include "../../dllexport_define.inc"
 
-#ifdef __cplusplus
 namespace sgd2mapi {
 
 /**
@@ -116,78 +111,6 @@ class DLLEXPORT GameOffset
 };
 
 } // namespace sgd2mapi
-#endif // __cplusplus
-
-/**
- * C Interface
- */
-
-#if !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
-struct SGD2MAPI_GameOffset;
-
-#ifdef __cplusplus
-struct SGD2MAPI_GameOffset {
-  std::shared_ptr<sgd2mapi::GameOffset> actual_ptr;
-};
-
-extern "C" {
-#endif // __cplusplus
-
-/**
- * Creates a new GameOffset, upcasted to a GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_CreateAsGameAddressLocatorInterface(
-    intptr_t offset
-);
-
-/**
- * Creates a new GameOffset.
- */
-DLLEXPORT struct SGD2MAPI_GameOffset*
-SGD2MAPI_GameOffset_Create(
-    intptr_t offset
-);
-
-/**
- * Frees the memory used by the specified game locator.
- */
-DLLEXPORT void
-SGD2MAPI_GameOffset_Destroy(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterface(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Creates an upcast of the specified game locator to a
- * GameAddressLocatorInterface and destroys the specified game locator.
- */
-DLLEXPORT struct SGD2MAPI_GameAddressLocatorInterface*
-SGD2MAPI_GameOffset_UpcastToGameAddressLocatorInterfaceThenDestroy(
-    struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-/**
- * Returns the offset value of the game locator.
- */
-DLLEXPORT intptr_t
-SGD2MAPI_GameOffset_GetOffset(
-    const struct SGD2MAPI_GameOffset* c_game_offset
-);
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
-
-#endif // !defined(__cplusplus) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_

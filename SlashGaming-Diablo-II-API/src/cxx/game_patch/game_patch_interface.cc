@@ -44,24 +44,3 @@ GamePatchInterface::~GamePatchInterface(
 ) = default;
 
 } // namespace sgd2mapi
-
-void
-SGD2MAPI_GamePatchInterface_Destroy(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
-) {
-  delete c_game_patch_interface;
-}
-
-void
-SGD2MAPI_GamePatchInterface_Apply(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
-) {
-  c_game_patch_interface->actual_ptr->Apply();
-}
-
-void
-SGD2MAPI_GamePatchInterface_Remove(
-    struct SGD2MAPI_GamePatchInterface* c_game_patch_interface
-) {
-  c_game_patch_interface->actual_ptr->Remove();
-}
