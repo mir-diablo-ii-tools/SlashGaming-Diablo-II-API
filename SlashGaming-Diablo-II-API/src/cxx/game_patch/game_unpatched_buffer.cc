@@ -44,7 +44,7 @@
 namespace sgd2mapi {
 
 std::vector<std::uint8_t>
-CreateUnpatchedBuffer(
+CreateGameUnpatchedBuffer(
     const GameAddress& game_address,
     std::size_t patch_size
 ) {
@@ -61,7 +61,7 @@ CreateUnpatchedBuffer(
 
 } // namespace sgd2mapi
 
-std::uint8_t* SGD2MAPI_CreateUnpatchedBuffer(
+std::uint8_t* SGD2MAPI_CreateGameUnpatchedBuffer(
     const SGD2MAPI_GameAddress& game_address,
     std::size_t patch_size
 ) {

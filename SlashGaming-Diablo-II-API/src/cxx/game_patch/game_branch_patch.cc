@@ -61,7 +61,7 @@ GameBranchPatch::GameBranchPatch(
 )
     : GamePatchBase(
           game_address,
-          CreateBranchPatchBuffer(
+          CreateGameBranchPatchBuffer(
               game_address,
               branch_type,
               func_ptr,
@@ -80,7 +80,7 @@ GameBranchPatch::GameBranchPatch(
 )
     : GamePatchBase(
           std::move(game_address),
-          CreateBranchPatchBuffer(
+          CreateGameBranchPatchBuffer(
               game_address,
               branch_type,
               func_ptr,

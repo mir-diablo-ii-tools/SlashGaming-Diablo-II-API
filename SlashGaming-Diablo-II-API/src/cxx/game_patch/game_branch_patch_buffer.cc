@@ -136,7 +136,7 @@ void InitGameBranchPatchBuffer(
 } // namespace
 
 std::vector<std::uint8_t>
-CreateBranchPatchBuffer(
+CreateGameBranchPatchBuffer(
     const GameAddress& game_address,
     enum BranchType branch_type,
     std::intptr_t func_ptr,
@@ -160,7 +160,7 @@ CreateBranchPatchBuffer(
 
 } // namespace sgd2mapi
 
-std::uint8_t* SGD2MAPI_CreateBranchPatchBuffer(
+std::uint8_t* SGD2MAPI_CreateGameBranchPatchBuffer(
     const SGD2MAPI_GameAddress& game_address,
     int branch_type_id,
     void (*func_ptr)(void),

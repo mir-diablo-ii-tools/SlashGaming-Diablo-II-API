@@ -37,6 +37,7 @@
 
 #include "../../../include/c/game_patch/game_branch_patch.h"
 
+#include "../../../include/c/game_patch.h"
 #include "../../cxx/game_patch/game_branch_patch_buffer.hpp"
 #include "../../cxx/game_patch/game_unpatched_buffer.hpp"
 
@@ -51,14 +52,14 @@ void SGD2MAPI_GamePatch_InitBranchPatch(
   game_patch->is_patch_applied = false;
   game_patch->patch_size = patch_size;
 
-  game_patch->patch_buffer = SGD2MAPI_CreateBranchPatchBuffer(
+  game_patch->patch_buffer = SGD2MAPI_CreateGameBranchPatchBuffer(
       *game_address,
       branch_opcode,
       func_ptr,
       patch_size
   );
 
-  game_patch->old_buffer = SGD2MAPI_CreateUnpatchedBuffer(
+  game_patch->old_buffer = SGD2MAPI_CreateGameUnpatchedBuffer(
       *game_address,
       patch_size
   );
