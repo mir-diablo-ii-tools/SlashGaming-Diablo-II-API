@@ -35,17 +35,59 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_C_GAME_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_H_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "game_address.h"
+
+#include "game_patch/game_branch_patch.h"
+#include "game_patch/game_buffer_patch.h"
+#include "game_patch/game_nop_patch.h"
+
+#include "../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+struct SGD2MAPI_GamePatch {
+  struct SGD2MAPI_GameAddress game_address;
+  bool is_patch_applied;
+  uint8_t* patch_buffer;
+  uint8_t* old_buffer;
+  size_t patch_size;
+};
+
+/**
+ * Deinitializes the specified game patch.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_Deinit(
+  struct SGD2MAPI_GamePatch* game_patch
+);
+
+/**
+ * Applies the game patch by replacing the bytes at its target address with the
+ * bytes stored in its buffer.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_Apply(
+  struct SGD2MAPI_GamePatch* game_patch
+);
+
+/**
+ * Removes the effects of the game patch by restoring the original state of the
+ * bytes at its target address.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_Remove(
+  struct SGD2MAPI_GamePatch* game_patch
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_PATCH_H_

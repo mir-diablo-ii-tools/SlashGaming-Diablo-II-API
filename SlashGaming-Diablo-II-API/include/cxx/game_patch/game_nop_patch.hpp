@@ -35,17 +35,76 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
+#define SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdlib>
+#include <memory>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../game_address.hpp"
+#include "game_patch_base.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+class DLLEXPORT GameNopPatch
+    : public GamePatchBase {
+ public:
+  /**
+   * Creates a new instance of GameNopPatch, filling the patch buffer with as
+   * many no-op instructions that can fit in a patch buffer of the specified
+   * size.
+   */
+  GameNopPatch(
+      const GameAddress& game_address,
+      std::size_t patch_size
+  );
+
+  /**
+   * Creates a new instance of GameNopPatch, filling the patch buffer with as
+   * many no-op instructions that can fit in a patch buffer of the specified
+   * size.
+   */
+  GameNopPatch(
+      GameAddress&& game_address,
+      std::size_t patch_size
+  );
+
+  GameNopPatch(
+      const GameNopPatch&
+  );
+
+  GameNopPatch(
+      GameNopPatch&&
+  ) noexcept;
+
+  ~GameNopPatch(
+      void
+  ) override;
+
+  GameNopPatch&
+  operator=(
+      const GameNopPatch&
+  );
+
+  GameNopPatch&
+  operator=(
+      GameNopPatch&&
+  ) noexcept;
+
+  GameNopPatch*
+  Clone(
+      void
+  ) const override;
+
+  GameNopPatch*
+  MoveToClone(
+      void
+  ) override;
+};
+
+} // namespace sgd2mapi
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_

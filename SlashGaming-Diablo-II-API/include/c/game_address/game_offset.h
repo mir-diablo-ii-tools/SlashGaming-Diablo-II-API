@@ -35,17 +35,46 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
+#define SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+struct SGD2MAPI_GameAddress;
+
+/**
+ * Initializes a GameAddress. The base library is specified using its ID. The
+ * game address locator is specified as the offset from the module base
+ * address to the target address.
+ */
+DLLEXPORT void
+SGD2MAPI_GameAddress_InitFromLibraryIdAndOffset(
+    struct SGD2MAPI_GameAddress* game_address,
+    int library_id,
+    intptr_t offset
+);
+
+/**
+ * Initializes a GameAddress. The base library is specified using its name,
+ * encoded in UTF-8. The game address locator is specified as the offset from
+ * the module base address to the target address.
+ */
+DLLEXPORT void
+SGD2MAPI_GameAddress_InitFromLibraryPathAndOffset(
+    struct SGD2MAPI_GameAddress* game_address,
+    const char library_path[],
+    intptr_t offset
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_

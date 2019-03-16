@@ -35,17 +35,72 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/cxx/game_address_locator/game_offset.hpp"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdint>
+#include <memory>
+#include <utility>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/cxx/game_address_locator/game_address_locator_interface.hpp"
+
+namespace sgd2mapi {
+
+GameOffset::GameOffset(
+    std::intptr_t offset
+)
+    : offset_(offset) {
+}
+
+GameOffset::GameOffset(
+    const GameOffset&
+) = default;
+
+GameOffset::GameOffset(
+    GameOffset&&
+) noexcept = default;
+
+GameOffset::~GameOffset(
+    void
+) = default;
+
+GameOffset&
+GameOffset::operator=(
+    const GameOffset&
+) = default;
+
+GameOffset&
+GameOffset::operator=(
+    GameOffset&&
+) noexcept = default;
+
+GameOffset*
+GameOffset::Clone(
+    void
+) const {
+  return new GameOffset(*this);
+}
+
+GameOffset*
+GameOffset::MoveToClone(
+    void
+) {
+  return new GameOffset(
+      std::move(this->offset_)
+  );
+}
+
+std::intptr_t
+GameOffset::ResolveGameAddress(
+    std::intptr_t base_address
+) const {
+  return base_address + offset();
+}
+
+std::intptr_t
+GameOffset::offset(
+    void
+) const noexcept {
+  return offset_;
+}
+
+} // namespace sgd2mapi

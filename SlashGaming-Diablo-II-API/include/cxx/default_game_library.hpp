@@ -35,17 +35,37 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+#define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdint>
+#include <filesystem>
+#include <string>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+/**
+ * The default libraries that are used by Diablo II.
+ */
+enum class DefaultLibrary {
+  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
+  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
+};
+
+DLLEXPORT const std::filesystem::path&
+GetGameExecutablePath(
+    void
+);
+
+DLLEXPORT const std::filesystem::path&
+GetDefaultLibraryPathWithRedirect(
+    enum DefaultLibrary library
+);
+
+} // namespace sgd2mapi
+
+#include "../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_

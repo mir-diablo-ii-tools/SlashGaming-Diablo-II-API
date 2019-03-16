@@ -35,17 +35,12 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_HPP_
+#define SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include "game_address_locator/game_address_locator_interface.hpp"
+#include "game_address_locator/game_decorated_name.hpp"
+#include "game_address_locator/game_offset.hpp"
+#include "game_address_locator/game_ordinal.hpp"
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_HPP_

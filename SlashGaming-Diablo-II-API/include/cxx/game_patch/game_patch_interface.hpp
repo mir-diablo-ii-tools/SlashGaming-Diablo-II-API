@@ -35,17 +35,59 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
+#define SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <memory>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+class DLLEXPORT GamePatchInterface {
+ public:
+  virtual
+  ~GamePatchInterface(
+      void
+  );
+
+  /**
+   * Clones this game patch and returns a pointer to the clone.
+   */
+  virtual GamePatchInterface*
+  Clone(
+      void
+  ) const = 0;
+
+  /**
+   * Destructively moves all data into a clone and returns a pointer to the
+   * clone.
+   */
+  virtual GamePatchInterface*
+  MoveToClone(
+      void
+  ) = 0;
+
+  /**
+   * Applies the patch by replacing the values at its target address with the
+   * values stored in its buffer. Does nothing if the patch is applied.
+   */
+  virtual void
+  Apply(
+      void
+  ) = 0;
+
+  /**
+   * Removes the effects of the patch by restoring the patched entries to their
+   * original values. Does nothing if the patch is not been applied.
+   */
+  virtual void
+  Remove(
+      void
+  ) = 0;
+};
+
+} // namespace sgd2mapi
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_

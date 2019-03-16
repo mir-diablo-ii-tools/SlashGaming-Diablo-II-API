@@ -35,17 +35,45 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_C_GAME_PATCH_GAME_BRANCH_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_GAME_BRANCH_PATCH_H_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <stddef.h>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../game_address.h"
+#include "../game_patch.h"
+
+#include "../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+/**
+ * The branch types that are used to call an inserted function. A call saves
+ * some state defined by the architecture, with the purpose of returning to the
+ * calling function. A jump does not save any state information.
+ */
+enum SGD2MAPI_BranchType {
+  BRANCH_CALL,
+  BRANCH_JUMP,
+};
+
+/**
+ * Initializes a new GameBranchPatch. The patch buffer is configured by the
+ * specified branch type, the function to branch to, and the patch size.
+ */
+DLLEXPORT void SGD2MAPI_GamePatch_InitGameBranchPatch(
+    struct SGD2MAPI_GamePatch* game_patch,
+    const struct SGD2MAPI_GameAddress* game_address,
+    int branch_opcode,
+    void (*func_ptr)(void),
+    size_t patch_size
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_PATCH_GAME_BRANCH_PATCH_H_

@@ -35,17 +35,43 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include <cstdint>
+#include <vector>
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include "../../../include/c/game_address.h"
+#include "../../../include/cxx/game_address.hpp"
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+namespace sgd2mapi {
+
+std::vector<std::uint8_t>
+CreateGameUnpatchedBuffer(
+    const GameAddress& game_address,
+    std::size_t patch_size
+) {
+  std::vector<std::uint8_t> unpatched_buffer(
+      reinterpret_cast<std::uint8_t*>(game_address.raw_address()),
+      reinterpret_cast<std::uint8_t*>(
+          game_address.raw_address()
+          + patch_size
+      )
+  );
+
+  return unpatched_buffer;
+}
+
+} // namespace sgd2mapi
+
+std::uint8_t* SGD2MAPI_CreateGameUnpatchedBuffer(
+    const SGD2MAPI_GameAddress& game_address,
+    std::size_t patch_size
+) {
+  std::uint8_t* unpatched_buffer = new std::uint8_t[patch_size];
+
+  std::copy_n(
+      reinterpret_cast<std::uint8_t*>(game_address.raw_address),
+      patch_size,
+      unpatched_buffer
+  );
+
+  return unpatched_buffer;
+}

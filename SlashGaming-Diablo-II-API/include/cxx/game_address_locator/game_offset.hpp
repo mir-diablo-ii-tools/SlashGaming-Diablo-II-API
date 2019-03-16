@@ -35,17 +35,82 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_
+#define SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdint>
+#include <memory>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "game_address_locator_interface.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+/**
+ * A game address locator that uses an offset value to specify a location in
+ * game memory.
+ */
+class DLLEXPORT GameOffset
+    : public GameAddressLocatorInterface {
+ public:
+  /**
+   * Creates a new instance of GameOffset.
+   */
+  explicit GameOffset(
+      std::intptr_t offset
+  );
+
+  GameOffset(
+      const GameOffset&
+  );
+
+  GameOffset(
+      GameOffset&&
+  ) noexcept;
+
+  ~GameOffset(
+      void
+  ) override;
+
+  GameOffset&
+  operator=(
+      const GameOffset&
+  );
+
+  GameOffset&
+  operator=(
+      GameOffset&&
+  ) noexcept;
+
+  GameOffset*
+  Clone(
+      void
+  ) const override;
+
+  GameOffset*
+  MoveToClone(
+      void
+  ) override;
+
+  std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const override;
+
+  /**
+   * Returns the offset of this GameOffset.
+   */
+  std::intptr_t
+  offset(
+      void
+  ) const noexcept;
+
+ private:
+  std::intptr_t offset_;
+};
+
+} // namespace sgd2mapi
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_OFFSET_HPP_

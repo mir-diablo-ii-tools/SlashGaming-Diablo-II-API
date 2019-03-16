@@ -35,17 +35,70 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../include/c/default_game_library.h"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <stddef.h>
+#include <algorithm>
+#include <filesystem>
+#include <string>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../include/cxx/default_game_library.hpp"
+
+char*
+SGD2MAPI_GetGameExecutablePath(
+  char dest[]
+) {
+  std::string game_executable_path_text =
+      sgd2mapi::GetGameExecutablePath().u8string();
+
+  std::copy(
+      game_executable_path_text.cbegin(),
+      game_executable_path_text.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+size_t
+SGD2MAPI_GetGameExecutablePathSize(
+    void
+) {
+  return sgd2mapi::GetGameExecutablePath().u8string().size() + 1;
+}
+
+char*
+GetDefaultLibraryPathWithRedirect(
+    char dest[],
+    int library_id
+) {
+  enum sgd2mapi::DefaultLibrary actual_default_library =
+      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+
+  const std::filesystem::path& default_library_path =
+      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+
+  std::string default_library_path_text =
+      default_library_path.u8string();
+
+  std::copy(
+      default_library_path_text.cbegin(),
+      default_library_path_text.cend(),
+      dest
+  );
+
+  return dest;
+}
+
+size_t
+GetDefaultLibraryPathWithRedirectSize(
+    int library_id
+) {
+  enum sgd2mapi::DefaultLibrary actual_default_library =
+      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+
+  const std::filesystem::path& default_library_path =
+      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+
+  return default_library_path.u8string().size() + 1;
+}

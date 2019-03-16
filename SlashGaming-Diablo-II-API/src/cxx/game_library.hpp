@@ -35,17 +35,96 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_LIBRARY_HPP_
+#define SGD2MAPI_CXX_GAME_LIBRARY_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdint>
+#include <filesystem>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../include/cxx/default_game_library.hpp"
+
+namespace sgd2mapi {
+
+/**
+ * A class that corresponds to a library used by the game.
+ */
+class GameLibrary {
+ public:
+  /**
+   * Creates a new instance of a GameLibrary using the default library ID.
+   */
+  explicit GameLibrary(
+      enum DefaultLibrary library
+  );
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
+  explicit GameLibrary(
+      const std::filesystem::path& library_path
+  );
+
+  /**
+   * Creates a new instance of a GameLibrary using the library path.
+   */
+  explicit GameLibrary(
+      std::filesystem::path&& library_path
+  );
+
+  GameLibrary(
+      const GameLibrary& rhs
+  );
+
+  GameLibrary(
+      GameLibrary&& rhs
+  );
+
+  virtual
+  ~GameLibrary(
+      void
+  );
+
+  GameLibrary&
+  operator=(
+      const GameLibrary& rhs
+  );
+
+  GameLibrary&
+  operator=(
+      GameLibrary&& rhs
+  );
+
+  /**
+   * Returns the base address value of this GameLibrary.
+   */
+  std::intptr_t
+  base_address(
+      void
+  ) const noexcept;
+
+  /**
+   * Returns the library path of this GameLibrary.
+   */
+  const std::filesystem::path&
+  library_path(
+      void
+  ) const noexcept;
+
+ private:
+  std::filesystem::path library_path_;
+  std::intptr_t base_address_;
+};
+
+const GameLibrary&
+GetGameLibrary(
+    enum DefaultLibrary library
+);
+
+const GameLibrary&
+GetGameLibrary(
+    const std::filesystem::path& library_path
+);
+
+} // namespace sgd2mapi
+
+#endif // SGD2MAPI_CXX_GAME_LIBRARY_HPP_

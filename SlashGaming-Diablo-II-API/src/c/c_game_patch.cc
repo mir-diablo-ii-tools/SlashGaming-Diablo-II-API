@@ -35,17 +35,59 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../include/c/game_patch.h"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <windows.h>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../include/cxx/game_patch.hpp"
+
+void SGD2MAPI_GamePatch_Deinit(
+  struct SGD2MAPI_GamePatch* game_patch
+) {
+  SGD2MAPI_GamePatch_Remove(game_patch);
+
+  delete game_patch->old_buffer;
+  delete game_patch->patch_buffer;
+}
+
+void SGD2MAPI_GamePatch_Apply(
+  struct SGD2MAPI_GamePatch* game_patch
+) {
+  if (game_patch->is_patch_applied) {
+    return;
+  }
+
+  intptr_t raw_address = game_patch->game_address.raw_address;
+
+  // Replace the data at the destination with the values in the patch buffer.
+  WriteProcessMemory(
+      GetCurrentProcess(),
+      reinterpret_cast<void*>(raw_address),
+      game_patch->patch_buffer,
+      game_patch->patch_size,
+      nullptr
+  );
+
+  game_patch->is_patch_applied = true;
+}
+
+void SGD2MAPI_GamePatch_Remove(
+  struct SGD2MAPI_GamePatch* game_patch
+) {
+  if (!game_patch->is_patch_applied) {
+    return;
+  }
+
+  intptr_t raw_address = game_patch->game_address.raw_address;
+
+  // Restore the old state of the destination.
+  WriteProcessMemory(
+      GetCurrentProcess(),
+      reinterpret_cast<void*>(raw_address),
+      game_patch->old_buffer,
+      game_patch->patch_size,
+      nullptr
+  );
+
+  game_patch->is_patch_applied = false;
+}

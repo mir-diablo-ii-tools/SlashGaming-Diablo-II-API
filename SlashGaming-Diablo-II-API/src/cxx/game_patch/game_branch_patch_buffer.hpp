@@ -35,17 +35,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_BUFFER_HPP_
+#define SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_BUFFER_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdint>
+#include <vector>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/c/game_address.h"
+#include "../../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/game_patch/game_branch_patch.hpp"
+
+namespace sgd2mapi {
+
+std::vector<std::uint8_t>
+CreateGameBranchPatchBuffer(
+    const GameAddress& game_address,
+    enum BranchType branch_type,
+    std::intptr_t func_ptr,
+    std::size_t patch_size
+);
+
+} // namespace sgd2mapi
+
+std::uint8_t* SGD2MAPI_CreateGameBranchPatchBuffer(
+    const SGD2MAPI_GameAddress& game_address,
+    int branch_type_id,
+    void (*func_ptr)(void),
+    std::size_t patch_size
+);
+
+#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_BRANCH_PATCH_BUFFER_HPP_

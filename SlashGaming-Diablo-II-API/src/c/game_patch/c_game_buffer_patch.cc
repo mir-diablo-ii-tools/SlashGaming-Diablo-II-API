@@ -35,17 +35,31 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/c/game_patch/game_buffer_patch.h"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include "../../../include/c/game_patch.h"
+#include "../../cxx/game_patch/game_unpatched_buffer.hpp"
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+void SGD2MAPI_GamePatch_InitGameBufferPatch(
+    struct SGD2MAPI_GamePatch* game_patch,
+    const struct SGD2MAPI_GameAddress* game_address,
+    const uint8_t buffer[],
+    size_t patch_size
+) {
+  game_patch->game_address = *game_address;
+  game_patch->is_patch_applied = false;
+  game_patch->patch_size = patch_size;
+
+  game_patch->patch_buffer = new std::uint8_t[patch_size];
+
+  std::copy_n(
+      buffer,
+      patch_size,
+      game_patch->patch_buffer
+  );
+
+  game_patch->old_buffer = SGD2MAPI_CreateGameUnpatchedBuffer(
+      *game_address,
+      patch_size
+  );
+}

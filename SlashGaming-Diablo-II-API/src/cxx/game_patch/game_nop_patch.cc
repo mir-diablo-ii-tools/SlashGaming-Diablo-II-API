@@ -35,17 +35,82 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/cxx/game_patch/game_nop_patch.hpp"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdlib>
+#include <memory>
+#include <utility>
+#include <vector>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../architecture_opcode.hpp"
+#include "../../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/game_patch/game_patch_base.hpp"
+
+namespace sgd2mapi {
+
+GameNopPatch::GameNopPatch(
+    const GameAddress& game_address,
+    std::size_t patch_size
+)
+    : GamePatchBase(
+          game_address,
+          std::vector<std::uint8_t>(
+              patch_size,
+              static_cast<std::uint8_t>(OpCode::kNop)
+          )
+      ) {
+}
+
+GameNopPatch::GameNopPatch(
+    GameAddress&& game_address,
+    std::size_t patch_size
+)
+    : GamePatchBase(
+          std::move(game_address),
+          std::vector<std::uint8_t>(
+              patch_size,
+              static_cast<std::uint8_t>(OpCode::kNop)
+          )
+      ) {
+}
+
+GameNopPatch::GameNopPatch(
+    const GameNopPatch&
+) = default;
+
+GameNopPatch::GameNopPatch(
+    GameNopPatch&&
+) noexcept = default;
+
+GameNopPatch::~GameNopPatch(
+    void
+) = default;
+
+GameNopPatch&
+GameNopPatch::operator=(
+    const GameNopPatch&
+) = default;
+
+GameNopPatch&
+GameNopPatch::operator=(
+    GameNopPatch&&
+) noexcept = default;
+
+GameNopPatch*
+GameNopPatch::Clone(
+    void
+) const {
+  return new GameNopPatch(*this);
+}
+
+GameNopPatch*
+GameNopPatch::MoveToClone(
+    void
+) {
+  return new GameNopPatch(
+      std::move(this->game_address()),
+      std::move(this->patch_size())
+  );
+}
+
+} // namespace sgd2mapi

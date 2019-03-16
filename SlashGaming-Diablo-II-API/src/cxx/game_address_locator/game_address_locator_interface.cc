@@ -35,17 +35,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/cxx/game_address_locator/game_address_locator_interface.hpp"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+namespace sgd2mapi {
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+GameAddressLocatorInterface::~GameAddressLocatorInterface(
+    void
+) = default;
+
+} // namespace sgd2mapi
+
+/**
+ * C Interface
+ */
+
+void
+SGD2MAPI_GameAddressLocatorInterface_Destroy(
+    struct SGD2MAPI_GameAddressLocatorInterface*
+        c_game_address_locator_interface
+) {
+  delete c_game_address_locator_interface;
+}

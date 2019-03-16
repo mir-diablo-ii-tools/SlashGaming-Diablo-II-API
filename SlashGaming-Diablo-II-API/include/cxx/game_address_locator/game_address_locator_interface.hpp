@@ -35,17 +35,55 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
+#define SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstdint>
+#include <memory>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+/**
+ * An interface for game address locator implementations that specify a
+ * location in game memory.
+ */
+class DLLEXPORT GameAddressLocatorInterface {
+ public:
+  virtual
+  ~GameAddressLocatorInterface(
+      void
+  );
+
+  /**
+   * Clones this game address locator and returns a pointer to the clone.
+   */
+  virtual GameAddressLocatorInterface*
+  Clone(
+      void
+  ) const = 0;
+
+  /**
+   * Destructively moves all data into a clone and returns a pointer to the
+   * clone.
+   */
+  virtual GameAddressLocatorInterface*
+  MoveToClone(
+      void
+  ) = 0;
+
+  /**
+   * Resolves the destination game address, using the provided library base
+   * address.
+   */
+  virtual std::intptr_t
+  ResolveGameAddress(
+      std::intptr_t base_address
+  ) const = 0;
+};
+
+} // namespace sgd2mapi
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_

@@ -35,17 +35,34 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/c/game_patch/game_nop_patch.h"
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <cstddef>
+#include <cstdint>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../../../include/c/game_patch.h"
+#include "../../cxx/architecture_opcode.hpp"
+#include "../../cxx/game_patch/game_unpatched_buffer.hpp"
+
+void SGD2MAPI_GamePatch_InitGameNopPatch(
+    struct SGD2MAPI_GamePatch* game_patch,
+    const struct SGD2MAPI_GameAddress* game_address,
+    std::size_t patch_size
+) {
+  game_patch->game_address = *game_address;
+  game_patch->is_patch_applied = false;
+  game_patch->patch_size = patch_size;
+
+  game_patch->patch_buffer = new std::uint8_t[patch_size];
+
+  std::fill_n(
+      game_patch->patch_buffer,
+      patch_size,
+      static_cast<std::int8_t>(sgd2mapi::OpCode::kNop)
+  );
+
+  game_patch->old_buffer = SGD2MAPI_CreateGameUnpatchedBuffer(
+      *game_address,
+      patch_size
+  );
+}

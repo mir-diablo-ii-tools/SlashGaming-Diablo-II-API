@@ -35,17 +35,70 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_H_
-#define SGD2MAPI_SGD2MAPI_H_
+#ifndef SGD2MAPI_CXX_GAME_VERSION_HPP_
+#define SGD2MAPI_CXX_GAME_VERSION_HPP_
 
-#include "c/default_game_library.h"
-#include "c/game_address.h"
-#include "c/game_bool.h"
-#include "c/game_constant.h"
-#include "c/game_data.h"
-#include "c/game_func.h"
-#include "c/game_patch.h"
-#include "c/game_struct.h"
-#include "c/game_version.h"
+#include <string_view>
 
-#endif // SGD2MAPI_SGD2MAPI_H_
+#include "../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+/**
+ * The Diablo II game versions supported and recognized.
+ */
+enum class GameVersion {
+  k1_00, k1_01, k1_02, k1_03, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
+  k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09D, k1_10Beta, k1_10SBeta,
+  k1_10, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
+
+  kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
+  kClassic1_14D, kLod1_14D,
+};
+
+/**
+ * Returns a view to the UTF-8 encoded string associated with the specified
+ * game version.
+ */
+DLLEXPORT std::string_view
+GetGameVersionName(
+    enum GameVersion game_version
+);
+
+/**
+ * Returns the identifier of the running game version.
+ */
+DLLEXPORT enum GameVersion
+GetRunningGameVersionId(
+    void
+);
+
+/**
+ * Returns a view to the UTF-8 encoded string associated with the running game
+ * version.
+ */
+DLLEXPORT std::string_view
+GetRunningGameVersionName(
+    void
+);
+
+/**
+ * Returns whether the specified game version is at least 1.14.
+ */
+DLLEXPORT bool
+IsGameVersionAtLeast1_14(
+    enum GameVersion game_version
+);
+
+/**
+ * Returns whether the running game version is at least 1.14.
+ */
+DLLEXPORT bool
+IsRunningGameVersionAtLeast1_14(
+    void
+);
+
+} // namespace sgd2mapi
+
+#include "../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_VERSION_HPP_
