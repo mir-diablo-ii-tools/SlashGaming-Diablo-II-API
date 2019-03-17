@@ -39,10 +39,10 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <algorithm>
 
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/architecture_opcode.hpp"
-#include "../../cxx/game_patch/game_unpatched_buffer.hpp"
 
 void SGD2MAPI_GamePatch_InitGameNopPatch(
     struct SGD2MAPI_GamePatch* game_patch,
@@ -61,8 +61,11 @@ void SGD2MAPI_GamePatch_InitGameNopPatch(
       static_cast<std::int8_t>(sgd2mapi::OpCode::kNop)
   );
 
-  game_patch->old_buffer = SGD2MAPI_CreateGameUnpatchedBuffer(
-      *game_address,
-      patch_size
+  game_patch->old_buffer = new std::uint8_t[patch_size];
+
+  std::copy_n(
+      reinterpret_cast<std::uint8_t*>(game_address->raw_address),
+      patch_size,
+      game_patch->old_buffer
   );
 }

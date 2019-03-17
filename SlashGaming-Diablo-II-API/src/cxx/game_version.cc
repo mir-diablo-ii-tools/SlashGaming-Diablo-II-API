@@ -42,7 +42,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <filesystem>
-#include <memory>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -411,9 +410,9 @@ GetGameVersionByLibraryData(
     }
   }
 
-  GameAddress game_address(
+  GameAddress game_address = GameAddress::FromOffset(
       std::move(library_path),
-      GameOffset(offset_value)
+      offset_value
   );
 
   std::intptr_t raw_address = game_address.raw_address();

@@ -47,6 +47,7 @@
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
+#include "../../include/cxx/default_game_library.hpp"
 
 namespace sgd2mapi {
 namespace {

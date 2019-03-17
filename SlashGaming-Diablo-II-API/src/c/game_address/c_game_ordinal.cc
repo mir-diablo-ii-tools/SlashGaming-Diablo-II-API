@@ -41,46 +41,26 @@
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_address_locator/game_offset.hpp"
 
 namespace {
 
-void
-SGD2MAPI_GameAddress_InitFromOrdinal(
+void SGD2MAPI_GameAddress_InitFromOrdinal(
     struct SGD2MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
     int ordinal
 ) {
-  sgd2mapi::GameOrdinal actual_game_ordinal = sgd2mapi::GameOrdinal(ordinal);
-
-  sgd2mapi::GameAddress actual_game_address(
-      library_path,
-      std::move(actual_game_ordinal)
-  );
-
-  game_address->raw_address = actual_game_address.raw_address();
-}
-
-void
-SGD2MAPI_GameAddress_InitFromOrdinal(
-    struct SGD2MAPI_GameAddress* game_address,
-    std::filesystem::path&& library_path,
-    int ordinal
-) {
-  sgd2mapi::GameOrdinal actual_game_ordinal = sgd2mapi::GameOrdinal(ordinal);
-
-  sgd2mapi::GameAddress actual_game_address(
-      std::move(library_path),
-      std::move(actual_game_ordinal)
-  );
+  sgd2mapi::GameAddress actual_game_address =
+      sgd2mapi::GameAddress::FromOrdinal(
+          library_path,
+          ordinal
+      );
 
   game_address->raw_address = actual_game_address.raw_address();
 }
 
 } // namespace
 
-void
-SGD2MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
+void SGD2MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
     struct SGD2MAPI_GameAddress* game_address,
     int library_id,
     int ordinal
@@ -98,8 +78,7 @@ SGD2MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
   );
 }
 
-void
-SGD2MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
+void SGD2MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
     struct SGD2MAPI_GameAddress* game_address,
     const char library_path[],
     int ordinal

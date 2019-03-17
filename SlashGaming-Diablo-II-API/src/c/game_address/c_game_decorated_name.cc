@@ -42,7 +42,7 @@
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_address_locator/game_decorated_name.hpp"
+#include "../../../include/cxx/game_patch.hpp"
 
 namespace {
 
@@ -52,38 +52,18 @@ SGD2MAPI_GameAddress_InitFromDecoratedName(
     const std::filesystem::path& library_path,
     std::string_view decorated_name
 ) {
-  sgd2mapi::GameDecoratedName actual_game_decorated_name =
-      sgd2mapi::GameDecoratedName(decorated_name);
-
-  sgd2mapi::GameAddress actual_game_address(
-      library_path,
-      std::move(actual_game_decorated_name)
-  );
-
-  game_address->raw_address = actual_game_address.raw_address();
-}
-
-struct SGD2MAPI_GameAddress*
-SGD2MAPI_GameAddress_InitFromDecoratedName(
-    struct SGD2MAPI_GameAddress* game_address,
-    std::filesystem::path&& library_path,
-    std::string_view decorated_name
-) {
-  sgd2mapi::GameDecoratedName actual_game_decorated_name =
-      sgd2mapi::GameDecoratedName(decorated_name);
-
-  sgd2mapi::GameAddress actual_game_address(
-      std::move(library_path),
-      std::move(actual_game_decorated_name)
-  );
+  sgd2mapi::GameAddress actual_game_address =
+      sgd2mapi::GameAddress::FromDecoratedName(
+          library_path,
+          decorated_name
+      );
 
   game_address->raw_address = actual_game_address.raw_address();
 }
 
 } // namespace
 
-void
-SGD2MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
+void SGD2MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
     struct SGD2MAPI_GameAddress* game_address,
     int library_id,
     const char decorated_name[]
@@ -101,8 +81,7 @@ SGD2MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
   );
 }
 
-void
-SGD2MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
+void SGD2MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
     struct SGD2MAPI_GameAddress* game_address,
     const char library_path[],
     const char decorated_name[]
