@@ -38,9 +38,111 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_HPP_
 
-#include "game_patch/game_branch_patch.hpp"
-#include "game_patch/game_buffer_patch.hpp"
-#include "game_patch/game_nop_patch.hpp"
-#include "game_patch/game_patch_base.hpp"
+#include <cstdint>
+#include <vector>
 
+#include "game_address.hpp"
+
+#include "../dllexport_define.inc"
+
+namespace sgd2mapi {
+
+/**
+ * The branch types that are used to call an inserted function. A call saves
+ * some state defined by the architecture, with the purpose of returning to the
+ * calling function. A jump does not save any state information.
+ */
+enum class BranchType {
+  kCall,
+  kJump,
+};
+
+class DLLEXPORT GamePatch {
+ public:
+  static GamePatch ToBranchPatch(
+      const GameAddress& game_address,
+      enum BranchType branch_type,
+      void (*func_ptr)(void),
+      std::size_t patch_size
+  );
+
+  static GamePatch ToBranchPatch(
+      GameAddress&& game_address,
+      enum BranchType branch_type,
+      void (*func_ptr)(void),
+      std::size_t patch_size
+  );
+
+  static GamePatch ToBufferPatch(
+      const GameAddress& game_address,
+      const std::uint8_t patch_buffer[],
+      std::size_t patch_size
+  );
+
+  static GamePatch ToBufferPatch(
+      GameAddress&& game_address,
+      const std::uint8_t patch_buffer[],
+      std::size_t patch_size
+  );
+
+  static GamePatch ToBufferPatch(
+      const GameAddress& game_address,
+      const std::vector<std::uint8_t>& patch_buffer
+  );
+
+  static GamePatch ToBufferPatch(
+      GameAddress&& game_address,
+      const std::vector<std::uint8_t>& patch_buffer
+  );
+
+  static GamePatch ToBufferPatch(
+      const GameAddress& game_address,
+      std::vector<std::uint8_t>&& patch_buffer
+  );
+
+  static GamePatch ToBufferPatch(
+      GameAddress&& game_address,
+      std::vector<std::uint8_t>&& patch_buffer
+  );
+
+  static GamePatch ToNopPatch(
+      const GameAddress& game_address,
+      std::size_t patch_size
+  );
+
+  static GamePatch ToNopPatch(
+      GameAddress&& game_address,
+      std::size_t patch_size
+  );
+
+ private:
+  GamePatch(
+      const GameAddress& game_address,
+      const std::vector<std::uint8_t>& patch_buffer
+  );
+
+  GamePatch(
+      GameAddress&& game_address,
+      const std::vector<std::uint8_t>& patch_buffer
+  );
+
+  GamePatch(
+      const GameAddress& game_address,
+      std::vector<std::uint8_t>&& patch_buffer
+  );
+
+  GamePatch(
+      GameAddress&& game_address,
+      std::vector<std::uint8_t>&& patch_buffer
+  );
+
+  GameAddress game_address_;
+  bool is_patch_applied_;
+  std::vector<std::uint8_t> patch_buffer_;
+  std::vector<std::uint8_t> unpatched_buffer_;
+};
+
+} // namespace sgd2mapi
+
+#include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_PATCH_HPP_

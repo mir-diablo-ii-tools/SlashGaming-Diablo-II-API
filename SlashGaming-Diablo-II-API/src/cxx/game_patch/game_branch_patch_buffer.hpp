@@ -43,7 +43,7 @@
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch/game_branch_patch.hpp"
+#include "../../../include/cxx/game_patch.hpp"
 
 namespace sgd2mapi {
 
@@ -51,7 +51,7 @@ std::vector<std::uint8_t>
 CreateGameBranchPatchBuffer(
     const GameAddress& game_address,
     enum BranchType branch_type,
-    std::intptr_t func_ptr,
+    void (*func_ptr)(void),
     std::size_t patch_size
 );
 
