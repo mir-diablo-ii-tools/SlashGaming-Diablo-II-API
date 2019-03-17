@@ -77,9 +77,7 @@ using BranchTypeAndOpcodeMapType = std::unordered_map<
 >;
 
 const BranchTypeAndOpcodeMapType&
-GetOpCodeByBranchTypeMap(
-    void
-) {
+GetOpCodeByBranchTypeMap(void) {
   static const BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
       { BranchType::kCall, OpCode::kCall },
       { BranchType::kJump, OpCode::kJump }
@@ -89,7 +87,7 @@ GetOpCodeByBranchTypeMap(
 }
 
 void InitGameBranchPatchBuffer(
-    uint8_t game_patch_buffer[],
+    std::uint8_t game_patch_buffer[],
     std::intptr_t raw_target_address,
     std::uint8_t opcode_value,
     std::intptr_t func_ptr,
