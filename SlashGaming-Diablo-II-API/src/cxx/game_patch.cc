@@ -39,6 +39,7 @@
 
 #include <utility>
 
+#include "../../include/c/game_patch.h"
 #include "architecture_opcode.hpp"
 #include "../../include/cxx/game_address.hpp"
 #include "game_patch/game_branch_patch_buffer.hpp"
@@ -99,6 +100,32 @@ GamePatch::GamePatch(
             game_address.raw_address() + patch_buffer.size()
         )
     ) {
+}
+
+void GamePatch::Apply(void) {
+  struct SGD2MAPI_GamePatch c_game_patch;
+  c_game_patch.patch_size = patch_buffer_.size();
+  c_game_patch.game_address.raw_address = game_address_.raw_address();
+  c_game_patch.is_patch_applied = is_patch_applied_;
+  c_game_patch.old_buffer = unpatched_buffer_.data();
+  c_game_patch.patch_buffer = patch_buffer_.data();
+
+  SGD2MAPI_GamePatch_Apply(&c_game_patch);
+
+  is_patch_applied_ = c_game_patch.is_patch_applied;
+}
+
+void GamePatch::Remove(void) {
+  struct SGD2MAPI_GamePatch c_game_patch;
+  c_game_patch.patch_size = patch_buffer_.size();
+  c_game_patch.game_address.raw_address = game_address_.raw_address();
+  c_game_patch.is_patch_applied = is_patch_applied_;
+  c_game_patch.old_buffer = unpatched_buffer_.data();
+  c_game_patch.patch_buffer = patch_buffer_.data();
+
+  SGD2MAPI_GamePatch_Remove(&c_game_patch);
+
+  is_patch_applied_ = c_game_patch.is_patch_applied;
 }
 
 GamePatch GamePatch::ToBranchPatch(

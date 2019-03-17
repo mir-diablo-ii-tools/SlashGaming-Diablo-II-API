@@ -59,6 +59,10 @@ enum class BranchType {
 
 class DLLEXPORT GamePatch {
  public:
+  void Apply(void);
+
+  void Remove(void);
+
   static GamePatch ToBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
