@@ -49,8 +49,6 @@ namespace sgd2mapi {
 
 class DLLEXPORT GameAddress {
  public:
-  explicit GameAddress(std::intptr_t raw_address);
-
   std::intptr_t raw_address(void) const noexcept;
 
   /**
@@ -108,6 +106,8 @@ class DLLEXPORT GameAddress {
   );
 
  private:
+  explicit GameAddress(std::intptr_t raw_address);
+
   std::intptr_t raw_address_;
 };
 
