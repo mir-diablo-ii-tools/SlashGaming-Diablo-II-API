@@ -55,6 +55,9 @@ enum class DefaultLibrary {
   kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
 };
 
+/**
+ * Returns the executable used to run the game.
+ */
 DLLEXPORT const std::filesystem::path&
 GetGameExecutablePath(
     void

@@ -52,17 +52,15 @@
 namespace mapi {
 namespace {
 
-const std::unordered_map<
+using PathsByDefaultLibrariesMap = std::unordered_map<
     enum DefaultLibrary,
     std::filesystem::path
->&
-GetPathsByDefaultLibraryMap(
-    void
-) {
-  static const std::unordered_map<
-      enum DefaultLibrary,
-      std::filesystem::path
-  > paths_by_default_libraries = {
+>;
+
+const PathsByDefaultLibrariesMap&
+GetPathsByDefaultLibraryMap(void) {
+  static const PathsByDefaultLibrariesMap
+  paths_by_default_libraries = {
       { DefaultLibrary::kBNClient, u8"BNClient.dll" },
       { DefaultLibrary::kD2Client, u8"D2Client.dll" },
       { DefaultLibrary::kD2CMP, u8"D2CMP.dll" },
@@ -91,13 +89,8 @@ GetPathsByDefaultLibraryMap(
 } // namespace
 
 const std::filesystem::path&
-GetGameExecutablePath(
-    void
-) {
-  /**
-   * The executable used to run the game.
-   */
-  static std::filesystem::path kGameExecutable = u8"Game.exe";
+GetGameExecutablePath(void) {
+  static const std::filesystem::path kGameExecutable = u8"Game.exe";
 
   return kGameExecutable;
 }
