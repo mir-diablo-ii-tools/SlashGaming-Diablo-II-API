@@ -47,7 +47,7 @@ namespace {
 void MAPI_GameAddress_InitFromOrdinal(
     struct MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
-    int ordinal
+    int16_t ordinal
 ) {
   mapi::GameAddress actual_game_address =
       mapi::GameAddress::FromOrdinal(
@@ -63,7 +63,7 @@ void MAPI_GameAddress_InitFromOrdinal(
 void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
     struct MAPI_GameAddress* game_address,
     int library_id,
-    int ordinal
+    int16_t ordinal
 ) {
   mapi::DefaultLibrary actual_default_library =
       static_cast<mapi::DefaultLibrary>(library_id);
@@ -81,7 +81,7 @@ void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
 void MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
     struct MAPI_GameAddress* game_address,
     const char library_path[],
-    int ordinal
+    int16_t ordinal
 ) {
   MAPI_GameAddress_InitFromOrdinal(
       game_address,

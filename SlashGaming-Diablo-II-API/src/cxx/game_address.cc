@@ -122,7 +122,7 @@ GameAddress GameAddress::FromOffset(
 
 GameAddress GameAddress::FromOrdinal(
     enum DefaultLibrary default_library,
-    std::intptr_t ordinal
+    std::int16_t ordinal
 ) {
   const std::filesystem::path& game_library_path =
       GetDefaultLibraryPathWithRedirect(default_library);
@@ -132,24 +132,8 @@ GameAddress GameAddress::FromOrdinal(
 
 GameAddress GameAddress::FromOrdinal(
     const std::filesystem::path& library_path,
-    std::intptr_t ordinal
+    std::int16_t ordinal
 ) {
-  // Check that the upper 2 bytes are zero.
-  if ((ordinal & 0xFFFF) != ordinal) {
-    std::wstring error_message = fmt::sprintf(
-        L"Invalid ordinal value %d. The leftmost four bytes of an ordinal must"
-        L"be zero.",
-        ordinal
-    );
-    MessageBoxW(
-        nullptr,
-        error_message.data(),
-        L"Invalid Ordinal Value",
-        MB_OK | MB_ICONERROR
-    );
-    std::exit(0);
-  }
-
   const GameLibrary& game_library = GetGameLibrary(library_path);
 
   FARPROC func_address = GetProcAddress(

@@ -38,6 +38,8 @@
 #ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
 #define SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
 
+#include <stdint.h>
+
 #include "../game_address.h"
 
 #include "../../dllexport_define.inc"
@@ -54,7 +56,7 @@ DLLEXPORT void
 MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
     struct MAPI_GameAddress* game_address,
     int library_id,
-    int ordinal
+    int16_t ordinal
 );
 
 /**
@@ -66,7 +68,7 @@ DLLEXPORT void
 MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
     struct MAPI_GameAddress* game_address,
     const char library_path[],
-    int ordinal
+    int16_t ordinal
 );
 
 #ifdef __cplusplus

@@ -93,7 +93,7 @@ class DLLEXPORT GameAddress {
    */
   static GameAddress FromOrdinal(
       enum DefaultLibrary default_library,
-      std::intptr_t ordinal
+      std::int16_t ordinal
   );
 
   /**
@@ -102,7 +102,7 @@ class DLLEXPORT GameAddress {
    */
   static GameAddress FromOrdinal(
       const std::filesystem::path& library_path,
-      std::intptr_t ordinal
+      std::int16_t ordinal
   );
 
  private:
