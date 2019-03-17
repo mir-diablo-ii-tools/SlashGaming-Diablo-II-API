@@ -77,9 +77,7 @@ size_t D2_GetGameVersionNameSize(
   return game_version_name.size() + 1;
 }
 
-int D2_GetRunningGameVersionId(
-    void
-) {
+int D2_GetRunningGameVersionId(void) {
   return static_cast<enum D2_GameVersion>(
       d2::GetRunningGameVersionId()
   );
@@ -100,9 +98,7 @@ char* D2_GetRunningGameVersionName(
   return dest;
 }
 
-size_t D2_GetRunningGameVersionNameSize(
-    void
-) {
+size_t D2_GetRunningGameVersionNameSize(void) {
   std::string_view game_version_name =
       d2::GetRunningGameVersionName();
 
@@ -117,8 +113,6 @@ bool D2_IsGameVersionAtLeast1_14(
   );
 }
 
-bool D2_IsRunningGameVersionAtLeast1_14(
-    void
-) {
+bool D2_IsRunningGameVersionAtLeast1_14(void) {
   return d2::IsRunningGameVersionAtLeast1_14();
 }

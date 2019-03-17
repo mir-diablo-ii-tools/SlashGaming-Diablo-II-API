@@ -46,8 +46,7 @@
 
 namespace {
 
-struct MAPI_GameAddress*
-MAPI_GameAddress_InitFromDecoratedName(
+void MAPI_GameAddress_InitFromDecoratedName(
     struct MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
     std::string_view decorated_name

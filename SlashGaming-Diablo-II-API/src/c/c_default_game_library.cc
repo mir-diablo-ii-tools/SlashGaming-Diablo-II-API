@@ -44,9 +44,8 @@
 
 #include "../../include/cxx/default_game_library.hpp"
 
-char*
-MAPI_GetGameExecutablePath(
-  char dest[]
+char* MAPI_GetGameExecutablePath(
+    char dest[]
 ) {
   std::string game_executable_path_text =
       mapi::GetGameExecutablePath().u8string();
@@ -60,10 +59,7 @@ MAPI_GetGameExecutablePath(
   return dest;
 }
 
-size_t
-MAPI_GetGameExecutablePathSize(
-    void
-) {
+size_t MAPI_GetGameExecutablePathSize(void) {
   return mapi::GetGameExecutablePath().u8string().size() + 1;
 }
 

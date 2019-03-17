@@ -67,8 +67,7 @@ enum D2_GameVersion {
  * Copies the UTF-8 encoded string associated with the specified game version
  * into the specified destination buffer.
  */
-DLLEXPORT char*
-D2_GetGameVersionName(
+DLLEXPORT char* D2_GetGameVersionName(
     char dest[],
     int game_version_id
 );
@@ -77,25 +76,20 @@ D2_GetGameVersionName(
  * Returns the number of bytes needed to copy the UTF-8 encoded string
  * associated with the specified game version.
  */
-DLLEXPORT size_t
-D2_GetGameVersionNameSize(
+DLLEXPORT size_t D2_GetGameVersionNameSize(
     int game_version_id
 );
 
 /**
  * Returns the identifier of the running game version.
  */
-DLLEXPORT int
-D2_GetRunningGameVersionId(
-    void
-);
+DLLEXPORT int D2_GetRunningGameVersionId(void);
 
 /**
  * Copies the UTF-8 encoded string associated with the running game version
  * into the specified destination buffer.
  */
-DLLEXPORT char*
-D2_GetRunningGameVersionName(
+DLLEXPORT char* D2_GetRunningGameVersionName(
     char dest[]
 );
 
@@ -103,26 +97,19 @@ D2_GetRunningGameVersionName(
  * Returns the number of bytes needed to copy the UTF-8 encoded string
  * associated with the running game version.
  */
-DLLEXPORT size_t
-D2_GetRunningGameVersionNameSize(
-    void
-);
+DLLEXPORT size_t D2_GetRunningGameVersionNameSize(void);
 
 /**
  * Returns whether the Diablo II game version is at least 1.14.
  */
-DLLEXPORT bool
-D2_IsGameVersionAtLeast1_14(
+DLLEXPORT bool D2_IsGameVersionAtLeast1_14(
     int game_version_id
 );
 
 /**
  * Returns whether the running game version is at least 1.14.
  */
-DLLEXPORT bool
-D2_IsRunningGameVersionAtLeast1_14(
-    void
-);
+DLLEXPORT bool D2_IsRunningGameVersionAtLeast1_14(void);
 
 #ifdef __cplusplus
 } // extern "C"

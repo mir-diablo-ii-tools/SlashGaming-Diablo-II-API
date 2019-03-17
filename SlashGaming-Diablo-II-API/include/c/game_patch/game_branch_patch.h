@@ -60,8 +60,9 @@ enum MAPI_BranchType {
 };
 
 /**
- * Initializes a new GameBranchPatch. The patch buffer is configured by the
- * specified branch type, the function to branch to, and the patch size.
+ * Initializes a new GameBranchPatch. The patch buffer is configured to use
+ * the specified branch type to branch to the specified function. The
+ * remaining bytes are filled with no-op instructions.
  */
 DLLEXPORT void MAPI_GamePatch_InitGameBranchPatch(
     struct MAPI_GamePatch* game_patch,

@@ -51,20 +51,18 @@ extern "C" {
  * game address locator is specified as a string encoded in 7-bit ASCII, which
  * represents the address's decorated name.
  */
-DLLEXPORT void
-MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
+DLLEXPORT void MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
     struct MAPI_GameAddress* game_address,
     int library_id,
     const char decorated_name[]
 );
 
 /**
- * Initializes a GameAddress. The base library is specified using its name,
+ * Initializes a GameAddress. The base library is specified using its path,
  * encoded in UTF-8. The game address locator is specified as a string encoded
  * in 7-bit ASCII, which represents the address's decorated name.
  */
-DLLEXPORT void
-MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
+DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
     struct MAPI_GameAddress* game_address,
     const char library_path[],
     const char decorated_name[]

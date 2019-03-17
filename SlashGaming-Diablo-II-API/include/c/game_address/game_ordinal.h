@@ -52,20 +52,18 @@ extern "C" {
  * Initializes a GameAddress. The base library is specified using its ID. The
  * game address locator is specified as the address's ordinal value.
  */
-DLLEXPORT void
-MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
+DLLEXPORT void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
     struct MAPI_GameAddress* game_address,
     int library_id,
     int16_t ordinal
 );
 
 /**
- * Initializes a GameAddress. The base library is specified using its name,
+ * Initializes a GameAddress. The base library is specified using its path,
  * encoded in UTF-8. The game address locator is specified as the address's
  * ordinal value.
  */
-DLLEXPORT void
-MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
+DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
     struct MAPI_GameAddress* game_address,
     const char library_path[],
     int16_t ordinal

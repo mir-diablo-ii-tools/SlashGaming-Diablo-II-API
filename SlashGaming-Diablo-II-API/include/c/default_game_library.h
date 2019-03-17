@@ -57,24 +57,18 @@ enum D2_DefaultLibrary {
   LIBRARY_D2SOUND, LIBRARY_D2WIN, LIBRARY_FOG, LIBRARY_STORM,
 };
 
-DLLEXPORT char*
-MAPI_GetGameExecutablePath(
+DLLEXPORT char* MAPI_GetGameExecutablePath(
     char dest[]
 );
 
-DLLEXPORT size_t
-MAPI_GetGameExecutablePathSize(
-    void
-);
+DLLEXPORT size_t MAPI_GetGameExecutablePathSize(void);
 
-DLLEXPORT char*
-MAPI_GetDefaultLibraryPathWithRedirect(
+DLLEXPORT char* MAPI_GetDefaultLibraryPathWithRedirect(
     char dest[],
     int library_id
 );
 
-DLLEXPORT size_t
-MAPI_GetDefaultLibraryPathWithRedirectSize(
+DLLEXPORT size_t MAPI_GetDefaultLibraryPathWithRedirectSize(
     int library_id
 );
 
