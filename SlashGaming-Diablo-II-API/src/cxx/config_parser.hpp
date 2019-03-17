@@ -39,15 +39,11 @@
 #define SGD2MAPI_CXX_CONFIG_PARSER_HPP_
 
 #include <filesystem>
-#include <string>
-#include <string_view>
 
 namespace mapi {
 
 const std::filesystem::path&
-GetAddressTableDirectoryPath(
-    void
-);
+GetAddressTableDirectoryPath(void);
 
 } // namespace mapi
 

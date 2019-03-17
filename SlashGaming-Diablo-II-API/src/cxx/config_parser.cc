@@ -73,15 +73,12 @@ constexpr std::string_view kAddressTableDirectoryPathKey =
 constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
 
 const std::filesystem::path&
-GetConfigPath(
-    void
-) {
+GetConfigPath(void) {
   static std::filesystem::path kConfigPath = u8"SlashGaming-Config.json";
   return kConfigPath;
 }
 
-void
-AddMissingConfigEntries(
+void AddMissingConfigEntries(
     nlohmann::json& config_json
 ) {
   auto& global_entry = config_json[kGlobalEntryKey.data()];
@@ -186,9 +183,7 @@ ParseConfig(
 }
 
 nlohmann::json&
-GetConfig(
-    void
-) {
+GetConfig(void) {
   static nlohmann::json config = ParseConfig(
       GetConfigPath()
   );
@@ -196,9 +191,7 @@ GetConfig(
 }
 
 std::filesystem::path
-ParseAddressTableDirectoryPath(
-    void
-) {
+ParseAddressTableDirectoryPath(void) {
   nlohmann::json& config = GetConfig();
   auto& address_table_path_raw_value =
       config[kMainEntryKey.data()][kAddressTableDirectoryPathKey.data()];
@@ -216,9 +209,7 @@ ParseAddressTableDirectoryPath(
 } // namespace
 
 const std::filesystem::path&
-GetAddressTableDirectoryPath(
-    void
-) {
+GetAddressTableDirectoryPath(void) {
   static std::filesystem::path address_table_path(
       ParseAddressTableDirectoryPath()
   );
