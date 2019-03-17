@@ -47,13 +47,16 @@
 
 namespace mapi {
 
+/**
+ * A class to store a raw address in memory.
+ */
 class DLLEXPORT GameAddress {
  public:
   std::intptr_t raw_address(void) const noexcept;
 
   /**
-   * Returns a new instance of GameDecoratedNameAddress using a string encoded
-   * in 7-bit ASCII.
+   * Returns a game address that uses a string encoded in 7-bit ASCII to
+   * specify a location in game memory.
    */
   static GameAddress FromDecoratedName(
       enum DefaultLibrary default_library,
@@ -61,8 +64,8 @@ class DLLEXPORT GameAddress {
   );
 
   /**
-   * Returns a new instance of GameDecoratedNameAddress using a string encoded
-   * in 7-bit ASCII.
+   * Returns a game address that uses a string encoded in 7-bit ASCII to
+   * specify a location in game memory.
    */
   static GameAddress FromDecoratedName(
       const std::filesystem::path& library_path,
@@ -106,7 +109,9 @@ class DLLEXPORT GameAddress {
   );
 
  private:
-  explicit GameAddress(std::intptr_t raw_address);
+  explicit GameAddress(
+      std::intptr_t raw_address
+  ) noexcept;
 
   std::intptr_t raw_address_;
 };

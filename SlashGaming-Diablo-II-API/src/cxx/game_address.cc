@@ -52,7 +52,7 @@ namespace mapi {
 
 GameAddress::GameAddress(
     std::intptr_t raw_address
-)
+) noexcept
     : raw_address_(raw_address) {
 }
 
