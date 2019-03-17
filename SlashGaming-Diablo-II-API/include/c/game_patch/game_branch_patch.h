@@ -54,7 +54,7 @@ extern "C" {
  * some state defined by the architecture, with the purpose of returning to the
  * calling function. A jump does not save any state information.
  */
-enum SGD2MAPI_BranchType {
+enum MAPI_BranchType {
   BRANCH_CALL,
   BRANCH_JUMP,
 };
@@ -63,9 +63,9 @@ enum SGD2MAPI_BranchType {
  * Initializes a new GameBranchPatch. The patch buffer is configured by the
  * specified branch type, the function to branch to, and the patch size.
  */
-DLLEXPORT void SGD2MAPI_GamePatch_InitGameBranchPatch(
-    struct SGD2MAPI_GamePatch* game_patch,
-    const struct SGD2MAPI_GameAddress* game_address,
+DLLEXPORT void MAPI_GamePatch_InitGameBranchPatch(
+    struct MAPI_GamePatch* game_patch,
+    const struct MAPI_GameAddress* game_address,
     int branch_opcode,
     void (*func_ptr)(void),
     size_t patch_size

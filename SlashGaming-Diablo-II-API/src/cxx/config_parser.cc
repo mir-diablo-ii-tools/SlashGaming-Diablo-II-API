@@ -45,7 +45,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace sgd2mapi {
+namespace mapi {
 namespace {
 
 constexpr std::string_view kGlobalEntryKey = u8"!!!Globals!!!";
@@ -225,4 +225,4 @@ GetAddressTableDirectoryPath(
   return address_table_path;
 }
 
-} // namespace sgd2mapi
+} // namespace mapi

@@ -42,7 +42,7 @@
 #include "game_address/game_offset.h"
 #include "game_address/game_ordinal.h"
 
-struct SGD2MAPI_GameAddress {
+struct MAPI_GameAddress {
   intptr_t raw_address;
 };
 

@@ -45,7 +45,7 @@
 
 #include "../dllexport_define.inc"
 
-namespace sgd2mapi {
+namespace mapi {
 
 /**
  * The branch types that are used to call an inserted function. A call saves
@@ -146,7 +146,7 @@ class DLLEXPORT GamePatch {
   std::vector<std::uint8_t> unpatched_buffer_;
 };
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_PATCH_HPP_

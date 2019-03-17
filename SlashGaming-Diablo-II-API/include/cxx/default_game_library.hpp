@@ -44,7 +44,7 @@
 
 #include "../dllexport_define.inc"
 
-namespace sgd2mapi {
+namespace mapi {
 
 /**
  * The default libraries that are used by Diablo II.
@@ -65,7 +65,7 @@ GetDefaultLibraryPathWithRedirect(
     enum DefaultLibrary library
 );
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_

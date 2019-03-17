@@ -48,7 +48,7 @@
 #include "../../include/cxx/default_game_library.hpp"
 #include "game_library.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 
 GameAddress::GameAddress(
     std::intptr_t raw_address
@@ -177,4 +177,4 @@ GameAddress GameAddress::FromOrdinal(
   );
 }
 
-} // namespace sgd2mapi
+} // namespace mapi

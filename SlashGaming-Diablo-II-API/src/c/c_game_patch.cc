@@ -41,17 +41,17 @@
 
 #include "../../include/cxx/game_patch.hpp"
 
-void SGD2MAPI_GamePatch_Deinit(
-  struct SGD2MAPI_GamePatch* game_patch
+void MAPI_GamePatch_Deinit(
+  struct MAPI_GamePatch* game_patch
 ) {
-  SGD2MAPI_GamePatch_Remove(game_patch);
+  MAPI_GamePatch_Remove(game_patch);
 
   delete game_patch->old_buffer;
   delete game_patch->patch_buffer;
 }
 
-void SGD2MAPI_GamePatch_Apply(
-  struct SGD2MAPI_GamePatch* game_patch
+void MAPI_GamePatch_Apply(
+  struct MAPI_GamePatch* game_patch
 ) {
   if (game_patch->is_patch_applied) {
     return;
@@ -71,8 +71,8 @@ void SGD2MAPI_GamePatch_Apply(
   game_patch->is_patch_applied = true;
 }
 
-void SGD2MAPI_GamePatch_Remove(
-  struct SGD2MAPI_GamePatch* game_patch
+void MAPI_GamePatch_Remove(
+  struct MAPI_GamePatch* game_patch
 ) {
   if (!game_patch->is_patch_applied) {
     return;

@@ -44,9 +44,9 @@
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/architecture_opcode.hpp"
 
-void SGD2MAPI_GamePatch_InitGameNopPatch(
-    struct SGD2MAPI_GamePatch* game_patch,
-    const struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GamePatch_InitGameNopPatch(
+    struct MAPI_GamePatch* game_patch,
+    const struct MAPI_GameAddress* game_address,
     std::size_t patch_size
 ) {
   game_patch->game_address = *game_address;
@@ -58,7 +58,7 @@ void SGD2MAPI_GamePatch_InitGameNopPatch(
   std::fill_n(
       game_patch->patch_buffer,
       patch_size,
-      static_cast<std::int8_t>(sgd2mapi::OpCode::kNop)
+      static_cast<std::int8_t>(mapi::OpCode::kNop)
   );
 
   game_patch->old_buffer = new std::uint8_t[patch_size];

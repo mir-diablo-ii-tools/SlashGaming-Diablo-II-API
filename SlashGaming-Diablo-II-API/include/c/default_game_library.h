@@ -49,7 +49,7 @@ extern "C" {
 /**
  * The default libraries that are used by Diablo II.
  */
-enum SGD2MAPI_DefaultLibrary {
+enum D2_DefaultLibrary {
   LIBRARY_BNCLIENT, LIBRARY_D2CLIENT, LIBRARY_D2CMP, LIBRARY_D2COMMON,
   LIBRARY_D2DDRAW, LIBRARY_D2DIRECT3D, LIBRARY_D2GAME, LIBRARY_D2GDI,
   LIBRARY_D2GFX, LIBRARY_D2GLIDE, LIBRARY_D2LANG, LIBRARY_D2LAUNCH,
@@ -58,23 +58,23 @@ enum SGD2MAPI_DefaultLibrary {
 };
 
 DLLEXPORT char*
-SGD2MAPI_GetGameExecutablePath(
+MAPI_GetGameExecutablePath(
     char dest[]
 );
 
 DLLEXPORT size_t
-SGD2MAPI_GetGameExecutablePathSize(
+MAPI_GetGameExecutablePathSize(
     void
 );
 
 DLLEXPORT char*
-GetDefaultLibraryPathWithRedirect(
+MAPI_GetDefaultLibraryPathWithRedirect(
     char dest[],
     int library_id
 );
 
 DLLEXPORT size_t
-GetDefaultLibraryPathWithRedirectSize(
+MAPI_GetDefaultLibraryPathWithRedirectSize(
     int library_id
 );
 

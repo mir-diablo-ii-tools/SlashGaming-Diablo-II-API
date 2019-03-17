@@ -54,7 +54,7 @@
 #include "game_library.hpp"
 #include "../../include/cxx/game_version.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 namespace {
 
 constexpr std::string_view kLocatorTypeKey = u8"Locator Type";
@@ -209,4 +209,4 @@ ReadTsvTableFile(
   return address_table;
 }
 
-} // namespace sgd2mapi
+} // namespace mapi

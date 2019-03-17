@@ -42,7 +42,7 @@
 
 #include "../dllexport_define.inc"
 
-namespace sgd2mapi {
+namespace d2 {
 
 /**
  * The Diablo II game versions supported and recognized.
@@ -98,7 +98,7 @@ IsRunningGameVersionAtLeast1_14(
     void
 );
 
-} // namespace sgd2mapi
+} // namespace d2
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_VERSION_HPP_

@@ -38,21 +38,21 @@
 #ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
 #define SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
 
+#include "../game_address.h"
+
 #include "../../dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-struct SGD2MAPI_GameAddress;
-
 /**
  * Initializes a GameAddress. The base library is specified using its ID. The
  * game address locator is specified as the address's ordinal value.
  */
 DLLEXPORT void
-SGD2MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
-    struct SGD2MAPI_GameAddress* game_address,
+MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
+    struct MAPI_GameAddress* game_address,
     int library_id,
     int ordinal
 );
@@ -63,8 +63,8 @@ SGD2MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
  * ordinal value.
  */
 DLLEXPORT void
-SGD2MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
-    struct SGD2MAPI_GameAddress* game_address,
+MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
+    struct MAPI_GameAddress* game_address,
     const char library_path[],
     int ordinal
 );

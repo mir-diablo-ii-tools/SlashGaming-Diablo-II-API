@@ -41,9 +41,9 @@
 
 #include "../../../include/c/game_patch.h"
 
-void SGD2MAPI_GamePatch_InitGameBufferPatch(
-    struct SGD2MAPI_GamePatch* game_patch,
-    const struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GamePatch_InitGameBufferPatch(
+    struct MAPI_GamePatch* game_patch,
+    const struct MAPI_GameAddress* game_address,
     const uint8_t buffer[],
     size_t patch_size
 ) {

@@ -42,9 +42,9 @@
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/game_patch/game_branch_patch_buffer.hpp"
 
-void SGD2MAPI_GamePatch_InitGameBranchPatch(
-    struct SGD2MAPI_GamePatch* game_patch,
-    const struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GamePatch_InitGameBranchPatch(
+    struct MAPI_GamePatch* game_patch,
+    const struct MAPI_GameAddress* game_address,
     int branch_opcode,
     void (*func_ptr)(void),
     size_t patch_size
@@ -53,7 +53,7 @@ void SGD2MAPI_GamePatch_InitGameBranchPatch(
   game_patch->is_patch_applied = false;
   game_patch->patch_size = patch_size;
 
-  game_patch->patch_buffer = SGD2MAPI_CreateGameBranchPatchBuffer(
+  game_patch->patch_buffer = MAPI_CreateGameBranchPatchBuffer(
       *game_address,
       branch_opcode,
       func_ptr,

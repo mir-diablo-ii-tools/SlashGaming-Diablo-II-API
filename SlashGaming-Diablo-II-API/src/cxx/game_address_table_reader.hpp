@@ -45,13 +45,13 @@
 
 #include "../../include/cxx/game_address.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 
 std::unordered_map<std::string, GameAddress>
 ReadTsvTableFile(
     const std::filesystem::path& file_path
 );
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_TABLE_READER_HPP_

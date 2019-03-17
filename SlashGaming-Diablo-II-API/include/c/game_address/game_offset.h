@@ -42,11 +42,11 @@
 
 #include <stdint.h>
 
+#include "../game_address.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-
-struct SGD2MAPI_GameAddress;
 
 /**
  * Initializes a GameAddress. The base library is specified using its ID. The
@@ -54,8 +54,8 @@ struct SGD2MAPI_GameAddress;
  * address to the target address.
  */
 DLLEXPORT void
-SGD2MAPI_GameAddress_InitFromLibraryIdAndOffset(
-    struct SGD2MAPI_GameAddress* game_address,
+MAPI_GameAddress_InitFromLibraryIdAndOffset(
+    struct MAPI_GameAddress* game_address,
     int library_id,
     intptr_t offset
 );
@@ -66,8 +66,8 @@ SGD2MAPI_GameAddress_InitFromLibraryIdAndOffset(
  * the module base address to the target address.
  */
 DLLEXPORT void
-SGD2MAPI_GameAddress_InitFromLibraryPathAndOffset(
-    struct SGD2MAPI_GameAddress* game_address,
+MAPI_GameAddress_InitFromLibraryPathAndOffset(
+    struct MAPI_GameAddress* game_address,
     const char library_path[],
     intptr_t offset
 );

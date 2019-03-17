@@ -56,7 +56,7 @@
 #include "game_library.hpp"
 #include "../../include/cxx/game_version.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 namespace {
 
 const std::filesystem::path&
@@ -66,7 +66,7 @@ GetTableFilePath(
   const std::filesystem::path& address_table_directory =
       GetAddressTableDirectoryPath();
   std::string_view running_game_version_name =
-      GetRunningGameVersionName();
+      d2::GetRunningGameVersionName();
 
   std::filesystem::path table_file_path(address_table_directory);
   table_file_path /= running_game_version_name;
@@ -128,4 +128,4 @@ GetRawAddress(
   return GetGameAddress(address_name).raw_address();
 }
 
-} // namespace sgd2mapi
+} // namespace mapi

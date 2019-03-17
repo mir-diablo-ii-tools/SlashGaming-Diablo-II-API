@@ -45,7 +45,7 @@
 
 #include "../dllexport_define.inc"
 
-namespace sgd2mapi {
+namespace mapi {
 
 class DLLEXPORT GameAddress {
  public:
@@ -111,7 +111,7 @@ class DLLEXPORT GameAddress {
   std::intptr_t raw_address_;
 };
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #include "../dllexport_undefine.inc"
 

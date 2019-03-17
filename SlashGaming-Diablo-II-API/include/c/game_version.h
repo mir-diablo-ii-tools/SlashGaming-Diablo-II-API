@@ -51,7 +51,7 @@ extern "C" {
 /**
  * The Diablo II game versions supported and recognized.
  */
-enum SGD2MAPI_GameVersion {
+enum D2_GameVersion {
   VERSION_1_00, VERSION_1_01, VERSION_1_02, VERSION_1_03, VERSION_1_04B_C,
   VERSION_1_05, VERSION_1_05B, VERSION_1_06, VERSION_1_06B, VERSION_1_07_BETA,
   VERSION_1_07, VERSION_1_08, VERSION_1_09, VERSION_1_09B, VERSION_1_09D,
@@ -68,7 +68,7 @@ enum SGD2MAPI_GameVersion {
  * into the specified destination buffer.
  */
 DLLEXPORT char*
-SGD2MAPI_GetGameVersionName(
+D2_GetGameVersionName(
     char dest[],
     int game_version_id
 );
@@ -78,7 +78,7 @@ SGD2MAPI_GetGameVersionName(
  * associated with the specified game version.
  */
 DLLEXPORT size_t
-SGD2MAPI_GetGameVersionNameSize(
+D2_GetGameVersionNameSize(
     int game_version_id
 );
 
@@ -86,7 +86,7 @@ SGD2MAPI_GetGameVersionNameSize(
  * Returns the identifier of the running game version.
  */
 DLLEXPORT int
-SGD2MAPI_GetRunningGameVersionId(
+D2_GetRunningGameVersionId(
     void
 );
 
@@ -95,7 +95,7 @@ SGD2MAPI_GetRunningGameVersionId(
  * into the specified destination buffer.
  */
 DLLEXPORT char*
-SGD2MAPI_GetRunningGameVersionName(
+D2_GetRunningGameVersionName(
     char dest[]
 );
 
@@ -104,7 +104,7 @@ SGD2MAPI_GetRunningGameVersionName(
  * associated with the running game version.
  */
 DLLEXPORT size_t
-SGD2MAPI_GetRunningGameVersionNameSize(
+D2_GetRunningGameVersionNameSize(
     void
 );
 
@@ -112,7 +112,7 @@ SGD2MAPI_GetRunningGameVersionNameSize(
  * Returns whether the Diablo II game version is at least 1.14.
  */
 DLLEXPORT bool
-SGD2MAPI_IsGameVersionAtLeast1_14(
+D2_IsGameVersionAtLeast1_14(
     int game_version_id
 );
 
@@ -120,7 +120,7 @@ SGD2MAPI_IsGameVersionAtLeast1_14(
  * Returns whether the running game version is at least 1.14.
  */
 DLLEXPORT bool
-SGD2MAPI_IsRunningGameVersionAtLeast1_14(
+D2_IsRunningGameVersionAtLeast1_14(
     void
 );
 

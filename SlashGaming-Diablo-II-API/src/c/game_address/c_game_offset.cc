@@ -44,13 +44,13 @@
 
 namespace {
 
-void SGD2MAPI_GameAddress_InitFromOffset(
-    struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GameAddress_InitFromOffset(
+    struct MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
     intptr_t offset
 ) {
-  sgd2mapi::GameAddress actual_game_address =
-      sgd2mapi::GameAddress::FromOffset(
+  mapi::GameAddress actual_game_address =
+      mapi::GameAddress::FromOffset(
           library_path,
           offset
       );
@@ -60,30 +60,30 @@ void SGD2MAPI_GameAddress_InitFromOffset(
 
 } // namespace
 
-void SGD2MAPI_GameAddress_InitFromLibraryIdAndOffset(
-    struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GameAddress_InitFromLibraryIdAndOffset(
+    struct MAPI_GameAddress* game_address,
     int library_id,
     intptr_t offset
 ) {
-  sgd2mapi::DefaultLibrary actual_default_library =
-      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+  mapi::DefaultLibrary actual_default_library =
+      static_cast<mapi::DefaultLibrary>(library_id);
 
   const std::filesystem::path& actual_library_path =
-      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+      mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
-  SGD2MAPI_GameAddress_InitFromOffset(
+  MAPI_GameAddress_InitFromOffset(
       game_address,
       actual_library_path,
       offset
   );
 }
 
-void SGD2MAPI_GameAddress_InitFromLibraryPathAndOffset(
-    struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GameAddress_InitFromLibraryPathAndOffset(
+    struct MAPI_GameAddress* game_address,
     const char library_path[],
     intptr_t offset
 ) {
-  SGD2MAPI_GameAddress_InitFromOffset(
+  MAPI_GameAddress_InitFromOffset(
       game_address,
       library_path,
       offset

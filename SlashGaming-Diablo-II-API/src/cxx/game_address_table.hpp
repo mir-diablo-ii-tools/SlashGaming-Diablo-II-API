@@ -43,7 +43,7 @@
 
 #include "../../include/cxx/game_address.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 
 const GameAddress&
 GetGameAddress(
@@ -55,6 +55,6 @@ GetRawAddress(
     std::string_view address_name
 );
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_TABLE_HPP_

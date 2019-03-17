@@ -44,13 +44,13 @@
 
 namespace {
 
-void SGD2MAPI_GameAddress_InitFromOrdinal(
-    struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GameAddress_InitFromOrdinal(
+    struct MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
     int ordinal
 ) {
-  sgd2mapi::GameAddress actual_game_address =
-      sgd2mapi::GameAddress::FromOrdinal(
+  mapi::GameAddress actual_game_address =
+      mapi::GameAddress::FromOrdinal(
           library_path,
           ordinal
       );
@@ -60,30 +60,30 @@ void SGD2MAPI_GameAddress_InitFromOrdinal(
 
 } // namespace
 
-void SGD2MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
-    struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
+    struct MAPI_GameAddress* game_address,
     int library_id,
     int ordinal
 ) {
-  sgd2mapi::DefaultLibrary actual_default_library =
-      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+  mapi::DefaultLibrary actual_default_library =
+      static_cast<mapi::DefaultLibrary>(library_id);
 
   const std::filesystem::path& actual_library_path =
-      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+      mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
-  SGD2MAPI_GameAddress_InitFromOrdinal(
+  MAPI_GameAddress_InitFromOrdinal(
       game_address,
       actual_library_path,
       ordinal
   );
 }
 
-void SGD2MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
-    struct SGD2MAPI_GameAddress* game_address,
+void MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
+    struct MAPI_GameAddress* game_address,
     const char library_path[],
     int ordinal
 ) {
-  SGD2MAPI_GameAddress_InitFromOrdinal(
+  MAPI_GameAddress_InitFromOrdinal(
       game_address,
       library_path,
       ordinal

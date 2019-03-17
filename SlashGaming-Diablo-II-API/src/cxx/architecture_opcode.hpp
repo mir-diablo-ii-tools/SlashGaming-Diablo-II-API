@@ -40,7 +40,7 @@
 
 #include <cstdint>
 
-namespace sgd2mapi {
+namespace mapi {
 
 enum class OpCode
 #if defined(__i386__) || defined(_M_IX86)
@@ -51,6 +51,6 @@ enum class OpCode
 };
 #endif
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_

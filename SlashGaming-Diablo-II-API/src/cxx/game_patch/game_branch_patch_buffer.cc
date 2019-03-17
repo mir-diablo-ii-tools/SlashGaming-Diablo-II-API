@@ -51,16 +51,16 @@
 
 namespace {
 
-using SGD2MAPI_BranchTypeAndOpcodeMapType = std::unordered_map<
+using MAPI_BranchTypeAndOpcodeMapType = std::unordered_map<
     int,
-    enum sgd2mapi::OpCode
+    enum mapi::OpCode
 >;
 
-const SGD2MAPI_BranchTypeAndOpcodeMapType&
-SGD2MAPI_GetOpCodeByBranchTypeMap(void) {
-  static const SGD2MAPI_BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
-      { SGD2MAPI_BranchType::BRANCH_CALL, sgd2mapi::OpCode::kCall },
-      { SGD2MAPI_BranchType::BRANCH_JUMP, sgd2mapi::OpCode::kJump },
+const MAPI_BranchTypeAndOpcodeMapType&
+MAPI_GetOpCodeByBranchTypeMap(void) {
+  static const MAPI_BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
+      { MAPI_BranchType::BRANCH_CALL, mapi::OpCode::kCall },
+      { MAPI_BranchType::BRANCH_JUMP, mapi::OpCode::kJump },
   };
 
   return op_codes_by_branch_types;
@@ -68,7 +68,7 @@ SGD2MAPI_GetOpCodeByBranchTypeMap(void) {
 
 } // namespace
 
-namespace sgd2mapi {
+namespace mapi {
 namespace {
 
 using BranchTypeAndOpcodeMapType = std::unordered_map<
@@ -117,7 +117,7 @@ void InitGameBranchPatchBuffer(
   std::fill_n(
       game_patch_buffer,
       patch_size,
-      static_cast<std::uint8_t>(sgd2mapi::OpCode::kNop)
+      static_cast<std::uint8_t>(mapi::OpCode::kNop)
   );
 
   // Set the first byte in the buffer to the branch operation opcode byte.
@@ -145,7 +145,7 @@ CreateGameBranchPatchBuffer(
 ) {
   std::vector<std::uint8_t> branch_patch_buffer(patch_size);
 
-  enum sgd2mapi::OpCode actual_branch_type =
+  enum mapi::OpCode actual_branch_type =
       GetOpCodeByBranchTypeMap().at(branch_type);
 
   InitGameBranchPatchBuffer(
@@ -159,20 +159,20 @@ CreateGameBranchPatchBuffer(
   return branch_patch_buffer;
 }
 
-} // namespace sgd2mapi
+} // namespace mapi
 
-std::uint8_t* SGD2MAPI_CreateGameBranchPatchBuffer(
-    const SGD2MAPI_GameAddress& game_address,
+std::uint8_t* MAPI_CreateGameBranchPatchBuffer(
+    const MAPI_GameAddress& game_address,
     int branch_type_id,
     void (*func_ptr)(void),
     std::size_t patch_size
 ) {
   std::uint8_t* branch_patch_buffer = new std::uint8_t[patch_size];
 
-  enum sgd2mapi::OpCode actual_branch_type =
-      SGD2MAPI_GetOpCodeByBranchTypeMap().at(branch_type_id);
+  enum mapi::OpCode actual_branch_type =
+      MAPI_GetOpCodeByBranchTypeMap().at(branch_type_id);
 
-  sgd2mapi::InitGameBranchPatchBuffer(
+  mapi::InitGameBranchPatchBuffer(
       branch_patch_buffer,
       game_address.raw_address,
       static_cast<std::uint8_t>(actual_branch_type),

@@ -45,11 +45,11 @@
 #include "../../include/cxx/default_game_library.hpp"
 
 char*
-SGD2MAPI_GetGameExecutablePath(
+MAPI_GetGameExecutablePath(
   char dest[]
 ) {
   std::string game_executable_path_text =
-      sgd2mapi::GetGameExecutablePath().u8string();
+      mapi::GetGameExecutablePath().u8string();
 
   std::copy(
       game_executable_path_text.cbegin(),
@@ -61,22 +61,21 @@ SGD2MAPI_GetGameExecutablePath(
 }
 
 size_t
-SGD2MAPI_GetGameExecutablePathSize(
+MAPI_GetGameExecutablePathSize(
     void
 ) {
-  return sgd2mapi::GetGameExecutablePath().u8string().size() + 1;
+  return mapi::GetGameExecutablePath().u8string().size() + 1;
 }
 
-char*
-GetDefaultLibraryPathWithRedirect(
+char* MAPI_GetDefaultLibraryPathWithRedirect(
     char dest[],
     int library_id
 ) {
-  enum sgd2mapi::DefaultLibrary actual_default_library =
-      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+  enum mapi::DefaultLibrary actual_default_library =
+      static_cast<mapi::DefaultLibrary>(library_id);
 
   const std::filesystem::path& default_library_path =
-      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+      mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
   std::string default_library_path_text =
       default_library_path.u8string();
@@ -90,15 +89,14 @@ GetDefaultLibraryPathWithRedirect(
   return dest;
 }
 
-size_t
-GetDefaultLibraryPathWithRedirectSize(
+size_t MAPI_GetDefaultLibraryPathWithRedirectSize(
     int library_id
 ) {
-  enum sgd2mapi::DefaultLibrary actual_default_library =
-      static_cast<sgd2mapi::DefaultLibrary>(library_id);
+  enum mapi::DefaultLibrary actual_default_library =
+      static_cast<mapi::DefaultLibrary>(library_id);
 
   const std::filesystem::path& default_library_path =
-      sgd2mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
+      mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
   return default_library_path.u8string().size() + 1;
 }

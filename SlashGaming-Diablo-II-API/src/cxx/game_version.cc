@@ -51,7 +51,7 @@
 #include "../../include/cxx/default_game_library.hpp"
 #include "../../include/cxx/game_address.hpp"
 
-namespace sgd2mapi {
+namespace d2 {
 namespace {
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
@@ -410,7 +410,7 @@ GetGameVersionByLibraryData(
     }
   }
 
-  GameAddress game_address = GameAddress::FromOffset(
+  mapi::GameAddress game_address = mapi::GameAddress::FromOffset(
       std::move(library_path),
       offset_value
   );
@@ -435,7 +435,7 @@ DetermineRunningGameVersion(
     void
 ) {
   std::string game_version_string = ExtractFileVersionString(
-      GetGameExecutablePath()
+      mapi::GetGameExecutablePath()
   );
 
   // Perform first stage game version detection using the executable file
@@ -521,4 +521,4 @@ IsRunningGameVersionAtLeast1_14(
   );
 }
 
-} // namespace sgd2mapi
+} // namespace d2

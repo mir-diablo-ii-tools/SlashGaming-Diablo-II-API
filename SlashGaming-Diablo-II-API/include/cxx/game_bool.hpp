@@ -40,13 +40,13 @@
 
 #include <cstdint>
 
-namespace sgd2mapi {
+namespace mapi {
 
 using bool8 = std::int8_t;
 using bool16 = std::int16_t;
 using bool32 = std::int32_t;
 using bool64 = std::int64_t;
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #endif // SGD2MAPI_CXX_GAME_BOOL_HPP_

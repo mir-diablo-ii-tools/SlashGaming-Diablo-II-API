@@ -42,13 +42,13 @@
 #include <string>
 #include <string_view>
 
-namespace sgd2mapi {
+namespace mapi {
 
 const std::filesystem::path&
 GetAddressTableDirectoryPath(
     void
 );
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #endif // SGD2MAPI_CXX_CONFIG_PARSER_HPP_

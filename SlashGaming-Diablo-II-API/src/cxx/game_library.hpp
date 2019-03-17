@@ -43,7 +43,7 @@
 
 #include "../../include/cxx/default_game_library.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 
 /**
  * A class that corresponds to a library used by the game.
@@ -125,6 +125,6 @@ GetGameLibrary(
     const std::filesystem::path& library_path
 );
 
-} // namespace sgd2mapi
+} // namespace mapi
 
 #endif // SGD2MAPI_CXX_GAME_LIBRARY_HPP_

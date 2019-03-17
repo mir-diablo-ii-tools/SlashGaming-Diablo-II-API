@@ -38,13 +38,13 @@
 #ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
 #define SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
 
+#include "../game_address.h"
+
 #include "../../dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-
-struct SGD2MAPI_GameAddress;
 
 /**
  * Initializes a GameAddress. The base library is specified using its ID. The
@@ -52,8 +52,8 @@ struct SGD2MAPI_GameAddress;
  * represents the address's decorated name.
  */
 DLLEXPORT void
-SGD2MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
-    struct SGD2MAPI_GameAddress* game_address,
+MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
+    struct MAPI_GameAddress* game_address,
     int library_id,
     const char decorated_name[]
 );
@@ -64,8 +64,8 @@ SGD2MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
  * in 7-bit ASCII, which represents the address's decorated name.
  */
 DLLEXPORT void
-SGD2MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
-    struct SGD2MAPI_GameAddress* game_address,
+MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
+    struct MAPI_GameAddress* game_address,
     const char library_path[],
     const char decorated_name[]
 );

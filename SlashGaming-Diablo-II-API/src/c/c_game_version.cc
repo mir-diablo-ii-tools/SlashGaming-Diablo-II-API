@@ -44,15 +44,14 @@
 #include "../../include/c/game_bool.h"
 #include "../../include/cxx/game_version.hpp"
 
-char*
-SGD2MAPI_GetGameVersionName(
+char* D2_GetGameVersionName(
     char dest[],
     int game_version_id
 ) {
-  sgd2mapi::GameVersion actual_game_version_id =
-      static_cast<sgd2mapi::GameVersion>(game_version_id);
+  d2::GameVersion actual_game_version_id =
+      static_cast<d2::GameVersion>(game_version_id);
 
-  std::string_view game_version_name = sgd2mapi::GetGameVersionName(
+  std::string_view game_version_name = d2::GetGameVersionName(
       actual_game_version_id
   );
 
@@ -65,35 +64,32 @@ SGD2MAPI_GetGameVersionName(
   return dest;
 }
 
-size_t
-SGD2MAPI_GetGameVersionNameSize(
+size_t D2_GetGameVersionNameSize(
     int game_version_id
 ) {
-  sgd2mapi::GameVersion actual_game_version_id =
-      static_cast<sgd2mapi::GameVersion>(game_version_id);
+  d2::GameVersion actual_game_version_id =
+      static_cast<d2::GameVersion>(game_version_id);
 
-  std::string_view game_version_name = sgd2mapi::GetGameVersionName(
+  std::string_view game_version_name = d2::GetGameVersionName(
       actual_game_version_id
   );
 
   return game_version_name.size() + 1;
 }
 
-int
-SGD2MAPI_GetRunningGameVersionId(
+int D2_GetRunningGameVersionId(
     void
 ) {
-  return static_cast<enum SGD2MAPI_GameVersion>(
-      sgd2mapi::GetRunningGameVersionId()
+  return static_cast<enum D2_GameVersion>(
+      d2::GetRunningGameVersionId()
   );
 }
 
-char*
-SGD2MAPI_GetRunningGameVersionName(
+char* D2_GetRunningGameVersionName(
     char dest[]
 ) {
   std::string_view game_version_name =
-      sgd2mapi::GetRunningGameVersionName();
+      d2::GetRunningGameVersionName();
 
   std::copy(
       game_version_name.cbegin(),
@@ -104,28 +100,25 @@ SGD2MAPI_GetRunningGameVersionName(
   return dest;
 }
 
-size_t
-SGD2MAPI_GetRunningGameVersionNameSize(
+size_t D2_GetRunningGameVersionNameSize(
     void
 ) {
   std::string_view game_version_name =
-      sgd2mapi::GetRunningGameVersionName();
+      d2::GetRunningGameVersionName();
 
   return game_version_name.size() + 1;
 }
 
-bool
-SGD2MAPI_IsGameVersionAtLeast1_14(
+bool D2_IsGameVersionAtLeast1_14(
     int game_version_id
 ) {
-  return sgd2mapi::IsGameVersionAtLeast1_14(
-      static_cast<sgd2mapi::GameVersion>(game_version_id)
+  return d2::IsGameVersionAtLeast1_14(
+      static_cast<d2::GameVersion>(game_version_id)
   );
 }
 
-bool
-SGD2MAPI_IsRunningGameVersionAtLeast1_14(
+bool D2_IsRunningGameVersionAtLeast1_14(
     void
 ) {
-  return sgd2mapi::IsRunningGameVersionAtLeast1_14();
+  return d2::IsRunningGameVersionAtLeast1_14();
 }

@@ -49,7 +49,7 @@
 #include <fmt/printf.h>
 #include "../../include/cxx/game_version.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 namespace {
 
 const std::unordered_map<
@@ -107,7 +107,7 @@ GetDefaultLibraryPathWithRedirect(
     enum DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
-  if (IsRunningGameVersionAtLeast1_14()) {
+  if (d2::IsRunningGameVersionAtLeast1_14()) {
     return GetGameExecutablePath();
   }
 
@@ -137,4 +137,4 @@ GetDefaultLibraryPathWithRedirect(
   }
 }
 
-} // namespace sgd2mapi
+} // namespace mapi

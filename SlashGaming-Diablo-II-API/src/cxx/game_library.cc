@@ -49,7 +49,7 @@
 #include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
 
-namespace sgd2mapi {
+namespace mapi {
 namespace {
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
@@ -228,4 +228,4 @@ GetGameLibrary(
   return GetGameLibrary(library_path);
 }
 
-} // namespace sgd2mapi
+} // namespace mapi
