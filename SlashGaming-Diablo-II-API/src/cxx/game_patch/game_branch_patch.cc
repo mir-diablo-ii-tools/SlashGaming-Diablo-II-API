@@ -40,7 +40,6 @@
 #include <windows.h>
 #include <cstdint>
 #include <cstdlib>
-#include <memory>
 #include <utility>
 #include <vector>
 

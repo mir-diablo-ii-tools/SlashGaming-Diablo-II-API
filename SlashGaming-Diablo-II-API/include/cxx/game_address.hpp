@@ -40,193 +40,79 @@
 
 #include <cstdint>
 #include <filesystem>
-#include <memory>
-#include <unordered_map>
 
-#include "game_address_locator.hpp"
 #include "default_game_library.hpp"
-#include "game_version.hpp"
 
 #include "../dllexport_define.inc"
 
 namespace sgd2mapi {
 
-/**
- * A class containing a location in the game memory.
- */
 class DLLEXPORT GameAddress {
  public:
+  explicit GameAddress(std::intptr_t raw_address);
+
+  std::intptr_t raw_address(void) const noexcept;
+
   /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * game address locator.
+   * Returns a new instance of GameDecoratedNameAddress using a string encoded
+   * in 7-bit ASCII.
    */
-  GameAddress(
+  static GameAddress FromDecoratedName(
+      enum DefaultLibrary default_library,
+      std::string_view decorated_name
+  );
+
+  /**
+   * Returns a new instance of GameDecoratedNameAddress using a string encoded
+   * in 7-bit ASCII.
+   */
+  static GameAddress FromDecoratedName(
       const std::filesystem::path& library_path,
-      const GameAddressLocatorInterface& address_locator
+      std::string_view decorated_name
   );
 
   /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * game address locator.
+   * Returns a game address that uses an offset value to specify a location in
+   * game memory.
    */
-  GameAddress(
-      std::filesystem::path&& library_path,
-      const GameAddressLocatorInterface& address_locator
+  static GameAddress FromOffset(
+      enum DefaultLibrary default_library,
+      std::intptr_t offset
   );
 
   /**
-   * Create a new instance of GameAddress, specifying the library ID and a
-   * game address locator.
+   * Returns a game address that uses an offset value to specify a location in
+   * game memory.
    */
-  GameAddress(
-      enum DefaultLibrary library,
-      const GameAddressLocatorInterface& address_locator
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * game address locator.
-   */
-  GameAddress(
+  static GameAddress FromOffset(
       const std::filesystem::path& library_path,
-      GameAddressLocatorInterface&& address_locator
+      std::intptr_t offset
   );
 
   /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * game address locator.
+   * Returns a game address that uses an ordinal value to specify a location
+   * in game memory.
    */
-  GameAddress(
-      std::filesystem::path&& library_path,
-      GameAddressLocatorInterface&& address_locator
+  static GameAddress FromOrdinal(
+      enum DefaultLibrary default_library,
+      std::intptr_t ordinal
   );
 
   /**
-   * Create a new instance of GameAddress, specifying the library ID and a
-   * game address locator.
+   * Returns a game address that uses an ordinal value to specify a location
+   * in game memory.
    */
-  GameAddress(
-      enum DefaultLibrary library,
-      GameAddressLocatorInterface&& address_locator
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * game address locator.
-   */
-  GameAddress(
+  static GameAddress FromOrdinal(
       const std::filesystem::path& library_path,
-      std::shared_ptr<GameAddressLocatorInterface> address_locator
+      std::intptr_t ordinal
   );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * game address locator.
-   */
-  GameAddress(
-      std::filesystem::path&& library_path,
-      std::shared_ptr<GameAddressLocatorInterface> address_locator
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library ID and a
-   * game address locator.
-   */
-  GameAddress(
-      enum DefaultLibrary library,
-      std::shared_ptr<GameAddressLocatorInterface> address_locator
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * version to game address locator map.
-   */
-  GameAddress(
-      const std::filesystem::path& library_path,
-      const std::unordered_map<
-          enum GameVersion,
-          std::shared_ptr<GameAddressLocatorInterface>
-      >& address_locators
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library path and a
-   * version to game address locator map.
-   */
-  GameAddress(
-      std::filesystem::path&& library_path,
-      const std::unordered_map<
-          enum GameVersion,
-          std::shared_ptr<GameAddressLocatorInterface>
-      >& address_locators
-  );
-
-  /**
-   * Create a new instance of GameAddress, specifying the library ID and a
-   * game address locator.
-   */
-  GameAddress(
-      enum DefaultLibrary library,
-      const std::unordered_map<
-          enum GameVersion,
-          std::shared_ptr<GameAddressLocatorInterface>
-      >& address_locators
-  );
-
-  GameAddress(
-      const GameAddress&
-  );
-
-  GameAddress(
-      GameAddress&&
-  ) noexcept;
-
-  virtual
-  ~GameAddress(
-      void
-  );
-
-  GameAddress&
-  operator=(
-      const GameAddress&
-  );
-
-  GameAddress&
-  operator=(
-      GameAddress&&
-  ) noexcept;
-
-  /**
-   * Returns the library path of this GameAddress.
-   */
-  const std::filesystem::path&
-  library_path(
-      void
-  ) const noexcept;
-
-  /**
-   * Returns the address locator of this GameAddress.
-   */
-  const std::shared_ptr<GameAddressLocatorInterface>&
-  address_locator(
-      void
-  ) const noexcept;
-
-  /**
-   * Returns the address of this GameAddress.
-   */
-  std::intptr_t
-  raw_address(
-      void
-  ) const noexcept;
 
  private:
-  std::filesystem::path library_path_;
-  std::shared_ptr<GameAddressLocatorInterface> address_locator_;
   std::intptr_t raw_address_;
 };
 
 } // namespace sgd2mapi
 
 #include "../dllexport_undefine.inc"
+
 #endif // SGD2MAPI_CXX_GAME_ADDRESS_HPP_

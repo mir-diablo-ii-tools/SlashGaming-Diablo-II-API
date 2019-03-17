@@ -39,7 +39,6 @@
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_NOP_PATCH_HPP_
 
 #include <cstdlib>
-#include <memory>
 
 #include "../game_address.hpp"
 #include "game_patch_base.hpp"

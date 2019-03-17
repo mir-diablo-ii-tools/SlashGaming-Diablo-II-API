@@ -38,261 +38,143 @@
 #include "../../include/cxx/game_address.hpp"
 
 #include <windows.h>
+#include <cstdint>
 #include <filesystem>
-#include <cstdlib>
-#include <memory>
-#include <stdexcept>
-#include <unordered_map>
+#include <string>
+#include <string_view>
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include "../../include/cxx/game_address_locator.hpp"
 #include "../../include/cxx/default_game_library.hpp"
 #include "game_library.hpp"
-#include "../../include/cxx/game_version.hpp"
 
 namespace sgd2mapi {
-namespace {
 
-std::intptr_t
-ResolveRawAddress(
-    const std::filesystem::path& library_path,
-    const GameAddressLocatorInterface& address_locator
-) {
-
-  // Figure out which game library is specified.
-  const GameLibrary& address_library = GetGameLibrary(library_path);
-
-  // Calculate the resolved address
-  std::intptr_t base_address = address_library.base_address();
-  std::intptr_t resolved_address =
-      address_locator.ResolveGameAddress(base_address);
-
-  return resolved_address;
+GameAddress::GameAddress(
+    std::intptr_t raw_address
+)
+    : raw_address_(raw_address) {
 }
 
-std::shared_ptr<GameAddressLocatorInterface>
-ResolveGameAddressLocator(
-    const std::filesystem::path& library_path,
-    const std::unordered_map<
-        enum GameVersion,
-        std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators
+std::intptr_t GameAddress::raw_address(void) const noexcept {
+  return raw_address_;
+}
+
+GameAddress GameAddress::FromDecoratedName(
+    enum DefaultLibrary default_library,
+    std::string_view decorated_name
 ) {
-  enum GameVersion current_version = GetRunningGameVersionId();
+  const std::filesystem::path& default_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
 
-  const GameLibrary& address_library = GetGameLibrary(library_path);
+  return FromDecoratedName(default_library_path, decorated_name);
+}
 
-  try {
-    return address_locators.at(current_version);
-  } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
-        L"Could not determine the game address.";
+GameAddress GameAddress::FromDecoratedName(
+    const std::filesystem::path& library_path,
+    std::string_view decorated_name
+) {
+  const GameLibrary& game_library = GetGameLibrary(library_path);
 
-    std::wstring full_message = fmt::sprintf(
-        kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
-        __LINE__,
-        library_path
+  FARPROC raw_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      decorated_name.data()
+  );
+
+  if (raw_address == nullptr) {
+    std::wstring error_message = fmt::sprintf(
+        L"The data or function with the name %s could not be found.",
+        fmt::to_wstring(decorated_name)
     );
 
     MessageBoxW(
         nullptr,
-        full_message.data(),
-        L"Failed to Determine Game Address",
+        error_message.data(),
+        L"Failed to Locate Address",
         MB_OK | MB_ICONERROR
     );
-
     std::exit(0);
   }
+
+  return GameAddress(
+      reinterpret_cast<std::intptr_t>(raw_address)
+  );
 }
 
-} // namespace
+GameAddress GameAddress::FromOffset(
+    enum DefaultLibrary default_library,
+    std::intptr_t offset
+) {
+  const std::filesystem::path& game_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
 
-GameAddress::GameAddress(
+  return FromOffset(game_library_path, offset);
+}
+
+GameAddress GameAddress::FromOffset(
     const std::filesystem::path& library_path,
-    const GameAddressLocatorInterface& address_locator
-)
-    : GameAddress(
-          library_path,
-          std::shared_ptr<GameAddressLocatorInterface>(
-              address_locator.Clone()
-          )
-      ) {
+    std::intptr_t offset
+) {
+  const GameLibrary& game_library = GetGameLibrary(library_path);
+  
+  return GameAddress(game_library.base_address() + offset);
 }
 
-GameAddress::GameAddress(
-    std::filesystem::path&& library_path,
-    const GameAddressLocatorInterface& address_locator
-)
-    : GameAddress(
-          std::move(library_path),
-          std::shared_ptr<GameAddressLocatorInterface>(
-              address_locator.Clone()
-          )
-      ) {
+GameAddress GameAddress::FromOrdinal(
+    enum DefaultLibrary default_library,
+    std::intptr_t ordinal
+) {
+  const std::filesystem::path& game_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
+
+  return FromOffset(game_library_path, ordinal);
 }
 
-GameAddress::GameAddress(
-    enum DefaultLibrary library,
-    const GameAddressLocatorInterface& address_locator
-)
-    : GameAddress(
-          GetDefaultLibraryPathWithRedirect(library),
-          address_locator
-      ) {
-}
-
-GameAddress::GameAddress(
+GameAddress GameAddress::FromOrdinal(
     const std::filesystem::path& library_path,
-    GameAddressLocatorInterface&& address_locator
-)
-    : GameAddress(
-          library_path,
-          std::shared_ptr<GameAddressLocatorInterface>(
-              address_locator.MoveToClone()
-          )
-      ) {
-}
+    std::intptr_t ordinal
+) {
+  // Check that the upper 2 bytes are zero.
+  if ((ordinal & 0xFFFF) != ordinal) {
+    std::wstring error_message = fmt::sprintf(
+        L"Invalid ordinal value %d. The leftmost four bytes of an ordinal must"
+        L"be zero.",
+        ordinal
+    );
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Invalid Ordinal Value",
+        MB_OK | MB_ICONERROR
+    );
+    std::exit(0);
+  }
 
-GameAddress::GameAddress(
-    std::filesystem::path&& library_path,
-    GameAddressLocatorInterface&& address_locator
-)
-    : GameAddress(
-          std::move(library_path),
-          std::shared_ptr<GameAddressLocatorInterface>(
-              address_locator.MoveToClone()
-          )
-      ) {
-}
+  const GameLibrary& game_library = GetGameLibrary(library_path);
 
-GameAddress::GameAddress(
-    enum DefaultLibrary library,
-    GameAddressLocatorInterface&& address_locator
-)
-    : GameAddress(
-          GetDefaultLibraryPathWithRedirect(library),
-          std::move(address_locator)
-      ) {
-}
+  FARPROC func_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      reinterpret_cast<const CHAR*>(ordinal)
+  );
 
-GameAddress::GameAddress(
-    const std::filesystem::path& library_path,
-    std::shared_ptr<GameAddressLocatorInterface> address_locator
-)
-    : library_path_(library_path),
-      address_locator_(std::move(address_locator)),
-      raw_address_(ResolveRawAddress(library_path_, *address_locator_)) {
-}
+  if (func_address == nullptr) {
+    std::wstring error_message = fmt::sprintf(
+        L"The data or function with the ordinal %d could not be found.",
+        ordinal
+    );
 
-GameAddress::GameAddress(
-    std::filesystem::path&& library_path,
-    std::shared_ptr<GameAddressLocatorInterface> address_locator
-)
-    : library_path_(std::move(library_path)),
-      address_locator_(std::move(address_locator)),
-      raw_address_(ResolveRawAddress(library_path_, *address_locator_)) {
-}
+    MessageBoxW(
+        nullptr,
+        error_message.data(),
+        L"Failed to Locate Address",
+        MB_OK | MB_ICONERROR
+    );
+    std::exit(0);
+  }
 
-GameAddress::GameAddress(
-    enum DefaultLibrary library,
-    std::shared_ptr<GameAddressLocatorInterface> address_locator
-)
-    : GameAddress(
-          GetDefaultLibraryPathWithRedirect(library),
-          std::move(address_locator)
-      ) {
-}
-
-GameAddress::GameAddress(
-    const std::filesystem::path& library_path,
-    const std::unordered_map<
-        enum GameVersion,
-        std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators
-)
-    : GameAddress(
-          library_path,
-          ResolveGameAddressLocator(
-              library_path,
-              address_locators
-          )
-      ) {
-}
-
-GameAddress::GameAddress(
-    std::filesystem::path&& library_path,
-    const std::unordered_map<
-        enum GameVersion,
-        std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators
-)
-    : GameAddress(
-          std::move(library_path),
-          ResolveGameAddressLocator(
-              library_path,
-              address_locators
-          )
-      ) {
-}
-
-GameAddress::GameAddress(
-    enum DefaultLibrary library,
-    const std::unordered_map<
-        enum GameVersion,
-        std::shared_ptr<GameAddressLocatorInterface>
-    >& address_locators
-)
-    : GameAddress(
-          GetDefaultLibraryPathWithRedirect(library),
-          address_locators
-      ) {
-}
-
-GameAddress::GameAddress(
-    const GameAddress&
-) = default;
-
-GameAddress::GameAddress(
-    GameAddress&&
-) noexcept = default;
-
-GameAddress::~GameAddress(
-  void
-) = default;
-
-GameAddress&
-GameAddress::operator=(
-    const GameAddress&
-) = default;
-
-GameAddress&
-GameAddress::operator=(
-    GameAddress&&
-) noexcept = default;
-
-const std::filesystem::path&
-GameAddress::library_path(
-    void
-) const noexcept {
-  return library_path_;
-}
-
-const std::shared_ptr<GameAddressLocatorInterface>&
-GameAddress::address_locator(
-    void
-) const noexcept {
-  return address_locator_;
-}
-
-std::intptr_t
-GameAddress::raw_address(
-    void
-) const noexcept {
-  return raw_address_;
+  return GameAddress(
+      reinterpret_cast<std::intptr_t>(func_address)
+  );
 }
 
 } // namespace sgd2mapi

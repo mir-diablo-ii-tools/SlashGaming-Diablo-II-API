@@ -38,8 +38,6 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_PATCH_INTERFACE_HPP_
 
-#include <memory>
-
 #include "../../dllexport_define.inc"
 
 namespace sgd2mapi {

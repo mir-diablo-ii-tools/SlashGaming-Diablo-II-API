@@ -38,7 +38,6 @@
 #include "../../../include/cxx/game_patch/game_nop_patch.hpp"
 
 #include <cstdlib>
-#include <memory>
 #include <utility>
 #include <vector>
 

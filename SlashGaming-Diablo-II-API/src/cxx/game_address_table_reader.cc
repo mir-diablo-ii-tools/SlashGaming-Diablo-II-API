@@ -43,7 +43,6 @@
 #include <charconv>
 #include <filesystem>
 #include <fstream>
-#include <memory>
 #include <regex>
 #include <string>
 #include <string_view>
@@ -51,7 +50,6 @@
 
 #include <fmt/printf.h>
 #include "../../include/cxx/game_address.hpp"
-#include "../../include/cxx/game_address_locator.hpp"
 #include "../../include/cxx/default_game_library.hpp"
 #include "game_library.hpp"
 #include "../../include/cxx/game_version.hpp"
@@ -66,32 +64,6 @@ constexpr std::string_view kLocatorTypeOffset = u8"Offset";
 constexpr std::string_view kLocatorTypeOrdinal = u8"Ordinal";
 constexpr std::string_view kLocatorTypeDecoratedName = u8"Decorated Name";
 
-std::shared_ptr<GameAddressLocatorInterface>
-ResolveLocator(
-    std::string_view locator_type,
-    std::string_view locator_value
-) {
-  std::shared_ptr<GameAddressLocatorInterface> game_address_locator;
-
-  if (locator_type == kLocatorTypeOffset) {
-    int offset = std::stoi(locator_value.data(), 0, 16);
-    game_address_locator = std::make_unique<GameOffset>(offset);
-  } else if (locator_type == kLocatorTypeOrdinal) {
-    int ordinal;
-    std::from_chars(
-        locator_value.data(),
-        locator_value.data() + locator_value.length(),
-        ordinal
-    );
-
-    game_address_locator = std::make_unique<GameOrdinal>(ordinal);
-  } else if (locator_type == kLocatorTypeDecoratedName) {
-    game_address_locator = std::make_unique<GameDecoratedName>(locator_value);
-  }
-
-  return game_address_locator;
-}
-
 GameAddress
 ResolveAddress(
     const std::filesystem::path& library_path,
@@ -102,17 +74,45 @@ ResolveAddress(
   const GameLibrary& game_library = GetGameLibrary(library_path);
   std::intptr_t game_library_base_address = game_library.base_address();
 
-  std::shared_ptr<
-      GameAddressLocatorInterface
-  > address_locator = ResolveLocator(
-      locator_type,
-      locator_value
+  if (locator_type == kLocatorTypeOffset) {
+    int offset = std::stoi(locator_value.data(), 0, 16);
+
+    return GameAddress::FromOffset(library_path, offset);
+  } else if (locator_type == kLocatorTypeOrdinal) {
+    int ordinal;
+    std::from_chars(
+        locator_value.data(),
+        locator_value.data() + locator_value.length(),
+        ordinal
+    );
+
+    return GameAddress::FromOffset(library_path, ordinal);
+  } else if (locator_type == kLocatorTypeDecoratedName) {
+    return GameAddress::FromDecoratedName(library_path, locator_value);
+  }
+
+  // Should never occur!
+  std::wstring error_message = fmt::sprintf(
+      L"Unknown locator type specified. \n"
+      L"\n"
+      L"Library Path: %s \n"
+      L"Address Name: %s \n"
+      L"Locator Type: %s \n"
+      L"Locator Value: %s",
+      library_path,
+      fmt::to_wstring(address_name),
+      fmt::to_wstring(locator_type),
+      fmt::to_wstring(locator_value)
   );
 
-  return GameAddress(
-      game_library.library_path(),
-      std::move(address_locator)
+  MessageBoxW(
+      nullptr,
+      error_message.data(),
+      L"Unknown Locator Type",
+      MB_OK | MB_ICONERROR
   );
+
+  std::exit(0);
 }
 
 } // namespace
