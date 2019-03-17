@@ -128,7 +128,7 @@ void GamePatch::Remove(void) {
   is_patch_applied_ = c_game_patch.is_patch_applied;
 }
 
-GamePatch GamePatch::ToBranchPatch(
+GamePatch GamePatch::MakeBranchPatch(
     const GameAddress& game_address,
     enum BranchType branch_type,
     void (*func_ptr)(void),
@@ -147,7 +147,7 @@ GamePatch GamePatch::ToBranchPatch(
   );
 }
 
-GamePatch GamePatch::ToBranchPatch(
+GamePatch GamePatch::MakeBranchPatch(
     GameAddress&& game_address,
     enum BranchType branch_type,
     void (*func_ptr)(void),
@@ -166,7 +166,7 @@ GamePatch GamePatch::ToBranchPatch(
   );
 }
 
-GamePatch GamePatch::ToBufferPatch(
+GamePatch GamePatch::MakeBufferPatch(
     const GameAddress& game_address,
     const std::uint8_t patch_buffer[],
     std::size_t patch_size
@@ -182,7 +182,7 @@ GamePatch GamePatch::ToBufferPatch(
   );
 }
 
-GamePatch GamePatch::ToBufferPatch(
+GamePatch GamePatch::MakeBufferPatch(
     GameAddress&& game_address,
     const std::uint8_t patch_buffer[],
     std::size_t patch_size
@@ -198,7 +198,7 @@ GamePatch GamePatch::ToBufferPatch(
   );
 }
 
-GamePatch GamePatch::ToBufferPatch(
+GamePatch GamePatch::MakeBufferPatch(
     const GameAddress& game_address,
     const std::vector<std::uint8_t>& patch_buffer
 ) {
@@ -208,7 +208,7 @@ GamePatch GamePatch::ToBufferPatch(
   );
 }
 
-GamePatch GamePatch::ToBufferPatch(
+GamePatch GamePatch::MakeBufferPatch(
     GameAddress&& game_address,
     const std::vector<std::uint8_t>& patch_buffer
 ) {
@@ -218,7 +218,7 @@ GamePatch GamePatch::ToBufferPatch(
   );
 }
 
-GamePatch GamePatch::ToBufferPatch(
+GamePatch GamePatch::MakeBufferPatch(
     const GameAddress& game_address,
     std::vector<std::uint8_t>&& patch_buffer
 ) {
@@ -228,7 +228,7 @@ GamePatch GamePatch::ToBufferPatch(
   );
 }
 
-GamePatch GamePatch::ToBufferPatch(
+GamePatch GamePatch::MakeBufferPatch(
     GameAddress&& game_address,
     std::vector<std::uint8_t>&& patch_buffer
 ) {
@@ -238,7 +238,7 @@ GamePatch GamePatch::ToBufferPatch(
   );
 }
 
-GamePatch GamePatch::ToNopPatch(
+GamePatch GamePatch::MakeNopPatch(
     const GameAddress& game_address,
     std::size_t patch_size
 ) {
@@ -253,7 +253,7 @@ GamePatch GamePatch::ToNopPatch(
   );
 }
 
-GamePatch GamePatch::ToNopPatch(
+GamePatch GamePatch::MakeNopPatch(
     GameAddress&& game_address,
     std::size_t patch_size
 ) {

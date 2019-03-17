@@ -63,58 +63,58 @@ class DLLEXPORT GamePatch {
 
   void Remove(void);
 
-  static GamePatch ToBranchPatch(
+  static GamePatch MakeBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
       void (*func_ptr)(void),
       std::size_t patch_size
   );
 
-  static GamePatch ToBranchPatch(
+  static GamePatch MakeBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
       void (*func_ptr)(void),
       std::size_t patch_size
   );
 
-  static GamePatch ToBufferPatch(
+  static GamePatch MakeBufferPatch(
       const GameAddress& game_address,
       const std::uint8_t patch_buffer[],
       std::size_t patch_size
   );
 
-  static GamePatch ToBufferPatch(
+  static GamePatch MakeBufferPatch(
       GameAddress&& game_address,
       const std::uint8_t patch_buffer[],
       std::size_t patch_size
   );
 
-  static GamePatch ToBufferPatch(
+  static GamePatch MakeBufferPatch(
       const GameAddress& game_address,
       const std::vector<std::uint8_t>& patch_buffer
   );
 
-  static GamePatch ToBufferPatch(
+  static GamePatch MakeBufferPatch(
       GameAddress&& game_address,
       const std::vector<std::uint8_t>& patch_buffer
   );
 
-  static GamePatch ToBufferPatch(
+  static GamePatch MakeBufferPatch(
       const GameAddress& game_address,
       std::vector<std::uint8_t>&& patch_buffer
   );
 
-  static GamePatch ToBufferPatch(
+  static GamePatch MakeBufferPatch(
       GameAddress&& game_address,
       std::vector<std::uint8_t>&& patch_buffer
   );
 
-  static GamePatch ToNopPatch(
+  static GamePatch MakeNopPatch(
       const GameAddress& game_address,
       std::size_t patch_size
   );
 
-  static GamePatch ToNopPatch(
+  static GamePatch MakeNopPatch(
       GameAddress&& game_address,
       std::size_t patch_size
   );
