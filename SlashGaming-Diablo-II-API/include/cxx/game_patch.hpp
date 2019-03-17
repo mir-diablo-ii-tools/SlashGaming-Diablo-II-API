@@ -57,12 +57,30 @@ enum class BranchType {
   kJump,
 };
 
+/**
+ * A game patch that is capable of replacing values in memory with
+ * user-specified values and restoring the original state of the values in
+ * memory.
+ */
 class DLLEXPORT GamePatch {
  public:
+  /**
+   * Applies the patch by replacing the values at its target address with the
+   * values stored in its buffer. Does nothing if the patch is applied.
+   */
   void Apply(void);
 
+  /**
+   * Removes the effects of the patch by restoring the patched entries to their
+   * original values. Does nothing if the patch is not applied.
+   */
   void Remove(void);
 
+  /**
+   * Make an instance of a branch patch. The patch replaces the first bytes
+   * with a branch to a user-specified function, then replaces the rest of the
+   * bytes with no-op instructions.
+   */
   static GamePatch MakeBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
@@ -70,6 +88,11 @@ class DLLEXPORT GamePatch {
       std::size_t patch_size
   );
 
+  /**
+   * Make an instance of a branch patch. The patch replaces the first bytes
+   * with a branch to a user-specified function, then replaces the rest of the
+   * bytes with no-op instructions.
+   */
   static GamePatch MakeBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
@@ -77,43 +100,77 @@ class DLLEXPORT GamePatch {
       std::size_t patch_size
   );
 
+  /**
+   * Makes an instance of a buffer patch, specifying the patch buffer using an
+   * array of 8-bit bytes.
+   */
   static GamePatch MakeBufferPatch(
       const GameAddress& game_address,
       const std::uint8_t patch_buffer[],
       std::size_t patch_size
   );
 
+  /**
+   * Makes an instance of a buffer patch, specifying the patch buffer using an
+   * array of 8-bit bytes.
+   */
   static GamePatch MakeBufferPatch(
       GameAddress&& game_address,
       const std::uint8_t patch_buffer[],
       std::size_t patch_size
   );
 
+  /**
+   * Makes an instance of a buffer patch, specifying the patch buffer using a
+   * vector of 8-bit bytes.
+   */
   static GamePatch MakeBufferPatch(
       const GameAddress& game_address,
       const std::vector<std::uint8_t>& patch_buffer
   );
 
+  /**
+   * Makes an instance of a buffer patch, specifying the patch buffer using a
+   * vector of 8-bit bytes.
+   */
   static GamePatch MakeBufferPatch(
       GameAddress&& game_address,
       const std::vector<std::uint8_t>& patch_buffer
   );
 
+  /**
+   * Makes an instance of a buffer patch, specifying the patch buffer using a
+   * vector of 8-bit bytes.
+   */
   static GamePatch MakeBufferPatch(
       const GameAddress& game_address,
       std::vector<std::uint8_t>&& patch_buffer
   );
 
+  /**
+   * Makes an instance of a buffer patch, specifying the patch buffer using a
+   * vector of 8-bit bytes.
+   */
   static GamePatch MakeBufferPatch(
       GameAddress&& game_address,
       std::vector<std::uint8_t>&& patch_buffer
   );
 
+  /**
+   * Makes an instance of a NOP patch, filling the patch buffer with as
+   * many no-op instructions that can fit in a patch buffer of the specified
+   * size.
+   */
   static GamePatch MakeNopPatch(
       const GameAddress& game_address,
       std::size_t patch_size
   );
 
+  /**
+   * Makes an instance of a NOP patch, filling the patch buffer with as
+   * many no-op instructions that can fit in a patch buffer of the specified
+   * size.
+   */
   static GamePatch MakeNopPatch(
       GameAddress&& game_address,
       std::size_t patch_size
