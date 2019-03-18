@@ -69,34 +69,26 @@ GetGameVersionName(
  * Returns the identifier of the running game version.
  */
 DLLEXPORT enum GameVersion
-GetRunningGameVersionId(
-    void
-);
+GetRunningGameVersionId(void);
 
 /**
  * Returns a view to the UTF-8 encoded string associated with the running game
  * version.
  */
 DLLEXPORT std::string_view
-GetRunningGameVersionName(
-    void
-);
+GetRunningGameVersionName(void);
 
 /**
  * Returns whether the specified game version is at least 1.14.
  */
-DLLEXPORT bool
-IsGameVersionAtLeast1_14(
+DLLEXPORT bool IsGameVersionAtLeast1_14(
     enum GameVersion game_version
 );
 
 /**
  * Returns whether the running game version is at least 1.14.
  */
-DLLEXPORT bool
-IsRunningGameVersionAtLeast1_14(
-    void
-);
+DLLEXPORT bool IsRunningGameVersionAtLeast1_14(void);
 
 } // namespace d2
 

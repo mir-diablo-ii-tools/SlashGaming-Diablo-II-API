@@ -431,9 +431,7 @@ GetGameVersionByLibraryData(
 }
 
 enum GameVersion
-DetermineRunningGameVersion(
-    void
-) {
+DetermineRunningGameVersion(void) {
   std::string game_version_string = ExtractFileVersionString(
       mapi::GetGameExecutablePath()
   );
@@ -486,36 +484,28 @@ GetGameVersionName(
 }
 
 enum GameVersion
-GetRunningGameVersionId(
-    void
-) {
+GetRunningGameVersionId(void) {
   static enum GameVersion running_game_version_id =
       DetermineRunningGameVersion();
   return running_game_version_id;
 }
 
 std::string_view
-GetRunningGameVersionName(
-    void
-) {
+GetRunningGameVersionName(void) {
   static std::string_view running_game_version_name = GetGameVersionName(
       GetRunningGameVersionId()
   );
   return running_game_version_name;
 }
 
-bool
-IsGameVersionAtLeast1_14(
+bool IsGameVersionAtLeast1_14(
     enum GameVersion game_version
 ) {
   return !(game_version >= GameVersion::k1_00
                && game_version <= GameVersion::k1_13D);
 }
 
-bool
-IsRunningGameVersionAtLeast1_14(
-    void
-) {
+bool IsRunningGameVersionAtLeast1_14(void) {
   return IsGameVersionAtLeast1_14(
       GetRunningGameVersionId()
   );
