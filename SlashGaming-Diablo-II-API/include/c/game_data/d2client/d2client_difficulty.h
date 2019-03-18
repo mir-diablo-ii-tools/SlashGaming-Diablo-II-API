@@ -35,9 +35,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_H_
+#define SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_H_
 
-#include "game_data/d2client_data.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2Client_GetDifficulty(void);
+DLLEXPORT void D2Client_SetDifficulty(int id);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_H_

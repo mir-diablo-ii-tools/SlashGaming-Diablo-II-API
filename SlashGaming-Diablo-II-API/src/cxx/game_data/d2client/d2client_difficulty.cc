@@ -35,9 +35,4 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
-
-#include "game_data/d2client_data.h"
-
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#include "../../../../include/cxx/game_data/d2client/d2client_difficulty.hpp"
