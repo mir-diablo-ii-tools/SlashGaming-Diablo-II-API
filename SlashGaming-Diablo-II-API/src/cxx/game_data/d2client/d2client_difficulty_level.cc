@@ -35,21 +35,51 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_constant/d2_difficulty.hpp"
+#include "../../../../include/cxx/game_data/d2client/d2client_difficulty_level.hpp"
 
-#include "../../../include/cxx/game_constant/d2_constant.hpp"
-#include "d2_constant_impl.hpp"
+#include <cstdint>
 
-namespace d2 {
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
-template int
-ConvertConstantToValue<enum Difficulty>(
-    enum Difficulty id
-);
+namespace d2::d2client {
+namespace {
 
-template enum Difficulty
-ConvertValueToConstant<enum Difficulty>(
-    int value
-);
+std::intptr_t D2Client_DifficultyLevel(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
 
-} // namespace d2
+  return ptr;
+}
+
+} // namespace
+
+enum DifficultyLevel GetDifficultyLevel(void) {
+  std::intptr_t ptr = D2Client_DifficultyLevel();
+  enum GameVersion current_game_version = GetRunningGameVersionId();
+
+  int value;
+
+  if (current_game_version >= GameVersion::k1_00
+      && current_game_version <= GameVersion::kLod1_14D) {
+    std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
+    value = *converted_ptr;
+  }
+
+  return ConvertValueToConstant<enum DifficultyLevel>(value);
+}
+
+void SetDifficultyLevel(enum DifficultyLevel id) {
+  std::intptr_t ptr = D2Client_DifficultyLevel();
+  int value = ConvertConstantToValue<enum DifficultyLevel>(id);
+
+  enum GameVersion current_game_version = GetRunningGameVersionId();
+
+  if (current_game_version >= GameVersion::k1_00
+      && current_game_version <= GameVersion::kLod1_14D) {
+    std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
+    *converted_ptr = value;
+  }
+}
+
+} // namespace d2::d2client

@@ -35,19 +35,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_HPP_
-
-#include "../../game_constant/d2_difficulty.hpp"
+#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_
+#define SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_
 
 #include "../../../dllexport_define.inc"
 
-namespace d2::d2client {
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-DLLEXPORT enum Difficulty GetDifficulty(void);
-DLLEXPORT void SetDifficulty(enum Difficulty id);
+DLLEXPORT int D2Client_GetDifficultyLevel(void);
+DLLEXPORT void D2Client_SetDifficultyLevel(int id);
 
-} // namespace d2client
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_HPP_
+#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_

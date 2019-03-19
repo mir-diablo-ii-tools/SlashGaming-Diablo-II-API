@@ -38,6 +38,6 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
 
-#include "d2client/d2client_difficulty.h"
+#include "d2client/d2client_difficulty_level.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_

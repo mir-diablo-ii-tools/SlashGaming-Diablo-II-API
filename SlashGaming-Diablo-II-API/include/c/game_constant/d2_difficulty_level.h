@@ -35,20 +35,30 @@
  *  work.
  */
 
-#include "../../../include/c/game_constant/d2_difficulty.h"
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_H_
 
-#include "../../../include/cxx/game_constant/d2_difficulty.hpp"
+#include "../../dllexport_define.inc"
 
-int D2_Difficulty_ToValue(int id) {
-  enum d2::Difficulty actual_difficulty =
-      static_cast<enum d2::Difficulty>(id);
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-  return d2::ConvertConstantToValue(actual_difficulty);
-}
+enum D2_DifficultyLevel {
+  DIFFICULTY_NORMAL,
+  DIFFICULTY_NIGHTMARE,
+  DIFFICULTY_HELL
+};
 
-int D2_Difficulty_FromValue(int value) {
-  enum d2::Difficulty actual_difficulty =
-      d2::ConvertValueToConstant<enum d2::Difficulty>(value);
+DLLEXPORT int D2_DifficultyLevel_GetCount(void);
 
-  return static_cast<int>(actual_difficulty);
-}
+DLLEXPORT int D2_DifficultyLevel_ToValue(int id);
+
+DLLEXPORT int D2_DifficultyLevel_FromValue(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_H_

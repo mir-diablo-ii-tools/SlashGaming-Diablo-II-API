@@ -35,28 +35,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_H_
-#define SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_H_
+#include "../../../../include/c/game_data/d2client/d2client_difficulty_level.h"
 
-#include "../../dllexport_define.inc"
+#include "../../../../include/cxx/game_constant/d2_difficulty_level.hpp"
+#include "../../../../include/cxx/game_data/d2client/d2client_difficulty_level.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+int D2Client_GetDifficultyLevel(void) {
+  return static_cast<int>(
+      d2::d2client::GetDifficultyLevel()
+  );
+}
 
-enum D2_Difficulty {
-  DIFFICULTY_NORMAL,
-  DIFFICULTY_NIGHTMARE,
-  DIFFICULTY_HELL
-};
-
-DLLEXPORT int D2_Difficulty_ToValue(int id);
-
-DLLEXPORT int D2_Difficulty_FromValue(int value);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_H_
+void D2Client_SetDifficultyLevel(int id) {
+  d2::d2client::SetDifficultyLevel(
+      static_cast<enum d2::DifficultyLevel>(id)
+  );
+}

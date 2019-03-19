@@ -35,4 +35,25 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_data/d2client/d2client_difficulty.hpp"
+#include "../../../include/cxx/game_constant/d2_difficulty_level.hpp"
+
+#include "../../../include/cxx/game_constant/d2_constant.hpp"
+#include "d2_constant_impl.hpp"
+
+namespace d2 {
+
+int GetDifficultyLevelCount(void) {
+  return 3;
+}
+
+template int
+ConvertConstantToValue<enum DifficultyLevel>(
+    enum DifficultyLevel id
+);
+
+template enum DifficultyLevel
+ConvertValueToConstant<enum DifficultyLevel>(
+    int value
+);
+
+} // namespace d2
