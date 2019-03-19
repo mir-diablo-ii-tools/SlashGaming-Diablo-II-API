@@ -44,7 +44,7 @@
 extern "C" {
 #endif // __cplusplus
 
-enum class D2_Difficulty {
+enum D2_Difficulty {
   DIFFICULTY_NORMAL,
   DIFFICULTY_NIGHTMARE,
   DIFFICULTY_HELL
