@@ -35,6 +35,10 @@
  *  work.
  */
 
+/**
+ * Latest supported version: 1.14D
+ */
+
 #include "../../../../include/cxx/game_data/d2client/d2client_difficulty_level.hpp"
 
 #include <cstdint>

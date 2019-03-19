@@ -35,6 +35,10 @@
  *  work.
  */
 
+/**
+ * Latest supported version: 1.14D
+ */
+
 #include "../../../include/cxx/game_constant/d2_difficulty_level.hpp"
 
 #include "../../../include/cxx/game_constant/d2_constant.hpp"
