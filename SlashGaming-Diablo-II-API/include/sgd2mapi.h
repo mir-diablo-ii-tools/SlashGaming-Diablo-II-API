@@ -38,6 +38,7 @@
 #ifndef SGD2MAPI_SGD2MAPI_H_
 #define SGD2MAPI_SGD2MAPI_H_
 
+#include "d2api_version.h"
 #include "c/default_game_library.h"
 #include "c/game_address.h"
 #include "c/game_bool.h"

@@ -35,18 +35,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_HPP_
-#define SGD2MAPI_SGD2MAPI_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2api_version.h"
-#include "cxx/default_game_library.hpp"
-#include "cxx/game_address.hpp"
-#include "cxx/game_bool.hpp"
-#include "cxx/game_constant.hpp"
-#include "cxx/game_data.hpp"
-#include "cxx/game_func.hpp"
-#include "cxx/game_patch.hpp"
-#include "cxx/game_struct.hpp"
-#include "cxx/game_version.hpp"
+#ifndef SGD2MAPI_D2API_VERSION_H_
+#define SGD2MAPI_D2API_VERSION_H_
 
-#endif // SGD2MAPI_SGD2MAPI_HPP_
+#define D2API_VERSION_1_00 20000629L
+#define D2API_VERSION_1_07 20010627L
+#define D2API_VERSION_1_11 20050726L
+
+// Set the default version to be API 1.00
+#ifndef D2API_VERSION
+#define D2API_VERSION D2API_VERSION_1_00
+#endif // D2API_VERSION
+
+#endif // SGD2MAPI_D2API_VERSION_H_
