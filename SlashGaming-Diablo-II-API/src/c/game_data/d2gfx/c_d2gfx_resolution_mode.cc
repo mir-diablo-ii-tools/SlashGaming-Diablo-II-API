@@ -35,10 +35,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#include "../../../../include/c/game_data/d2gfx/d2gfx_resolution_mode.h"
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
+#include "../../../../include/cxx/game_data/d2gfx/d2gfx_resolution_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+unsigned int D2_D2GFX_GetResolutionMode(void) {
+  return d2::d2gfx::GetResolutionMode();
+}
+
+void D2_D2GFX_SetResolutionMode(unsigned int value) {
+  d2::d2gfx::SetResolutionMode(value);
+}

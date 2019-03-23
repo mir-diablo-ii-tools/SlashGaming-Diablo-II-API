@@ -35,10 +35,23 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
+#include "../../../d2api_version.h"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#include "../../../dllexport_define.inc"
+
+#if (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
+
+namespace d2::d2gfx {
+
+DLLEXPORT unsigned int GetResolutionMode(void);
+DLLEXPORT void SetResolutionMode(unsigned int value);
+
+} // namespace d2::d2gfx
+
+#endif // (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_HPP_

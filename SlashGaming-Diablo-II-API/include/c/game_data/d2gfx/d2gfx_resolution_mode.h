@@ -35,10 +35,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_H_
+#define SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
+#include "../../../d2api_version.h"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#include "../../../dllexport_define.inc"
+
+#if (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT unsigned int D2_D2GFX_GetResolutionMode(void);
+DLLEXPORT void D2_D2GFX_SetResolutionMode(unsigned int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#endif // (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_
