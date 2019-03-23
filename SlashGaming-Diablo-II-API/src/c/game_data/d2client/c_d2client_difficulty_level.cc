@@ -40,14 +40,14 @@
 #include "../../../../include/cxx/game_constant/d2_difficulty_level.hpp"
 #include "../../../../include/cxx/game_data/d2client/d2client_difficulty_level.hpp"
 
-int D2Client_GetDifficultyLevel(void) {
+int D2_D2Client_GetDifficultyLevel(void) {
   return static_cast<int>(
       d2::d2client::GetDifficultyLevel()
   );
 }
 
-void D2Client_SetDifficultyLevel(int id) {
+void D2_D2Client_SetDifficultyLevel(int value) {
   d2::d2client::SetDifficultyLevel(
-      static_cast<enum d2::DifficultyLevel>(id)
+      static_cast<enum d2::DifficultyLevel>(value)
   );
 }

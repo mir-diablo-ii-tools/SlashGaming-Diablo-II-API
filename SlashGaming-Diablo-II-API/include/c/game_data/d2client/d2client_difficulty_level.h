@@ -44,8 +44,8 @@
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT int D2Client_GetDifficultyLevel(void);
-DLLEXPORT void D2Client_SetDifficultyLevel(int id);
+DLLEXPORT int D2_D2Client_GetDifficultyLevel(void);
+DLLEXPORT void D2_D2Client_SetDifficultyLevel(int value);
 
 #ifdef __cplusplus
 } // extern "C"
