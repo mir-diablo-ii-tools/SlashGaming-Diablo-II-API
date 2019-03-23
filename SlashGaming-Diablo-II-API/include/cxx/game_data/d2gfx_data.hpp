@@ -35,10 +35,9 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
+#include "d2gfx/d2gfx_resolution_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_

@@ -39,5 +39,6 @@
 #define SGD2MAPI_CXX_GAME_DATA_HPP_
 
 #include "game_data/d2client_data.hpp"
+#include "game_data/d2gfx_data.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_DATA_HPP_

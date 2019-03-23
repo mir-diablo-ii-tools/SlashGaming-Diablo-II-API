@@ -35,10 +35,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
+#include "../../../../include/cxx/game_data/d2gfx/d2gfx_resolution_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2gfx {
+namespace {
+
+std::intptr_t D2GFX_ResolutionMode(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+unsigned int GetResolutionMode(void) {
+  std::intptr_t ptr = D2GFX_ResolutionMode();
+
+  unsigned int* converted_ptr = reinterpret_cast<unsigned int*>(ptr);
+  return *converted_ptr;
+}
+
+void SetResolutionMode(unsigned int value) {
+  std::intptr_t ptr = D2GFX_ResolutionMode();
+
+  unsigned int* converted_ptr = reinterpret_cast<unsigned int*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2gfx
