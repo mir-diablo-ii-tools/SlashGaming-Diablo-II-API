@@ -35,9 +35,55 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "game_constant/d2_difficulty_level.hpp"
+#include "../../../../include/cxx/game_data/d2client/d2client_difficulty_level.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2client {
+namespace {
+
+std::intptr_t D2Client_DifficultyLevel(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+enum DifficultyLevel GetDifficultyLevel(void) {
+  std::intptr_t ptr = D2Client_DifficultyLevel();
+  enum GameVersion current_game_version = GetRunningGameVersionId();
+
+  int value;
+
+  if (current_game_version >= GameVersion::k1_00
+      && current_game_version <= GameVersion::kLod1_14D) {
+    std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
+    value = *converted_ptr;
+  }
+
+  return FromInteger<enum DifficultyLevel>(value);
+}
+
+void SetDifficultyLevel(enum DifficultyLevel id) {
+  std::intptr_t ptr = D2Client_DifficultyLevel();
+  int value = ToInteger<enum DifficultyLevel>(id);
+
+  enum GameVersion current_game_version = GetRunningGameVersionId();
+
+  if (current_game_version >= GameVersion::k1_00
+      && current_game_version <= GameVersion::kLod1_14D) {
+    std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
+    *converted_ptr = value;
+  }
+}
+
+} // namespace d2::d2client

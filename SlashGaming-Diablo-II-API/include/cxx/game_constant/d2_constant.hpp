@@ -35,9 +35,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
 
-#include "game_constant/d2_difficulty_level.hpp"
+#include <cstddef>
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+namespace d2 {
+
+template <typename ConstantType>
+int ToInteger(ConstantType id);
+
+template <typename ConstantType>
+ConstantType FromInteger(int value);
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_

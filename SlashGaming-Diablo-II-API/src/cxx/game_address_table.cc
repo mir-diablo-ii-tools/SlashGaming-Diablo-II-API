@@ -59,10 +59,8 @@
 namespace mapi {
 namespace {
 
-const std::filesystem::path&
-GetTableFilePath(
-    void
-) {
+std::filesystem::path
+GetTableFilePath(void) {
   const std::filesystem::path& address_table_directory =
       GetAddressTableDirectoryPath();
   std::string_view running_game_version_name =
@@ -76,9 +74,7 @@ GetTableFilePath(
 }
 
 const std::unordered_map<std::string, GameAddress>&
-GetAddressTable(
-    void
-) {
+GetAddressTable(void) {
   static std::unordered_map<
       std::string,
       GameAddress

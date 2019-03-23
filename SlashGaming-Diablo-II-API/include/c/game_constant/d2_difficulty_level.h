@@ -35,9 +35,28 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_H_
 
-#include "game_constant/d2_difficulty_level.hpp"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+enum D2_DifficultyLevel {
+  DIFFICULTY_NORMAL,
+  DIFFICULTY_NIGHTMARE,
+  DIFFICULTY_HELL
+};
+
+DLLEXPORT int D2_DifficultyLevel_ToInteger(int id);
+
+DLLEXPORT int D2_DifficultyLevel_FromInteger(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_H_

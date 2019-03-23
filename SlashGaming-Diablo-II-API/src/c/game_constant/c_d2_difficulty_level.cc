@@ -35,9 +35,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#include "../../../include/c/game_constant/d2_difficulty_level.h"
 
-#include "game_constant/d2_difficulty_level.hpp"
+#include "../../../include/cxx/game_constant/d2_difficulty_level.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+int D2_DifficultyLevel_ToInteger(int id) {
+  enum d2::DifficultyLevel actual_id =
+      static_cast<enum d2::DifficultyLevel>(id);
+
+  return d2::ToInteger(actual_id);
+}
+
+int D2_DifficultyLevel_FromInteger(int value) {
+  enum d2::DifficultyLevel actual_id =
+      d2::FromInteger<enum d2::DifficultyLevel>(value);
+
+  return static_cast<int>(actual_id);
+}

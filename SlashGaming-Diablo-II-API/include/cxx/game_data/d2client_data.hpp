@@ -35,9 +35,9 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
 
-#include "game_constant/d2_difficulty_level.hpp"
+#include "d2client/d2client_difficulty.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_

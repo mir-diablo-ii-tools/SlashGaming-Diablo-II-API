@@ -35,9 +35,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2CONSTANT_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2CONSTANT_IMPL_HPP_
 
-#include "game_constant/d2_difficulty_level.hpp"
+#include <type_traits>
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+namespace d2 {
+
+template <typename ConstantType>
+int ToInteger(ConstantType id) {
+  static_assert(
+      std::is_enum<ConstantType>::value,
+      u8"The specified type is not a constant."
+  );
+
+  return static_cast<int>(id);
+}
+
+template <typename ConstantType>
+ConstantType FromInteger(int value) {
+  static_assert(
+      std::is_enum<ConstantType>::value,
+      u8"The specified type is not a constant."
+  );
+
+  return static_cast<ConstantType>(value);
+}
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2CONSTANT_IMPL_HPP_
