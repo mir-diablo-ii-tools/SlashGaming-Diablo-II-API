@@ -42,24 +42,24 @@
 
 namespace d2 {
 
-template <typename T>
-int ConvertConstantToValue(T id) {
+template <typename ConstantType>
+int ToInteger(ConstantType id) {
   static_assert(
-      std::is_enum<T>::value,
+      std::is_enum<ConstantType>::value,
       u8"The specified type is not a constant."
   );
 
   return static_cast<int>(id);
 }
 
-template <typename T>
-T ConvertValueToConstant(int value) {
+template <typename ConstantType>
+ConstantType FromInteger(int value) {
   static_assert(
-      std::is_enum<T>::value,
+      std::is_enum<ConstantType>::value,
       u8"The specified type is not a constant."
   );
 
-  return static_cast<T>(value);
+  return static_cast<ConstantType>(value);
 }
 
 } // namespace d2

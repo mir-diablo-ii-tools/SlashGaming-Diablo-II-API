@@ -38,13 +38,15 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
 
+#include <cstddef>
+
 namespace d2 {
 
-template <typename T>
-int ConvertConstantToValue(T id);
+template <typename ConstantType>
+int ToInteger(ConstantType id);
 
-template <typename T>
-T ConvertValueToConstant(int value);
+template <typename ConstantType>
+ConstantType FromInteger(int value);
 
 } // namespace d2
 

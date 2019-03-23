@@ -39,20 +39,16 @@
 
 #include "../../../include/cxx/game_constant/d2_difficulty_level.hpp"
 
-int D2_DifficultyLevel_GetCount(void) {
-  return d2::GetDifficultyLevelCount();
-}
-
-int D2_DifficultyLevel_ToValue(int id) {
+int D2_DifficultyLevel_ToInteger(int id) {
   enum d2::DifficultyLevel actual_id =
       static_cast<enum d2::DifficultyLevel>(id);
 
-  return d2::ConvertConstantToValue(actual_id);
+  return d2::ToInteger(actual_id);
 }
 
-int D2_DifficultyLevel_FromValue(int value) {
+int D2_DifficultyLevel_FromInteger(int value) {
   enum d2::DifficultyLevel actual_id =
-      d2::ConvertValueToConstant<enum d2::DifficultyLevel>(value);
+      d2::FromInteger<enum d2::DifficultyLevel>(value);
 
   return static_cast<int>(actual_id);
 }

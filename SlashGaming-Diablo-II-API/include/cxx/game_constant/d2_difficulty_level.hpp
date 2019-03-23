@@ -38,6 +38,8 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_HPP_
 
+#include <cstddef>
+
 #include "d2_constant.hpp"
 
 #include "../../dllexport_define.inc"
@@ -50,13 +52,15 @@ enum class DifficultyLevel {
   kHell
 };
 
-DLLEXPORT int GetDifficultyLevelCount(void);
+extern template DLLEXPORT
+int ToInteger(
+    enum DifficultyLevel id
+);
 
-extern template DLLEXPORT int
-ConvertConstantToValue<enum DifficultyLevel>(enum DifficultyLevel id);
-
-extern template DLLEXPORT enum DifficultyLevel
-ConvertValueToConstant<enum DifficultyLevel>(int value);
+extern template DLLEXPORT
+enum DifficultyLevel FromInteger(
+    int value
+);
 
 } // namespace d2
 
