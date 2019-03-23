@@ -38,6 +38,6 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
 
-#include "d2client/d2client_difficulty.hpp"
+#include "d2client/d2client_difficulty_level.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
