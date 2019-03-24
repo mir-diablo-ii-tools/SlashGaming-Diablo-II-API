@@ -35,20 +35,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2WIN_D2WIN_MOUSE_POSITION_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2WIN_D2WIN_MOUSE_POSITION_HPP_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2WIN_D2WIN_MAIN_MENU_MOUSE_CURSOR_POSITION_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2WIN_D2WIN_MAIN_MENU_MOUSE_CURSOR_POSITION_HPP_
 
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2win {
 
-DLLEXPORT int GetMousePositionX(void);
-DLLEXPORT void SetMousePositionX(int value);
+DLLEXPORT int GetMainMenuMouseCursorPositionX(void);
+DLLEXPORT void SetMainMenuMouseCursorPositionX(int value);
 
-DLLEXPORT int GetMousePositionY(void);
-DLLEXPORT void SetMousePositionY(int value);
+DLLEXPORT int GetMainMenuMouseCursorPositionY(void);
+DLLEXPORT void SetMainMenuMouseCursorPositionY(int value);
 
 } // namespace d2::d2win
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_DATA_D2WIN_D2WIN_MOUSE_POSITION_HPP_
+#endif // SGD2MAPI_CXX_GAME_DATA_D2WIN_D2WIN_MAIN_MENU_MOUSE_CURSOR_POSITION_HPP_

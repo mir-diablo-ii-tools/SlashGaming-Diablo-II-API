@@ -48,14 +48,14 @@
 namespace d2::d2win {
 namespace {
 
-std::intptr_t D2Win_MousePositionX(void) {
+std::intptr_t D2Win_MainMenuMouseCursorPositionX(void) {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
   return ptr;
 }
 
-std::intptr_t D2Win_MousePositionY(void) {
+std::intptr_t D2Win_MainMenuMouseCursorPositionY(void) {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -64,29 +64,29 @@ std::intptr_t D2Win_MousePositionY(void) {
 
 } // namespace
 
-int GetMousePositionX(void) {
-  std::intptr_t ptr = D2Win_MousePositionX();
+int GetMainMenuMouseCursorPositionX(void) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionX();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   return *converted_ptr;
 }
 
-void SetMousePositionX(int value) {
-  std::intptr_t ptr = D2Win_MousePositionX();
+void SetMainMenuMouseCursorPositionX(int value) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionX();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   *converted_ptr = value;
 }
 
-int GetMousePositionY(void) {
-  std::intptr_t ptr = D2Win_MousePositionY();
+int GetMainMenuMouseCursorPositionY(void) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionY();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   return *converted_ptr;
 }
 
-void SetMousePositionY(int value) {
-  std::intptr_t ptr = D2Win_MousePositionY();
+void SetMainMenuMouseCursorPositionY(int value) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionY();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   *converted_ptr = value;
