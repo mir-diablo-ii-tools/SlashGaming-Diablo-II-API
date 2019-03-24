@@ -36,7 +36,7 @@
  */
 
 #ifndef SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_
+#define SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_H_
 
 #include "../../../d2api_version.h"
 
@@ -54,4 +54,4 @@ DLLEXPORT void D2_D2GFX_SetResolutionMode(unsigned int value);
 #endif // __cplusplus
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_
+#endif // SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_H_
