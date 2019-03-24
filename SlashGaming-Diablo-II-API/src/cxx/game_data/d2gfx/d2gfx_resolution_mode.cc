@@ -61,14 +61,14 @@ std::intptr_t D2GFX_ResolutionMode(void) {
 unsigned int GetResolutionMode(void) {
   std::intptr_t ptr = D2GFX_ResolutionMode();
 
-  std::uint32_t* converted_ptr = reinterpret_cast<unsigned int*>(ptr);
+  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
   return *converted_ptr;
 }
 
 void SetResolutionMode(unsigned int value) {
   std::intptr_t ptr = D2GFX_ResolutionMode();
 
-  std::uint32_t* converted_ptr = reinterpret_cast<unsigned int*>(ptr);
+  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
   *converted_ptr = value;
 }
 
