@@ -39,18 +39,18 @@
 
 #include "../../../../include/cxx/game_data/d2win/d2win_mouse_position.hpp"
 
-int D2_D2Win_GetMainMenuMouseCursorPositionX(void) {
-  return d2::d2win::GetMainMenuMouseCursorPositionX();
+int D2_D2Win_GetMainMenuMousePositionX(void) {
+  return d2::d2win::GetMainMenuMousePositionX();
 }
 
-void D2_D2Win_SetMainMenuMouseCursorPositionX(int value) {
-  d2::d2win::SetMainMenuMouseCursorPositionX(value);
+void D2_D2Win_SetMainMenuMousePositionX(int value) {
+  d2::d2win::SetMainMenuMousePositionX(value);
 }
 
-int D2_D2Win_GetMainMenuMouseCursorPositionY(void) {
-  return d2::d2win::GetMainMenuMouseCursorPositionY();
+int D2_D2Win_GetMainMenuMousePositionY(void) {
+  return d2::d2win::GetMainMenuMousePositionY();
 }
 
-void D2_D2Win_SetMainMenuMouseCursorPositionY(int value) {
-  d2::d2win::SetMainMenuMouseCursorPositionY(value);
+void D2_D2Win_SetMainMenuMousePositionY(int value) {
+  d2::d2win::SetMainMenuMousePositionY(value);
 }

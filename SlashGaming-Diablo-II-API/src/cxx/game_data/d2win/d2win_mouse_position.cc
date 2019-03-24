@@ -64,28 +64,28 @@ std::intptr_t D2Win_MainMenuMouseCursorPositionY(void) {
 
 } // namespace
 
-int GetMainMenuMouseCursorPositionX(void) {
+int GetMainMenuMousePositionX(void) {
   std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionX();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   return *converted_ptr;
 }
 
-void SetMainMenuMouseCursorPositionX(int value) {
+void SetMainMenuMousePositionX(int value) {
   std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionX();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   *converted_ptr = value;
 }
 
-int GetMainMenuMouseCursorPositionY(void) {
+int GetMainMenuMousePositionY(void) {
   std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionY();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
   return *converted_ptr;
 }
 
-void SetMainMenuMouseCursorPositionY(int value) {
+void SetMainMenuMousePositionY(int value) {
   std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionY();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
