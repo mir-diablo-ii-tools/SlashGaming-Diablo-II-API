@@ -35,11 +35,61 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
-#include "game_data/d2win_data.h"
+#include "../../../../include/cxx/game_data/d2win/d2win_mouse_position.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+
+namespace d2::d2win {
+namespace {
+
+std::intptr_t D2Win_MainMenuMouseCursorPositionX(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+std::intptr_t D2Win_MainMenuMouseCursorPositionY(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetMainMenuMousePositionX(void) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionX();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetMainMenuMousePositionX(int value) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionX();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+int GetMainMenuMousePositionY(void) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionY();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetMainMenuMousePositionY(int value) {
+  std::intptr_t ptr = D2Win_MainMenuMouseCursorPositionY();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2win
