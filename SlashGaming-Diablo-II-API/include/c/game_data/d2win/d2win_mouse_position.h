@@ -35,11 +35,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2WIN_D2WIN_MOUSE_POSITION_H_
+#define SGD2MAPI_C_GAME_DATA_D2WIN_D2WIN_MOUSE_POSITION_H_
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
-#include "game_data/d2win_data.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Win_GetMousePositionX(void);
+DLLEXPORT void D2_D2Win_SetMousePositionX(int value);
+
+DLLEXPORT int D2_D2Win_GetMousePositionY(void);
+DLLEXPORT void D2_D2Win_SetMousePositionY(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2WIN_D2WIN_MOUSE_POSITION_H_

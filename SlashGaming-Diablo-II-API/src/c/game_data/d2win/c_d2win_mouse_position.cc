@@ -35,11 +35,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_H_
+#include "../../../../include/c/game_data/d2win/d2win_mouse_position.h"
 
-#include "game_data/d2client_data.h"
-#include "game_data/d2gfx_data.h"
-#include "game_data/d2win_data.h"
+#include "../../../../include/cxx/game_data/d2win/d2win_mouse_position.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_H_
+int D2_D2Win_GetMousePositionX(void) {
+  return d2::d2win::GetMousePositionX();
+}
+
+void D2_D2Win_SetMousePositionX(int value) {
+  d2::d2win::SetMousePositionX(value);
+}
+
+int D2_D2Win_GetMousePositionY(void) {
+  return d2::d2win::GetMousePositionY();
+}
+
+void D2_D2Win_SetMousePositionY(int value) {
+  d2::d2win::SetMousePositionY(value);
+}
