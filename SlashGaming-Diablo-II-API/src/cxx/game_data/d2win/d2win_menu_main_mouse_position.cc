@@ -39,7 +39,7 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2win/d2win_mouse_position.hpp"
+#include "../../../../include/cxx/game_data/d2win/d2win_main_menu_mouse_position.hpp"
 
 #include <cstdint>
 

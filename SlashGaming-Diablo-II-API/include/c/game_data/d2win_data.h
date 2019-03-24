@@ -38,6 +38,6 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2WIN_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2WIN_DATA_H_
 
-#include "d2win/d2win_mouse_position.h"
+#include "d2win/d2win_main_menu_mouse_position.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_D2WIN_DATA_H_

@@ -38,6 +38,6 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_D2WIN_DATA_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_D2WIN_DATA_HPP_
 
-#include "d2win/d2win_mouse_position.hpp"
+#include "d2win/d2win_main_menu_mouse_position.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_DATA_D2WIN_DATA_HPP_

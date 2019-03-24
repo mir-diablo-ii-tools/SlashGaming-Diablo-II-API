@@ -35,9 +35,9 @@
  *  work.
  */
 
-#include "../../../../include/c/game_data/d2win/d2win_mouse_position.h"
+#include "../../../../include/c/game_data/d2win/d2win_main_menu_mouse_position.h"
 
-#include "../../../../include/cxx/game_data/d2win/d2win_mouse_position.hpp"
+#include "../../../../include/cxx/game_data/d2win/d2win_main_menu_mouse_position.hpp"
 
 int D2_D2Win_GetMainMenuMousePositionX(void) {
   return d2::d2win::GetMainMenuMousePositionX();
