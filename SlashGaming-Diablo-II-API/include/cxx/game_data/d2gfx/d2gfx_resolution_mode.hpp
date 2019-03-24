@@ -38,8 +38,6 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
 
-#include "../../../d2api_version.h"
-
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2gfx {

@@ -38,8 +38,6 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_H_
 #define SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_H_
 
-#include "../../../d2api_version.h"
-
 #include "../../../dllexport_define.inc"
 
 #ifdef __cplusplus
