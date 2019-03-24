@@ -42,8 +42,6 @@
 
 #include "../../../dllexport_define.inc"
 
-#if (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
-
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
@@ -54,8 +52,6 @@ DLLEXPORT void D2_D2GFX_SetResolutionMode(unsigned int value);
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus
-
-#endif // (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_DIFFICULTY_LEVEL_H_

@@ -42,16 +42,12 @@
 
 #include "../../../dllexport_define.inc"
 
-#if (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
-
 namespace d2::d2gfx {
 
 DLLEXPORT unsigned int GetResolutionMode(void);
 DLLEXPORT void SetResolutionMode(unsigned int value);
 
 } // namespace d2::d2gfx
-
-#endif // (D2API_VERSION >= D2API_VERSION_1_07) || defined(SGD2MAPI_DLLEXPORT)
 
 #include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
