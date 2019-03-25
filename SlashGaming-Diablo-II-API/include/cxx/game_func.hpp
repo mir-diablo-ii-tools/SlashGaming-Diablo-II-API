@@ -38,4 +38,24 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_HPP_
 
+#include "game_func/bnclient_func.hpp"
+#include "game_func/d2client_func.hpp"
+#include "game_func/d2cmp_func.hpp"
+#include "game_func/d2common_func.hpp"
+#include "game_func/d2ddraw_func.hpp"
+#include "game_func/d2direct3d_func.hpp"
+#include "game_func/d2game_func.hpp"
+#include "game_func/d2gdi_func.hpp"
+#include "game_func/d2gfx_func.hpp"
+#include "game_func/d2glide_func.hpp"
+#include "game_func/d2lang_func.hpp"
+#include "game_func/d2launch_func.hpp"
+#include "game_func/d2mcpclient_func.hpp"
+#include "game_func/d2multi_func.hpp"
+#include "game_func/d2net_func.hpp"
+#include "game_func/d2sound_func.hpp"
+#include "game_func/d2win_func.hpp"
+#include "game_func/fog_func.hpp"
+#include "game_func/storm_func.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_FUNC_HPP_
