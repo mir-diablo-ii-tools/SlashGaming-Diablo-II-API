@@ -35,11 +35,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include "../../../../include/c/game_data/d2client/d2client_is_game_menu_open.h"
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
-#include "d2client/d2client_is_game_menu_open.h"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include "../../../../include/cxx/game_data/d2client/d2client_is_game_menu_open.hpp"
+
+bool D2_D2Client_GetIsGameMenuOpen(void) {
+  return d2::d2client::GetIsGameMenuOpen();
+}
+
+void D2_D2Client_SetIsGameMenuOpen(bool value) {
+  d2::d2client::SetIsGameMenuOpen(value);
+}

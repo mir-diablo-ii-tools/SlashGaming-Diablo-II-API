@@ -35,11 +35,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
-#include "d2client/d2client_is_game_menu_open.h"
+#include "../../../../include/cxx/game_data/d2client/d2client_is_game_menu_open.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+
+namespace d2::d2client {
+namespace {
+
+std::intptr_t D2Client_IsGameMenuOpen(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+bool GetIsGameMenuOpen(void) {
+  std::intptr_t ptr = D2Client_IsGameMenuOpen();
+
+  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
+  return *converted_ptr;
+}
+
+void SetIsGameMenuOpen(bool value) {
+  std::intptr_t ptr = D2Client_IsGameMenuOpen();
+
+  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2client
