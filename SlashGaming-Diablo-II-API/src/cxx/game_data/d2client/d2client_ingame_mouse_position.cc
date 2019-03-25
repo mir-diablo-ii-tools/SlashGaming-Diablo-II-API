@@ -35,10 +35,61 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
+#include "../../../../include/cxx/game_data/d2client/d2client_ingame_mouse_position.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+
+namespace d2::d2client {
+namespace {
+
+std::intptr_t D2Client_IngameMousePositionX(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+std::intptr_t D2Client_IngameMousePositionY(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetIngameMousePositionX(void) {
+  std::intptr_t ptr = D2Client_IngameMousePositionX();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetIngameMousePositionX(int value) {
+  std::intptr_t ptr = D2Client_IngameMousePositionX();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+int GetIngameMousePositionY(void) {
+  std::intptr_t ptr = D2Client_IngameMousePositionY();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetIngameMousePositionY(int value) {
+  std::intptr_t ptr = D2Client_IngameMousePositionY();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2client
