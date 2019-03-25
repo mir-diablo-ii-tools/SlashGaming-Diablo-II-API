@@ -35,27 +35,7 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2GAME_FUNC_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2GAME_FUNC_HPP_
 
-#include "game_func/bnclient_func.h"
-#include "game_func/d2client_func.h"
-#include "game_func/d2cmp_func.h"
-#include "game_func/d2common_func.h"
-#include "game_func/d2ddraw_func.h"
-#include "game_func/d2direct3d_func.h"
-#include "game_func/d2game_func.h"
-#include "game_func/d2gdi_func.h"
-#include "game_func/d2gfx_func.h"
-#include "game_func/d2glide_func.h"
-#include "game_func/d2lang_func.h"
-#include "game_func/d2launch_func.h"
-#include "game_func/d2mcpclient_func.h"
-#include "game_func/d2multi_func.h"
-#include "game_func/d2net_func.h"
-#include "game_func/d2sound_func.h"
-#include "game_func/d2win_func.h"
-#include "game_func/fog_func.h"
-#include "game_func/storm_func.h"
-
-#endif // SGD2MAPI_C_GAME_FUNC_H_
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2GAME_FUNC_HPP_

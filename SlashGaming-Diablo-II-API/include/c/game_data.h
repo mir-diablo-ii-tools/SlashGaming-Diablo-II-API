@@ -38,8 +38,24 @@
 #ifndef SGD2MAPI_C_GAME_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_H_
 
+#include "game_data/bnclient_data.h"
 #include "game_data/d2client_data.h"
+#include "game_data/d2cmp_data.h"
+#include "game_data/d2common_data.h"
+#include "game_data/d2ddraw_data.h"
+#include "game_data/d2direct3d_data.h"
+#include "game_data/d2game_data.h"
+#include "game_data/d2gdi_data.h"
 #include "game_data/d2gfx_data.h"
+#include "game_data/d2glide_data.h"
+#include "game_data/d2lang_data.h"
+#include "game_data/d2launch_data.h"
+#include "game_data/d2mcpclient_data.h"
+#include "game_data/d2multi_data.h"
+#include "game_data/d2net_data.h"
+#include "game_data/d2sound_data.h"
+#include "game_data/fog_data.h"
+#include "game_data/storm_data.h"
 #include "game_data/d2win_data.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_H_
