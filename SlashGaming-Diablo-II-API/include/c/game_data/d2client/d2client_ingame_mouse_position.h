@@ -35,10 +35,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_INGAME_MOUSE_POSITION_H_
+#define SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_INGAME_MOUSE_POSITION_H_
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Client_GetIngameMousePositionX(void);
+DLLEXPORT void D2_D2Client_SetIngameMousePositionX(int value);
+
+DLLEXPORT int D2_D2Client_GetIngameMousePositionY(void);
+DLLEXPORT void D2_D2Client_SetIngameMousePositionY(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_INGAME_MOUSE_POSITION_H_

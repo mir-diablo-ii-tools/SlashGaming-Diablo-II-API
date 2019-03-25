@@ -35,10 +35,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include "../../../../include/c/game_data/d2client/d2client_ingame_mouse_position.h"
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
+#include "../../../../include/cxx/game_data/d2client/d2client_ingame_mouse_position.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+int D2_D2Client_GetIngameMousePositionX(void) {
+  return d2::d2client::GetIngameMousePositionX();
+}
+
+void D2_D2Client_SetIngameMousePositionX(int value) {
+  d2::d2client::SetIngameMousePositionX(value);
+}
+
+int D2_D2Client_GetIngameMousePositionY(void) {
+  return d2::d2client::GetIngameMousePositionY();
+}
+
+void D2_D2Client_SetIngameMousePositionY(int value) {
+  d2::d2client::SetIngameMousePositionY(value);
+}
