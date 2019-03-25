@@ -40,5 +40,6 @@
 
 #include "d2client/d2client_difficulty_level.hpp"
 #include "d2client/d2client_ingame_mouse_position.hpp"
+#include "d2client/d2client_is_game_menu_open.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
