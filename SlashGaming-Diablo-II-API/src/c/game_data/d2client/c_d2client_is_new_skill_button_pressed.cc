@@ -35,13 +35,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include "../../../../include/c/game_data/d2client/d2client_is_new_skill_button_pressed.h"
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
-#include "d2client/d2client_is_game_menu_open.h"
-#include "d2client/d2client_is_help_screen_open.h"
-#include "d2client/d2client_is_new_skill_button_pressed.h"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include "../../../../include/cxx/game_data/d2client/d2client_is_new_skill_button_pressed.hpp"
+
+bool D2_D2Client_GetIsNewSkillButtonPressed(void) {
+  return d2::d2client::GetIsNewSkillButtonPressed();
+}
+
+void D2_D2Client_SetIsNewSkillButtonPressed(bool value) {
+  d2::d2client::SetIsNewSkillButtonPressed(value);
+}
