@@ -41,5 +41,6 @@
 #include "d2client/d2client_difficulty_level.h"
 #include "d2client/d2client_ingame_mouse_position.h"
 #include "d2client/d2client_is_game_menu_open.h"
+#include "d2client/d2client_is_help_screen_open.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
