@@ -35,9 +35,34 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../include/cxx/game_struct/unicode_char.hpp"
 
-#include "game_struct/unicode_char.hpp"
+#include <cstdint>
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
+
+namespace d2 {
+namespace {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x2 */ struct UnicodeChar_1_00 {
+  /* 0x0 */std::uint16_t ch;
+};
+
+#pragma pop
+
+} // namespace
+
+
+UnicodeChar::UnicodeChar() :
+    ch_('\0') {
+}
+
+UnicodeChar::UnicodeChar(unsigned short ch) :
+    ch_(ch) {
+}
+
+} // namespace d2

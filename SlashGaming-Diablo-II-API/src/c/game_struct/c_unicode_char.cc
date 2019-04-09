@@ -35,9 +35,6 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../include/c/game_struct/unicode_char.h"
 
-#include "game_struct/unicode_char.hpp"
-
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../include/cxx/game_struct/unicode_char.hpp"

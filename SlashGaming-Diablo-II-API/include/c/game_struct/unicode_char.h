@@ -35,9 +35,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_C_GAME_STRUCT_UNICODE_CHAR_H_
+#define SGD2MAPI_C_GAME_STRUCT_UNICODE_CHAR_H_
 
-#include "game_struct/unicode_char.hpp"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+struct D2_UnicodeChar;
+
+struct D2_UnicodeChar {
+  unsigned short ch;
+};
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_UNICODE_CHAR_H_
