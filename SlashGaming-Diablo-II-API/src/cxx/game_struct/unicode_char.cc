@@ -37,13 +37,32 @@
 
 #include "../../../include/cxx/game_struct/unicode_char.hpp"
 
-namespace d2 {
+#include <cstdint>
 
-UnicodeChar::UnicodeChar() : ch_('\0') {
+/**
+ * Latest supported version: 1.14D
+ */
+
+namespace d2 {
+namespace {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x2 */ struct UnicodeChar_1_00 {
+  /* 0x0 */std::uint16_t ch;
+};
+
+#pragma pop
+
+} // namespace
+
+
+UnicodeChar::UnicodeChar() :
+    ch_('\0') {
 }
 
 UnicodeChar::UnicodeChar(unsigned short ch) :
-    ch_('\0') {
+    ch_(ch) {
 }
 
 } // namespace d2
