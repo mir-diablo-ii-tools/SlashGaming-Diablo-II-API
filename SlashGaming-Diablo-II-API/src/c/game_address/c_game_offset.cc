@@ -35,7 +35,7 @@
  *  work.
  */
 
-#include "../../../include/c/game_address/game_ordinal.h"
+#include "../../../include/c/game_address/game_offset.h"
 
 #include <filesystem>
 
