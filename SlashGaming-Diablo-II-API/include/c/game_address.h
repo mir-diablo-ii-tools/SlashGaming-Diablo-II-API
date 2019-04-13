@@ -38,6 +38,8 @@
 #ifndef SGD2MAPI_C_GAME_ADDRESS_H_
 #define SGD2MAPI_C_GAME_ADDRESS_H_
 
+#include <stdint.h>
+
 #include "game_address/game_decorated_name.h"
 #include "game_address/game_offset.h"
 #include "game_address/game_ordinal.h"
