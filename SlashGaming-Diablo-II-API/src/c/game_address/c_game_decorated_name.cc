@@ -42,7 +42,6 @@
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_patch.hpp"
 
 namespace {
 
