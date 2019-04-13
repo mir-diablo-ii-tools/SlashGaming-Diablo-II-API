@@ -38,11 +38,11 @@
 #ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
 #define SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
 
-#include "../../dllexport_define.inc"
-
 #include <stdint.h>
 
 #include "../game_address.h"
+
+#include "../../dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
