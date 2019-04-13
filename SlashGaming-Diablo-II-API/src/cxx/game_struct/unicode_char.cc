@@ -52,7 +52,7 @@ namespace {
   /* 0x0 */std::uint16_t ch;
 };
 
-#pragma pop
+#pragma pack(pop)
 
 } // namespace
 
