@@ -69,7 +69,8 @@ GetLibraryBaseAddress(
         kFunctionFailErrorFormat,
         fmt::to_wstring(__FILE__),
         __LINE__,
-        L"LoadLibraryW"
+        L"LoadLibraryW",
+        GetLastError()
     );
 
     MessageBoxW(
