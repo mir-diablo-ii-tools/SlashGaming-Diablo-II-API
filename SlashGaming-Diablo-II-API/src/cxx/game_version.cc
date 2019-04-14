@@ -316,11 +316,11 @@ GetGameVersionByLibraryData(
   switch (game_version) {
     case GameVersion::k1_01: {
       expected_values = {
-          0xA0, 0xDC, 0xED, 0x12, 0x10, 0xC3
+          0xF0
       };
 
       library_path = u8"D2Client.dll";
-      offset_value = 0x12E30;
+      offset_value = 0x3C;
       matching_version = GameVersion::k1_00;
       non_matching_version = GameVersion::k1_01;
 
@@ -329,11 +329,11 @@ GetGameVersionByLibraryData(
 
     case GameVersion::k1_06: {
       expected_values = {
-          0xA0, 0x24, 0x30, 0xC4, 0x6F, 0xC3
+          0xD3
       };
 
       library_path = u8"D2Client.dll",
-      offset_value = 0x9B80;
+      offset_value = 0xE8;
       matching_version = GameVersion::k1_06;
       non_matching_version = GameVersion::k1_06B;
 
@@ -342,11 +342,11 @@ GetGameVersionByLibraryData(
 
     case GameVersion::k1_07: {
       expected_values = {
-          0xA0, 0x54, 0x4C, 0x11, 0x10, 0xC3
+          0xF0
       };
 
       library_path = u8"D2Client.dll";
-      offset_value = 0xB2B0;
+      offset_value = 0x3C;
       matching_version = GameVersion::k1_07Beta;
       non_matching_version = GameVersion::k1_07;
 
@@ -355,11 +355,11 @@ GetGameVersionByLibraryData(
 
     case GameVersion::kLod1_14A: {
       expected_values = {
-          0xA0, 0xCC, 0xE1, 0x82, 0x00, 0xC3
+          0x38
       };
 
       library_path = u8"Game.exe";
-      offset_value = 0x52360;
+      offset_value = 0x120;
       matching_version = GameVersion::kClassic1_14A;
       non_matching_version = GameVersion::kLod1_14A;
 
@@ -368,11 +368,11 @@ GetGameVersionByLibraryData(
 
     case GameVersion::kLod1_14B: {
       expected_values = {
-          0xA0, 0x4C, 0x6C, 0x79, 0x00, 0xC3
+          0xAE
       };
 
       library_path = u8"Game.exe";
-      offset_value = 0x3ADF0;
+      offset_value = 0x110;
       matching_version = GameVersion::kClassic1_14B;
       non_matching_version = GameVersion::kLod1_14B;
 
@@ -381,11 +381,11 @@ GetGameVersionByLibraryData(
 
     case GameVersion::kLod1_14C: {
       expected_values = {
-          0xA0, 0x4C, 0x5C, 0x79, 0x00, 0xC3
+          0x52
       };
 
       library_path = u8"Game.exe";
-      offset_value = 0x3ADF0;
+      offset_value = 0x110;
       matching_version = GameVersion::kClassic1_14C;
       non_matching_version = GameVersion::kLod1_14C;
 
@@ -394,11 +394,11 @@ GetGameVersionByLibraryData(
 
    case GameVersion::kLod1_14D: {
       expected_values = {
-          0xA0, 0xC4, 0xEB, 0x79, 0x00, 0xC3
+          0xC4
       };
 
       library_path = u8"Game.exe";
-      offset_value = 0x3F4F0;
+      offset_value = 0x128;
       matching_version = GameVersion::kClassic1_14D;
       non_matching_version = GameVersion::kLod1_14D;
 
