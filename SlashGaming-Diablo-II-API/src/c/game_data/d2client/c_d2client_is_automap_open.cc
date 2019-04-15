@@ -35,14 +35,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include "../../../../include/c/game_data/d2client/d2client_is_automap_open.h"
 
-#include "d2client/d2client_difficulty_level.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
-#include "d2client/d2client_is_automap_open.hpp"
-#include "d2client/d2client_is_game_menu_open.hpp"
-#include "d2client/d2client_is_help_screen_open.hpp"
-#include "d2client/d2client_is_new_skill_button_pressed.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include "../../../../include/cxx/game_data/d2client/d2client_is_automap_open.hpp"
+
+bool D2_D2Client_GetIsAutomapOpen(void) {
+  return d2::d2client::GetIsAutomapOpen();
+}
+
+void D2_D2Client_SetIsAutomapOpen(bool value) {
+  d2::d2client::SetIsAutomapOpen(value);
+}
