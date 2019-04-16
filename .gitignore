@@ -2,6 +2,7 @@
 *.dll
 *.exe
 *.o
+*.obj
 *.lib
 *.def
 *.dep
@@ -12,6 +13,7 @@
 
 *.log
 *.tlog
+*.vcxproj.FileListAbsolute.txt
 
 *.cbp
 *.layout
