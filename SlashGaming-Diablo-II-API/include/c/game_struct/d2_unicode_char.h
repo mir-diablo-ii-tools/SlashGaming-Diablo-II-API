@@ -35,24 +35,16 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_struct/unicode_char.hpp"
+#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
 
-#include <cstdint>
+#include "../../dllexport_define.inc"
 
-#include "unicode_char_impl.hpp"
+struct D2_UnicodeChar;
 
-/**
- * Latest supported version: 1.14D
- */
+struct D2_UnicodeChar {
+  unsigned short ch;
+};
 
-namespace d2 {
-
-UnicodeChar::UnicodeChar() :
-    ch_('\0') {
-}
-
-UnicodeChar::UnicodeChar(unsigned short ch) :
-    ch_(ch) {
-}
-
-} // namespace d2
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_

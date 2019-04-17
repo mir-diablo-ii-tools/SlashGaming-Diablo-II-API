@@ -35,8 +35,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_UNICODE_CHAR_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_UNICODE_CHAR_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
 #include "../../dllexport_define.inc"
 
@@ -56,4 +56,4 @@ class DLLEXPORT UnicodeChar {
 } // namespace d2
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_UNICODE_CHAR_HPP_
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_

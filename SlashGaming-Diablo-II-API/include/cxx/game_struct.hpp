@@ -38,6 +38,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_HPP_
 
-#include "game_struct/unicode_char.hpp"
+#include "game_struct/d2_unicode_char.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_

@@ -35,6 +35,6 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/unicode_char.h"
+#include "../../../include/c/game_struct/d2_unicode_char.h"
 
-#include "../../../include/cxx/game_struct/unicode_char.hpp"
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
