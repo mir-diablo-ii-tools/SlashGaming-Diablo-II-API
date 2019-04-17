@@ -46,6 +46,7 @@
 #include <string_view>
 #include <unordered_map>
 
+#include <boost/nowide/convert.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
@@ -285,7 +286,7 @@ DetermineGameVersionByFileVersion(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
-        fmt::to_wstring(version_string)
+        boost::nowide::widen(version_string.data())
     );
 
     MessageBoxW(

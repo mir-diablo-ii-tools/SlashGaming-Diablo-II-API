@@ -45,6 +45,7 @@
 #include <string_view>
 #include <unordered_map>
 
+#include <boost/nowide/convert.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include <nlohmann/json.hpp>
@@ -104,7 +105,7 @@ GetGameAddress(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
-        fmt::to_wstring(address_name)
+        boost::nowide::widen(address_name.data())
     );
 
     MessageBoxW(
