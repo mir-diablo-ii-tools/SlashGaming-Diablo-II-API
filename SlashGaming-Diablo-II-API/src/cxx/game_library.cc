@@ -48,6 +48,7 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
+#include "../wide_macro.h"
 
 namespace mapi {
 namespace {
@@ -67,7 +68,7 @@ GetLibraryBaseAddress(
   if (base_address == nullptr) {
     std::wstring full_message = fmt::sprintf(
         kFunctionFailErrorFormat,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         L"LoadLibraryW",
         GetLastError()
@@ -202,7 +203,7 @@ GetGameLibrary(
 
     std::wstring full_message = fmt::sprintf(
         kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         library_path
     );

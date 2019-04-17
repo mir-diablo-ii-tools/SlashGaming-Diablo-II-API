@@ -48,6 +48,7 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/cxx/game_version.hpp"
+#include "../wide_macro.h"
 
 namespace mapi {
 namespace {
@@ -114,7 +115,7 @@ GetDefaultLibraryPathWithRedirect(
 
     std::wstring full_message = fmt::sprintf(
         kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         static_cast<int>(library)
     );
