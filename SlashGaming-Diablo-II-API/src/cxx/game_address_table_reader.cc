@@ -48,7 +48,7 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <boost/nowide/convert.hpp>
+#include <nowide/convert.hpp>
 #include <fmt/printf.h>
 #include "../../include/cxx/game_address.hpp"
 #include "../../include/cxx/default_game_library.hpp"
@@ -101,9 +101,9 @@ ResolveAddress(
       L"Locator Type: %s \n"
       L"Locator Value: %s",
       library_path,
-      boost::nowide::widen(address_name.data()),
-      boost::nowide::widen(locator_type.data()),
-      boost::nowide::widen(locator_value.data())
+      nowide::widen(address_name.data()),
+      nowide::widen(locator_type.data()),
+      nowide::widen(locator_value.data())
   );
 
   MessageBoxW(

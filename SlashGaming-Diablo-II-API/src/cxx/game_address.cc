@@ -43,7 +43,7 @@
 #include <string>
 #include <string_view>
 
-#include <boost/nowide/convert.hpp>
+#include <nowide/convert.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
@@ -85,7 +85,7 @@ GameAddress GameAddress::FromDecoratedName(
   if (raw_address == nullptr) {
     std::wstring error_message = fmt::sprintf(
         L"The data or function with the name %s could not be found.",
-        boost::nowide::widen(decorated_name.data())
+        nowide::widen(decorated_name.data())
     );
 
     MessageBoxW(
