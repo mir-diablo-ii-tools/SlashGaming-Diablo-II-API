@@ -58,14 +58,14 @@ std::intptr_t D2Client_IsNewStatsButtonPressed(void) {
 
 } // namespace
 
-bool GetIsNewSkillButtonPressed(void) {
+bool GetIsNewStatsButtonPressed(void) {
   std::intptr_t ptr = D2Client_IsNewStatsButtonPressed();
 
   mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
   return *converted_ptr;
 }
 
-void SetIsNewSkillButtonPressed(bool value) {
+void SetIsNewStatsButtonPressed(bool value) {
   std::intptr_t ptr = D2Client_IsNewStatsButtonPressed();
 
   mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
