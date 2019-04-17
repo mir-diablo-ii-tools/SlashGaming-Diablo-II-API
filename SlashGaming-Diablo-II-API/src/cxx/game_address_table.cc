@@ -45,6 +45,7 @@
 #include <string_view>
 #include <unordered_map>
 
+#include <nowide/convert.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include <nlohmann/json.hpp>
@@ -55,6 +56,7 @@
 #include "../../include/cxx/default_game_library.hpp"
 #include "game_library.hpp"
 #include "../../include/cxx/game_version.hpp"
+#include "../wide_macro.h"
 
 namespace mapi {
 namespace {
@@ -101,9 +103,9 @@ GetGameAddress(
 
     std::wstring full_message = fmt::sprintf(
         kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
-        fmt::to_wstring(address_name)
+        nowide::widen(address_name.data())
     );
 
     MessageBoxW(

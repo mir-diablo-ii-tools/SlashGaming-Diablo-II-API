@@ -46,10 +46,12 @@
 #include <string_view>
 #include <unordered_map>
 
+#include <nowide/convert.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
 #include "../../include/cxx/game_address.hpp"
+#include "../wide_macro.h"
 
 namespace d2 {
 namespace {
@@ -176,7 +178,7 @@ ExtractFileVersionString(
   if (file_version_info_size == 0) {
     std::wstring full_message = fmt::sprintf(
         kFunctionFailErrorFormat.data(),
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         L"GetFileVersionInfoSizeW",
         GetLastError()
@@ -204,7 +206,7 @@ ExtractFileVersionString(
   if (!is_get_file_version_info_success) {
     std::wstring full_message = fmt::sprintf(
         kFunctionFailErrorFormat,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         L"GetFileVersionInfoW",
         GetLastError()
@@ -235,7 +237,7 @@ ExtractFileVersionString(
   if (!is_ver_query_value_success) {
     std::wstring full_message = fmt::sprintf(
         kFunctionFailErrorFormat,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         L"VerQueryValueW",
         GetLastError()
@@ -278,13 +280,13 @@ DetermineGameVersionByFileVersion(
         L"Line: %d \n"
         L"\n"
         L"Could not determine the game version from the file version:"
-        L"\"%s\".";
+        L"\"%s\"";
 
     std::wstring full_message = fmt::sprintf(
         kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
-        fmt::to_wstring(version_string)
+        nowide::widen(version_string.data())
     );
 
     MessageBoxW(
@@ -467,7 +469,7 @@ GetGameVersionName(
 
     std::wstring full_message = fmt::sprintf(
         kErrorFormatMessage,
-        fmt::to_wstring(__FILE__),
+        __FILEW__,
         __LINE__,
         static_cast<int>(game_version)
     );
