@@ -56,6 +56,7 @@ struct UnicodeChar {
 #pragma pack(pop)
 
 UnicodeChar* CreateUnicodeChar(unsigned short ch);
+void DestroyUnicodeChar(UnicodeChar* ptr);
 
 } // namespace d2
 

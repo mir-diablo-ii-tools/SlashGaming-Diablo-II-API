@@ -35,68 +35,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include <memory>
-
-#include "../../dllexport_define.inc"
+#include "d2_unicode_char_impl.hpp"
 
 namespace d2 {
 
-struct UnicodeChar;
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    const UnicodeChar* ptr
+) noexcept :
+    ptr_(ptr) {
+}
 
-class DLLEXPORT UnicodeChar_ConstWrapper {
- public:
-  UnicodeChar_ConstWrapper() = delete;
-  UnicodeChar_ConstWrapper(const UnicodeChar* ptr) noexcept;
+UnicodeChar_ConstWrapper::~UnicodeChar_ConstWrapper() = default;
 
-  virtual ~UnicodeChar_ConstWrapper();
+UnicodeChar_ConstWrapper::operator const UnicodeChar*() const noexcept {
+  return this->Get();
+}
 
-  operator const UnicodeChar*() const noexcept;
+const UnicodeChar* UnicodeChar_ConstWrapper::Get() const noexcept {
+  return this->ptr_;
+}
 
-  virtual const UnicodeChar* Get() const noexcept;
+unsigned short UnicodeChar_ConstWrapper::GetChar() const noexcept {
+  const UnicodeChar* ptr = this->Get();
 
-  unsigned short GetChar() const noexcept;
-
- private:
-  const UnicodeChar* ptr_;
-};
-
-class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
- public:
-  UnicodeChar_Wrapper() = delete;
-  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
-
-  ~UnicodeChar_Wrapper() override;
-
-  operator UnicodeChar*() const noexcept;
-
-  UnicodeChar* Get() const noexcept override;
-
-  void SetChar(unsigned short ch) noexcept;
-
- private:
-  UnicodeChar* ptr_;
-};
-
-class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
- public:
-  UnicodeChar_API();
-  UnicodeChar_API(unsigned short ch);
-
-  UnicodeChar_API(const UnicodeChar_API& other);
-  UnicodeChar_API(UnicodeChar_API&& other) noexcept;
-
-  ~UnicodeChar_API() override;
-
-  UnicodeChar_API& operator=(const UnicodeChar_API& other);
-  UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
-
-  operator unsigned short() const noexcept;
-};
+  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(ptr);
+  return actual_ptr->ch;
+}
 
 } // namespace d2
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_

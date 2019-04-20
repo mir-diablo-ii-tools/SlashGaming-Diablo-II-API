@@ -50,8 +50,11 @@ namespace d2 {
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
     UnicodeChar* ptr
 ) noexcept :
+    UnicodeChar_ConstWrapper(ptr),
     ptr_(ptr) {
 }
+
+UnicodeChar_Wrapper::~UnicodeChar_Wrapper() = default;
 
 UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
   return this->Get();
@@ -59,13 +62,6 @@ UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
 
 UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
   return this->ptr_;
-}
-
-unsigned short UnicodeChar_Wrapper::GetChar() const noexcept {
-  const UnicodeChar* ptr = this->Get();
-
-  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(ptr);
-  return actual_ptr->ch;
 }
 
 void UnicodeChar_Wrapper::SetChar(unsigned short ch) noexcept {
