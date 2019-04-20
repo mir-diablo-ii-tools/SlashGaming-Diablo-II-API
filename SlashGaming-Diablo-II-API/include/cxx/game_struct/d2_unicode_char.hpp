@@ -74,9 +74,6 @@ class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
   UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
 
   operator unsigned short() const noexcept;
-
- private:
-  std::unique_ptr<UnicodeChar*> ptr_;
 };
 
 } // namespace d2

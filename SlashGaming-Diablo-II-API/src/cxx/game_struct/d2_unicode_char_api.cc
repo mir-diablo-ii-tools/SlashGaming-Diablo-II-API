@@ -52,13 +52,17 @@ UnicodeChar* CreateUnicodeChar(unsigned short ch) {
   return ptr;
 }
 
+void DestroyUnicodeChar(UnicodeChar* ptr) {
+  UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+  delete actual_ptr;
+}
+
 UnicodeChar_API::UnicodeChar_API() :
     UnicodeChar_API('\0') {
 }
 
 UnicodeChar_API::UnicodeChar_API(unsigned short ch) :
-    UnicodeChar_Wrapper(CreateUnicodeChar(ch)),
-    ptr_(Get()) {
+    UnicodeChar_Wrapper(CreateUnicodeChar(ch)) {
 }
 
 UnicodeChar_API::UnicodeChar_API(const UnicodeChar_API& other) :
@@ -67,11 +71,17 @@ UnicodeChar_API::UnicodeChar_API(const UnicodeChar_API& other) :
 
 UnicodeChar_API::UnicodeChar_API(UnicodeChar_API&& other) noexcept = default;
 
-UnicodeChar_API::~UnicodeChar_API() = default;
+UnicodeChar_API::~UnicodeChar_API() {
+  DestroyUnicodeChar(this->Get());
+}
 
-UnicodeChar_API& UnicodeChar_API::operator=(const UnicodeChar_API& other) = default;
+UnicodeChar_API& UnicodeChar_API::operator=(
+    const UnicodeChar_API& other
+) = default;
 
-UnicodeChar_API& UnicodeChar_API::operator=(UnicodeChar_API&& other) noexcept = default;
+UnicodeChar_API& UnicodeChar_API::operator=(
+    UnicodeChar_API&& other
+) noexcept = default;
 
 UnicodeChar_API::operator unsigned short() const noexcept {
   return this->GetChar();
