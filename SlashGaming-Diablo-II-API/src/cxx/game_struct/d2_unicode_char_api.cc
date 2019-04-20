@@ -47,23 +47,6 @@
 
 namespace d2 {
 
-UnicodeChar* CreateUnicodeChar(unsigned short ch) {
-  UnicodeChar_1_00* ptr = new UnicodeChar_1_00;
-  ptr->ch = ch;
-
-  return ptr;
-}
-
-UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
-  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
-  return ptr;
-}
-
-void DestroyUnicodeChar(UnicodeChar* ptr) {
-  UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
-  delete actual_ptr;
-}
-
 UnicodeChar_API::UnicodeChar_API() :
     UnicodeChar_API('\0') {
 }
@@ -92,6 +75,23 @@ UnicodeChar_API& UnicodeChar_API::operator=(
 
 UnicodeChar_API::operator unsigned short() const noexcept {
   return this->GetChar();
+}
+
+UnicodeChar* CreateUnicodeChar(unsigned short ch) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00;
+  ptr->ch = ch;
+
+  return ptr;
+}
+
+UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
+  return ptr;
+}
+
+void DestroyUnicodeChar(UnicodeChar* ptr) {
+  UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+  delete actual_ptr;
 }
 
 } // namespace d2
