@@ -38,3 +38,24 @@
 #include "../../../include/c/game_struct/d2_unicode_char.h"
 
 #include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../cxx/game_struct/d2_unicode_char_impl.hpp"
+
+struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
+  return D2_UnicodeChar_CreateWithChar('\0');
+}
+
+struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
+  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
+}
+
+void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr) {
+  D2_UnicodeChar_Destroy(ptr);
+}
+
+unsigned short D2_UnicodeChar_GetChar(const struct D2_UnicodeChar* ptr) {
+  // Safe to unconst, because no modifications to ptr made.
+  auto unconst_ptr = const_cast<D2_UnicodeChar*>(ptr);
+  auto actual_ptr = reinterpret_cast<d2::UnicodeChar*>(unconst_ptr);
+
+  return d2::UnicodeChar_Wrapper(actual_ptr).GetChar();
+}
