@@ -38,19 +38,45 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
+#include <memory>
+
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
-class UnicodeChar;
+struct UnicodeChar;
 
-class DLLEXPORT UnicodeChar {
+class DLLEXPORT UnicodeChar_Wrapper {
  public:
-  UnicodeChar();
-  UnicodeChar(unsigned short ch);
+  UnicodeChar_Wrapper() = delete;
+  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
+
+  operator UnicodeChar*() const noexcept;
+
+  UnicodeChar* Get() const noexcept;
+  unsigned short GetChar() const noexcept;
 
  private:
-  unsigned short ch_;
+  UnicodeChar* ptr_;
+};
+
+class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
+ public:
+  UnicodeChar_API();
+  UnicodeChar_API(unsigned short ch);
+
+  UnicodeChar_API(const UnicodeChar_API& other);
+  UnicodeChar_API(UnicodeChar_API&& other) noexcept;
+
+  ~UnicodeChar_API();
+
+  UnicodeChar_API& operator=(const UnicodeChar_API& other);
+  UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
+
+  operator unsigned short() const noexcept;
+
+ private:
+  std::unique_ptr<UnicodeChar*> ptr_;
 };
 
 } // namespace d2

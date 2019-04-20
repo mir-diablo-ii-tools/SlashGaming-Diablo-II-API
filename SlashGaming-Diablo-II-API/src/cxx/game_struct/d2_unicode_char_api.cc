@@ -37,8 +37,6 @@
 
 #include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include <cstdint>
-
 #include "d2_unicode_char_impl.hpp"
 
 /**
@@ -47,12 +45,36 @@
 
 namespace d2 {
 
-UnicodeChar::UnicodeChar() :
-    ch_('\0') {
+UnicodeChar* CreateUnicodeChar(unsigned short ch) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00;
+  ptr->ch = ch;
+
+  return ptr;
 }
 
-UnicodeChar::UnicodeChar(unsigned short ch) :
-    ch_(ch) {
+UnicodeChar_API::UnicodeChar_API() :
+    UnicodeChar_API('\0') {
+}
+
+UnicodeChar_API::UnicodeChar_API(unsigned short ch) :
+    UnicodeChar_Wrapper(CreateUnicodeChar(ch)),
+    ptr_(Get()) {
+}
+
+UnicodeChar_API::UnicodeChar_API(const UnicodeChar_API& other) :
+    UnicodeChar_API(other.GetChar()) {
+}
+
+UnicodeChar_API::UnicodeChar_API(UnicodeChar_API&& other) noexcept = default;
+
+UnicodeChar_API::~UnicodeChar_API() = default;
+
+UnicodeChar_API& UnicodeChar_API::operator=(const UnicodeChar_API& other) = default;
+
+UnicodeChar_API& UnicodeChar_API::operator=(UnicodeChar_API&& other) noexcept = default;
+
+UnicodeChar_API::operator unsigned short() const noexcept {
+  return this->GetChar();
 }
 
 } // namespace d2

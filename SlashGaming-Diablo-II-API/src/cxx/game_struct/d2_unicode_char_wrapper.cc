@@ -35,28 +35,37 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
-
 #include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
 #include <cstdint>
 
+#include "d2_unicode_char_impl.hpp"
+
+/**
+ * Latest supported version: 1.14D
+ */
+
 namespace d2 {
 
-#pragma pack(push, 1)
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    UnicodeChar* ptr
+) noexcept :
+    ptr_(ptr) {
+}
 
-struct UnicodeChar {
-};
+UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
+  return this->Get();
+}
 
-/* sizeof: 0x2 */ struct UnicodeChar_1_00 : public UnicodeChar {
-  /* 0x0 */std::uint16_t ch;
-};
+UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
+  return this->ptr_;
+}
 
-#pragma pack(pop)
+unsigned short UnicodeChar_Wrapper::GetChar() const noexcept {
+  const UnicodeChar* ptr = this->Get();
 
-UnicodeChar* CreateUnicodeChar(unsigned short ch);
+  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(ptr);
+  return actual_ptr->ch;
+}
 
 } // namespace d2
-
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
