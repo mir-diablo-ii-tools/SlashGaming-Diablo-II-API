@@ -40,6 +40,7 @@
 
 #include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
+#include <cstddef>
 #include <cstdint>
 
 namespace d2 {
@@ -56,6 +57,7 @@ struct UnicodeChar {
 #pragma pack(pop)
 
 UnicodeChar* CreateUnicodeChar(unsigned short ch);
+UnicodeChar* CreateUnicodeCharArray(std::size_t count);
 void DestroyUnicodeChar(UnicodeChar* ptr);
 
 } // namespace d2

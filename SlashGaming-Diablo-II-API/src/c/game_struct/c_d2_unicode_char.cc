@@ -48,6 +48,10 @@ struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
   return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
 }
 
+struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
+  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
+}
+
 void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr) {
   D2_UnicodeChar_Destroy(ptr);
 }

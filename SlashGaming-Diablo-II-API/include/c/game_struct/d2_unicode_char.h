@@ -38,12 +38,15 @@
 #ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
 #define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
 
+#include <stddef.h>
+
 #include "../../dllexport_define.inc"
 
 struct D2_UnicodeChar;
 
 struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault();
 struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
+struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
 
 void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
 

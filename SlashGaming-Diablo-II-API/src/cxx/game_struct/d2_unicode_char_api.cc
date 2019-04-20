@@ -37,6 +37,8 @@
 
 #include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
+#include <cstddef>
+
 #include "d2_unicode_char_impl.hpp"
 
 /**
@@ -49,6 +51,11 @@ UnicodeChar* CreateUnicodeChar(unsigned short ch) {
   UnicodeChar_1_00* ptr = new UnicodeChar_1_00;
   ptr->ch = ch;
 
+  return ptr;
+}
+
+UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
   return ptr;
 }
 
