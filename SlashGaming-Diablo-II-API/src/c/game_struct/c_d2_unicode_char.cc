@@ -59,3 +59,9 @@ unsigned short D2_UnicodeChar_GetChar(const struct D2_UnicodeChar* ptr) {
 
   return d2::UnicodeChar_Wrapper(actual_ptr).GetChar();
 }
+
+void D2_UnicodeChar_SetChar(struct D2_UnicodeChar* ptr, unsigned short ch) {
+  auto actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
+
+  return d2::UnicodeChar_Wrapper(actual_ptr).SetChar(ch);
+}

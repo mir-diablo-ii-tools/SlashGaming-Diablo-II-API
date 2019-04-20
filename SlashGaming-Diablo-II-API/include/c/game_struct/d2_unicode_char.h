@@ -48,6 +48,7 @@ struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
 void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
 
 unsigned short D2_UnicodeChar_GetChar(const struct D2_UnicodeChar* ptr);
+void D2_UnicodeChar_SetChar(struct D2_UnicodeChar* ptr, unsigned short ch);
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_

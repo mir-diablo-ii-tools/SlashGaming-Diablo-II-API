@@ -54,7 +54,9 @@ class DLLEXPORT UnicodeChar_Wrapper {
   operator UnicodeChar*() const noexcept;
 
   UnicodeChar* Get() const noexcept;
+
   unsigned short GetChar() const noexcept;
+  void SetChar(unsigned short ch) noexcept;
 
  private:
   UnicodeChar* ptr_;

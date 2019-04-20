@@ -68,4 +68,11 @@ unsigned short UnicodeChar_Wrapper::GetChar() const noexcept {
   return actual_ptr->ch;
 }
 
+void UnicodeChar_Wrapper::SetChar(unsigned short ch) noexcept {
+  UnicodeChar* ptr = this->Get();
+
+  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+  actual_ptr->ch = ch;
+}
+
 } // namespace d2
