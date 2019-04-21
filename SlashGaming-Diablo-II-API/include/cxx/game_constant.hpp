@@ -38,6 +38,7 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
 
+#include "game_constant/d2_constant.hpp"
 #include "game_constant/d2_difficulty_level.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_

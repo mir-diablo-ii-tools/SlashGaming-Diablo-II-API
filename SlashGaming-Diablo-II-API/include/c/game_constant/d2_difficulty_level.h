@@ -50,9 +50,9 @@ enum D2_DifficultyLevel {
   DIFFICULTY_HELL
 };
 
-DLLEXPORT int D2_DifficultyLevel_ToInteger(int id);
+DLLEXPORT int D2_DifficultyLevel_ToGameValue(int id);
 
-DLLEXPORT int D2_DifficultyLevel_FromInteger(int value);
+DLLEXPORT int D2_DifficultyLevel_ToAPIValue(int value);
 
 #ifdef __cplusplus
 } // extern "C"

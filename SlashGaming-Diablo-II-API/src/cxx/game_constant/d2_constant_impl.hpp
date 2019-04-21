@@ -43,7 +43,7 @@
 namespace d2 {
 
 template <typename ConstantType>
-int ToInteger(ConstantType id) {
+int ToGameValue(ConstantType id) {
   static_assert(
       std::is_enum<ConstantType>::value,
       u8"The specified type is not a constant."
@@ -53,7 +53,7 @@ int ToInteger(ConstantType id) {
 }
 
 template <typename ConstantType>
-ConstantType FromInteger(int value) {
+ConstantType ToAPIValue(int value) {
   static_assert(
       std::is_enum<ConstantType>::value,
       u8"The specified type is not a constant."
