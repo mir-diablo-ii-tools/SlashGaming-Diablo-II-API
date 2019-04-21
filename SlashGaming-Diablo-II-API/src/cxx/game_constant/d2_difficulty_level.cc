@@ -49,12 +49,12 @@
 namespace d2 {
 
 template int
-ToInteger(
+ToGameValue(
     enum DifficultyLevel id
 );
 
 template enum DifficultyLevel
-FromInteger(
+ToAPIValue(
     int value
 );
 

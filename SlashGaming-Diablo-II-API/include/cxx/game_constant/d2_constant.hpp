@@ -43,10 +43,10 @@
 namespace d2 {
 
 template <typename ConstantType>
-int ToInteger(ConstantType id);
+int ToGameValue(ConstantType id);
 
 template <typename ConstantType>
-ConstantType FromInteger(int value);
+ConstantType ToAPIValue(int value);
 
 } // namespace d2
 

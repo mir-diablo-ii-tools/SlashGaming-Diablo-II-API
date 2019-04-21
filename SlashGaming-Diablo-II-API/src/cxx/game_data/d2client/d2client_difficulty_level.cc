@@ -70,12 +70,12 @@ enum DifficultyLevel GetDifficultyLevel(void) {
     value = *converted_ptr;
   }
 
-  return FromInteger<enum DifficultyLevel>(value);
+  return ToAPIValue<enum DifficultyLevel>(value);
 }
 
 void SetDifficultyLevel(enum DifficultyLevel value) {
   std::intptr_t ptr = D2Client_DifficultyLevel();
-  int integer_value = ToInteger<enum DifficultyLevel>(value);
+  int integer_value = ToGameValue<enum DifficultyLevel>(value);
 
   enum GameVersion current_game_version = GetRunningGameVersionId();
 
