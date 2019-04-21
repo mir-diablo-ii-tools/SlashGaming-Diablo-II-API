@@ -102,6 +102,23 @@ class DLLEXPORT UnicodeCharTraits {
   static int length(const UnicodeChar* str);
 };
 
+// Do not derive from std::basic_string, for same reasons as
+// UnicodeCharTraits.
+class DLLEXPORT UnicodeString {
+  using traits_type = UnicodeCharTraits;
+  using value_type = UnicodeChar;
+  using size_type = int;
+  using reference = value_type&;
+  using const_reference = const value_type&;
+
+ public:
+  size_type length() const noexcept;
+  size_type size() const noexcept;
+
+ private:
+  UnicodeString::size_type length_;
+};
+
 } // namespace d2
 
 #include "../../dllexport_undefine.inc"
