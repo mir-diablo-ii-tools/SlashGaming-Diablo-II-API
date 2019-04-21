@@ -78,7 +78,7 @@ UnicodeChar_API::operator unsigned short() const noexcept {
 }
 
 UnicodeChar* CreateUnicodeChar(unsigned short ch) {
-  UnicodeChar_1_00* ptr = new UnicodeChar_1_00;
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[1];
   ptr->ch = ch;
 
   return ptr;
@@ -91,7 +91,7 @@ UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
 
 void DestroyUnicodeChar(UnicodeChar* ptr) {
   UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
-  delete actual_ptr;
+  delete[] actual_ptr;
 }
 
 } // namespace d2
