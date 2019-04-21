@@ -35,25 +35,63 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_UNICODE_CHAR_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_UNICODE_CHAR_HPP_
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "../../dllexport_define.inc"
+#include <cstddef>
+
+#include "d2_unicode_char_impl.hpp"
+
+/**
+ * Latest supported version: 1.14D
+ */
 
 namespace d2 {
 
-class UnicodeChar;
+UnicodeChar_API::UnicodeChar_API() :
+    UnicodeChar_API('\0') {
+}
 
-class DLLEXPORT UnicodeChar {
- public:
-  UnicodeChar();
-  UnicodeChar(unsigned short ch);
+UnicodeChar_API::UnicodeChar_API(unsigned short ch) :
+    UnicodeChar_Wrapper(CreateUnicodeChar(ch)) {
+}
 
- private:
-  unsigned short ch_;
-};
+UnicodeChar_API::UnicodeChar_API(const UnicodeChar_API& other) :
+    UnicodeChar_API(other.GetChar()) {
+}
+
+UnicodeChar_API::UnicodeChar_API(UnicodeChar_API&& other) noexcept = default;
+
+UnicodeChar_API::~UnicodeChar_API() {
+  DestroyUnicodeChar(this->Get());
+}
+
+UnicodeChar_API& UnicodeChar_API::operator=(
+    const UnicodeChar_API& other
+) = default;
+
+UnicodeChar_API& UnicodeChar_API::operator=(
+    UnicodeChar_API&& other
+) noexcept = default;
+
+UnicodeChar_API::operator unsigned short() const noexcept {
+  return this->GetChar();
+}
+
+UnicodeChar* CreateUnicodeChar(unsigned short ch) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00;
+  ptr->ch = ch;
+
+  return ptr;
+}
+
+UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
+  return ptr;
+}
+
+void DestroyUnicodeChar(UnicodeChar* ptr) {
+  UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+  delete actual_ptr;
+}
 
 } // namespace d2
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_UNICODE_CHAR_HPP_

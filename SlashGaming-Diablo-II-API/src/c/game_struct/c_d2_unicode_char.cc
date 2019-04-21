@@ -35,9 +35,35 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../include/c/game_struct/d2_unicode_char.h"
 
-#include "game_struct/d2_unicode_char.h"
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../cxx/game_struct/d2_unicode_char_impl.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void) {
+  return D2_UnicodeChar_CreateWithChar('\0');
+}
+
+struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
+  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
+}
+
+struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
+  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
+}
+
+void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr) {
+  D2_UnicodeChar_Destroy(ptr);
+}
+
+unsigned short D2_UnicodeChar_GetChar(const struct D2_UnicodeChar* ptr) {
+  auto actual_ptr = reinterpret_cast<const d2::UnicodeChar*>(ptr);
+
+  return d2::UnicodeChar_ConstWrapper(actual_ptr).GetChar();
+}
+
+void D2_UnicodeChar_SetChar(struct D2_UnicodeChar* ptr, unsigned short ch) {
+  auto actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
+
+  return d2::UnicodeChar_Wrapper(actual_ptr).SetChar(ch);
+}

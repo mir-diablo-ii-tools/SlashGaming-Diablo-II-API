@@ -35,9 +35,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "game_struct/d2_unicode_char.h"
+#include "d2_unicode_char_impl.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+namespace d2 {
+
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    const UnicodeChar* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+UnicodeChar_ConstWrapper::~UnicodeChar_ConstWrapper() = default;
+
+UnicodeChar_ConstWrapper::operator const UnicodeChar*() const noexcept {
+  return this->Get();
+}
+
+const UnicodeChar* UnicodeChar_ConstWrapper::Get() const noexcept {
+  return this->ptr_;
+}
+
+unsigned short UnicodeChar_ConstWrapper::GetChar() const noexcept {
+  const UnicodeChar* ptr = this->Get();
+
+  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(ptr);
+  return actual_ptr->ch;
+}
+
+} // namespace d2

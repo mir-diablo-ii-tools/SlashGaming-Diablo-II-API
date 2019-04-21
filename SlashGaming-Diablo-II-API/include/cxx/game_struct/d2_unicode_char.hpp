@@ -35,34 +35,68 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_struct/unicode_char.hpp"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
-#include <cstdint>
+#include <memory>
 
-/**
- * Latest supported version: 1.14D
- */
+#include "../../dllexport_define.inc"
 
 namespace d2 {
-namespace {
 
-#pragma pack(push, 1)
+struct UnicodeChar;
 
-/* sizeof: 0x2 */ struct UnicodeChar_1_00 {
-  /* 0x0 */std::uint16_t ch;
+class DLLEXPORT UnicodeChar_ConstWrapper {
+ public:
+  UnicodeChar_ConstWrapper() = delete;
+  UnicodeChar_ConstWrapper(const UnicodeChar* ptr) noexcept;
+
+  virtual ~UnicodeChar_ConstWrapper();
+
+  operator const UnicodeChar*() const noexcept;
+
+  virtual const UnicodeChar* Get() const noexcept;
+
+  unsigned short GetChar() const noexcept;
+
+ private:
+  const UnicodeChar* ptr_;
 };
 
-#pragma pack(pop)
+class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
+ public:
+  UnicodeChar_Wrapper() = delete;
+  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
 
-} // namespace
+  ~UnicodeChar_Wrapper() override;
 
+  operator UnicodeChar*() const noexcept;
 
-UnicodeChar::UnicodeChar() :
-    ch_('\0') {
-}
+  UnicodeChar* Get() const noexcept override;
 
-UnicodeChar::UnicodeChar(unsigned short ch) :
-    ch_(ch) {
-}
+  void SetChar(unsigned short ch) noexcept;
+
+ private:
+  UnicodeChar* ptr_;
+};
+
+class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
+ public:
+  UnicodeChar_API();
+  UnicodeChar_API(unsigned short ch);
+
+  UnicodeChar_API(const UnicodeChar_API& other);
+  UnicodeChar_API(UnicodeChar_API&& other) noexcept;
+
+  ~UnicodeChar_API() override;
+
+  UnicodeChar_API& operator=(const UnicodeChar_API& other);
+  UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
+
+  operator unsigned short() const noexcept;
+};
 
 } // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_

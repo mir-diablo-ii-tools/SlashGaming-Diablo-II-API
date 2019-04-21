@@ -35,16 +35,31 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_UNICODE_CHAR_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
 
-#include "../../dllexport_define.inc"
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-struct D2_UnicodeChar;
+#include <cstddef>
+#include <cstdint>
 
-struct D2_UnicodeChar {
-  unsigned short ch;
+namespace d2 {
+
+#pragma pack(push, 1)
+
+struct UnicodeChar {
 };
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_UNICODE_CHAR_H_
+/* sizeof: 0x2 */ struct UnicodeChar_1_00 : public UnicodeChar {
+  /* 0x0 */std::uint16_t ch;
+};
+
+#pragma pack(pop)
+
+UnicodeChar* CreateUnicodeChar(unsigned short ch);
+UnicodeChar* CreateUnicodeCharArray(std::size_t count);
+void DestroyUnicodeChar(UnicodeChar* ptr);
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
