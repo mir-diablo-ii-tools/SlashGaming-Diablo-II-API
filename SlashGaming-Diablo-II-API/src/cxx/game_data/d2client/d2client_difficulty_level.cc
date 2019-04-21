@@ -64,11 +64,8 @@ enum DifficultyLevel GetDifficultyLevel(void) {
 
   int value;
 
-  if (current_game_version >= GameVersion::k1_00
-      && current_game_version <= GameVersion::kLod1_14D) {
-    std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
-    value = *converted_ptr;
-  }
+  std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
+  value = *converted_ptr;
 
   return ToAPIValue<enum DifficultyLevel>(value);
 }
