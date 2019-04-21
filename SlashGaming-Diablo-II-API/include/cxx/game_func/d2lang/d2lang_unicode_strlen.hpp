@@ -35,9 +35,18 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRLEN_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRLEN_HPP_
 
-#include "d2lang/d2lang_unicode_strlen.h"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2lang {
+
+DLLEXPORT int Unicode_strlen(const UnicodeChar buffer[]);
+
+} // namespace d2::d2lang
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRLEN_HPP_

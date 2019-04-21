@@ -35,9 +35,31 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+/**
+ * Warning: This header should never be used in any public interface!
+ */
 
-#include "d2lang/d2lang_unicode_strlen.h"
+#ifndef SGD2MAPI_ASM_X86_MACRO_H_
+#define SGD2MAPI_ASM_X86_MACRO_H_
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#if defined(_MSC_VER)
+
+#define ASM_X86(...) \
+    __asm { \
+      __VA_ARGS__ \
+    }
+
+#define ASM_X86_FUNC(name) name
+
+#else
+
+#define ASM_X86(...) \
+    asm( \
+        #__VA_ARGS__ \
+    );
+
+#define ASM_X86_FUNC(name) _##name
+
+#endif
+
+#endif /* SGD2MAPI_ASM_X86_MACRO_H_ */
