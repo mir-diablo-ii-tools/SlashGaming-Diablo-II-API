@@ -53,7 +53,7 @@ struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
 }
 
 void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr) {
-  D2_UnicodeChar_Destroy(ptr);
+  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
 }
 
 unsigned short D2_UnicodeChar_GetChar(const struct D2_UnicodeChar* ptr) {
