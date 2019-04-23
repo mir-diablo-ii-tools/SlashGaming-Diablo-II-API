@@ -35,9 +35,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../../include/c/game_func/d2lang/d2lang_unicode_strlen.h"
 
-#include "d2lang/d2lang_unicode_strlen.h"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+int D2_D2Lang_Unicode_strlen(const struct D2_UnicodeChar buffer[]) {
+  auto actual_ptr = reinterpret_cast<const d2::UnicodeChar*>(buffer);
+
+  return d2::d2lang::Unicode_strlen(actual_ptr);
+}

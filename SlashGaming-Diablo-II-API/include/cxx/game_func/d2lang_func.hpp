@@ -38,4 +38,6 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
 
+#include "d2lang/d2lang_unicode_strlen.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_

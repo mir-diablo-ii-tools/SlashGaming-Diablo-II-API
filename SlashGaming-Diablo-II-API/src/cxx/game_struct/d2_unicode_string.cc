@@ -35,9 +35,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "d2lang/d2lang_unicode_strlen.h"
+namespace d2 {
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+UnicodeString::UnicodeString() {
+}
+
+UnicodeString::size_type UnicodeString::length() const noexcept {
+  return this->length_;
+}
+
+UnicodeString::size_type UnicodeString::size() const noexcept {
+  return this->length_;
+}
+
+} // namespace d2

@@ -35,9 +35,42 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2lang/d2lang_unicode_strlen.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2lang {
+namespace {
+
+__declspec(naked) std::intptr_t __cdecl
+D2Lang_Unicode_strlen_1_00(std::intptr_t func_ptr, const UnicodeChar* buffer) {
+  ASM_X86(mov ecx, [esp + 8]);
+  ASM_X86(call dword ptr [esp + 4]);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Lang_Unicode_strlen(void) {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int Unicode_strlen(const UnicodeChar buffer[]) {
+  std::intptr_t ptr = D2Lang_Unicode_strlen();
+
+  return D2Lang_Unicode_strlen_1_00(ptr, buffer);
+}
+
+} // namespace d2::d2lang

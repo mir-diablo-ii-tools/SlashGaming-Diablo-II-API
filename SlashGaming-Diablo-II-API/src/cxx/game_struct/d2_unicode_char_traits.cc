@@ -35,9 +35,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "d2lang/d2lang_unicode_strlen.h"
+#include "../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+namespace d2 {
+
+int UnicodeCharTraits::length(const UnicodeChar* str) {
+  return d2lang::Unicode_strlen(str);
+}
+
+} // namespace d2
