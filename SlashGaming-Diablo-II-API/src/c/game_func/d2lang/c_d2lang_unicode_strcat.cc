@@ -41,7 +41,7 @@
 #include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strcat.hpp"
 
 D2_UnicodeChar* D2_D2Lang_Unicode_strcat(
-    D2_UnicodeChar* dest[],
+    D2_UnicodeChar dest[],
     const D2_UnicodeChar src[]
 ) {
   auto actual_dest = reinterpret_cast<d2::UnicodeChar*>(dest);
