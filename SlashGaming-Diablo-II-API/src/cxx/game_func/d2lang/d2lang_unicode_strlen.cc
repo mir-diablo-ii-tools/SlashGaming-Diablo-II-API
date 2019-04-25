@@ -51,7 +51,7 @@
 namespace d2::d2lang {
 namespace {
 
-__declspec(naked) std::intptr_t __cdecl
+__declspec(naked) int __cdecl
 D2Lang_Unicode_strlen_1_00(std::intptr_t func_ptr, const UnicodeChar* buffer) {
   ASM_X86(mov ecx, [esp + 8]);
   ASM_X86(call dword ptr [esp + 4]);

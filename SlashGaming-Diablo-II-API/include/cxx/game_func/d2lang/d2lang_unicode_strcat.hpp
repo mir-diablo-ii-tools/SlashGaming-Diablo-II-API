@@ -35,10 +35,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCAT_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCAT_HPP_
 
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2lang {
+
+DLLEXPORT UnicodeChar* Unicode_strcat(
+    UnicodeChar dest[],
+    const UnicodeChar src[]
+);
+
+} // namespace d2::d2lang
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCAT_HPP_

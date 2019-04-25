@@ -35,10 +35,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include "../../../../include/c/game_func/d2lang/d2lang_unicode_strcat.h"
 
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strcat.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+D2_UnicodeChar* D2_D2Lang_Unicode_strcat(
+    D2_UnicodeChar dest[],
+    const D2_UnicodeChar src[]
+) {
+  auto actual_dest = reinterpret_cast<d2::UnicodeChar*>(dest);
+  auto actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
+
+  d2::UnicodeChar* ret_value = d2::d2lang::Unicode_strcat(actual_dest, actual_src);
+
+  return reinterpret_cast<D2_UnicodeChar*>(ret_value);
+}
