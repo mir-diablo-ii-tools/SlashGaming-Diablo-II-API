@@ -35,10 +35,50 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strcat.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2lang {
+namespace {
+
+__declspec(naked) UnicodeChar* __cdecl
+D2Lang_Unicode_strcat_1_00(
+    std::intptr_t func_ptr,
+    const UnicodeChar* dest,
+    const UnicodeChar* src
+) {
+  ASM_X86(mov edx, [esp + 12])
+  ASM_X86(mov ecx, [esp + 8]);
+  ASM_X86(call dword ptr [esp + 4]);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Lang_Unicode_strlen() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+UnicodeChar* Unicode_strcat(
+    UnicodeChar dest[],
+    const UnicodeChar src[]
+) {
+  std::intptr_t ptr = D2Lang_Unicode_strlen();
+
+  return D2Lang_Unicode_strcat_1_00(ptr, dest, src);
+}
+
+} // namespace d2::d2lang
