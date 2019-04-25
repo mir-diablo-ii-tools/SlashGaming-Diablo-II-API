@@ -47,7 +47,7 @@ D2_UnicodeChar* D2_D2Lang_Unicode_strcat(
   auto actual_dest = reinterpret_cast<d2::UnicodeChar*>(dest);
   auto actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
 
-  auto ret_value = d2::d2lang::Unicode_strcat(actual_dest, actual_src);
+  d2::UnicodeChar* ret_value = d2::d2lang::Unicode_strcat(actual_dest, actual_src);
 
   return reinterpret_cast<D2_UnicodeChar*>(ret_value);
 }
