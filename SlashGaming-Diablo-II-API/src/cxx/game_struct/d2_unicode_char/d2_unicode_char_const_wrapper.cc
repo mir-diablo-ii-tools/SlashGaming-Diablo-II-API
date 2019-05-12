@@ -53,6 +53,10 @@ UnicodeChar_ConstWrapper::operator const UnicodeChar*() const noexcept {
   return this->Get();
 }
 
+UnicodeChar_ConstWrapper::operator unsigned short() const noexcept {
+  return this->GetChar();
+}
+
 const UnicodeChar* UnicodeChar_ConstWrapper::Get() const noexcept {
   return this->ptr_;
 }

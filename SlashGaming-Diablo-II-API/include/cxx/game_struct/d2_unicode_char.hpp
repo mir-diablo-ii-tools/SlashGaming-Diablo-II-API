@@ -55,6 +55,8 @@ class DLLEXPORT UnicodeChar_ConstWrapper {
 
   operator const UnicodeChar*() const noexcept;
 
+  operator unsigned short() const noexcept;
+
   virtual const UnicodeChar* Get() const noexcept;
 
   unsigned short GetChar() const noexcept;
@@ -92,8 +94,6 @@ class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
 
   UnicodeChar_API& operator=(const UnicodeChar_API& other);
   UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
-
-  operator unsigned short() const noexcept;
 };
 
 // Do not derive from std::char_traits because of non-conformance with

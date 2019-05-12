@@ -73,10 +73,6 @@ UnicodeChar_API& UnicodeChar_API::operator=(
     UnicodeChar_API&& other
 ) noexcept = default;
 
-UnicodeChar_API::operator unsigned short() const noexcept {
-  return this->GetChar();
-}
-
 UnicodeChar* CreateUnicodeChar(unsigned short ch) {
   UnicodeChar_1_00* ptr = new UnicodeChar_1_00[1];
   ptr->ch = ch;
