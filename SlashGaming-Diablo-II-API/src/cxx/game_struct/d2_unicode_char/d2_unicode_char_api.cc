@@ -35,14 +35,63 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
+#include <cstddef>
+
+#include "d2_unicode_char_impl.hpp"
+
+/**
+ * Latest supported version: 1.14D
+ */
 
 namespace d2 {
 
-int UnicodeCharTraits::length(const UnicodeChar* str) {
-  return d2lang::Unicode_strlen(str);
+UnicodeChar_API::UnicodeChar_API() :
+    UnicodeChar_API('\0') {
+}
+
+UnicodeChar_API::UnicodeChar_API(unsigned short ch) :
+    UnicodeChar_Wrapper(CreateUnicodeChar(ch)) {
+}
+
+UnicodeChar_API::UnicodeChar_API(const UnicodeChar_API& other) :
+    UnicodeChar_API(other.GetChar()) {
+}
+
+UnicodeChar_API::UnicodeChar_API(UnicodeChar_API&& other) noexcept = default;
+
+UnicodeChar_API::~UnicodeChar_API() {
+  DestroyUnicodeChar(this->Get());
+}
+
+UnicodeChar_API& UnicodeChar_API::operator=(
+    const UnicodeChar_API& other
+) = default;
+
+UnicodeChar_API& UnicodeChar_API::operator=(
+    UnicodeChar_API&& other
+) noexcept = default;
+
+UnicodeChar_API::operator unsigned short() const noexcept {
+  return this->GetChar();
+}
+
+UnicodeChar* CreateUnicodeChar(unsigned short ch) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[1];
+  ptr->ch = ch;
+
+  return ptr;
+}
+
+UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
+  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
+  return ptr;
+}
+
+void DestroyUnicodeChar(UnicodeChar* ptr) {
+  UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+  delete[] actual_ptr;
 }
 
 } // namespace d2

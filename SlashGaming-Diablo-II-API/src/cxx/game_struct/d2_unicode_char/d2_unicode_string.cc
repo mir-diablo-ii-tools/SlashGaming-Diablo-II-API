@@ -35,40 +35,16 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-
-#include <cstdint>
-
-#include "d2_unicode_char_impl.hpp"
-
-/**
- * Latest supported version: 1.14D
- */
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
 namespace d2 {
 
-UnicodeChar_Wrapper::UnicodeChar_Wrapper(
-    UnicodeChar* ptr
-) noexcept :
-    UnicodeChar_ConstWrapper(ptr),
-    ptr_(ptr) {
+UnicodeString::size_type UnicodeString::length() const noexcept {
+  return this->length_;
 }
 
-UnicodeChar_Wrapper::~UnicodeChar_Wrapper() = default;
-
-UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
-  return this->Get();
-}
-
-UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
-  return this->ptr_;
-}
-
-void UnicodeChar_Wrapper::SetChar(unsigned short ch) noexcept {
-  UnicodeChar* ptr = this->Get();
-
-  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
-  actual_ptr->ch = ch;
+UnicodeString::size_type UnicodeString::size() const noexcept {
+  return this->length_;
 }
 
 } // namespace d2
