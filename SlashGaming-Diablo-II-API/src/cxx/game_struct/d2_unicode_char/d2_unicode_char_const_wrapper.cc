@@ -47,7 +47,23 @@ UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
     ptr_(ptr) {
 }
 
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    const UnicodeChar_ConstWrapper& other
+) = default;
+
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    UnicodeChar_ConstWrapper&& other
+) noexcept = default;
+
 UnicodeChar_ConstWrapper::~UnicodeChar_ConstWrapper() = default;
+
+UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
+    const UnicodeChar_ConstWrapper& other
+) = default;
+
+UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
+    UnicodeChar_ConstWrapper&& other
+) noexcept = default;
 
 UnicodeChar_ConstWrapper::operator const UnicodeChar*() const noexcept {
   return this->Get();

@@ -51,7 +51,13 @@ class DLLEXPORT UnicodeChar_ConstWrapper {
   UnicodeChar_ConstWrapper() = delete;
   UnicodeChar_ConstWrapper(const UnicodeChar* ptr) noexcept;
 
+  UnicodeChar_ConstWrapper(const UnicodeChar_ConstWrapper& other);
+  UnicodeChar_ConstWrapper(UnicodeChar_ConstWrapper&& other) noexcept;
+
   virtual ~UnicodeChar_ConstWrapper();
+
+  UnicodeChar_ConstWrapper& operator=(const UnicodeChar_ConstWrapper& other);
+  UnicodeChar_ConstWrapper& operator=(UnicodeChar_ConstWrapper&& other) noexcept;
 
   operator const UnicodeChar*() const noexcept;
 
@@ -70,7 +76,13 @@ class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
   UnicodeChar_Wrapper() = delete;
   UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
 
+  UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other);
+  UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
+
   ~UnicodeChar_Wrapper() override;
+
+  UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other);
+  UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
 
   operator UnicodeChar*() const noexcept;
 

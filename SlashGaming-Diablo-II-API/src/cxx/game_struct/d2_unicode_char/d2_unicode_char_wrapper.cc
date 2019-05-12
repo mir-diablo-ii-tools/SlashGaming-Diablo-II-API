@@ -54,7 +54,23 @@ UnicodeChar_Wrapper::UnicodeChar_Wrapper(
     ptr_(ptr) {
 }
 
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    const UnicodeChar_Wrapper& other
+) = default;
+
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    UnicodeChar_Wrapper&& other
+) noexcept = default;
+
 UnicodeChar_Wrapper::~UnicodeChar_Wrapper() = default;
+
+UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
+    const UnicodeChar_Wrapper& other
+) = default;
+
+UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
+    UnicodeChar_Wrapper&& other
+) noexcept = default;
 
 UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
   return this->Get();
