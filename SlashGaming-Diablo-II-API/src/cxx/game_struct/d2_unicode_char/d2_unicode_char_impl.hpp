@@ -47,10 +47,7 @@ namespace d2 {
 
 #pragma pack(push, 1)
 
-struct UnicodeChar {
-};
-
-/* sizeof: 0x2 */ struct UnicodeChar_1_00 : public UnicodeChar {
+/* sizeof: 0x2 */ struct UnicodeChar_1_00 {
   /* 0x0 */std::uint16_t ch;
 };
 

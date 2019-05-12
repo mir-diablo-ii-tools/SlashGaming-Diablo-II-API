@@ -81,12 +81,12 @@ UnicodeChar* CreateUnicodeChar(unsigned short ch) {
   UnicodeChar_1_00* ptr = new UnicodeChar_1_00[1];
   ptr->ch = ch;
 
-  return ptr;
+  return reinterpret_cast<UnicodeChar*>(ptr);
 }
 
 UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
   UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
-  return ptr;
+  return reinterpret_cast<UnicodeChar*>(ptr);
 }
 
 void DestroyUnicodeChar(UnicodeChar* ptr) {
