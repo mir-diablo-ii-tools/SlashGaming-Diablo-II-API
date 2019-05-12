@@ -35,10 +35,18 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HPP_
 
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+struct MPQArchive;
+
+} // namespace d2
+
+// TODO (Mir Drualga): Add missing implementation.
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HPP_
