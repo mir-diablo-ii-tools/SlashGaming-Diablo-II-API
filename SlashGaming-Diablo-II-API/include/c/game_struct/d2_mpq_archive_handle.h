@@ -38,9 +38,19 @@
 #ifndef SGD2MAPI_C_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_H_
 #define SGD2MAPI_C_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_H_
 
+#include "d2_mpq_archive.h"
+
 #include "../../dllexport_define.inc"
 
 struct D2_MPQArchiveHandle;
+
+DLLEXPORT const struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
+    const struct D2_MPQArchiveHandle* ptr
+);
+
+DLLEXPORT const char* D2_MPQArchiveHandle_GetMPQArchivePath(
+    const struct D2_MPQArchiveHandle* ptr
+);
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_H_
