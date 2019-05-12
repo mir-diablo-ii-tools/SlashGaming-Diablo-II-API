@@ -35,11 +35,52 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include <filesystem>
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+MPQArchiveHandle_API::MPQArchiveHandle_API(
+    const std::filesystem::path& mpq_file_path,
+    bool is_set_error_on_fail,
+    int priority
+) : MPQArchiveHandle_API(
+        mpq_file_path,
+        is_set_error_on_fail,
+        nullptr,
+        priority
+    ) {
+  // TODO (Mir Drualga): Implement
+}
+
+// TODO (Mir Drualga): Implement with D2Win_LoadMPQ
+MPQArchiveHandle_API::MPQArchiveHandle_API(
+    const std::filesystem::path& mpq_file_path,
+    bool is_set_error_on_fail,
+    void* (*on_fail_callback)(),
+    int priority
+) : MPQArchiveHandle_Wrapper(nullptr) {
+}
+
+MPQArchiveHandle_API::MPQArchiveHandle_API(
+    const MPQArchiveHandle_API& other
+) = default;
+
+MPQArchiveHandle_API::MPQArchiveHandle_API(
+    MPQArchiveHandle_API&& other
+) noexcept = default;
+
+MPQArchiveHandle_API::~MPQArchiveHandle_API() {
+  // TODO (Mir Drualga): Implement
+}
+
+MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
+    const MPQArchiveHandle_API& other
+) = default;
+
+MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
+    MPQArchiveHandle_API&& other
+) noexcept = default;
+
+} // namespace d2
