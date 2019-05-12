@@ -35,12 +35,9 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
 namespace d2 {
-
-UnicodeString::UnicodeString() {
-}
 
 UnicodeString::size_type UnicodeString::length() const noexcept {
   return this->length_;

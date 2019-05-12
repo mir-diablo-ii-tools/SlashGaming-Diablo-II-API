@@ -35,31 +35,56 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-
-#include <cstddef>
 #include <cstdint>
+
+#include "d2_unicode_char_impl.hpp"
+
+/**
+ * Latest supported version: 1.14D
+ */
 
 namespace d2 {
 
-#pragma pack(push, 1)
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    UnicodeChar* ptr
+) noexcept :
+    UnicodeChar_ConstWrapper(ptr),
+    ptr_(ptr) {
+}
 
-struct UnicodeChar {
-};
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    const UnicodeChar_Wrapper& other
+) = default;
 
-/* sizeof: 0x2 */ struct UnicodeChar_1_00 : public UnicodeChar {
-  /* 0x0 */std::uint16_t ch;
-};
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    UnicodeChar_Wrapper&& other
+) noexcept = default;
 
-#pragma pack(pop)
+UnicodeChar_Wrapper::~UnicodeChar_Wrapper() = default;
 
-UnicodeChar* CreateUnicodeChar(unsigned short ch);
-UnicodeChar* CreateUnicodeCharArray(std::size_t count);
-void DestroyUnicodeChar(UnicodeChar* ptr);
+UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
+    const UnicodeChar_Wrapper& other
+) = default;
+
+UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
+    UnicodeChar_Wrapper&& other
+) noexcept = default;
+
+UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
+  return this->Get();
+}
+
+UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
+  return this->ptr_;
+}
+
+void UnicodeChar_Wrapper::SetChar(unsigned short ch) noexcept {
+  UnicodeChar* ptr = this->Get();
+
+  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+  actual_ptr->ch = ch;
+}
 
 } // namespace d2
-
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_IMPL_HPP_

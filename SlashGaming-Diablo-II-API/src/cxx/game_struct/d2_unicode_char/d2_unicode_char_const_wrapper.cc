@@ -35,14 +35,53 @@
  *  work.
  */
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
+#include "d2_unicode_char_impl.hpp"
 
 namespace d2 {
 
-int UnicodeCharTraits::length(const UnicodeChar* str) {
-  return d2lang::Unicode_strlen(str);
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    const UnicodeChar* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    const UnicodeChar_ConstWrapper& other
+) = default;
+
+UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
+    UnicodeChar_ConstWrapper&& other
+) noexcept = default;
+
+UnicodeChar_ConstWrapper::~UnicodeChar_ConstWrapper() = default;
+
+UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
+    const UnicodeChar_ConstWrapper& other
+) = default;
+
+UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
+    UnicodeChar_ConstWrapper&& other
+) noexcept = default;
+
+UnicodeChar_ConstWrapper::operator const UnicodeChar*() const noexcept {
+  return this->Get();
+}
+
+UnicodeChar_ConstWrapper::operator unsigned short() const noexcept {
+  return this->GetChar();
+}
+
+const UnicodeChar* UnicodeChar_ConstWrapper::Get() const noexcept {
+  return this->ptr_;
+}
+
+unsigned short UnicodeChar_ConstWrapper::GetChar() const noexcept {
+  const UnicodeChar* ptr = this->Get();
+
+  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(ptr);
+  return actual_ptr->ch;
 }
 
 } // namespace d2
