@@ -41,13 +41,14 @@
 #include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#include "../d2_mpq_archive/d2_mpq_archive_impl.hpp"
 
 namespace d2 {
 
 #pragma pack(push, 1)
 
 /* sizeof: 0x108 */ struct MPQArchiveHandle_1_00 {
-  /* 0x0 */ MPQArchive* mpq_archive;
+  /* 0x0 */ MPQArchive_1_00* mpq_archive;
   /* 0x4 */ char mpq_archive_path[/* 0x104 */ 260];
 };
 
