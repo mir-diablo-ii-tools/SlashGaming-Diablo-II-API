@@ -35,11 +35,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_unicode_char.h"
+namespace d2 {
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+MPQArchiveHandle_Wrapper::MPQArchiveHandle_Wrapper(
+    MPQArchiveHandle* ptr
+) noexcept :
+    MPQArchiveHandle_ConstWrapper(ptr),
+    ptr_(ptr) {
+}
+
+MPQArchiveHandle_Wrapper::MPQArchiveHandle_Wrapper(
+    const MPQArchiveHandle_Wrapper& other
+) = default;
+
+MPQArchiveHandle_Wrapper::MPQArchiveHandle_Wrapper(
+    MPQArchiveHandle_Wrapper&& other
+) noexcept = default;
+
+MPQArchiveHandle_Wrapper::~MPQArchiveHandle_Wrapper() = default;
+
+MPQArchiveHandle_Wrapper& MPQArchiveHandle_Wrapper::operator=(
+    const MPQArchiveHandle_Wrapper& other
+) = default;
+
+MPQArchiveHandle_Wrapper& MPQArchiveHandle_Wrapper::operator=(
+    MPQArchiveHandle_Wrapper&& other
+) noexcept = default;
+
+MPQArchiveHandle_Wrapper::operator MPQArchiveHandle*() const noexcept {
+  return this->Get();
+}
+
+MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() const noexcept {
+  return this->ptr_;
+}
+
+} // namespace d2

@@ -35,11 +35,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_IMPL_HPP_
 
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#include "../d2_mpq_archive/d2_mpq_archive_impl.hpp"
+
+namespace d2 {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x108 */ struct MPQArchiveHandle_1_00 {
+  /* 0x0 */ MPQArchive_1_00* mpq_archive;
+  /* 0x4 */ char mpq_archive_path[/* 0x104 */ 260];
+};
+
+#pragma pack(pop)
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_IMPL_HPP_

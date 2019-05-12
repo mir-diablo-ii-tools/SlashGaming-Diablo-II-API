@@ -35,11 +35,62 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#include "d2_mpq_archive_handle_impl.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+namespace d2 {
+
+MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
+    const MPQArchiveHandle* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
+    const MPQArchiveHandle_ConstWrapper& other
+) = default;
+
+MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
+    MPQArchiveHandle_ConstWrapper&& other
+) noexcept = default;
+
+MPQArchiveHandle_ConstWrapper::~MPQArchiveHandle_ConstWrapper() = default;
+
+MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
+    const MPQArchiveHandle_ConstWrapper& other
+) = default;
+
+MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
+    MPQArchiveHandle_ConstWrapper&& other
+) noexcept = default;
+
+MPQArchiveHandle_ConstWrapper::operator
+const MPQArchiveHandle*() const noexcept {
+  return this->Get();
+}
+
+const MPQArchiveHandle*
+MPQArchiveHandle_ConstWrapper::Get() const noexcept {
+  return this->ptr_;
+}
+
+const MPQArchive*
+MPQArchiveHandle_ConstWrapper::GetMPQArchive() const noexcept {
+  const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
+      this->Get()
+  );
+
+  return reinterpret_cast<MPQArchive*>(actual_ptr->mpq_archive);
+}
+
+const char* MPQArchiveHandle_ConstWrapper::GetMPQArchivePath() const noexcept {
+  const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
+      this->Get()
+  );
+
+  return actual_ptr->mpq_archive_path;
+}
+
+} // namespace d2
