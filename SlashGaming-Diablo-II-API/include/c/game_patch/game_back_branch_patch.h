@@ -35,60 +35,38 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_PATCH_H_
-#define SGD2MAPI_C_GAME_PATCH_H_
+#ifndef SGD2MAPI_C_GAME_PATCH_GAME_BACK_BRANCH_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_GAME_BACK_BRANCH_PATCH_H_
 
-#include <stdbool.h>
 #include <stddef.h>
-#include <stdint.h>
 
-#include "game_address.h"
+#include "../game_address.h"
+#include "../game_branch_type.h"
+#include "../game_patch.h"
 
-#include "game_patch/game_back_branch_patch.h"
-#include "game_patch/game_branch_patch.h"
-#include "game_patch/game_buffer_patch.h"
-#include "game_patch/game_nop_patch.h"
-
-#include "../dllexport_define.inc"
+#include "../../dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-struct MAPI_GamePatch {
-  struct MAPI_GameAddress game_address;
-  bool is_patch_applied;
-  uint8_t* patch_buffer;
-  uint8_t* old_buffer;
-  size_t patch_size;
-};
-
 /**
- * Deinitializes the specified game patch.
+ * Initializes a new GameBackBranchPatch. The patch buffer is configured to
+ * use the specified branch type to branch to the specified function. The
+ * last bytes are used for the branch operations while the first remaining
+ * bytes are filled with no-op instructions.
  */
-DLLEXPORT void MAPI_GamePatch_Deinit(
-  struct MAPI_GamePatch* game_patch
-);
-
-/**
- * Applies the game patch by replacing the bytes at its target address with the
- * bytes stored in its buffer.
- */
-DLLEXPORT void MAPI_GamePatch_Apply(
-  struct MAPI_GamePatch* game_patch
-);
-
-/**
- * Removes the effects of the game patch by restoring the original state of the
- * bytes at its target address.
- */
-DLLEXPORT void MAPI_GamePatch_Remove(
-  struct MAPI_GamePatch* game_patch
+DLLEXPORT void MAPI_GamePatch_InitGameBackBranchPatch(
+    struct MAPI_GamePatch* game_patch,
+    const struct MAPI_GameAddress* game_address,
+    int branch_opcode,
+    void (*func_ptr)(void),
+    size_t patch_size
 );
 
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus
 
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_PATCH_H_
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_PATCH_GAME_BACK_BRANCH_PATCH_H_
