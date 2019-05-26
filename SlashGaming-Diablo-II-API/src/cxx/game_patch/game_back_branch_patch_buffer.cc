@@ -86,7 +86,7 @@ void InitGameBackBranchPatchBuffer(
 
   // Set the (last - sizeof(func_ptr)) byte in the buffer to the branch operation opcode byte.
   std::size_t back_branch_start = patch_size
-      - (sizeof(func_ptr) + sizeof(std::int8_t));
+      - (sizeof(func_ptr) + sizeof(std::uint8_t));
 
   game_patch_buffer[back_branch_start] = static_cast<std::uint8_t>(opcode_value);
 
