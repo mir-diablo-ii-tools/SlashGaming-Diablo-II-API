@@ -42,20 +42,11 @@
 #include <vector>
 
 #include "game_address.hpp"
+#include "game_branch_type.hpp"
 
 #include "../dllexport_define.inc"
 
 namespace mapi {
-
-/**
- * The branch types that are used to call an inserted function. A call saves
- * some state defined by the architecture, with the purpose of returning to the
- * calling function. A jump does not save any state information.
- */
-enum class BranchType {
-  kCall,
-  kJump,
-};
 
 /**
  * A game patch that is capable of replacing values in memory with
