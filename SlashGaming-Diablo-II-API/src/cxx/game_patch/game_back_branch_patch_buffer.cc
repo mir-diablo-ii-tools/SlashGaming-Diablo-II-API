@@ -43,9 +43,9 @@
 #include <vector>
 
 #include <fmt/printf.h>
-#include "../architecture_opcode.hpp"
 #include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch/game_back_branch_patch.h"
+#include "../architecture_opcode.hpp"
 #include "../../../include/cxx/game_address.hpp"
 #include "../../../include/cxx/game_patch.hpp"
 
