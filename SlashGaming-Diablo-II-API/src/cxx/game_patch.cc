@@ -154,7 +154,7 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
     void (*func_ptr)(void),
     std::size_t patch_size
 ) {
-  std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
+  std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
       game_address,
       branch_type,
       func_ptr,
