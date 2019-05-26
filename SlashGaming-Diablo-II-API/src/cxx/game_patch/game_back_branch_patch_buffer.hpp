@@ -35,26 +35,34 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
-#define SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
+#define SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
 
 #include <cstdint>
+#include <vector>
 
-#include "../../include/c/game_branch_type.h"
-#include "../../include/cxx/game_branch_type.hpp"
+#include "../../../include/c/game_address.h"
+#include "../../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/game_branch_type.hpp"
+#include "../../../include/cxx/game_patch.hpp"
 
 namespace mapi {
 
-enum class OpCode : std::uint8_t {
-  kCall = 0xE8,
-  kJump = 0xE9,
-  kNop = 0x90
-};
-
-OpCode ToOpcode(BranchType branch_type);
+std::vector<std::uint8_t>
+CreateGameBackBranchPatchBuffer(
+    const GameAddress& game_address,
+    BranchType branch_type,
+    void (*func_ptr)(void),
+    std::size_t patch_size
+);
 
 } // namespace mapi
 
-mapi::OpCode MAPI_ToOpcode(int branch_type);
+std::uint8_t* MAPI_CreateGameBackBranchPatchBuffer(
+    const MAPI_GameAddress& game_address,
+    int branch_type_id,
+    void (*func_ptr)(void),
+    std::size_t patch_size
+);
 
-#endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_

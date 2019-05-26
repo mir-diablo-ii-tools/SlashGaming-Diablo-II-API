@@ -35,26 +35,42 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
-#define SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#include "architecture_opcode.hpp"
 
-#include <cstdint>
+#include <unordered_map>
 
 #include "../../include/c/game_branch_type.h"
 #include "../../include/cxx/game_branch_type.hpp"
 
 namespace mapi {
 
-enum class OpCode : std::uint8_t {
-  kCall = 0xE8,
-  kJump = 0xE9,
-  kNop = 0x90
-};
+OpCode ToOpcode(BranchType branch_type) {
+  using BranchTypeAndOpcodeMapType = std::unordered_map<
+      enum BranchType,
+      enum OpCode
+  >;
 
-OpCode ToOpcode(BranchType branch_type);
+  static const BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
+      { BranchType::kCall, OpCode::kCall },
+      { BranchType::kJump, OpCode::kJump }
+  };
+
+  return op_codes_by_branch_types.at(branch_type);
+}
 
 } // namespace mapi
 
-mapi::OpCode MAPI_ToOpcode(int branch_type);
 
-#endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+mapi::OpCode MAPI_ToOpcode(int branch_type) {
+  using MAPI_BranchTypeAndOpcodeMapType = std::unordered_map<
+      int,
+      enum mapi::OpCode
+  >;
+
+  static const MAPI_BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
+      { MAPI_BranchType::BRANCH_CALL, mapi::OpCode::kCall },
+      { MAPI_BranchType::BRANCH_JUMP, mapi::OpCode::kJump },
+  };
+
+  return op_codes_by_branch_types.at(branch_type);
+}

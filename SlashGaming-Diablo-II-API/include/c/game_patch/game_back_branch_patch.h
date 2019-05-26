@@ -35,26 +35,38 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
-#define SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#ifndef SGD2MAPI_C_GAME_PATCH_GAME_BACK_BRANCH_PATCH_H_
+#define SGD2MAPI_C_GAME_PATCH_GAME_BACK_BRANCH_PATCH_H_
 
-#include <cstdint>
+#include <stddef.h>
 
-#include "../../include/c/game_branch_type.h"
-#include "../../include/cxx/game_branch_type.hpp"
+#include "../game_address.h"
+#include "../game_branch_type.h"
+#include "../game_patch.h"
 
-namespace mapi {
+#include "../../dllexport_define.inc"
 
-enum class OpCode : std::uint8_t {
-  kCall = 0xE8,
-  kJump = 0xE9,
-  kNop = 0x90
-};
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-OpCode ToOpcode(BranchType branch_type);
+/**
+ * Initializes a new GameBackBranchPatch. The patch buffer is configured to
+ * use the specified branch type to branch to the specified function. The
+ * last bytes are used for the branch operations while the first remaining
+ * bytes are filled with no-op instructions.
+ */
+DLLEXPORT void MAPI_GamePatch_InitGameBackBranchPatch(
+    struct MAPI_GamePatch* game_patch,
+    const struct MAPI_GameAddress* game_address,
+    int branch_opcode,
+    void (*func_ptr)(void),
+    size_t patch_size
+);
 
-} // namespace mapi
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
-mapi::OpCode MAPI_ToOpcode(int branch_type);
-
-#endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_PATCH_GAME_BACK_BRANCH_PATCH_H_

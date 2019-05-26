@@ -41,6 +41,7 @@
 #include <stddef.h>
 
 #include "../game_address.h"
+#include "../game_branch_type.h"
 #include "../game_patch.h"
 
 #include "../../dllexport_define.inc"
@@ -48,16 +49,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-
-/**
- * The branch types that are used to call an inserted function. A call saves
- * some state defined by the architecture, with the purpose of returning to the
- * calling function. A jump does not save any state information.
- */
-enum MAPI_BranchType {
-  BRANCH_CALL,
-  BRANCH_JUMP,
-};
 
 /**
  * Initializes a new GameBranchPatch. The patch buffer is configured to use

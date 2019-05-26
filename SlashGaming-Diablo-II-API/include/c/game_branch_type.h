@@ -35,26 +35,17 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
-#define SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#ifndef SGD2MAPI_C_GAME_BRANCH_TYPE_H_
+#define SGD2MAPI_C_GAME_BRANCH_TYPE_H_
 
-#include <cstdint>
-
-#include "../../include/c/game_branch_type.h"
-#include "../../include/cxx/game_branch_type.hpp"
-
-namespace mapi {
-
-enum class OpCode : std::uint8_t {
-  kCall = 0xE8,
-  kJump = 0xE9,
-  kNop = 0x90
+/**
+ * The branch types that are used to call an inserted function. A call saves
+ * some state defined by the architecture, with the purpose of returning to the
+ * calling function. A jump does not save any state information.
+ */
+enum MAPI_BranchType {
+  BRANCH_CALL,
+  BRANCH_JUMP,
 };
 
-OpCode ToOpcode(BranchType branch_type);
-
-} // namespace mapi
-
-mapi::OpCode MAPI_ToOpcode(int branch_type);
-
-#endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#endif // SGD2MAPI_C_GAME_BRANCH_TYPE_H_

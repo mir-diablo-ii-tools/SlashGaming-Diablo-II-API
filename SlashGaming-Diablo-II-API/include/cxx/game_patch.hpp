@@ -42,20 +42,11 @@
 #include <vector>
 
 #include "game_address.hpp"
+#include "game_branch_type.hpp"
 
 #include "../dllexport_define.inc"
 
 namespace mapi {
-
-/**
- * The branch types that are used to call an inserted function. A call saves
- * some state defined by the architecture, with the purpose of returning to the
- * calling function. A jump does not save any state information.
- */
-enum class BranchType {
-  kCall,
-  kJump,
-};
 
 /**
  * A game patch that is capable of replacing values in memory with
@@ -75,6 +66,30 @@ class DLLEXPORT GamePatch {
    * original values. Does nothing if the patch is not applied.
    */
   void Remove(void);
+
+  /**
+   * Make an instance of a back branch patch. The patch replaces the last
+   * bytes with a branch to a user-specified function, then replaces the
+   * remaining front bytes with no-op instructions.
+   */
+  static GamePatch MakeGameBackBranchPatch(
+      const GameAddress& game_address,
+      enum BranchType branch_type,
+      void (*func_ptr)(void),
+      std::size_t patch_size
+  );
+
+  /**
+   * Make an instance of a back branch patch. The patch replaces the last
+   * bytes with a branch to a user-specified function, then replaces the
+   * remaining front bytes with no-op instructions.
+   */
+  static GamePatch MakeGameBackBranchPatch(
+      GameAddress&& game_address,
+      enum BranchType branch_type,
+      void (*func_ptr)(void),
+      std::size_t patch_size
+  );
 
   /**
    * Make an instance of a branch patch. The patch replaces the first bytes

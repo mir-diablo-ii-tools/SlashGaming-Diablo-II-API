@@ -44,6 +44,7 @@
 
 #include "game_address.h"
 
+#include "game_patch/game_back_branch_patch.h"
 #include "game_patch/game_branch_patch.h"
 #include "game_patch/game_buffer_patch.h"
 #include "game_patch/game_nop_patch.h"

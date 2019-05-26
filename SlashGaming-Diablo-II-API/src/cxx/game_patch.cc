@@ -42,6 +42,7 @@
 #include "../../include/c/game_patch.h"
 #include "architecture_opcode.hpp"
 #include "../../include/cxx/game_address.hpp"
+#include "game_patch/game_back_branch_patch_buffer.hpp"
 #include "game_patch/game_branch_patch_buffer.hpp"
 
 namespace mapi {
@@ -126,6 +127,44 @@ void GamePatch::Remove(void) {
   MAPI_GamePatch_Remove(&c_game_patch);
 
   is_patch_applied_ = c_game_patch.is_patch_applied;
+}
+
+GamePatch GamePatch::MakeGameBackBranchPatch(
+    const GameAddress& game_address,
+    enum BranchType branch_type,
+    void (*func_ptr)(void),
+    std::size_t patch_size
+) {
+  std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
+      game_address,
+      branch_type,
+      func_ptr,
+      patch_size
+  );
+
+  return GamePatch(
+      game_address,
+      std::move(patch_buffer)
+  );
+}
+
+GamePatch GamePatch::MakeGameBackBranchPatch(
+    GameAddress&& game_address,
+    enum BranchType branch_type,
+    void (*func_ptr)(void),
+    std::size_t patch_size
+) {
+  std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
+      game_address,
+      branch_type,
+      func_ptr,
+      patch_size
+  );
+
+  return GamePatch(
+      std::move(game_address),
+      std::move(patch_buffer)
+  );
 }
 
 GamePatch GamePatch::MakeGameBranchPatch(
