@@ -26,10 +26,10 @@ also extended to any combination of expansions, mods, and remasters of
 the game.
 
 If you modify this Program, or any covered work, by linking or combining
-it with any Glide wrapper (or a modified version of that library),
+it with any Graphics Device Interface (GDI), DirectDraw, Direct3D, Glide,
+OpenGL, or Rave wrapper (or modified versions of those libraries),
 containing parts not covered by a compatible license, the licensors of
-this Program grant you additional permission to convey the resulting
-work.
+this Program grant you additional permission to convey the resulting work.
 
 # JSON for Modern C++
 Copyright (c) 2013-2018 Niels Lohmann
