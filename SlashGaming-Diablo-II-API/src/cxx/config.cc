@@ -80,7 +80,8 @@ constexpr int kMinorVersionBValue = 0;
 
 constexpr std::string_view kAddressTableDirectoryPathKey =
     u8"Address Table Directory Path";
-constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
+const std::filesystem::path kDefaultAddressTableDirectory =
+    u8"Address Table";
 
 const std::filesystem::path& GetConfigPath() {
   static std::filesystem::path kConfigPath = u8"SlashGaming-Config.json";
@@ -241,7 +242,7 @@ bool AddMissingConfigEntries(
       || !main_entry[kAddressTableDirectoryPathKey.data()].IsString()) {
     main_entry.AddMember(
         rapidjson::StringRef(kAddressTableDirectoryPathKey.data()),
-        rapidjson::StringRef(kDefaultAddressTableDirectory.data()),
+        rapidjson::StringRef(kDefaultAddressTableDirectory.u8string().data()),
         config.GetAllocator()
     );
   }
@@ -291,15 +292,14 @@ rapidjson::Document& GetConfig() {
   return config;
 }
 
-std::filesystem::path
-ParseAddressTableDirectoryPath() {
+std::filesystem::path ParseAddressTableDirectoryPath() {
   rapidjson::Document& config = GetConfig();
   auto& address_table_path_raw_value =
       config[kMainEntryKey.data()][kAddressTableDirectoryPathKey.data()];
 
   if (!address_table_path_raw_value.IsString()) {
     address_table_path_raw_value.SetString(
-        rapidjson::StringRef(kDefaultAddressTableDirectory.data())
+        rapidjson::StringRef(kDefaultAddressTableDirectory.u8string().data())
     );
   }
 

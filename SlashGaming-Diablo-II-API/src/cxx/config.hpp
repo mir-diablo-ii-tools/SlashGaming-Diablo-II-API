@@ -51,7 +51,7 @@
 namespace mapi {
 
 const std::filesystem::path&
-GetAddressTableDirectoryPath(void);
+GetAddressTableDirectoryPath();
 
 } // namespace mapi
 
