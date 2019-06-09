@@ -47,11 +47,13 @@
 
 #include <filesystem>
 #include <fstream>
-#include <iomanip>
 #include <string>
 #include <string_view>
 
-#include <nlohmann/json.hpp>
+#include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>
+#include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/prettywriter.h>
 
 namespace mapi {
 namespace {
@@ -80,136 +82,229 @@ constexpr std::string_view kAddressTableDirectoryPathKey =
     u8"Address Table Directory Path";
 constexpr std::string_view kDefaultAddressTableDirectory = u8"Address Table";
 
-const std::filesystem::path&
-GetConfigPath(void) {
+const std::filesystem::path& GetConfigPath() {
   static std::filesystem::path kConfigPath = u8"SlashGaming-Config.json";
   return kConfigPath;
 }
 
-void AddMissingConfigEntries(
-    nlohmann::json& config_json
+void CreateEmptyConfig(
+    const std::filesystem::path& config_file_path
 ) {
-  auto& global_entry = config_json[kGlobalEntryKey.data()];
-  if (!global_entry.is_object()) {
-    global_entry = {};
+  std::ofstream config_stream(config_file_path);
+  config_stream << u8"{}" << std::endl;
+}
+
+bool AddMissingConfigEntries(
+    const std::filesystem::path& config_file_path
+) {
+  rapidjson::Document config;
+
+  // Read in the JSON.
+  if (std::ifstream config_stream(config_file_path);
+      config_stream) {
+    rapidjson::IStreamWrapper config_reader(config_stream);
+    config.ParseStream(config_reader);
+  } else {
+    return false;
   }
 
-  auto& main_entry = config_json[kMainEntryKey.data()];
-  if (!main_entry.is_object()) {
-    main_entry = {};
+  // Get the global entry.
+  if (!config.HasMember(kGlobalEntryKey.data())
+      || !config[kGlobalEntryKey.data()].IsObject()) {
+    config.AddMember(
+        rapidjson::StringRef(kGlobalEntryKey.data()),
+        rapidjson::Value(rapidjson::kObjectType),
+        config.GetAllocator()
+    );
+  }
+
+  auto& global_entry = config[kGlobalEntryKey.data()];
+
+  // Get the main entry.
+  if (!config.HasMember(kMainEntryKey.data())
+      || !config[kMainEntryKey.data()].IsObject()) {
+    config.AddMember(
+        rapidjson::StringRef(kMainEntryKey.data()),
+        rapidjson::Value(rapidjson::kObjectType),
+        config.GetAllocator()
+    );
+  }
+
+  auto& main_entry = config[kMainEntryKey.data()];
+
+  // Get the metadata entry.
+  if (!main_entry.HasMember(kMetaDataKey.data())
+      || !main_entry[kMetaDataKey.data()].IsObject()) {
+    main_entry.AddMember(
+        rapidjson::StringRef(kMetaDataKey.data()),
+        rapidjson::Value(rapidjson::kObjectType),
+        config.GetAllocator()
+    );
   }
 
   auto& metadata_entry = main_entry[kMetaDataKey.data()];
-  if (!metadata_entry.is_object()) {
-    metadata_entry = {};
-  }
 
   // Check that the actual config version is less than or equal to the expected
   // config version. If the actual is larger, then do not add any new entries.
   // If there are any breaking config changes, then the program will most
   // likely crash.
-  auto& major_version_a = metadata_entry[kMajorVersionAKey.data()];
-  auto& major_version_b = metadata_entry[kMajorVersionBKey.data()];
-  auto& minor_version_a = metadata_entry[kMinorVersionAKey.data()];
-  auto& minor_version_b = metadata_entry[kMinorVersionBKey.data()];
-
-  if (!major_version_a.is_number() || major_version_a < kMajorVersionAValue) {
-    major_version_a = kMajorVersionAValue;
-    major_version_b = kMajorVersionBValue;
-    minor_version_a = kMinorVersionAValue;
-    minor_version_b = kMinorVersionBValue;
-  } else if (major_version_a > kMajorVersionAValue) {
-    return;
+  if (!metadata_entry.HasMember(kMajorVersionAKey.data())
+      || !metadata_entry[kMajorVersionAKey.data()].IsInt()
+      || metadata_entry[kMajorVersionAKey.data()].GetInt() < kMajorVersionAValue) {
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMajorVersionAKey.data()),
+        rapidjson::Value(kMajorVersionAValue),
+        config.GetAllocator()
+    );
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMajorVersionBKey.data()),
+        rapidjson::Value(0),
+        config.GetAllocator()
+    );
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionAKey.data()),
+        rapidjson::Value(0),
+        config.GetAllocator()
+    );
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionBKey.data()),
+        rapidjson::Value(0),
+        config.GetAllocator()
+    );
+  } else if (metadata_entry[kMajorVersionAKey.data()].GetInt() > kMajorVersionAValue) {
+    return true;
   }
 
-  if (!major_version_b.is_number() || major_version_b < kMajorVersionBValue) {
-    major_version_b = kMajorVersionBValue;
-    minor_version_a = kMinorVersionAValue;
-    minor_version_b = kMinorVersionBValue;
-  } else if (major_version_b > kMajorVersionBValue) {
-    return;
+  if (!metadata_entry.HasMember(kMajorVersionBKey.data())
+      || !metadata_entry[kMajorVersionBKey.data()].IsInt()
+      || metadata_entry[kMajorVersionBKey.data()].GetInt() < kMajorVersionBValue) {
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMajorVersionBKey.data()),
+        rapidjson::Value(kMajorVersionBValue),
+        config.GetAllocator()
+    );
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionAKey.data()),
+        rapidjson::Value(0),
+        config.GetAllocator()
+    );
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionBKey.data()),
+        rapidjson::Value(0),
+        config.GetAllocator()
+    );
+  } else if (metadata_entry[kMajorVersionBKey.data()].GetInt() > kMajorVersionBValue) {
+    return true;
   }
 
-  if (!minor_version_a.is_number() || minor_version_a < kMinorVersionAValue) {
-    minor_version_a = kMinorVersionAValue;
-    minor_version_b = kMinorVersionBValue;
-  } else if (minor_version_a > kMinorVersionAValue) {
-    return;
+  if (!metadata_entry.HasMember(kMinorVersionAKey.data())
+      || !metadata_entry[kMinorVersionAKey.data()].IsInt()
+      || metadata_entry[kMinorVersionAKey.data()].GetInt() < kMinorVersionAValue) {
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionAKey.data()),
+        rapidjson::Value(kMinorVersionAValue),
+        config.GetAllocator()
+    );
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionBKey.data()),
+        rapidjson::Value(0),
+        config.GetAllocator()
+    );
+  } else if (metadata_entry[kMinorVersionAKey.data()].GetInt() > kMinorVersionAValue) {
+    return true;
   }
 
-  if (!minor_version_b.is_number() || minor_version_b < kMinorVersionBValue) {
-    minor_version_b = kMinorVersionBValue;
-  } else if (minor_version_b > kMinorVersionBValue) {
-    return;
+  if (!metadata_entry.HasMember(kMinorVersionBKey.data())
+      || !metadata_entry[kMinorVersionBKey.data()].IsInt()
+      || metadata_entry[kMinorVersionBKey.data()].GetInt() < kMinorVersionBValue) {
+    metadata_entry.AddMember(
+        rapidjson::StringRef(kMinorVersionBKey.data()),
+        rapidjson::Value(kMinorVersionBValue),
+        config.GetAllocator()
+    );
+  } else if (metadata_entry[kMinorVersionBKey.data()].GetInt() > kMinorVersionBValue) {
+    return true;
   }
 
-  // Add missing values.
-
-  if (auto& entry = global_entry[kConfigTabWidthKey.data()];
-      !entry.is_number()) {
-    entry = kDefaultConfigTabWidthValue;
+  // The user's config version is less or equal, so add defaults if missing.
+  if (!global_entry.HasMember(kConfigTabWidthKey.data())
+      || !global_entry[kConfigTabWidthKey.data()].IsInt()
+      || global_entry[kConfigTabWidthKey.data()].GetInt() < 0) {
+    global_entry.AddMember(
+        rapidjson::StringRef(kConfigTabWidthKey.data()),
+        rapidjson::Value(kDefaultConfigTabWidthValue),
+        config.GetAllocator()
+    );
   }
 
-  if (auto& entry = main_entry[kAddressTableDirectoryPathKey.data()];
-      !entry.is_string()) {
-    entry = kDefaultAddressTableDirectory;
+  if (!main_entry.HasMember(kAddressTableDirectoryPathKey.data())
+      || !main_entry[kAddressTableDirectoryPathKey.data()].IsString()) {
+    main_entry.AddMember(
+        rapidjson::StringRef(kAddressTableDirectoryPathKey.data()),
+        rapidjson::StringRef(kDefaultAddressTableDirectory.data()),
+        config.GetAllocator()
+    );
   }
+
+  // Write to the config file any new default values.
+  if (std::ofstream config_stream(config_file_path);
+      config_stream) {
+    rapidjson::OStreamWrapper config_writer(config_stream);
+    rapidjson::PrettyWriter pretty_config_writer(config_writer);
+    pretty_config_writer.SetIndent(' ', global_entry[kConfigTabWidthKey.data()].GetInt());
+
+    config.Accept(pretty_config_writer);
+  } else {
+    return false;
+  }
+
+  return true;
 }
 
-nlohmann::json
-ParseConfig(
-    const std::filesystem::path& config_path
+rapidjson::Document ParseConfig(
+    const std::filesystem::path& config_file_path
 ) {
   // Create the config file if it doesn't exist.
-  if (!std::filesystem::exists(config_path)) {
-    std::ofstream config_file(config_path);
-    config_file << u8"{}" << std::endl;
+  if (!std::filesystem::exists(config_file_path)) {
+    CreateEmptyConfig(config_file_path);
   }
 
   // Read the config file for processing, if all other conditions are good.
-  nlohmann::json config_json;
-
-  if (std::ifstream config_file(config_path);
-      config_file) {
-    config_json = nlohmann::json::parse(config_file);
+  bool is_missing_entry_added = AddMissingConfigEntries(config_file_path);
+  if (!is_missing_entry_added) {
+    return {};
   }
 
-  AddMissingConfigEntries(config_json);
-
-  // Write to the config file any new default values.
-  if (std::ofstream config_file(config_path);
-      config_file) {
-    int tab_width =
-        config_json[kGlobalEntryKey.data()][kConfigTabWidthKey.data()];
-
-    config_file << std::setw(tab_width)
-        << config_json
-        << std::endl;
+  // Parse the config.
+  rapidjson::Document config;
+  if (std::ifstream config_stream(config_file_path);
+      config_stream) {
+    rapidjson::IStreamWrapper config_reader(config_stream);
+    config.ParseStream(config_reader);
   }
 
-  return config_json;
+  return config;
 }
 
-nlohmann::json&
-GetConfig(void) {
-  static nlohmann::json config = ParseConfig(
-      GetConfigPath()
-  );
+rapidjson::Document& GetConfig() {
+  static rapidjson::Document config = ParseConfig(GetConfigPath());
   return config;
 }
 
 std::filesystem::path
-ParseAddressTableDirectoryPath(void) {
-  nlohmann::json& config = GetConfig();
+ParseAddressTableDirectoryPath() {
+  rapidjson::Document& config = GetConfig();
   auto& address_table_path_raw_value =
       config[kMainEntryKey.data()][kAddressTableDirectoryPathKey.data()];
 
-  if (!address_table_path_raw_value.is_string()) {
-    address_table_path_raw_value = kDefaultAddressTableDirectory.data();
+  if (!address_table_path_raw_value.IsString()) {
+    address_table_path_raw_value.SetString(
+        rapidjson::StringRef(kDefaultAddressTableDirectory.data())
+    );
   }
 
   std::filesystem::path address_table_directory_path =
-      address_table_path_raw_value.get<std::string>();
+      address_table_path_raw_value.GetString();
 
   return address_table_directory_path;
 }
@@ -217,7 +312,7 @@ ParseAddressTableDirectoryPath(void) {
 } // namespace
 
 const std::filesystem::path&
-GetAddressTableDirectoryPath(void) {
+GetAddressTableDirectoryPath() {
   static std::filesystem::path address_table_path(
       ParseAddressTableDirectoryPath()
   );
