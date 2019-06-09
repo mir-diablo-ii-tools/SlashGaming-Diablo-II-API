@@ -62,7 +62,7 @@ constexpr std::string_view kGlobalEntryKey = u8"!!!Globals!!!";
 constexpr std::string_view kConfigTabWidthKey = u8"Config Tab Width";
 constexpr int kDefaultConfigTabWidthValue = 4;
 
-constexpr std::string_view kMainEntryKey = u8"SGD2MAPI";
+constexpr std::string_view kMainEntryKey = u8"SlashGaming Diablo II Modding API";
 
 constexpr std::string_view kMetaDataKey = u8"!!!Metadata (Do not modify)!!!";
 
