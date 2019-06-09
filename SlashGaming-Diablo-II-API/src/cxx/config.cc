@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "config_parser.hpp"
+#include "config.hpp"
 
 #include <filesystem>
 #include <fstream>
