@@ -262,7 +262,7 @@ bool AddMissingConfigEntries(
   return true;
 }
 
-rapidjson::Document ParseConfig(
+rapidjson::Document ReadConfig(
     const std::filesystem::path& config_file_path
 ) {
   // Create the config file if it doesn't exist.
@@ -288,7 +288,7 @@ rapidjson::Document ParseConfig(
 }
 
 rapidjson::Document& GetConfig() {
-  static rapidjson::Document config = ParseConfig(GetConfigPath());
+  static rapidjson::Document config = ReadConfig(GetConfigPath());
   return config;
 }
 
