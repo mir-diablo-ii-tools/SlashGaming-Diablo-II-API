@@ -98,8 +98,22 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetInt(
+      int value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   std::int32_t GetInt32(
       std::int32_t default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetInt32(
+      std::int32_t value,
       std::string_view first_key,
       Args... additional_keys
   );
@@ -112,6 +126,13 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetInt64(
+      std::int64_t value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   long GetLong(
       long default_value,
       std::string_view first_key,
@@ -119,8 +140,22 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetLong(
+      long value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   long long GetLongLong(
       long long default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetLongLong(
+      long long value,
       std::string_view first_key,
       Args... additional_keys
   );
@@ -139,6 +174,20 @@ class GenericConfigReader {
       Args... additional_keys
   );
 
+  template <typename ...Args>
+  void SetPath(
+      const std::filesystem::path& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetPath(
+      std::string&& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
   template <typename ...Args, typename T>
   std::set<T> GetSet(
       const std::set<T>& default_value,
@@ -153,6 +202,20 @@ class GenericConfigReader {
       Args... additional_keys
   );
 
+  template <typename ...Args, typename T>
+  void SetSet(
+      const std::set<T>& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  void SetSet(
+      std::set<T>&& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
   template <typename ...Args>
   std::string GetString(
       std::string_view default_value,
@@ -163,6 +226,20 @@ class GenericConfigReader {
   template <typename ...Args>
   std::string GetString(
       std::string&& default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetString(
+      std::string_view value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetString(
+      std::string&& value,
       std::string_view first_key,
       Args... additional_keys
   );
@@ -189,8 +266,22 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetUnsignedInt(
+      unsigned int value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   std::uint32_t GetUnsignedInt32(
       std::uint32_t default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetUnsignedInt32(
+      std::uint32_t value,
       std::string_view first_key,
       Args... additional_keys
   );
@@ -203,6 +294,13 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetUnsignedInt64(
+      std::uint64_t value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   unsigned long GetUnsignedLong(
       unsigned long default_value,
       std::string_view first_key,
@@ -210,8 +308,22 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetUnsignedLong(
+      unsigned long value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   unsigned long long GetUnsignedLongLong(
       unsigned long long default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetUnsignedLongLong(
+      unsigned long long value,
       std::string_view first_key,
       Args... additional_keys
   );
@@ -231,6 +343,20 @@ class GenericConfigReader {
   );
 
   template <typename ...Args, typename T>
+  void SetUnorderedSet(
+      const std::unordered_set<T>& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  void SetUnorderedSet(
+      std::unordered_set<T>&& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
   std::vector<T> GetVector(
       const std::vector<T>& default_value,
       std::string_view first_key,
@@ -240,6 +366,20 @@ class GenericConfigReader {
   template <typename ...Args, typename T>
   std::vector<T> GetVector(
       std::vector<T>&& default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  void SetVector(
+      const std::vector<T>& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  void SetVector(
+      std::vector<T>&& value,
       std::string_view first_key,
       Args... additional_keys
   );

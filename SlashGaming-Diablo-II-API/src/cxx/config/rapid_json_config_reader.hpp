@@ -77,7 +77,7 @@ bool RapidJsonConfigReader::GetBool(
 
 template <>
 template <typename ...Args>
-bool RapidJsonConfigReader::SetBool(
+void RapidJsonConfigReader::SetBool(
     bool value,
     std::string_view first_key,
     Args... additional_keys
@@ -115,6 +115,23 @@ int RapidJsonConfigReader::GetInt(
 
 template <>
 template <typename ...Args>
+void RapidJsonConfigReader::SetInt(
+    int value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetInt(value);
+}
+
+template <>
+template <typename ...Args>
 std::int32_t RapidJsonConfigReader::GetInt32(
     std::int32_t default_value,
     std::string_view first_key,
@@ -132,6 +149,23 @@ std::int32_t RapidJsonConfigReader::GetInt32(
   }
 
   return entry.GetInt();
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetInt32(
+    std::int32_t value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetInt(value);
 }
 
 template <>
@@ -157,6 +191,23 @@ std::int64_t RapidJsonConfigReader::GetInt64(
 
 template <>
 template <typename ...Args>
+void RapidJsonConfigReader::SetInt64(
+    std::int64_t value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetInt64(value);
+}
+
+template <>
+template <typename ...Args>
 long RapidJsonConfigReader::GetLong(
     long default_value,
     std::string_view first_key,
@@ -178,6 +229,23 @@ long RapidJsonConfigReader::GetLong(
 
 template <>
 template <typename ...Args>
+void RapidJsonConfigReader::SetLong(
+    long value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetInt(value);
+}
+
+template <>
+template <typename ...Args>
 long long RapidJsonConfigReader::GetLongLong(
     long long default_value,
     std::string_view first_key,
@@ -195,6 +263,23 @@ long long RapidJsonConfigReader::GetLongLong(
   }
 
   return entry.GetInt64();
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetLongLong(
+    long long value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetInt64(value);
 }
 
 template <>
@@ -243,6 +328,46 @@ std::filesystem::path RapidJsonConfigReader::GetPath(
   }
 
   return entry.GetString();
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetPath(
+    const std::filesystem::path& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetString(
+      value.u8string(),
+      this->json_document().GetAllocator()
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetPath(
+    std::string&& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetString(
+      std::move(value),
+      this->json_document().GetAllocator()
+  );
 }
 
 template <>
@@ -306,6 +431,26 @@ std::set<T> RapidJsonConfigReader::GetSet(
 }
 
 template <>
+template <typename ...Args, typename T>
+void RapidJsonConfigReader::SetSet(
+    const std::set<T>& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+void RapidJsonConfigReader::SetSet(
+    std::set<T>&& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
 template <typename ...Args>
 std::string RapidJsonConfigReader::GetString(
     std::string_view default_value,
@@ -351,6 +496,46 @@ std::string RapidJsonConfigReader::GetString(
   }
 
   return entry.GetString();
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetString(
+    std::string_view value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetString(
+      value,
+      this->json_document().GetAllocator()
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetString(
+    std::string&& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetString(
+      std::move(value),
+      this->json_document().GetAllocator()
+  );
 }
 
 template <>
@@ -424,6 +609,23 @@ unsigned int RapidJsonConfigReader::GetUnsignedInt(
 
 template <>
 template <typename ...Args>
+void RapidJsonConfigReader::SetUnsignedInt(
+    unsigned int value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetUint(value);
+}
+
+template <>
+template <typename ...Args>
 std::uint32_t RapidJsonConfigReader::GetUnsignedInt32(
     std::uint32_t default_value,
     std::string_view first_key,
@@ -441,6 +643,23 @@ std::uint32_t RapidJsonConfigReader::GetUnsignedInt32(
   }
 
   return entry.GetUint();
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetUnsignedInt32(
+    std::uint32_t value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetUint(value);
 }
 
 template <>
@@ -466,6 +685,23 @@ std::uint64_t RapidJsonConfigReader::GetUnsignedInt64(
 
 template <>
 template <typename ...Args>
+void RapidJsonConfigReader::SetUnsignedInt64(
+    std::uint64_t value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetUint64(value);
+}
+
+template <>
+template <typename ...Args>
 unsigned long RapidJsonConfigReader::GetUnsignedLong(
     unsigned long default_value,
     std::string_view first_key,
@@ -483,6 +719,23 @@ unsigned long RapidJsonConfigReader::GetUnsignedLong(
   }
 
   return entry.GetUint();
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetUnsignedLong(
+    unsigned long value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetUint(value);
 }
 
 template <>
@@ -507,6 +760,23 @@ unsigned long long RapidJsonConfigReader::GetUnsignedLongLong(
 }
 
 template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetUnsignedLongLong(
+    unsigned long long value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  auto& entry = GetEntryRef(
+      this->json_document(),
+      first_key,
+      additional_keys,
+      value
+  );
+
+  entry.SetUint64(value);
+}
+
+template <>
 template <typename ...Args, typename T>
 std::unordered_set<T> RapidJsonConfigReader::GetUnorderedSet(
     const std::unordered_set<T>& default_value,
@@ -528,6 +798,26 @@ std::unordered_set<T> RapidJsonConfigReader::GetUnorderedSet(
 
 template <>
 template <typename ...Args, typename T>
+void RapidJsonConfigReader::SetUnorderedSet(
+    const std::unordered_set<T>& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+void RapidJsonConfigReader::SetUnorderedSet(
+    std::unordered_set<T>&& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
 std::vector<T> RapidJsonConfigReader::GetVector(
     const std::vector<T>& default_value,
     std::string_view first_key,
@@ -540,6 +830,26 @@ template <>
 template <typename ...Args, typename T>
 std::vector<T> RapidJsonConfigReader::GetVector(
     std::vector<T>&& default_value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+void RapidJsonConfigReader::SetVector(
+    const std::vector<T>& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+void RapidJsonConfigReader::SetVector(
+    std::vector<T>&& value,
     std::string_view first_key,
     Args... additional_keys
 ) {
