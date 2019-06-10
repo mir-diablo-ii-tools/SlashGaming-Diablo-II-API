@@ -372,6 +372,46 @@ void RapidJsonConfigReader::SetPath(
 
 template <>
 template <typename ...Args, typename T>
+std::queue<T> RapidJsonConfigReader::GetQueue(
+    const std::queue<T>& default_value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+std::queue<T> RapidJsonConfigReader::GetQueue(
+    std::queue<T>&& default_value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+std::queue<T> RapidJsonConfigReader::SetQueue(
+    const std::queue<T>& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
+std::queue<T> RapidJsonConfigReader::SetQueue(
+    std::queue<T>&& value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  // TODO
+}
+
+template <>
+template <typename ...Args, typename T>
 std::set<T> RapidJsonConfigReader::GetSet(
     const std::set<T>& default_value,
     std::string_view first_key,

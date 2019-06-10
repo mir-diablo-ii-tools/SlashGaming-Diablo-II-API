@@ -50,6 +50,7 @@
 #include <filesystem>
 #include <initializer_list>
 #include <map>
+#include <queue>
 #include <set>
 #include <string>
 #include <string_view>
@@ -184,6 +185,34 @@ class GenericConfigReader {
   template <typename ...Args>
   void SetPath(
       std::string&& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  std::queue<T> GetQueue(
+      const std::queue<T>& default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  std::queue<T> GetQueue(
+      std::queue<T>&& default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  std::queue<T> SetQueue(
+      const std::queue<T>& value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args, typename T>
+  std::queue<T> SetQueue(
+      std::queue<T>&& value,
       std::string_view first_key,
       Args... additional_keys
   );
