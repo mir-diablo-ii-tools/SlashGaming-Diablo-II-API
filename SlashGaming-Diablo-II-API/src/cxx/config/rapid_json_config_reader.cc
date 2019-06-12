@@ -70,31 +70,93 @@ bool CreateEmptyConfig(
   return true;
 }
 
-rapidjson::Value& GetObjectEntryRef(
+} // namespace
+
+
+template RapidJsonConfigReader;
+
+template <>
+rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
     rapidjson::Value& object,
-    rapidjson::MemoryPoolAllocator<>& allocator,
     std::string_view current_key,
-    std::vector<std::string_view> additional_keys,
-    rapidjson::Value default_value
+    const std::vector<std::string_view>& additional_keys
 ) {
-  // Check for the existence of the key-value and add if needed.
-  if (!object.HasMember(current_key.data())) {
-    rapidjson::Value current_value = (additional_keys.size() == 0)
-        ? std::move(default_value)
-        : rapidjson::Value(rapidjson::kObjectType);
-
-    object.AddMember(
-        rapidjson::Value(current_key.data(), allocator),
-        std::move(current_value),
-        allocator
-    );
-  }
-
   // If this is the destination key, then return the value.
   rapidjson::Value& entry = object[current_key.data()];
 
-  if (additional_keys.size() == 0) {
+  if (additional_keys.empty()) {
     return entry;
+  }
+
+  // Otherwise, recurse one level down.
+  std::vector<std::string_view> remaining_keys(
+      additional_keys.begin() + 1,
+      additional_keys.end()
+  );
+
+  return GetEntryRef(
+      entry,
+      additional_keys.front(),
+      remaining_keys
+  );
+}
+
+template <>
+const rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
+    const rapidjson::Value& object,
+    std::string_view current_key,
+    const std::vector<std::string_view>& additional_keys
+) const {
+  // If this is the destination key, then return the value.
+  const rapidjson::Value& entry = object[current_key.data()];
+
+  if (additional_keys.empty()) {
+    return entry;
+  }
+
+  // Otherwise, recurse one level down.
+  std::vector<std::string_view> remaining_keys(
+      additional_keys.begin() + 1,
+      additional_keys.end()
+  );
+
+  return GetEntryRef(
+      entry,
+      additional_keys.front(),
+      remaining_keys
+  );
+}
+
+template <>
+void RapidJsonConfigReader::SetEntryRef(
+    rapidjson::Value value,
+    rapidjson::Value& object,
+    std::string_view current_key,
+    const std::vector<std::string_view>& additional_keys
+) {
+  // Check for the existence of the key-value and add the value if this is the
+  // destination key.
+  if (!object.HasMember(current_key.data()) && additional_keys.empty()) {
+    rapidjson::Value copy_key(
+        current_key.data(),
+        this->json_document_.GetAllocator()
+    );
+
+    object.AddMember(
+        copy_key,
+        std::move(value),
+        this->json_document_.GetAllocator()
+    );
+
+    return;
+  }
+
+  // If this is the destination key, then set the value and return.
+  rapidjson::Value& entry = object[current_key.data()];
+
+  if (additional_keys.empty()) {
+    entry = std::move(value);
+    return;
   }
 
   // Otherwise, recurse one level down.
@@ -103,29 +165,94 @@ rapidjson::Value& GetObjectEntryRef(
       std::make_move_iterator(additional_keys.end())
   );
 
-  return GetObjectEntryRef(
+  return SetEntryRef(
+      std::move(value),
       entry,
-      allocator,
       additional_keys.front(),
-      std::move(remaining_keys),
-      std::move(default_value)
+      remaining_keys
   );
 }
 
-} // namespace
-
-rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
-    rapidjson::Document& document,
+template <>
+void RapidJsonConfigReader::SetDeepEntryRef(
+    rapidjson::Value value,
+    rapidjson::Value& object,
     std::string_view current_key,
-    const std::vector<std::string_view>& additional_keys,
-    rapidjson::Value default_value
+    const std::vector<std::string_view>& additional_keys
 ) {
-  return GetObjectEntryRef(
-      document,
-      document.GetAllocator(),
-      current_key,
-      additional_keys,
-      std::move(default_value)
+  // Check for the existence of the key-value and add if needed.
+  if (!object.HasMember(current_key.data())) {
+    rapidjson::Value current_value = (additional_keys.size() == 0)
+        ? std::move(value)
+        : rapidjson::Value(rapidjson::kObjectType);
+
+    rapidjson::Value copy_key(
+        current_key.data(),
+        this->json_document_.GetAllocator()
+    );
+
+    object.AddMember(
+        copy_key,
+        std::move(current_value),
+        this->json_document_.GetAllocator()
+    );
+
+    // Return if this is the destination key.
+    if (additional_keys.empty()) {
+      return;
+    }
+  }
+
+  // If this is the destination key, then set the value and return.
+  rapidjson::Value& entry = object[current_key.data()];
+
+  if (additional_keys.empty()) {
+    entry = std::move(value);
+    return;
+  }
+
+  // Otherwise, recurse one level down.
+  std::vector<std::string_view> remaining_keys(
+      std::make_move_iterator(additional_keys.begin() + 1),
+      std::make_move_iterator(additional_keys.end())
+  );
+
+  return SetDeepEntryRef(
+      std::move(value),
+      entry,
+      additional_keys.front(),
+      remaining_keys
+  );
+}
+
+template <>
+bool RapidJsonConfigReader::HasEntryRef(
+    const rapidjson::Value& object,
+    std::string_view current_key,
+    const std::vector<std::string_view>& additional_keys
+) const {
+  // Check for the existence of the key-value.
+  if (!object.HasMember(current_key.data())) {
+    return false;
+  }
+
+  // If this is the destination key, then return the value.
+  const rapidjson::Value& entry = object[current_key.data()];
+
+  if (additional_keys.size() == 0) {
+    return true;
+  }
+
+  // Otherwise, recurse one level down.
+  std::vector<std::string_view> remaining_keys(
+      std::make_move_iterator(additional_keys.begin() + 1),
+      std::make_move_iterator(additional_keys.end())
+  );
+
+  return HasEntryRef(
+      entry,
+      additional_keys.front(),
+      remaining_keys
   );
 }
 
@@ -133,7 +260,6 @@ template <>
 RapidJsonConfigReader::GenericConfigReader(
     const std::filesystem::path& config_file_path
 ) : config_file_path_(config_file_path) {
-  Read();
 }
 
 template <>

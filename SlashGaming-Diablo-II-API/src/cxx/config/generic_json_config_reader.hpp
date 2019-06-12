@@ -60,7 +60,7 @@
 
 namespace mapi {
 
-template<typename JsonDocument, typename JsonValue>
+template<typename JsonDocument, typename JsonObject, typename JsonValue>
 class GenericConfigReader {
  public:
   GenericConfigReader() = delete;
@@ -73,16 +73,40 @@ class GenericConfigReader {
       std::filesystem::path&& config_file_path
   );
 
+  /* Read and Write */
+
   bool Read();
 
   bool Write(int indent);
 
+  /* Functions for Generic Types */
+
+  template <typename ...Args>
+  bool Contains(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  /* Functions for bool */
+
   template <typename ...Args>
   bool GetBool(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  bool GetBoolOrDefault(
       bool default_value,
       std::string_view first_key,
       Args... additional_keys
-  );
+  ) const;
+
+  template <typename ...Args>
+  bool HasBool(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
 
   template <typename ...Args>
   void SetBool(
@@ -92,11 +116,32 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
-  int GetInt(
-      int default_value,
+  void SetDeepBool(
+      bool value,
       std::string_view first_key,
       Args... additional_keys
   );
+
+  /* Functions for int */
+
+  template <typename ...Args>
+  int GetInt(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  int GetIntOrDefault(
+      int default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  bool HasInt(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
 
   template <typename ...Args>
   void SetInt(
@@ -106,8 +151,21 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  void SetDeepInt(
+      int value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   std::int32_t GetInt32(
       std::int32_t default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasInt32(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -127,6 +185,12 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  bool HasInt64(
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   void SetInt64(
       std::int64_t value,
       std::string_view first_key,
@@ -136,6 +200,12 @@ class GenericConfigReader {
   template <typename ...Args>
   long GetLong(
       long default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasLong(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -155,25 +225,38 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  bool HasLongLong(
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   void SetLongLong(
       long long value,
       std::string_view first_key,
       Args... additional_keys
   );
 
-  template <typename ...Args>
-  std::filesystem::path GetPath(
-      const std::filesystem::path& default_value,
-      std::string_view first_key,
-      Args... additional_keys
-  );
+  /* Functions for std::filesystem::path */
 
   template <typename ...Args>
   std::filesystem::path GetPath(
-      std::string&& default_value,
       std::string_view first_key,
       Args... additional_keys
-  );
+  ) const;
+
+  template <typename ...Args>
+  std::filesystem::path GetPathOrDefault(
+      std::filesystem::path default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  bool HasPath(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
 
   template <typename ...Args>
   void SetPath(
@@ -199,6 +282,12 @@ class GenericConfigReader {
   template <typename ...Args, typename T>
   std::queue<T> GetQueue(
       std::queue<T>&& default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasQueue(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -231,6 +320,12 @@ class GenericConfigReader {
       Args... additional_keys
   );
 
+  template <typename ...Args>
+  bool HasSet(
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
   template <typename ...Args, typename T>
   void SetSet(
       const std::set<T>& value,
@@ -245,19 +340,26 @@ class GenericConfigReader {
       Args... additional_keys
   );
 
-  template <typename ...Args>
-  std::string GetString(
-      std::string_view default_value,
-      std::string_view first_key,
-      Args... additional_keys
-  );
+  /* Functions for std::string */
 
   template <typename ...Args>
   std::string GetString(
-      std::string&& default_value,
       std::string_view first_key,
       Args... additional_keys
-  );
+  ) const;
+
+  template <typename ...Args>
+  std::string GetStringOrDefault(
+      std::string default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  bool HasString(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
 
   template <typename ...Args>
   void SetString(
@@ -273,23 +375,17 @@ class GenericConfigReader {
       Args... additional_keys
   );
 
-  template <typename ...Args>
-  const std::string& GetStringRef(
-      std::string_view default_value,
-      std::string_view first_key,
-      Args... additional_keys
-  );
-
-  template <typename ...Args>
-  const std::string& GetStringRef(
-      std::string&& default_value,
-      std::string_view first_key,
-      Args... additional_keys
-  );
+  /* Functions for unsigned int */
 
   template <typename ...Args>
   unsigned int GetUnsignedInt(
       unsigned int default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasUnsignedInt(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -309,6 +405,12 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  bool HasUnsignedInt32(
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   void SetUnsignedInt32(
       std::uint32_t value,
       std::string_view first_key,
@@ -318,6 +420,12 @@ class GenericConfigReader {
   template <typename ...Args>
   std::uint64_t GetUnsignedInt64(
       std::uint64_t default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasUnsignedInt64(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -337,6 +445,12 @@ class GenericConfigReader {
   );
 
   template <typename ...Args>
+  bool HasUnsignedLong(
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
   void SetUnsignedLong(
       unsigned long value,
       std::string_view first_key,
@@ -346,6 +460,12 @@ class GenericConfigReader {
   template <typename ...Args>
   unsigned long long GetUnsignedLongLong(
       unsigned long long default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasUnsignedLongLong(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -367,6 +487,12 @@ class GenericConfigReader {
   template <typename ...Args, typename T>
   std::unordered_set<T> GetUnorderedSet(
       std::unordered_set<T>&& default_value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  bool HasUnorderedSet(
       std::string_view first_key,
       Args... additional_keys
   );
@@ -399,6 +525,12 @@ class GenericConfigReader {
       Args... additional_keys
   );
 
+  template <typename ...Args>
+  bool HasVector(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
   template <typename ...Args, typename T>
   void SetVector(
       const std::vector<T>& value,
@@ -426,11 +558,36 @@ class GenericConfigReader {
   JsonDocument json_document_;
 
   JsonValue& GetEntryRef(
-      JsonDocument& document,
+      JsonObject& object,
       std::string_view current_key,
-      const std::vector<std::string_view>& additional_keys,
-      JsonValue default_value
+      const std::vector<std::string_view>& additional_keys
   );
+
+  const JsonValue& GetEntryRef(
+      const JsonObject& object,
+      std::string_view current_key,
+      const std::vector<std::string_view>& additional_keys
+  ) const;
+
+  void SetEntryRef(
+      JsonValue value,
+      JsonObject& object,
+      std::string_view current_key,
+      const std::vector<std::string_view>& additional_keys
+  );
+
+  void SetDeepEntryRef(
+      JsonValue value,
+      JsonObject& object,
+      std::string_view current_key,
+      const std::vector<std::string_view>& additional_keys
+  );
+
+  bool HasEntryRef(
+      const JsonObject& object,
+      std::string_view current_key,
+      const std::vector<std::string_view>& additional_keys
+  ) const;
 };
 
 } // namespace mapi
