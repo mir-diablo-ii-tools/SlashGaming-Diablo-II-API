@@ -258,13 +258,7 @@ bool RapidJsonConfigReader::HasEntryRef(
 
 template <>
 RapidJsonConfigReader::GenericConfigReader(
-    const std::filesystem::path& config_file_path
-) : config_file_path_(config_file_path) {
-}
-
-template <>
-RapidJsonConfigReader::GenericConfigReader(
-    std::filesystem::path&& config_file_path
+    std::filesystem::path config_file_path
 ) : config_file_path_(std::move(config_file_path)) {
 }
 

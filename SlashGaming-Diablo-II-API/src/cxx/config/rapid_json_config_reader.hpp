@@ -56,9 +56,11 @@ using RapidJsonConfigReader = GenericConfigReader<rapidjson::Document, rapidjson
 
 extern RapidJsonConfigReader;
 
+/* Functions for Generic Types */
+
 template <>
 template <typename ...Args>
-bool RapidJsonConfigReader::Contains(
+bool RapidJsonConfigReader::ContainsKey(
     std::string_view first_key,
     Args... additional_keys
 ) const {
@@ -73,6 +75,62 @@ bool RapidJsonConfigReader::Contains(
   );
 }
 
+template <>
+template <typename ...Args>
+const RapidJsonConfigReader::JsonValue&
+RapidJsonConfigReader::GetValueRef(
+    std::string_view first_key,
+    Args... additional_keys
+) const {
+  std::vector additional_keys_vector = {
+      additional_keys...
+  };
+
+  return this->GetEntryRef(
+      this->json_document_,
+      first_key,
+      additional_keys_vector
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetValue(
+    RapidJsonConfigReader::JsonValue value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  std::vector<std::string_view> additional_keys_vector = {
+      additional_keys...
+  };
+
+  SetEntryRef(
+      std::move(value),
+      this->json_document_,
+      first_key,
+      additional_keys_vector
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetDeepValue(
+    RapidJsonConfigReader::JsonValue value,
+    std::string_view first_key,
+    Args... additional_keys
+) {
+  std::vector<std::string_view> additional_keys_vector = {
+      additional_keys...
+  };
+
+  SetDeepEntryRef(
+      std::move(value),
+      this->json_document_,
+      first_key,
+      additional_keys_vector
+  );
+}
+
 /* Functions for bool */
 
 template <>
@@ -81,14 +139,9 @@ bool RapidJsonConfigReader::GetBool(
     std::string_view first_key,
     Args... additional_keys
 ) const {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  const auto& entry = GetEntryRef(
-      this->json_document(),
+  const auto& entry = GetValueRef(
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 
   return entry.GetBool();
@@ -101,11 +154,11 @@ bool RapidJsonConfigReader::GetBoolOrDefault(
     std::string_view first_key,
     Args... additional_keys
 ) const {
-  if (!this->HasBool(first_key, additional_keys)) {
+  if (!this->HasBool(first_key, additional_keys...)) {
     return default_value;
   }
 
-  return this->GetBool(first_key, additional_keys);
+  return this->GetBool(first_key, additional_keys...);
 }
 
 template <>
@@ -114,24 +167,13 @@ bool RapidJsonConfigReader::HasBool(
     std::string_view first_key,
     Args... additional_keys
 ) const {
-  std::vector additional_keys_vector = {
-      additional_keys...
-  };
-
-  bool has_entry = this->Contains(
-      this->json_document(),
-      first_key,
-      additional_keys_vector
-  );
-
-  if (!has_entry) {
+  if (!this->ContainsKey(first_key, additional_keys...)) {
     return false;
   }
 
-  auto& entry = GetEntryRef(
-      this->json_document(),
+  const auto& entry = GetValueRef(
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 
   return entry.IsBool();
@@ -144,15 +186,10 @@ void RapidJsonConfigReader::SetBool(
     std::string_view first_key,
     Args... additional_keys
 ) {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  this->SetEntryRef(
-      value,
-      this->json_document_,
+  this->SetEntry(
+      rapidjson::Value(value),
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 }
 
@@ -163,15 +200,10 @@ void RapidJsonConfigReader::SetDeepBool(
     std::string_view first_key,
     Args... additional_keys
 ) {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  this->SetDeepEntryRef(
-      value,
-      this->json_document_,
+  this->SetDeepValueRef(
+      rapidjson::Value(value),
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 }
 
@@ -183,14 +215,9 @@ int RapidJsonConfigReader::GetInt(
     std::string_view first_key,
     Args... additional_keys
 ) const {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  const auto& entry = GetEntryRef(
-      this->json_document_,
+  const auto& entry = GetValueRef(
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 
   return entry.GetInt();
@@ -203,21 +230,14 @@ int RapidJsonConfigReader::GetIntOrDefault(
     std::string_view first_key,
     Args... additional_keys
 ) const {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
   if (!this->HasInt()) {
     return default_value;
   }
 
-  const auto& entry = GetEntryRef(
-      this->json_document_,
+  return this->GetInt(
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
-
-  return entry.GetInt();
 }
 
 template <>
@@ -226,18 +246,13 @@ bool RapidJsonConfigReader::HasInt(
     std::string_view first_key,
     Args... additional_keys
 ) const {
-  if (!this->Contains(first_key, additional_keys...)) {
+  if (!this->ContainsKey(first_key, additional_keys...)) {
     return false;
   }
 
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  const auto& entry = GetEntryRef(
-      this->json_document(),
+  const auto& entry = GetValueRef(
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 
   return entry.IsInt();
@@ -250,15 +265,10 @@ void RapidJsonConfigReader::SetInt(
     std::string_view first_key,
     Args... additional_keys
 ) {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  SetEntryRef(
+  this->SetValue(
       rapidjson::Value(value),
-      this->json_document_,
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 }
 
@@ -269,15 +279,10 @@ void RapidJsonConfigReader::SetDeepInt(
     std::string_view first_key,
     Args... additional_keys
 ) {
-  std::vector<std::string_view> additional_keys_vector = {
-      additional_keys...
-  };
-
-  SetDeepEntryRef(
-      value,
-      this->json_document_,
+  this->SetDeepValue(
+      rapidjson::Value(value),
       first_key,
-      additional_keys_vector
+      additional_keys...
   );
 }
 

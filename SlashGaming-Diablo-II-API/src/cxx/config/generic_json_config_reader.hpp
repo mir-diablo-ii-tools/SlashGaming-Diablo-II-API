@@ -60,17 +60,17 @@
 
 namespace mapi {
 
-template<typename JsonDocument, typename JsonObject, typename JsonValue>
+template<typename DOC, typename OBJ, typename VAL>
 class GenericConfigReader {
+  using JsonDocument = DOC;
+  using JsonObject = OBJ;
+  using JsonValue = VAL;
+
  public:
   GenericConfigReader() = delete;
 
   explicit GenericConfigReader(
-      const std::filesystem::path& config_file_path
-  );
-
-  explicit GenericConfigReader(
-      std::filesystem::path&& config_file_path
+      std::filesystem::path config_file_path
   );
 
   /* Read and Write */
@@ -82,10 +82,30 @@ class GenericConfigReader {
   /* Functions for Generic Types */
 
   template <typename ...Args>
-  bool Contains(
+  bool ContainsKey(
       std::string_view first_key,
       Args... additional_keys
   ) const;
+
+  template <typename ...Args>
+  const JsonValue& GetValueRef(
+      std::string_view first_key,
+      Args... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  void SetValue(
+      JsonValue value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetDeepValue(
+      JsonValue value,
+      std::string_view first_key,
+      Args... additional_keys
+  );
 
   /* Functions for bool */
 
