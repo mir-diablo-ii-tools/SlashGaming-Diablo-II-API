@@ -53,6 +53,8 @@ namespace mapi {
 const std::filesystem::path&
 GetAddressTableDirectoryPath();
 
+void ResetConfig();
+
 } // namespace mapi
 
 #endif // SGD2MAPI_CXX_CONFIG_HPP_
