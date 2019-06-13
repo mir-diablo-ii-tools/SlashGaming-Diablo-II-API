@@ -95,6 +95,192 @@ RapidJsonConfigReader::GetValueRef(
 }
 
 template <>
+template <typename Iter, typename ...Args>
+void RapidJsonConfigReader::SetArray(
+    Iter first,
+    Iter last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(rapidjson::Value(elem));
+  });
+
+  this->SetValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetArray(
+    const char* first,
+    const char* last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(
+        rapidjson::Value(elem, this->json_document_.GetAllocator()),
+        this->json_document_.GetAllocator()
+    );
+  });
+
+  this->SetValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetArray(
+    std::string::iterator first,
+    std::string::iterator last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(
+        rapidjson::Value(elem, this->json_document_.GetAllocator()),
+        this->json_document_.GetAllocator()
+    );
+  });
+
+  this->SetValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetArray(
+    std::string_view::iterator first,
+    std::string_view::iterator last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(
+        rapidjson::Value(elem, this->json_document_.GetAllocator()),
+        this->json_document_.GetAllocator()
+    );
+  });
+
+  this->SetValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename Iter, typename ...Args>
+void RapidJsonConfigReader::SetDeepArray(
+    Iter first,
+    Iter last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(rapidjson::Value(elem));
+  });
+
+  this->SetDeepValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetDeepArray(
+    const char* first,
+    const char* last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(
+        rapidjson::Value(elem, this->json_document_.GetAllocator()),
+        this->json_document_.GetAllocator()
+    );
+  });
+
+  this->SetDeepValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetDeepArray(
+    std::string::iterator first,
+    std::string::iterator last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(
+        rapidjson::Value(elem.data(), this->json_document_.GetAllocator()),
+        this->json_document_.GetAllocator()
+    );
+  });
+
+  this->SetDeepValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename ...Args>
+void RapidJsonConfigReader::SetDeepArray(
+    std::string_view::iterator first,
+    std::string_view::iterator last,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  rapidjson::Value json_array(rapidjson::kArrayType);
+
+  std::for_each(first, last, [=](const auto& elem) {
+    json_array.PushBack(
+        rapidjson::Value(elem.data(), this->json_document_.GetAllocator()),
+        this->json_document_.GetAllocator()
+    );
+  });
+
+  this->SetDeepValue(
+      std::move(json_array),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
 template <typename ...Args>
 void RapidJsonConfigReader::SetValue(
     RapidJsonConfigReader::JsonValue value,

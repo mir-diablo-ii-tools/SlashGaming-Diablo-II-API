@@ -93,6 +93,70 @@ class GenericConfigReader {
       const Args&... additional_keys
   ) const;
 
+  template <typename Iter, typename ...Args>
+  void SetArray(
+      Iter first,
+      Iter last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetArray(
+      const char* first,
+      const char* last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetArray(
+      std::string::iterator first,
+      std::string::iterator last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetArray(
+      std::string_view::iterator first,
+      std::string_view::iterator last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename Iter, typename ...Args>
+  void SetDeepArray(
+      Iter first,
+      Iter last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetDeepArray(
+      const char* first,
+      const char* last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetDeepArray(
+      std::string::iterator first,
+      std::string::iterator last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetDeepArray(
+      std::string_view::iterator first,
+      std::string_view::iterator last,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
   template <typename ...Args>
   void SetValue(
       JsonValue value,
