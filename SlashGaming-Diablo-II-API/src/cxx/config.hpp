@@ -53,7 +53,7 @@ namespace mapi {
 const std::filesystem::path&
 GetAddressTableDirectoryPath();
 
-void ResetConfig();
+bool RefreshConfig();
 
 } // namespace mapi
 
