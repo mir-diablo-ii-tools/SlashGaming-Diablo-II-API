@@ -77,7 +77,7 @@ class GenericConfigReader {
 
   bool Read();
 
-  bool Write(int indent);
+  bool Write(int indent_width);
 
   /* Functions for Generic Types */
 
@@ -89,6 +89,12 @@ class GenericConfigReader {
 
   template <typename ...Args>
   const JsonValue& GetValueRef(
+      std::string_view first_key,
+      const Args&... additional_keys
+  ) const;
+
+  template <typename Container, typename ...Args>
+  Container GetArrayCopy(
       std::string_view first_key,
       const Args&... additional_keys
   ) const;
@@ -516,6 +522,20 @@ class GenericConfigReader {
 
   template <typename T, typename ...Args>
   void SetSet(
+      std::set<T>&& value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename T, typename ...Args>
+  void SetDeepSet(
+      const std::set<T>& value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename T, typename ...Args>
+  void SetDeepSet(
       std::set<T>&& value,
       std::string_view first_key,
       const Args&... additional_keys

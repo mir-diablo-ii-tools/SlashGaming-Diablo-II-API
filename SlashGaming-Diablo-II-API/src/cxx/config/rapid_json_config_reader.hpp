@@ -95,6 +95,32 @@ RapidJsonConfigReader::GetValueRef(
 }
 
 template <>
+template <typename Container, typename ...Args>
+Container RapidJsonConfigReader::GetArrayCopy(
+    std::string_view first_key,
+    const Args&... additional_keys
+) const {
+  const rapidjson::Value& value_ref = this->GetValueRef(
+      first_key,
+      additional_keys...
+  );
+
+  const rapidjson::Value::Array& array_ref = std::value_ref.GetArray();
+
+  Container container;
+  std::transform(
+      array_ref.begin(),
+      array_ref.end(),
+      container.begin(),
+      [=](const auto& elem) {
+        return *elem;
+      }
+  );
+
+  return container;
+}
+
+template <>
 template <typename Iter, typename ...Args>
 void RapidJsonConfigReader::SetArray(
     Iter first,
@@ -291,7 +317,7 @@ void RapidJsonConfigReader::SetValue(
       additional_keys...
   };
 
-  SetValue(
+  this->SetValue(
       std::move(value),
       this->json_document_,
       first_key,
@@ -310,7 +336,7 @@ void RapidJsonConfigReader::SetDeepValue(
       additional_keys...
   };
 
-  SetDeepValue(
+  this->SetDeepValue(
       std::move(value),
       this->json_document_,
       first_key,
@@ -526,7 +552,7 @@ void RapidJsonConfigReader::SetInt32(
     const Args&... additional_keys
 ) {
   this->SetValue(
-      value,
+      rapidjson::Value(value),
       first_key,
       additional_keys...
   );
@@ -812,7 +838,7 @@ std::queue<T> RapidJsonConfigReader::GetQueue(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  // TODO
+  return this->GetArrayCopy(first_key, additional_keys...);
 }
 
 template <>
@@ -868,7 +894,12 @@ std::queue<T> RapidJsonConfigReader::SetQueue(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -878,7 +909,12 @@ std::queue<T> RapidJsonConfigReader::SetQueue(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -888,7 +924,12 @@ std::queue<T> RapidJsonConfigReader::SetDeepQueue(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetDeepArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -898,7 +939,12 @@ std::queue<T> RapidJsonConfigReader::SetDeepQueue(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetDeepArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 /* Functions for std::set */
@@ -909,7 +955,7 @@ std::set<T> RapidJsonConfigReader::GetSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  // TODO
+  return this->GetArrayCopy(first_key, additional_keys...);
 }
 
 template <>
@@ -965,7 +1011,12 @@ void RapidJsonConfigReader::SetSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      value.begin(),
+      value.end(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -975,7 +1026,42 @@ void RapidJsonConfigReader::SetSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename T, typename ...Args>
+void RapidJsonConfigReader::SetDeepSet(
+    const std::set<T>& value,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  this->SetDeepArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
+}
+
+template <>
+template <typename T, typename ...Args>
+void RapidJsonConfigReader::SetDeepSet(
+    std::set<T>&& value,
+    std::string_view first_key,
+    const Args&... additional_keys
+) {
+  this->SetDeepArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 /* Functions for std::string */
@@ -1484,7 +1570,7 @@ std::unordered_set<T> RapidJsonConfigReader::GetUnorderedSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  // TODO
+  return this->GetArrayCopy(first_key, additional_keys...);
 }
 
 template <>
@@ -1540,7 +1626,12 @@ void RapidJsonConfigReader::SetUnorderedSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1550,7 +1641,12 @@ void RapidJsonConfigReader::SetUnorderedSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1560,7 +1656,12 @@ void RapidJsonConfigReader::SetDeepUnorderedSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetDeepArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1570,7 +1671,12 @@ void RapidJsonConfigReader::SetDeepUnorderedSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetDeepArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 /* Functions of std::vector */
@@ -1581,7 +1687,7 @@ std::vector<T> RapidJsonConfigReader::GetVector(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  // TODO
+  return this->GetArrayCopy(first_key, additional_keys...);
 }
 
 template <>
@@ -1637,7 +1743,12 @@ void RapidJsonConfigReader::SetVector(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1647,7 +1758,12 @@ void RapidJsonConfigReader::SetVector(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1657,7 +1773,12 @@ void RapidJsonConfigReader::SetDeepVector(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetDeepArray(
+      value.cbegin(),
+      value.cend(),
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1667,7 +1788,12 @@ void RapidJsonConfigReader::SetDeepVector(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  // TODO
+  this->SetDeepArray(
+      std::make_move_iterator(value.begin()),
+      std::make_move_iterator(value.end()),
+      first_key,
+      additional_keys...
+  );
 }
 
 } // namespace mapi

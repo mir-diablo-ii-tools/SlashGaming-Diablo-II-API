@@ -282,13 +282,13 @@ bool RapidJsonConfigReader::Read() {
 }
 
 template <>
-bool RapidJsonConfigReader::Write(int indent) {
+bool RapidJsonConfigReader::Write(int indent_width) {
   // Write to the config file any new default values.
   if (std::ofstream config_stream(this->config_file_path());
       config_stream) {
     rapidjson::OStreamWrapper config_stream_wrapper(config_stream);
     rapidjson::PrettyWriter pretty_config_writer(config_stream_wrapper);
-    pretty_config_writer.SetIndent(' ', indent);
+    pretty_config_writer.SetIndent(' ', indent_width);
 
     this->json_document().Accept(pretty_config_writer);
   } else {
