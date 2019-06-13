@@ -399,7 +399,7 @@ void RapidJsonConfigReader::SetBool(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  this->SetEntry(
+  this->SetValue(
       rapidjson::Value(value),
       first_key,
       additional_keys...
@@ -413,7 +413,7 @@ void RapidJsonConfigReader::SetDeepBool(
     std::string_view first_key,
     const Args&... additional_keys
 ) {
-  this->SetDeepValueRef(
+  this->SetDeepValue(
       rapidjson::Value(value),
       first_key,
       additional_keys...
@@ -769,7 +769,7 @@ std::filesystem::path RapidJsonConfigReader::GetPathOrDefault(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  if (!this->HasPath(first_key, additional_keys)) {
+  if (!this->HasPath(first_key, additional_keys...)) {
     return default_value;
   }
 
@@ -848,7 +848,7 @@ std::queue<T> RapidJsonConfigReader::GetQueueOrDefault(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  if (!this->HasQueue(first_key, additional_keys)) {
+  if (!this->HasQueue(first_key, additional_keys...)) {
     return default_value;
   }
 
@@ -1012,8 +1012,8 @@ void RapidJsonConfigReader::SetSet(
     const Args&... additional_keys
 ) {
   this->SetArray(
-      value.begin(),
-      value.end(),
+      value.cbegin(),
+      value.cend(),
       first_key,
       additional_keys...
   );
@@ -1513,7 +1513,7 @@ unsigned long long RapidJsonConfigReader::GetUnsignedLongLongOrDefault(
     return default_value;
   }
 
-  return this->GetUnsignedLongLong(first_key, additional_keys);
+  return this->GetUnsignedLongLong(first_key, additional_keys...);
 }
 
 template <>
