@@ -291,6 +291,8 @@ bool RapidJsonConfigReader::Write(int indent_width) {
     pretty_config_writer.SetIndent(' ', indent_width);
 
     this->json_document().Accept(pretty_config_writer);
+
+    return true;
   } else {
     return false;
   }
