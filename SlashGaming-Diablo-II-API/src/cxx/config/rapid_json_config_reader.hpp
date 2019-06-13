@@ -826,7 +826,7 @@ void RapidJsonConfigReader::SetDeepPath(
   this->SetDeepString(
       value.u8string(),
       first_key,
-      additional_keys
+      additional_keys...
   );
 }
 
