@@ -121,7 +121,8 @@ bool AddMissingConfigEntries(
   // If there are any breaking config changes, then the program will most
   // likely crash.
   int major_version_a = config_reader.GetIntOrDefault(
-      0,
+      std::numeric_limits<int>::min(),
+      kMainEntryKey,
       kMetaDataKey,
       kMajorVersionAKey
   );
@@ -129,26 +130,30 @@ bool AddMissingConfigEntries(
   if (major_version_a < kMajorVersionAValue) {
     major_version_a = kMajorVersionAValue;
 
-    config_reader.SetInt(
+    config_reader.SetDeepInt(
         kMajorVersionAValue,
+        kMainEntryKey,
         kMetaDataKey,
         kMajorVersionAKey
     );
 
-    config_reader.SetInt(
-        kMajorVersionBValue,
+    config_reader.SetDeepInt(
+        std::numeric_limits<int>::min(),
+        kMainEntryKey,
         kMetaDataKey,
         kMajorVersionBKey
     );
 
-    config_reader.SetInt(
-        kMinorVersionAValue,
+    config_reader.SetDeepInt(
+        std::numeric_limits<int>::min(),
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionAKey
     );
 
-    config_reader.SetInt(
-        kMinorVersionBValue,
+    config_reader.SetDeepInt(
+        std::numeric_limits<int>::min(),
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionBKey
     );
@@ -157,7 +162,7 @@ bool AddMissingConfigEntries(
   }
 
   int major_version_b = config_reader.GetIntOrDefault(
-      0,
+      std::numeric_limits<int>::min(),
       kMetaDataKey,
       kMajorVersionBKey
   );
@@ -165,20 +170,23 @@ bool AddMissingConfigEntries(
   if (major_version_b < kMajorVersionBValue) {
     major_version_b = kMajorVersionBValue;
 
-    config_reader.SetInt(
+    config_reader.SetDeepInt(
         kMajorVersionBValue,
+        kMainEntryKey,
         kMetaDataKey,
         kMajorVersionBKey
     );
 
-    config_reader.SetInt(
-        0,
+    config_reader.SetDeepInt(
+        std::numeric_limits<int>::min(),
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionAKey
     );
 
-    config_reader.SetInt(
-        0,
+    config_reader.SetDeepInt(
+        std::numeric_limits<int>::min(),
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionBKey
     );
@@ -187,7 +195,8 @@ bool AddMissingConfigEntries(
   }
 
   int minor_version_a = config_reader.GetIntOrDefault(
-      0,
+      std::numeric_limits<int>::min(),
+      kMainEntryKey,
       kMetaDataKey,
       kMinorVersionAKey
   );
@@ -195,14 +204,16 @@ bool AddMissingConfigEntries(
   if (minor_version_a < kMinorVersionAValue) {
     minor_version_a = kMinorVersionAValue;
 
-    config_reader.SetInt(
+    config_reader.SetDeepInt(
         kMinorVersionAValue,
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionAKey
     );
 
-    config_reader.SetInt(
-        0,
+    config_reader.SetDeepInt(
+        std::numeric_limits<int>::min(),
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionBKey
     );
@@ -211,7 +222,8 @@ bool AddMissingConfigEntries(
   }
 
   int minor_version_b = config_reader.GetIntOrDefault(
-      0,
+      std::numeric_limits<int>::min(),
+      kMainEntryKey,
       kMetaDataKey,
       kMinorVersionBKey
   );
@@ -219,8 +231,9 @@ bool AddMissingConfigEntries(
   if (minor_version_b < kMinorVersionBValue) {
     minor_version_b = kMinorVersionBValue;
 
-    config_reader.SetInt(
+    config_reader.SetDeepInt(
         kMinorVersionBValue,
+        kMainEntryKey,
         kMetaDataKey,
         kMinorVersionBKey
     );
@@ -230,15 +243,15 @@ bool AddMissingConfigEntries(
 
   // The user's config version is less or equal, so add defaults if missing.
   if (!config_reader.HasPath(kMainEntryKey, kAddressTableDirectoryPathKey)) {
-    config_reader.SetPath(
+    config_reader.SetDeepPath(
         kDefaultAddressTableDirectoryPath,
         kMainEntryKey,
         kAddressTableDirectoryPathKey
     );
   }
 
-  if (!config_reader.HasInt(kMainEntryKey, kConfigTabWidthKey)) {
-    config_reader.SetInt(
+  if (!config_reader.HasInt(kGlobalEntryKey, kConfigTabWidthKey)) {
+    config_reader.SetDeepInt(
         kDefaultConfigTabWidthValue,
         kGlobalEntryKey,
         kConfigTabWidthKey
