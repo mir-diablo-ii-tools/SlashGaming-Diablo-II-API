@@ -76,7 +76,7 @@ bool CreateEmptyConfig(
 template RapidJsonConfigReader;
 
 template <>
-rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
+rapidjson::Value& RapidJsonConfigReader::GetValueRef(
     rapidjson::Value& object,
     std::string_view current_key,
     const std::vector<std::string_view>& additional_keys
@@ -94,7 +94,7 @@ rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
       additional_keys.end()
   );
 
-  return GetEntryRef(
+  return GetValueRef(
       entry,
       additional_keys.front(),
       remaining_keys
@@ -102,7 +102,7 @@ rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
 }
 
 template <>
-const rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
+const rapidjson::Value& RapidJsonConfigReader::GetValueRef(
     const rapidjson::Value& object,
     std::string_view current_key,
     const std::vector<std::string_view>& additional_keys
@@ -120,7 +120,7 @@ const rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
       additional_keys.end()
   );
 
-  return GetEntryRef(
+  return GetValueRef(
       entry,
       additional_keys.front(),
       remaining_keys
@@ -128,7 +128,7 @@ const rapidjson::Value& RapidJsonConfigReader::GetEntryRef(
 }
 
 template <>
-void RapidJsonConfigReader::SetEntryRef(
+void RapidJsonConfigReader::SetValue(
     rapidjson::Value value,
     rapidjson::Value& object,
     std::string_view current_key,
@@ -165,7 +165,7 @@ void RapidJsonConfigReader::SetEntryRef(
       std::make_move_iterator(additional_keys.end())
   );
 
-  return SetEntryRef(
+  return SetValue(
       std::move(value),
       entry,
       additional_keys.front(),
@@ -174,7 +174,7 @@ void RapidJsonConfigReader::SetEntryRef(
 }
 
 template <>
-void RapidJsonConfigReader::SetDeepEntryRef(
+void RapidJsonConfigReader::SetDeepValue(
     rapidjson::Value value,
     rapidjson::Value& object,
     std::string_view current_key,
@@ -217,7 +217,7 @@ void RapidJsonConfigReader::SetDeepEntryRef(
       std::make_move_iterator(additional_keys.end())
   );
 
-  return SetDeepEntryRef(
+  return SetDeepValue(
       std::move(value),
       entry,
       additional_keys.front(),
@@ -226,7 +226,7 @@ void RapidJsonConfigReader::SetDeepEntryRef(
 }
 
 template <>
-bool RapidJsonConfigReader::HasEntryRef(
+bool RapidJsonConfigReader::ContainsKey(
     const rapidjson::Value& object,
     std::string_view current_key,
     const std::vector<std::string_view>& additional_keys
@@ -249,7 +249,7 @@ bool RapidJsonConfigReader::HasEntryRef(
       std::make_move_iterator(additional_keys.end())
   );
 
-  return HasEntryRef(
+  return ContainsKey(
       entry,
       additional_keys.front(),
       remaining_keys

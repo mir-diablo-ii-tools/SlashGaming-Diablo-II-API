@@ -69,7 +69,7 @@ bool RapidJsonConfigReader::ContainsKey(
       additional_keys...
   };
 
-  return this->HasEntryRef(
+  return this->ContainsKey(
       this->json_document(),
       first_key,
       additional_keys_vector
@@ -87,7 +87,7 @@ RapidJsonConfigReader::GetValueRef(
       additional_keys...
   };
 
-  return this->GetEntryRef(
+  return this->GetValueRef(
       this->json_document_,
       first_key,
       additional_keys_vector
@@ -105,7 +105,7 @@ void RapidJsonConfigReader::SetValue(
       additional_keys...
   };
 
-  SetEntryRef(
+  SetValue(
       std::move(value),
       this->json_document_,
       first_key,
@@ -124,7 +124,7 @@ void RapidJsonConfigReader::SetDeepValue(
       additional_keys...
   };
 
-  SetDeepEntryRef(
+  SetDeepValue(
       std::move(value),
       this->json_document_,
       first_key,

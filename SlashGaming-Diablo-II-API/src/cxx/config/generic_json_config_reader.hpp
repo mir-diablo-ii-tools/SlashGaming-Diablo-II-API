@@ -814,32 +814,32 @@ class GenericConfigReader {
   std::filesystem::path config_file_path_;
   JsonDocument json_document_;
 
-  JsonValue& GetEntryRef(
+  JsonValue& GetValueRef(
       JsonObject& object,
       std::string_view current_key,
       const std::vector<std::string_view>& additional_keys
   );
 
-  const JsonValue& GetEntryRef(
+  const JsonValue& GetValueRef(
       const JsonObject& object,
       std::string_view current_key,
       const std::vector<std::string_view>& additional_keys
   ) const;
 
-  bool HasEntryRef(
+  bool ContainsKey(
       const JsonObject& object,
       std::string_view current_key,
       const std::vector<std::string_view>& additional_keys
   ) const;
 
-  void SetEntryRef(
+  void SetValue(
       JsonValue value,
       JsonObject& object,
       std::string_view current_key,
       const std::vector<std::string_view>& additional_keys
   );
 
-  void SetDeepEntryRef(
+  void SetDeepValue(
       JsonValue value,
       JsonObject& object,
       std::string_view current_key,
