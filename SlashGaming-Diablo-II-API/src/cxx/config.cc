@@ -120,7 +120,7 @@ bool AddMissingConfigEntries(
   // config version. If the actual is larger, then do not add any new entries.
   // If there are any breaking config changes, then the program will most
   // likely crash.
-  int major_version_a = config_reader.GetInt(
+  int major_version_a = config_reader.GetIntOrDefault(
       0,
       kMetaDataKey,
       kMajorVersionAKey
@@ -156,7 +156,7 @@ bool AddMissingConfigEntries(
     return true;
   }
 
-  int major_version_b = config_reader.GetInt(
+  int major_version_b = config_reader.GetIntOrDefault(
       0,
       kMetaDataKey,
       kMajorVersionBKey
@@ -186,7 +186,7 @@ bool AddMissingConfigEntries(
     return true;
   }
 
-  int minor_version_a = config_reader.GetInt(
+  int minor_version_a = config_reader.GetIntOrDefault(
       0,
       kMetaDataKey,
       kMinorVersionAKey
@@ -210,7 +210,7 @@ bool AddMissingConfigEntries(
     return true;
   }
 
-  int minor_version_b = config_reader.GetInt(
+  int minor_version_b = config_reader.GetIntOrDefault(
       0,
       kMetaDataKey,
       kMinorVersionBKey
@@ -240,7 +240,7 @@ bool AddMissingConfigEntries(
   if (!config_reader.HasInt(kMainEntryKey, kConfigTabWidthKey)) {
     config_reader.SetInt(
         kDefaultConfigTabWidthValue,
-        kMainEntryKey,
+        kGlobalEntryKey,
         kConfigTabWidthKey
     );
   }
@@ -302,24 +302,21 @@ RapidJsonConfigReader& GetConfigReader() {
   return config_reader;
 }
 
-std::filesystem::path ParseAddressTableDirectoryPath() {
-  RapidJsonConfigReader& config_reader = GetConfigReader();
-
-  std::filesystem::path address_table_directory_path = config_reader.GetPath(
-      kMainEntryKey,
-      kAddressTableDirectoryPathKey
-  );
-
-  return address_table_directory_path;
-}
-
 } // namespace
 
 const std::filesystem::path&
 GetAddressTableDirectoryPath() {
   static std::filesystem::path address_table_path;
-  std::once_flag& flag = GetOnceFlag(kMainEntryKey, kAddressTableDirectoryPathKey);
-  std::call_once(flag, ParseAddressTableDirectoryPath);
+
+  std::call_once(
+      GetOnceFlag(kMainEntryKey, kAddressTableDirectoryPathKey),
+      [=]() {
+        address_table_path = GetConfigReader().GetPath(
+            kMainEntryKey,
+            kAddressTableDirectoryPathKey
+        );
+      }
+  );
 
   return address_table_path;
 }
