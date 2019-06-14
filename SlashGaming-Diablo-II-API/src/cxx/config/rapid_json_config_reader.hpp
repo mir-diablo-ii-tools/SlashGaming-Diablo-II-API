@@ -105,17 +105,25 @@ Container RapidJsonConfigReader::GetArrayCopy(
       additional_keys...
   );
 
-  const rapidjson::Value::Array& array_ref = std::value_ref.GetArray();
+  const rapidjson::Value::ConstArray& array_ref = value_ref.GetArray();
 
   Container container;
-  std::transform(
-      array_ref.begin(),
-      array_ref.end(),
-      container.begin(),
-      [=](const auto& elem) {
-        return *elem;
-      }
-  );
+  if constexpr (std::is_same<Container::value_type, std::string>::value
+      || std::is_same<Container::value_type, std::string_view>::value) {
+    for (rapidjson::Value::ConstValueIterator it = array_ref.begin(); it != array_ref.end(); it++) {
+      container.insert(
+          container.end(),
+          it->GetString()
+      );
+    }
+  } else {
+    for (rapidjson::Value::ConstValueIterator it = array_ref.begin(); it != array_ref.end(); it++) {
+      container.insert(
+          container.end(),
+          it->template Get<Container::value_type>()
+      );
+    }
+  }
 
   return container;
 }
@@ -322,7 +330,10 @@ std::deque<T> RapidJsonConfigReader::GetDeque(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  return this->GetArrayCopy(first_key, additional_keys...);
+  return this->GetArrayCopy<std::deque<T>>(
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -336,7 +347,7 @@ std::deque<T> RapidJsonConfigReader::GetDequeOrDefault(
     return default_value;
   }
 
-  return this->GetDeque(first_key, additional_keys...);
+  return this->GetDeque<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -350,7 +361,7 @@ std::deque<T> RapidJsonConfigReader::GetDequeOrDefault(
     return std::move(default_value);
   }
 
-  return this->GetDeque(first_key, additional_keys...);
+  return this->GetDeque<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -849,7 +860,10 @@ std::set<T> RapidJsonConfigReader::GetSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  return this->GetArrayCopy(first_key, additional_keys...);
+  return this->GetArrayCopy<std::set<T>>(
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -863,7 +877,7 @@ std::set<T> RapidJsonConfigReader::GetSetOrDefault(
     return default_value;
   }
 
-  return this->GetSet(first_key, additional_keys...);
+  return this->GetSet<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -877,7 +891,7 @@ std::set<T> RapidJsonConfigReader::GetSetOrDefault(
     return std::move(default_value);
   }
 
-  return this->GetSet(first_key, additional_keys...);
+  return this->GetSet<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -1464,7 +1478,10 @@ std::unordered_set<T> RapidJsonConfigReader::GetUnorderedSet(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  return this->GetArrayCopy(first_key, additional_keys...);
+  return this->GetArrayCopy<std::unordered_set<T>>(
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1478,7 +1495,7 @@ std::unordered_set<T> RapidJsonConfigReader::GetUnorderedSetOrDefault(
     return default_value;
   }
 
-  return this->GetUnorderedSet(first_key, additional_keys...);
+  return this->GetUnorderedSet<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -1492,7 +1509,7 @@ std::unordered_set<T> RapidJsonConfigReader::GetUnorderedSetOrDefault(
     return std::move(default_value);
   }
 
-  return this->GetUnorderedSet(first_key, additional_keys...);
+  return this->GetUnorderedSet<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -1581,7 +1598,10 @@ std::vector<T> RapidJsonConfigReader::GetVector(
     std::string_view first_key,
     const Args&... additional_keys
 ) const {
-  return this->GetArrayCopy(first_key, additional_keys...);
+  return this->GetArrayCopy<std::vector<T>>(
+      first_key,
+      additional_keys...
+  );
 }
 
 template <>
@@ -1595,7 +1615,7 @@ std::vector<T> RapidJsonConfigReader::GetVectorOrDefault(
     return default_value;
   }
 
-  return this->GetVector(first_key, additional_keys...);
+  return this->GetVector<T>(first_key, additional_keys...);
 }
 
 template <>
@@ -1609,7 +1629,7 @@ std::vector<T> RapidJsonConfigReader::GetVectorOrDefault(
     return std::move(default_value);
   }
 
-  return this->GetVector(first_key, additional_keys...);
+  return this->GetVector<T>(first_key, additional_keys...);
 }
 
 template <>
