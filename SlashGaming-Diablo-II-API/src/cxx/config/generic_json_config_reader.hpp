@@ -47,10 +47,10 @@
 #define SGD2MAPI_CXX_CONFIG_GENERIC_JSON_CONFIG_READER_HPP_
 
 #include <cstdint>
+#include <deque>
 #include <filesystem>
 #include <initializer_list>
 #include <map>
-#include <queue>
 #include <set>
 #include <string>
 #include <string_view>
@@ -107,58 +107,10 @@ class GenericConfigReader {
       const Args&... additional_keys
   );
 
-  template <typename ...Args>
-  void SetArray(
-      const char* first,
-      const char* last,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename ...Args>
-  void SetArray(
-      std::string::iterator first,
-      std::string::iterator last,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename ...Args>
-  void SetArray(
-      std::string_view::iterator first,
-      std::string_view::iterator last,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
   template <typename Iter, typename ...Args>
   void SetDeepArray(
       Iter first,
       Iter last,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename ...Args>
-  void SetDeepArray(
-      const char* first,
-      const char* last,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename ...Args>
-  void SetDeepArray(
-      std::string::iterator first,
-      std::string::iterator last,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename ...Args>
-  void SetDeepArray(
-      std::string_view::iterator first,
-      std::string_view::iterator last,
       std::string_view first_key,
       const Args&... additional_keys
   );
@@ -208,6 +160,69 @@ class GenericConfigReader {
   template <typename ...Args>
   void SetDeepBool(
       bool value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+    /* Functions for std::deque */
+
+  template <typename T, typename ...Args>
+  std::deque<T> GetDeque(
+      std::string_view first_key,
+      const Args&... additional_keys
+  ) const;
+
+  template <typename T, typename ...Args>
+  std::deque<T> GetDequeOrDefault(
+      const std::deque<T>& default_value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  ) const;
+
+  template <typename T, typename ...Args>
+  std::deque<T> GetDequeOrDefault(
+      std::deque<T>&& default_value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  ) const;
+
+  template <typename ...Args>
+  bool HasDeque(
+      std::string_view first_key,
+      const Args&... additional_keys
+  ) const;
+
+  template <typename T, typename ...Args>
+  void SetDeque(
+      const std::deque<T>& value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename ...Args>
+  void SetDeque(
+      const std::deque<std::string_view>& value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename T, typename ...Args>
+  void SetDeque(
+      std::deque<T>&& value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename T, typename ...Args>
+  void SetDeepDeque(
+      const std::deque<T>& value,
+      std::string_view first_key,
+      const Args&... additional_keys
+  );
+
+  template <typename T, typename ...Args>
+  void SetDeepDeque(
+      std::deque<T>&& value,
       std::string_view first_key,
       const Args&... additional_keys
   );
@@ -425,62 +440,6 @@ class GenericConfigReader {
   template <typename ...Args>
   void SetDeepPath(
       const std::filesystem::path& value,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  /* Functions for std::queue */
-
-  template <typename T, typename ...Args>
-  std::queue<T> GetQueue(
-      std::string_view first_key,
-      const Args&... additional_keys
-  ) const;
-
-  template <typename T, typename ...Args>
-  std::queue<T> GetQueueOrDefault(
-      const std::queue<T>& default_value,
-      std::string_view first_key,
-      const Args&... additional_keys
-  ) const;
-
-  template <typename T, typename ...Args>
-  std::queue<T> GetQueueOrDefault(
-      std::queue<T>&& default_value,
-      std::string_view first_key,
-      const Args&... additional_keys
-  ) const;
-
-  template <typename ...Args>
-  bool HasQueue(
-      std::string_view first_key,
-      const Args&... additional_keys
-  ) const;
-
-  template <typename T, typename ...Args>
-  std::queue<T> SetQueue(
-      const std::queue<T>& value,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename T, typename ...Args>
-  std::queue<T> SetQueue(
-      std::queue<T>&& value,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename T, typename ...Args>
-  std::queue<T> SetDeepQueue(
-      const std::queue<T>& value,
-      std::string_view first_key,
-      const Args&... additional_keys
-  );
-
-  template <typename T, typename ...Args>
-  std::queue<T> SetDeepQueue(
-      std::queue<T>&& value,
       std::string_view first_key,
       const Args&... additional_keys
   );
