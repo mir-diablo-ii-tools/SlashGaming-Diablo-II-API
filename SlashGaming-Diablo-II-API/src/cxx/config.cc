@@ -54,7 +54,7 @@
 #include <string_view>
 
 #include <fmt/format.h>
-#include "config/rapid_json_config_reader.hpp"
+#include <rapid_json_config_reader.hpp>
 
 namespace mapi {
 namespace {
@@ -114,7 +114,7 @@ std::once_flag& GetOnceFlag(Args... json_keys) {
 }
 
 bool AddMissingConfigEntries(
-    RapidJsonConfigReader& config_reader
+    mjsoni::RapidJsonConfigReader& config_reader
 ) {
   // Check that the actual config version is less than or equal to the expected
   // config version. If the actual is larger, then do not add any new entries.
@@ -267,11 +267,11 @@ bool AddMissingConfigEntries(
   return config_reader.Write(indent_width);
 }
 
-RapidJsonConfigReader ReadConfig(
+mjsoni::RapidJsonConfigReader ReadConfig(
     const std::filesystem::path& config_file_path
 ) {
   // Read the config file for processing, if all other conditions are good.
-  RapidJsonConfigReader config_reader(config_file_path);
+  mjsoni::RapidJsonConfigReader config_reader(config_file_path);
 
   bool is_read = config_reader.Read();
   if (!is_read) {
@@ -310,8 +310,9 @@ RapidJsonConfigReader ReadConfig(
   return config_reader;
 }
 
-RapidJsonConfigReader& GetConfigReader() {
-  static RapidJsonConfigReader config_reader = ReadConfig(GetConfigPath());
+mjsoni::RapidJsonConfigReader& GetConfigReader() {
+  static mjsoni::RapidJsonConfigReader config_reader =
+      ReadConfig(GetConfigPath());
   return config_reader;
 }
 
