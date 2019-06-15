@@ -54,7 +54,7 @@
 #include <string_view>
 
 #include <fmt/format.h>
-#include <rapid_json_config_reader.hpp>
+#include <mjsoni/rapid_json_config_reader.hpp>
 
 namespace mapi {
 namespace {
