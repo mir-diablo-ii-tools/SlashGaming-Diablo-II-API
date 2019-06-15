@@ -43,16 +43,18 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_CONFIG_PARSER_HPP_
-#define SGD2MAPI_CXX_CONFIG_PARSER_HPP_
+#ifndef SGD2MAPI_CXX_CONFIG_HPP_
+#define SGD2MAPI_CXX_CONFIG_HPP_
 
 #include <filesystem>
 
 namespace mapi {
 
 const std::filesystem::path&
-GetAddressTableDirectoryPath(void);
+GetAddressTableDirectoryPath();
+
+bool RefreshConfig();
 
 } // namespace mapi
 
-#endif // SGD2MAPI_CXX_CONFIG_PARSER_HPP_
+#endif // SGD2MAPI_CXX_CONFIG_HPP_

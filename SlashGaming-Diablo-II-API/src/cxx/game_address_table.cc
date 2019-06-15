@@ -56,9 +56,8 @@
 #include <nowide/convert.hpp>
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include <nlohmann/json.hpp>
 
-#include "config_parser.hpp"
+#include "config.hpp"
 #include "../../include/cxx/game_address.hpp"
 #include "game_address_table_reader.hpp"
 #include "../../include/cxx/default_game_library.hpp"
