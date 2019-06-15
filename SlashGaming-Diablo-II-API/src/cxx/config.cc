@@ -84,7 +84,7 @@ constexpr std::string_view kAddressTableDirectoryPathKey =
 const std::filesystem::path kDefaultAddressTableDirectoryPath =
     u8"Address Table";
 
-std::map<std::string_view, std::once_flag> once_flags_by_json_keys;
+std::map<std::string, std::once_flag> once_flags_by_json_keys;
 
 const std::filesystem::path& GetConfigPath() {
   static std::filesystem::path kConfigPath = u8"SlashGaming-Config.json";
@@ -92,7 +92,7 @@ const std::filesystem::path& GetConfigPath() {
 }
 
 template <typename ...Args>
-std::once_flag& GetOnceFlag(Args... json_keys) {
+std::once_flag& GetOnceFlag(const Args&... json_keys) {
   // Calculate concat key size.
   std::size_t concat_key_size = 0;
   for (const auto& json_key : { json_keys...}) {
@@ -102,7 +102,7 @@ std::once_flag& GetOnceFlag(Args... json_keys) {
   // Concat all keys together.
   std::string concat_key(concat_key_size, '\0');
 
-  size_t i = 0;
+  std::size_t i = 0;
   for (const auto& json_key : { json_keys...}) {
     concat_key += json_key;
     concat_key += static_cast<char>(i + 1);
@@ -110,7 +110,7 @@ std::once_flag& GetOnceFlag(Args... json_keys) {
     i = (i + 1) % 0x32;
   }
 
-  return once_flags_by_json_keys[concat_key];
+  return once_flags_by_json_keys[std::move(concat_key)];
 }
 
 bool AddMissingConfigEntries(
