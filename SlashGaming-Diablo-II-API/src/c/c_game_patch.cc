@@ -50,7 +50,7 @@
 #include "../../include/cxx/game_patch.hpp"
 
 void MAPI_GamePatch_Deinit(
-    struct MAPI_GamePatch* game_patch
+    MAPI_GamePatch* game_patch
 ) {
   MAPI_GamePatch_Remove(game_patch);
 
@@ -59,7 +59,7 @@ void MAPI_GamePatch_Deinit(
 }
 
 void MAPI_GamePatch_Apply(
-    struct MAPI_GamePatch* game_patch
+    MAPI_GamePatch* game_patch
 ) {
   if (game_patch->is_patch_applied) {
     return;
@@ -80,7 +80,7 @@ void MAPI_GamePatch_Apply(
 }
 
 void MAPI_GamePatch_Remove(
-    struct MAPI_GamePatch* game_patch
+    MAPI_GamePatch* game_patch
 ) {
   if (!game_patch->is_patch_applied) {
     return;

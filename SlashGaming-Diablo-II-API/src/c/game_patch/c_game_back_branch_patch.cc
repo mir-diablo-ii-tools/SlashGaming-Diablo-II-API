@@ -51,8 +51,8 @@
 #include "../../cxx/game_patch/game_back_branch_patch_buffer.hpp"
 
 void MAPI_GamePatch_InitGameBackBranchPatch(
-    struct MAPI_GamePatch* game_patch,
-    const struct MAPI_GameAddress* game_address,
+    MAPI_GamePatch* game_patch,
+    const MAPI_GameAddress* game_address,
     int branch_opcode,
     void (*func_ptr)(void),
     size_t patch_size

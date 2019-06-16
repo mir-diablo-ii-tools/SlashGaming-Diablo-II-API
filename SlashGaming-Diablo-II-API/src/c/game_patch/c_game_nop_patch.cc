@@ -53,8 +53,8 @@
 #include "../../cxx/architecture_opcode.hpp"
 
 void MAPI_GamePatch_InitGameNopPatch(
-    struct MAPI_GamePatch* game_patch,
-    const struct MAPI_GameAddress* game_address,
+    MAPI_GamePatch* game_patch,
+    const MAPI_GameAddress* game_address,
     std::size_t patch_size
 ) {
   game_patch->game_address = *game_address;

@@ -50,9 +50,9 @@
 #include "../../../include/c/game_patch.h"
 
 void MAPI_GamePatch_InitGameBufferPatch(
-    struct MAPI_GamePatch* game_patch,
-    const struct MAPI_GameAddress* game_address,
-    const uint8_t buffer[],
+    MAPI_GamePatch* game_patch,
+    const MAPI_GameAddress* game_address,
+    const uint8_t* buffer,
     size_t patch_size
 ) {
   game_patch->game_address = *game_address;

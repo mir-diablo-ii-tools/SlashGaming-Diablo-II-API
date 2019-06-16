@@ -64,7 +64,7 @@ extern "C" {
 DLLEXPORT void MAPI_GamePatch_InitGameBufferPatch(
     struct MAPI_GamePatch* game_patch,
     const struct MAPI_GameAddress* game_address,
-    const uint8_t buffer[],
+    const uint8_t* buffer,
     size_t patch_size
 );
 
