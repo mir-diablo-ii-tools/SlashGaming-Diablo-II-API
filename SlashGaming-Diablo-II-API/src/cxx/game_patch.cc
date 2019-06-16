@@ -245,46 +245,6 @@ GamePatch GamePatch::MakeGameBufferPatch(
   );
 }
 
-GamePatch GamePatch::MakeGameBufferPatch(
-    const GameAddress& game_address,
-    const std::vector<std::uint8_t>& patch_buffer
-) {
-  return GamePatch(
-      game_address,
-      patch_buffer
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    GameAddress&& game_address,
-    const std::vector<std::uint8_t>& patch_buffer
-) {
-  return GamePatch(
-      std::move(game_address),
-      patch_buffer
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    const GameAddress& game_address,
-    std::vector<std::uint8_t>&& patch_buffer
-) {
-  return GamePatch(
-      game_address,
-      std::move(patch_buffer)
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    GameAddress&& game_address,
-    std::vector<std::uint8_t>&& patch_buffer
-) {
-  return GamePatch(
-      std::move(game_address),
-      std::move(patch_buffer)
-  );
-}
-
 GamePatch GamePatch::MakeGameNopPatch(
     const GameAddress& game_address,
     std::size_t patch_size

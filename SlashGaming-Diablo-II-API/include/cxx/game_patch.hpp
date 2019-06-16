@@ -144,40 +144,36 @@ class DLLEXPORT GamePatch {
   );
 
   /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
+   * Makes an instance of a buffer patch, specifying the patch buffer using an
+   * iterator of 8-bit bytes.
    */
+  template <typename Iter>
   static GamePatch MakeGameBufferPatch(
       const GameAddress& game_address,
-      const std::vector<std::uint8_t>& patch_buffer
-  );
+      Iter first,
+      Iter last
+  ) {
+    static_assert (std::is_same<Iter::value_type, std::uint8_t>::value
+        || std::is_same<Iter::value_type, std::int8_t>::value);
+
+    return GamePatch(game_address, std::vector<std::uint8_t>(first, last));
+  }
 
   /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
+   * Makes an instance of a buffer patch, specifying the patch buffer using an
+   * iterator of 8-bit bytes.
    */
+  template <typename Iter>
   static GamePatch MakeGameBufferPatch(
       GameAddress&& game_address,
-      const std::vector<std::uint8_t>& patch_buffer
-  );
+      Iter first,
+      Iter last
+  ) {
+    static_assert (std::is_same<Iter::value_type, std::uint8_t>::value
+        || std::is_same<Iter::value_type, std::int8_t>::value);
 
-  /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
-   */
-  static GamePatch MakeGameBufferPatch(
-      const GameAddress& game_address,
-      std::vector<std::uint8_t>&& patch_buffer
-  );
-
-  /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
-   */
-  static GamePatch MakeGameBufferPatch(
-      GameAddress&& game_address,
-      std::vector<std::uint8_t>&& patch_buffer
-  );
+    return GamePatch(game_address, std::vector<std::uint8_t>(first, last));
+  }
 
   /**
    * Makes an instance of a NOP patch, filling the patch buffer with as
