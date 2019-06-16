@@ -67,13 +67,13 @@ class DLLEXPORT GamePatch {
    * Applies the patch by replacing the values at its target address with the
    * values stored in its buffer. Does nothing if the patch is applied.
    */
-  void Apply(void);
+  void Apply();
 
   /**
    * Removes the effects of the patch by restoring the patched entries to their
    * original values. Does nothing if the patch is not applied.
    */
-  void Remove(void);
+  void Remove();
 
   /**
    * Make an instance of a back branch patch. The patch replaces the last
@@ -83,7 +83,7 @@ class DLLEXPORT GamePatch {
   static GamePatch MakeGameBackBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
-      void (*func_ptr)(void),
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -95,7 +95,7 @@ class DLLEXPORT GamePatch {
   static GamePatch MakeGameBackBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
-      void (*func_ptr)(void),
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -107,7 +107,7 @@ class DLLEXPORT GamePatch {
   static GamePatch MakeGameBranchPatch(
       const GameAddress& game_address,
       enum BranchType branch_type,
-      void (*func_ptr)(void),
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -119,7 +119,7 @@ class DLLEXPORT GamePatch {
   static GamePatch MakeGameBranchPatch(
       GameAddress&& game_address,
       enum BranchType branch_type,
-      void (*func_ptr)(void),
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -129,7 +129,7 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBufferPatch(
       const GameAddress& game_address,
-      const std::uint8_t patch_buffer[],
+      const std::uint8_t* patch_buffer,
       std::size_t patch_size
   );
 
@@ -139,7 +139,7 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBufferPatch(
       GameAddress&& game_address,
-      const std::uint8_t patch_buffer[],
+      const std::uint8_t* patch_buffer,
       std::size_t patch_size
   );
 

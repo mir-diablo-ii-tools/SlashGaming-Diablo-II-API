@@ -111,7 +111,7 @@ GamePatch::GamePatch(
     ) {
 }
 
-void GamePatch::Apply(void) {
+void GamePatch::Apply() {
   struct MAPI_GamePatch c_game_patch;
   c_game_patch.patch_size = patch_buffer_.size();
   c_game_patch.game_address.raw_address = game_address_.raw_address();
@@ -124,7 +124,7 @@ void GamePatch::Apply(void) {
   is_patch_applied_ = c_game_patch.is_patch_applied;
 }
 
-void GamePatch::Remove(void) {
+void GamePatch::Remove() {
   struct MAPI_GamePatch c_game_patch;
   c_game_patch.patch_size = patch_buffer_.size();
   c_game_patch.game_address.raw_address = game_address_.raw_address();
@@ -140,7 +140,7 @@ void GamePatch::Remove(void) {
 GamePatch GamePatch::MakeGameBackBranchPatch(
     const GameAddress& game_address,
     enum BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
@@ -159,7 +159,7 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 GamePatch GamePatch::MakeGameBackBranchPatch(
     GameAddress&& game_address,
     enum BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
@@ -178,7 +178,7 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 GamePatch GamePatch::MakeGameBranchPatch(
     const GameAddress& game_address,
     enum BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
@@ -197,7 +197,7 @@ GamePatch GamePatch::MakeGameBranchPatch(
 GamePatch GamePatch::MakeGameBranchPatch(
     GameAddress&& game_address,
     enum BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
@@ -215,7 +215,7 @@ GamePatch GamePatch::MakeGameBranchPatch(
 
 GamePatch GamePatch::MakeGameBufferPatch(
     const GameAddress& game_address,
-    const std::uint8_t patch_buffer[],
+    const std::uint8_t* patch_buffer,
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer_vector(
@@ -231,7 +231,7 @@ GamePatch GamePatch::MakeGameBufferPatch(
 
 GamePatch GamePatch::MakeGameBufferPatch(
     GameAddress&& game_address,
-    const std::uint8_t patch_buffer[],
+    const std::uint8_t* patch_buffer,
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer_vector(
