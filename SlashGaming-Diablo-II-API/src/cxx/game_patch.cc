@@ -112,7 +112,7 @@ GamePatch::GamePatch(
 }
 
 void GamePatch::Apply() {
-  struct MAPI_GamePatch c_game_patch;
+  MAPI_GamePatch c_game_patch;
   c_game_patch.patch_size = patch_buffer_.size();
   c_game_patch.game_address.raw_address = game_address_.raw_address();
   c_game_patch.is_patch_applied = is_patch_applied_;
@@ -125,7 +125,7 @@ void GamePatch::Apply() {
 }
 
 void GamePatch::Remove() {
-  struct MAPI_GamePatch c_game_patch;
+  MAPI_GamePatch c_game_patch;
   c_game_patch.patch_size = patch_buffer_.size();
   c_game_patch.game_address.raw_address = game_address_.raw_address();
   c_game_patch.is_patch_applied = is_patch_applied_;
