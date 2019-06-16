@@ -139,7 +139,7 @@ void GamePatch::Remove() {
 
 GamePatch GamePatch::MakeGameBackBranchPatch(
     const GameAddress& game_address,
-    enum BranchType branch_type,
+    BranchType branch_type,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
@@ -158,7 +158,7 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 
 GamePatch GamePatch::MakeGameBackBranchPatch(
     GameAddress&& game_address,
-    enum BranchType branch_type,
+    BranchType branch_type,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
@@ -177,7 +177,7 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 
 GamePatch GamePatch::MakeGameBranchPatch(
     const GameAddress& game_address,
-    enum BranchType branch_type,
+    BranchType branch_type,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
@@ -196,7 +196,7 @@ GamePatch GamePatch::MakeGameBranchPatch(
 
 GamePatch GamePatch::MakeGameBranchPatch(
     GameAddress&& game_address,
-    enum BranchType branch_type,
+    BranchType branch_type,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
