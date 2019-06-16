@@ -61,7 +61,7 @@ namespace mapi {
 namespace {
 
 void InitGameBackBranchPatchBuffer(
-    std::uint8_t game_patch_buffer[],
+    std::uint8_t* game_patch_buffer,
     std::intptr_t raw_target_address,
     std::uint8_t opcode_value,
     std::intptr_t func_ptr,
@@ -113,12 +113,12 @@ std::vector<std::uint8_t>
 CreateGameBackBranchPatchBuffer(
     const GameAddress& game_address,
     BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> branch_patch_buffer(patch_size);
 
-  enum OpCode actual_branch_type = ToOpcode(branch_type);
+  OpCode actual_branch_type = ToOpcode(branch_type);
 
   InitGameBackBranchPatchBuffer(
       branch_patch_buffer.data(),
@@ -136,12 +136,12 @@ CreateGameBackBranchPatchBuffer(
 std::uint8_t* MAPI_CreateGameBackBranchPatchBuffer(
     const MAPI_GameAddress& game_address,
     int branch_type_id,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::uint8_t* branch_patch_buffer = new std::uint8_t[patch_size];
 
-  enum mapi::OpCode actual_branch_type = MAPI_ToOpcode(branch_type_id);
+  mapi::OpCode actual_branch_type = MAPI_ToOpcode(branch_type_id);
 
   mapi::InitGameBackBranchPatchBuffer(
       branch_patch_buffer,

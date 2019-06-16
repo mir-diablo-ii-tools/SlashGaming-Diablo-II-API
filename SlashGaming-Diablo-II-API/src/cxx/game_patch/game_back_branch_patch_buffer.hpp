@@ -60,7 +60,7 @@ std::vector<std::uint8_t>
 CreateGameBackBranchPatchBuffer(
     const GameAddress& game_address,
     BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 );
 
@@ -69,7 +69,7 @@ CreateGameBackBranchPatchBuffer(
 std::uint8_t* MAPI_CreateGameBackBranchPatchBuffer(
     const MAPI_GameAddress& game_address,
     int branch_type_id,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 );
 
