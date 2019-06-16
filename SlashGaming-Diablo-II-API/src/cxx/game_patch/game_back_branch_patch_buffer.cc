@@ -47,6 +47,7 @@
 
 #include <windows.h>
 #include <cstdint>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -116,40 +117,41 @@ CreateGameBackBranchPatchBuffer(
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
-  std::vector<std::uint8_t> branch_patch_buffer(patch_size);
+  std::vector<std::uint8_t> back_branch_patch_buffer(patch_size);
 
   OpCode actual_branch_type = ToOpcode(branch_type);
 
   InitGameBackBranchPatchBuffer(
-      branch_patch_buffer.data(),
+      back_branch_patch_buffer.data(),
       game_address.raw_address(),
       static_cast<std::uint8_t>(actual_branch_type),
       reinterpret_cast<std::intptr_t>(func_ptr),
       patch_size
   );
 
-  return branch_patch_buffer;
+  return back_branch_patch_buffer;
 }
 
 } // namespace mapi
 
-std::uint8_t* MAPI_CreateGameBackBranchPatchBuffer(
+std::unique_ptr<std::uint8_t[]> MAPI_CreateGameBackBranchPatchBuffer(
     const MAPI_GameAddress& game_address,
     int branch_type_id,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
-  std::uint8_t* branch_patch_buffer = new std::uint8_t[patch_size];
+  std::unique_ptr back_branch_patch_buffer =
+      std::make_unique<std::uint8_t[]>(patch_size);
 
   mapi::OpCode actual_branch_type = MAPI_ToOpcode(branch_type_id);
 
   mapi::InitGameBackBranchPatchBuffer(
-      branch_patch_buffer,
+      back_branch_patch_buffer.get(),
       game_address.raw_address,
       static_cast<std::uint8_t>(actual_branch_type),
       reinterpret_cast<std::intptr_t>(func_ptr),
       patch_size
   );
 
-  return branch_patch_buffer;
+  return back_branch_patch_buffer;
 }
