@@ -74,7 +74,8 @@ void MAPI_GamePatch_InitGameBranchPatch(
   );
 
   // Create the old buffer.
-  std::unique_ptr old_buffer = std::make_unique<std::uint8_t[]>(patch_size);
+  std::unique_ptr old_buffer =
+      std::make_unique<std::uint8_t[]>(patch_size);
 
   std::copy_n(
       reinterpret_cast<std::uint8_t*>(game_address->raw_address),
