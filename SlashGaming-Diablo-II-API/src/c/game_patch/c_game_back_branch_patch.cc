@@ -58,7 +58,7 @@ void MAPI_GamePatch_InitGameBackBranchPatch(
     const MAPI_GameAddress* game_address,
     int branch_opcode,
     void (*func_ptr)(void),
-    size_t patch_size
+    std::size_t patch_size
 ) {
   game_patch->game_address = *game_address;
   game_patch->is_patch_applied = false;

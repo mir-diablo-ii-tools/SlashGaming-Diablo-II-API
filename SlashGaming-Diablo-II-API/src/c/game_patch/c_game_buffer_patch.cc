@@ -56,8 +56,8 @@
 void MAPI_GamePatch_InitGameBufferPatch(
     MAPI_GamePatch* game_patch,
     const MAPI_GameAddress* game_address,
-    const uint8_t* buffer,
-    size_t patch_size
+    const std::uint8_t* buffer,
+    std::size_t patch_size
 ) {
   game_patch->game_address = *game_address;
   game_patch->is_patch_applied = false;
