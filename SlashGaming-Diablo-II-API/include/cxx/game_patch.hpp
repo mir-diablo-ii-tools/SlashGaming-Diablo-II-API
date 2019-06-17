@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_PATCH_HPP_
-#define SGD2MAPI_CXX_GAME_PATCH_HPP_
+#ifndef SGMAPI_CXX_GAME_PATCH_HPP_
+#define SGMAPI_CXX_GAME_PATCH_HPP_
 
 #include <cstdint>
 #include <vector>
@@ -225,4 +225,4 @@ class DLLEXPORT GamePatch {
 } // namespace mapi
 
 #include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_PATCH_HPP_
+#endif // SGMAPI_CXX_GAME_PATCH_HPP_

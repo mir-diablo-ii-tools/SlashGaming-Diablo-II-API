@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
-#define SGD2MAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
+#ifndef SGMAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
+#define SGMAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
 
 #include <stddef.h>
 
@@ -72,4 +72,4 @@ DLLEXPORT void MAPI_GamePatch_InitGameNopPatch(
 #endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
+#endif // SGMAPI_C_GAME_PATCH_GAME_NOP_PATCH_H_
