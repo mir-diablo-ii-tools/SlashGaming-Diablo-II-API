@@ -73,7 +73,7 @@ DLLEXPORT void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
  */
 DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
     struct MAPI_GameAddress* game_address,
-    const char library_path[],
+    const char* library_path,
     int16_t ordinal
 );
 

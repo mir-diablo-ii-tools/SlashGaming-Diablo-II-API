@@ -45,17 +45,19 @@
 
 #include "../../../include/c/game_address/game_ordinal.h"
 
+#include <cstdint>
 #include <filesystem>
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/default_game_library.hpp"
 
 namespace {
 
 void MAPI_GameAddress_InitFromOrdinal(
-    struct MAPI_GameAddress* game_address,
+    MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
-    int16_t ordinal
+    std::int16_t ordinal
 ) {
   mapi::GameAddress actual_game_address =
       mapi::GameAddress::FromOrdinal(
@@ -69,9 +71,9 @@ void MAPI_GameAddress_InitFromOrdinal(
 } // namespace
 
 void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
-    struct MAPI_GameAddress* game_address,
+    MAPI_GameAddress* game_address,
     int library_id,
-    int16_t ordinal
+    std::int16_t ordinal
 ) {
   mapi::DefaultLibrary actual_default_library =
       static_cast<mapi::DefaultLibrary>(library_id);
@@ -87,9 +89,9 @@ void MAPI_GameAddress_InitFromLibraryIdAndOrdinal(
 }
 
 void MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
-    struct MAPI_GameAddress* game_address,
-    const char library_path[],
-    int16_t ordinal
+    MAPI_GameAddress* game_address,
+    const char* library_path,
+    std::int16_t ordinal
 ) {
   MAPI_GameAddress_InitFromOrdinal(
       game_address,

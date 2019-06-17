@@ -48,6 +48,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <string_view>
 
 #include "default_game_library.hpp"
 
@@ -60,14 +61,14 @@ namespace mapi {
  */
 class DLLEXPORT GameAddress {
  public:
-  std::intptr_t raw_address(void) const noexcept;
+  std::intptr_t raw_address() const noexcept;
 
   /**
    * Returns a game address that uses a string encoded in 7-bit ASCII to
    * specify a location in game memory.
    */
   static GameAddress FromDecoratedName(
-      enum DefaultLibrary default_library,
+      DefaultLibrary default_library,
       std::string_view decorated_name
   );
 
@@ -85,7 +86,7 @@ class DLLEXPORT GameAddress {
    * game memory.
    */
   static GameAddress FromOffset(
-      enum DefaultLibrary default_library,
+      DefaultLibrary default_library,
       std::intptr_t offset
   );
 
@@ -103,7 +104,7 @@ class DLLEXPORT GameAddress {
    * in game memory.
    */
   static GameAddress FromOrdinal(
-      enum DefaultLibrary default_library,
+      DefaultLibrary default_library,
       std::int16_t ordinal
   );
 

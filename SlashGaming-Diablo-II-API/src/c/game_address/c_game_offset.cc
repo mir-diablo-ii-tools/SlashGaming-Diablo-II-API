@@ -45,17 +45,19 @@
 
 #include "../../../include/c/game_address/game_offset.h"
 
+#include <cstdint>
 #include <filesystem>
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/default_game_library.hpp"
 
 namespace {
 
 void MAPI_GameAddress_InitFromOffset(
-    struct MAPI_GameAddress* game_address,
+    MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
-    intptr_t offset
+    std::intptr_t offset
 ) {
   mapi::GameAddress actual_game_address =
       mapi::GameAddress::FromOffset(
@@ -69,9 +71,9 @@ void MAPI_GameAddress_InitFromOffset(
 } // namespace
 
 void MAPI_GameAddress_InitFromLibraryIdAndOffset(
-    struct MAPI_GameAddress* game_address,
+    MAPI_GameAddress* game_address,
     int library_id,
-    intptr_t offset
+    std::intptr_t offset
 ) {
   mapi::DefaultLibrary actual_default_library =
       static_cast<mapi::DefaultLibrary>(library_id);
@@ -87,9 +89,9 @@ void MAPI_GameAddress_InitFromLibraryIdAndOffset(
 }
 
 void MAPI_GameAddress_InitFromLibraryPathAndOffset(
-    struct MAPI_GameAddress* game_address,
-    const char library_path[],
-    intptr_t offset
+    MAPI_GameAddress* game_address,
+    const char* library_path,
+    std::intptr_t offset
 ) {
   MAPI_GameAddress_InitFromOffset(
       game_address,

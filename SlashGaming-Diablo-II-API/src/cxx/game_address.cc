@@ -64,12 +64,12 @@ GameAddress::GameAddress(
     : raw_address_(raw_address) {
 }
 
-std::intptr_t GameAddress::raw_address(void) const noexcept {
+std::intptr_t GameAddress::raw_address() const noexcept {
   return raw_address_;
 }
 
 GameAddress GameAddress::FromDecoratedName(
-    enum DefaultLibrary default_library,
+    DefaultLibrary default_library,
     std::string_view decorated_name
 ) {
   const std::filesystem::path& default_library_path =
@@ -110,7 +110,7 @@ GameAddress GameAddress::FromDecoratedName(
 }
 
 GameAddress GameAddress::FromOffset(
-    enum DefaultLibrary default_library,
+    DefaultLibrary default_library,
     std::intptr_t offset
 ) {
   const std::filesystem::path& game_library_path =
@@ -129,7 +129,7 @@ GameAddress GameAddress::FromOffset(
 }
 
 GameAddress GameAddress::FromOrdinal(
-    enum DefaultLibrary default_library,
+    DefaultLibrary default_library,
     std::int16_t ordinal
 ) {
   const std::filesystem::path& game_library_path =

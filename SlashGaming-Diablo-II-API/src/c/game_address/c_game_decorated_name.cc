@@ -50,11 +50,12 @@
 
 #include "../../../include/c/game_address.h"
 #include "../../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/default_game_library.hpp"
 
 namespace {
 
 void MAPI_GameAddress_InitFromDecoratedName(
-    struct MAPI_GameAddress* game_address,
+    MAPI_GameAddress* game_address,
     const std::filesystem::path& library_path,
     std::string_view decorated_name
 ) {
@@ -70,9 +71,9 @@ void MAPI_GameAddress_InitFromDecoratedName(
 } // namespace
 
 void MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
-    struct MAPI_GameAddress* game_address,
+    MAPI_GameAddress* game_address,
     int library_id,
-    const char decorated_name[]
+    const char* decorated_name
 ) {
   mapi::DefaultLibrary actual_default_library =
       static_cast<mapi::DefaultLibrary>(library_id);
@@ -88,9 +89,9 @@ void MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
 }
 
 void MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
-    struct MAPI_GameAddress* game_address,
-    const char library_path[],
-    const char decorated_name[]
+    MAPI_GameAddress* game_address,
+    const char* library_path,
+    const char* decorated_name
 ) {
   MAPI_GameAddress_InitFromDecoratedName(
       game_address,

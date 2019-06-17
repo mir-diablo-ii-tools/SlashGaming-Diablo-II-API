@@ -62,7 +62,7 @@ extern "C" {
 DLLEXPORT void MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
     struct MAPI_GameAddress* game_address,
     int library_id,
-    const char decorated_name[]
+    const char* decorated_name
 );
 
 /**
@@ -72,8 +72,8 @@ DLLEXPORT void MAPI_GameAddress_InitFromLibraryIdAndDecoratedName(
  */
 DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
     struct MAPI_GameAddress* game_address,
-    const char library_path[],
-    const char decorated_name[]
+    const char* library_path,
+    const char* decorated_name
 );
 
 #ifdef __cplusplus

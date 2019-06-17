@@ -74,7 +74,7 @@ DLLEXPORT void MAPI_GameAddress_InitFromLibraryIdAndOffset(
  */
 DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndOffset(
     struct MAPI_GameAddress* game_address,
-    const char library_path[],
+    const char* library_path,
     intptr_t offset
 );
 
