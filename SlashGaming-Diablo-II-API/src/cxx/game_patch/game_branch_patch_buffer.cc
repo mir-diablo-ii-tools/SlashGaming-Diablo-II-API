@@ -53,7 +53,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch/game_branch_patch.h"
 #include "../architecture_opcode.hpp"
@@ -73,8 +73,8 @@ void InitGameBranchPatchBuffer(
   // Check that the patch size is large enough to allow the insertion of the
   // branch call.
   if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
-    std::wstring error_message = fmt::sprintf(
-        L"The patch size specified at address %X is too small to perform a "
+    std::wstring error_message = fmt::format(
+        L"The patch size specified at address {:X} is too small to perform a "
         L"branch patch.",
         raw_target_address
     );
