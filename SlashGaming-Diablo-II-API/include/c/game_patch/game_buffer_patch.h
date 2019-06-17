@@ -49,6 +49,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "../game_address.h"
 #include "../game_patch.h"
 
 #include "../../dllexport_define.inc"

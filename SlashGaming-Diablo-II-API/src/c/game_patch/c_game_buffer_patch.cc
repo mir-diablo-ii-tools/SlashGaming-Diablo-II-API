@@ -45,9 +45,12 @@
 
 #include "../../../include/c/game_patch/game_buffer_patch.h"
 
+#include <cstdint>
+#include <cstddef>
 #include <algorithm>
 #include <memory>
 
+#include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch.h"
 
 void MAPI_GamePatch_InitGameBufferPatch(

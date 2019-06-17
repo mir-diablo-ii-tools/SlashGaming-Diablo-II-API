@@ -45,9 +45,11 @@
 
 #include "../../../include/c/game_patch/game_back_branch_patch.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <memory>
 
+#include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/game_patch/game_back_branch_patch_buffer.hpp"
 

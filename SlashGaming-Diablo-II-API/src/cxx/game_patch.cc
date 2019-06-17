@@ -45,7 +45,10 @@
 
 #include "../../include/cxx/game_patch.hpp"
 
+#include <cstddef>
+#include <cstdint>
 #include <utility>
+#include <vector>
 
 #include "../../include/c/game_patch.h"
 #include "architecture_opcode.hpp"

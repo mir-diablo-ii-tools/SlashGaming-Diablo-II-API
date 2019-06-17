@@ -46,8 +46,10 @@
 #include "game_branch_patch_buffer.hpp"
 
 #include <windows.h>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
 

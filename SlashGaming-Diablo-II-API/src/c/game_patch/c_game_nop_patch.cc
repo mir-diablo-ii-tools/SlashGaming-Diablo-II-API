@@ -50,6 +50,7 @@
 #include <algorithm>
 #include <memory>
 
+#include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/architecture_opcode.hpp"
 

@@ -45,9 +45,12 @@
 
 #include "../../../include/c/game_patch/game_branch_patch.h"
 
+#include <cstddef>
+#include <cstdint>
 #include <algorithm>
 #include <memory>
 
+#include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/game_patch/game_branch_patch_buffer.hpp"
 

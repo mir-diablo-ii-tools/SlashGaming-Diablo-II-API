@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
 
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <vector>
