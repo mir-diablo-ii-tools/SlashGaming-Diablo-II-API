@@ -279,11 +279,11 @@ DetermineGameVersionByFileVersion(
     return game_versions_by_file_versions.at(version_string);
   } catch(const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
+        L"File: {} \n"
+        L"Line: {} \n"
         L"\n"
         L"Could not determine the game version from the file version:"
-        L"\"%s\"";
+        L"\"{}\"";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
@@ -464,11 +464,11 @@ GetGameVersionName(
     return GetGameVersionNamesByGameVersionIds().at(game_version);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
+        L"File: {} \n"
+        L"Line: {} \n"
         L"\n"
         L"Could not determine the game version name from the game version ID: "
-        L"%d.";
+        L"{}.";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
