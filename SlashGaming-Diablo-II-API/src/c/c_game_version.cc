@@ -45,15 +45,14 @@
 
 #include "../../include/c/game_version.h"
 
-#include <stdbool.h>
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
+#include <string_view>
 
-#include "../../include/c/game_bool.h"
 #include "../../include/cxx/game_version.hpp"
 
 char* D2_GetGameVersionName(
-    char dest[],
+    char* dest,
     int game_version_id
 ) {
   d2::GameVersion actual_game_version_id =
@@ -72,7 +71,7 @@ char* D2_GetGameVersionName(
   return dest;
 }
 
-size_t D2_GetGameVersionNameSize(
+std::size_t D2_GetGameVersionNameSize(
     int game_version_id
 ) {
   d2::GameVersion actual_game_version_id =
@@ -85,14 +84,14 @@ size_t D2_GetGameVersionNameSize(
   return game_version_name.size() + 1;
 }
 
-int D2_GetRunningGameVersionId(void) {
-  return static_cast<enum D2_GameVersion>(
+int D2_GetRunningGameVersionId() {
+  return static_cast<D2_GameVersion>(
       d2::GetRunningGameVersionId()
   );
 }
 
 char* D2_GetRunningGameVersionName(
-    char dest[]
+    char* dest
 ) {
   std::string_view game_version_name =
       d2::GetRunningGameVersionName();
@@ -106,7 +105,7 @@ char* D2_GetRunningGameVersionName(
   return dest;
 }
 
-size_t D2_GetRunningGameVersionNameSize(void) {
+std::size_t D2_GetRunningGameVersionNameSize() {
   std::string_view game_version_name =
       d2::GetRunningGameVersionName();
 
@@ -121,6 +120,6 @@ bool D2_IsGameVersionAtLeast1_14(
   );
 }
 
-bool D2_IsRunningGameVersionAtLeast1_14(void) {
+bool D2_IsRunningGameVersionAtLeast1_14() {
   return d2::IsRunningGameVersionAtLeast1_14();
 }

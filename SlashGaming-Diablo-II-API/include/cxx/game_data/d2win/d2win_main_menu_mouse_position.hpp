@@ -50,10 +50,10 @@
 
 namespace d2::d2win {
 
-DLLEXPORT int GetMainMenuMousePositionX(void);
+DLLEXPORT int GetMainMenuMousePositionX();
 DLLEXPORT void SetMainMenuMousePositionX(int value);
 
-DLLEXPORT int GetMainMenuMousePositionY(void);
+DLLEXPORT int GetMainMenuMousePositionY();
 DLLEXPORT void SetMainMenuMousePositionY(int value);
 
 } // namespace d2::d2win

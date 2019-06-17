@@ -48,15 +48,15 @@
 #include "../../../include/cxx/game_constant/d2_difficulty_level.hpp"
 
 int D2_DifficultyLevel_ToGameValue(int id) {
-  enum d2::DifficultyLevel actual_id =
-      static_cast<enum d2::DifficultyLevel>(id);
+  d2::DifficultyLevel actual_id =
+      static_cast<d2::DifficultyLevel>(id);
 
   return d2::ToGameValue(actual_id);
 }
 
 int D2_DifficultyLevel_ToAPIValue(int value) {
-  enum d2::DifficultyLevel actual_id =
-      d2::ToAPIValue<enum d2::DifficultyLevel>(value);
+  d2::DifficultyLevel actual_id =
+      d2::ToAPIValue<d2::DifficultyLevel>(value);
 
   return static_cast<int>(actual_id);
 }

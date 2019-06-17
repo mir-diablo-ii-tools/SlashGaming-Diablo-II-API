@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_BOOL_H_
-#define SGD2MAPI_C_GAME_BOOL_H_
+#ifndef SGMAPI_C_GAME_BOOL_H_
+#define SGMAPI_C_GAME_BOOL_H_
 
 #include <stdint.h>
 
@@ -61,4 +61,4 @@ typedef int64_t bool64;
 } // extern "C"
 #endif // __cplusplus
 
-#endif // SGD2MAPI_C_GAME_BOOL_H_
+#endif // SGMAPI_C_GAME_BOOL_H_

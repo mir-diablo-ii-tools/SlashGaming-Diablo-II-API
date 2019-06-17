@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_BRANCH_TYPE_H_
-#define SGD2MAPI_C_GAME_BRANCH_TYPE_H_
+#ifndef SGMAPI_C_GAME_BRANCH_TYPE_H_
+#define SGMAPI_C_GAME_BRANCH_TYPE_H_
 
 /**
  * The branch types that are used to call an inserted function. A call saves
@@ -56,4 +56,4 @@ enum MAPI_BranchType {
   BRANCH_JUMP,
 };
 
-#endif // SGD2MAPI_C_GAME_BRANCH_TYPE_H_
+#endif // SGMAPI_C_GAME_BRANCH_TYPE_H_

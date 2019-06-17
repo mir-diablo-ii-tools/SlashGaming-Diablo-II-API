@@ -81,8 +81,8 @@ std::intptr_t D2Lang_Unicode_strcat() {
 } // namespace
 
 UnicodeChar* Unicode_strcat(
-    UnicodeChar dest[],
-    const UnicodeChar src[]
+    UnicodeChar* dest,
+    const UnicodeChar* src
 ) {
   std::intptr_t ptr = D2Lang_Unicode_strcat();
 

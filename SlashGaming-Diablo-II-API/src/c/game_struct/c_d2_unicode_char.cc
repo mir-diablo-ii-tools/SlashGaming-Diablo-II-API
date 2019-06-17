@@ -48,7 +48,7 @@
 #include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
 #include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
 
-struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void) {
+struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
   return D2_UnicodeChar_CreateWithChar('\0');
 }
 

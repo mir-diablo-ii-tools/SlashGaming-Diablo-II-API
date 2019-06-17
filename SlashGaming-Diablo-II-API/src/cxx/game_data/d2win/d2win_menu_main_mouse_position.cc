@@ -56,14 +56,14 @@
 namespace d2::d2win {
 namespace {
 
-std::intptr_t D2Win_MainMenuMousePositionX(void) {
+std::intptr_t D2Win_MainMenuMousePositionX() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
   return ptr;
 }
 
-std::intptr_t D2Win_MainMenuMousePositionY(void) {
+std::intptr_t D2Win_MainMenuMousePositionY() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -72,7 +72,7 @@ std::intptr_t D2Win_MainMenuMousePositionY(void) {
 
 } // namespace
 
-int GetMainMenuMousePositionX(void) {
+int GetMainMenuMousePositionX() {
   std::intptr_t ptr = D2Win_MainMenuMousePositionX();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
@@ -86,7 +86,7 @@ void SetMainMenuMousePositionX(int value) {
   *converted_ptr = value;
 }
 
-int GetMainMenuMousePositionY(void) {
+int GetMainMenuMousePositionY() {
   std::intptr_t ptr = D2Win_MainMenuMousePositionY();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);

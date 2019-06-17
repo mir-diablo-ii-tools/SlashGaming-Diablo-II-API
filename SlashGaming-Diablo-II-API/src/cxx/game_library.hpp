@@ -61,9 +61,7 @@ class GameLibrary {
   /**
    * Creates a new instance of a GameLibrary using the default library ID.
    */
-  explicit GameLibrary(
-      enum DefaultLibrary library
-  );
+  explicit GameLibrary(DefaultLibrary library);
 
   /**
    * Creates a new instance of a GameLibrary using the library path.
@@ -124,9 +122,7 @@ class GameLibrary {
 };
 
 const GameLibrary&
-GetGameLibrary(
-    enum DefaultLibrary library
-);
+GetGameLibrary(DefaultLibrary library);
 
 const GameLibrary&
 GetGameLibrary(

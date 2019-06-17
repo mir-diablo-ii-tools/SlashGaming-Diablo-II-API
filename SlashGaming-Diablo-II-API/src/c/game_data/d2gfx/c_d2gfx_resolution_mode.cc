@@ -47,7 +47,7 @@
 
 #include "../../../../include/cxx/game_data/d2gfx/d2gfx_resolution_mode.hpp"
 
-unsigned int D2_D2GFX_GetResolutionMode(void) {
+unsigned int D2_D2GFX_GetResolutionMode() {
   return d2::d2gfx::GetResolutionMode();
 }
 

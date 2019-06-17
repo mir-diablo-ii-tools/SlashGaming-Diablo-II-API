@@ -76,7 +76,7 @@ enum D2_GameVersion {
  * into the specified destination buffer.
  */
 DLLEXPORT char* D2_GetGameVersionName(
-    char dest[],
+    char* dest,
     int game_version_id
 );
 
@@ -98,7 +98,7 @@ DLLEXPORT int D2_GetRunningGameVersionId(void);
  * into the specified destination buffer.
  */
 DLLEXPORT char* D2_GetRunningGameVersionName(
-    char dest[]
+    char* dest
 );
 
 /**

@@ -52,7 +52,7 @@
 
 namespace d2::d2lang {
 
-DLLEXPORT int Unicode_strlen(const UnicodeChar buffer[]);
+DLLEXPORT int Unicode_strlen(const UnicodeChar* buffer);
 
 } // namespace d2::d2lang
 

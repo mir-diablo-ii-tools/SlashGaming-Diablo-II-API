@@ -50,10 +50,10 @@
 
 namespace d2::d2client {
 
-DLLEXPORT int GetIngameMousePositionX(void);
+DLLEXPORT int GetIngameMousePositionX();
 DLLEXPORT void SetIngameMousePositionX(int value);
 
-DLLEXPORT int GetIngameMousePositionY(void);
+DLLEXPORT int GetIngameMousePositionY();
 DLLEXPORT void SetIngameMousePositionY(int value);
 
 } // namespace d2::d2client

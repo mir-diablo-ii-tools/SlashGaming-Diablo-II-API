@@ -54,8 +54,8 @@ namespace mapi {
 
 OpCode ToOpcode(BranchType branch_type) {
   using BranchTypeAndOpcodeMapType = std::unordered_map<
-      enum BranchType,
-      enum OpCode
+      BranchType,
+      OpCode
   >;
 
   static const BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
@@ -72,7 +72,7 @@ OpCode ToOpcode(BranchType branch_type) {
 mapi::OpCode MAPI_ToOpcode(int branch_type) {
   using MAPI_BranchTypeAndOpcodeMapType = std::unordered_map<
       int,
-      enum mapi::OpCode
+      mapi::OpCode
   >;
 
   static const MAPI_BranchTypeAndOpcodeMapType op_codes_by_branch_types = {

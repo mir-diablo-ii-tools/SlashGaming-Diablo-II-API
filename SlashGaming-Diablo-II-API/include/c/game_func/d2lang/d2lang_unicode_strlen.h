@@ -50,7 +50,7 @@
 
 #include "../../../dllexport_define.inc"
 
-DLLEXPORT int D2_D2Lang_Unicode_strlen(const struct D2_UnicodeChar buffer[]);
+DLLEXPORT int D2_D2Lang_Unicode_strlen(const struct D2_UnicodeChar* buffer);
 
 #include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRLEN_H_

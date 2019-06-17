@@ -47,7 +47,7 @@
 
 #include "../../../../include/cxx/game_data/d2win/d2win_main_menu_mouse_position.hpp"
 
-int D2_D2Win_GetMainMenuMousePositionX(void) {
+int D2_D2Win_GetMainMenuMousePositionX() {
   return d2::d2win::GetMainMenuMousePositionX();
 }
 
@@ -55,7 +55,7 @@ void D2_D2Win_SetMainMenuMousePositionX(int value) {
   d2::d2win::SetMainMenuMousePositionX(value);
 }
 
-int D2_D2Win_GetMainMenuMousePositionY(void) {
+int D2_D2Win_GetMainMenuMousePositionY() {
   return d2::d2win::GetMainMenuMousePositionY();
 }
 

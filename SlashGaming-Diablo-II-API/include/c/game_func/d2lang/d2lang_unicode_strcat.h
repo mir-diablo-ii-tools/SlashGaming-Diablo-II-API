@@ -51,8 +51,8 @@
 #include "../../../dllexport_define.inc"
 
 DLLEXPORT struct D2_UnicodeChar* D2_D2Lang_Unicode_strcat(
-    struct D2_UnicodeChar dest[],
-    const struct D2_UnicodeChar src[]
+    struct D2_UnicodeChar* dest,
+    const struct D2_UnicodeChar* src
 );
 
 #include "../../../dllexport_undefine.inc"

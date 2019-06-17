@@ -53,8 +53,8 @@
 namespace d2::d2lang {
 
 DLLEXPORT UnicodeChar* Unicode_strcat(
-    UnicodeChar dest[],
-    const UnicodeChar src[]
+    UnicodeChar* dest,
+    const UnicodeChar* src
 );
 
 } // namespace d2::d2lang

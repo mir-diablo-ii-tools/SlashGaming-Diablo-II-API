@@ -66,7 +66,7 @@ D2Lang_Unicode_strlen_1_00(std::intptr_t func_ptr, const UnicodeChar* buffer) {
   ASM_X86(ret);
 }
 
-std::intptr_t D2Lang_Unicode_strlen(void) {
+std::intptr_t D2Lang_Unicode_strlen() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -75,7 +75,7 @@ std::intptr_t D2Lang_Unicode_strlen(void) {
 
 } // namespace
 
-int Unicode_strlen(const UnicodeChar buffer[]) {
+int Unicode_strlen(const UnicodeChar* buffer) {
   std::intptr_t ptr = D2Lang_Unicode_strlen();
 
   return D2Lang_Unicode_strlen_1_00(ptr, buffer);

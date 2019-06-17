@@ -62,11 +62,11 @@ enum class DifficultyLevel {
 
 extern template DLLEXPORT
 int ToGameValue(
-    enum DifficultyLevel id
+    DifficultyLevel id
 );
 
 extern template DLLEXPORT
-enum DifficultyLevel ToAPIValue(
+DifficultyLevel ToAPIValue(
     int value
 );
 

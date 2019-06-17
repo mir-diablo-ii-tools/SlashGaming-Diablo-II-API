@@ -52,8 +52,8 @@
 
 namespace d2::d2client {
 
-DLLEXPORT enum DifficultyLevel GetDifficultyLevel(void);
-DLLEXPORT void SetDifficultyLevel(enum DifficultyLevel value);
+DLLEXPORT DifficultyLevel GetDifficultyLevel();
+DLLEXPORT void SetDifficultyLevel(DifficultyLevel value);
 
 } // namespace d2client
 

@@ -49,7 +49,7 @@
 
 #include "../../../../include/cxx/game_data/d2client/d2client_is_new_stats_button_pressed.hpp"
 
-bool D2_D2Client_GetIsNewStatsButtonPressed(void) {
+bool D2_D2Client_GetIsNewStatsButtonPressed() {
   return d2::d2client::GetIsNewStatsButtonPressed();
 }
 

@@ -47,7 +47,7 @@
 
 #include "../../../../include/cxx/game_data/d2client/d2client_ingame_mouse_position.hpp"
 
-int D2_D2Client_GetIngameMousePositionX(void) {
+int D2_D2Client_GetIngameMousePositionX() {
   return d2::d2client::GetIngameMousePositionX();
 }
 
@@ -55,7 +55,7 @@ void D2_D2Client_SetIngameMousePositionX(int value) {
   d2::d2client::SetIngameMousePositionX(value);
 }
 
-int D2_D2Client_GetIngameMousePositionY(void) {
+int D2_D2Client_GetIngameMousePositionY() {
   return d2::d2client::GetIngameMousePositionY();
 }
 

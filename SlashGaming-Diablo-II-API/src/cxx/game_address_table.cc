@@ -55,7 +55,6 @@
 
 #include <nowide/convert.hpp>
 #include <fmt/format.h>
-#include <fmt/printf.h>
 
 #include "config.hpp"
 #include "../../include/cxx/game_address.hpp"
@@ -69,7 +68,7 @@ namespace mapi {
 namespace {
 
 std::filesystem::path
-GetTableFilePath(void) {
+GetTableFilePath() {
   const std::filesystem::path& address_table_directory =
       GetAddressTableDirectoryPath();
   std::string_view running_game_version_name =
@@ -83,7 +82,7 @@ GetTableFilePath(void) {
 }
 
 const std::unordered_map<std::string, GameAddress>&
-GetAddressTable(void) {
+GetAddressTable() {
   static std::unordered_map<
       std::string,
       GameAddress
@@ -104,11 +103,11 @@ GetGameAddress(
     return GetAddressTable().at(address_name.data());
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
-        L"Address not defined for %s.";
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"Address not defined for {}.";
 
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,

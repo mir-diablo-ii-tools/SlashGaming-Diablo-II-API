@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_BRANCH_TYPE_HPP_
-#define SGD2MAPI_CXX_GAME_BRANCH_TYPE_HPP_
+#ifndef SGMAPI_CXX_GAME_BRANCH_TYPE_HPP_
+#define SGMAPI_CXX_GAME_BRANCH_TYPE_HPP_
 
 namespace mapi {
 
@@ -60,4 +60,4 @@ enum class BranchType {
 
 } // namespace mapi
 
-#endif // SGD2MAPI_CXX_GAME_BRANCH_TYPE_HPP_
+#endif // SGMAPI_CXX_GAME_BRANCH_TYPE_HPP_

@@ -105,9 +105,7 @@ GetLibrariesByPaths(
 
 } // namespace
 
-GameLibrary::GameLibrary(
-    enum DefaultLibrary library
-)
+GameLibrary::GameLibrary(DefaultLibrary library)
     : GameLibrary(GetDefaultLibraryPathWithRedirect(library)) {
 }
 
@@ -228,9 +226,7 @@ GetGameLibrary(
 }
 
 const GameLibrary&
-GetGameLibrary(
-    enum DefaultLibrary library
-) {
+GetGameLibrary(DefaultLibrary library) {
   const std::filesystem::path& library_path =
       GetDefaultLibraryPathWithRedirect(
           library

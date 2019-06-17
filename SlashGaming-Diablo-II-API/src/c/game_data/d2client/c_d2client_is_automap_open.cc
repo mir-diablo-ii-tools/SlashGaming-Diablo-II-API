@@ -49,7 +49,7 @@
 
 #include "../../../../include/cxx/game_data/d2client/d2client_is_automap_open.hpp"
 
-bool D2_D2Client_GetIsAutomapOpen(void) {
+bool D2_D2Client_GetIsAutomapOpen() {
   return d2::d2client::GetIsAutomapOpen();
 }
 

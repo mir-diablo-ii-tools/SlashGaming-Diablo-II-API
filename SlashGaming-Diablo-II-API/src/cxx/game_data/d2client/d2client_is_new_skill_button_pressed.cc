@@ -57,7 +57,7 @@
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_IsNewSkillButtonPressed(void) {
+std::intptr_t D2Client_IsNewSkillButtonPressed() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -66,7 +66,7 @@ std::intptr_t D2Client_IsNewSkillButtonPressed(void) {
 
 } // namespace
 
-bool GetIsNewSkillButtonPressed(void) {
+bool GetIsNewSkillButtonPressed() {
   std::intptr_t ptr = D2Client_IsNewSkillButtonPressed();
 
   mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);

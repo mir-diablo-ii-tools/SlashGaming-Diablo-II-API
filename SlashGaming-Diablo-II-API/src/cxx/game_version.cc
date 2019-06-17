@@ -56,7 +56,6 @@
 
 #include <nowide/convert.hpp>
 #include <fmt/format.h>
-#include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
 #include "../../include/cxx/game_address.hpp"
 #include "../wide_macro.h"
@@ -65,21 +64,19 @@ namespace d2 {
 namespace {
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: %s \n"
-    L"Line: %d \n"
+    L"File: {} \n"
+    L"Line: {} \n"
     L"\n"
-    L"The function %s failed with error code %x.";
+    L"The function {} failed with error code {:X}.";
 
 const std::unordered_map<
     std::string_view,
-    enum GameVersion
+    GameVersion
 >&
-GetGameVersionsByFileVersions(
-    void
-) {
+GetGameVersionsByFileVersions() {
   static const std::unordered_map<
       std::string_view,
-      enum GameVersion
+      GameVersion
   > game_versions_by_file_versions = {
         // 1.00 & 1.01 have the same version #, but use completely different
         // DLLs.
@@ -120,14 +117,12 @@ GetGameVersionsByFileVersions(
 }
 
 const std::unordered_map<
-    enum GameVersion,
+    GameVersion,
     std::string_view
 >&
-GetGameVersionNamesByGameVersionIds(
-    void
-) {
+GetGameVersionNamesByGameVersionIds() {
   static const std::unordered_map<
-      enum GameVersion,
+      GameVersion,
       std::string_view
   > game_version_names_by_game_version_ids = {
         { GameVersion::k1_00, u8"1.00" },
@@ -184,7 +179,7 @@ ExtractFileVersionString(
   );
 
   if (file_version_info_size == 0) {
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kFunctionFailErrorFormat.data(),
         __FILEW__,
         __LINE__,
@@ -212,7 +207,7 @@ ExtractFileVersionString(
   );
 
   if (!is_get_file_version_info_success) {
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kFunctionFailErrorFormat,
         __FILEW__,
         __LINE__,
@@ -243,7 +238,7 @@ ExtractFileVersionString(
   );
 
   if (!is_ver_query_value_success) {
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kFunctionFailErrorFormat,
         __FILEW__,
         __LINE__,
@@ -264,8 +259,8 @@ ExtractFileVersionString(
   // Doesn't matter if you are on 32 bit or 64 bit,
   // DWORD is always 32 bits, so first two revision numbers
   // come from dwFileVersionMS, last two come from dwFileVersionLS
-  return fmt::sprintf(
-      u8"%d.%d.%d.%d",
+  return fmt::format(
+      u8"{}.{}.{}.{}",
       (version_info->dwFileVersionMS >> 16) & 0xFFFF,
       (version_info->dwFileVersionMS >> 0) & 0xFFFF,
       (version_info->dwFileVersionLS >> 16) & 0xFFFF,
@@ -273,7 +268,7 @@ ExtractFileVersionString(
   );
 }
 
-enum GameVersion
+GameVersion
 DetermineGameVersionByFileVersion(
     std::string_view version_string
 ) {
@@ -290,7 +285,7 @@ DetermineGameVersionByFileVersion(
         L"Could not determine the game version from the file version:"
         L"\"%s\"";
 
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
@@ -308,9 +303,9 @@ DetermineGameVersionByFileVersion(
   }
 }
 
-enum GameVersion
+GameVersion
 GetGameVersionByLibraryData(
-    enum GameVersion game_version
+    GameVersion game_version
 ) {
   // When detecting game address, we need to specify the library as a path and
   // not with the enum. The enum requires knowledge of the current game
@@ -320,8 +315,8 @@ GetGameVersionByLibraryData(
   std::vector<BYTE> expected_values;
   std::filesystem::path library_path;
   std::intptr_t offset_value;
-  enum GameVersion matching_version;
-  enum GameVersion non_matching_version;
+  GameVersion matching_version;
+  GameVersion non_matching_version;
 
   switch (game_version) {
     case GameVersion::k1_01: {
@@ -440,15 +435,15 @@ GetGameVersionByLibraryData(
   }
 }
 
-enum GameVersion
-DetermineRunningGameVersion(void) {
+GameVersion
+DetermineRunningGameVersion() {
   std::string game_version_string = ExtractFileVersionString(
       mapi::GetGameExecutablePath()
   );
 
   // Perform first stage game version detection using the executable file
   // name.
-  enum GameVersion game_version = DetermineGameVersionByFileVersion(
+  GameVersion game_version = DetermineGameVersionByFileVersion(
       game_version_string
   );
 
@@ -463,7 +458,7 @@ DetermineRunningGameVersion(void) {
 
 std::string_view
 GetGameVersionName(
-    enum GameVersion game_version
+    GameVersion game_version
 ) {
   try {
     return GetGameVersionNamesByGameVersionIds().at(game_version);
@@ -475,7 +470,7 @@ GetGameVersionName(
         L"Could not determine the game version name from the game version ID: "
         L"%d.";
 
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
@@ -493,15 +488,15 @@ GetGameVersionName(
   }
 }
 
-enum GameVersion
-GetRunningGameVersionId(void) {
-  static enum GameVersion running_game_version_id =
+GameVersion
+GetRunningGameVersionId() {
+  static GameVersion running_game_version_id =
       DetermineRunningGameVersion();
   return running_game_version_id;
 }
 
 std::string_view
-GetRunningGameVersionName(void) {
+GetRunningGameVersionName() {
   static std::string_view running_game_version_name = GetGameVersionName(
       GetRunningGameVersionId()
   );
@@ -509,13 +504,13 @@ GetRunningGameVersionName(void) {
 }
 
 bool IsGameVersionAtLeast1_14(
-    enum GameVersion game_version
+    GameVersion game_version
 ) {
   return !(game_version >= GameVersion::k1_00
                && game_version <= GameVersion::k1_13D);
 }
 
-bool IsRunningGameVersionAtLeast1_14(void) {
+bool IsRunningGameVersionAtLeast1_14() {
   return IsGameVersionAtLeast1_14(
       GetRunningGameVersionId()
   );

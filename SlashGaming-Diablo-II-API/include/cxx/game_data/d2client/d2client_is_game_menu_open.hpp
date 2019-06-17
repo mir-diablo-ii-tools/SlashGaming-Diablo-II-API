@@ -50,7 +50,7 @@
 
 namespace d2::d2client {
 
-DLLEXPORT bool GetIsGameMenuOpen(void);
+DLLEXPORT bool GetIsGameMenuOpen();
 DLLEXPORT void SetIsGameMenuOpen(bool value);
 
 } // namespace d2::d2client

@@ -57,7 +57,7 @@
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_DifficultyLevel(void) {
+std::intptr_t D2Client_DifficultyLevel() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -66,23 +66,23 @@ std::intptr_t D2Client_DifficultyLevel(void) {
 
 } // namespace
 
-enum DifficultyLevel GetDifficultyLevel(void) {
+DifficultyLevel GetDifficultyLevel() {
   std::intptr_t ptr = D2Client_DifficultyLevel();
-  enum GameVersion current_game_version = GetRunningGameVersionId();
+  GameVersion current_game_version = GetRunningGameVersionId();
 
   int value;
 
   std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
   value = *converted_ptr;
 
-  return ToAPIValue<enum DifficultyLevel>(value);
+  return ToAPIValue<DifficultyLevel>(value);
 }
 
-void SetDifficultyLevel(enum DifficultyLevel value) {
+void SetDifficultyLevel(DifficultyLevel value) {
   std::intptr_t ptr = D2Client_DifficultyLevel();
-  int integer_value = ToGameValue<enum DifficultyLevel>(value);
+  int integer_value = ToGameValue<DifficultyLevel>(value);
 
-  enum GameVersion current_game_version = GetRunningGameVersionId();
+  GameVersion current_game_version = GetRunningGameVersionId();
 
   if (current_game_version >= GameVersion::k1_00
       && current_game_version <= GameVersion::kLod1_14D) {

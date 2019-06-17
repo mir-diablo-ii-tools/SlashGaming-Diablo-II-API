@@ -49,7 +49,7 @@
 
 #include "../../../../include/cxx/game_data/d2client/d2client_is_help_screen_open.hpp"
 
-bool D2_D2Client_GetIsHelpScreenOpen(void) {
+bool D2_D2Client_GetIsHelpScreenOpen() {
   return d2::d2client::GetIsHelpScreenOpen();
 }
 

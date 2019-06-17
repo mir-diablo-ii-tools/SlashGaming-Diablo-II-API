@@ -58,10 +58,10 @@ namespace d2 {
 
 template int
 ToGameValue(
-    enum DifficultyLevel id
+    DifficultyLevel id
 );
 
-template enum DifficultyLevel
+template DifficultyLevel
 ToAPIValue(
     int value
 );

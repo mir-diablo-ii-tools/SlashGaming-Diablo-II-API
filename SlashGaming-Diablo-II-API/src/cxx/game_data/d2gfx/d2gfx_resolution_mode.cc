@@ -57,7 +57,7 @@
 namespace d2::d2gfx {
 namespace {
 
-std::intptr_t D2GFX_ResolutionMode(void) {
+std::intptr_t D2GFX_ResolutionMode() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -66,7 +66,7 @@ std::intptr_t D2GFX_ResolutionMode(void) {
 
 } // namespace
 
-unsigned int GetResolutionMode(void) {
+unsigned int GetResolutionMode() {
   std::intptr_t ptr = D2GFX_ResolutionMode();
 
   std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);

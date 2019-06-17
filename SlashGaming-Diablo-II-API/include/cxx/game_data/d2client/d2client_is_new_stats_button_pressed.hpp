@@ -50,7 +50,7 @@
 
 namespace d2::d2client {
 
-DLLEXPORT bool GetIsNewStatsButtonPressed(void);
+DLLEXPORT bool GetIsNewStatsButtonPressed();
 DLLEXPORT void SetIsNewStatsButtonPressed(bool value);
 
 } // namespace d2::d2client

@@ -50,7 +50,7 @@
 
 namespace d2::d2gfx {
 
-DLLEXPORT unsigned int GetResolutionMode(void);
+DLLEXPORT unsigned int GetResolutionMode();
 DLLEXPORT void SetResolutionMode(unsigned int value);
 
 } // namespace d2::d2gfx

@@ -49,7 +49,7 @@
 
 #include "../../../../include/cxx/game_data/d2client/d2client_is_new_skill_button_pressed.hpp"
 
-bool D2_D2Client_GetIsNewSkillButtonPressed(void) {
+bool D2_D2Client_GetIsNewSkillButtonPressed() {
   return d2::d2client::GetIsNewSkillButtonPressed();
 }
 

@@ -70,33 +70,33 @@ enum class GameVersion {
  */
 DLLEXPORT std::string_view
 GetGameVersionName(
-    enum GameVersion game_version
+    GameVersion game_version
 );
 
 /**
  * Returns the identifier of the running game version.
  */
-DLLEXPORT enum GameVersion
-GetRunningGameVersionId(void);
+DLLEXPORT GameVersion
+GetRunningGameVersionId();
 
 /**
  * Returns a view to the UTF-8 encoded string associated with the running game
  * version.
  */
 DLLEXPORT std::string_view
-GetRunningGameVersionName(void);
+GetRunningGameVersionName();
 
 /**
  * Returns whether the specified game version is at least 1.14.
  */
 DLLEXPORT bool IsGameVersionAtLeast1_14(
-    enum GameVersion game_version
+    GameVersion game_version
 );
 
 /**
  * Returns whether the running game version is at least 1.14.
  */
-DLLEXPORT bool IsRunningGameVersionAtLeast1_14(void);
+DLLEXPORT bool IsRunningGameVersionAtLeast1_14();
 
 } // namespace d2
 

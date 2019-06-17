@@ -50,7 +50,7 @@
 
 namespace d2::d2client {
 
-DLLEXPORT bool GetIsHelpScreenOpen(void);
+DLLEXPORT bool GetIsHelpScreenOpen();
 DLLEXPORT void SetIsHelpScreenOpen(bool value);
 
 } // namespace d2::d2client

@@ -56,14 +56,14 @@
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_IngameMousePositionX(void) {
+std::intptr_t D2Client_IngameMousePositionX() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
   return ptr;
 }
 
-std::intptr_t D2Client_IngameMousePositionY(void) {
+std::intptr_t D2Client_IngameMousePositionY() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -72,7 +72,7 @@ std::intptr_t D2Client_IngameMousePositionY(void) {
 
 } // namespace
 
-int GetIngameMousePositionX(void) {
+int GetIngameMousePositionX() {
   std::intptr_t ptr = D2Client_IngameMousePositionX();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
@@ -86,7 +86,7 @@ void SetIngameMousePositionX(int value) {
   *converted_ptr = value;
 }
 
-int GetIngameMousePositionY(void) {
+int GetIngameMousePositionY() {
   std::intptr_t ptr = D2Client_IngameMousePositionY();
 
   std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);

@@ -49,7 +49,7 @@
 
 #include "../../../../include/cxx/game_data/d2client/d2client_is_game_menu_open.hpp"
 
-bool D2_D2Client_GetIsGameMenuOpen(void) {
+bool D2_D2Client_GetIsGameMenuOpen() {
   return d2::d2client::GetIsGameMenuOpen();
 }
 

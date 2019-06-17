@@ -50,7 +50,7 @@
 
 namespace d2::d2client {
 
-DLLEXPORT bool GetIsAutomapOpen(void);
+DLLEXPORT bool GetIsAutomapOpen();
 DLLEXPORT void SetIsAutomapOpen(bool value);
 
 } // namespace d2::d2client
