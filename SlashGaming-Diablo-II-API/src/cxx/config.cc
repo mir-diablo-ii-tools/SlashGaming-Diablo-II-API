@@ -336,12 +336,7 @@ GetAddressTableDirectoryPath() {
 }
 
 bool RefreshConfig() {
-  bool is_read_success = GetConfigReader().Read();
-
-  if (!is_read_success) {
-    return false;
-  }
-
+  GetConfigReader() = ReadConfig(GetConfigPath());
   once_flags_by_json_keys.clear();
 
   return true;
