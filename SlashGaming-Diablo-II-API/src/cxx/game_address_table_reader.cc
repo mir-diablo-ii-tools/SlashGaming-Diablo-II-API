@@ -72,6 +72,7 @@ constexpr std::string_view kLocatorValueKey = u8"Locator Value";
 constexpr std::string_view kLocatorTypeOffset = u8"Offset";
 constexpr std::string_view kLocatorTypeOrdinal = u8"Ordinal";
 constexpr std::string_view kLocatorTypeDecoratedName = u8"Decorated Name";
+constexpr std::string_view kLocatorTypeNA = u8"N/A";
 
 GameAddress
 ResolveAddress(
@@ -98,6 +99,8 @@ ResolveAddress(
     return GameAddress::FromOffset(library_path, ordinal);
   } else if (locator_type == kLocatorTypeDecoratedName) {
     return GameAddress::FromDecoratedName(library_path, locator_value);
+  } else if (locator_type == kLocatorTypeNA) {
+    return GameAddress::FromOffset(library_path, 0);
   }
 
   // Should never occur!
