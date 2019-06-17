@@ -50,10 +50,18 @@
 
 #include "../../../dllexport_define.inc"
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
 DLLEXPORT struct D2_UnicodeChar* D2_D2Lang_Unicode_strcat(
     struct D2_UnicodeChar* dest,
     const struct D2_UnicodeChar* src
 );
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCAT_H_
