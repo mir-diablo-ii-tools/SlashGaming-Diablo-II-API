@@ -46,9 +46,7 @@
 #ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 #define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 
-#include <cstdint>
 #include <filesystem>
-#include <string>
 
 #include "../dllexport_define.inc"
 
@@ -67,7 +65,7 @@ enum class DefaultLibrary {
  * Returns the executable used to run the game.
  */
 DLLEXPORT const std::filesystem::path&
-GetGameExecutablePath(void);
+GetGameExecutablePath();
 
 /**
  * Returns the path of the specified default library or an alternative path if
@@ -75,7 +73,7 @@ GetGameExecutablePath(void);
  */
 DLLEXPORT const std::filesystem::path&
 GetDefaultLibraryPathWithRedirect(
-    enum DefaultLibrary library
+    DefaultLibrary library
 );
 
 } // namespace mapi

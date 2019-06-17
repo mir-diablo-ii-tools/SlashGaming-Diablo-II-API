@@ -50,7 +50,9 @@
 #include <cstdlib>
 #include <algorithm>
 #include <filesystem>
+#include <stdexcept>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
 #include <fmt/format.h>
@@ -62,12 +64,12 @@ namespace mapi {
 namespace {
 
 using PathsByDefaultLibrariesMap = std::unordered_map<
-    enum DefaultLibrary,
+    DefaultLibrary,
     std::filesystem::path
 >;
 
 const PathsByDefaultLibrariesMap&
-GetPathsByDefaultLibraryMap(void) {
+GetPathsByDefaultLibraryMap() {
   static const PathsByDefaultLibrariesMap
   paths_by_default_libraries = {
       { DefaultLibrary::kBNClient, u8"BNClient.dll" },
@@ -98,15 +100,15 @@ GetPathsByDefaultLibraryMap(void) {
 } // namespace
 
 const std::filesystem::path&
-GetGameExecutablePath(void) {
-  static const std::filesystem::path kGameExecutable = u8"Game.exe";
+GetGameExecutablePath() {
+  static std::filesystem::path kGameExecutable = u8"Game.exe";
 
   return kGameExecutable;
 }
 
 const std::filesystem::path&
 GetDefaultLibraryPathWithRedirect(
-    enum DefaultLibrary library
+    DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
   if (d2::IsRunningGameVersionAtLeast1_14()) {

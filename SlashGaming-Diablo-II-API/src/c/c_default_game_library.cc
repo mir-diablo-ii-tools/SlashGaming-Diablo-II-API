@@ -45,7 +45,7 @@
 
 #include "../../include/c/default_game_library.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <filesystem>
 #include <string>
@@ -53,7 +53,7 @@
 #include "../../include/cxx/default_game_library.hpp"
 
 char* MAPI_GetGameExecutablePath(
-    char dest[]
+    char* dest
 ) {
   std::string game_executable_path_text =
       mapi::GetGameExecutablePath().u8string();
@@ -67,15 +67,15 @@ char* MAPI_GetGameExecutablePath(
   return dest;
 }
 
-size_t MAPI_GetGameExecutablePathSize(void) {
+std::size_t MAPI_GetGameExecutablePathSize() {
   return mapi::GetGameExecutablePath().u8string().size() + 1;
 }
 
 char* MAPI_GetDefaultLibraryPathWithRedirect(
-    char dest[],
+    char* dest,
     int library_id
 ) {
-  enum mapi::DefaultLibrary actual_default_library =
+  mapi::DefaultLibrary actual_default_library =
       static_cast<mapi::DefaultLibrary>(library_id);
 
   const std::filesystem::path& default_library_path =
@@ -93,10 +93,10 @@ char* MAPI_GetDefaultLibraryPathWithRedirect(
   return dest;
 }
 
-size_t MAPI_GetDefaultLibraryPathWithRedirectSize(
+std::size_t MAPI_GetDefaultLibraryPathWithRedirectSize(
     int library_id
 ) {
-  enum mapi::DefaultLibrary actual_default_library =
+  mapi::DefaultLibrary actual_default_library =
       static_cast<mapi::DefaultLibrary>(library_id);
 
   const std::filesystem::path& default_library_path =
