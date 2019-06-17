@@ -43,11 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_TOLOWER_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_TOLOWER_HPP_
 
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
-#include "d2lang/d2lang_unicode_tolower.hpp"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2lang {
+
+DLLEXPORT UnicodeChar* Unicode_tolower(
+    const UnicodeChar* src,
+    UnicodeChar* dest
+);
+
+} // namespace d2::d2lang
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_TOLOWER_HPP_
