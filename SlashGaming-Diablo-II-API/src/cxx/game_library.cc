@@ -54,7 +54,6 @@
 #include <string_view>
 
 #include <fmt/format.h>
-#include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
 #include "../wide_macro.h"
 
@@ -62,9 +61,9 @@ namespace mapi {
 namespace {
 
 constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: %s \n"
-    L"Line: %d \n"
-    L"The function %s failed with error code %x.";
+    L"File: {} \n"
+    L"Line: {} \n"
+    L"The function {} failed with error code {:x}.";
 
 std::intptr_t
 GetLibraryBaseAddress(
@@ -74,7 +73,7 @@ GetLibraryBaseAddress(
 
   HMODULE base_address = LoadLibraryW(library_path_text_wide.data());
   if (base_address == nullptr) {
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kFunctionFailErrorFormat,
         __FILEW__,
         __LINE__,
@@ -203,15 +202,15 @@ GetGameLibrary(
     return GetLibrariesByPaths().at(library_path);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
-        L"Could not determine the game library from the file path: %s.";
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"Could not determine the game library from the file path: {}.";
 
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
-        library_path
+        library_path.wstring().data()
     );
 
     MessageBoxW(

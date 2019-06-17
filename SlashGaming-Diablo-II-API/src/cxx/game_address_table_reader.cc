@@ -57,7 +57,7 @@
 #include <unordered_map>
 
 #include <nowide/convert.hpp>
-#include <fmt/printf.h>
+#include <fmt/format.h>
 #include "../../include/cxx/game_address.hpp"
 #include "../../include/cxx/default_game_library.hpp"
 #include "game_library.hpp"
@@ -104,14 +104,14 @@ ResolveAddress(
   }
 
   // Should never occur!
-  std::wstring error_message = fmt::sprintf(
+  std::wstring error_message = fmt::format(
       L"Unknown locator type specified. \n"
       L"\n"
-      L"Library Path: %s \n"
-      L"Address Name: %s \n"
-      L"Locator Type: %s \n"
-      L"Locator Value: %s",
-      library_path,
+      L"Library Path: {} \n"
+      L"Address Name: {} \n"
+      L"Locator Type: {} \n"
+      L"Locator Value: {}",
+      library_path.wstring().data(),
       nowide::widen(address_name.data()),
       nowide::widen(locator_type.data()),
       nowide::widen(locator_value.data())
@@ -140,9 +140,9 @@ ReadTsvTableFile(
 
   // Open the file and check for it to be valid.
   if (!std::filesystem::exists(table_file_path)) {
-    std::wstring error_message = fmt::sprintf(
-        L"The file %s does not exist.",
-        table_file_path
+    std::wstring error_message = fmt::format(
+        L"The file {} does not exist.",
+        table_file_path.wstring().data()
     );
 
     MessageBoxW(
@@ -160,9 +160,9 @@ ReadTsvTableFile(
   );
 
   if (!address_table_file_stream) {
-    std::wstring error_message = fmt::sprintf(
-        L"The address table could not be opened.",
-        table_file_path
+    std::wstring error_message = fmt::format(
+        L"The address table in {} could not be opened.",
+        table_file_path.wstring().data()
     );
 
     MessageBoxW(
