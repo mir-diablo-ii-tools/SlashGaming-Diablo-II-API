@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_ADDRESS_H_
-#define SGD2MAPI_C_GAME_ADDRESS_H_
+#ifndef SGMAPI_C_GAME_ADDRESS_H_
+#define SGMAPI_C_GAME_ADDRESS_H_
 
 #include <stdint.h>
 
@@ -56,4 +56,4 @@ struct MAPI_GameAddress {
   intptr_t raw_address;
 };
 
-#endif // SGD2MAPI_C_GAME_ADDRESS_H_
+#endif // SGMAPI_C_GAME_ADDRESS_H_

@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
-#define SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
+#ifndef SGMAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
+#define SGMAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
 
 #include "../game_address.h"
 
@@ -81,4 +81,4 @@ DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndDecoratedName(
 #endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_
+#endif // SGMAPI_C_GAME_ADDRESS_GAME_DECORATED_NAME_H_

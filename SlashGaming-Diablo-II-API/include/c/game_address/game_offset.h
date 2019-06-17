@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
-#define SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
+#ifndef SGMAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
+#define SGMAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
 
 #include <stdint.h>
 
@@ -83,4 +83,4 @@ DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndOffset(
 #endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_ADDRESS_GAME_OFFSET_H_
+#endif // SGMAPI_C_GAME_ADDRESS_GAME_OFFSET_H_

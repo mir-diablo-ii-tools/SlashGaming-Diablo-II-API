@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
-#define SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
+#ifndef SGMAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
+#define SGMAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
 
 #include <stdint.h>
 
@@ -82,4 +82,4 @@ DLLEXPORT void MAPI_GameAddress_InitFromLibraryPathAndOrdinal(
 #endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_
+#endif // SGMAPI_C_GAME_ADDRESS_GAME_ORDINAL_H_

@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_ADDRESS_HPP_
-#define SGD2MAPI_CXX_GAME_ADDRESS_HPP_
+#ifndef SGMAPI_CXX_GAME_ADDRESS_HPP_
+#define SGMAPI_CXX_GAME_ADDRESS_HPP_
 
 #include <cstdint>
 #include <filesystem>
@@ -128,4 +128,4 @@ class DLLEXPORT GameAddress {
 
 #include "../dllexport_undefine.inc"
 
-#endif // SGD2MAPI_CXX_GAME_ADDRESS_HPP_
+#endif // SGMAPI_CXX_GAME_ADDRESS_HPP_
