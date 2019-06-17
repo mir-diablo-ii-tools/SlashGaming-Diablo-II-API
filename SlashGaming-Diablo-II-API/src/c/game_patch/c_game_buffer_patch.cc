@@ -45,33 +45,44 @@
 
 #include "../../../include/c/game_patch/game_buffer_patch.h"
 
+#include <cstdint>
+#include <cstddef>
 #include <algorithm>
+#include <memory>
 
+#include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch.h"
 
 void MAPI_GamePatch_InitGameBufferPatch(
-    struct MAPI_GamePatch* game_patch,
-    const struct MAPI_GameAddress* game_address,
-    const uint8_t buffer[],
-    size_t patch_size
+    MAPI_GamePatch* game_patch,
+    const MAPI_GameAddress* game_address,
+    const std::uint8_t* buffer,
+    std::size_t patch_size
 ) {
   game_patch->game_address = *game_address;
   game_patch->is_patch_applied = false;
   game_patch->patch_size = patch_size;
 
-  game_patch->patch_buffer = new std::uint8_t[patch_size];
+  // Create the patch buffer.
+  std::unique_ptr patch_buffer =
+      std::make_unique<std::uint8_t[]>(patch_size);
 
   std::copy_n(
       buffer,
       patch_size,
-      game_patch->patch_buffer
+      patch_buffer.get()
   );
 
-  game_patch->old_buffer = new std::uint8_t[patch_size];
+  // Create the old buffer.
+  std::unique_ptr old_buffer =
+      std::make_unique<std::uint8_t[]>(patch_size);
 
   std::copy_n(
       reinterpret_cast<std::uint8_t*>(game_address->raw_address),
       patch_size,
-      game_patch->old_buffer
+      old_buffer.get()
   );
+
+  game_patch->patch_buffer = patch_buffer.release();
+  game_patch->old_buffer = old_buffer.release();
 }

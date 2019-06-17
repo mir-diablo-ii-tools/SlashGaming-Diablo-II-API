@@ -48,32 +48,41 @@
 #include <cstddef>
 #include <cstdint>
 #include <algorithm>
+#include <memory>
 
+#include "../../../include/c/game_address.h"
 #include "../../../include/c/game_patch.h"
 #include "../../cxx/architecture_opcode.hpp"
 
 void MAPI_GamePatch_InitGameNopPatch(
-    struct MAPI_GamePatch* game_patch,
-    const struct MAPI_GameAddress* game_address,
+    MAPI_GamePatch* game_patch,
+    const MAPI_GameAddress* game_address,
     std::size_t patch_size
 ) {
   game_patch->game_address = *game_address;
   game_patch->is_patch_applied = false;
   game_patch->patch_size = patch_size;
 
-  game_patch->patch_buffer = new std::uint8_t[patch_size];
+  // Create the patch buffer.
+  std::unique_ptr patch_buffer =
+      std::make_unique<std::uint8_t[]>(patch_size);
 
   std::fill_n(
-      game_patch->patch_buffer,
+      patch_buffer.get(),
       patch_size,
       static_cast<std::int8_t>(mapi::OpCode::kNop)
   );
 
-  game_patch->old_buffer = new std::uint8_t[patch_size];
+  // Create the old buffer.
+  std::unique_ptr old_buffer =
+      std::make_unique<std::uint8_t[]>(patch_size);
 
   std::copy_n(
       reinterpret_cast<std::uint8_t*>(game_address->raw_address),
       patch_size,
-      game_patch->old_buffer
+      old_buffer.get()
   );
+
+  game_patch->patch_buffer = patch_buffer.release();
+  game_patch->old_buffer = old_buffer.release();
 }

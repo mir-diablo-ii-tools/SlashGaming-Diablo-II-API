@@ -46,7 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
 #define SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
 
+#include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <vector>
 
 #include "../../../include/c/game_address.h"
@@ -60,16 +62,16 @@ std::vector<std::uint8_t>
 CreateGameBackBranchPatchBuffer(
     const GameAddress& game_address,
     BranchType branch_type,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 );
 
 } // namespace mapi
 
-std::uint8_t* MAPI_CreateGameBackBranchPatchBuffer(
+std::unique_ptr<std::uint8_t[]> MAPI_CreateGameBackBranchPatchBuffer(
     const MAPI_GameAddress& game_address,
     int branch_type_id,
-    void (*func_ptr)(void),
+    void (*func_ptr)(),
     std::size_t patch_size
 );
 

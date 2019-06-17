@@ -45,7 +45,10 @@
 
 #include "../../include/cxx/game_patch.hpp"
 
+#include <cstddef>
+#include <cstdint>
 #include <utility>
+#include <vector>
 
 #include "../../include/c/game_patch.h"
 #include "architecture_opcode.hpp"
@@ -111,8 +114,8 @@ GamePatch::GamePatch(
     ) {
 }
 
-void GamePatch::Apply(void) {
-  struct MAPI_GamePatch c_game_patch;
+void GamePatch::Apply() {
+  MAPI_GamePatch c_game_patch;
   c_game_patch.patch_size = patch_buffer_.size();
   c_game_patch.game_address.raw_address = game_address_.raw_address();
   c_game_patch.is_patch_applied = is_patch_applied_;
@@ -124,8 +127,8 @@ void GamePatch::Apply(void) {
   is_patch_applied_ = c_game_patch.is_patch_applied;
 }
 
-void GamePatch::Remove(void) {
-  struct MAPI_GamePatch c_game_patch;
+void GamePatch::Remove() {
+  MAPI_GamePatch c_game_patch;
   c_game_patch.patch_size = patch_buffer_.size();
   c_game_patch.game_address.raw_address = game_address_.raw_address();
   c_game_patch.is_patch_applied = is_patch_applied_;
@@ -139,8 +142,8 @@ void GamePatch::Remove(void) {
 
 GamePatch GamePatch::MakeGameBackBranchPatch(
     const GameAddress& game_address,
-    enum BranchType branch_type,
-    void (*func_ptr)(void),
+    BranchType branch_type,
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
@@ -158,8 +161,8 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 
 GamePatch GamePatch::MakeGameBackBranchPatch(
     GameAddress&& game_address,
-    enum BranchType branch_type,
-    void (*func_ptr)(void),
+    BranchType branch_type,
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
@@ -177,8 +180,8 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 
 GamePatch GamePatch::MakeGameBranchPatch(
     const GameAddress& game_address,
-    enum BranchType branch_type,
-    void (*func_ptr)(void),
+    BranchType branch_type,
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
@@ -196,8 +199,8 @@ GamePatch GamePatch::MakeGameBranchPatch(
 
 GamePatch GamePatch::MakeGameBranchPatch(
     GameAddress&& game_address,
-    enum BranchType branch_type,
-    void (*func_ptr)(void),
+    BranchType branch_type,
+    void (*func_ptr)(),
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
@@ -215,7 +218,7 @@ GamePatch GamePatch::MakeGameBranchPatch(
 
 GamePatch GamePatch::MakeGameBufferPatch(
     const GameAddress& game_address,
-    const std::uint8_t patch_buffer[],
+    const std::uint8_t* patch_buffer,
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer_vector(
@@ -231,7 +234,7 @@ GamePatch GamePatch::MakeGameBufferPatch(
 
 GamePatch GamePatch::MakeGameBufferPatch(
     GameAddress&& game_address,
-    const std::uint8_t patch_buffer[],
+    const std::uint8_t* patch_buffer,
     std::size_t patch_size
 ) {
   std::vector<std::uint8_t> patch_buffer_vector(
@@ -242,46 +245,6 @@ GamePatch GamePatch::MakeGameBufferPatch(
   return GamePatch(
       std::move(game_address),
       std::move(patch_buffer_vector)
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    const GameAddress& game_address,
-    const std::vector<std::uint8_t>& patch_buffer
-) {
-  return GamePatch(
-      game_address,
-      patch_buffer
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    GameAddress&& game_address,
-    const std::vector<std::uint8_t>& patch_buffer
-) {
-  return GamePatch(
-      std::move(game_address),
-      patch_buffer
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    const GameAddress& game_address,
-    std::vector<std::uint8_t>&& patch_buffer
-) {
-  return GamePatch(
-      game_address,
-      std::move(patch_buffer)
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    GameAddress&& game_address,
-    std::vector<std::uint8_t>&& patch_buffer
-) {
-  return GamePatch(
-      std::move(game_address),
-      std::move(patch_buffer)
   );
 }
 

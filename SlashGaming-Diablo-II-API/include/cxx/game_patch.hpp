@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_PATCH_HPP_
-#define SGD2MAPI_CXX_GAME_PATCH_HPP_
+#ifndef SGMAPI_CXX_GAME_PATCH_HPP_
+#define SGMAPI_CXX_GAME_PATCH_HPP_
 
 #include <cstdint>
 #include <vector>
@@ -67,13 +67,13 @@ class DLLEXPORT GamePatch {
    * Applies the patch by replacing the values at its target address with the
    * values stored in its buffer. Does nothing if the patch is applied.
    */
-  void Apply(void);
+  void Apply();
 
   /**
    * Removes the effects of the patch by restoring the patched entries to their
    * original values. Does nothing if the patch is not applied.
    */
-  void Remove(void);
+  void Remove();
 
   /**
    * Make an instance of a back branch patch. The patch replaces the last
@@ -82,8 +82,8 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBackBranchPatch(
       const GameAddress& game_address,
-      enum BranchType branch_type,
-      void (*func_ptr)(void),
+      BranchType branch_type,
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -94,8 +94,8 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBackBranchPatch(
       GameAddress&& game_address,
-      enum BranchType branch_type,
-      void (*func_ptr)(void),
+      BranchType branch_type,
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -106,8 +106,8 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBranchPatch(
       const GameAddress& game_address,
-      enum BranchType branch_type,
-      void (*func_ptr)(void),
+      BranchType branch_type,
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -118,8 +118,8 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBranchPatch(
       GameAddress&& game_address,
-      enum BranchType branch_type,
-      void (*func_ptr)(void),
+      BranchType branch_type,
+      void (*func_ptr)(),
       std::size_t patch_size
   );
 
@@ -129,7 +129,7 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBufferPatch(
       const GameAddress& game_address,
-      const std::uint8_t patch_buffer[],
+      const std::uint8_t* patch_buffer,
       std::size_t patch_size
   );
 
@@ -139,45 +139,41 @@ class DLLEXPORT GamePatch {
    */
   static GamePatch MakeGameBufferPatch(
       GameAddress&& game_address,
-      const std::uint8_t patch_buffer[],
+      const std::uint8_t* patch_buffer,
       std::size_t patch_size
   );
 
   /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
+   * Makes an instance of a buffer patch, specifying the patch buffer using an
+   * iterator of 8-bit bytes.
    */
+  template <typename Iter>
   static GamePatch MakeGameBufferPatch(
       const GameAddress& game_address,
-      const std::vector<std::uint8_t>& patch_buffer
-  );
+      Iter first,
+      Iter last
+  ) {
+    static_assert (std::is_same<Iter::value_type, std::uint8_t>::value
+        || std::is_same<Iter::value_type, std::int8_t>::value);
+
+    return GamePatch(game_address, std::vector<std::uint8_t>(first, last));
+  }
 
   /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
+   * Makes an instance of a buffer patch, specifying the patch buffer using an
+   * iterator of 8-bit bytes.
    */
+  template <typename Iter>
   static GamePatch MakeGameBufferPatch(
       GameAddress&& game_address,
-      const std::vector<std::uint8_t>& patch_buffer
-  );
+      Iter first,
+      Iter last
+  ) {
+    static_assert (std::is_same<Iter::value_type, std::uint8_t>::value
+        || std::is_same<Iter::value_type, std::int8_t>::value);
 
-  /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
-   */
-  static GamePatch MakeGameBufferPatch(
-      const GameAddress& game_address,
-      std::vector<std::uint8_t>&& patch_buffer
-  );
-
-  /**
-   * Makes an instance of a buffer patch, specifying the patch buffer using a
-   * vector of 8-bit bytes.
-   */
-  static GamePatch MakeGameBufferPatch(
-      GameAddress&& game_address,
-      std::vector<std::uint8_t>&& patch_buffer
-  );
+    return GamePatch(game_address, std::vector<std::uint8_t>(first, last));
+  }
 
   /**
    * Makes an instance of a NOP patch, filling the patch buffer with as
@@ -229,4 +225,4 @@ class DLLEXPORT GamePatch {
 } // namespace mapi
 
 #include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_PATCH_HPP_
+#endif // SGMAPI_CXX_GAME_PATCH_HPP_

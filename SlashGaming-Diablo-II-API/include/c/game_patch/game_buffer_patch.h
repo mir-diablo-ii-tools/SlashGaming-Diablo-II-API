@@ -43,12 +43,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_PATCH_GAME_BUFFER_PATCH_H_
-#define SGD2MAPI_C_GAME_PATCH_GAME_BUFFER_PATCH_H_
+#ifndef SGMAPI_C_GAME_PATCH_GAME_BUFFER_PATCH_H_
+#define SGMAPI_C_GAME_PATCH_GAME_BUFFER_PATCH_H_
 
 #include <stddef.h>
 #include <stdint.h>
 
+#include "../game_address.h"
 #include "../game_patch.h"
 
 #include "../../dllexport_define.inc"
@@ -64,7 +65,7 @@ extern "C" {
 DLLEXPORT void MAPI_GamePatch_InitGameBufferPatch(
     struct MAPI_GamePatch* game_patch,
     const struct MAPI_GameAddress* game_address,
-    const uint8_t buffer[],
+    const uint8_t* buffer,
     size_t patch_size
 );
 
@@ -73,4 +74,4 @@ DLLEXPORT void MAPI_GamePatch_InitGameBufferPatch(
 #endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_PATCH_GAME_BUFFER_PATCH_H_
+#endif // SGMAPI_C_GAME_PATCH_GAME_BUFFER_PATCH_H_
