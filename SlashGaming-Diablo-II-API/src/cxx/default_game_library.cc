@@ -56,7 +56,6 @@
 #include <unordered_map>
 
 #include <fmt/format.h>
-#include <fmt/printf.h>
 #include "../../include/cxx/game_version.hpp"
 #include "../wide_macro.h"
 
@@ -119,11 +118,11 @@ GetDefaultLibraryPathWithRedirect(
     return GetPathsByDefaultLibraryMap().at(library);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: %s \n"
-        L"Line: %d \n"
-        L"Could not determine the game library path from the library ID: %s.";
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"Could not determine the game library path from the library ID: {}.";
 
-    std::wstring full_message = fmt::sprintf(
+    std::wstring full_message = fmt::format(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
