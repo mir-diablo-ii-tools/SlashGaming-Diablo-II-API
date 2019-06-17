@@ -53,7 +53,6 @@
 
 #include <nowide/convert.hpp>
 #include <fmt/format.h>
-#include <fmt/printf.h>
 #include "../../include/cxx/default_game_library.hpp"
 #include "game_library.hpp"
 
@@ -91,8 +90,8 @@ GameAddress GameAddress::FromDecoratedName(
   );
 
   if (raw_address == nullptr) {
-    std::wstring error_message = fmt::sprintf(
-        L"The data or function with the name %s could not be found.",
+    std::wstring error_message = fmt::format(
+        L"The data or function with the name {} could not be found.",
         nowide::widen(decorated_name.data())
     );
 
@@ -151,8 +150,8 @@ GameAddress GameAddress::FromOrdinal(
   );
 
   if (func_address == nullptr) {
-    std::wstring error_message = fmt::sprintf(
-        L"The data or function with the ordinal %d could not be found.",
+    std::wstring error_message = fmt::format(
+        L"The data or function with the ordinal {} could not be found.",
         ordinal
     );
 
