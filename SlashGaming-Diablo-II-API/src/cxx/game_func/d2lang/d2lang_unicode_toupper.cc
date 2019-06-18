@@ -79,7 +79,6 @@ D2Lang_Unicode_toupper_1_00(
   ASM_X86(pop ecx);
 
   ASM_X86(leave);
-
   ASM_X86(ret);
 }
 
