@@ -43,13 +43,15 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include "../../../../include/c/game_func/d2lang/d2lang_get_string_by_index.h"
 
-#include "d2lang/d2lang_get_string_by_index.hpp"
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
-#include "d2lang/d2lang_unicode_tolower.hpp"
-#include "d2lang/d2lang_unicode_toupper.hpp"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_get_string_by_index.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+const D2_UnicodeChar* D2_D2Lang_GetStringByIndex(
+    unsigned int id
+) {
+  const d2::UnicodeChar* actual_result = d2::d2lang::GetStringByIndex(id);
+
+  return reinterpret_cast<const D2_UnicodeChar*>(actual_result);
+}

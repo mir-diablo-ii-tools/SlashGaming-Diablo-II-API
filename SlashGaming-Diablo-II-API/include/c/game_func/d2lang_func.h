@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
 #define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
 
+#include "d2lang/d2lang_get_string_by_index.h"
 #include "d2lang/d2lang_unicode_strcat.h"
 #include "d2lang/d2lang_unicode_strlen.h"
 #include "d2lang/d2lang_unicode_tolower.h"
