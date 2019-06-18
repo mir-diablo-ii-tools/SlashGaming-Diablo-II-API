@@ -43,9 +43,23 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_LOAD_MPQ_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_LOAD_MPQ_HPP_
 
-#include "d2win/d2win_load_mpq.hpp"
+#include "../../game_struct/d2_mpq_archive_handle.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2win {
+
+DLLEXPORT MPQArchiveHandle* LoadMPQ(
+    const char* mpq_file_name,
+    bool is_set_err_on_drive_query_fail,
+    void* (*on_fail_callback)(void),
+    int priority
+);
+
+} // namespace d2::d2win
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_LOAD_MPQ_HPP_
