@@ -43,10 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2ddraw/d2ddraw_display_height.h"
-#include "d2ddraw/d2ddraw_display_width.h"
+#include "../../../../include/cxx/game_data/d2ddraw/d2ddraw_display_width.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2ddraw {
+namespace {
+
+std::intptr_t D2DDraw_DisplayWidth() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetDisplayWidth() {
+  std::intptr_t ptr = D2DDraw_DisplayWidth();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetDisplayWidth(int value) {
+  std::intptr_t ptr = D2DDraw_DisplayWidth();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2ddraw

@@ -43,10 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
+#include "../../../../include/c/game_data/d2ddraw/d2ddraw_display_height.h"
 
-#include "d2ddraw/d2ddraw_display_height.h"
-#include "d2ddraw/d2ddraw_display_width.h"
+#include "../../../../include/cxx/game_data/d2ddraw/d2ddraw_display_height.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
+int D2_D2DDraw_GetDisplayHeight() {
+  return d2::d2ddraw::GetDisplayHeight();
+}
+
+void D2_D2DDraw_SetDisplayHeight(int value) {
+  d2::d2ddraw::SetDisplayHeight(value);
+}
