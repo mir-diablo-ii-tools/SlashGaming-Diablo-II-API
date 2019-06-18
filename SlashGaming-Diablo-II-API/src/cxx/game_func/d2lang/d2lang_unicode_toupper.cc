@@ -71,8 +71,8 @@ D2Lang_Unicode_toupper_1_00(
   ASM_X86(push ecx);
   ASM_X86(push edx);
 
-  ASM_X86(mov ecx, [ebp + 12]);
   ASM_X86(push dword ptr [ebp + 16]);
+  ASM_X86(mov ecx, [ebp + 12]);
   ASM_X86(call dword ptr [ebp + 8]);
 
   ASM_X86(pop edx);

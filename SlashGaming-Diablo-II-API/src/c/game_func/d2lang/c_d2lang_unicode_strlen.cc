@@ -49,7 +49,7 @@
 #include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
 
 int D2_D2Lang_Unicode_strlen(const D2_UnicodeChar* buffer) {
-  auto actual_ptr = reinterpret_cast<const d2::UnicodeChar*>(buffer);
+  auto actual_buffer = reinterpret_cast<const d2::UnicodeChar*>(buffer);
 
-  return d2::d2lang::Unicode_strlen(actual_ptr);
+  return d2::d2lang::Unicode_strlen(actual_buffer);
 }
