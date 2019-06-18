@@ -59,10 +59,21 @@
 namespace d2::d2lang {
 namespace {
 
-__declspec(naked) int __cdecl
+__declspec(naked) std::int32_t __cdecl
 D2Lang_Unicode_strlen_1_00(std::intptr_t func_ptr, const UnicodeChar* buffer) {
-  ASM_X86(mov ecx, [esp + 8]);
-  ASM_X86(call dword ptr [esp + 4]);
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(mov ecx, dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
   ASM_X86(ret);
 }
 

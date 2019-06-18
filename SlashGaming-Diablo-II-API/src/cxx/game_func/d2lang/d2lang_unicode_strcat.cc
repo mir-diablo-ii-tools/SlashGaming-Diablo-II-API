@@ -65,9 +65,20 @@ D2Lang_Unicode_strcat_1_00(
     const UnicodeChar* dest,
     const UnicodeChar* src
 ) {
-  ASM_X86(mov edx, [esp + 12])
-  ASM_X86(mov ecx, [esp + 8]);
-  ASM_X86(call dword ptr [esp + 4]);
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(mov edx, dword ptr [ebp + 16]);
+  ASM_X86(mov ecx, dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
   ASM_X86(ret);
 }
 
