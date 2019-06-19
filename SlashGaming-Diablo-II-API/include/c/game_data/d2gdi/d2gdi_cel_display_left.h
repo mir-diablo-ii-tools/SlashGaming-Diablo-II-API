@@ -43,12 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2GDI_D2GDI_CEL_DISPLAY_LEFT_H_
+#define SGD2MAPI_C_GAME_DATA_D2GDI_D2GDI_CEL_DISPLAY_LEFT_H_
 
-#include "d2gdi/d2gdi_bit_block_height.h"
-#include "d2gdi/d2gdi_bit_block_width.h"
-#include "d2gdi/d2gdi_cel_display_left.h"
-#include "d2gdi/d2gdi_cel_display_right.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2GDI_GetCelDisplayLeft(void);
+DLLEXPORT void D2_D2GDI_SetCelDisplayLeft(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2GDI_D2GDI_CEL_DISPLAY_LEFT_H_

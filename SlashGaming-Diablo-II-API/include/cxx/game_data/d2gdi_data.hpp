@@ -48,5 +48,7 @@
 
 #include "d2gdi/d2gdi_bit_block_height.hpp"
 #include "d2gdi/d2gdi_bit_block_width.hpp"
+#include "d2gdi/d2gdi_cel_display_left.hpp"
+#include "d2gdi/d2gdi_cel_display_right.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_DATA_D2GDI_DATA_HPP_

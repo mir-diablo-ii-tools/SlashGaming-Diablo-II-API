@@ -43,12 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2gdi/d2gdi_bit_block_height.h"
-#include "d2gdi/d2gdi_bit_block_width.h"
-#include "d2gdi/d2gdi_cel_display_left.h"
-#include "d2gdi/d2gdi_cel_display_right.h"
+#include "../../../../include/cxx/game_data/d2gdi/d2gdi_cel_display_right.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2gdi {
+namespace {
+
+std::intptr_t D2GDI_CelDisplayRight() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetCelDisplayRight() {
+  std::intptr_t ptr = D2GDI_CelDisplayRight();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetCelDisplayRight(int value) {
+  std::intptr_t ptr = D2GDI_CelDisplayRight();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2gdi

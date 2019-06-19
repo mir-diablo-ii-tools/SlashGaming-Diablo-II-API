@@ -43,12 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+#include "../../../../include/c/game_data/d2gdi/d2gdi_cel_display_right.h"
 
-#include "d2gdi/d2gdi_bit_block_height.h"
-#include "d2gdi/d2gdi_bit_block_width.h"
-#include "d2gdi/d2gdi_cel_display_left.h"
-#include "d2gdi/d2gdi_cel_display_right.h"
+#include "../../../../include/cxx/game_data/d2gdi/d2gdi_cel_display_right.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+int D2_D2GDI_GetCelDisplayRight() {
+  return d2::d2gdi::GetCelDisplayRight();
+}
+
+void D2_D2GDI_SetCelDisplayRight(int value) {
+  d2::d2gdi::SetCelDisplayRight(value);
+}
