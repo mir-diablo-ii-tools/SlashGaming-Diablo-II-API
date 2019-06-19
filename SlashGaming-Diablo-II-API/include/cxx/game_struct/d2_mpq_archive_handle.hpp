@@ -114,13 +114,13 @@ class DLLEXPORT MPQArchiveHandle_API : public MPQArchiveHandle_Wrapper {
  public:
   MPQArchiveHandle_API(
       const std::filesystem::path& mpq_archive_path,
-      bool is_set_error_on_fail,
+      bool is_set_error_on_drive_query_fail,
       int priority
   );
 
   MPQArchiveHandle_API(
       const std::filesystem::path& mpq_archive_path,
-      bool is_set_error_on_fail,
+      bool is_set_error_on_drive_query_fail,
       void* (*on_fail_callback)(),
       int priority
   );

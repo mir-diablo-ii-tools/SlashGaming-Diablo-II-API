@@ -51,11 +51,11 @@ namespace d2 {
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
     const std::filesystem::path& mpq_file_path,
-    bool is_set_error_on_fail,
+    bool is_set_error_on_drive_query_fail,
     int priority
 ) : MPQArchiveHandle_API(
         mpq_file_path,
-        is_set_error_on_fail,
+        is_set_error_on_drive_query_fail,
         nullptr,
         priority
     ) {
@@ -65,7 +65,7 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 // TODO (Mir Drualga): Implement with D2Win_LoadMPQ
 MPQArchiveHandle_API::MPQArchiveHandle_API(
     const std::filesystem::path& mpq_file_path,
-    bool is_set_error_on_fail,
+    bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
 ) : MPQArchiveHandle_Wrapper(nullptr) {
