@@ -74,10 +74,6 @@ MPQArchiveHandle_Wrapper& MPQArchiveHandle_Wrapper::operator=(
     MPQArchiveHandle_Wrapper&& other
 ) noexcept = default;
 
-MPQArchiveHandle_Wrapper::operator MPQArchiveHandle*() noexcept {
-  return this->Get();
-}
-
 MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() noexcept {
   return this->ptr_;
 }

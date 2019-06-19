@@ -74,11 +74,6 @@ MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
     MPQArchiveHandle_ConstWrapper&& other
 ) noexcept = default;
 
-MPQArchiveHandle_ConstWrapper::operator
-const MPQArchiveHandle*() const noexcept {
-  return this->Get();
-}
-
 const MPQArchiveHandle*
 MPQArchiveHandle_ConstWrapper::Get() const noexcept {
   return this->ptr_;

@@ -76,8 +76,6 @@ class DLLEXPORT MPQArchiveHandle_ConstWrapper {
       MPQArchiveHandle_ConstWrapper&& other
   ) noexcept;
 
-  operator const MPQArchiveHandle*() const noexcept;
-
   const MPQArchiveHandle* Get() const noexcept;
 
   const MPQArchive* GetMPQArchive() const noexcept;
@@ -102,8 +100,6 @@ class DLLEXPORT MPQArchiveHandle_Wrapper :
   MPQArchiveHandle_Wrapper& operator=(
       MPQArchiveHandle_Wrapper&& other
   ) noexcept;
-
-  operator MPQArchiveHandle*() noexcept;
 
   MPQArchiveHandle* Get() noexcept;
 
