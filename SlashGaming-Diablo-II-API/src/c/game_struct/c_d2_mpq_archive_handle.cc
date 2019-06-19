@@ -57,12 +57,32 @@ struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
   return reinterpret_cast<D2_MPQArchive*>(wrapper.mpq_archive());
 }
 
+const struct D2_MPQArchive* D2_MPQArchiveHandle_GetConstMPQArchive(
+    const struct D2_MPQArchiveHandle* ptr
+) {
+  const d2::MPQArchiveHandle* actual_ptr =
+      reinterpret_cast<const d2::MPQArchiveHandle*>(ptr);
+  d2::MPQArchiveHandle_ConstWrapper wrapper(actual_ptr);
+
+  return reinterpret_cast<const D2_MPQArchive*>(wrapper.mpq_archive());
+}
+
 char* D2_MPQArchiveHandle_GetMPQArchivePath(
     struct D2_MPQArchiveHandle* ptr
 ) {
   d2::MPQArchiveHandle* actual_ptr =
       reinterpret_cast<d2::MPQArchiveHandle*>(ptr);
   d2::MPQArchiveHandle_Wrapper wrapper(actual_ptr);
+
+  return wrapper.mpq_archive_path();
+}
+
+const char* D2_MPQArchiveHandle_GetConstMPQArchivePath(
+    const struct D2_MPQArchiveHandle* ptr
+) {
+  const d2::MPQArchiveHandle* actual_ptr =
+      reinterpret_cast<const d2::MPQArchiveHandle*>(ptr);
+  d2::MPQArchiveHandle_ConstWrapper wrapper(actual_ptr);
 
   return wrapper.mpq_archive_path();
 }
