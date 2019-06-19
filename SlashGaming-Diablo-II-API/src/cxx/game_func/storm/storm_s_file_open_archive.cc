@@ -43,10 +43,73 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "storm/storm_s_file_close_archive.hpp"
-#include "storm/storm_s_file_open_archive.hpp"
+#include "../../../../include/cxx/game_func/storm/storm_s_file_open_archive.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::storm {
+namespace {
+
+__declspec(naked) mapi::bool32 __cdecl
+Storm_SFileOpenArchive_1_00(
+    std::intptr_t func_ptr,
+    const char* mpq_file_path,
+    std::int32_t priority,
+    std::uint32_t flags,
+    MPQArchive** mpq_archive_ptr_out
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 24]);
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(push dword ptr [ebp + 16]);
+  ASM_X86(push dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t Storm_SFileOpenArchive() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+bool SFileOpenArchive(
+    const char* mpq_archive_path,
+    int priority,
+    unsigned int flags,
+    MPQArchive** mpq_archive_ptr_out
+) {
+  std::intptr_t ptr = Storm_SFileOpenArchive();
+
+  return Storm_SFileOpenArchive_1_00(
+      ptr,
+      mpq_archive_path,
+      priority,
+      flags,
+      mpq_archive_ptr_out
+  );
+}
+
+} // namespace d2::storm

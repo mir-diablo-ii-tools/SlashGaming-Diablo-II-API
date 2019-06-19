@@ -43,10 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
+#include "../../../../include/c/game_func/storm/storm_s_file_open_archive.h"
 
-#include "storm/storm_s_file_close_archive.hpp"
-#include "storm/storm_s_file_open_archive.hpp"
+#include "../../../../include/cxx/game_func/storm/storm_s_file_open_archive.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
+bool D2_Storm_SFileOpenArchive(
+    const char* mpq_archive_path,
+    int priority,
+    unsigned int flags,
+    D2_MPQArchive** mpq_archive_ptr_out
+) {
+  d2::MPQArchive** actual_mpq_archive_ptr_out =
+      reinterpret_cast<d2::MPQArchive**>(mpq_archive_ptr_out);
+
+  bool actual_result = d2::storm::SFileOpenArchive(
+      mpq_archive_path,
+      priority,
+      flags,
+      actual_mpq_archive_ptr_out
+  );
+
+  return actual_result;
+}

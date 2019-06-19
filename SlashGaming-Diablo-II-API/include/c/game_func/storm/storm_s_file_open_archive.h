@@ -43,10 +43,29 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_STORM_STORM_S_FILE_OPEN_ARCHIVE_H_
+#define SGD2MAPI_C_GAME_FUNC_STORM_STORM_S_FILE_OPEN_ARCHIVE_H_
 
-#include "storm/storm_s_file_close_archive.hpp"
-#include "storm/storm_s_file_open_archive.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
+#include "../../game_struct/d2_mpq_archive.h"
+
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT bool D2_Storm_SFileOpenArchive(
+    const char* mpq_archive_path,
+    int priority,
+    unsigned int flags,
+    struct D2_MPQArchive** mpq_archive_ptr_out
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_STORM_STORM_S_FILE_OPEN_ARCHIVE_H_
