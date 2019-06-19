@@ -46,4 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_
 
+#include "storm/storm_s_file_close_archive.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_FUNC_STORM_FUNC_HPP_

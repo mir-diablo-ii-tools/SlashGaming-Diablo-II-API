@@ -43,9 +43,61 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "storm/storm_s_file_close_archive.h"
+#include "../../../../include/cxx/game_func/storm/storm_s_file_close_archive.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::storm {
+namespace {
+
+__declspec(naked) mapi::bool32 __cdecl
+Storm_SFileCloseArchive_1_00(
+    std::intptr_t func_ptr,
+    MPQArchive* mpq_archive
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t Storm_SFileCloseArchive() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+bool SFileCloseArchive(
+    MPQArchive* mpq_archive
+) {
+  std::intptr_t ptr = Storm_SFileCloseArchive();
+
+  return Storm_SFileCloseArchive_1_00(
+      ptr,
+      mpq_archive
+  );
+}
+
+} // namespace d2::storm

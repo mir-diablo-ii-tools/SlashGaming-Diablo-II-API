@@ -43,9 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
+#include "../../../../include/c/game_func/storm/storm_s_file_close_archive.h"
 
-#include "storm/storm_s_file_close_archive.h"
+#include "../../../../include/cxx/game_func/storm/storm_s_file_close_archive.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
+bool D2_Storm_SFileCloseArchive(
+    D2_MPQArchive* mpq_archive
+) {
+  d2::MPQArchive* actual_mpq_archive = reinterpret_cast<d2::MPQArchive*>(
+      mpq_archive
+  );
+
+  bool actual_result = d2::storm::SFileCloseArchive(
+      actual_mpq_archive
+  );
+
+  return actual_result;
+}

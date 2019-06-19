@@ -43,9 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_STORM_STORM_S_FILE_CLOSE_ARCHIVE_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_STORM_STORM_S_FILE_CLOSE_ARCHIVE_HPP_
 
-#include "storm/storm_s_file_close_archive.h"
+#include "../../game_struct/d2_mpq_archive.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+namespace d2::storm {
+
+DLLEXPORT bool SFileCloseArchive(
+    MPQArchive* mpq_archive
+);
+
+} // namespace d2::storm
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_STORM_STORM_S_FILE_CLOSE_ARCHIVE_HPP_
