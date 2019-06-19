@@ -43,10 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
+#include "../../../../include/c/game_func/fog/fog_free_client_memory.h"
 
-#include "fog/fog_alloc_client_memory.hpp"
-#include "fog/fog_free_client_memory.hpp"
+#include "../../../../include/cxx/game_func/fog/fog_free_client_memory.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
+bool D2_Fog_FreeClientMemory(
+    void* ptr,
+    const char* source_file,
+    int line,
+    int unused__set_to_0
+) {
+  bool actual_result = d2::fog::FreeClientMemory(
+      ptr,
+      source_file,
+      line,
+      unused__set_to_0
+  );
+
+  return actual_result;
+}

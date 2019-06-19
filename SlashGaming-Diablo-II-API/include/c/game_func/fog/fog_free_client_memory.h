@@ -43,10 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_FOG_FOG_FREE_CLIENT_MEMORY_H_
+#define SGD2MAPI_C_GAME_FUNC_FOG_FOG_FREE_CLIENT_MEMORY_H_
 
-#include "fog/fog_alloc_client_memory.hpp"
-#include "fog/fog_free_client_memory.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT bool D2_Fog_FreeClientMemory(
+    void* ptr,
+    const char* source_file,
+    int line,
+    int unused__set_to_0
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_FOG_FOG_FREE_CLIENT_MEMORY_H_
