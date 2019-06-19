@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_D2GDI_DATA_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_D2GDI_DATA_HPP_
 
+#include "d2gdi/d2gdi_bit_block_height.hpp"
+#include "d2gdi/d2gdi_bit_block_width.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_DATA_D2GDI_DATA_HPP_

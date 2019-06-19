@@ -43,10 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+#include "../../../../include/c/game_data/d2gdi/d2gdi_bit_block_height.h"
 
-#include "d2gdi/d2gdi_bit_block_height.h"
-#include "d2gdi/d2gdi_bit_block_width.h"
+#include "../../../../include/cxx/game_data/d2gdi/d2gdi_bit_block_height.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+int D2_D2GDI_GetBitBlockHeight() {
+  return d2::d2gdi::GetBitBlockHeight();
+}
+
+void D2_D2GDI_SetBitBlockHeight(int value) {
+  d2::d2gdi::SetBitBlockHeight(value);
+}

@@ -43,10 +43,17 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2GDI_D2GDI_BIT_BLOCK_HEIGHT_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2GDI_D2GDI_BIT_BLOCK_HEIGHT_HPP_
 
-#include "d2gdi/d2gdi_bit_block_height.h"
-#include "d2gdi/d2gdi_bit_block_width.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
+namespace d2::d2gdi {
+
+DLLEXPORT int GetBitBlockHeight();
+DLLEXPORT void SetBitBlockHeight(int value);
+
+} // namespace d2::d2gdi
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_DATA_D2GDI_D2GDI_BIT_BLOCK_HEIGHT_HPP_
