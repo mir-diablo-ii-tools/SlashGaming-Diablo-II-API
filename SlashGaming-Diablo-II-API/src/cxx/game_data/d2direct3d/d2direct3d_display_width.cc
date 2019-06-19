@@ -43,10 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2direct3d/d2direct3d_display_height.h"
-#include "d2direct3d/d2direct3d_display_width.h"
+#include "../../../../include/cxx/game_data/d2direct3d/d2direct3d_display_width.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2direct3d {
+namespace {
+
+std::intptr_t D2Direct3D_DisplayWidth() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetDisplayWidth() {
+  std::intptr_t ptr = D2Direct3D_DisplayWidth();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetDisplayWidth(int value) {
+  std::intptr_t ptr = D2Direct3D_DisplayWidth();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2direct3d

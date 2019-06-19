@@ -43,10 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
+#include "../../../../include/c/game_data/d2direct3d/d2direct3d_display_width.h"
 
-#include "d2direct3d/d2direct3d_display_height.h"
-#include "d2direct3d/d2direct3d_display_width.h"
+#include "../../../../include/cxx/game_data/d2direct3d/d2direct3d_display_width.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
+int D2_D2Direct3D_GetDisplayWidth() {
+  return d2::d2direct3d::GetDisplayWidth();
+}
+
+void D2_D2Direct3D_SetDisplayWidth(int value) {
+  d2::d2direct3d::SetDisplayWidth(value);
+}
