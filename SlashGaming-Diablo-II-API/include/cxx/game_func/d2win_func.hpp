@@ -47,5 +47,6 @@
 #define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
 
 #include "d2win/d2win_load_mpq.hpp"
+#include "d2win/d2win_unload_mpq.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_

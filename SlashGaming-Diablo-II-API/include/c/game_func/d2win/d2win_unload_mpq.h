@@ -43,10 +43,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_UNLOAD_MPQ_H_
+#define SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_UNLOAD_MPQ_H_
 
-#include "d2win/d2win_load_mpq.h"
-#include "d2win/d2win_unload_mpq.h"
+#include "../../game_struct/d2_mpq_archive_handle.h"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void D2_D2Win_UnloadMPQ(
+    struct D2_MPQArchiveHandle* mpq_archive_handle
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_UNLOAD_MPQ_H_
