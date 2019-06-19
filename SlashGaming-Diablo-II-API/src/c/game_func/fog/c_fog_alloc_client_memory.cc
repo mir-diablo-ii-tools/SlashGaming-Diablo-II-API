@@ -43,9 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_FOG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_FOG_FUNC_H_
+#include "../../../../include/c/game_func/fog/fog_alloc_client_memory.h"
 
-#include "fog/fog_alloc_client_memory.h"
+#include "../../../../include/cxx/game_func/fog/fog_alloc_client_memory.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_FOG_FUNC_H_
+void* D2_Fog_AllocClientMemory(
+    int size,
+    const char* source_file,
+    int line,
+    int unused__set_to_0
+) {
+  void* actual_result = d2::fog::AllocClientMemory(
+      size,
+      source_file,
+      line,
+      unused__set_to_0
+  );
+
+  return actual_result;
+}
