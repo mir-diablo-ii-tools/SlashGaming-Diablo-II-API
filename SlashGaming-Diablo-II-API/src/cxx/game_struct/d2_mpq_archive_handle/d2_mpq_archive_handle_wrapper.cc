@@ -78,7 +78,7 @@ MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
-MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() noexcept {
+MPQArchive* MPQArchiveHandle_Wrapper::mpq_archive() noexcept {
   auto actual_ptr = reinterpret_cast<MPQArchiveHandle_1_00*>(
       this->Get()
   );
@@ -86,7 +86,7 @@ MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() noexcept {
   return reinterpret_cast<MPQArchive*>(actual_ptr->mpq_archive);
 }
 
-char* MPQArchiveHandle_Wrapper::GetMPQArchivePath() noexcept {
+char* MPQArchiveHandle_Wrapper::mpq_archive_path() noexcept {
   auto actual_ptr = reinterpret_cast<MPQArchiveHandle_1_00*>(
       this->Get()
   );

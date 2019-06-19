@@ -85,7 +85,7 @@ D2Win_UnloadMPQ_1_00(
 void D2Win_UnloadMPQ_1_11(MPQArchiveHandle* mpq_archive_handle) {
   MPQArchiveHandle_Wrapper mpq_archive_handle_wrapper(mpq_archive_handle);
 
-  MPQArchive* mpq_archive = mpq_archive_handle_wrapper.GetMPQArchive();
+  MPQArchive* mpq_archive = mpq_archive_handle_wrapper.mpq_archive();
 
   if (mpq_archive != nullptr) {
     storm::SFileCloseArchive(mpq_archive);

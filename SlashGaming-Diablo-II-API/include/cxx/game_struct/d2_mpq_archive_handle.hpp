@@ -78,8 +78,8 @@ class DLLEXPORT MPQArchiveHandle_ConstWrapper {
 
   const MPQArchiveHandle* Get() const noexcept;
 
-  const MPQArchive* GetMPQArchive() const noexcept;
-  const char* GetMPQArchivePath() const noexcept;
+  const MPQArchive* mpq_archive() const noexcept;
+  const char* mpq_archive_path() const noexcept;
 
  private:
   const MPQArchiveHandle* ptr_;
@@ -103,8 +103,8 @@ class DLLEXPORT MPQArchiveHandle_Wrapper :
 
   MPQArchiveHandle* Get() noexcept;
 
-  MPQArchive* GetMPQArchive() noexcept;
-  char* GetMPQArchivePath() noexcept;
+  MPQArchive* mpq_archive() noexcept;
+  char* mpq_archive_path() noexcept;
 
  private:
   MPQArchiveHandle* ptr_;

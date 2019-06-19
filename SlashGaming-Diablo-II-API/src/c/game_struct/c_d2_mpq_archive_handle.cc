@@ -47,20 +47,22 @@
 
 #include "../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
-const struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
-    const struct D2_MPQArchiveHandle* ptr
+struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
+    struct D2_MPQArchiveHandle* ptr
 ) {
-  const auto actual_ptr = reinterpret_cast<const d2::MPQArchiveHandle*>(ptr);
-  d2::MPQArchiveHandle_ConstWrapper wrapper(actual_ptr);
+  d2::MPQArchiveHandle* actual_ptr =
+      reinterpret_cast<d2::MPQArchiveHandle*>(ptr);
+  d2::MPQArchiveHandle_Wrapper wrapper(actual_ptr);
 
-  return reinterpret_cast<const D2_MPQArchive*>(wrapper.GetMPQArchive());
+  return reinterpret_cast<D2_MPQArchive*>(wrapper.mpq_archive());
 }
 
-const char* D2_MPQArchiveHandle_GetMPQArchivePath(
-    const struct D2_MPQArchiveHandle* ptr
+char* D2_MPQArchiveHandle_GetMPQArchivePath(
+    struct D2_MPQArchiveHandle* ptr
 ) {
-  const auto actual_ptr = reinterpret_cast<const d2::MPQArchiveHandle*>(ptr);
-  d2::MPQArchiveHandle_ConstWrapper wrapper(actual_ptr);
+  d2::MPQArchiveHandle* actual_ptr =
+      reinterpret_cast<d2::MPQArchiveHandle*>(ptr);
+  d2::MPQArchiveHandle_Wrapper wrapper(actual_ptr);
 
-  return wrapper.GetMPQArchivePath();
+  return wrapper.mpq_archive_path();
 }
