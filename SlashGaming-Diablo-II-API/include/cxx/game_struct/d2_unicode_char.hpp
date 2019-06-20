@@ -67,11 +67,9 @@ class DLLEXPORT UnicodeChar_ConstWrapper {
   UnicodeChar_ConstWrapper& operator=(const UnicodeChar_ConstWrapper& other);
   UnicodeChar_ConstWrapper& operator=(UnicodeChar_ConstWrapper&& other) noexcept;
 
-  operator const UnicodeChar*() const noexcept;
-
   operator unsigned short() const noexcept;
 
-  virtual const UnicodeChar* Get() const noexcept;
+  const UnicodeChar* Get() const noexcept;
 
   unsigned short GetChar() const noexcept;
 
@@ -92,9 +90,7 @@ class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
   UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other);
   UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
 
-  operator UnicodeChar*() const noexcept;
-
-  UnicodeChar* Get() const noexcept override;
+  UnicodeChar* Get() noexcept;
 
   void SetChar(unsigned short ch) noexcept;
 
