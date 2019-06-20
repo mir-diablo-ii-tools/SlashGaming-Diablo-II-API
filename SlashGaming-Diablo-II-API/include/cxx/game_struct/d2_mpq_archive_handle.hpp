@@ -76,12 +76,10 @@ class DLLEXPORT MPQArchiveHandle_ConstWrapper {
       MPQArchiveHandle_ConstWrapper&& other
   ) noexcept;
 
-  operator const MPQArchiveHandle*() const noexcept;
+  const MPQArchiveHandle* Get() const noexcept;
 
-  virtual const MPQArchiveHandle* Get() const noexcept;
-
-  virtual const MPQArchive* GetMPQArchive() const noexcept;
-  virtual const char* GetMPQArchivePath() const noexcept;
+  const MPQArchive* mpq_archive() const noexcept;
+  const char* mpq_archive_path() const noexcept;
 
  private:
   const MPQArchiveHandle* ptr_;
@@ -103,9 +101,10 @@ class DLLEXPORT MPQArchiveHandle_Wrapper :
       MPQArchiveHandle_Wrapper&& other
   ) noexcept;
 
-  operator MPQArchiveHandle*() const noexcept;
+  MPQArchiveHandle* Get() noexcept;
 
-  MPQArchiveHandle* Get() const noexcept override;
+  MPQArchive* mpq_archive() noexcept;
+  char* mpq_archive_path() noexcept;
 
  private:
   MPQArchiveHandle* ptr_;
@@ -115,13 +114,13 @@ class DLLEXPORT MPQArchiveHandle_API : public MPQArchiveHandle_Wrapper {
  public:
   MPQArchiveHandle_API(
       const std::filesystem::path& mpq_archive_path,
-      bool is_set_error_on_fail,
+      bool is_set_error_on_drive_query_fail,
       int priority
   );
 
   MPQArchiveHandle_API(
       const std::filesystem::path& mpq_archive_path,
-      bool is_set_error_on_fail,
+      bool is_set_error_on_drive_query_fail,
       void* (*on_fail_callback)(),
       int priority
   );

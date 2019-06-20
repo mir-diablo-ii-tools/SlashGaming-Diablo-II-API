@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
 #define SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_
 
+#include "storm/storm_s_file_close_archive.h"
+#include "storm/storm_s_file_open_archive.h"
+
 #endif // SGD2MAPI_C_GAME_FUNC_STORM_FUNC_H_

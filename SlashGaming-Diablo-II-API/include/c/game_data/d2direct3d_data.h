@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_
 
+#include "d2direct3d/d2direct3d_display_height.h"
+#include "d2direct3d/d2direct3d_display_width.h"
+
 #endif // SGD2MAPI_C_GAME_DATA_D2DIRECT3D_DATA_H_

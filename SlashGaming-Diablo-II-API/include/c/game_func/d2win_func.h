@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
 #define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
 
+#include "d2win/d2win_load_mpq.h"
+#include "d2win/d2win_unload_mpq.h"
+
 #endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_

@@ -45,6 +45,8 @@
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 
+#include "d2_mpq_archive_handle_impl.hpp"
+
 namespace d2 {
 
 MPQArchiveHandle_Wrapper::MPQArchiveHandle_Wrapper(
@@ -72,12 +74,24 @@ MPQArchiveHandle_Wrapper& MPQArchiveHandle_Wrapper::operator=(
     MPQArchiveHandle_Wrapper&& other
 ) noexcept = default;
 
-MPQArchiveHandle_Wrapper::operator MPQArchiveHandle*() const noexcept {
-  return this->Get();
+MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() noexcept {
+  return this->ptr_;
 }
 
-MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() const noexcept {
-  return this->ptr_;
+MPQArchive* MPQArchiveHandle_Wrapper::mpq_archive() noexcept {
+  auto actual_ptr = reinterpret_cast<MPQArchiveHandle_1_00*>(
+      this->Get()
+  );
+
+  return reinterpret_cast<MPQArchive*>(actual_ptr->mpq_archive);
+}
+
+char* MPQArchiveHandle_Wrapper::mpq_archive_path() noexcept {
+  auto actual_ptr = reinterpret_cast<MPQArchiveHandle_1_00*>(
+      this->Get()
+  );
+
+  return actual_ptr->mpq_archive_path;
 }
 
 } // namespace d2

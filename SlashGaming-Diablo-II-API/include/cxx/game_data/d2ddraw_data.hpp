@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
 
+#include "d2ddraw/d2ddraw_display_height.hpp"
+#include "d2ddraw/d2ddraw_display_width.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_

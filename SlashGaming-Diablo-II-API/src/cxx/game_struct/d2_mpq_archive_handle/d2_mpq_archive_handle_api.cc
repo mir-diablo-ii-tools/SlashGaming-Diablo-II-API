@@ -47,28 +47,35 @@
 
 #include <filesystem>
 
+#include "../../../../include/cxx/game_func/d2win_func.hpp"
+
 namespace d2 {
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
     const std::filesystem::path& mpq_file_path,
-    bool is_set_error_on_fail,
+    bool is_set_error_on_drive_query_fail,
     int priority
 ) : MPQArchiveHandle_API(
         mpq_file_path,
-        is_set_error_on_fail,
+        is_set_error_on_drive_query_fail,
         nullptr,
         priority
     ) {
-  // TODO (Mir Drualga): Implement
 }
 
-// TODO (Mir Drualga): Implement with D2Win_LoadMPQ
 MPQArchiveHandle_API::MPQArchiveHandle_API(
     const std::filesystem::path& mpq_file_path,
-    bool is_set_error_on_fail,
+    bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
-) : MPQArchiveHandle_Wrapper(nullptr) {
+) : MPQArchiveHandle_Wrapper(
+        d2win::LoadMPQ(
+            mpq_file_path.u8string().data(),
+            is_set_error_on_drive_query_fail,
+            on_fail_callback,
+            priority
+        )
+    ) {
 }
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
@@ -80,7 +87,7 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 ) noexcept = default;
 
 MPQArchiveHandle_API::~MPQArchiveHandle_API() {
-  // TODO (Mir Drualga): Implement
+  d2win::UnloadMPQ(this->Get());
 }
 
 MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(

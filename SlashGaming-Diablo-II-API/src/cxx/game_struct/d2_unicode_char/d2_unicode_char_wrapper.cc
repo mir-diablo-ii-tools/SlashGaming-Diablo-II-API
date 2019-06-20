@@ -80,11 +80,7 @@ UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
     UnicodeChar_Wrapper&& other
 ) noexcept = default;
 
-UnicodeChar_Wrapper::operator UnicodeChar*() const noexcept {
-  return this->Get();
-}
-
-UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
+UnicodeChar* UnicodeChar_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 

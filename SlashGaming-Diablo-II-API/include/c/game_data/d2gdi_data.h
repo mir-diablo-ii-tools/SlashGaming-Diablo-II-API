@@ -46,4 +46,9 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_
 
+#include "d2gdi/d2gdi_bit_block_height.h"
+#include "d2gdi/d2gdi_bit_block_width.h"
+#include "d2gdi/d2gdi_cel_display_left.h"
+#include "d2gdi/d2gdi_cel_display_right.h"
+
 #endif // SGD2MAPI_C_GAME_DATA_D2GDI_DATA_H_

@@ -52,13 +52,29 @@
 
 struct D2_MPQArchiveHandle;
 
-DLLEXPORT const struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
+    struct D2_MPQArchiveHandle* ptr
+);
+
+DLLEXPORT const struct D2_MPQArchive* D2_MPQArchiveHandle_GetConstMPQArchive(
     const struct D2_MPQArchiveHandle* ptr
 );
 
-DLLEXPORT const char* D2_MPQArchiveHandle_GetMPQArchivePath(
+DLLEXPORT char* D2_MPQArchiveHandle_GetMPQArchivePath(
+    struct D2_MPQArchiveHandle* ptr
+);
+
+DLLEXPORT const char* D2_MPQArchiveHandle_GetConstMPQArchivePath(
     const struct D2_MPQArchiveHandle* ptr
 );
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_H_

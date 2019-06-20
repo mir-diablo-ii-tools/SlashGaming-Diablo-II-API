@@ -46,7 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
 
+#include "d2lang/d2lang_get_string_by_index.hpp"
 #include "d2lang/d2lang_unicode_strcat.hpp"
 #include "d2lang/d2lang_unicode_strlen.hpp"
+#include "d2lang/d2lang_unicode_tolower.hpp"
+#include "d2lang/d2lang_unicode_toupper.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_

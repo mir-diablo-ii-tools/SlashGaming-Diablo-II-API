@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_
 
+#include "fog/fog_alloc_client_memory.hpp"
+#include "fog/fog_free_client_memory.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_FUNC_FOG_FUNC_HPP_

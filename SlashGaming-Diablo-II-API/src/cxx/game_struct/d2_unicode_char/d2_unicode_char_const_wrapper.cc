@@ -73,10 +73,6 @@ UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
     UnicodeChar_ConstWrapper&& other
 ) noexcept = default;
 
-UnicodeChar_ConstWrapper::operator const UnicodeChar*() const noexcept {
-  return this->Get();
-}
-
 UnicodeChar_ConstWrapper::operator unsigned short() const noexcept {
   return this->GetChar();
 }
