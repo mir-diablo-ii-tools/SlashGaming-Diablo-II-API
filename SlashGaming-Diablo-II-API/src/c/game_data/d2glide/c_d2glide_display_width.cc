@@ -43,10 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
+#include "../../../../include/c/game_data/d2glide/d2glide_display_width.h"
 
-#include "d2glide/d2glide_display_height.hpp"
-#include "d2glide/d2glide_display_width.hpp"
+#include "../../../../include/cxx/game_data/d2glide/d2glide_display_width.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
+int D2_D2Glide_GetDisplayWidth() {
+  return d2::d2glide::GetDisplayWidth();
+}
+
+void D2_D2Glide_SetDisplayWidth(int value) {
+  d2::d2glide::SetDisplayWidth(value);
+}

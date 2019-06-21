@@ -43,10 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2glide/d2glide_display_height.hpp"
-#include "d2glide/d2glide_display_width.hpp"
+#include "../../../../include/cxx/game_data/d2glide/d2glide_display_width.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2glide {
+namespace {
+
+std::intptr_t D2Glide_DisplayWidth() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetDisplayWidth() {
+  std::intptr_t ptr = D2Glide_DisplayWidth();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetDisplayWidth(int value) {
+  std::intptr_t ptr = D2Glide_DisplayWidth();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2glide

@@ -43,10 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
+#ifndef SGD2MAPI_C_GAME_DATA_D2GLIDE_D2GLIDE_DISPLAY_HEIGHT_H_
+#define SGD2MAPI_C_GAME_DATA_D2GLIDE_D2GLIDE_DISPLAY_HEIGHT_H_
 
-#include "d2glide/d2glide_display_height.hpp"
-#include "d2glide/d2glide_display_width.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GLIDE_DATA_HPP_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Glide_GetDisplayHeight(void);
+DLLEXPORT void D2_D2Glide_SetDisplayHeight(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2GLIDE_D2GLIDE_DISPLAY_HEIGHT_H_
