@@ -43,10 +43,32 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_VIDEO_MODE_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_VIDEO_MODE_H_
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+enum D2_VideoMode {
+  VIDEO_MODE_GDI = 1,
+  VIDEO_MODE_SOFTWARE,
+  VIDEO_MODE_DIRECT_DRAW,
+  VIDEO_MODE_GLIDE,
+  VIDEO_MODE_OPENGL,
+  VIDEO_MODE_DIRECT3D,
+  VIDEO_MODE_RAVE
+};
+
+DLLEXPORT int D2_VideoMode_ToGameValue(int id);
+
+DLLEXPORT int D2_VideoMode_ToAPIValue(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_VIDEO_MODE_H_

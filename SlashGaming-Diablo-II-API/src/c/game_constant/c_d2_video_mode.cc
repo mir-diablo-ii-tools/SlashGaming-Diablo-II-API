@@ -43,10 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#include "../../../include/c/game_constant/d2_video_mode.h"
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../../include/cxx/game_constant/d2_video_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+int D2_VideoMode_ToGameValue(int id) {
+  d2::VideoMode actual_id =
+      static_cast<d2::VideoMode>(id);
+
+  return d2::ToGameValue(actual_id);
+}
+
+int D2_VideoMode_ToAPIValue(int value) {
+  d2::VideoMode actual_id =
+      d2::ToAPIValue<d2::VideoMode>(value);
+
+  return static_cast<int>(actual_id);
+}

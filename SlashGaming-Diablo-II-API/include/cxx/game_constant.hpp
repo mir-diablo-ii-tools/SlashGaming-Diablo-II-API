@@ -48,5 +48,6 @@
 
 #include "game_constant/d2_constant.hpp"
 #include "game_constant/d2_difficulty_level.hpp"
+#include "game_constant/d2_video_mode.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_

@@ -43,10 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../../include/cxx/game_constant/d2_video_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#include <cstddef>
+
+#include "../../../include/cxx/game_constant/d2_constant.hpp"
+#include "d2_constant_impl.hpp"
+
+namespace d2 {
+
+template int
+ToGameValue(
+    VideoMode id
+);
+
+template VideoMode
+ToAPIValue(
+    int value
+);
+
+} // namespace d2
