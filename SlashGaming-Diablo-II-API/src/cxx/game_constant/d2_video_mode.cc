@@ -43,10 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2gfx/d2gfx_resolution_mode.hpp"
-#include "d2gfx/d2gfx_video_mode.hpp"
+#include "../../../include/cxx/game_constant/d2_video_mode.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#include <cstddef>
+
+#include "../../../include/cxx/game_constant/d2_constant.hpp"
+#include "d2_constant_impl.hpp"
+
+namespace d2 {
+
+template int
+ToGameValue(
+    VideoMode id
+);
+
+template VideoMode
+ToAPIValue(
+    int value
+);
+
+} // namespace d2

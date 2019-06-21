@@ -43,10 +43,38 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_VIDEO_MODE_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2_VIDEO_MODE_HPP_
 
-#include "d2gfx/d2gfx_resolution_mode.hpp"
-#include "d2gfx/d2gfx_video_mode.hpp"
+#include <cstddef>
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#include "d2_constant.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+enum class VideoMode {
+  kGDI = 1,
+  kSoftware,
+  kDirectDraw,
+  kGlide,
+  kOpenGL,
+  kDirect3D,
+  kRave
+};
+
+extern template DLLEXPORT
+int ToGameValue(
+    VideoMode id
+);
+
+extern template DLLEXPORT
+VideoMode ToAPIValue(
+    int value
+);
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_VIDEO_MODE_HPP_

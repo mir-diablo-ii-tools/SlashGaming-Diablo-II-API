@@ -47,5 +47,6 @@
 #define SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
 
 #include "d2gfx/d2gfx_resolution_mode.h"
+#include "d2gfx/d2gfx_video_mode.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_

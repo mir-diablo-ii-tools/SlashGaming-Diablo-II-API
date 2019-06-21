@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2GLIDE_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2GLIDE_DATA_H_
 
+#include "d2glide/d2glide_display_height.h"
+#include "d2glide/d2glide_display_width.h"
+
 #endif // SGD2MAPI_C_GAME_DATA_D2GLIDE_DATA_H_

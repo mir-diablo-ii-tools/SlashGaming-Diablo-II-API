@@ -43,10 +43,17 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2GLIDE_D2GLIDE_DISPLAY_WIDTH_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2GLIDE_D2GLIDE_DISPLAY_WIDTH_HPP_
 
-#include "d2gfx/d2gfx_resolution_mode.hpp"
-#include "d2gfx/d2gfx_video_mode.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+namespace d2::d2glide {
+
+DLLEXPORT int GetDisplayWidth();
+DLLEXPORT void SetDisplayWidth(int value);
+
+} // namespace d2::d2glide
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_DATA_D2GLIDE_D2GLIDE_DISPLAY_WIDTH_HPP_
