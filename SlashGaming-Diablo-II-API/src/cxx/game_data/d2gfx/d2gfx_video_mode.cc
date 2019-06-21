@@ -43,10 +43,52 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2gfx/d2gfx_resolution_mode.hpp"
-#include "d2gfx/d2gfx_video_mode.hpp"
+#include "../../../../include/cxx/game_data/d2gfx/d2gfx_video_mode.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2gfx {
+namespace {
+
+std::intptr_t D2GFX_VideoMode() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+VideoMode GetVideoMode() {
+  std::intptr_t ptr = D2GFX_VideoMode();
+  GameVersion current_game_version = GetRunningGameVersionId();
+
+  int value;
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  value = *converted_ptr;
+
+  return ToAPIValue<VideoMode>(value);
+}
+
+void SetVideoMode(VideoMode value) {
+  std::intptr_t ptr = D2GFX_VideoMode();
+  int integer_value = ToGameValue<VideoMode>(value);
+
+  GameVersion current_game_version = GetRunningGameVersionId();
+
+  if (current_game_version >= GameVersion::k1_00
+      && current_game_version <= GameVersion::kLod1_14D) {
+    std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+    *converted_ptr = integer_value;
+  }
+}
+
+} // namespace d2::d2gfx

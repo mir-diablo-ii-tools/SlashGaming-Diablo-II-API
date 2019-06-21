@@ -43,10 +43,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_VIDEO_MODE_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_VIDEO_MODE_HPP_
 
-#include "d2gfx/d2gfx_resolution_mode.hpp"
-#include "d2gfx/d2gfx_video_mode.hpp"
+#include "../../game_constant/d2_video_mode.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2gfx {
+
+DLLEXPORT VideoMode GetVideoMode();
+DLLEXPORT void SetVideoMode(VideoMode value);
+
+} // namespace d2::d2gfx
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_DATA_D2GFX_D2GFX_VIDEO_MODE_HPP_
