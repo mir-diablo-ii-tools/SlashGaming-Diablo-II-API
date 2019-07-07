@@ -43,12 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#include "../../../include/c/game_constant/d2_text_color.h"
 
-#include "game_constant/d2_constant.hpp"
-#include "game_constant/d2_difficulty_level.hpp"
-#include "game_constant/d2_text_color.hpp"
-#include "game_constant/d2_video_mode.hpp"
+#include "../../../include/cxx/game_constant/d2_text_color.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+int D2_TextColor_ToGameValue(int id) {
+  d2::TextColor actual_id =
+      static_cast<d2::TextColor>(id);
+
+  return d2::ToGameValue(actual_id);
+}
+
+int D2_TextColor_ToAPIValue(int value) {
+  d2::TextColor actual_id =
+      d2::ToAPIValue<d2::TextColor>(value);
+
+  return static_cast<int>(actual_id);
+}

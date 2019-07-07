@@ -43,12 +43,54 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_COLOR_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_COLOR_HPP_
 
-#include "game_constant/d2_constant.hpp"
-#include "game_constant/d2_difficulty_level.hpp"
-#include "game_constant/d2_text_color.hpp"
-#include "game_constant/d2_video_mode.hpp"
+#include <cstddef>
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#include "d2_constant.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+enum class TextColor {
+  kWhite,
+  kRed,
+  kGreen,
+  kBlue,
+  kGold,
+  kDarkGrey,
+  kBlack,
+  kTan,
+  kOrange,
+  kYellow,
+  kDarkerGreen,
+  kPurple,
+  kDarkGreen,
+
+  // kWhite (same as 1) = 13,
+  // kBlack (same as 6),
+
+  kMetallic = 15,
+  kLightGrey,
+  kCorrupt,
+  kBrightWhite,
+  kDarkRed,
+  kBrown
+};
+
+extern template DLLEXPORT
+int ToGameValue(
+    TextColor id
+);
+
+extern template DLLEXPORT
+TextColor ToAPIValue(
+    int value
+);
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_COLOR_HPP_

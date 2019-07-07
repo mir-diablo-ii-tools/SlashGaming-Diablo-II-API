@@ -43,12 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "game_constant/d2_constant.hpp"
-#include "game_constant/d2_difficulty_level.hpp"
-#include "game_constant/d2_text_color.hpp"
-#include "game_constant/d2_video_mode.hpp"
+#include "../../../include/cxx/game_constant/d2_text_color.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#include <cstddef>
+
+#include "../../../include/cxx/game_constant/d2_constant.hpp"
+#include "d2_constant_impl.hpp"
+
+namespace d2 {
+
+template int
+ToGameValue(
+    TextColor id
+);
+
+template TextColor
+ToAPIValue(
+    int value
+);
+
+} // namespace d2
