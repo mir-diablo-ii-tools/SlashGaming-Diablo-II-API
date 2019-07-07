@@ -43,12 +43,48 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_TEXT_COLOR_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_TEXT_COLOR_H_
 
-#include "game_constant/d2_constant.hpp"
-#include "game_constant/d2_difficulty_level.hpp"
-#include "game_constant/d2_text_color.hpp"
-#include "game_constant/d2_video_mode.hpp"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+enum D2_TextColor {
+  TEXT_COLOR_WHITE,
+  TEXT_COLOR_RED,
+  TEXT_COLOR_GREEN,
+  TEXT_COLOR_BLUE,
+  TEXT_COLOR_GOLD,
+  TEXT_COLOR_DARK_GREY,
+  TEXT_COLOR_BLACK,
+  TEXT_COLOR_TAN,
+  TEXT_COLOR_ORANGE,
+  TEXT_COLOR_YELLOW,
+  TEXT_COLOR_DARKER_GREEN,
+  TEXT_COLOR_PURPLE,
+  TEXT_COLOR_DARK_GREEN,
+
+  // TEXT_COLOR_WHITE (same as 1) = 13,
+  // TEXT_COLOR_BLACK (same as 6),
+
+  TEXT_COLOR_METALLIC = 15,
+  TEXT_COLOR_LIGHT_GREY,
+  TEXT_COLOR_CORRUPT,
+  TEXT_COLOR_BRIGHT_WHITE,
+  TEXT_COLOR_DARK_RED,
+  TEXT_COLOR_BROWN
+};
+
+DLLEXPORT int D2_TextColor_ToGameValue(int id);
+
+DLLEXPORT int D2_TextColor_ToAPIValue(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_TEXT_COLOR_H_

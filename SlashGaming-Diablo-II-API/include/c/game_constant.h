@@ -47,6 +47,7 @@
 #define SGD2MAPI_C_GAME_CONSTANT_H_
 
 #include "game_constant/d2_difficulty_level.h"
+#include "game_constant/d2_text_color.h"
 #include "game_constant/d2_video_mode.h"
 
 #endif // SGD2MAPI_C_GAME_CONSTANT_H_
