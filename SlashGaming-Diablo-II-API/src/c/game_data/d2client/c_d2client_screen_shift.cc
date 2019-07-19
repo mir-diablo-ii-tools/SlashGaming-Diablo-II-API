@@ -43,16 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include "../../../../include/c/game_data/d2client/d2client_screen_shift.h"
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
-#include "d2client/d2client_is_automap_open.h"
-#include "d2client/d2client_is_game_menu_open.h"
-#include "d2client/d2client_is_help_screen_open.h"
-#include "d2client/d2client_is_new_skill_button_pressed.h"
-#include "d2client/d2client_is_new_stats_button_pressed.h"
-#include "d2client/d2client_screen_shift.h"
+#include "../../../../include/cxx/game_data/d2client/d2client_screen_shift.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+int D2_D2Client_GetScreenShiftX() {
+  return d2::d2client::GetScreenShiftX();
+}
+
+void D2_D2Client_SetScreenShiftX(int value) {
+  d2::d2client::SetScreenShiftX(value);
+}
+
+int D2_D2Client_GetScreenShiftY() {
+  return d2::d2client::GetScreenShiftY();
+}
+
+void D2_D2Client_SetScreenShiftY(int value) {
+  d2::d2client::SetScreenShiftY(value);
+}

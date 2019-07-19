@@ -43,16 +43,61 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_ingame_mouse_position.h"
-#include "d2client/d2client_is_automap_open.h"
-#include "d2client/d2client_is_game_menu_open.h"
-#include "d2client/d2client_is_help_screen_open.h"
-#include "d2client/d2client_is_new_skill_button_pressed.h"
-#include "d2client/d2client_is_new_stats_button_pressed.h"
-#include "d2client/d2client_screen_shift.h"
+#include "../../../../include/cxx/game_data/d2client/d2client_screen_shift.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+
+namespace d2::d2client {
+namespace {
+
+std::intptr_t D2Client_ScreenShiftX() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+std::intptr_t D2Client_ScreenShiftY() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetScreenShiftX() {
+  std::intptr_t ptr = D2Client_ScreenShiftX();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetScreenShiftX(int value) {
+  std::intptr_t ptr = D2Client_ScreenShiftX();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+int GetScreenShiftY() {
+  std::intptr_t ptr = D2Client_ScreenShiftY();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetScreenShiftY(int value) {
+  std::intptr_t ptr = D2Client_ScreenShiftY();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2client
