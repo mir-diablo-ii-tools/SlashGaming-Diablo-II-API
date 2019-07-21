@@ -43,12 +43,62 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include "../../../../include/cxx/game_func/d2win/d2win_load_cel_file.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include <windows.h>
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2win {
+namespace {
+
+__declspec(naked) void __cdecl
+D2Win_UnloadCelFile_1_00(
+    std::intptr_t func_ptr,
+    CelFile* cel_file
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(mov ecx, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Win_UnloadCelFile() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+void UnloadCelFile(
+    CelFile* cel_file
+) {
+  std::intptr_t func_ptr = D2Win_UnloadCelFile();
+
+  D2Win_UnloadCelFile_1_00(func_ptr, cel_file);
+}
+
+} // namespace d2::d2win

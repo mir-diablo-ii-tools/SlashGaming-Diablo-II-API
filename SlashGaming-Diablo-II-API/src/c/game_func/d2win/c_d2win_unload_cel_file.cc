@@ -43,12 +43,15 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include "../../../../include/c/game_func/d2win/d2win_unload_cel_file.h"
 
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include "../../../../include/c/game_struct/d2_cel_file.h"
+#include "../../../../include/cxx/game_func/d2win/d2win_unload_cel_file.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+void D2_D2Win_UnloadCelFile(
+    D2_CelFile* cel_file
+) {
+  auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
+
+  d2::d2win::UnloadCelFile(actual_cel_file);
+}

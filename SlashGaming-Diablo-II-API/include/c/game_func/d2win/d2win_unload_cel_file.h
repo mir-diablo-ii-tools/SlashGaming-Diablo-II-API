@@ -43,12 +43,26 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_UNLOAD_CEL_FILE_H_
+#define SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_UNLOAD_CEL_FILE_H_
 
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include "../../game_struct/d2_cel_file.h"
+
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT void D2_D2Win_UnloadCelFile(
+    struct D2_CelFile* cel_file
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_UNLOAD_CEL_FILE_H_
