@@ -69,6 +69,7 @@ D2Win_UnloadMPQ_1_00(
   ASM_X86(push ebp);
   ASM_X86(mov ebp, esp);
 
+  ASM_X86(push eax);
   ASM_X86(push ecx);
   ASM_X86(push edx);
 
@@ -77,21 +78,35 @@ D2Win_UnloadMPQ_1_00(
 
   ASM_X86(pop edx);
   ASM_X86(pop ecx);
+  ASM_X86(pop eax);
 
   ASM_X86(leave);
   ASM_X86(ret);
 }
 
-void D2Win_UnloadMPQ_1_11(MPQArchiveHandle* mpq_archive_handle) {
-  MPQArchiveHandle_Wrapper mpq_archive_handle_wrapper(mpq_archive_handle);
+__declspec(naked) void __cdecl
+D2Win_UnloadMPQ_1_11(
+    std::intptr_t func_ptr,
+    MPQArchiveHandle* mpq_archive_handle
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
 
-  MPQArchive* mpq_archive = mpq_archive_handle_wrapper.mpq_archive();
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+  ASM_X86(push esi);
 
-  if (mpq_archive != nullptr) {
-    storm::SFileCloseArchive(mpq_archive);
-  }
+  ASM_X86(mov esi, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
 
-  fog::FreeClientMemory(mpq_archive_handle, __FILE__, __LINE__, 0);
+  ASM_X86(pop esi);
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
 }
 
 std::intptr_t D2Win_UnloadMPQ() {
@@ -106,7 +121,7 @@ std::intptr_t D2Win_UnloadMPQ() {
 void UnloadMPQ(
     MPQArchiveHandle* mpq_archive_handle
 ) {
-  std::intptr_t ptr = D2Win_UnloadMPQ();
+  std::intptr_t func_ptr = D2Win_UnloadMPQ();
 
   d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
 
@@ -114,13 +129,10 @@ void UnloadMPQ(
       && running_game_version <= d2::GameVersion::k1_10)
       || (running_game_version >= d2::GameVersion::kClassic1_14A
         && running_game_version <= d2::GameVersion::kLod1_14D)) {
-    D2Win_UnloadMPQ_1_00(
-        ptr,
-        mpq_archive_handle
-    );
+    D2Win_UnloadMPQ_1_00(func_ptr, mpq_archive_handle);
   } else if (running_game_version >= d2::GameVersion::k1_11
       && running_game_version <= d2::GameVersion::k1_13D) {
-    D2Win_UnloadMPQ_1_11(mpq_archive_handle);
+    D2Win_UnloadMPQ_1_11(func_ptr, mpq_archive_handle);
   }
 }
 
