@@ -103,10 +103,13 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
 class DLLEXPORT CelFile_API : public CelFile_Wrapper {
  public:
   CelFile_API() = delete;
-  CelFile_API(const std::filesystem::path& cel_file_path);
+  CelFile_API(
+      const std::filesystem::path& cel_file_path,
+      bool is_dcc_else_dc6
+  );
 
-  CelFile_API(const CelFile_ConstWrapper& other);
-  CelFile_API(CelFile_ConstWrapper&& other) noexcept;
+  CelFile_API(const CelFile_API& other);
+  CelFile_API(CelFile_API&& other) noexcept;
 
   ~CelFile_API() override;
 
