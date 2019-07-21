@@ -43,12 +43,33 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_DRAW_EFFECT_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_DRAW_EFFECT_H_
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+enum D2_DrawEffect {
+  DRAW_EFFECT_ONE_FOURTH_OPAQUE,
+  DRAW_EFFECT_HALF_OPAQUE,
+  DRAW_EFFECT_THREE_FOURTHS_OPAQUE,
+  UNKNOWN_03,
+  UNKNOWN_04,
+  DRAW_EFFECT_NONE,
+  UNKNOWN_06,
+  UNKNOWN_07
+};
+
+DLLEXPORT int D2_DrawEffect_ToGameValue(int id);
+
+DLLEXPORT int D2_DrawEffect_ToAPIValue(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_DRAW_EFFECT_H_
