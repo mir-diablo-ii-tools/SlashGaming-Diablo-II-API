@@ -43,75 +43,39 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_HPP_
+#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
 
-#include <filesystem>
-
-#include "../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
+#include "d2_cel_file_impl.hpp"
 
 namespace d2 {
 
-struct CelFile;
+CelFile_ConstWrapper::CelFile_ConstWrapper(
+    const CelFile* ptr
+) noexcept :
+    ptr_(ptr) {
+}
 
-class DLLEXPORT CelFile_ConstWrapper {
- public:
-  CelFile_ConstWrapper() = delete;
-  CelFile_ConstWrapper(const CelFile* ptr) noexcept;
+CelFile_ConstWrapper::CelFile_ConstWrapper(
+    const CelFile_ConstWrapper& other
+) = default;
 
-  CelFile_ConstWrapper(const CelFile_ConstWrapper& other);
-  CelFile_ConstWrapper(CelFile_ConstWrapper&& other) noexcept;
+CelFile_ConstWrapper::CelFile_ConstWrapper(
+    CelFile_ConstWrapper&& other
+) noexcept = default;
 
-  virtual ~CelFile_ConstWrapper();
+CelFile_ConstWrapper::~CelFile_ConstWrapper() = default;
 
-  CelFile_ConstWrapper& operator=(const CelFile_ConstWrapper& other);
-  CelFile_ConstWrapper& operator=(CelFile_ConstWrapper&& other) noexcept;
+CelFile_ConstWrapper& CelFile_ConstWrapper::operator=(
+    const CelFile_ConstWrapper& other
+) = default;
 
-  const CelFile* Get() const noexcept;
+CelFile_ConstWrapper& CelFile_ConstWrapper::operator=(
+    CelFile_ConstWrapper&& other
+) noexcept = default;
 
- private:
-  const CelFile* ptr_;
-};
-
-class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
- public:
-  CelFile_Wrapper() = delete;
-  CelFile_Wrapper(CelFile* ptr) noexcept;
-
-  CelFile_Wrapper(const CelFile_Wrapper& other);
-  CelFile_Wrapper(CelFile_Wrapper&& other) noexcept;
-
-  ~CelFile_Wrapper() override;
-
-  CelFile_Wrapper& operator=(
-      const CelFile_Wrapper& other
-  );
-  CelFile_Wrapper& operator=(CelFile_Wrapper&& other) noexcept;
-
-  CelFile* Get() noexcept;
-
- private:
-  CelFile* ptr_;
-};
-
-class DLLEXPORT CelFile_API : public CelFile_Wrapper {
- public:
-  CelFile_API() = delete;
-  CelFile_API(
-      const std::filesystem::path& cel_file_path,
-      bool is_dcc_else_dc6
-  );
-
-  CelFile_API(const CelFile_API& other);
-  CelFile_API(CelFile_API&& other) noexcept;
-
-  ~CelFile_API() override;
-
-  CelFile_API& operator=(const CelFile_API& other);
-  CelFile_API& operator=(CelFile_API&& other) noexcept;
-};
+const CelFile* CelFile_ConstWrapper::Get() const noexcept {
+  return this->ptr_;
+}
 
 } // namespace d2
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_HPP_
