@@ -43,9 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2GFX_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2GFX_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_
 
-#include "d2gfx/d2gfx_draw_cel_context.hpp"
+#include "../../game_struct/d2_cel_context.hpp"
+#include "../../game_constant/d2_draw_effect.hpp"
+#include "../../game_undefined.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2GFX_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2gfx {
+
+DLLEXPORT bool DrawCelContext(
+    CelContext* cel_context,
+    int position_x,
+    int position_y,
+    unsigned int bgrt_color,
+    DrawEffect draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+);
+
+} // namespace d2::d2gfx
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_

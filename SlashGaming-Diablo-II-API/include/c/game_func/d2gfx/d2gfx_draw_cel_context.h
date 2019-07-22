@@ -43,9 +43,32 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2GFX_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2GFX_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_H_
+#define SGD2MAPI_C_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_H_
 
-#include "d2gfx/d2gfx_draw_cel_context.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2GFX_FUNC_HPP_
+#include "../../game_struct/d2_cel_context.h"
+#include "../../game_undefined.h"
+
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT bool D2_D2GFX_DrawCelContext(
+    struct CelContext* cel_context,
+    int position_x,
+    int position_y,
+    unsigned int bgrt_color,
+    int draw_effect,
+    struct MAPI_Undefined* unknown_06__set_to_nullptr
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_H_
