@@ -48,11 +48,32 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
 
+#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
+#include "../../../../include/cxx/game_undefined.hpp"
+
 namespace d2 {
 
 #pragma pack(push, 1)
 
+/* sizeof: 0x48 */ struct CelContext_1_00 {
+  /* 0x00 */ mapi::UndefinedByte unknown_0x00;
+  /* 0x04 */ CelFile* cel_file;
+  /* 0x08 */ std::int32_t frame;
+  /* 0x0C */ std::int32_t direction;
+  /* 0x10 */ mapi::UndefinedByte unknown_0x10[0x48 - 0x10];
+};
+
+// TODO (Mir Drualga): Add the remaining versions' structs.
+
 #pragma pack(pop)
+
+CelContext* CreateCelContext(
+    CelFile* cel_file,
+    int direction,
+    int frame
+);
+CelContext* CreateCelContextArray(std::size_t count);
+void DestroyCelContext(CelContext* cel_context);
 
 } // namespace d2
 

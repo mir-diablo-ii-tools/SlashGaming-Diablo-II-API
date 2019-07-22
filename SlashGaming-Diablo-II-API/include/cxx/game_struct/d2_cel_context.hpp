@@ -99,7 +99,11 @@ class DLLEXPORT CelContext_Wrapper : public CelContext_ConstWrapper {
 class DLLEXPORT CelContext_API : public CelContext_Wrapper {
  public:
   CelContext_API() = delete;
-  explicit CelContext_API(CelFile* cel_file);
+  CelContext_API(
+      CelFile* cel_file,
+      int direction,
+      int frame
+  );
 
   CelContext_API(const CelContext_API& other);
   CelContext_API(CelContext_API&& other) noexcept;

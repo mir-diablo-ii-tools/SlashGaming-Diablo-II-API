@@ -47,14 +47,18 @@
 
 #include <filesystem>
 
+#include "d2_cel_context_impl.hpp"
 #include "../../../../include/cxx/game_func/d2win_func.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
 
 CelContext_API::CelContext_API(
-    CelFile* cel_file
+    CelFile* cel_file,
+    int direction,
+    int frame
 ) : CelContext_Wrapper(
-        nullptr // TODO (Mir Drualga): Perform initialization on the actual struct
+        CreateCelContext(cel_file, direction, frame)
     ) {
 }
 
@@ -72,5 +76,43 @@ CelContext_API& CelContext_API::operator=(
 CelContext_API& CelContext_API::operator=(
     CelContext_API&& other
 ) noexcept = default;
+
+CelContext* CreateCelContext(
+    CelFile* cel_file,
+    int direction,
+    int frame
+) {
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  if (running_game_version >= d2::GameVersion::k1_00
+      && running_game_version <= d2::GameVersion::k1_09D) {
+    CelContext_1_00* cel_context = new CelContext_1_00[1];
+
+    cel_context->cel_file = cel_file;
+    cel_context->direction = direction;
+    cel_context->frame = frame;
+
+    return reinterpret_cast<CelContext*>(cel_context);
+  }
+}
+
+CelContext* CreateCelContextArray(std::size_t count) {
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  if (running_game_version >= d2::GameVersion::k1_00
+      && running_game_version <= d2::GameVersion::k1_09D) {
+    CelContext_1_00* cel_context_array = new CelContext_1_00[count];
+    return reinterpret_cast<CelContext*>(cel_context_array);
+  }
+}
+
+void DestroyCelContext(CelContext* cel_context) {
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  if (running_game_version >= d2::GameVersion::k1_00
+      && running_game_version <= d2::GameVersion::k1_09D) {
+    delete[] reinterpret_cast<CelContext_1_00*>(cel_context);
+  }
+}
 
 } // namespace d2

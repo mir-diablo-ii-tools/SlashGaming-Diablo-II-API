@@ -52,6 +52,8 @@ namespace mapi {
 
 struct Undefined;
 
+using UndefinedByte = std::uint8_t;
+
 } // namespace mapi
 
 #endif // SGMAPI_CXX_GAME_UNDEFINED_HPP_
