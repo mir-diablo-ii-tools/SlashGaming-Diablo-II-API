@@ -45,7 +45,6 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
 
-#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
 #include "d2_cel_file_impl.hpp"
 
 namespace d2 {
