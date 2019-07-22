@@ -43,13 +43,74 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
 
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <filesystem>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_cel_file.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+struct CelContext;
+
+class DLLEXPORT CelContext_ConstWrapper {
+ public:
+  CelContext_ConstWrapper() = delete;
+  CelContext_ConstWrapper(const CelContext* ptr) noexcept;
+
+  CelContext_ConstWrapper(const CelContext_ConstWrapper& other);
+  CelContext_ConstWrapper(CelContext_ConstWrapper&& other) noexcept;
+
+  virtual ~CelContext_ConstWrapper();
+
+  CelContext_ConstWrapper& operator=(const CelContext_ConstWrapper& other);
+  CelContext_ConstWrapper& operator=(
+      CelContext_ConstWrapper&& other
+  ) noexcept;
+
+  const CelContext* Get() const noexcept;
+
+ private:
+  const CelContext* ptr_;
+};
+
+class DLLEXPORT CelContext_Wrapper : public CelContext_ConstWrapper {
+ public:
+  CelContext_Wrapper() = delete;
+  CelContext_Wrapper(CelContext* ptr) noexcept;
+
+  CelContext_Wrapper(const CelContext_Wrapper& other);
+  CelContext_Wrapper(CelContext_Wrapper&& other) noexcept;
+
+  ~CelContext_Wrapper() override;
+
+  CelContext_Wrapper& operator=(const CelContext_Wrapper& other);
+  CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
+
+  CelContext* Get() noexcept;
+
+ private:
+  CelContext* ptr_;
+};
+
+class DLLEXPORT CelContext_API : public CelContext_Wrapper {
+ public:
+  CelContext_API() = delete;
+  explicit CelContext_API(CelFile* cel_file);
+
+  CelContext_API(const CelContext_API& other);
+  CelContext_API(CelContext_API&& other) noexcept;
+
+  ~CelContext_API() override;
+
+  CelContext_API& operator=(const CelContext_API& other);
+  CelContext_API& operator=(CelContext_API&& other) noexcept;
+};
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
