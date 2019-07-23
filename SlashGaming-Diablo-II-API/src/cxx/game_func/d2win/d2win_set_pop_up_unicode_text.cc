@@ -43,14 +43,82 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2win/d2win_draw_unicode_text.h"
-#include "d2win/d2win_load_cel_file.h"
-#include "d2win/d2win_load_mpq.h"
-#include "d2win/d2win_set_pop_up_unicode_text.h"
-#include "d2win/d2win_unload_cel_file.h"
-#include "d2win/d2win_unload_mpq.h"
+#include "../../../../include/cxx/game_func/d2win/d2win_set_pop_up_unicode_text.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#include <windows.h>
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2win {
+namespace {
+
+__declspec(naked) void __cdecl
+D2Win_SetPopUpUnicodeText_1_00(
+    std::intptr_t func_ptr,
+    const UnicodeChar* text,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::int32_t text_color,
+    mapi::bool32 is_text_box_centered
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 28]);
+  ASM_X86(push dword ptr [ebp + 24]);
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(mov edx, [ebp + 16]);
+  ASM_X86(mov ecx, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Win_SetPopUpUnicodeText() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+void SetPopUpUnicodeText(
+    const UnicodeChar* text,
+    int position_x,
+    int position_y,
+    TextColor text_color,
+    bool is_text_box_centered
+) {
+  std::intptr_t func_ptr = D2Win_SetPopUpUnicodeText();
+  int text_color_game_value = ToGameValue(text_color);
+
+  D2Win_SetPopUpUnicodeText_1_00(
+      func_ptr,
+      text,
+      position_x,
+      position_y,
+      text_color_game_value,
+      is_text_box_centered
+  );
+}
+
+} // namespace d2::d2win

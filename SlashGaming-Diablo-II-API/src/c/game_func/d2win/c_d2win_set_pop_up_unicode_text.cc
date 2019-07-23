@@ -43,14 +43,26 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#include "../../../../include/c/game_func/d2win/d2win_set_pop_up_unicode_text.h"
 
-#include "d2win/d2win_draw_unicode_text.h"
-#include "d2win/d2win_load_cel_file.h"
-#include "d2win/d2win_load_mpq.h"
-#include "d2win/d2win_set_pop_up_unicode_text.h"
-#include "d2win/d2win_unload_cel_file.h"
-#include "d2win/d2win_unload_mpq.h"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2win/d2win_set_pop_up_unicode_text.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+void D2_D2Win_SetPopUpUnicodeText(
+    const D2_UnicodeChar* text,
+    int position_x,
+    int position_y,
+    int text_color,
+    bool is_text_box_centered
+) {
+  auto actual_text = reinterpret_cast<const d2::UnicodeChar*>(text);
+  auto actual_text_color = static_cast<d2::TextColor>(text_color);
+
+  d2::d2win::SetPopUpUnicodeText(
+      actual_text,
+      position_x,
+      position_y,
+      actual_text_color,
+      is_text_box_centered
+  );
+}
