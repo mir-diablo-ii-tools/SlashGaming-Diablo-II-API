@@ -43,15 +43,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include "../../../../include/c/game_func/d2win/d2win_set_text_font.h"
 
-#include "d2win/d2win_draw_unicode_text.hpp"
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_set_pop_up_unicode_text.hpp"
-#include "d2win/d2win_set_text_font.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include "../../../../include/cxx/game_func/d2win/d2win_set_text_font.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+int D2_D2Win_SetTextFont(int text_font) {
+  auto actual_text_font = static_cast<d2::TextFont>(text_font);
+  auto result = d2::d2win::SetTextFont(actual_text_font);
+
+  return static_cast<int>(result);
+}

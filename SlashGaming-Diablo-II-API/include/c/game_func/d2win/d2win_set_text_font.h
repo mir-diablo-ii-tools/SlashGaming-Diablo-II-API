@@ -43,15 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_SET_TEXT_FONT_H_
+#define SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_SET_TEXT_FONT_H_
 
-#include "d2win/d2win_draw_unicode_text.hpp"
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_set_pop_up_unicode_text.hpp"
-#include "d2win/d2win_set_text_font.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Win_SetTextFont(int text_font);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_SET_TEXT_FONT_H_

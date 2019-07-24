@@ -43,15 +43,61 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2win/d2win_draw_unicode_text.hpp"
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_set_pop_up_unicode_text.hpp"
-#include "d2win/d2win_set_text_font.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include "../../../../include/cxx/game_func/d2win/d2win_set_text_font.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include <windows.h>
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2win {
+namespace {
+
+__declspec(naked) std::int32_t __cdecl
+D2Win_SetTextFont_1_00(
+    std::intptr_t func_ptr,
+    std::int32_t text_font
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(mov ecx, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Win_SetTextFont() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+TextFont SetTextFont(TextFont text_font) {
+  std::intptr_t func_ptr = D2Win_SetTextFont();
+
+  int text_font_game_value = ToGameValue(text_font);
+
+  auto result = D2Win_SetTextFont_1_00(func_ptr, text_font_game_value);
+
+  return ToAPIValue<TextFont>(result);
+}
+
+} // namespace d2::d2win
