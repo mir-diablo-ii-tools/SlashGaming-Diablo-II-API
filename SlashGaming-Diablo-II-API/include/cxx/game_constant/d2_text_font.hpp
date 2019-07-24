@@ -43,13 +43,47 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include <cstddef>
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#include "d2_constant.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+enum class TextFont {
+  kFormal_8,
+  kExocet_16,
+  kDiabloMenu_30,
+  kDiabloMenu_42,
+  kFormal_10,
+  kFormal_12,
+  kFormal_6,
+  kDiabloMenu_24,
+  kFormalWide_11,
+  kExocetBlack_10,
+  kExocetBlack_9,
+  kExocet_8,
+
+  // kFormal_6 (same as 6) = 12
+
+  kFormal_11 = 13
+};
+
+extern template DLLEXPORT
+int ToGameValue(
+    TextFont id
+);
+
+extern template DLLEXPORT
+TextFont ToAPIValue(
+    int value
+);
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_

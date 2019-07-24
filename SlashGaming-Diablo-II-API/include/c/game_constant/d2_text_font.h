@@ -43,13 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_TEXT_FONT_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_TEXT_FONT_H_
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+enum D2_TextFont {
+  TEXT_FONT_FORMAL_8,
+  TEXT_FONT_EXOCET_16,
+  TEXT_FONT_DIABLO_MENU_30,
+  TEXT_FONT_DIABLO_MENU_42,
+  TEXT_FONT_FORMAL_10,
+  TEXT_FONT_FORMAL_12,
+  TEXT_FONT_FORMAL_6,
+  TEXT_FONT_DIABLO_MENU_24,
+  TEXT_FONT_FORMAL_WIDE_11,
+  TEXT_FONT_EXOCET_BLACK_10,
+  TEXT_FONT_EXOCET_BLACK_9,
+  TEXT_FONT_EXOCET_8,
+
+  // TEXT_FONT_FORMAL_6 (same as 6) = 12
+
+  TEXT_FONT_FORMAL_11 = 13
+};
+
+DLLEXPORT int D2_TextFont_ToGameValue(int id);
+
+DLLEXPORT int D2_TextFont_ToAPIValue(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_TEXT_FONT_H_

@@ -43,13 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#include "../../../include/c/game_constant/d2_text_font.h"
 
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../../include/cxx/game_constant/d2_text_font.hpp"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+int D2_TextFont_ToGameValue(int id) {
+  d2::TextFont actual_id =
+      static_cast<d2::TextFont>(id);
+
+  return d2::ToGameValue(actual_id);
+}
+
+int D2_TextFont_ToAPIValue(int value) {
+  d2::TextFont actual_id =
+      d2::ToAPIValue<d2::TextFont>(value);
+
+  return static_cast<int>(actual_id);
+}
