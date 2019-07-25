@@ -43,9 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_D2CLIENT_DRAW_CENTERED_UNICODE_TEXT_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_D2CLIENT_DRAW_CENTERED_UNICODE_TEXT_HPP_
 
-#include "d2client/d2client_draw_centered_unicode_text.hpp"
+#include "../../game_constant/d2_text_color.hpp"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2client {
+
+DLLEXPORT void DrawCenteredUnicodeText(
+    int left,
+    int position_y,
+    const UnicodeChar* text,
+    int right,
+    TextColor text_color
+);
+
+} // namespace d2::d2client
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_D2CLIENT_DRAW_CENTERED_UNICODE_TEXT_HPP_

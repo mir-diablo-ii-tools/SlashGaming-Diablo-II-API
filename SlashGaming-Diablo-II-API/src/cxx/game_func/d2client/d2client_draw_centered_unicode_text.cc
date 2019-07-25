@@ -43,9 +43,80 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2client/d2client_draw_centered_unicode_text.hpp"
+#include "../../../../include/cxx/game_func/d2client/d2client_draw_centered_unicode_text.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2client {
+namespace {
+
+__declspec(naked) void __cdecl
+D2Client_DrawCenteredUnicodeText_1_00(
+    std::intptr_t func_ptr,
+    std::int32_t left,
+    std::int32_t position_y,
+    const UnicodeChar* text,
+    std::int32_t right,
+    std::int32_t text_color
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 28]);
+  ASM_X86(push dword ptr [ebp + 24]);
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(mov edx, [ebp + 16]);
+  ASM_X86(mov ecx, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Client_DrawCenteredUnicodeText() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+void DrawCenteredUnicodeText(
+    int left,
+    int position_y,
+    const UnicodeChar* text,
+    int right,
+    TextColor text_color
+) {
+  std::intptr_t func_ptr = D2Client_DrawCenteredUnicodeText();
+
+  int text_color_game_value = ToGameValue(text_color);
+
+  D2Client_DrawCenteredUnicodeText_1_00(
+      func_ptr,
+      left,
+      position_y,
+      text,
+      right,
+      text_color_game_value
+  );
+}
+
+} // namespace d2::d2client

@@ -43,9 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
+#include "../../../../include/c/game_func/d2client/d2client_draw_centered_unicode_text.h"
 
-#include "d2client/d2client_draw_centered_unicode_text.hpp"
+#include "../../../../include/cxx/game_func/d2client/d2client_draw_centered_unicode_text.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
+void D2_D2Client_DrawCenteredUnicodeText(
+    int left,
+    int position_y,
+    const D2_UnicodeChar* text,
+    int right,
+    int text_color
+) {
+  auto actual_text = reinterpret_cast<const d2::UnicodeChar*>(text);
+  auto actual_text_color = static_cast<d2::TextColor>(text_color);
+
+  d2::d2client::DrawCenteredUnicodeText(
+      left,
+      position_y,
+      actual_text,
+      right,
+      actual_text_color
+  );
+}
