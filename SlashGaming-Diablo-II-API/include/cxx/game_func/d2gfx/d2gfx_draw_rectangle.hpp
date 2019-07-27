@@ -43,10 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_RECTANGLE_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_RECTANGLE_HPP_
 
-#include "d2gfx/d2gfx_draw_cel_context.h"
-#include "d2gfx/d2gfx_draw_rectangle.h"
+#include "../../game_constant/d2_draw_effect.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2gfx {
+
+DLLEXPORT void DrawRectangle(
+    int left,
+    int top,
+    int right,
+    int bottom,
+    int primitive_color_id,
+    DrawEffect draw_effect_id
+);
+
+} // namespace d2::d2gfx
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_RECTANGLE_HPP_

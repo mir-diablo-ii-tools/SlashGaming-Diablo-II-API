@@ -43,10 +43,26 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
+#include "../../../../include/c/game_func/d2gfx/d2gfx_draw_rectangle.h"
 
-#include "d2gfx/d2gfx_draw_cel_context.h"
-#include "d2gfx/d2gfx_draw_rectangle.h"
+#include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_rectangle.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
+void D2_D2GFX_DrawRectangle(
+    int left,
+    int top,
+    int right,
+    int bottom,
+    int primitive_color_id,
+    int draw_effect_id
+) {
+  auto actual_draw_effect_id = static_cast<d2::DrawEffect>(draw_effect_id);
+
+  d2::d2gfx::DrawRectangle(
+      left,
+      top,
+      right,
+      bottom,
+      primitive_color_id,
+      actual_draw_effect_id
+  );
+}
