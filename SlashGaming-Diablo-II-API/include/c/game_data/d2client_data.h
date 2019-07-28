@@ -51,6 +51,7 @@
 #include "d2client/d2client_general_display_width.h"
 #include "d2client/d2client_general_play_area_camera_shift_x.h"
 #include "d2client/d2client_ingame_mouse_position.h"
+#include "d2client/d2client_inventory_arrange_mode.h"
 #include "d2client/d2client_is_automap_open.h"
 #include "d2client/d2client_is_game_menu_open.h"
 #include "d2client/d2client_is_help_screen_open.h"

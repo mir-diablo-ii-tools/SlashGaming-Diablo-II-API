@@ -43,20 +43,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include "../../../../include/c/game_data/d2client/d2client_inventory_arrange_mode.h"
 
-#include "d2client/d2client_difficulty_level.hpp"
-#include "d2client/d2client_general_display_height.hpp"
-#include "d2client/d2client_general_display_width.hpp"
-#include "d2client/d2client_general_play_area_camera_shift_x.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
-#include "d2client/d2client_inventory_arrange_mode.hpp"
-#include "d2client/d2client_is_automap_open.hpp"
-#include "d2client/d2client_is_game_menu_open.hpp"
-#include "d2client/d2client_is_help_screen_open.hpp"
-#include "d2client/d2client_is_new_skill_button_pressed.hpp"
-#include "d2client/d2client_is_new_stats_button_pressed.hpp"
-#include "d2client/d2client_screen_shift.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include "../../../../include/cxx/game_data/d2client/d2client_inventory_arrange_mode.hpp"
+
+unsigned int D2_D2Client_GetInventoryArrangeMode() {
+  return d2::d2client::GetInventoryArrangeMode();
+}
+
+void D2_D2Client_SetInventoryArrangeMode(unsigned int value) {
+  d2::d2client::SetInventoryArrangeMode(value);
+}
