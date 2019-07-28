@@ -43,19 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_GENERAL_PLAY_AREA_CAMERA_SHIFT_X_H_
+#define SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_GENERAL_PLAY_AREA_CAMERA_SHIFT_X_H_
 
-#include "d2client/d2client_difficulty_level.hpp"
-#include "d2client/d2client_general_display_height.hpp"
-#include "d2client/d2client_general_display_width.hpp"
-#include "d2client/d2client_general_play_area_camera_shift_x.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
-#include "d2client/d2client_is_automap_open.hpp"
-#include "d2client/d2client_is_game_menu_open.hpp"
-#include "d2client/d2client_is_help_screen_open.hpp"
-#include "d2client/d2client_is_new_skill_button_pressed.hpp"
-#include "d2client/d2client_is_new_stats_button_pressed.hpp"
-#include "d2client/d2client_screen_shift.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Client_GetGeneralPlayAreaCameraShiftX(void);
+DLLEXPORT void D2_D2Client_SetGeneralPlayAreaCameraShiftX(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_D2CLIENT_GENERAL_PLAY_AREA_CAMERA_SHIFT_X_H_
