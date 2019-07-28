@@ -43,18 +43,40 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2client/d2client_difficulty_level.hpp"
-#include "d2client/d2client_general_display_height.hpp"
-#include "d2client/d2client_general_display_width.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
-#include "d2client/d2client_is_automap_open.hpp"
-#include "d2client/d2client_is_game_menu_open.hpp"
-#include "d2client/d2client_is_help_screen_open.hpp"
-#include "d2client/d2client_is_new_skill_button_pressed.hpp"
-#include "d2client/d2client_is_new_stats_button_pressed.hpp"
-#include "d2client/d2client_screen_shift.hpp"
+#include "../../../../include/cxx/game_data/d2client/d2client_general_display_height.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+
+namespace d2::d2client {
+namespace {
+
+std::intptr_t D2Client_GeneralDisplayHeight() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetGeneralDisplayHeight() {
+  std::intptr_t ptr = D2Client_GeneralDisplayHeight();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetGeneralDisplayHeight(int value) {
+  std::intptr_t ptr = D2Client_GeneralDisplayHeight();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2client

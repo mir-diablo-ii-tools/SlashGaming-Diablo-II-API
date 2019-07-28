@@ -43,18 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include "../../../../include/c/game_data/d2client/d2client_general_display_width.h"
 
-#include "d2client/d2client_difficulty_level.hpp"
-#include "d2client/d2client_general_display_height.hpp"
-#include "d2client/d2client_general_display_width.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
-#include "d2client/d2client_is_automap_open.hpp"
-#include "d2client/d2client_is_game_menu_open.hpp"
-#include "d2client/d2client_is_help_screen_open.hpp"
-#include "d2client/d2client_is_new_skill_button_pressed.hpp"
-#include "d2client/d2client_is_new_stats_button_pressed.hpp"
-#include "d2client/d2client_screen_shift.hpp"
+#include "../../../../include/cxx/game_data/d2client/d2client_general_display_width.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+int D2_D2Client_GetGeneralDisplayWidth() {
+  return d2::d2client::GetGeneralDisplayWidth();
+}
+
+void D2_D2Client_SetGeneralDisplayWidth(int value) {
+  d2::d2client::SetGeneralDisplayWidth(value);
+}
