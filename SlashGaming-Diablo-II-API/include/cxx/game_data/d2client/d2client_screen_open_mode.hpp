@@ -43,21 +43,17 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_D2CLIENT_SCREEN_OPEN_MODE_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_D2CLIENT_SCREEN_OPEN_MODE_HPP_
 
-#include "d2client/d2client_difficulty_level.h"
-#include "d2client/d2client_general_display_height.h"
-#include "d2client/d2client_general_display_width.h"
-#include "d2client/d2client_general_play_area_camera_shift_x.h"
-#include "d2client/d2client_ingame_mouse_position.h"
-#include "d2client/d2client_inventory_arrange_mode.h"
-#include "d2client/d2client_is_automap_open.h"
-#include "d2client/d2client_is_game_menu_open.h"
-#include "d2client/d2client_is_help_screen_open.h"
-#include "d2client/d2client_is_new_skill_button_pressed.h"
-#include "d2client/d2client_is_new_stats_button_pressed.h"
-#include "d2client/d2client_screen_open_mode.h"
-#include "d2client/d2client_screen_shift.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
+namespace d2::d2client {
+
+DLLEXPORT unsigned int GetScreenOpenMode();
+DLLEXPORT void SetScreenOpenMode(unsigned int value);
+
+} // namespace d2::d2client
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_D2CLIENT_SCREEN_OPEN_MODE_HPP_

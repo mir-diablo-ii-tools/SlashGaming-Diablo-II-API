@@ -57,6 +57,7 @@
 #include "d2client/d2client_is_help_screen_open.hpp"
 #include "d2client/d2client_is_new_skill_button_pressed.hpp"
 #include "d2client/d2client_is_new_stats_button_pressed.hpp"
+#include "d2client/d2client_screen_open_mode.hpp"
 #include "d2client/d2client_screen_shift.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
