@@ -74,9 +74,10 @@ namespace d2 {
 /* sizeof: 0x48 */ struct CelContext_1_13C {
   /* 0x00 */ std::int32_t frame;
   /* 0x04 */ mapi::UndefinedByte unknown_0x04[0x34 - 0x04];
-  /* 0x38 */ CelFile* cel_file;  // TODO (Mir Drualga): Replace with 1.13C implementation.
-  /* 0x3C */ mapi::UndefinedByte unknown_0x3C[0x40 - 0x3C];
-  /* 0x44 */ std::int32_t direction;
+  /* 0x34 */ CelFile* cel_file;  // TODO (Mir Drualga): Replace with 1.13C implementation.
+  /* 0x38 */ mapi::UndefinedByte unknown_0x38[0x40 - 0x38];
+  /* 0x40 */ std::int32_t direction;
+  /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
 #pragma pack(pop)
