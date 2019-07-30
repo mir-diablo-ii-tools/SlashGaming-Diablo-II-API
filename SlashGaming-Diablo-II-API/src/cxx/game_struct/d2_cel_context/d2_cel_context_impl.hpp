@@ -67,7 +67,7 @@ namespace d2 {
   /* 0x00 */ mapi::UndefinedByte unknown_0x00[0x38 - 0x00];
   /* 0x38 */ std::int32_t direction;
   /* 0x3C */ CelFile* cel_file; // TODO (Mir Drualga): Replace with 1.12A implementation.
-  /* 0x40 */ std::int32_t frames;
+  /* 0x40 */ std::int32_t frame;
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
@@ -87,6 +87,7 @@ CelContext* CreateCelContext(
     int direction,
     int frame
 );
+
 CelContext* CreateCelContextArray(std::size_t count);
 void DestroyCelContext(CelContext* cel_context);
 
