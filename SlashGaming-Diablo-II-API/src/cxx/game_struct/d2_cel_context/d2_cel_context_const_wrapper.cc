@@ -46,6 +46,7 @@
 #include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
 
 #include "d2_cel_context_impl.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
 
@@ -75,6 +76,78 @@ CelContext_ConstWrapper& CelContext_ConstWrapper::operator=(
 
 const CelContext* CelContext_ConstWrapper::Get() const noexcept {
   return this->ptr_;
+}
+
+const CelFile* CelContext_ConstWrapper::cel_file() const noexcept {
+  const CelContext* cel_context = this->Get();
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version >= GameVersion::k1_00
+      && running_game_version <= GameVersion::k1_10) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_00*>(
+        cel_context
+    );
+    return actual_cel_context->cel_file;
+  } else if (running_game_version == GameVersion::k1_12A) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_12A*>(
+        cel_context
+    );
+    return actual_cel_context->cel_file;
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
+        cel_context
+    );
+    return actual_cel_context->cel_file;
+  }
+}
+
+int CelContext_ConstWrapper::direction() const noexcept {
+  const CelContext* cel_context = this->Get();
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version >= GameVersion::k1_00
+      && running_game_version <= GameVersion::k1_10) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_00*>(
+        cel_context
+    );
+    return actual_cel_context->direction;
+  } else if (running_game_version == GameVersion::k1_12A) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_12A*>(
+        cel_context
+    );
+    return actual_cel_context->direction;
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
+        cel_context
+    );
+    return actual_cel_context->direction;
+  }
+}
+
+int CelContext_ConstWrapper::frame() const noexcept {
+  const CelContext* cel_context = this->Get();
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version >= GameVersion::k1_00
+      && running_game_version <= GameVersion::k1_10) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_00*>(
+        cel_context
+    );
+    return actual_cel_context->frame;
+  } else if (running_game_version == GameVersion::k1_12A) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_12A*>(
+        cel_context
+    );
+    return actual_cel_context->frame;
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
+        cel_context
+    );
+    return actual_cel_context->frame;
+  }
 }
 
 } // namespace d2

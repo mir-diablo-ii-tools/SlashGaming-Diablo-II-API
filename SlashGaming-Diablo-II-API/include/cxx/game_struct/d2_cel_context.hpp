@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
 
-#include <filesystem>
-
 #include "d2_cel_file.hpp"
 
 #include "../../dllexport_define.inc"
@@ -73,6 +71,10 @@ class DLLEXPORT CelContext_ConstWrapper {
 
   const CelContext* Get() const noexcept;
 
+  const CelFile* cel_file() const noexcept;
+  int direction() const noexcept;
+  int frame() const noexcept;
+
  private:
   const CelContext* ptr_;
 };
@@ -91,6 +93,11 @@ class DLLEXPORT CelContext_Wrapper : public CelContext_ConstWrapper {
   CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
 
   CelContext* Get() noexcept;
+
+  CelFile* cel_file() noexcept;
+  void cel_file(CelFile* cel_file) noexcept;
+  void direction(int direction) noexcept;
+  void frame(int frame) noexcept;
 
  private:
   CelContext* ptr_;

@@ -85,8 +85,25 @@ CelContext* CreateCelContext(
   d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
 
   if (running_game_version >= d2::GameVersion::k1_00
-      && running_game_version <= d2::GameVersion::k1_09D) {
+      && running_game_version <= d2::GameVersion::k1_10) {
     CelContext_1_00* cel_context = new CelContext_1_00[1];
+
+    cel_context->cel_file = cel_file;
+    cel_context->direction = direction;
+    cel_context->frame = frame;
+
+    return reinterpret_cast<CelContext*>(cel_context);
+  } else if (running_game_version == GameVersion::k1_12A) {
+    CelContext_1_12A* cel_context = new CelContext_1_12A[1];
+
+    cel_context->cel_file = cel_file;
+    cel_context->direction = direction;
+    cel_context->frame = frame;
+
+    return reinterpret_cast<CelContext*>(cel_context);
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    CelContext_1_13C* cel_context = new CelContext_1_13C[1];
 
     cel_context->cel_file = cel_file;
     cel_context->direction = direction;
@@ -103,6 +120,13 @@ CelContext* CreateCelContextArray(std::size_t count) {
       && running_game_version <= d2::GameVersion::k1_09D) {
     CelContext_1_00* cel_context_array = new CelContext_1_00[count];
     return reinterpret_cast<CelContext*>(cel_context_array);
+  } else if (running_game_version == GameVersion::k1_12A) {
+    CelContext_1_12A* cel_context_array = new CelContext_1_12A[count];
+    return reinterpret_cast<CelContext*>(cel_context_array);
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    CelContext_1_13C* cel_context_array = new CelContext_1_13C[count];
+    return reinterpret_cast<CelContext*>(cel_context_array);
   }
 }
 
@@ -112,6 +136,11 @@ void DestroyCelContext(CelContext* cel_context) {
   if (running_game_version >= d2::GameVersion::k1_00
       && running_game_version <= d2::GameVersion::k1_09D) {
     delete[] reinterpret_cast<CelContext_1_00*>(cel_context);
+  } else if (running_game_version == GameVersion::k1_12A) {
+    delete[] reinterpret_cast<CelContext_1_12A*>(cel_context);
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    delete[] reinterpret_cast<CelContext_1_13C*>(cel_context);
   }
 }
 
