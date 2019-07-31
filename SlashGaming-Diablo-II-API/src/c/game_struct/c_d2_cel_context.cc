@@ -46,3 +46,100 @@
 #include "../../../include/c/game_struct/d2_cel_context.h"
 
 #include "../../../include/cxx/game_struct/d2_cel_context.hpp"
+#include "../../cxx/game_struct/d2_cel_context/d2_cel_context_impl.hpp"
+
+D2_CelContext* D2_CelContext_Create(
+    D2_CelFile* cel_file,
+    int direction,
+    int frame
+) {
+  auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
+
+  auto actual_result = d2::CreateCelContext(
+      actual_cel_file,
+      direction,
+      frame
+  );
+
+  return reinterpret_cast<D2_CelContext*>(actual_result);
+}
+
+void D2_CelContext_Destroy(D2_CelContext* cel_context) {
+  auto actual_cel_context = reinterpret_cast<d2::CelContext*>(cel_context);
+  d2::DestroyCelContext(actual_cel_context);
+}
+
+D2_CelFile* D2_CelContext_GetCelFile(D2_CelContext* cel_context) {
+  auto actual_cel_context = reinterpret_cast<d2::CelContext*>(
+      cel_context
+  );
+
+  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
+
+  return reinterpret_cast<D2_CelFile*>(
+      cel_context_wrapper.cel_file()
+  );
+}
+
+const D2_CelFile* D2_CelContext_GetConstCelFile(
+    const D2_CelContext* cel_context
+) {
+  auto actual_cel_context = reinterpret_cast<const d2::CelContext*>(
+      cel_context
+  );
+
+  d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
+
+  return reinterpret_cast<const D2_CelFile*>(
+      cel_context_wrapper.cel_file()
+  );
+}
+
+void D2_CelContext_SetCelFile(
+    D2_CelContext* cel_context,
+    D2_CelFile* cel_file
+) {
+  auto actual_cel_context = reinterpret_cast<d2::CelContext*>(cel_context);
+  auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
+
+  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
+  cel_context_wrapper.cel_file(actual_cel_file);
+}
+
+int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
+  auto actual_cel_context = reinterpret_cast<const d2::CelContext*>(
+      cel_context
+  );
+
+  d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
+
+  return cel_context_wrapper.direction();
+}
+
+void D2_CelContext_SetDirection(D2_CelContext* cel_context, int direction) {
+  auto actual_cel_context = reinterpret_cast<d2::CelContext*>(
+      cel_context
+  );
+
+  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
+  cel_context_wrapper.direction(direction);
+}
+
+int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
+  auto actual_cel_context = reinterpret_cast<const d2::CelContext*>(
+      cel_context
+  );
+
+  d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
+
+  return cel_context_wrapper.frame();
+}
+
+void D2_CelContext_SetFrame(D2_CelContext* cel_context, int frame) {
+  auto actual_cel_context = reinterpret_cast<d2::CelContext*>(
+      cel_context
+  );
+
+  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
+  cel_context_wrapper.frame(frame);
+}

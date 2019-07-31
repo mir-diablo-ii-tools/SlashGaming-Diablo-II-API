@@ -46,9 +46,58 @@
 #ifndef SGD2MAPI_C_GAME_STRUCT_D2_CEL_CONTEXT_H_
 #define SGD2MAPI_C_GAME_STRUCT_D2_CEL_CONTEXT_H_
 
+#include "d2_cel_file.h"
+
 #include "../../dllexport_define.inc"
 
 struct D2_CelContext;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_CelContext* D2_CelContext_Create(
+    struct D2_CelFile* cel_file,
+    int direction,
+    int frame
+);
+
+DLLEXPORT void D2_CelContext_Destroy(struct D2_CelContext* cel_context);
+
+DLLEXPORT struct D2_CelFile* D2_CelContext_GetCelFile(
+    struct D2_CelContext* cel_context
+);
+
+DLLEXPORT const struct D2_CelFile* D2_CelContext_GetConstCelFile(
+    const struct D2_CelContext* cel_context
+);
+
+DLLEXPORT void D2_CelContext_SetCelFile(
+    struct D2_CelContext* cel_context,
+    struct D2_CelFile* cel_file
+);
+
+DLLEXPORT int D2_CelContext_GetDirection(
+    const struct D2_CelContext* cel_context
+);
+
+DLLEXPORT void D2_CelContext_SetDirection(
+    struct D2_CelContext* cel_context,
+    int direction
+);
+
+DLLEXPORT int D2_CelContext_GetFrame(
+    const struct D2_CelContext* cel_context
+);
+
+DLLEXPORT void D2_CelContext_SetFrame(
+    struct D2_CelContext* cel_context,
+    int frame
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_STRUCT_D2_CEL_CONTEXT_H_
