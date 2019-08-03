@@ -76,4 +76,28 @@ const Cel* Cel_ConstWrapper::Get() const noexcept {
   return this->ptr_;
 }
 
+int Cel_ConstWrapper::height() const noexcept {
+  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+
+  return actual_cel->height;
+}
+
+int Cel_ConstWrapper::offset_x() const noexcept {
+  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+
+  return actual_cel->offset_x;
+}
+
+int Cel_ConstWrapper::offset_y() const noexcept {
+  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+
+  return actual_cel->offset_y;
+}
+
+int Cel_ConstWrapper::width() const noexcept {
+  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+
+  return actual_cel->width;
+}
+
 } // namespace d2

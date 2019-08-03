@@ -67,6 +67,11 @@ class DLLEXPORT Cel_ConstWrapper {
 
   const Cel* Get() const noexcept;
 
+  int height() const noexcept;
+  int offset_x() const noexcept;
+  int offset_y() const noexcept;
+  int width() const noexcept;
+
  private:
   const Cel* ptr_;
 };
@@ -87,6 +92,11 @@ class DLLEXPORT Cel_Wrapper : public Cel_ConstWrapper {
   Cel_Wrapper& operator=(Cel_Wrapper&& other) noexcept;
 
   Cel* Get() noexcept;
+
+  void height(int value) noexcept;
+  void offset_x(int value) noexcept;
+  void offset_y(int value) noexcept;
+  void width(int value) noexcept;
 
  private:
   Cel* ptr_;

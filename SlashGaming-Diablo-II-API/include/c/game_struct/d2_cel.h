@@ -50,5 +50,29 @@
 
 struct D2_Cel;
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_Cel_GetHeight(const struct D2_Cel* cel);
+
+DLLEXPORT void D2_Cel_SetHeight(struct D2_Cel* cel, int value);
+
+DLLEXPORT int D2_Cel_GetOffsetX(const struct D2_Cel* cel);
+
+DLLEXPORT void D2_Cel_SetOffsetX(struct D2_Cel* cel, int value);
+
+DLLEXPORT int D2_Cel_GetOffsetY(const struct D2_Cel* cel);
+
+DLLEXPORT void D2_Cel_SetOffsetY(struct D2_Cel* cel, int value);
+
+DLLEXPORT int D2_Cel_GetWidth(const struct D2_Cel* cel);
+
+DLLEXPORT void D2_Cel_SetWidth(struct D2_Cel* cel, int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_STRUCT_D2_CEL_H_
