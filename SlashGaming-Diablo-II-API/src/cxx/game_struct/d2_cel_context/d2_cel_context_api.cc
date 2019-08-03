@@ -67,6 +67,7 @@ CelContext_API::CelContext_API(const CelContext_API& other) = default;
 CelContext_API::CelContext_API(CelContext_API&& other) noexcept = default;
 
 CelContext_API::~CelContext_API() {
+  DestroyCelContext(this->Get());
 }
 
 CelContext_API& CelContext_API::operator=(
