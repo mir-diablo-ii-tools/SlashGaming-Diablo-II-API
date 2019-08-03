@@ -43,14 +43,37 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../../include/cxx/game_struct/d2_cel.hpp"
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "d2_cel_impl.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+Cel_ConstWrapper::Cel_ConstWrapper(const Cel* ptr) noexcept :
+    ptr_(ptr) {
+}
+
+Cel_ConstWrapper::Cel_ConstWrapper(
+    const Cel_ConstWrapper& other
+) = default;
+
+Cel_ConstWrapper::Cel_ConstWrapper(
+    Cel_ConstWrapper&& other
+) noexcept = default;
+
+Cel_ConstWrapper::~Cel_ConstWrapper() = default;
+
+Cel_ConstWrapper& Cel_ConstWrapper::operator=(
+    const Cel_ConstWrapper& other
+) = default;
+
+Cel_ConstWrapper& Cel_ConstWrapper::operator=(
+    Cel_ConstWrapper&& other
+) noexcept = default;
+
+const Cel* Cel_ConstWrapper::Get() const noexcept {
+  return this->ptr_;
+}
+
+} // namespace d2

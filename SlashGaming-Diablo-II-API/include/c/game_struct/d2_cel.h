@@ -43,14 +43,12 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_C_GAME_STRUCT_D2_CEL_H_
+#define SGD2MAPI_C_GAME_STRUCT_D2_CEL_H_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+struct D2_Cel;
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_D2_CEL_H_

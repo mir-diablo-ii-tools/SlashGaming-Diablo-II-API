@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_STRUCT_H_
 #define SGD2MAPI_C_GAME_STRUCT_H_
 
+#include "game_struct/d2_cel.h"
 #include "game_struct/d2_cel_context.h"
 #include "game_struct/d2_cel_file.h"
 #include "game_struct/d2_mpq_archive.h"

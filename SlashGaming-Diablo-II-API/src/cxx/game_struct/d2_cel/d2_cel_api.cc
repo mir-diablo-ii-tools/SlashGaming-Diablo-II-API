@@ -43,14 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../../include/cxx/game_struct/d2_cel.hpp"
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "d2_cel_impl.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+Cel_API::Cel_API(const Cel_API& other) = default;
+
+Cel_API::Cel_API(Cel_API&& other) noexcept = default;
+
+Cel_API::~Cel_API() {
+}
+
+Cel_API& Cel_API::operator=(const Cel_API& other) = default;
+
+Cel_API& Cel_API::operator=(Cel_API&& other) noexcept = default;
+
+} // namespace d2

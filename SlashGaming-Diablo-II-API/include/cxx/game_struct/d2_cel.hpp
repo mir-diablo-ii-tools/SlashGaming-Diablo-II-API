@@ -43,14 +43,69 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+struct Cel;
+
+class DLLEXPORT Cel_ConstWrapper {
+ public:
+  Cel_ConstWrapper() = delete;
+  Cel_ConstWrapper(const Cel* ptr) noexcept;
+
+  Cel_ConstWrapper(const Cel_ConstWrapper& other);
+  Cel_ConstWrapper(Cel_ConstWrapper&& other) noexcept;
+
+  virtual ~Cel_ConstWrapper();
+
+  Cel_ConstWrapper& operator=(const Cel_ConstWrapper& other);
+  Cel_ConstWrapper& operator=(Cel_ConstWrapper&& other) noexcept;
+
+  const Cel* Get() const noexcept;
+
+ private:
+  const Cel* ptr_;
+};
+
+class DLLEXPORT Cel_Wrapper : public Cel_ConstWrapper {
+ public:
+  Cel_Wrapper() = delete;
+  Cel_Wrapper(Cel* ptr) noexcept;
+
+  Cel_Wrapper(const Cel_Wrapper& other);
+  Cel_Wrapper(Cel_Wrapper&& other) noexcept;
+
+  ~Cel_Wrapper() override;
+
+  Cel_Wrapper& operator=(
+      const Cel_Wrapper& other
+  );
+  Cel_Wrapper& operator=(Cel_Wrapper&& other) noexcept;
+
+  Cel* Get() noexcept;
+
+ private:
+  Cel* ptr_;
+};
+
+class DLLEXPORT Cel_API : public Cel_Wrapper {
+ public:
+  Cel_API() = delete;
+
+  Cel_API(const Cel_API& other);
+  Cel_API(Cel_API&& other) noexcept;
+
+  ~Cel_API() override;
+
+  Cel_API& operator=(const Cel_API& other);
+  Cel_API& operator=(Cel_API&& other) noexcept;
+};
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_HPP_

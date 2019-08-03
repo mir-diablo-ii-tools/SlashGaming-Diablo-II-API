@@ -43,14 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_IMPL_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel.hpp"
+#include "../../../../include/cxx/game_undefined.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+#pragma pack(push, 1)
+
+// TODO (Mir Drualga): Figure out the size.
+/* sizeof: 0x?? */ struct Cel_1_00 {
+  /* 0x00 */ mapi::UndefinedByte unknown_0x00[0x04 - 0x00];
+  /* 0x04 */ std::int32_t width;
+  /* 0x08 */ std::int32_t height;
+  /* 0x0C */ std::int32_t offset_x;
+  /* 0x10 */ std::int32_t offset_y;
+};
+
+#pragma pack(pop)
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_IMPL_HPP_
