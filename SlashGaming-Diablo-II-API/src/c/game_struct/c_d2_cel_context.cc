@@ -50,8 +50,8 @@
 
 D2_CelContext* D2_CelContext_Create(
     D2_CelFile* cel_file,
-    int direction,
-    int frame
+    unsigned int direction,
+    unsigned int frame
 ) {
   auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
 
@@ -106,7 +106,7 @@ void D2_CelContext_SetCelFile(
   cel_context_wrapper.cel_file(actual_cel_file);
 }
 
-int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
+unsigned int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
   auto actual_cel_context = reinterpret_cast<const d2::CelContext*>(
       cel_context
   );
@@ -116,7 +116,10 @@ int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
   return cel_context_wrapper.direction();
 }
 
-void D2_CelContext_SetDirection(D2_CelContext* cel_context, int direction) {
+void D2_CelContext_SetDirection(
+    D2_CelContext* cel_context,
+    unsigned int direction
+) {
   auto actual_cel_context = reinterpret_cast<d2::CelContext*>(
       cel_context
   );
@@ -125,7 +128,7 @@ void D2_CelContext_SetDirection(D2_CelContext* cel_context, int direction) {
   cel_context_wrapper.direction(direction);
 }
 
-int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
+unsigned int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
   auto actual_cel_context = reinterpret_cast<const d2::CelContext*>(
       cel_context
   );
@@ -135,7 +138,7 @@ int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
   return cel_context_wrapper.frame();
 }
 
-void D2_CelContext_SetFrame(D2_CelContext* cel_context, int frame) {
+void D2_CelContext_SetFrame(D2_CelContext* cel_context, unsigned int frame) {
   auto actual_cel_context = reinterpret_cast<d2::CelContext*>(
       cel_context
   );

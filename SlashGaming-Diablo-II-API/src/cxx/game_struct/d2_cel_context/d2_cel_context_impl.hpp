@@ -58,25 +58,25 @@ namespace d2 {
 /* sizeof: 0x48 */ struct CelContext_1_00 {
   /* 0x00 */ mapi::UndefinedByte unknown_0x00;
   /* 0x04 */ CelFile* cel_file; // TODO (Mir Drualga): Replace with 1.00 implementation.
-  /* 0x08 */ std::int32_t frame;
-  /* 0x0C */ std::int32_t direction;
+  /* 0x08 */ std::uint32_t frame;
+  /* 0x0C */ std::uint32_t direction;
   /* 0x10 */ mapi::UndefinedByte unknown_0x10[0x48 - 0x10];
 };
 
 /* sizeof: 0x48 */ struct CelContext_1_12A {
   /* 0x00 */ mapi::UndefinedByte unknown_0x00[0x38 - 0x00];
-  /* 0x38 */ std::int32_t direction;
+  /* 0x38 */ std::uint32_t direction;
   /* 0x3C */ CelFile* cel_file; // TODO (Mir Drualga): Replace with 1.12A implementation.
-  /* 0x40 */ std::int32_t frame;
+  /* 0x40 */ std::uint32_t frame;
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
 /* sizeof: 0x48 */ struct CelContext_1_13C {
-  /* 0x00 */ std::int32_t frame;
+  /* 0x00 */ std::uint32_t frame;
   /* 0x04 */ mapi::UndefinedByte unknown_0x04[0x34 - 0x04];
   /* 0x34 */ CelFile* cel_file;  // TODO (Mir Drualga): Replace with 1.13C implementation.
   /* 0x38 */ mapi::UndefinedByte unknown_0x38[0x40 - 0x38];
-  /* 0x40 */ std::int32_t direction;
+  /* 0x40 */ std::uint32_t direction;
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
@@ -84,8 +84,8 @@ namespace d2 {
 
 CelContext* CreateCelContext(
     CelFile* cel_file,
-    int direction,
-    int frame
+    unsigned int direction,
+    unsigned int frame
 );
 
 CelContext* CreateCelContextArray(std::size_t count);

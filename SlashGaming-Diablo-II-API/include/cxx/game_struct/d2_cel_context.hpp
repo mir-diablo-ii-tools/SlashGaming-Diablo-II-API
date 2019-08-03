@@ -72,8 +72,8 @@ class DLLEXPORT CelContext_ConstWrapper {
   const CelContext* Get() const noexcept;
 
   const CelFile* cel_file() const noexcept;
-  int direction() const noexcept;
-  int frame() const noexcept;
+  unsigned int direction() const noexcept;
+  unsigned int frame() const noexcept;
 
  private:
   const CelContext* ptr_;
@@ -96,8 +96,8 @@ class DLLEXPORT CelContext_Wrapper : public CelContext_ConstWrapper {
 
   CelFile* cel_file() noexcept;
   void cel_file(CelFile* cel_file) noexcept;
-  void direction(int direction) noexcept;
-  void frame(int frame) noexcept;
+  void direction(unsigned int direction) noexcept;
+  void frame(unsigned int frame) noexcept;
 
  private:
   CelContext* ptr_;
@@ -108,8 +108,8 @@ class DLLEXPORT CelContext_API : public CelContext_Wrapper {
   CelContext_API() = delete;
   CelContext_API(
       CelFile* cel_file,
-      int direction,
-      int frame
+      unsigned int direction,
+      unsigned int frame
   );
 
   CelContext_API(const CelContext_API& other);

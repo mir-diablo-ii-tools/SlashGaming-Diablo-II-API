@@ -127,7 +127,7 @@ void CelContext_Wrapper::cel_file(CelFile* cel_file) noexcept {
   }
 }
 
-void CelContext_Wrapper::direction(int direction) noexcept {
+void CelContext_Wrapper::direction(unsigned int direction) noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -151,7 +151,7 @@ void CelContext_Wrapper::direction(int direction) noexcept {
   }
 }
 
-void CelContext_Wrapper::frame(int frame) noexcept {
+void CelContext_Wrapper::frame(unsigned int frame) noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 

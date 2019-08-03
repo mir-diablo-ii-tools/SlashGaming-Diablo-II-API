@@ -55,8 +55,8 @@ namespace d2 {
 
 CelContext_API::CelContext_API(
     CelFile* cel_file,
-    int direction,
-    int frame
+    unsigned int direction,
+    unsigned int frame
 ) : CelContext_Wrapper(
         CreateCelContext(cel_file, direction, frame)
     ) {
@@ -79,8 +79,8 @@ CelContext_API& CelContext_API::operator=(
 
 CelContext* CreateCelContext(
     CelFile* cel_file,
-    int direction,
-    int frame
+    unsigned int direction,
+    unsigned int frame
 ) {
   d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
 
