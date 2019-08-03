@@ -43,9 +43,58 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2cmp/d2cmp_get_cel_from_cel_context.h"
+#include "../../../../include/cxx/game_func/d2cmp/d2cmp_get_cel_from_cel_context.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2cmp {
+namespace {
+
+__declspec(naked) Cel* __cdecl
+D2CMP_GetCelFromCelContext_1_00(
+    std::intptr_t func_ptr,
+    CelContext* cel_context
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2CMP_GetCelFromCelContext() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+Cel* GetCelFromCelContext(CelContext* cel_context) {
+  std::intptr_t func_ptr = D2CMP_GetCelFromCelContext();
+
+  return D2CMP_GetCelFromCelContext_1_00(
+      func_ptr,
+      cel_context
+  );
+}
+
+} // namespace d2::d2cmp

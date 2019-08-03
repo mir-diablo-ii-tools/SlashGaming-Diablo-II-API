@@ -46,4 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2CMP_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2CMP_FUNC_HPP_
 
+#include "d2cmp/d2cmp_get_cel_from_cel_context.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2CMP_FUNC_HPP_

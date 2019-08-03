@@ -43,9 +43,13 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
+#include "../../../../include/c/game_func/d2cmp/d2cmp_get_cel_from_cel_context.h"
 
-#include "d2cmp/d2cmp_get_cel_from_cel_context.h"
+#include "../../../../include/cxx/game_func/d2cmp/d2cmp_get_cel_from_cel_context.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
+D2_Cel* D2_D2CMP_GetCelFromCelContext(D2_CelContext* cel_context) {
+  auto actual_cel_context = reinterpret_cast<d2::CelContext*>(cel_context);
+  auto actual_result = d2::d2cmp::GetCelFromCelContext(actual_cel_context);
+
+  return reinterpret_cast<D2_Cel*>(actual_result);
+}

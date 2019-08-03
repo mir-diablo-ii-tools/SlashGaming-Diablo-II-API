@@ -43,9 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2CMP_D2CMP_GET_CEL_FROM_CEL_CONTEXT_H_
+#define SGD2MAPI_C_GAME_FUNC_D2CMP_D2CMP_GET_CEL_FROM_CEL_CONTEXT_H_
 
-#include "d2cmp/d2cmp_get_cel_from_cel_context.h"
+#include "../../game_struct/d2_cel.h"
+#include "../../game_struct/d2_cel_context.h"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2CMP_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_Cel* D2_D2CMP_GetCelFromCelContext(
+    struct D2_CelContext* cel_context
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2CMP_D2CMP_GET_CEL_FROM_CEL_CONTEXT_H_
