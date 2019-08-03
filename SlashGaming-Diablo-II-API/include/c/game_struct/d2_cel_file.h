@@ -50,5 +50,40 @@
 
 struct D2_CelFile;
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT unsigned int D2_CelFile_GetVersion(
+    const struct D2_CelFile* cel_file
+);
+
+DLLEXPORT void D2_CelFile_SetVersion(
+    struct D2_CelFile* cel_file,
+    unsigned int value
+);
+
+DLLEXPORT unsigned int D2_CelFile_GetNumDirections(
+    const struct D2_CelFile* cel_file
+);
+
+DLLEXPORT void D2_CelFile_SetNumDirections(
+    struct D2_CelFile* cel_file,
+    unsigned int value
+);
+
+DLLEXPORT unsigned int D2_CelFile_GetNumFrames(
+    const struct D2_CelFile* cel_file
+);
+
+DLLEXPORT void D2_CelFile_SetNumFrames(
+    struct D2_CelFile* cel_file,
+    unsigned int value
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_C_GAME_STRUCT_D2_CEL_FILE_H_

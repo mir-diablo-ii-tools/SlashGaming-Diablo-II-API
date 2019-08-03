@@ -46,3 +46,45 @@
 #include "../../../include/c/game_struct/d2_cel_file.h"
 
 #include "../../../include/cxx/game_struct/d2_cel_file.hpp"
+
+unsigned int D2_CelFile_GetVersion(const D2_CelFile* cel_file) {
+  auto actual_cel_file = reinterpret_cast<const d2::CelFile*>(cel_file);
+
+  d2::CelFile_ConstWrapper cel_file_wrapper(actual_cel_file);
+  return cel_file_wrapper.version();
+}
+
+void D2_CelFile_SetVersion(D2_CelFile* cel_file, unsigned int value) {
+  auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
+
+  d2::CelFile_Wrapper cel_file_wrapper(actual_cel_file);
+  cel_file_wrapper.version(value);
+}
+
+unsigned int D2_CelFile_GetNumDirections(const D2_CelFile* cel_file) {
+  auto actual_cel_file = reinterpret_cast<const d2::CelFile*>(cel_file);
+
+  d2::CelFile_ConstWrapper cel_file_wrapper(actual_cel_file);
+  return cel_file_wrapper.num_directions();
+}
+
+void D2_CelFile_SetNumDirections(D2_CelFile* cel_file, unsigned int value) {
+  auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
+
+  d2::CelFile_Wrapper cel_file_wrapper(actual_cel_file);
+  cel_file_wrapper.num_directions(value);
+}
+
+unsigned int D2_CelFile_GetNumFrames(const D2_CelFile* cel_file) {
+  auto actual_cel_file = reinterpret_cast<const d2::CelFile*>(cel_file);
+
+  d2::CelFile_ConstWrapper cel_file_wrapper(actual_cel_file);
+  return cel_file_wrapper.num_frames();
+}
+
+void D2_CelFile_SetNumFrames(D2_CelFile* cel_file, unsigned int value) {
+  auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
+
+  d2::CelFile_Wrapper cel_file_wrapper(actual_cel_file);
+  cel_file_wrapper.num_frames(value);
+}

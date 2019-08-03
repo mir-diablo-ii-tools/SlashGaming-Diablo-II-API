@@ -78,4 +78,22 @@ CelFile* CelFile_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
+void CelFile_Wrapper::version(unsigned int value) noexcept {
+  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
+
+  actual_cel_file->version = value;
+}
+
+void CelFile_Wrapper::num_directions(unsigned int value) noexcept {
+  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
+
+  actual_cel_file->num_directions = value;
+}
+
+void CelFile_Wrapper::num_frames(unsigned int value) noexcept {
+  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
+
+  actual_cel_file->num_frames = value;
+}
+
 } // namespace d2

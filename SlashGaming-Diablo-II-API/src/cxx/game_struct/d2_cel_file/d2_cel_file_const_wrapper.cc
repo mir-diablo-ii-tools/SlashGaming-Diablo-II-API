@@ -77,4 +77,22 @@ const CelFile* CelFile_ConstWrapper::Get() const noexcept {
   return this->ptr_;
 }
 
+unsigned int CelFile_ConstWrapper::version() const noexcept {
+  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+
+  return actual_cel_file->version;
+}
+
+unsigned int CelFile_ConstWrapper::num_directions() const noexcept {
+  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+
+  return actual_cel_file->num_directions;
+}
+
+unsigned int CelFile_ConstWrapper::num_frames() const noexcept {
+  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+
+  return actual_cel_file->num_frames;
+}
+
 } // namespace d2

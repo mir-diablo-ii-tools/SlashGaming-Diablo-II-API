@@ -69,6 +69,10 @@ class DLLEXPORT CelFile_ConstWrapper {
 
   const CelFile* Get() const noexcept;
 
+  unsigned int version() const noexcept;
+  unsigned int num_directions() const noexcept;
+  unsigned int num_frames() const noexcept;
+
  private:
   const CelFile* ptr_;
 };
@@ -89,6 +93,10 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
   CelFile_Wrapper& operator=(CelFile_Wrapper&& other) noexcept;
 
   CelFile* Get() noexcept;
+
+  void version(unsigned int value) noexcept;
+  void num_directions(unsigned int value) noexcept;
+  void num_frames(unsigned int value) noexcept;
 
  private:
   CelFile* ptr_;
