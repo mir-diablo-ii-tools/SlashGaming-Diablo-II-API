@@ -87,18 +87,18 @@ const CelFile* CelContext_ConstWrapper::GetCelFile() const noexcept {
     auto actual_cel_context = reinterpret_cast<const CelContext_1_00*>(
         cel_context
     );
-    return actual_cel_context->cel_file;
+    return reinterpret_cast<const CelFile*>(actual_cel_context->cel_file);
   } else if (running_game_version == GameVersion::k1_12A) {
     auto actual_cel_context = reinterpret_cast<const CelContext_1_12A*>(
         cel_context
     );
-    return actual_cel_context->cel_file;
+    return reinterpret_cast<const CelFile*>(actual_cel_context->cel_file);
   } else if (running_game_version >= GameVersion::k1_13C
       && running_game_version <= GameVersion::kLod1_14D) {
     auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
         cel_context
     );
-    return actual_cel_context->cel_file;
+    return reinterpret_cast<const CelFile*>(actual_cel_context->cel_file);
   }
 }
 

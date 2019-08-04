@@ -96,18 +96,18 @@ CelFile* CelContext_Wrapper::GetCelFile() noexcept {
     auto actual_cel_context = reinterpret_cast<CelContext_1_00*>(
         cel_context
     );
-    return actual_cel_context->cel_file;
+    return reinterpret_cast<CelFile*>(actual_cel_context->cel_file);
   } else if (running_game_version == GameVersion::k1_12A) {
     auto actual_cel_context = reinterpret_cast<CelContext_1_12A*>(
         cel_context
     );
-    return actual_cel_context->cel_file;
+    return reinterpret_cast<CelFile*>(actual_cel_context->cel_file);
   } else if (running_game_version >= GameVersion::k1_13C
       && running_game_version <= GameVersion::kLod1_14D) {
     auto actual_cel_context = reinterpret_cast<CelContext_1_13C*>(
         cel_context
     );
-    return actual_cel_context->cel_file;
+    return reinterpret_cast<CelFile*>(actual_cel_context->cel_file);
   }
 }
 
@@ -115,23 +115,25 @@ void CelContext_Wrapper::SetCelFile(CelFile* cel_file) noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
+  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
+
   if (running_game_version >= GameVersion::k1_00
       && running_game_version <= GameVersion::k1_10) {
     auto actual_cel_context = reinterpret_cast<CelContext_1_00*>(
         cel_context
     );
-    actual_cel_context->cel_file = cel_file;
+    actual_cel_context->cel_file = actual_cel_file;
   } else if (running_game_version == GameVersion::k1_12A) {
     auto actual_cel_context = reinterpret_cast<CelContext_1_12A*>(
         cel_context
     );
-    actual_cel_context->cel_file = cel_file;
+    actual_cel_context->cel_file = actual_cel_file;
   } else if (running_game_version >= GameVersion::k1_13C
       && running_game_version <= GameVersion::kLod1_14D) {
     auto actual_cel_context = reinterpret_cast<CelContext_1_13C*>(
         cel_context
     );
-    actual_cel_context->cel_file = cel_file;
+    actual_cel_context->cel_file = actual_cel_file;
   }
 }
 

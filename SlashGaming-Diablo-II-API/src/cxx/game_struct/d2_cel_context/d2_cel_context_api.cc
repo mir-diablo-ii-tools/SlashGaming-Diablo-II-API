@@ -89,7 +89,7 @@ CelContext* CreateCelContext(
       && running_game_version <= d2::GameVersion::k1_10) {
     CelContext_1_00* cel_context = new CelContext_1_00[1];
 
-    cel_context->cel_file = cel_file;
+    cel_context->cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
     cel_context->direction = direction;
     cel_context->frame = frame;
 
@@ -97,7 +97,7 @@ CelContext* CreateCelContext(
   } else if (running_game_version == GameVersion::k1_12A) {
     CelContext_1_12A* cel_context = new CelContext_1_12A[1];
 
-    cel_context->cel_file = cel_file;
+    cel_context->cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
     cel_context->direction = direction;
     cel_context->frame = frame;
 
@@ -106,7 +106,7 @@ CelContext* CreateCelContext(
       && running_game_version <= GameVersion::kLod1_14D) {
     CelContext_1_13C* cel_context = new CelContext_1_13C[1];
 
-    cel_context->cel_file = cel_file;
+    cel_context->cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
     cel_context->direction = direction;
     cel_context->frame = frame;
 
