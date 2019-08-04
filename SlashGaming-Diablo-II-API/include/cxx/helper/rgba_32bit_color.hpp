@@ -68,10 +68,10 @@ class DLLEXPORT RGBA32BitColor {
   static RGBA32BitColor FromARGB(std::uint32_t color);
   static RGBA32BitColor FromABGR(std::uint32_t color);
 
-  std::uint32_t ToRGBA();
-  std::uint32_t ToBGRA();
-  std::uint32_t ToARGB();
-  std::uint32_t ToABGR();
+  std::uint32_t ToRGBA() const;
+  std::uint32_t ToBGRA() const;
+  std::uint32_t ToARGB() const;
+  std::uint32_t ToABGR() const;
 
   std::uint8_t red() const noexcept;
   std::uint8_t green() const noexcept;

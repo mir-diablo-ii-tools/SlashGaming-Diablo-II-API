@@ -104,7 +104,7 @@ RGBA32BitColor RGBA32BitColor::FromABGR(std::uint32_t color) {
   return RGBA32BitColor(red, green, blue, alpha);
 }
 
-std::uint32_t RGBA32BitColor::ToRGBA() {
+std::uint32_t RGBA32BitColor::ToRGBA() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (3 * 8);
@@ -115,7 +115,7 @@ std::uint32_t RGBA32BitColor::ToRGBA() {
   return color;
 }
 
-std::uint32_t RGBA32BitColor::ToBGRA() {
+std::uint32_t RGBA32BitColor::ToBGRA() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (1 * 8);
@@ -126,7 +126,7 @@ std::uint32_t RGBA32BitColor::ToBGRA() {
   return color;
 }
 
-std::uint32_t RGBA32BitColor::ToARGB() {
+std::uint32_t RGBA32BitColor::ToARGB() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (2 * 8);
@@ -137,7 +137,7 @@ std::uint32_t RGBA32BitColor::ToARGB() {
   return color;
 }
 
-std::uint32_t RGBA32BitColor::ToABGR() {
+std::uint32_t RGBA32BitColor::ToABGR() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (0 * 8);
