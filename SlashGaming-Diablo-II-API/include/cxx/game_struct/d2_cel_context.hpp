@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
 
+#include "d2_cel.hpp"
 #include "d2_cel_file.hpp"
 
 #include "../../dllexport_define.inc"
@@ -94,6 +95,8 @@ class DLLEXPORT CelContext_Wrapper : public CelContext_ConstWrapper {
 
   CelContext* Get() noexcept;
   const CelContext* Get() const noexcept;
+
+  Cel* GetCel() noexcept;
 
   CelFile* GetCelFile() noexcept;
   const CelFile* GetCelFile() const noexcept;

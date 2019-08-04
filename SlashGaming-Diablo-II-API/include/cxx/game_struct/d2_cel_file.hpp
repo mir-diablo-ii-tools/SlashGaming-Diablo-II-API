@@ -48,6 +48,8 @@
 
 #include <filesystem>
 
+#include "d2_cel.hpp"
+
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -94,6 +96,8 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
 
   CelFile* Get() noexcept;
   const CelFile* Get() const noexcept;
+
+  Cel* GetCel(unsigned int direction, unsigned int frame);
 
   void SetVersion(unsigned int value) noexcept;
   void SetNumDirections(unsigned int value) noexcept;

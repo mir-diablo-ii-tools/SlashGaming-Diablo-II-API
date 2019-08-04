@@ -45,6 +45,7 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
 
+#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
 #include "d2_cel_file_impl.hpp"
 
 namespace d2 {
@@ -80,6 +81,11 @@ CelFile* CelFile_Wrapper::Get() noexcept {
 
 const CelFile* CelFile_Wrapper::Get() const noexcept {
   return CelFile_ConstWrapper::Get();
+}
+
+Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
+  CelContext_API cel_context(this->Get(), direction, frame);
+  return cel_context.GetCel();
 }
 
 void CelFile_Wrapper::SetVersion(unsigned int value) noexcept {

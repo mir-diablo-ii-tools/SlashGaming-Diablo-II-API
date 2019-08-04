@@ -45,7 +45,9 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
 
+#include "../../../../include/cxx/game_struct/d2_cel.hpp"
 #include "d2_cel_context_impl.hpp"
+#include "../../../../include/cxx/game_func/d2cmp/d2cmp_get_cel_from_cel_context.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
@@ -81,6 +83,10 @@ CelContext* CelContext_Wrapper::Get() noexcept {
 
 const CelContext* CelContext_Wrapper::Get() const noexcept {
   return CelContext_ConstWrapper::Get();
+}
+
+Cel* CelContext_Wrapper::GetCel() {
+  return d2::d2cmp::GetCelFromCelContext(this->Get());
 }
 
 const CelFile* CelContext_Wrapper::GetCelFile() const noexcept {
