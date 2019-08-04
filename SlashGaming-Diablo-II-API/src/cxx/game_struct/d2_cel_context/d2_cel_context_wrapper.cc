@@ -79,7 +79,15 @@ CelContext* CelContext_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
-CelFile* CelContext_Wrapper::cel_file() noexcept {
+const CelContext* CelContext_Wrapper::Get() const noexcept {
+  return CelContext_ConstWrapper::Get();
+}
+
+const CelFile* CelContext_Wrapper::GetCelFile() const noexcept {
+  return CelContext_ConstWrapper::GetCelFile();
+}
+
+CelFile* CelContext_Wrapper::GetCelFile() noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -103,7 +111,7 @@ CelFile* CelContext_Wrapper::cel_file() noexcept {
   }
 }
 
-void CelContext_Wrapper::cel_file(CelFile* cel_file) noexcept {
+void CelContext_Wrapper::SetCelFile(CelFile* cel_file) noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -127,7 +135,7 @@ void CelContext_Wrapper::cel_file(CelFile* cel_file) noexcept {
   }
 }
 
-void CelContext_Wrapper::direction(unsigned int direction) noexcept {
+void CelContext_Wrapper::SetDirection(unsigned int direction) noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -151,7 +159,7 @@ void CelContext_Wrapper::direction(unsigned int direction) noexcept {
   }
 }
 
-void CelContext_Wrapper::frame(unsigned int frame) noexcept {
+void CelContext_Wrapper::SetFrame(unsigned int frame) noexcept {
   CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 

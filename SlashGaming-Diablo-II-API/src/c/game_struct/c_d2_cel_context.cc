@@ -77,7 +77,7 @@ D2_CelFile* D2_CelContext_GetCelFile(D2_CelContext* cel_context) {
   d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
 
   return reinterpret_cast<D2_CelFile*>(
-      cel_context_wrapper.cel_file()
+      cel_context_wrapper.GetCelFile()
   );
 }
 
@@ -91,7 +91,7 @@ const D2_CelFile* D2_CelContext_GetConstCelFile(
   d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
 
   return reinterpret_cast<const D2_CelFile*>(
-      cel_context_wrapper.cel_file()
+      cel_context_wrapper.GetCelFile()
   );
 }
 
@@ -103,7 +103,7 @@ void D2_CelContext_SetCelFile(
   auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
 
   d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
-  cel_context_wrapper.cel_file(actual_cel_file);
+  cel_context_wrapper.SetCelFile(actual_cel_file);
 }
 
 unsigned int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
@@ -113,7 +113,7 @@ unsigned int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
 
   d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
 
-  return cel_context_wrapper.direction();
+  return cel_context_wrapper.GetDirection();
 }
 
 void D2_CelContext_SetDirection(
@@ -125,7 +125,7 @@ void D2_CelContext_SetDirection(
   );
 
   d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
-  cel_context_wrapper.direction(direction);
+  cel_context_wrapper.SetDirection(direction);
 }
 
 unsigned int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
@@ -135,7 +135,7 @@ unsigned int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
 
   d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
 
-  return cel_context_wrapper.frame();
+  return cel_context_wrapper.GetFrame();
 }
 
 void D2_CelContext_SetFrame(D2_CelContext* cel_context, unsigned int frame) {
@@ -144,5 +144,5 @@ void D2_CelContext_SetFrame(D2_CelContext* cel_context, unsigned int frame) {
   );
 
   d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
-  cel_context_wrapper.frame(frame);
+  cel_context_wrapper.SetFrame(frame);
 }

@@ -80,7 +80,7 @@ MPQArchiveHandle_ConstWrapper::Get() const noexcept {
 }
 
 const MPQArchive*
-MPQArchiveHandle_ConstWrapper::mpq_archive() const noexcept {
+MPQArchiveHandle_ConstWrapper::GetMPQArchive() const noexcept {
   const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
       this->Get()
   );
@@ -89,7 +89,7 @@ MPQArchiveHandle_ConstWrapper::mpq_archive() const noexcept {
 }
 
 const char*
-MPQArchiveHandle_ConstWrapper::mpq_archive_path() const noexcept {
+MPQArchiveHandle_ConstWrapper::GetMPQArchivePath() const noexcept {
   const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
       this->Get()
   );

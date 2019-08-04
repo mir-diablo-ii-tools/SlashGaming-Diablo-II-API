@@ -78,19 +78,23 @@ CelFile* CelFile_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
-void CelFile_Wrapper::version(unsigned int value) noexcept {
+const CelFile* CelFile_Wrapper::Get() const noexcept {
+  return CelFile_ConstWrapper::Get();
+}
+
+void CelFile_Wrapper::SetVersion(unsigned int value) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
   actual_cel_file->version = value;
 }
 
-void CelFile_Wrapper::num_directions(unsigned int value) noexcept {
+void CelFile_Wrapper::SetNumDirections(unsigned int value) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
   actual_cel_file->num_directions = value;
 }
 
-void CelFile_Wrapper::num_frames(unsigned int value) noexcept {
+void CelFile_Wrapper::SetNumFrames(unsigned int value) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
   actual_cel_file->num_frames = value;

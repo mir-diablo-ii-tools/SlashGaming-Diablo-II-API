@@ -51,54 +51,54 @@ int D2_Cel_GetHeight(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
   d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.height();
+  return cel_wrapper.GetHeight();
 }
 
 void D2_Cel_SetHeight(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
   d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.height(value);
+  return cel_wrapper.SetHeight(value);
 }
 
 int D2_Cel_GetOffsetX(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
   d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.offset_x();
+  return cel_wrapper.GetOffsetX();
 }
 
 void D2_Cel_SetOffsetX(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
   d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.offset_x(value);
+  return cel_wrapper.SetOffsetX(value);
 }
 
 int D2_Cel_GetOffsetY(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
   d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.offset_y();
+  return cel_wrapper.GetOffsetY();
 }
 
 void D2_Cel_SetOffsetY(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
   d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.offset_y(value);
+  return cel_wrapper.SetOffsetY(value);
 }
 
 int D2_Cel_GetWidth(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
   d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.width();
+  return cel_wrapper.GetWidth();
 }
 
 void D2_Cel_SetWidth(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
   d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.width(value);
+  return cel_wrapper.SetWidth(value);
 }

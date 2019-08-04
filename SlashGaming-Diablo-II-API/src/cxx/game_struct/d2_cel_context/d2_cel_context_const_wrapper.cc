@@ -78,7 +78,7 @@ const CelContext* CelContext_ConstWrapper::Get() const noexcept {
   return this->ptr_;
 }
 
-const CelFile* CelContext_ConstWrapper::cel_file() const noexcept {
+const CelFile* CelContext_ConstWrapper::GetCelFile() const noexcept {
   const CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -102,7 +102,7 @@ const CelFile* CelContext_ConstWrapper::cel_file() const noexcept {
   }
 }
 
-unsigned int CelContext_ConstWrapper::direction() const noexcept {
+unsigned int CelContext_ConstWrapper::GetDirection() const noexcept {
   const CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -126,7 +126,7 @@ unsigned int CelContext_ConstWrapper::direction() const noexcept {
   }
 }
 
-unsigned int CelContext_ConstWrapper::frame() const noexcept {
+unsigned int CelContext_ConstWrapper::GetFrame() const noexcept {
   const CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 

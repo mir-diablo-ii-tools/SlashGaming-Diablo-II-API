@@ -78,7 +78,11 @@ MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
-MPQArchive* MPQArchiveHandle_Wrapper::mpq_archive() noexcept {
+const MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() const noexcept {
+  return MPQArchiveHandle_ConstWrapper::Get();
+}
+
+MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() noexcept {
   auto actual_ptr = reinterpret_cast<MPQArchiveHandle_1_00*>(
       this->Get()
   );
@@ -86,12 +90,32 @@ MPQArchive* MPQArchiveHandle_Wrapper::mpq_archive() noexcept {
   return reinterpret_cast<MPQArchive*>(actual_ptr->mpq_archive);
 }
 
-char* MPQArchiveHandle_Wrapper::mpq_archive_path() noexcept {
+const MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() const noexcept {
+  return MPQArchiveHandle_ConstWrapper::GetMPQArchive();
+}
+
+void MPQArchiveHandle_Wrapper::SetMPQArchive(
+    MPQArchive* mpq_archive
+) noexcept {
+  auto actual_mpq_archive_handle = reinterpret_cast<MPQArchiveHandle_1_00*>(
+      this->Get()
+  );
+
+  auto actual_mpq_archive = reinterpret_cast<MPQArchive_1_00*>(mpq_archive);
+
+  actual_mpq_archive_handle->mpq_archive = actual_mpq_archive;
+}
+
+char* MPQArchiveHandle_Wrapper::GetMPQArchivePath() noexcept {
   auto actual_ptr = reinterpret_cast<MPQArchiveHandle_1_00*>(
       this->Get()
   );
 
   return actual_ptr->mpq_archive_path;
+}
+
+const char* MPQArchiveHandle_Wrapper::GetMPQArchivePath() const noexcept {
+  return MPQArchiveHandle_ConstWrapper::GetMPQArchivePath();
 }
 
 } // namespace d2

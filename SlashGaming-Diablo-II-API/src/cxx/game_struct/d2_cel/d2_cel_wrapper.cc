@@ -73,25 +73,29 @@ Cel* Cel_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
-void Cel_Wrapper::height(int value) noexcept {
+const Cel* Cel_Wrapper::Get() const noexcept {
+  return Cel_ConstWrapper::Get();
+}
+
+void Cel_Wrapper::SetHeight(int value) noexcept {
   auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
 
   actual_cel->height = value;
 }
 
-void Cel_Wrapper::offset_x(int value) noexcept {
+void Cel_Wrapper::SetOffsetX(int value) noexcept {
   auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
 
   actual_cel->offset_x = value;
 }
 
-void Cel_Wrapper::offset_y(int value) noexcept {
+void Cel_Wrapper::SetOffsetY(int value) noexcept {
   auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
 
   actual_cel->offset_y = value;
 }
 
-void Cel_Wrapper::width(int value) noexcept {
+void Cel_Wrapper::SetWidth(int value) noexcept {
   auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
 
   actual_cel->width = value;
