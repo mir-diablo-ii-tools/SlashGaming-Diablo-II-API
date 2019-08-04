@@ -47,6 +47,10 @@
 
 namespace mapi {
 
+RGBA32BitColor::RGBA32BitColor() noexcept :
+    RGBA32BitColor(0xFF, 0xFF, 0xFF, 0xFF) {
+}
+
 RGBA32BitColor::RGBA32BitColor(
     std::uint8_t red,
     std::uint8_t green,
@@ -57,15 +61,6 @@ RGBA32BitColor::RGBA32BitColor(
     green_(green),
     blue_(blue),
     alpha_(alpha) {
-}
-
-RGBA32BitColor RGBA32BitColor::From24BitColor(
-    std::uint8_t red,
-    std::uint8_t green,
-    std::uint8_t blue,
-    std::uint8_t alpha
-) {
-  return RGBA32BitColor(red, green, blue, alpha);
 }
 
 RGBA32BitColor RGBA32BitColor::FromRGBA(std::uint32_t color) {

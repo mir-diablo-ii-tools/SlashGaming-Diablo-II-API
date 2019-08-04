@@ -54,14 +54,14 @@ namespace mapi {
 
 class DLLEXPORT RGBA32BitColor {
  public:
-  RGBA32BitColor() = delete;
+  RGBA32BitColor() noexcept;
 
-  static RGBA32BitColor From24BitColor(
+  RGBA32BitColor(
       std::uint8_t red,
       std::uint8_t green,
       std::uint8_t blue,
       std::uint8_t alpha
-  );
+  ) noexcept;
 
   static RGBA32BitColor FromRGBA(std::uint32_t color);
   static RGBA32BitColor FromBGRA(std::uint32_t color);
@@ -79,13 +79,6 @@ class DLLEXPORT RGBA32BitColor {
   std::uint8_t alpha() const noexcept;
 
  private:
-  RGBA32BitColor(
-      std::uint8_t red,
-      std::uint8_t green,
-      std::uint8_t blue,
-      std::uint8_t alpha
-  ) noexcept;
-
   std::uint8_t red_;
   std::uint8_t green_;
   std::uint8_t blue_;
