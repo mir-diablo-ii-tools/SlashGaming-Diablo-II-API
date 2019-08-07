@@ -123,6 +123,66 @@ bool CelFile_Wrapper::DrawFrame(
   );
 }
 
+bool CelFile_Wrapper::DrawAllFrames(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int rows
+) {
+  DrawAllCelFileFramesOptions all_frames_options;
+  all_frames_options.direction_order =
+      DrawAllFramesDirectionOrder::kHorizontalThenVertical;
+  all_frames_options.cel_file_direction = 0;
+  all_frames_options.horizontal_direction =
+      DrawHorizontalDirection::kLeftToRight;
+  all_frames_options.vertical_direction =
+      DrawVerticalDirection::kTopToBottom;
+
+  DrawCelFileFrameOptions& frame_options = all_frames_options.frame_options;
+  frame_options.color = mapi::RGBA32BitColor();
+  frame_options.draw_effect = DrawEffect::kNone;
+  frame_options.position_x_behavior = DrawPositionXBehavior::kLeft;
+  frame_options.position_y_behavior = DrawPositionYBehavior::kBottom;
+
+  return this->DrawAllFrames(
+      position_x,
+      position_y,
+      columns,
+      rows,
+      all_frames_options
+  );
+}
+
+bool CelFile_Wrapper::DrawAllFrames(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int rows,
+    const DrawAllCelFileFramesOptions& all_frames_options
+) {
+  switch (all_frames_options.direction_order) {
+    case DrawAllFramesDirectionOrder::kHorizontalThenVertical: {
+      return DrawHorizontalThenVertical(
+          position_x,
+          position_y,
+          columns,
+          rows,
+          all_frames_options
+      );
+    }
+
+    case DrawAllFramesDirectionOrder::kVerticalThenHorizontal: {
+      return DrawVerticalThenHorizontal(
+          position_x,
+          position_y,
+          columns,
+          rows,
+          all_frames_options
+      );
+    }
+  }
+}
+
 Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
   CelContext_API cel_context(this->Get(), direction, frame);
   return cel_context.GetCel();
@@ -144,6 +204,177 @@ void CelFile_Wrapper::SetNumFrames(unsigned int value) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
   actual_cel_file->num_frames = value;
+}
+
+bool CelFile_Wrapper::DrawHorizontalThenVertical(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int rows,
+    const DrawAllCelFileFramesOptions& all_frames_options
+) {
+  bool final_result;
+
+  int direction_factor;
+  switch (all_frames_options.vertical_direction) {
+    case DrawVerticalDirection::kTopToBottom: {
+      direction_factor = 1;
+      break;
+    }
+
+    case DrawVerticalDirection::kBottomToTop: {
+      direction_factor = -1;
+      break;
+    }
+  }
+
+  int frame_position_y = position_y;
+  for (int i = 0; i < rows; i += 1) {
+    unsigned int current_frame = i;
+
+    final_result &= this->DrawFrame(
+        position_x,
+        frame_position_y,
+        all_frames_options.cel_file_direction,
+        current_frame,
+        all_frames_options.frame_options
+    );
+
+    Cel_ConstWrapper current_cel(
+        this->GetCel(all_frames_options.cel_file_direction, current_frame)
+    );
+    frame_position_y += (current_cel.GetHeight() * direction_factor);
+  }
+
+  return final_result;
+}
+
+bool CelFile_Wrapper::DrawVerticalThenHorizontal(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int rows,
+    const DrawAllCelFileFramesOptions& all_frames_options
+) {
+  bool final_result;
+
+  int direction_factor;
+  switch (all_frames_options.horizontal_direction) {
+    case DrawHorizontalDirection::kLeftToRight: {
+      direction_factor = 1;
+      break;
+    }
+
+    case DrawHorizontalDirection::kRightToLeft: {
+      direction_factor = -1;
+      break;
+    }
+  }
+
+  int frame_position_x = position_x;
+  for (int i = 0; i < columns; i += 1) {
+    unsigned int current_frame = i;
+
+    final_result &= this->DrawColumnOfFrames(
+        frame_position_x,
+        position_y,
+        columns,
+        all_frames_options.cel_file_direction,
+        all_frames_options.frame_options,
+        all_frames_options.vertical_direction
+    );
+
+    Cel_ConstWrapper current_cel(
+        this->GetCel(all_frames_options.cel_file_direction, current_frame)
+    );
+    frame_position_x += (current_cel.GetWidth() * direction_factor);
+  }
+
+  return final_result;
+}
+
+bool CelFile_Wrapper::DrawRowOfFrames(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int direction,
+    const DrawCelFileFrameOptions& frame_options,
+    DrawHorizontalDirection horizontal_direction
+) {
+  bool final_result;
+
+  int direction_factor;
+  switch (horizontal_direction) {
+    case DrawHorizontalDirection::kLeftToRight: {
+      direction_factor = 1;
+      break;
+    }
+
+    case DrawHorizontalDirection::kRightToLeft: {
+      direction_factor = -1;
+      break;
+    }
+  }
+
+  int frame_position_x = position_x;
+  for (int i = 0; i < columns; i += 1) {
+    unsigned int current_frame = i;
+
+    final_result &= this->DrawFrame(
+        frame_position_x,
+        position_y,
+        direction,
+        current_frame,
+        frame_options
+    );
+
+    Cel_ConstWrapper current_cel(this->GetCel(direction, current_frame));
+    frame_position_x += (current_cel.GetWidth() * direction_factor);
+  }
+
+  return final_result;
+}
+
+bool CelFile_Wrapper::DrawColumnOfFrames(
+    int position_x,
+    int position_y,
+    unsigned int rows,
+    unsigned int direction,
+    const DrawCelFileFrameOptions& frame_options,
+    DrawVerticalDirection vertical_direction
+) {
+  bool final_result;
+
+  int direction_factor;
+  switch (vertical_direction) {
+    case DrawVerticalDirection::kTopToBottom: {
+      direction_factor = 1;
+      break;
+    }
+
+    case DrawVerticalDirection::kBottomToTop: {
+      direction_factor = -1;
+      break;
+    }
+  }
+
+  int frame_position_y = position_y;
+  for (int i = 0; i < rows; i += 1) {
+    unsigned int current_frame = i;
+
+    final_result &= this->DrawFrame(
+        position_x,
+        frame_position_y,
+        direction,
+        current_frame,
+        frame_options
+    );
+
+    Cel_ConstWrapper current_cel(this->GetCel(direction, current_frame));
+    frame_position_y += (current_cel.GetHeight() * direction_factor);
+  }
+
+  return final_result;
 }
 
 } // namespace d2

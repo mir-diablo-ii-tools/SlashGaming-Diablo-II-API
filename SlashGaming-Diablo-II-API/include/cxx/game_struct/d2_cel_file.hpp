@@ -49,6 +49,7 @@
 #include <filesystem>
 
 #include "d2_cel.hpp"
+#include "../helper/d2_draw_options.hpp"
 
 #include "../../dllexport_define.inc"
 
@@ -112,6 +113,21 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
       const DrawCelFileFrameOptions& frame_options
   );
 
+  bool DrawAllFrames(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int rows
+  );
+
+  bool DrawAllFrames(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int rows,
+      const DrawAllCelFileFramesOptions& all_frames_options
+  );
+
   Cel* GetCel(unsigned int direction, unsigned int frame);
 
   void SetVersion(unsigned int value) noexcept;
@@ -120,6 +136,40 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
 
  private:
   CelFile* ptr_;
+
+  bool DrawHorizontalThenVertical(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int rows,
+      const DrawAllCelFileFramesOptions& all_frames_options
+  );
+
+  bool DrawVerticalThenHorizontal(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int rows,
+      const DrawAllCelFileFramesOptions& all_frames_options
+  );
+
+  bool DrawRowOfFrames(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int direction,
+      const DrawCelFileFrameOptions& frame_options,
+      DrawHorizontalDirection horizontal_direction
+  );
+
+  bool DrawColumnOfFrames(
+      int position_x,
+      int position_y,
+      unsigned int rows,
+      unsigned int direction,
+      const DrawCelFileFrameOptions& frame_options,
+      DrawVerticalDirection vertical_direction
+  );
 };
 
 class DLLEXPORT CelFile_API : public CelFile_Wrapper {
