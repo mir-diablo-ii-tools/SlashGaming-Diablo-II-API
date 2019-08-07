@@ -235,8 +235,9 @@ bool CelFile_Wrapper::DrawHorizontalThenVertical(
     final_result &= this->DrawRowOfFrames(
         position_x,
         frame_position_y,
-        all_frames_options.cel_file_direction,
+        columns,
         current_frame,
+        all_frames_options.cel_file_direction,
         all_frames_options.frame_options,
         all_frames_options.horizontal_direction
     );
@@ -279,7 +280,8 @@ bool CelFile_Wrapper::DrawVerticalThenHorizontal(
     final_result &= this->DrawColumnOfFrames(
         frame_position_x,
         position_y,
-        columns,
+        rows,
+        current_frame,
         all_frames_options.cel_file_direction,
         all_frames_options.frame_options,
         all_frames_options.vertical_direction
@@ -298,6 +300,7 @@ bool CelFile_Wrapper::DrawRowOfFrames(
     int position_x,
     int position_y,
     unsigned int columns,
+    unsigned int first_frame,
     unsigned int direction,
     const DrawCelFileFrameOptions& frame_options,
     DrawHorizontalDirection horizontal_direction
@@ -319,7 +322,7 @@ bool CelFile_Wrapper::DrawRowOfFrames(
 
   int frame_position_x = position_x;
   for (int i = 0; i < columns; i += 1) {
-    unsigned int current_frame = i;
+    unsigned int current_frame = i + first_frame;
 
     final_result &= this->DrawFrame(
         frame_position_x,
@@ -340,6 +343,7 @@ bool CelFile_Wrapper::DrawColumnOfFrames(
     int position_x,
     int position_y,
     unsigned int rows,
+    unsigned int first_frame,
     unsigned int direction,
     const DrawCelFileFrameOptions& frame_options,
     DrawVerticalDirection vertical_direction
@@ -361,7 +365,7 @@ bool CelFile_Wrapper::DrawColumnOfFrames(
 
   int frame_position_y = position_y;
   for (int i = 0; i < rows; i += 1) {
-    unsigned int current_frame = i;
+    unsigned int current_frame = i + first_frame;
 
     final_result &= this->DrawFrame(
         position_x,

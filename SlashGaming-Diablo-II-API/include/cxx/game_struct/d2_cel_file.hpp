@@ -157,6 +157,7 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
       int position_x,
       int position_y,
       unsigned int columns,
+      unsigned int first_frame,
       unsigned int direction,
       const DrawCelFileFrameOptions& frame_options,
       DrawHorizontalDirection horizontal_direction
@@ -166,6 +167,7 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
       int position_x,
       int position_y,
       unsigned int rows,
+      unsigned int first_frame,
       unsigned int direction,
       const DrawCelFileFrameOptions& frame_options,
       DrawVerticalDirection vertical_direction
