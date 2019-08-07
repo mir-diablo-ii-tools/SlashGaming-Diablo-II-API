@@ -230,14 +230,15 @@ bool CelFile_Wrapper::DrawHorizontalThenVertical(
 
   int frame_position_y = position_y;
   for (int i = 0; i < rows; i += 1) {
-    unsigned int current_frame = i;
+    unsigned int current_frame = i * columns;
 
-    final_result &= this->DrawFrame(
+    final_result &= this->DrawRowOfFrames(
         position_x,
         frame_position_y,
         all_frames_options.cel_file_direction,
         current_frame,
-        all_frames_options.frame_options
+        all_frames_options.frame_options,
+        all_frames_options.horizontal_direction
     );
 
     Cel_ConstWrapper current_cel(
@@ -273,7 +274,7 @@ bool CelFile_Wrapper::DrawVerticalThenHorizontal(
 
   int frame_position_x = position_x;
   for (int i = 0; i < columns; i += 1) {
-    unsigned int current_frame = i;
+    unsigned int current_frame = i * rows;
 
     final_result &= this->DrawColumnOfFrames(
         frame_position_x,
