@@ -48,6 +48,7 @@
 #include "../../../../include/cxx/game_struct/d2_cel.hpp"
 #include "d2_cel_context_impl.hpp"
 #include "../../../../include/cxx/game_func/d2cmp/d2cmp_get_cel_from_cel_context.hpp"
+#include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_cel_context.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
@@ -83,6 +84,75 @@ CelContext* CelContext_Wrapper::Get() noexcept {
 
 const CelContext* CelContext_Wrapper::Get() const noexcept {
   return CelContext_ConstWrapper::Get();
+}
+
+bool CelContext_Wrapper::DrawFrame(int position_x, int position_y) {
+  DrawCelFileFrameOptions frame_options;
+  frame_options.color = mapi::RGBA32BitColor();
+  frame_options.draw_effect = DrawEffect::kNone;
+  frame_options.position_y_behavior =
+      DrawPositionYBehavior::kBottom;
+
+  return this->DrawFrame(
+      position_x,
+      position_y,
+      frame_options
+  );
+}
+
+bool CelContext_Wrapper::DrawFrame(
+    int position_x,
+    int position_y,
+    const DrawCelFileFrameOptions& frame_options
+) {
+  Cel_Wrapper cel_wrapper(this->GetCel());
+
+  // Adjust the position_x to match the desired option.
+  int actual_position_x = position_x;
+
+  switch (frame_options.position_x_behavior) {
+    case DrawPositionXBehavior::kLeft: {
+      break;
+    }
+
+    case DrawPositionXBehavior::kCenter: {
+      actual_position_x -= (cel_wrapper.GetWidth() / 2);
+      break;
+    }
+
+    case DrawPositionXBehavior::kRight: {
+      actual_position_x -= cel_wrapper.GetWidth();
+      break;
+    }
+  }
+
+  // Adjust the position_y to match the desired option.
+  int actual_position_y = position_y;
+
+  switch (frame_options.position_y_behavior) {
+    case DrawPositionYBehavior::kTop: {
+      actual_position_y += cel_wrapper.GetHeight();
+      break;
+    }
+
+    case DrawPositionYBehavior::kCenter: {
+      actual_position_y += (cel_wrapper.GetHeight() / 2);
+      break;
+    }
+
+    case DrawPositionYBehavior::kBottom: {
+      break;
+    }
+  }
+
+  return d2gfx::DrawCelContext(
+      this->Get(),
+      actual_position_x,
+      actual_position_y,
+      frame_options.color.ToBGRA(),
+      frame_options.draw_effect,
+      nullptr
+  );
 }
 
 Cel* CelContext_Wrapper::GetCel() {

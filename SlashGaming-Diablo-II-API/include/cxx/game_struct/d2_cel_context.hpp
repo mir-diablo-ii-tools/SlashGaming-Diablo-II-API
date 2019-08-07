@@ -48,6 +48,8 @@
 
 #include "d2_cel.hpp"
 #include "d2_cel_file.hpp"
+#include "../game_constant/d2_draw_effect.hpp"
+#include "../../../include/cxx/helper/d2_draw_options.hpp"
 
 #include "../../dllexport_define.inc"
 
@@ -96,7 +98,15 @@ class DLLEXPORT CelContext_Wrapper : public CelContext_ConstWrapper {
   CelContext* Get() noexcept;
   const CelContext* Get() const noexcept;
 
-  Cel* GetCel() noexcept;
+  bool DrawFrame(int position_x, int position_y);
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      const DrawCelFileFrameOptions& frame_options
+  );
+
+  Cel* GetCel();
 
   CelFile* GetCelFile() noexcept;
   const CelFile* GetCelFile() const noexcept;

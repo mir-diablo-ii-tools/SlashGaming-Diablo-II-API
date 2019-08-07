@@ -46,6 +46,7 @@
 #include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
 
 #include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
+#include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_cel_context.hpp"
 #include "d2_cel_file_impl.hpp"
 
 namespace d2 {
@@ -81,6 +82,45 @@ CelFile* CelFile_Wrapper::Get() noexcept {
 
 const CelFile* CelFile_Wrapper::Get() const noexcept {
   return CelFile_ConstWrapper::Get();
+}
+
+bool CelFile_Wrapper::DrawFrame(
+    int position_x,
+    int position_y,
+    unsigned int direction,
+    unsigned int frame
+) {
+  DrawCelFileFrameOptions draw_cel_file_frame_options;
+  draw_cel_file_frame_options.color = mapi::RGBA32BitColor();
+  draw_cel_file_frame_options.draw_effect = DrawEffect::kNone;
+  draw_cel_file_frame_options.position_x_behavior =
+      DrawPositionXBehavior::kLeft;
+  draw_cel_file_frame_options.position_y_behavior =
+      DrawPositionYBehavior::kBottom;
+
+  return this->DrawFrame(
+      position_x,
+      position_y,
+      direction,
+      frame,
+      draw_cel_file_frame_options
+  );
+}
+
+bool CelFile_Wrapper::DrawFrame(
+    int position_x,
+    int position_y,
+    unsigned int direction,
+    unsigned int frame,
+    const DrawCelFileFrameOptions& frame_options
+) {
+  CelContext_API cel_context(this->Get(), direction, frame);
+
+  return cel_context.DrawFrame(
+      position_x,
+      position_y,
+      frame_options
+  );
 }
 
 Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {

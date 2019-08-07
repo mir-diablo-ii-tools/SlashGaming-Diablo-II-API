@@ -97,6 +97,21 @@ class DLLEXPORT CelFile_Wrapper : public CelFile_ConstWrapper {
   CelFile* Get() noexcept;
   const CelFile* Get() const noexcept;
 
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      unsigned int direction,
+      unsigned int frame
+  );
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      unsigned int direction,
+      unsigned int frame,
+      const DrawCelFileFrameOptions& frame_options
+  );
+
   Cel* GetCel(unsigned int direction, unsigned int frame);
 
   void SetVersion(unsigned int value) noexcept;
