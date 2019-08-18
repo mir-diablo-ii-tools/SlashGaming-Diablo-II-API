@@ -46,4 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_
 
+#include "d2client/d2client_draw_centered_unicode_text.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2CLIENT_FUNC_HPP_

@@ -46,7 +46,12 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
 
+#include "d2win/d2win_draw_unicode_text.hpp"
+#include "d2win/d2win_load_cel_file.hpp"
 #include "d2win/d2win_load_mpq.hpp"
+#include "d2win/d2win_set_pop_up_unicode_text.hpp"
+#include "d2win/d2win_set_text_font.hpp"
+#include "d2win/d2win_unload_cel_file.hpp"
 #include "d2win/d2win_unload_mpq.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_

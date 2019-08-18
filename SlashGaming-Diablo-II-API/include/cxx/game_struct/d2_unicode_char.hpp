@@ -91,6 +91,7 @@ class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
   UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
 
   UnicodeChar* Get() noexcept;
+  const UnicodeChar* Get() const noexcept;
 
   void SetChar(unsigned short ch) noexcept;
 

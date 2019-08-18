@@ -47,11 +47,17 @@
 #define SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_
 
 #include "d2client/d2client_difficulty_level.h"
+#include "d2client/d2client_general_display_height.h"
+#include "d2client/d2client_general_display_width.h"
+#include "d2client/d2client_general_play_area_camera_shift_x.h"
 #include "d2client/d2client_ingame_mouse_position.h"
+#include "d2client/d2client_inventory_arrange_mode.h"
 #include "d2client/d2client_is_automap_open.h"
 #include "d2client/d2client_is_game_menu_open.h"
 #include "d2client/d2client_is_help_screen_open.h"
 #include "d2client/d2client_is_new_skill_button_pressed.h"
 #include "d2client/d2client_is_new_stats_button_pressed.h"
+#include "d2client/d2client_screen_open_mode.h"
+#include "d2client/d2client_screen_shift.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_D2CLIENT_DATA_H_

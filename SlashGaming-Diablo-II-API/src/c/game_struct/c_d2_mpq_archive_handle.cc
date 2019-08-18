@@ -54,7 +54,7 @@ struct D2_MPQArchive* D2_MPQArchiveHandle_GetMPQArchive(
       reinterpret_cast<d2::MPQArchiveHandle*>(ptr);
   d2::MPQArchiveHandle_Wrapper wrapper(actual_ptr);
 
-  return reinterpret_cast<D2_MPQArchive*>(wrapper.mpq_archive());
+  return reinterpret_cast<D2_MPQArchive*>(wrapper.GetMPQArchive());
 }
 
 const struct D2_MPQArchive* D2_MPQArchiveHandle_GetConstMPQArchive(
@@ -64,7 +64,7 @@ const struct D2_MPQArchive* D2_MPQArchiveHandle_GetConstMPQArchive(
       reinterpret_cast<const d2::MPQArchiveHandle*>(ptr);
   d2::MPQArchiveHandle_ConstWrapper wrapper(actual_ptr);
 
-  return reinterpret_cast<const D2_MPQArchive*>(wrapper.mpq_archive());
+  return reinterpret_cast<const D2_MPQArchive*>(wrapper.GetMPQArchive());
 }
 
 char* D2_MPQArchiveHandle_GetMPQArchivePath(
@@ -74,7 +74,7 @@ char* D2_MPQArchiveHandle_GetMPQArchivePath(
       reinterpret_cast<d2::MPQArchiveHandle*>(ptr);
   d2::MPQArchiveHandle_Wrapper wrapper(actual_ptr);
 
-  return wrapper.mpq_archive_path();
+  return wrapper.GetMPQArchivePath();
 }
 
 const char* D2_MPQArchiveHandle_GetConstMPQArchivePath(
@@ -84,5 +84,5 @@ const char* D2_MPQArchiveHandle_GetConstMPQArchivePath(
       reinterpret_cast<const d2::MPQArchiveHandle*>(ptr);
   d2::MPQArchiveHandle_ConstWrapper wrapper(actual_ptr);
 
-  return wrapper.mpq_archive_path();
+  return wrapper.GetMPQArchivePath();
 }

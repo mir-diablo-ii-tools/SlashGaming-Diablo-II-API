@@ -84,6 +84,10 @@ UnicodeChar* UnicodeChar_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
+const UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
+  return UnicodeChar_Wrapper::Get();
+}
+
 void UnicodeChar_Wrapper::SetChar(unsigned short ch) noexcept {
   UnicodeChar* ptr = this->Get();
 

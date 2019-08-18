@@ -48,7 +48,9 @@
 
 #include "game_constant/d2_constant.hpp"
 #include "game_constant/d2_difficulty_level.hpp"
+#include "game_constant/d2_draw_effect.hpp"
 #include "game_constant/d2_text_color.hpp"
+#include "game_constant/d2_text_font.hpp"
 #include "game_constant/d2_video_mode.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_CONSTANT_HPP_

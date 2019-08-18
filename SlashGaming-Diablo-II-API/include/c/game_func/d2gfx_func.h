@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
 #define SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
 
+#include "d2gfx/d2gfx_draw_cel_context.h"
+#include "d2gfx/d2gfx_draw_rectangle.h"
+
 #endif // SGD2MAPI_C_GAME_FUNC_D2GFX_FUNC_H_
