@@ -43,10 +43,10 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
-
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_IMPL_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_IMPL_HPP_
+
+#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
 
 namespace d2 {
 
