@@ -46,8 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_IMPL_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_IMPL_HPP_
 
-#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
+#include <cstddef>
 
+#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
 #include "../d2_cel_file/d2_cel_file_impl.hpp"
 #include "../../../../include/cxx/game_undefined.hpp"
 
@@ -56,12 +57,17 @@ namespace d2 {
 #pragma pack(push, 1)
 
 /* sizeof: 0x48 */ struct CelContext_1_00 {
-  /* 0x00 */ mapi::UndefinedByte unknown_0x00;
+  /* 0x00 */ mapi::UndefinedByte unknown_0x00[0x04 - 0x00];
   /* 0x04 */ CelFile_1_00* cel_file;
   /* 0x08 */ std::uint32_t frame;
   /* 0x0C */ std::uint32_t direction;
   /* 0x10 */ mapi::UndefinedByte unknown_0x10[0x48 - 0x10];
 };
+
+static_assert(sizeof(CelContext_1_00) == 0x48);
+static_assert(offsetof(CelContext_1_00, cel_file) == 0x04);
+static_assert(offsetof(CelContext_1_00, frame) == 0x08);
+static_assert(offsetof(CelContext_1_00, direction) == 0x0C);
 
 /* sizeof: 0x48 */ struct CelContext_1_12A {
   /* 0x00 */ mapi::UndefinedByte unknown_0x00[0x38 - 0x00];
@@ -71,6 +77,11 @@ namespace d2 {
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
+static_assert(sizeof(CelContext_1_12A) == 0x48);
+static_assert(offsetof(CelContext_1_12A, cel_file) == 0x3C);
+static_assert(offsetof(CelContext_1_12A, frame) == 0x40);
+static_assert(offsetof(CelContext_1_12A, direction) == 0x38);
+
 /* sizeof: 0x48 */ struct CelContext_1_13C {
   /* 0x00 */ std::uint32_t frame;
   /* 0x04 */ mapi::UndefinedByte unknown_0x04[0x34 - 0x04];
@@ -79,6 +90,11 @@ namespace d2 {
   /* 0x40 */ std::uint32_t direction;
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
+
+static_assert(sizeof(CelContext_1_13C) == 0x48);
+static_assert(offsetof(CelContext_1_13C, cel_file) == 0x34);
+static_assert(offsetof(CelContext_1_13C, frame) == 0x00);
+static_assert(offsetof(CelContext_1_13C, direction) == 0x40);
 
 #pragma pack(pop)
 

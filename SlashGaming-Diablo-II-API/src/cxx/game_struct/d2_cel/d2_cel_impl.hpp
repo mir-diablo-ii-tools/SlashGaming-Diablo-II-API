@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_IMPL_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_IMPL_HPP_
 
+#include <cstddef>
+
 #include "../../../../include/cxx/game_struct/d2_cel.hpp"
 #include "../../../../include/cxx/game_undefined.hpp"
 
@@ -61,6 +63,12 @@ namespace d2 {
   /* 0x0C */ std::int32_t offset_x;
   /* 0x10 */ std::int32_t offset_y;
 };
+
+static_assert(sizeof(Cel_1_00) >= 0x14);
+static_assert(offsetof(Cel_1_00, width) == 0x04);
+static_assert(offsetof(Cel_1_00, height) == 0x08);
+static_assert(offsetof(Cel_1_00, offset_x) == 0x0C);
+static_assert(offsetof(Cel_1_00, offset_y) == 0x10);
 
 #pragma pack(pop)
 

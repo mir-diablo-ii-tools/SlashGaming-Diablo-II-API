@@ -46,8 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_IMPL_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_IMPL_HPP_
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
+#include <cstddef>
 
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
 #include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
 #include "../d2_mpq_archive/d2_mpq_archive_impl.hpp"
 
@@ -59,6 +60,10 @@ namespace d2 {
   /* 0x0 */ MPQArchive_1_00* mpq_archive;
   /* 0x4 */ char mpq_archive_path[/* 0x104 */ 260];
 };
+
+static_assert(sizeof(MPQArchiveHandle_1_00) >= 0x108);
+static_assert(offsetof(MPQArchiveHandle_1_00, mpq_archive) == 0x00);
+static_assert(offsetof(MPQArchiveHandle_1_00, mpq_archive_path) == 0x04);
 
 #pragma pack(pop)
 
