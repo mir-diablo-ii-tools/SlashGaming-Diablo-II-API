@@ -66,13 +66,13 @@
 namespace mapi {
 namespace {
 
-constexpr std::string_view kLocatorTypeKey = u8"Locator Type";
-constexpr std::string_view kLocatorValueKey = u8"Locator Value";
+constexpr std::string_view kLocatorTypeKey = "Locator Type";
+constexpr std::string_view kLocatorValueKey = "Locator Value";
 
-constexpr std::string_view kLocatorTypeOffset = u8"Offset";
-constexpr std::string_view kLocatorTypeOrdinal = u8"Ordinal";
-constexpr std::string_view kLocatorTypeDecoratedName = u8"Decorated Name";
-constexpr std::string_view kLocatorTypeNA = u8"N/A";
+constexpr std::string_view kLocatorTypeOffset = "Offset";
+constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
+constexpr std::string_view kLocatorTypeDecoratedName = "Decorated Name";
+constexpr std::string_view kLocatorTypeNA = "N/A";
 
 GameAddress
 ResolveAddress(
@@ -134,7 +134,7 @@ ReadTsvTableFile(
     const std::filesystem::path& table_file_path
 ) {
   static const std::regex kLineRegex(
-      u8"(.*?)\t(.*?)\t(.*?)\t([^\t]*)(.*)",
+      "(.*?)\t(.*?)\t(.*?)\t([^\t]*)(.*)",
       std::regex_constants::ECMAScript | std::regex::icase
   );
 
@@ -195,7 +195,7 @@ ReadTsvTableFile(
     const std::string& locator_type = matches[3];
     const std::string& locator_value = matches[4];
 
-    std::filesystem::path library_path = std::filesystem::u8path(
+    std::filesystem::path library_path = std::filesystem::path(
         library_path_text
     );
 
@@ -208,8 +208,8 @@ ReadTsvTableFile(
 
     library_path.replace_extension();
 
-    std::string full_address_name = library_path.filename().u8string()
-        + u8"_"
+    std::string full_address_name = library_path.filename().string()
+        + "_"
         + address_name;
 
     address_table.insert_or_assign(

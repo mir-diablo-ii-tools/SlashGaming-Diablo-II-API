@@ -54,7 +54,7 @@ template <typename ConstantType>
 int ToGameValue(ConstantType id) {
   static_assert(
       std::is_enum<ConstantType>::value,
-      u8"The specified type is not a constant."
+      "The specified type is not a constant."
   );
 
   return static_cast<int>(id);
@@ -64,7 +64,7 @@ template <typename ConstantType>
 ConstantType ToAPIValue(int value) {
   static_assert(
       std::is_enum<ConstantType>::value,
-      u8"The specified type is not a constant."
+      "The specified type is not a constant."
   );
 
   return static_cast<ConstantType>(value);

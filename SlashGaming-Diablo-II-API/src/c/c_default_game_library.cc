@@ -56,7 +56,7 @@ char* MAPI_GetGameExecutablePath(
     char* dest
 ) {
   std::string game_executable_path_text =
-      mapi::GetGameExecutablePath().u8string();
+      mapi::GetGameExecutablePath().string();
 
   std::copy(
       game_executable_path_text.cbegin(),
@@ -68,7 +68,7 @@ char* MAPI_GetGameExecutablePath(
 }
 
 std::size_t MAPI_GetGameExecutablePathSize() {
-  return mapi::GetGameExecutablePath().u8string().size() + 1;
+  return mapi::GetGameExecutablePath().string().size() + 1;
 }
 
 char* MAPI_GetDefaultLibraryPathWithRedirect(
@@ -82,7 +82,7 @@ char* MAPI_GetDefaultLibraryPathWithRedirect(
       mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
   std::string default_library_path_text =
-      default_library_path.u8string();
+      default_library_path.string();
 
   std::copy(
       default_library_path_text.cbegin(),
@@ -102,5 +102,5 @@ std::size_t MAPI_GetDefaultLibraryPathWithRedirectSize(
   const std::filesystem::path& default_library_path =
       mapi::GetDefaultLibraryPathWithRedirect(actual_default_library);
 
-  return default_library_path.u8string().size() + 1;
+  return default_library_path.string().size() + 1;
 }

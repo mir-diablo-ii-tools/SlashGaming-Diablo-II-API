@@ -71,26 +71,26 @@ const PathsByDefaultLibrariesMap&
 GetPathsByDefaultLibraryMap() {
   static const PathsByDefaultLibrariesMap
   paths_by_default_libraries = {
-      { DefaultLibrary::kBNClient, u8"BNClient.dll" },
-      { DefaultLibrary::kD2Client, u8"D2Client.dll" },
-      { DefaultLibrary::kD2CMP, u8"D2CMP.dll" },
-      { DefaultLibrary::kD2Common, u8"D2Common.dll" },
-      { DefaultLibrary::kD2DDraw, u8"D2DDraw.dll" },
-      { DefaultLibrary::kD2Direct3D, u8"D2Direct3D.dll" },
-      { DefaultLibrary::kD2Game, u8"D2Game.dll" },
-      { DefaultLibrary::kD2GDI, u8"D2GDI.dll" },
-      { DefaultLibrary::kD2GFX, u8"D2GFX.dll" },
-      { DefaultLibrary::kD2Glide, u8"D2Glide.dll" },
-      { DefaultLibrary::kD2Lang, u8"D2Lang.dll" },
-      { DefaultLibrary::kD2Launch, u8"D2Launch.dll" },
-      { DefaultLibrary::kD2MCPClient, u8"D2MCPClient.dll" },
-      { DefaultLibrary::kD2Multi, u8"D2Multi.dll" },
-      { DefaultLibrary::kD2Net, u8"D2Net.dll" },
-      { DefaultLibrary::kD2Server, u8"D2Server.dll" },
-      { DefaultLibrary::kD2Sound, u8"D2Sound.dll" },
-      { DefaultLibrary::kD2Win, u8"D2Win.dll" },
-      { DefaultLibrary::kFog, u8"Fog.dll" },
-      { DefaultLibrary::kStorm, u8"Storm.dll" }
+      { DefaultLibrary::kBNClient, "BNClient.dll" },
+      { DefaultLibrary::kD2Client, "D2Client.dll" },
+      { DefaultLibrary::kD2CMP, "D2CMP.dll" },
+      { DefaultLibrary::kD2Common, "D2Common.dll" },
+      { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
+      { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
+      { DefaultLibrary::kD2Game, "D2Game.dll" },
+      { DefaultLibrary::kD2GDI, "D2GDI.dll" },
+      { DefaultLibrary::kD2GFX, "D2GFX.dll" },
+      { DefaultLibrary::kD2Glide, "D2Glide.dll" },
+      { DefaultLibrary::kD2Lang, "D2Lang.dll" },
+      { DefaultLibrary::kD2Launch, "D2Launch.dll" },
+      { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
+      { DefaultLibrary::kD2Multi, "D2Multi.dll" },
+      { DefaultLibrary::kD2Net, "D2Net.dll" },
+      { DefaultLibrary::kD2Server, "D2Server.dll" },
+      { DefaultLibrary::kD2Sound, "D2Sound.dll" },
+      { DefaultLibrary::kD2Win, "D2Win.dll" },
+      { DefaultLibrary::kFog, "Fog.dll" },
+      { DefaultLibrary::kStorm, "Storm.dll" }
   };
 
   return paths_by_default_libraries;
@@ -100,7 +100,7 @@ GetPathsByDefaultLibraryMap() {
 
 const std::filesystem::path&
 GetGameExecutablePath() {
-  static std::filesystem::path kGameExecutable = u8"Game.exe";
+  static std::filesystem::path kGameExecutable = "Game.exe";
 
   return kGameExecutable;
 }

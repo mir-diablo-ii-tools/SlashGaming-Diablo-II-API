@@ -70,7 +70,7 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
     int priority
 ) : MPQArchiveHandle_Wrapper(
         d2win::LoadMPQ(
-            mpq_file_path.u8string().data(),
+            mpq_file_path.string().data(),
             is_set_error_on_drive_query_fail,
             on_fail_callback,
             priority
