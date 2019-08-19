@@ -53,13 +53,18 @@ namespace d2 {
 
 #pragma pack(push, 1)
 
-/* sizeof: 0x14 + sizeof(cels) */ struct CelFile_1_00 {
+/* sizeof: 0x18 + sizeof(cels) */ struct CelFile_1_00 {
   /* 0x00 */ std::uint32_t version;
   /* 0x04 */ mapi::UndefinedByte unknown_0x04[0x10 - 0x04];
   /* 0x10 */ std::uint32_t num_directions;
   /* 0x14 */ std::uint32_t num_frames;
   /* 0x18 */ mapi::UndefinedByte cels[0]; // This field gives the struct variable length.
 };
+
+static_assert(sizeof(CelFile_1_00) >= 0x18);
+static_assert(offsetof(CelFile_1_00, version) == 0x00);
+static_assert(offsetof(CelFile_1_00, num_directions) == 0x10);
+static_assert(offsetof(CelFile_1_00, num_frames) == 0x14);
 
 #pragma pack(pop)
 

@@ -46,10 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_IMPL_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_IMPL_HPP_
 
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
-
 #include <cstddef>
 #include <cstdint>
+
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
 namespace d2 {
 
@@ -58,6 +58,9 @@ namespace d2 {
 /* sizeof: 0x2 */ struct UnicodeChar_1_00 {
   /* 0x0 */std::uint16_t ch;
 };
+
+static_assert(sizeof(UnicodeChar_1_00) >= 0x02);
+static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
 
 #pragma pack(pop)
 
