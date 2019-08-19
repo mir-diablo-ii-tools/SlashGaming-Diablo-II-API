@@ -59,35 +59,35 @@
 namespace mapi {
 namespace {
 
-constexpr std::string_view kGlobalEntryKey = u8"!!!Globals!!!";
-constexpr std::string_view kConfigTabWidthKey = u8"Config Tab Width";
+constexpr std::string_view kGlobalEntryKey = "!!!Globals!!!";
+constexpr std::string_view kConfigTabWidthKey = "Config Tab Width";
 constexpr int kDefaultConfigTabWidthValue = 4;
 
-constexpr std::string_view kMainEntryKey = u8"SlashGaming Diablo II Modding API";
+constexpr std::string_view kMainEntryKey = "SlashGaming Diablo II Modding API";
 
-constexpr std::string_view kMetaDataKey = u8"!!!Metadata (Do not modify)!!!";
+constexpr std::string_view kMetaDataKey = "!!!Metadata (Do not modify)!!!";
 
 // Note that this signifies the last version where the config formatting and
 // entries were updated. These values do not need to change with respect to API
 // file version!
-constexpr std::string_view kMajorVersionAKey = u8"Major Version A";
+constexpr std::string_view kMajorVersionAKey = "Major Version A";
 constexpr int kMajorVersionAValue = 0;
-constexpr std::string_view kMajorVersionBKey = u8"Major Version B";
+constexpr std::string_view kMajorVersionBKey = "Major Version B";
 constexpr int kMajorVersionBValue = 1;
-constexpr std::string_view kMinorVersionAKey = u8"Minor Version A";
+constexpr std::string_view kMinorVersionAKey = "Minor Version A";
 constexpr int kMinorVersionAValue = 0;
-constexpr std::string_view kMinorVersionBKey = u8"Minor Version B";
+constexpr std::string_view kMinorVersionBKey = "Minor Version B";
 constexpr int kMinorVersionBValue = 0;
 
 constexpr std::string_view kAddressTableDirectoryPathKey =
-    u8"Address Table Directory Path";
+    "Address Table Directory Path";
 const std::filesystem::path kDefaultAddressTableDirectoryPath =
-    u8"Address Table";
+    "Address Table";
 
 std::map<std::string, std::once_flag> once_flags_by_json_keys;
 
 const std::filesystem::path& GetConfigPath() {
-  static std::filesystem::path kConfigPath = u8"SlashGaming-Config.json";
+  static std::filesystem::path kConfigPath = "SlashGaming-Config.json";
   return kConfigPath;
 }
 

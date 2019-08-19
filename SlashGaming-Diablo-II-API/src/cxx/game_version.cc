@@ -80,37 +80,37 @@ GetGameVersionsByFileVersions() {
   > game_versions_by_file_versions = {
         // 1.00 & 1.01 have the same version #, but use completely different
         // DLLs.
-        { u8"1.0.0.1", GameVersion::k1_01 },
-        { u8"1.0.2.0", GameVersion::k1_02 },
-        { u8"1.0.3.0", GameVersion::k1_03 },
+        { "1.0.0.1", GameVersion::k1_01 },
+        { "1.0.2.0", GameVersion::k1_02 },
+        { "1.0.3.0", GameVersion::k1_03 },
         // 1.04B and 1.04C use the same DLLs.
-        { u8"1.0.4.1", GameVersion::k1_04B_C },
-        { u8"1.0.4.2", GameVersion::k1_04B_C },
-        { u8"1.0.5.0", GameVersion::k1_05 },
-        { u8"1.0.5.1", GameVersion::k1_05B },
+        { "1.0.4.1", GameVersion::k1_04B_C },
+        { "1.0.4.2", GameVersion::k1_04B_C },
+        { "1.0.5.0", GameVersion::k1_05 },
+        { "1.0.5.1", GameVersion::k1_05B },
         // 1.06 & 1.06B have the same version #, but use completely different
         // DLLs.
-        { u8"1.0.6.0", GameVersion::k1_06 },
+        { "1.0.6.0", GameVersion::k1_06 },
         // 1.07 Beta & 1.07 have the same version #, but use completely
         // different DLLs.
-        { u8"1.0.7.0", GameVersion::k1_07 },
-        { u8"1.0.8.28", GameVersion::k1_08 },
-        { u8"1.0.9.19", GameVersion::k1_09 },
-        { u8"1.0.9.20", GameVersion::k1_09B },
-        { u8"1.0.9.22", GameVersion::k1_09D },
-        { u8"1.0.10.9", GameVersion::k1_10Beta },
-        { u8"1.0.10.10", GameVersion::k1_10SBeta },
-        { u8"1.0.10.39", GameVersion::k1_10 },
-        { u8"1.0.11.45", GameVersion::k1_11 },
-        { u8"1.0.11.46", GameVersion::k1_11B },
-        { u8"1.0.12.49", GameVersion::k1_12A },
-        { u8"1.0.13.55", GameVersion::k1_13ABeta },
-        { u8"1.0.13.60", GameVersion::k1_13C },
-        { u8"1.0.13.64", GameVersion::k1_13D },
-        { u8"1.14.0.64", GameVersion::kLod1_14A },
-        { u8"1.14.1.68", GameVersion::kLod1_14B },
-        { u8"1.14.2.70", GameVersion::kLod1_14C },
-        { u8"1.14.3.71", GameVersion::kLod1_14D }
+        { "1.0.7.0", GameVersion::k1_07 },
+        { "1.0.8.28", GameVersion::k1_08 },
+        { "1.0.9.19", GameVersion::k1_09 },
+        { "1.0.9.20", GameVersion::k1_09B },
+        { "1.0.9.22", GameVersion::k1_09D },
+        { "1.0.10.9", GameVersion::k1_10Beta },
+        { "1.0.10.10", GameVersion::k1_10SBeta },
+        { "1.0.10.39", GameVersion::k1_10 },
+        { "1.0.11.45", GameVersion::k1_11 },
+        { "1.0.11.46", GameVersion::k1_11B },
+        { "1.0.12.49", GameVersion::k1_12A },
+        { "1.0.13.55", GameVersion::k1_13ABeta },
+        { "1.0.13.60", GameVersion::k1_13C },
+        { "1.0.13.64", GameVersion::k1_13D },
+        { "1.14.0.64", GameVersion::kLod1_14A },
+        { "1.14.1.68", GameVersion::kLod1_14B },
+        { "1.14.2.70", GameVersion::kLod1_14C },
+        { "1.14.3.71", GameVersion::kLod1_14D }
   };
 
   return game_versions_by_file_versions;
@@ -125,39 +125,39 @@ GetGameVersionNamesByGameVersionIds() {
       GameVersion,
       std::string_view
   > game_version_names_by_game_version_ids = {
-        { GameVersion::k1_00, u8"1.00" },
-        { GameVersion::k1_01, u8"1.01" },
-        { GameVersion::k1_02, u8"1.02" },
-        { GameVersion::k1_03, u8"1.03" },
+        { GameVersion::k1_00, "1.00" },
+        { GameVersion::k1_01, "1.01" },
+        { GameVersion::k1_02, "1.02" },
+        { GameVersion::k1_03, "1.03" },
         // 1.04B and 1.04C use the same DLLs.
-        { GameVersion::k1_04B_C, u8"1.04B/C" },
-        { GameVersion::k1_05, u8"1.05" },
-        { GameVersion::k1_05B, u8"1.05B" },
-        { GameVersion::k1_06, u8"1.06" },
-        { GameVersion::k1_06B, u8"1.06B" },
-        { GameVersion::k1_07Beta, u8"1.07 Beta" },
-        { GameVersion::k1_07, u8"1.07" },
-        { GameVersion::k1_08, u8"1.08" },
-        { GameVersion::k1_09, u8"1.09" },
-        { GameVersion::k1_09B, u8"1.09B" },
-        { GameVersion::k1_09D, u8"1.09D" },
-        { GameVersion::k1_10Beta, u8"1.10 Beta" },
-        { GameVersion::k1_10SBeta, u8"1.10S Beta" },
-        { GameVersion::k1_10, u8"1.10" },
-        { GameVersion::k1_11, u8"1.11" },
-        { GameVersion::k1_11B, u8"1.11B" },
-        { GameVersion::k1_12A, u8"1.12A" },
-        { GameVersion::k1_13ABeta, u8"1.13A Beta" },
-        { GameVersion::k1_13C, u8"1.13C" },
-        { GameVersion::k1_13D, u8"1.13D" },
-        { GameVersion::kClassic1_14A, u8"Classic 1.14A" },
-        { GameVersion::kLod1_14A, u8"LoD 1.14A" },
-        { GameVersion::kClassic1_14B, u8"Classic 1.14B" },
-        { GameVersion::kLod1_14B, u8"LoD 1.14B" },
-        { GameVersion::kClassic1_14C, u8"Classic 1.14C" },
-        { GameVersion::kLod1_14C, u8"LoD 1.14C" },
-        { GameVersion::kClassic1_14D, u8"Classic 1.14D" },
-        { GameVersion::kLod1_14D, u8"LoD 1.14D" }
+        { GameVersion::k1_04B_C, "1.04B/C" },
+        { GameVersion::k1_05, "1.05" },
+        { GameVersion::k1_05B, "1.05B" },
+        { GameVersion::k1_06, "1.06" },
+        { GameVersion::k1_06B, "1.06B" },
+        { GameVersion::k1_07Beta, "1.07 Beta" },
+        { GameVersion::k1_07, "1.07" },
+        { GameVersion::k1_08, "1.08" },
+        { GameVersion::k1_09, "1.09" },
+        { GameVersion::k1_09B, "1.09B" },
+        { GameVersion::k1_09D, "1.09D" },
+        { GameVersion::k1_10Beta, "1.10 Beta" },
+        { GameVersion::k1_10SBeta, "1.10S Beta" },
+        { GameVersion::k1_10, "1.10" },
+        { GameVersion::k1_11, "1.11" },
+        { GameVersion::k1_11B, "1.11B" },
+        { GameVersion::k1_12A, "1.12A" },
+        { GameVersion::k1_13ABeta, "1.13A Beta" },
+        { GameVersion::k1_13C, "1.13C" },
+        { GameVersion::k1_13D, "1.13D" },
+        { GameVersion::kClassic1_14A, "Classic 1.14A" },
+        { GameVersion::kLod1_14A, "LoD 1.14A" },
+        { GameVersion::kClassic1_14B, "Classic 1.14B" },
+        { GameVersion::kLod1_14B, "LoD 1.14B" },
+        { GameVersion::kClassic1_14C, "Classic 1.14C" },
+        { GameVersion::kLod1_14C, "LoD 1.14C" },
+        { GameVersion::kClassic1_14D, "Classic 1.14D" },
+        { GameVersion::kLod1_14D, "LoD 1.14D" }
   };
 
   return game_version_names_by_game_version_ids;
@@ -260,7 +260,7 @@ ExtractFileVersionString(
   // DWORD is always 32 bits, so first two revision numbers
   // come from dwFileVersionMS, last two come from dwFileVersionLS
   return fmt::format(
-      u8"{}.{}.{}.{}",
+      "{}.{}.{}.{}",
       (version_info->dwFileVersionMS >> 16) & 0xFFFF,
       (version_info->dwFileVersionMS >> 0) & 0xFFFF,
       (version_info->dwFileVersionLS >> 16) & 0xFFFF,
@@ -324,7 +324,7 @@ GetGameVersionByLibraryData(
           0xF0
       };
 
-      library_path = u8"D2Client.dll";
+      library_path = "D2Client.dll";
       offset_value = 0x3C;
       matching_version = GameVersion::k1_00;
       non_matching_version = GameVersion::k1_01;
@@ -337,7 +337,7 @@ GetGameVersionByLibraryData(
           0x3F
       };
 
-      library_path = u8"D2Client.dll",
+      library_path = "D2Client.dll",
       offset_value = 0xE8;
       matching_version = GameVersion::k1_06;
       non_matching_version = GameVersion::k1_06B;
@@ -350,7 +350,7 @@ GetGameVersionByLibraryData(
           0xF0
       };
 
-      library_path = u8"D2Client.dll";
+      library_path = "D2Client.dll";
       offset_value = 0x3C;
       matching_version = GameVersion::k1_07Beta;
       non_matching_version = GameVersion::k1_07;
@@ -363,7 +363,7 @@ GetGameVersionByLibraryData(
           0x38
       };
 
-      library_path = u8"Game.exe";
+      library_path = "Game.exe";
       offset_value = 0x120;
       matching_version = GameVersion::kClassic1_14A;
       non_matching_version = GameVersion::kLod1_14A;
@@ -376,7 +376,7 @@ GetGameVersionByLibraryData(
           0xAE
       };
 
-      library_path = u8"Game.exe";
+      library_path = "Game.exe";
       offset_value = 0x110;
       matching_version = GameVersion::kClassic1_14B;
       non_matching_version = GameVersion::kLod1_14B;
@@ -389,7 +389,7 @@ GetGameVersionByLibraryData(
           0x52
       };
 
-      library_path = u8"Game.exe";
+      library_path = "Game.exe";
       offset_value = 0x110;
       matching_version = GameVersion::kClassic1_14C;
       non_matching_version = GameVersion::kLod1_14C;
@@ -402,7 +402,7 @@ GetGameVersionByLibraryData(
           0xC4
       };
 
-      library_path = u8"Game.exe";
+      library_path = "Game.exe";
       offset_value = 0x128;
       matching_version = GameVersion::kClassic1_14D;
       non_matching_version = GameVersion::kLod1_14D;

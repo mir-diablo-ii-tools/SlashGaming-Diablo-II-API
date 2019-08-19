@@ -76,7 +76,7 @@ GetTableFilePath() {
 
   std::filesystem::path table_file_path(address_table_directory);
   table_file_path /= running_game_version_name;
-  table_file_path += u8".txt";
+  table_file_path += ".txt";
 
   return table_file_path;
 }
