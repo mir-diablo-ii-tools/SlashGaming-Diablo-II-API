@@ -43,12 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2DDRAW_D2DDRAW_BIT_BLOCK_HEIGHT_H_
+#define SGD2MAPI_C_GAME_DATA_D2DDRAW_D2DDRAW_BIT_BLOCK_HEIGHT_H_
 
-#include "d2ddraw/d2ddraw_bit_block_height.h"
-#include "d2ddraw/d2ddraw_bit_block_width.h"
-#include "d2ddraw/d2ddraw_display_height.h"
-#include "d2ddraw/d2ddraw_display_width.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2DDraw_GetBitBlockHeight(void);
+DLLEXPORT void D2_D2DDraw_SetBitBlockHeight(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2DDRAW_D2DDRAW_BIT_BLOCK_HEIGHT_H_
