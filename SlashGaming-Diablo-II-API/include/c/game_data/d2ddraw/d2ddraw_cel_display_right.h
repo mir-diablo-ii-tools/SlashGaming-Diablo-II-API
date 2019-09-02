@@ -43,14 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
+#ifndef SGD2MAPI_C_GAME_DATA_D2DDRAW_D2DDRAW_CEL_DISPLAY_RIGHT_H_
+#define SGD2MAPI_C_GAME_DATA_D2DDRAW_D2DDRAW_CEL_DISPLAY_RIGHT_H_
 
-#include "d2ddraw/d2ddraw_bit_block_height.hpp"
-#include "d2ddraw/d2ddraw_bit_block_width.hpp"
-#include "d2ddraw/d2ddraw_cel_display_left.hpp"
-#include "d2ddraw/d2ddraw_cel_display_right.hpp"
-#include "d2ddraw/d2ddraw_display_height.hpp"
-#include "d2ddraw/d2ddraw_display_width.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2DDraw_GetCelDisplayRight(void);
+DLLEXPORT void D2_D2DDraw_SetCelDisplayRight(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2DDRAW_D2DDRAW_CEL_DISPLAY_RIGHT_H_

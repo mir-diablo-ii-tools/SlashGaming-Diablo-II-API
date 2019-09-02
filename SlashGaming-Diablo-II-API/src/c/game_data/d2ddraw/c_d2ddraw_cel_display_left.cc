@@ -43,14 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
+#include "../../../../include/c/game_data/d2ddraw/d2ddraw_cel_display_left.h"
 
-#include "d2ddraw/d2ddraw_bit_block_height.hpp"
-#include "d2ddraw/d2ddraw_bit_block_width.hpp"
-#include "d2ddraw/d2ddraw_cel_display_left.hpp"
-#include "d2ddraw/d2ddraw_cel_display_right.hpp"
-#include "d2ddraw/d2ddraw_display_height.hpp"
-#include "d2ddraw/d2ddraw_display_width.hpp"
+#include "../../../../include/cxx/game_data/d2ddraw/d2ddraw_cel_display_left.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
+int D2_D2DDraw_GetCelDisplayLeft() {
+  return d2::d2ddraw::GetCelDisplayLeft();
+}
+
+void D2_D2DDraw_SetCelDisplayLeft(int value) {
+  d2::d2ddraw::SetCelDisplayLeft(value);
+}

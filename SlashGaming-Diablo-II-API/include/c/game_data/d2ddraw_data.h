@@ -48,6 +48,8 @@
 
 #include "d2ddraw/d2ddraw_bit_block_height.h"
 #include "d2ddraw/d2ddraw_bit_block_width.h"
+#include "d2ddraw/d2ddraw_cel_display_left.h"
+#include "d2ddraw/d2ddraw_cel_display_right.h"
 #include "d2ddraw/d2ddraw_display_height.h"
 #include "d2ddraw/d2ddraw_display_width.h"
 
