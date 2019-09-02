@@ -46,6 +46,10 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2DDRAW_DATA_H_
 
+#include "d2ddraw/d2ddraw_bit_block_height.h"
+#include "d2ddraw/d2ddraw_bit_block_width.h"
+#include "d2ddraw/d2ddraw_cel_display_left.h"
+#include "d2ddraw/d2ddraw_cel_display_right.h"
 #include "d2ddraw/d2ddraw_display_height.h"
 #include "d2ddraw/d2ddraw_display_width.h"
 

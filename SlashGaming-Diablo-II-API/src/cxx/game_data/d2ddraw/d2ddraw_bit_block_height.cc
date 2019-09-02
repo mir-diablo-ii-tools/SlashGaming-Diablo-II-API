@@ -43,14 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2ddraw/d2ddraw_bit_block_height.hpp"
-#include "d2ddraw/d2ddraw_bit_block_width.hpp"
-#include "d2ddraw/d2ddraw_cel_display_left.hpp"
-#include "d2ddraw/d2ddraw_cel_display_right.hpp"
-#include "d2ddraw/d2ddraw_display_height.hpp"
-#include "d2ddraw/d2ddraw_display_width.hpp"
+#include "../../../../include/cxx/game_data/d2ddraw/d2ddraw_bit_block_height.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2DDRAW_DATA_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2ddraw {
+namespace {
+
+std::intptr_t D2DDraw_BitBlockHeight() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetBitBlockHeight() {
+  std::intptr_t ptr = D2DDraw_BitBlockHeight();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetBitBlockHeight(int value) {
+  std::intptr_t ptr = D2DDraw_BitBlockHeight();
+
+  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2ddraw
