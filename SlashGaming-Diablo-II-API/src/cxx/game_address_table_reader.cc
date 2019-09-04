@@ -96,7 +96,7 @@ ResolveAddress(
         ordinal
     );
 
-    return GameAddress::FromOffset(library_path, ordinal);
+    return GameAddress::FromOrdinal(library_path, ordinal);
   } else if (locator_type == kLocatorTypeDecoratedName) {
     return GameAddress::FromDecoratedName(library_path, locator_value);
   } else if (locator_type == kLocatorTypeNA) {
