@@ -135,7 +135,7 @@ GameAddress GameAddress::FromOrdinal(
   const std::filesystem::path& game_library_path =
       GetDefaultLibraryPathWithRedirect(default_library);
 
-  return FromOffset(game_library_path, ordinal);
+  return FromOrdinal(game_library_path, ordinal);
 }
 
 GameAddress GameAddress::FromOrdinal(
