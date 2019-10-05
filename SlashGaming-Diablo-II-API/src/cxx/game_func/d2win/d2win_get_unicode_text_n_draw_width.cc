@@ -43,18 +43,69 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2win/d2win_draw_unicode_text.h"
-#include "d2win/d2win_get_pop_up_unicode_text_width_and_height.h"
-#include "d2win/d2win_get_unicode_text_draw_width.h"
-#include "d2win/d2win_get_unicode_text_n_draw_width.h"
-#include "d2win/d2win_load_cel_file.h"
-#include "d2win/d2win_load_mpq.h"
-#include "d2win/d2win_set_pop_up_unicode_text.h"
-#include "d2win/d2win_set_text_font.h"
-#include "d2win/d2win_unload_cel_file.h"
-#include "d2win/d2win_unload_mpq.h"
+#include "../../../../include/cxx/game_func/d2win/d2win_get_unicode_text_n_draw_width.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#include <windows.h>
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2win {
+namespace {
+
+__declspec(naked) std::int32_t __cdecl
+D2Win_GetUnicodeTextNDrawWidth_1_00(
+    std::intptr_t func_ptr,
+    const UnicodeChar* text,
+    std::int32_t length
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(mov edx, [ebp + 16]);
+  ASM_X86(mov ecx, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Win_GetUnicodeTextNDrawWidth() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int GetUnicodeTextNDrawWidth(
+    const UnicodeChar* text,
+    int length
+) {
+  std::intptr_t func_ptr = D2Win_GetUnicodeTextNDrawWidth();
+
+  int result = D2Win_GetUnicodeTextNDrawWidth_1_00(
+      func_ptr,
+      text,
+      length
+  );
+
+  return result;
+}
+
+} // namespace d2::d2win

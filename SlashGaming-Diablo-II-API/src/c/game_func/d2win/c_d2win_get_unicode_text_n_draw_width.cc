@@ -43,18 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#include "../../../../include/c/game_func/d2win/d2win_get_unicode_text_n_draw_width.h"
 
-#include "d2win/d2win_draw_unicode_text.h"
-#include "d2win/d2win_get_pop_up_unicode_text_width_and_height.h"
-#include "d2win/d2win_get_unicode_text_draw_width.h"
-#include "d2win/d2win_get_unicode_text_n_draw_width.h"
-#include "d2win/d2win_load_cel_file.h"
-#include "d2win/d2win_load_mpq.h"
-#include "d2win/d2win_set_pop_up_unicode_text.h"
-#include "d2win/d2win_set_text_font.h"
-#include "d2win/d2win_unload_cel_file.h"
-#include "d2win/d2win_unload_mpq.h"
+#include "../../../../include/cxx/game_func/d2win/d2win_get_unicode_text_n_draw_width.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+int D2_D2Win_GetUnicodeTextNDrawWidth(
+    const D2_UnicodeChar* text,
+    int length
+) {
+  const d2::UnicodeChar* actual_text =
+      reinterpret_cast<const d2::UnicodeChar*>(text);
+
+  int actual_result = d2::d2win::GetUnicodeTextNDrawWidth(
+      actual_text,
+      length
+  );
+
+  return actual_result;
+}
