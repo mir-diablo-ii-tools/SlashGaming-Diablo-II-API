@@ -43,16 +43,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include "../../../../include/c/game_func/d2win/d2win_get_unicode_text_draw_width.h"
 
-#include "d2win/d2win_draw_unicode_text.hpp"
-#include "d2win/d2win_get_unicode_text_draw_width.hpp"
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_set_pop_up_unicode_text.hpp"
-#include "d2win/d2win_set_text_font.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include "../../../../include/cxx/game_func/d2win/d2win_get_unicode_text_draw_width.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+int D2_D2Win_GetUnicodeTextDrawWidth(
+    const D2_UnicodeChar* text
+) {
+  const d2::UnicodeChar* actual_text =
+      reinterpret_cast<const d2::UnicodeChar*>(text);
+
+  int actual_result = d2::d2win::GetUnicodeTextDrawWidth(
+      actual_text
+  );
+
+  return actual_result;
+}

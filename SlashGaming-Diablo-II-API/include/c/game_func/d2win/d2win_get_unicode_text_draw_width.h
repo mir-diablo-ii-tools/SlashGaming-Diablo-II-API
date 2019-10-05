@@ -43,16 +43,26 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_GET_UNICODE_TEXT_DRAW_WIDTH_H_
+#define SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_GET_UNICODE_TEXT_DRAW_WIDTH_H_
 
-#include "d2win/d2win_draw_unicode_text.hpp"
-#include "d2win/d2win_get_unicode_text_draw_width.hpp"
-#include "d2win/d2win_load_cel_file.hpp"
-#include "d2win/d2win_load_mpq.hpp"
-#include "d2win/d2win_set_pop_up_unicode_text.hpp"
-#include "d2win/d2win_set_text_font.hpp"
-#include "d2win/d2win_unload_cel_file.hpp"
-#include "d2win/d2win_unload_mpq.hpp"
+#include <stdbool.h>
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
+#include "../../game_struct/d2_unicode_char.h"
+
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Win_GetUnicodeTextDrawWidth(
+    const struct D2_UnicodeChar* text
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_D2WIN_GET_UNICODE_TEXT_DRAW_WIDTH_H_
