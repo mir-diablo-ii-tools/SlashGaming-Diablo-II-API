@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_FUNC_D2WIN_FUNC_HPP_
 
 #include "d2win/d2win_draw_unicode_text.hpp"
+#include "d2win/d2win_get_pop_up_unicode_text_width_and_height.hpp"
 #include "d2win/d2win_get_unicode_text_draw_width.hpp"
 #include "d2win/d2win_load_cel_file.hpp"
 #include "d2win/d2win_load_mpq.hpp"

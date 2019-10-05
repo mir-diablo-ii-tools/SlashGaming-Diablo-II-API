@@ -43,17 +43,23 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_GET_POP_UP_UNICODE_TEXT_WIDTH_AND_HEIGHT_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_GET_POP_UP_UNICODE_TEXT_WIDTH_AND_HEIGHT_HPP_
 
-#include "d2win/d2win_draw_unicode_text.h"
-#include "d2win/d2win_get_pop_up_unicode_text_width_and_height.h"
-#include "d2win/d2win_get_unicode_text_draw_width.h"
-#include "d2win/d2win_load_cel_file.h"
-#include "d2win/d2win_load_mpq.h"
-#include "d2win/d2win_set_pop_up_unicode_text.h"
-#include "d2win/d2win_set_text_font.h"
-#include "d2win/d2win_unload_cel_file.h"
-#include "d2win/d2win_unload_mpq.h"
+#include "../../../../include/cxx/game_constant/d2_text_color.hpp"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2WIN_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2win {
+
+DLLEXPORT void GetPopUpUnicodeTextWidthAndHeight(
+    const UnicodeChar* text,
+    int* width,
+    int* height
+);
+
+} // namespace d2::d2win
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_GET_POP_UP_UNICODE_TEXT_WIDTH_AND_HEIGHT_HPP_
