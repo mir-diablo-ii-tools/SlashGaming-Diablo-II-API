@@ -43,15 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_UNICODE_TO_UTF8_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_UNICODE_TO_UTF8_HPP_
 
-#include "d2lang/d2lang_get_string_by_index.h"
-#include "d2lang/d2lang_unicode_asciiToUnicode.h"
-#include "d2lang/d2lang_unicode_strcat.h"
-#include "d2lang/d2lang_unicode_strlen.h"
-#include "d2lang/d2lang_unicode_tolower.h"
-#include "d2lang/d2lang_unicode_toupper.h"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.h"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2lang {
+
+DLLEXPORT char8_t* Unicode_unicodeToUtf8(
+    char8_t* dest,
+    const UnicodeChar* src,
+    int count_with_null_term
+);
+
+} // namespace d2::d2lang
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_UNICODE_TO_UTF8_HPP_

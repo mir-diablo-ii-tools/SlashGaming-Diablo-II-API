@@ -43,15 +43,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../../include/c/game_func/d2lang/d2lang_unicode_unicodeToUtf8.h"
 
-#include "d2lang/d2lang_get_string_by_index.h"
-#include "d2lang/d2lang_unicode_asciiToUnicode.h"
-#include "d2lang/d2lang_unicode_strcat.h"
-#include "d2lang/d2lang_unicode_strlen.h"
-#include "d2lang/d2lang_unicode_tolower.h"
-#include "d2lang/d2lang_unicode_toupper.h"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.h"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_unicodeToUtf8.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+char* D2_D2Lang_Unicode_unicodeToUtf8(
+    char* dest,
+    const D2_UnicodeChar* src,
+    int count_with_null_term
+) {
+  auto actual_dest = reinterpret_cast<char8_t*>(dest);
+  auto actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
+
+  auto actual_result = d2::d2lang::Unicode_unicodeToUtf8(
+      actual_dest,
+      actual_src,
+      count_with_null_term
+  );
+
+  return reinterpret_cast<char*>(actual_result);
+}
