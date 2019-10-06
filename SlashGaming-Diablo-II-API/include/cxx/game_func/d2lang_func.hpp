@@ -53,5 +53,6 @@
 #include "d2lang/d2lang_unicode_tolower.hpp"
 #include "d2lang/d2lang_unicode_toupper.hpp"
 #include "d2lang/d2lang_unicode_unicodeToUtf8.hpp"
+#include "d2lang/d2lang_unicode_utf8ToUnicode.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
