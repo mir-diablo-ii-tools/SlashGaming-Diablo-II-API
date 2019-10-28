@@ -53,6 +53,7 @@
 #include "d2lang/d2lang_unicode_strcpy.hpp"
 #include "d2lang/d2lang_unicode_strlen.hpp"
 #include "d2lang/d2lang_unicode_strncat.hpp"
+#include "d2lang/d2lang_unicode_strncmp.hpp"
 #include "d2lang/d2lang_unicode_tolower.hpp"
 #include "d2lang/d2lang_unicode_toupper.hpp"
 #include "d2lang/d2lang_unicode_unicodeToUtf8.hpp"

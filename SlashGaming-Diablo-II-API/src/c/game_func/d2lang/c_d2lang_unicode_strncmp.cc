@@ -43,20 +43,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../../../include/c/game_func/d2lang/d2lang_unicode_strncmp.h"
 
-#include "d2lang/d2lang_get_string_by_index.h"
-#include "d2lang/d2lang_unicode_asciiToUnicode.h"
-#include "d2lang/d2lang_unicode_strcat.h"
-#include "d2lang/d2lang_unicode_strcmp.h"
-#include "d2lang/d2lang_unicode_strcpy.h"
-#include "d2lang/d2lang_unicode_strlen.h"
-#include "d2lang/d2lang_unicode_strncat.h"
-#include "d2lang/d2lang_unicode_strncmp.h"
-#include "d2lang/d2lang_unicode_tolower.h"
-#include "d2lang/d2lang_unicode_toupper.h"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.h"
-#include "d2lang/d2lang_unicode_utf8ToUnicode.h"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncmp.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+int D2_D2Lang_Unicode_strncmp(
+    const D2_UnicodeChar* str1,
+    const D2_UnicodeChar* str2,
+    size_t count
+) {
+  auto actual_str1 = reinterpret_cast<const d2::UnicodeChar*>(str1);
+  auto actual_str2 = reinterpret_cast<const d2::UnicodeChar*>(str2);
+
+  int actual_result = d2::d2lang::Unicode_strncmp(
+      actual_str1,
+      actual_str2,
+      count
+  );
+
+  return actual_result;
+}

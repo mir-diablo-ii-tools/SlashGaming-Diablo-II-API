@@ -43,20 +43,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRNCMP_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRNCMP_HPP_
 
-#include "d2lang/d2lang_get_string_by_index.h"
-#include "d2lang/d2lang_unicode_asciiToUnicode.h"
-#include "d2lang/d2lang_unicode_strcat.h"
-#include "d2lang/d2lang_unicode_strcmp.h"
-#include "d2lang/d2lang_unicode_strcpy.h"
-#include "d2lang/d2lang_unicode_strlen.h"
-#include "d2lang/d2lang_unicode_strncat.h"
-#include "d2lang/d2lang_unicode_strncmp.h"
-#include "d2lang/d2lang_unicode_tolower.h"
-#include "d2lang/d2lang_unicode_toupper.h"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.h"
-#include "d2lang/d2lang_unicode_utf8ToUnicode.h"
+#include <cstddef>
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
+#include "../../game_struct/d2_unicode_char.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2lang {
+
+DLLEXPORT int Unicode_strncmp(
+    const UnicodeChar* str1,
+    const UnicodeChar* str2,
+    std::size_t count
+);
+
+} // namespace d2::d2lang
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRNCMP_HPP_
