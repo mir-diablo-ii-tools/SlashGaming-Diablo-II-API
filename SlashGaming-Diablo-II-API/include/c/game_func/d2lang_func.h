@@ -49,6 +49,7 @@
 #include "d2lang/d2lang_get_string_by_index.h"
 #include "d2lang/d2lang_unicode_asciiToUnicode.h"
 #include "d2lang/d2lang_unicode_strcat.h"
+#include "d2lang/d2lang_unicode_strcmp.h"
 #include "d2lang/d2lang_unicode_strlen.h"
 #include "d2lang/d2lang_unicode_tolower.h"
 #include "d2lang/d2lang_unicode_toupper.h"

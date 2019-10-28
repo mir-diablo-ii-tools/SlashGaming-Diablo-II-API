@@ -43,17 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCMP_H_
+#define SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCMP_H_
 
-#include "d2lang/d2lang_get_string_by_index.hpp"
-#include "d2lang/d2lang_unicode_asciiToUnicode.hpp"
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strcmp.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
-#include "d2lang/d2lang_unicode_tolower.hpp"
-#include "d2lang/d2lang_unicode_toupper.hpp"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.hpp"
-#include "d2lang/d2lang_unicode_utf8ToUnicode.hpp"
+#include "../../game_struct/d2_unicode_char.h"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT int D2_D2Lang_Unicode_strcmp(
+    const struct D2_UnicodeChar* str1,
+    const struct D2_UnicodeChar* str2
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCMP_H_

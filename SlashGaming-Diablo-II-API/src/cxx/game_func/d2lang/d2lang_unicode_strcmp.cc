@@ -43,17 +43,61 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2lang/d2lang_get_string_by_index.hpp"
-#include "d2lang/d2lang_unicode_asciiToUnicode.hpp"
-#include "d2lang/d2lang_unicode_strcat.hpp"
-#include "d2lang/d2lang_unicode_strcmp.hpp"
-#include "d2lang/d2lang_unicode_strlen.hpp"
-#include "d2lang/d2lang_unicode_tolower.hpp"
-#include "d2lang/d2lang_unicode_toupper.hpp"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.hpp"
-#include "d2lang/d2lang_unicode_utf8ToUnicode.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strcmp.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_FUNC_HPP_
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2lang {
+namespace {
+
+__declspec(naked) std::int32_t __cdecl
+D2Lang_Unicode_strcmp_1_00(
+    std::intptr_t func_ptr,
+    const UnicodeChar* str1,
+    const UnicodeChar* str2
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(mov edx, dword ptr [ebp + 16]);
+  ASM_X86(mov ecx, dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Lang_Unicode_strcmp() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int Unicode_strcmp(
+    const UnicodeChar* str1,
+    const UnicodeChar* str2
+) {
+  std::intptr_t ptr = D2Lang_Unicode_strcmp();
+
+  return D2Lang_Unicode_strcmp_1_00(ptr, str1, str2);
+}
+
+} // namespace d2::d2lang
