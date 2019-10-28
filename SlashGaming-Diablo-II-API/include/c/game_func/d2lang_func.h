@@ -52,6 +52,7 @@
 #include "d2lang/d2lang_unicode_strcmp.h"
 #include "d2lang/d2lang_unicode_strcpy.h"
 #include "d2lang/d2lang_unicode_strlen.h"
+#include "d2lang/d2lang_unicode_strncat.h"
 #include "d2lang/d2lang_unicode_tolower.h"
 #include "d2lang/d2lang_unicode_toupper.h"
 #include "d2lang/d2lang_unicode_unicodeToUtf8.h"
