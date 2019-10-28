@@ -50,6 +50,7 @@
 #include "d2lang/d2lang_unicode_asciiToUnicode.hpp"
 #include "d2lang/d2lang_unicode_strcat.hpp"
 #include "d2lang/d2lang_unicode_strcmp.hpp"
+#include "d2lang/d2lang_unicode_strcpy.hpp"
 #include "d2lang/d2lang_unicode_strlen.hpp"
 #include "d2lang/d2lang_unicode_tolower.hpp"
 #include "d2lang/d2lang_unicode_toupper.hpp"
