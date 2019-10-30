@@ -54,13 +54,37 @@
 #include "../../../asm_x86_macro.h"
 #include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2::d2lang {
 namespace {
 
+int D2Lang_Unicode_strncmp_1_00(
+    const UnicodeChar* str1,
+    const UnicodeChar* str2,
+    std::size_t count
+) {
+  auto* actual_str1 = reinterpret_cast<const UnicodeChar_1_00*>(str1);
+  auto* actual_str2 = reinterpret_cast<const UnicodeChar_1_00*>(str2);
+
+  for (std::size_t i = 0; i < count; i += 1) {
+    int diff = actual_str1[i].ch - actual_str2[i].ch;
+
+    if (diff != 0) {
+      return diff;
+    }
+
+    if (actual_str1[i].ch == u'\0') {
+      return 0;
+    }
+  }
+
+  return 0;
+}
+
 __declspec(naked) std::int32_t __cdecl
-D2Lang_Unicode_strncmp_1_00(
+D2Lang_Unicode_strncmp_1_10(
     std::intptr_t func_ptr,
     const UnicodeChar* str1,
     const UnicodeChar* str2,
@@ -100,7 +124,11 @@ int Unicode_strncmp(
 ) {
   std::intptr_t ptr = D2Lang_Unicode_strncmp();
 
-  return D2Lang_Unicode_strncmp_1_00(ptr, str1, str2, count);
+  if (GetRunningGameVersionId() < GameVersion::k1_10) {
+    return D2Lang_Unicode_strncmp_1_00(str1, str2, count);
+  } else {
+    return D2Lang_Unicode_strncmp_1_10(ptr, str1, str2, count);
+  }
 }
 
 } // namespace d2::d2lang
