@@ -46,95 +46,223 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
+#include <string>
+#include <string_view>
 #include <memory>
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
+/*
+ * Due to the nature of how this API must be implemented (information hiding
+ * being necessary to prevent user-created errors), all string APIs cannot be
+ * derived from the dtandard library's.
+ */
+
 struct UnicodeChar;
 
-class DLLEXPORT UnicodeChar_ConstWrapper {
- public:
-  UnicodeChar_ConstWrapper() = delete;
-  UnicodeChar_ConstWrapper(const UnicodeChar* ptr) noexcept;
-
-  UnicodeChar_ConstWrapper(const UnicodeChar_ConstWrapper& other);
-  UnicodeChar_ConstWrapper(UnicodeChar_ConstWrapper&& other) noexcept;
-
-  virtual ~UnicodeChar_ConstWrapper();
-
-  UnicodeChar_ConstWrapper& operator=(const UnicodeChar_ConstWrapper& other);
-  UnicodeChar_ConstWrapper& operator=(UnicodeChar_ConstWrapper&& other) noexcept;
-
-  operator unsigned short() const noexcept;
-
-  const UnicodeChar* Get() const noexcept;
-
-  unsigned short GetChar() const noexcept;
-
- private:
-  const UnicodeChar* ptr_;
-};
-
-class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
+class DLLEXPORT UnicodeChar_Wrapper {
  public:
   UnicodeChar_Wrapper() = delete;
-  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
 
   UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other);
   UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
 
-  ~UnicodeChar_Wrapper() override;
+  virtual ~UnicodeChar_Wrapper();
 
   UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other);
   UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
 
+  static UnicodeChar_Wrapper FromPointer(UnicodeChar* ptr);
+  static const UnicodeChar_Wrapper FromPointer(const UnicodeChar* ptr);
+
   UnicodeChar* Get() noexcept;
   const UnicodeChar* Get() const noexcept;
 
-  void SetChar(unsigned short ch) noexcept;
+  void SetChar(char16_t ch) noexcept;
+  void SetChar(const UnicodeChar_Wrapper& ch) noexcept;
 
  private:
   UnicodeChar* ptr_;
+
+  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
+  UnicodeChar_Wrapper(const UnicodeChar* ptr) noexcept;
 };
 
-class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
+class DLLEXPORT UnicodeChar_Traits {
  public:
-  UnicodeChar_API();
-  UnicodeChar_API(unsigned short ch);
+  using char_type = UnicodeChar;
 
-  UnicodeChar_API(const UnicodeChar_API& other);
-  UnicodeChar_API(UnicodeChar_API&& other) noexcept;
-
-  ~UnicodeChar_API() override;
-
-  UnicodeChar_API& operator=(const UnicodeChar_API& other);
-  UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
+  static void assign(char_type& r, const char_type& a) noexcept;
+  static char_type* assign(char_type* p, std::size_t count, const char_type& a);
+  static bool eq(const char_type& a, const char_type& b);
+  static bool lt(const char_type& a, const char_type& b);
+  static char_type* move(char_type* dest, const char_type* src, std::size_t count);
+  static char_type* copy(char_type* dest, const char_type* src, std::size_t count);
+  static int compare(const char_type* s1, const char_type* s2, std::size_t count);
+  static const UnicodeChar_Traits::char_type* find(
+      const char_type* p,
+      std::size_t count,
+      const char_type& ch
+  );
 };
 
-// Do not derive from std::char_traits because of non-conformance with
-// return types.
-class DLLEXPORT UnicodeCharTraits {
-  static int length(const UnicodeChar* str);
-};
-
-// Do not derive from std::basic_string, for same reasons as
-// UnicodeCharTraits.
-class DLLEXPORT UnicodeString {
-  using traits_type = UnicodeCharTraits;
-  using value_type = UnicodeChar;
+class DLLEXPORT UnicodeString_API {
+ public:
+  using char_type = UnicodeChar;
   using size_type = int;
-  using reference = value_type&;
-  using const_reference = const value_type&;
+  using reference = char_type&;
+  using const_reference = const char_type&;
+  using pointer = char_type*;
+  using const_pointer = const char_type*;
 
- public:
-  size_type length() const noexcept;
+  UnicodeString_API();
+  UnicodeString_API(size_type size, const char_type& ch);
+  UnicodeString_API(const UnicodeString_API& str);
+  UnicodeString_API(const UnicodeString_API& str, size_type pos);
+  UnicodeString_API(
+      const UnicodeString_API& str,
+      size_type pos,
+      size_type count
+  );
+  UnicodeString_API(const char_type* str);
+  UnicodeString_API(const char_type* str, size_type count);
+  UnicodeString_API(UnicodeString_API&& str) noexcept;
+
+  virtual ~UnicodeString_API();
+
+  UnicodeString_API& operator=(const UnicodeString_API& str);
+  UnicodeString_API& operator=(UnicodeString_API&& other) noexcept;
+  UnicodeString_API& operator=(const char_type* str);
+  UnicodeString_API& operator=(const char_type& str);
+
+  UnicodeString_API& operator+=(const UnicodeString_API& str);
+  UnicodeString_API& operator+=(const char_type& ch);
+  UnicodeString_API& operator+=(const char_type* str);
+
+  reference operator[](size_type pos);
+  const_reference operator[](size_type pos) const;
+
+  static UnicodeString_API FromU8String(std::u8string_view src);
+
+  std::u8string ToU8String() const;
+
+  UnicodeString_API& append(size_type count, const char_type& ch);
+  UnicodeString_API& append(const UnicodeString_API& str);
+  UnicodeString_API& append(
+      const UnicodeString_API& str,
+      size_type pos
+  );
+  UnicodeString_API& append(
+      const UnicodeString_API& str,
+      size_type pos,
+      size_type count
+  );
+  UnicodeString_API& append(const char_type* str);
+  UnicodeString_API& append(const char_type* str, size_type count);
+
+  reference at(size_type pos);
+  const_reference at(size_type pos) const;
+
+  char_type& back();
+  const char_type& back() const;
+
+  void clear() noexcept;
+
+  size_type copy(
+      char_type* dest,
+      size_type count
+  ) const;
+  size_type copy(
+      char_type* dest,
+      size_type count,
+      size_type pos
+  ) const;
+
+  [[nodiscard]]
+  bool empty() const noexcept;
+
+  char_type& front();
+  const char_type& front() const;
+
+  void pop_back();
+
+  void push_back(const char_type& ch);
+
+  void resize(size_type count);
+  void resize(size_type count, const char_type& ch);
+
+  UnicodeString_API substr() const;
+  UnicodeString_API substr(size_type pos) const;
+  UnicodeString_API substr(size_type pos, size_type count) const;
+
+  void swap(UnicodeString_API& other);
+
+  UnicodeChar* data() noexcept;
+  const UnicodeChar* data() const noexcept;
+
+  size_type capacity() const noexcept;
+  const UnicodeChar* c_str() const noexcept;
   size_type size() const noexcept;
+  size_type length() const noexcept;
 
  private:
-  UnicodeString::size_type length_;
+  UnicodeChar* data_;
+  size_type capacity_;
+  size_type length_;
+
+  static void TerminateString(char_type* str, size_type pos);
 };
+
+UnicodeString_API operator+(
+    const UnicodeString_API& lhs,
+    const UnicodeString_API& rhs
+);
+UnicodeString_API operator+(
+    const UnicodeString_API& lhs,
+    const UnicodeChar* rhs
+);
+UnicodeString_API operator+(
+    const UnicodeString_API& lhs,
+    const UnicodeChar& rhs
+);
+UnicodeString_API operator+(
+    const UnicodeChar* lhs,
+    const UnicodeString_API& rhs
+);
+UnicodeString_API operator+(
+    const UnicodeChar& lhs,
+    const UnicodeString_API& rhs
+);
+UnicodeString_API operator+(
+    UnicodeString_API&& lhs,
+    UnicodeString_API&& rhs
+);
+UnicodeString_API operator+(
+    UnicodeString_API&& lhs,
+    const UnicodeString_API& rhs
+);
+UnicodeString_API operator+(
+    UnicodeString_API&& lhs,
+    const UnicodeChar* rhs
+);
+UnicodeString_API operator+(
+    UnicodeString_API&& lhs,
+    const UnicodeChar& rhs
+);
+UnicodeString_API operator+(
+    const UnicodeString_API& lhs,
+    UnicodeString_API&& rhs
+);
+UnicodeString_API operator+(
+    const UnicodeChar* lhs,
+    UnicodeString_API&& rhs
+);
+UnicodeString_API operator+(
+    const UnicodeChar& lhs,
+    UnicodeString_API&& rhs
+);
 
 } // namespace d2
 

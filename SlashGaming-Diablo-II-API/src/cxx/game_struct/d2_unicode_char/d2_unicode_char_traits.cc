@@ -45,12 +45,100 @@
 
 #include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
+#include "d2_unicode_char_impl.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncpy.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncmp.hpp"
 
 namespace d2 {
 
-int UnicodeCharTraits::length(const UnicodeChar* str) {
-  return d2lang::Unicode_strlen(str);
+void UnicodeChar_Traits::assign(char_type& r, const char_type& a) noexcept {
+  UnicodeChar_1_00& actual_r = reinterpret_cast<UnicodeChar_1_00&>(r);
+  const UnicodeChar_1_00& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
+
+  actual_r.ch = actual_a.ch;
+}
+
+UnicodeChar_Traits::char_type* UnicodeChar_Traits::assign(
+    char_type* p,
+    std::size_t count,
+    const char_type& a
+) {
+  auto* actual_p = reinterpret_cast<UnicodeChar_1_00*>(p);
+  auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
+
+
+  std::fill_n(actual_p, count, actual_a);
+
+  return p;
+}
+
+bool UnicodeChar_Traits::eq(const char_type& a, const char_type& b) {
+  auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
+  auto& actual_b = reinterpret_cast<const UnicodeChar_1_00&>(b);
+
+  return actual_a.ch == actual_b.ch;
+}
+
+bool UnicodeChar_Traits::lt(const char_type& a, const char_type& b) {
+  auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
+  auto& actual_b = reinterpret_cast<const UnicodeChar_1_00&>(b);
+
+  return actual_a.ch < actual_b.ch;
+}
+
+UnicodeChar_Traits::char_type* UnicodeChar_Traits::move(
+    char_type* dest,
+    const char_type* src,
+    std::size_t count
+) {
+  auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
+  auto* actual_src = reinterpret_cast<const UnicodeChar_1_00*>(src);
+
+  if (actual_dest < actual_src) {
+    std::copy(actual_src, &actual_src[count], actual_dest);
+  } else if (actual_dest > actual_src) {
+    std::copy_backward(actual_src, &actual_src[count], actual_dest);
+  }
+
+  return dest;
+}
+
+UnicodeChar_Traits::char_type* UnicodeChar_Traits::copy(
+    char_type* dest,
+    const char_type* src,
+    std::size_t count
+) {
+  auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
+  auto* actual_src = reinterpret_cast<const UnicodeChar_1_00*>(src);
+
+  std::copy(actual_src, &actual_src[count], actual_dest);
+
+  return dest;
+}
+
+int UnicodeChar_Traits::compare(
+    const char_type* s1,
+    const char_type* s2,
+    std::size_t count
+) {
+  return std::memcmp(s1, s2, count);
+}
+
+const UnicodeChar_Traits::char_type* UnicodeChar_Traits::find(
+    const char_type* p,
+    std::size_t count,
+    const char_type& ch
+) {
+  auto* actual_p = reinterpret_cast<const UnicodeChar_1_00*>(p);
+  auto& actual_ch = reinterpret_cast<const UnicodeChar_1_00&>(ch);
+
+  for (std::size_t i = 0; i < count; i += 1) {
+    if (actual_p[i].ch == actual_ch.ch) {
+      return reinterpret_cast<const UnicodeChar*>(&actual_p[i]);
+    }
+  }
+
+  return nullptr;
 }
 
 } // namespace d2

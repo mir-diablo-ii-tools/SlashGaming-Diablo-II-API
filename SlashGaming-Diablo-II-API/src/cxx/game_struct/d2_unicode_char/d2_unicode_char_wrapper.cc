@@ -58,8 +58,13 @@ namespace d2 {
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
     UnicodeChar* ptr
 ) noexcept :
-    UnicodeChar_ConstWrapper(ptr),
     ptr_(ptr) {
+}
+
+UnicodeChar_Wrapper::UnicodeChar_Wrapper(
+    const UnicodeChar* ptr
+) noexcept :
+    ptr_(const_cast<UnicodeChar*>(ptr)) {
 }
 
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
@@ -80,19 +85,35 @@ UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
     UnicodeChar_Wrapper&& other
 ) noexcept = default;
 
+UnicodeChar_Wrapper UnicodeChar_Wrapper::FromPointer(
+    UnicodeChar* ptr
+) {
+  return UnicodeChar_Wrapper(ptr);
+}
+
+const UnicodeChar_Wrapper UnicodeChar_Wrapper::FromPointer(
+    const UnicodeChar* ptr
+) {
+  return UnicodeChar_Wrapper(ptr);
+}
+
 UnicodeChar* UnicodeChar_Wrapper::Get() noexcept {
   return this->ptr_;
 }
 
 const UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
-  return UnicodeChar_Wrapper::Get();
+  return this->ptr_;
 }
 
-void UnicodeChar_Wrapper::SetChar(unsigned short ch) noexcept {
-  UnicodeChar* ptr = this->Get();
-
-  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
+void UnicodeChar_Wrapper::SetChar(char16_t ch) noexcept {
+  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(this->Get());
   actual_ptr->ch = ch;
+}
+
+void UnicodeChar_Wrapper::SetChar(const UnicodeChar_Wrapper& src) noexcept {
+  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(this->Get());
+  auto actual_src = reinterpret_cast<const UnicodeChar_1_00*>(src.Get());
+  actual_ptr->ch = actual_src->ch;
 }
 
 } // namespace d2

@@ -62,13 +62,14 @@ DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
 
 DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
 
-DLLEXPORT unsigned short D2_UnicodeChar_GetChar(
-    const struct D2_UnicodeChar* ptr
-);
-
 DLLEXPORT void D2_UnicodeChar_SetChar(
     struct D2_UnicodeChar* ptr,
-    unsigned short ch
+    char16_t ch
+);
+
+DLLEXPORT void D2_UnicodeChar_CopyChar(
+    struct D2_UnicodeChar* ptr,
+    const struct D2_UnicodeChar* src
 );
 
 #ifdef __cplusplus
