@@ -70,7 +70,7 @@ UnicodeString_API::UnicodeString_API() :
 
 UnicodeString_API::UnicodeString_API(
     size_type count,
-    const char_type& ch
+    const value_type& ch
 ) : data_(CreateUnicodeCharArray(count + 1)),
     length_(
         (GetUnicodeCharValue(ch) == '\0')
@@ -104,12 +104,12 @@ UnicodeString_API::UnicodeString_API(
 }
 
 UnicodeString_API::UnicodeString_API(
-    const char_type* str
+    const value_type* str
 ) : UnicodeString_API(str, d2lang::Unicode_strlen(str)) {
 }
 
 UnicodeString_API::UnicodeString_API(
-    const char_type* str,
+    const value_type* str,
     size_type count
 ) : length_(std::min(count, d2lang::Unicode_strlen(str))),
     capacity_(this->length() + 1) {
@@ -139,14 +139,14 @@ UnicodeString_API& UnicodeString_API::operator=(
 ) noexcept = default;
 
 UnicodeString_API& UnicodeString_API::operator=(
-    const char_type* str
+    const value_type* str
 ) {
   *this = UnicodeString_API(str);
   return *this;
 }
 
 UnicodeString_API& UnicodeString_API::operator=(
-    const char_type& ch
+    const value_type& ch
 ) {
   *this = UnicodeString_API(1, ch);
   return *this;
@@ -158,11 +158,11 @@ UnicodeString_API& UnicodeString_API::operator+=(
   return this->append(str);
 }
 
-UnicodeString_API& UnicodeString_API::operator+=(const char_type& ch) {
+UnicodeString_API& UnicodeString_API::operator+=(const value_type& ch) {
   return this->append(1, ch);
 }
 
-UnicodeString_API& UnicodeString_API::operator+=(const char_type* str) {
+UnicodeString_API& UnicodeString_API::operator+=(const value_type* str) {
   return this->append(str);
 }
 
@@ -213,7 +213,7 @@ std::u8string UnicodeString_API::ToU8String() const {
 
 UnicodeString_API& UnicodeString_API::append(
     size_type count,
-    const char_type& ch
+    const value_type& ch
 ) {
   size_type old_length = this->length();
   size_type old_capacity = this->capacity();
@@ -254,12 +254,12 @@ UnicodeString_API& UnicodeString_API::append(
   return this->append(&str[pos], count);
 }
 
-UnicodeString_API& UnicodeString_API::append(const char_type* str) {
+UnicodeString_API& UnicodeString_API::append(const value_type* str) {
   return this->append(str, d2lang::Unicode_strlen(str));
 }
 
 UnicodeString_API& UnicodeString_API::append(
-    const char_type* str,
+    const value_type* str,
     size_type count
 ) {
   size_type old_length = this->length();
@@ -314,11 +314,11 @@ UnicodeString_API::const_reference UnicodeString_API::at(
   return *adjusted_converted_ptr;
 }
 
-UnicodeString_API::char_type& UnicodeString_API::back() {
+UnicodeString_API::value_type& UnicodeString_API::back() {
   return (*this)[this->length() - 1];
 }
 
-const UnicodeString_API::char_type& UnicodeString_API::back() const {
+const UnicodeString_API::value_type& UnicodeString_API::back() const {
   return (*this)[this->length() - 1];
 }
 
@@ -328,14 +328,14 @@ void UnicodeString_API::clear() noexcept {
 }
 
 UnicodeString_API::size_type UnicodeString_API::copy(
-    char_type* dest,
+    value_type* dest,
     size_type count
 ) const {
   return this->copy(dest, count, 0);
 }
 
 UnicodeString_API::size_type UnicodeString_API::copy(
-    char_type* dest,
+    value_type* dest,
     size_type count,
     size_type pos
 ) const {
@@ -354,11 +354,11 @@ bool UnicodeString_API::empty() const noexcept {
   return this->length() == 0;
 }
 
-UnicodeString_API::char_type& UnicodeString_API::front() {
+UnicodeString_API::value_type& UnicodeString_API::front() {
   return (*this)[0];
 }
 
-const UnicodeString_API::char_type& UnicodeString_API::front() const {
+const UnicodeString_API::value_type& UnicodeString_API::front() const {
   return (*this)[0];
 }
 
@@ -367,7 +367,7 @@ void UnicodeString_API::pop_back() {
   this->length_ -= 1;
 }
 
-void UnicodeString_API::push_back(const char_type& ch) {
+void UnicodeString_API::push_back(const value_type& ch) {
   this->append(1, ch);
 }
 
@@ -376,7 +376,7 @@ void UnicodeString_API::resize(size_type count) {
   this->resize(count, *null_term_ch.data());
 }
 
-void UnicodeString_API::resize(size_type count, const char_type& ch) {
+void UnicodeString_API::resize(size_type count, const value_type& ch) {
   // If count is the same as length, do nothing.
   if (count == this->length()) {
     return;
@@ -469,7 +469,7 @@ UnicodeString_API::size_type UnicodeString_API::size() const noexcept {
   return this->length();
 }
 
-void UnicodeString_API::TerminateString(char_type* str, size_type pos) {
+void UnicodeString_API::TerminateString(value_type* str, size_type pos) {
   auto* actual_str = reinterpret_cast<UnicodeChar_1_00*>(str);
 
   actual_str[pos].ch = u'\0';

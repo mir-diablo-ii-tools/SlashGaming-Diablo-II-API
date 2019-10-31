@@ -57,7 +57,7 @@ namespace d2 {
 /*
  * Due to the nature of how this API must be implemented (information hiding
  * being necessary to prevent user-created errors), all string APIs cannot be
- * derived from the dtandard library's.
+ * derived from the standard library's.
  */
 
 struct UnicodeChar;
@@ -92,33 +92,33 @@ class DLLEXPORT UnicodeChar_Wrapper {
 
 class DLLEXPORT UnicodeChar_Traits {
  public:
-  using char_type = UnicodeChar;
+  using value_type = UnicodeChar;
 
-  static void assign(char_type& r, const char_type& a) noexcept;
-  static char_type* assign(char_type* p, std::size_t count, const char_type& a);
-  static bool eq(const char_type& a, const char_type& b);
-  static bool lt(const char_type& a, const char_type& b);
-  static char_type* move(char_type* dest, const char_type* src, std::size_t count);
-  static char_type* copy(char_type* dest, const char_type* src, std::size_t count);
-  static int compare(const char_type* s1, const char_type* s2, std::size_t count);
-  static const UnicodeChar_Traits::char_type* find(
-      const char_type* p,
+  static void assign(value_type& r, const value_type& a) noexcept;
+  static value_type* assign(value_type* p, std::size_t count, const value_type& a);
+  static bool eq(const value_type& a, const value_type& b);
+  static bool lt(const value_type& a, const value_type& b);
+  static value_type* move(value_type* dest, const value_type* src, std::size_t count);
+  static value_type* copy(value_type* dest, const value_type* src, std::size_t count);
+  static int compare(const value_type* s1, const value_type* s2, std::size_t count);
+  static const UnicodeChar_Traits::value_type* find(
+      const value_type* p,
       std::size_t count,
-      const char_type& ch
+      const value_type& ch
   );
 };
 
 class DLLEXPORT UnicodeString_API {
  public:
-  using char_type = UnicodeChar;
+  using value_type = UnicodeChar;
   using size_type = int;
-  using reference = char_type&;
-  using const_reference = const char_type&;
-  using pointer = char_type*;
-  using const_pointer = const char_type*;
+  using reference = value_type&;
+  using const_reference = const value_type&;
+  using pointer = value_type*;
+  using const_pointer = const value_type*;
 
   UnicodeString_API();
-  UnicodeString_API(size_type size, const char_type& ch);
+  UnicodeString_API(size_type size, const value_type& ch);
   UnicodeString_API(const UnicodeString_API& str);
   UnicodeString_API(const UnicodeString_API& str, size_type pos);
   UnicodeString_API(
@@ -126,20 +126,20 @@ class DLLEXPORT UnicodeString_API {
       size_type pos,
       size_type count
   );
-  UnicodeString_API(const char_type* str);
-  UnicodeString_API(const char_type* str, size_type count);
+  UnicodeString_API(const value_type* str);
+  UnicodeString_API(const value_type* str, size_type count);
   UnicodeString_API(UnicodeString_API&& str) noexcept;
 
   virtual ~UnicodeString_API();
 
   UnicodeString_API& operator=(const UnicodeString_API& str);
   UnicodeString_API& operator=(UnicodeString_API&& other) noexcept;
-  UnicodeString_API& operator=(const char_type* str);
-  UnicodeString_API& operator=(const char_type& str);
+  UnicodeString_API& operator=(const value_type* str);
+  UnicodeString_API& operator=(const value_type& str);
 
   UnicodeString_API& operator+=(const UnicodeString_API& str);
-  UnicodeString_API& operator+=(const char_type& ch);
-  UnicodeString_API& operator+=(const char_type* str);
+  UnicodeString_API& operator+=(const value_type& ch);
+  UnicodeString_API& operator+=(const value_type* str);
 
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
@@ -148,7 +148,7 @@ class DLLEXPORT UnicodeString_API {
 
   std::u8string ToU8String() const;
 
-  UnicodeString_API& append(size_type count, const char_type& ch);
+  UnicodeString_API& append(size_type count, const value_type& ch);
   UnicodeString_API& append(const UnicodeString_API& str);
   UnicodeString_API& append(
       const UnicodeString_API& str,
@@ -159,23 +159,23 @@ class DLLEXPORT UnicodeString_API {
       size_type pos,
       size_type count
   );
-  UnicodeString_API& append(const char_type* str);
-  UnicodeString_API& append(const char_type* str, size_type count);
+  UnicodeString_API& append(const value_type* str);
+  UnicodeString_API& append(const value_type* str, size_type count);
 
   reference at(size_type pos);
   const_reference at(size_type pos) const;
 
-  char_type& back();
-  const char_type& back() const;
+  value_type& back();
+  const value_type& back() const;
 
   void clear() noexcept;
 
   size_type copy(
-      char_type* dest,
+      value_type* dest,
       size_type count
   ) const;
   size_type copy(
-      char_type* dest,
+      value_type* dest,
       size_type count,
       size_type pos
   ) const;
@@ -183,15 +183,15 @@ class DLLEXPORT UnicodeString_API {
   [[nodiscard]]
   bool empty() const noexcept;
 
-  char_type& front();
-  const char_type& front() const;
+  value_type& front();
+  const value_type& front() const;
 
   void pop_back();
 
-  void push_back(const char_type& ch);
+  void push_back(const value_type& ch);
 
   void resize(size_type count);
-  void resize(size_type count, const char_type& ch);
+  void resize(size_type count, const value_type& ch);
 
   UnicodeString_API substr() const;
   UnicodeString_API substr(size_type pos) const;
@@ -212,7 +212,7 @@ class DLLEXPORT UnicodeString_API {
   size_type capacity_;
   size_type length_;
 
-  static void TerminateString(char_type* str, size_type pos);
+  static void TerminateString(value_type* str, size_type pos);
 };
 
 UnicodeString_API operator+(

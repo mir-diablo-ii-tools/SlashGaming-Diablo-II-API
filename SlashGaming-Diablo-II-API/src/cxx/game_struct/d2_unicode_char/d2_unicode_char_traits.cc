@@ -51,17 +51,17 @@
 
 namespace d2 {
 
-void UnicodeChar_Traits::assign(char_type& r, const char_type& a) noexcept {
+void UnicodeChar_Traits::assign(value_type& r, const value_type& a) noexcept {
   UnicodeChar_1_00& actual_r = reinterpret_cast<UnicodeChar_1_00&>(r);
   const UnicodeChar_1_00& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
 
   actual_r.ch = actual_a.ch;
 }
 
-UnicodeChar_Traits::char_type* UnicodeChar_Traits::assign(
-    char_type* p,
+UnicodeChar_Traits::value_type* UnicodeChar_Traits::assign(
+    value_type* p,
     std::size_t count,
-    const char_type& a
+    const value_type& a
 ) {
   auto* actual_p = reinterpret_cast<UnicodeChar_1_00*>(p);
   auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
@@ -72,23 +72,23 @@ UnicodeChar_Traits::char_type* UnicodeChar_Traits::assign(
   return p;
 }
 
-bool UnicodeChar_Traits::eq(const char_type& a, const char_type& b) {
+bool UnicodeChar_Traits::eq(const value_type& a, const value_type& b) {
   auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
   auto& actual_b = reinterpret_cast<const UnicodeChar_1_00&>(b);
 
   return actual_a.ch == actual_b.ch;
 }
 
-bool UnicodeChar_Traits::lt(const char_type& a, const char_type& b) {
+bool UnicodeChar_Traits::lt(const value_type& a, const value_type& b) {
   auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
   auto& actual_b = reinterpret_cast<const UnicodeChar_1_00&>(b);
 
   return actual_a.ch < actual_b.ch;
 }
 
-UnicodeChar_Traits::char_type* UnicodeChar_Traits::move(
-    char_type* dest,
-    const char_type* src,
+UnicodeChar_Traits::value_type* UnicodeChar_Traits::move(
+    value_type* dest,
+    const value_type* src,
     std::size_t count
 ) {
   auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
@@ -103,9 +103,9 @@ UnicodeChar_Traits::char_type* UnicodeChar_Traits::move(
   return dest;
 }
 
-UnicodeChar_Traits::char_type* UnicodeChar_Traits::copy(
-    char_type* dest,
-    const char_type* src,
+UnicodeChar_Traits::value_type* UnicodeChar_Traits::copy(
+    value_type* dest,
+    const value_type* src,
     std::size_t count
 ) {
   auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
@@ -117,17 +117,17 @@ UnicodeChar_Traits::char_type* UnicodeChar_Traits::copy(
 }
 
 int UnicodeChar_Traits::compare(
-    const char_type* s1,
-    const char_type* s2,
+    const value_type* s1,
+    const value_type* s2,
     std::size_t count
 ) {
   return std::memcmp(s1, s2, count);
 }
 
-const UnicodeChar_Traits::char_type* UnicodeChar_Traits::find(
-    const char_type* p,
+const UnicodeChar_Traits::value_type* UnicodeChar_Traits::find(
+    const value_type* p,
     std::size_t count,
-    const char_type& ch
+    const value_type& ch
 ) {
   auto* actual_p = reinterpret_cast<const UnicodeChar_1_00*>(p);
   auto& actual_ch = reinterpret_cast<const UnicodeChar_1_00&>(ch);
