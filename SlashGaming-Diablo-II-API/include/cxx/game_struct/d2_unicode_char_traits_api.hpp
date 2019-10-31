@@ -43,16 +43,40 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
-#include "game_struct/d2_unicode_char_traits_api.hpp"
-#include "game_struct/d2_unicode_string_api.hpp"
+#include "d2_unicode_char.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+/*
+ * Due to the nature of how this API must be implemented (information hiding
+ * being necessary to prevent user-created errors), all string APIs cannot be
+ * derived from the standard library's.
+ */
+
+class DLLEXPORT UnicodeChar_Traits {
+ public:
+  using value_type = UnicodeChar;
+
+  static void assign(value_type& r, const value_type& a) noexcept;
+  static value_type* assign(value_type* p, std::size_t count, const value_type& a);
+  static bool eq(const value_type& a, const value_type& b);
+  static bool lt(const value_type& a, const value_type& b);
+  static value_type* move(value_type* dest, const value_type* src, std::size_t count);
+  static value_type* copy(value_type* dest, const value_type* src, std::size_t count);
+  static int compare(const value_type* s1, const value_type* s2, std::size_t count);
+  static const UnicodeChar_Traits::value_type* find(
+      const value_type* p,
+      std::size_t count,
+      const value_type& ch
+  );
+};
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
