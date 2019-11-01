@@ -54,5 +54,6 @@
 #include "game_struct/d2_unicode_char.hpp"
 #include "game_struct/d2_unicode_char_traits_api.hpp"
 #include "game_struct/d2_unicode_string_api.hpp"
+#include "game_struct/d2_unicode_string_view_api.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_

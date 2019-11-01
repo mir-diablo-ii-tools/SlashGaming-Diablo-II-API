@@ -185,6 +185,10 @@ UnicodeString_API::const_reference UnicodeString_API::operator[](
   return reinterpret_cast<const_reference>(adjusted_ref);
 }
 
+UnicodeString_API::operator UnicodeStringView_API() const noexcept {
+  return UnicodeStringView_API(this->data(), this->length());
+}
+
 UnicodeString_API UnicodeString_API::FromU8String(
     std::u8string_view src
 ) {

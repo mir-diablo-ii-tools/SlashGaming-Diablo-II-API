@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_API_HPP_
 
 #include "d2_unicode_char.hpp"
+#include "d2_unicode_string_view_api.hpp"
 
 #include "../../dllexport_define.inc"
 
@@ -84,6 +85,8 @@ class DLLEXPORT UnicodeString_API {
   UnicodeString_API& operator+=(const UnicodeString_API& str);
   UnicodeString_API& operator+=(const value_type& ch);
   UnicodeString_API& operator+=(const value_type* str);
+
+  operator UnicodeStringView_API() const noexcept;
 
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
