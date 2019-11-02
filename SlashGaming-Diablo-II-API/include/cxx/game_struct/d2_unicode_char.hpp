@@ -51,6 +51,7 @@
 namespace d2 {
 
 struct UnicodeChar;
+struct UnicodeChar_1_00;
 
 class DLLEXPORT UnicodeChar_Wrapper {
  public:

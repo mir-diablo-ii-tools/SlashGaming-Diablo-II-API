@@ -46,6 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_VIEW_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_VIEW_API_HPP_
 
+#include <string_view>
+#include <memory>
+#include <variant>
+
 #include "d2_unicode_char.hpp"
 
 #include "../../dllexport_define.inc"
@@ -63,13 +67,18 @@ class DLLEXPORT UnicodeStringView_API {
 
   UnicodeStringView_API() noexcept;
   UnicodeStringView_API(const UnicodeStringView_API& other) noexcept;
+  UnicodeStringView_API(UnicodeStringView_API&& other) noexcept;
   UnicodeStringView_API(const value_type* s, size_type count);
   UnicodeStringView_API(const value_type* s);
 
-  virtual ~UnicodeStringView_API() noexcept;
+  ~UnicodeStringView_API() noexcept;
 
   UnicodeStringView_API& operator=(
       const UnicodeStringView_API& view
+  ) noexcept;
+
+  UnicodeStringView_API& operator=(
+      UnicodeStringView_API&& view
   ) noexcept;
 
   const_reference operator[](size_type pos) const;
@@ -121,8 +130,13 @@ class DLLEXPORT UnicodeStringView_API {
   size_type size() const noexcept;
 
  private:
-  const value_type* data_;
-  size_type length_;
+  std::variant<
+    std::unique_ptr<std::basic_string_view<UnicodeChar_1_00>>
+  > view_;
+
+  explicit UnicodeStringView_API(
+      std::basic_string_view<UnicodeChar_1_00>&& ptr
+  );
 };
 
 } // namespace d2

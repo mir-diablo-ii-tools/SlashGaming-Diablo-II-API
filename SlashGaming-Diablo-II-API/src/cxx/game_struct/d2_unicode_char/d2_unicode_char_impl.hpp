@@ -68,6 +68,14 @@ UnicodeChar* CreateUnicodeChar(char16_t ch);
 UnicodeChar* CreateUnicodeCharArray(std::size_t count);
 void DestroyUnicodeChar(UnicodeChar* ptr);
 
+inline bool operator==(const UnicodeChar_1_00& a, const UnicodeChar_1_00& b) {
+  return a.ch == b.ch;
+}
+
+inline int operator<=>(const UnicodeChar_1_00& a, const UnicodeChar_1_00& b) {
+  return a.ch - b.ch;
+}
+
 } // namespace d2
 
 #endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_IMPL_HPP_

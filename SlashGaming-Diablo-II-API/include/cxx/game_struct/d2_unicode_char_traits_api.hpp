@@ -48,6 +48,8 @@
 
 #include "d2_unicode_char.hpp"
 
+#include <cstddef>
+
 #include "../../dllexport_define.inc"
 
 namespace d2 {
