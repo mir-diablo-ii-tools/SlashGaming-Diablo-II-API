@@ -135,6 +135,10 @@ class DLLEXPORT UnicodeString_API {
   [[nodiscard]]
   bool empty() const noexcept;
 
+  bool ends_with(UnicodeStringView_API x) const noexcept;
+  bool ends_with(const value_type& x) const noexcept;
+  bool ends_with(const value_type* x) const;
+
   value_type& front();
   const value_type& front() const;
 
@@ -144,6 +148,12 @@ class DLLEXPORT UnicodeString_API {
 
   void resize(size_type count);
   void resize(size_type count, const value_type& ch);
+
+  void shrink_to_fit();
+
+  bool starts_with(UnicodeStringView_API x) const noexcept;
+  bool starts_with(const value_type& x) const noexcept;
+  bool starts_with(const value_type* x) const;
 
   UnicodeString_API substr() const;
   UnicodeString_API substr(size_type pos) const;

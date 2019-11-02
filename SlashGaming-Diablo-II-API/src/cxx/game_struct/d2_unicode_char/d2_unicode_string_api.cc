@@ -359,6 +359,28 @@ bool UnicodeString_API::empty() const noexcept {
   return actual_this->empty();
 }
 
+bool UnicodeString_API::ends_with(UnicodeStringView_API x) const noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return actual_this->ends_with(
+      reinterpret_cast<const UnicodeChar_1_00*>(x.data())
+  );
+}
+
+bool UnicodeString_API::ends_with(const value_type& x) const noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_x = reinterpret_cast<const UnicodeChar_1_00&>(x);
+
+  return actual_this->ends_with(actual_x);
+}
+
+bool UnicodeString_API::ends_with(const value_type* x) const {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto* actual_x = reinterpret_cast<const UnicodeChar_1_00*>(x);
+
+  return actual_this->ends_with(actual_x);
+}
+
 UnicodeString_API::value_type& UnicodeString_API::front() {
   auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
 
@@ -390,6 +412,33 @@ void UnicodeString_API::resize(size_type count) {
 void UnicodeString_API::resize(size_type count, const value_type& ch) {
   auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
   actual_this->resize(count, reinterpret_cast<const UnicodeChar_1_00&>(ch));
+}
+
+void UnicodeString_API::shrink_to_fit() {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  actual_this->shrink_to_fit();
+}
+
+bool UnicodeString_API::starts_with(UnicodeStringView_API x) const noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return actual_this->starts_with(
+      reinterpret_cast<const UnicodeChar_1_00*>(x.data())
+  );
+}
+
+bool UnicodeString_API::starts_with(const value_type& x) const noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_x = reinterpret_cast<const UnicodeChar_1_00&>(x);
+
+  return actual_this->starts_with(actual_x);
+}
+
+bool UnicodeString_API::starts_with(const value_type* x) const {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto* actual_x = reinterpret_cast<const UnicodeChar_1_00*>(x);
+
+  return actual_this->starts_with(actual_x);
 }
 
 UnicodeString_API UnicodeString_API::substr() const {
