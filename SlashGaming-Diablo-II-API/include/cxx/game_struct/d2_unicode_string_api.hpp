@@ -51,6 +51,7 @@
 #include <string_view>
 #include <variant>
 
+#include "../helper/d2_draw_options.hpp"
 #include "d2_unicode_char.hpp"
 #include "d2_unicode_string_view_api.hpp"
 
@@ -131,6 +132,9 @@ class DLLEXPORT UnicodeString_API {
       size_type count,
       size_type pos
   ) const;
+
+  void Draw(int position_x, int position_y) const;
+  void Draw(int position_x, int position_y, const DrawTextOptions& options) const;
 
   [[nodiscard]]
   bool empty() const noexcept;

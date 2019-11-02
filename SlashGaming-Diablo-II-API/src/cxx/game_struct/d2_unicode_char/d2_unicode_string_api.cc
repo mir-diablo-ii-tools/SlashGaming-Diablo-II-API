@@ -353,6 +353,18 @@ UnicodeString_API::size_type UnicodeString_API::copy(
   return actual_this->copy(actual_dest, count, pos);
 }
 
+void UnicodeString_API::Draw(int position_x, int position_y) const {
+  UnicodeStringView_API(*this).Draw(position_x, position_y);
+}
+
+void UnicodeString_API::Draw(
+    int position_x,
+    int position_y,
+    const DrawTextOptions& options
+) const {
+  UnicodeStringView_API(*this).Draw(position_x, position_y, options);
+}
+
 bool UnicodeString_API::empty() const noexcept {
   auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
 

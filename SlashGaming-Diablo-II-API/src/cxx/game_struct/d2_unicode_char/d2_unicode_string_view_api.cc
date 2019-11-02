@@ -49,6 +49,7 @@
 #include <stdexcept>
 
 #include "../../../../include/cxx/game_func/d2lang_func.hpp"
+#include "../../../../include/cxx/game_func/d2win_func.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "d2_unicode_char_impl.hpp"
 #include "../../../../include/cxx/game_struct/d2_unicode_char_traits_api.hpp"
@@ -213,6 +214,51 @@ UnicodeStringView_API::size_type UnicodeStringView_API::copy(
   auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
 
   return actual_this->copy(actual_dest, count, pos);
+}
+
+void UnicodeStringView_API::Draw(int position_x, int position_y) const {
+  DrawTextOptions options;
+  options.position_x_behavior = DrawPositionXBehavior::kLeft;
+  options.text_color = TextColor::kWhite;
+
+  this->Draw(position_x, position_y, options);
+}
+
+void UnicodeStringView_API::Draw(
+    int position_x,
+    int position_y,
+    const DrawTextOptions& options
+) const {
+  int draw_width = d2win::GetUnicodeTextNDrawWidth(
+      this->data(),
+      this->length()
+  );
+
+  int adjusted_position_x;
+  switch (options.position_x_behavior) {
+    case DrawPositionXBehavior::kLeft: {
+      adjusted_position_x = position_x;
+      break;
+    }
+
+    case DrawPositionXBehavior::kCenter: {
+      adjusted_position_x = position_x - (draw_width / 2);
+      break;
+    }
+
+    case DrawPositionXBehavior::kRight: {
+      adjusted_position_x = position_x - draw_width;
+      break;
+    }
+  }
+
+  d2win::DrawUnicodeText(
+      this->data(),
+      adjusted_position_x,
+      position_y,
+      options.text_color,
+      false
+  );
 }
 
 bool UnicodeStringView_API::empty() const noexcept {
