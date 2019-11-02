@@ -46,6 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_API_HPP_
 
+#include <memory>
+#include <string>
+#include <string_view>
+#include <variant>
+
 #include "d2_unicode_char.hpp"
 #include "d2_unicode_string_view_api.hpp"
 
@@ -75,7 +80,7 @@ class DLLEXPORT UnicodeString_API {
   UnicodeString_API(const value_type* str, size_type count);
   UnicodeString_API(UnicodeString_API&& str) noexcept;
 
-  virtual ~UnicodeString_API();
+  ~UnicodeString_API();
 
   UnicodeString_API& operator=(const UnicodeString_API& str);
   UnicodeString_API& operator=(UnicodeString_API&& other) noexcept;
@@ -155,11 +160,11 @@ class DLLEXPORT UnicodeString_API {
   size_type length() const noexcept;
 
  private:
-  UnicodeChar* data_;
-  size_type capacity_;
-  size_type length_;
+  std::variant<
+      std::unique_ptr<std::basic_string<UnicodeChar_1_00>>
+  > str_;
 
-  static void TerminateString(value_type* str, size_type pos);
+  UnicodeString_API(std::basic_string<UnicodeChar_1_00>&& str);
 };
 
 UnicodeString_API operator+(

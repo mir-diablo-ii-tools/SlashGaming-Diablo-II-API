@@ -45,8 +45,8 @@
 
 #include "../../../../include/cxx/game_struct/d2_unicode_string_api.hpp"
 
-#include <algorithm>
-#include <stdexcept>
+#include <memory>
+#include <string>
 
 #include "../../../../include/cxx/game_func/d2lang_func.hpp"
 #include "../../../../include/cxx/game_version.hpp"
@@ -56,77 +56,83 @@
 namespace d2 {
 namespace {
 
-std::int_least32_t GetUnicodeCharValue(const UnicodeChar& str) {
-  return reinterpret_cast<const UnicodeChar_1_00&>(str).ch;
-}
+using unistring_1_00 = std::basic_string<UnicodeChar_1_00>;
+using unique_ptr_1_00 = std::unique_ptr<unistring_1_00>;
 
 } // namespace
 
 
 UnicodeString_API::UnicodeString_API() :
-    data_(CreateUnicodeChar(u'\0')),
-    length_(0),
-    capacity_(1) {
+    str_(std::make_unique<unistring_1_00>()) {
 }
 
 UnicodeString_API::UnicodeString_API(
     size_type count,
     const value_type& ch
-) : data_(CreateUnicodeCharArray(count + 1)),
-    length_(
-        (GetUnicodeCharValue(ch) == '\0')
-            ? 0
-            : (count + 1)
-    ),
-    capacity_(count + 1) {
-  UnicodeChar_Traits::assign(this->data(), count, ch);
-  TerminateString(this->data(), this->length());
+) : str_(
+        std::make_unique<unistring_1_00>(
+            count, reinterpret_cast<const UnicodeChar_1_00&>(ch)
+        )
+    ) {
 }
 
-UnicodeString_API::UnicodeString_API(const UnicodeString_API& str)
-    : UnicodeString_API(str, 0) {
+UnicodeString_API::UnicodeString_API(const UnicodeString_API& str) :
+    str_(
+        std::make_unique<unistring_1_00>(
+            reinterpret_cast<const UnicodeChar_1_00*>(str.data())
+        )
+    ) {
 }
 
 UnicodeString_API::UnicodeString_API(
     const UnicodeString_API& str,
     size_type pos
-) : UnicodeString_API(str, pos, str.length() - pos) {
+) : str_(
+        std::make_unique<unistring_1_00>(
+            reinterpret_cast<const UnicodeChar_1_00*>(str.data()), pos
+        )
+    ) {
 }
 
 UnicodeString_API::UnicodeString_API(
     const UnicodeString_API& str,
     size_type pos,
     size_type count
-) : data_(CreateUnicodeCharArray(std::min(count, str.length() - pos))),
-    length_(std::min(count, str.length() - pos)),
-    capacity_(this->length() + 1) {
-  UnicodeChar_Traits::move(this->data(), &str[pos], this->length());
-  TerminateString(this->data(), this->length());
+) : str_(
+        std::make_unique<unistring_1_00>(
+            reinterpret_cast<const UnicodeChar_1_00*>(str.data()), pos, count
+        )
+    ) {
 }
 
 UnicodeString_API::UnicodeString_API(
     const value_type* str
-) : UnicodeString_API(str, d2lang::Unicode_strlen(str)) {
+) : str_(
+        std::make_unique<unistring_1_00>(
+            reinterpret_cast<const UnicodeChar_1_00*>(str)
+        )
+    ) {
 }
 
 UnicodeString_API::UnicodeString_API(
     const value_type* str,
     size_type count
-) : length_(std::min(count, d2lang::Unicode_strlen(str))),
-    capacity_(this->length() + 1) {
-  data_ = CreateUnicodeCharArray(this->length() + 1);
-
-  UnicodeChar_Traits::move(this->data(), str, this->length());
-  TerminateString(this->data(), this->length());
+) : str_(
+        std::make_unique<unistring_1_00>(
+            reinterpret_cast<const UnicodeChar_1_00*>(str), count
+        )
+    ) {
 }
 
 UnicodeString_API::UnicodeString_API(
     UnicodeString_API&& str
 ) noexcept = default;
 
-UnicodeString_API::~UnicodeString_API() {
-  DestroyUnicodeChar(this->data());
+UnicodeString_API::UnicodeString_API(unistring_1_00&& str) :
+    str_(std::make_unique<unistring_1_00>(std::move(str))) {
 }
+
+UnicodeString_API::~UnicodeString_API() = default;
 
 UnicodeString_API& UnicodeString_API::operator=(
     const UnicodeString_API& str
@@ -170,39 +176,45 @@ UnicodeString_API& UnicodeString_API::operator+=(const value_type* str) {
 UnicodeString_API::reference UnicodeString_API::operator[](
     size_type pos
 ) {
-  auto* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(this->data());
-  auto& adjusted_ref = actual_ptr[pos];
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_ref = (*actual_this)[pos];
 
-  return reinterpret_cast<reference>(adjusted_ref);
+  return reinterpret_cast<reference>(actual_ref);
 }
 
 UnicodeString_API::const_reference UnicodeString_API::operator[](
     size_type pos
 ) const {
-  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(this->data());
-  auto& adjusted_ref = actual_ptr[pos];
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_ref = (*actual_this)[pos];
 
-  return reinterpret_cast<const_reference>(adjusted_ref);
+  return reinterpret_cast<const_reference>(actual_ref);
 }
 
 UnicodeString_API::operator UnicodeStringView_API() const noexcept {
-  return UnicodeStringView_API(this->data(), this->length());
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return UnicodeStringView_API(
+      reinterpret_cast<const UnicodeChar*>(actual_this->data()),
+      actual_this->length()
+  );
 }
 
 UnicodeString_API UnicodeString_API::FromU8String(
     std::u8string_view src
 ) {
-  UnicodeString_API null_term_ch;
-  UnicodeString_API dest(src.length(), *null_term_ch.data());
+  std::unique_ptr actual_temp_dest = 
+      std::make_unique<UnicodeChar_1_00[]>(src.length());
+  UnicodeChar* converted_temp_dest =
+      reinterpret_cast<UnicodeChar*>(actual_temp_dest.get());
+
   d2lang::Unicode_utf8ToUnicode(
-      dest.data(),
+      converted_temp_dest,
       src.data(),
       std::numeric_limits<int>::max()
   );
 
-  dest.length_ = d2lang::Unicode_strlen(dest.data());
-
-  return dest;
+  return converted_temp_dest;
 }
 
 std::u8string UnicodeString_API::ToU8String() const {
@@ -220,35 +232,37 @@ UnicodeString_API& UnicodeString_API::append(
     size_type count,
     const value_type& ch
 ) {
-  size_type old_length = this->length();
-  size_type old_capacity = this->capacity();
-  size_type new_capacity = this->capacity();
-  this->length_ += count;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
 
-  // Repeatedly resize until the data can fit.
-  while (this->length() >= new_capacity) {
-    new_capacity *= 2;
-  }
-
-  this->resize(new_capacity, ch);
-
-  UnicodeChar_Traits::assign(
-      &(*this)[old_length],
-      old_length - old_capacity,
-      ch
+  actual_this->append(
+      count,
+      reinterpret_cast<const UnicodeChar_1_00&>(ch)
   );
+
   return *this;
 }
 
 UnicodeString_API& UnicodeString_API::append(const UnicodeString_API& str) {
-  return this->append(str, 0);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_str = std::get<unique_ptr_1_00>(str.str_);
+
+  actual_this->append(
+      *actual_str.get()
+  );
+
+  return *this;
 }
 
 UnicodeString_API& UnicodeString_API::append(
     const UnicodeString_API& str,
     size_type pos
 ) {
-  return this->append(str, pos, str.length() - pos);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_str = std::get<unique_ptr_1_00>(str.str_);
+
+  actual_this->append(*actual_str.get(), pos);
+
+  return *this;
 }
 
 UnicodeString_API& UnicodeString_API::append(
@@ -256,37 +270,31 @@ UnicodeString_API& UnicodeString_API::append(
     size_type pos,
     size_type count
 ) {
-  return this->append(&str[pos], count);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_str = std::get<unique_ptr_1_00>(str.str_);
+
+  actual_this->append(*actual_str.get(), pos, count);
+
+  return *this;
 }
 
 UnicodeString_API& UnicodeString_API::append(const value_type* str) {
-  return this->append(str, d2lang::Unicode_strlen(str));
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto* actual_str = reinterpret_cast<const UnicodeChar_1_00*>(str);
+
+  actual_this->append(actual_str);
+
+  return *this;
 }
 
 UnicodeString_API& UnicodeString_API::append(
     const value_type* str,
     size_type count
 ) {
-  size_type old_length = this->length();
-  size_type old_capacity = this->capacity();
-  size_type str_count = std::min(count, d2lang::Unicode_strlen(str));
-  this->length_ += str_count;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto* actual_str = reinterpret_cast<const UnicodeChar_1_00*>(str);
 
-  // If the capacity needs resizing.
-  if (this->capacity() <= this->length()) {
-    size_type new_capacity = this->capacity();
-    while (new_capacity <= this->length()) {
-      new_capacity *= 2;
-    }
-
-    this->resize(new_capacity);
-  }
-
-  UnicodeChar_Traits::move(
-      &(*this)[this->length()],
-      str,
-      str_count
-  );
+  actual_this->append(actual_str, count);
 
   return *this;
 }
@@ -294,49 +302,44 @@ UnicodeString_API& UnicodeString_API::append(
 UnicodeString_API::reference UnicodeString_API::at(
     size_type pos
 ) {
-  if (pos >= this->length()) {
-    throw std::out_of_range("UnicodeString_API::at");
-  }
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
 
-  auto* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(this->data());
-  auto* adjusted_converted_ptr =
-      reinterpret_cast<UnicodeChar*>(&actual_ptr[pos]);
-
-  return *adjusted_converted_ptr;
+  return reinterpret_cast<reference>(actual_this->at(pos));
 }
 
 UnicodeString_API::const_reference UnicodeString_API::at(
     size_type pos
 ) const {
-  if (pos >= this->length()) {
-    throw std::out_of_range("UnicodeString_API::at");
-  }
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
 
-  auto* actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(this->data());
-  auto* adjusted_converted_ptr =
-      reinterpret_cast<const UnicodeChar*>(&actual_ptr[pos]);
-
-  return *adjusted_converted_ptr;
+  return reinterpret_cast<const_reference>(actual_this->at(pos));
 }
 
 UnicodeString_API::value_type& UnicodeString_API::back() {
-  return (*this)[this->length() - 1];
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<value_type&>(actual_this->back());
 }
 
 const UnicodeString_API::value_type& UnicodeString_API::back() const {
-  return (*this)[this->length() - 1];
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<const value_type&>(actual_this->back());
 }
 
 void UnicodeString_API::clear() noexcept {
-  TerminateString(this->data(), 0);
-  this->length_ = 0;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  actual_this->clear();
 }
 
 UnicodeString_API::size_type UnicodeString_API::copy(
     value_type* dest,
     size_type count
 ) const {
-  return this->copy(dest, count, 0);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
+
+  return actual_this->copy(actual_dest, count);
 }
 
 UnicodeString_API::size_type UnicodeString_API::copy(
@@ -344,140 +347,115 @@ UnicodeString_API::size_type UnicodeString_API::copy(
     size_type count,
     size_type pos
 ) const {
-  if (pos > this->length()) {
-    throw std::out_of_range("UnicodeString_API::copy");
-  }
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
 
-  size_type actual_count = std::min(this->length() - pos, count);
-
-  UnicodeChar_Traits::move(dest, &(*this)[pos], actual_count);
-
-  return actual_count;
+  return actual_this->copy(actual_dest, count, pos);
 }
 
 bool UnicodeString_API::empty() const noexcept {
-  return this->length() == 0;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return actual_this->empty();
 }
 
 UnicodeString_API::value_type& UnicodeString_API::front() {
-  return (*this)[0];
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<value_type&>(actual_this->front());
 }
 
 const UnicodeString_API::value_type& UnicodeString_API::front() const {
-  return (*this)[0];
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<const value_type&>(actual_this->front());
 }
 
 void UnicodeString_API::pop_back() {
-  TerminateString(this->data(), this->length() - 1);
-  this->length_ -= 1;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  actual_this->pop_back();
 }
 
 void UnicodeString_API::push_back(const value_type& ch) {
-  this->append(1, ch);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  actual_this->push_back(reinterpret_cast<const UnicodeChar_1_00&>(ch));
 }
 
 void UnicodeString_API::resize(size_type count) {
-  UnicodeString_API null_term_ch;
-  this->resize(count, *null_term_ch.data());
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  actual_this->resize(count);
 }
 
 void UnicodeString_API::resize(size_type count, const value_type& ch) {
-  // If count is the same as length, do nothing.
-  if (count == this->length()) {
-    return;
-  }
-
-  // If count is less than length, terminate the string at the select
-  // position.
-  if (count < this->length()) {
-    this->length_ = count;
-    TerminateString(this->data(), count);
-    return;
-  }
-
-  // If count is greater than length...
-  // If capacity is too small, resize the capacity.
-  if (count >= this->capacity()) {
-    UnicodeString_API temp(count, ch);
-    UnicodeChar_Traits::copy(temp.data(), this->data(), this->length());
-    TerminateString(temp.data(), this->length());
-
-    *this = std::move(temp);
-
-    return;
-  }
-
-  // If capacity is large enough, then append characters.
-  UnicodeChar_Traits::assign(
-      &(*this)[this->length()],
-      count - this->length(),
-      ch
-  );
-
-  this->length_ = (reinterpret_cast<const UnicodeChar_1_00&>(ch).ch == u'\0')
-      ? this->length()
-      : count;
-
-  TerminateString(this->data(), this->length());
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  actual_this->resize(count, reinterpret_cast<const UnicodeChar_1_00&>(ch));
 }
 
 UnicodeString_API UnicodeString_API::substr() const {
-  return this->substr(0);
+  return *this;
 }
 
 UnicodeString_API UnicodeString_API::substr(size_type pos) const {
-  return this->substr(pos, this->length() - pos);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto actual_sub = actual_this->substr(pos);
+
+  return UnicodeString_API(std::move(actual_sub));
 }
 
 UnicodeString_API UnicodeString_API::substr(
     size_type pos,
     size_type count
 ) const {
-  return UnicodeString_API(*this, pos, count);
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto actual_sub = actual_this->substr(pos, count);
+
+  return UnicodeString_API(std::move(actual_sub));
 }
 
 void UnicodeString_API::swap(UnicodeString_API& str) {
-  auto* temp_data = this->data();
-  this->data_ = str.data();
-  str.data_ = temp_data;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+  auto& actual_str = std::get<unique_ptr_1_00>(str.str_);
 
-  auto temp_length = this->length();
-  this->length_ = str.length();
-  str.length_ = temp_length;
-
-  auto temp_capacity = this->capacity();
-  this->capacity_ = str.capacity();
-  str.capacity_ = temp_capacity;
+  actual_this->swap(*actual_str.get());
 }
 
 UnicodeString_API::size_type UnicodeString_API::capacity() const noexcept {
-  return this->capacity_;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return actual_this->capacity();
 }
 
-const UnicodeChar* UnicodeString_API::c_str() const noexcept {
-  return this->data();
+const UnicodeString_API::value_type*
+UnicodeString_API::c_str() const noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<const value_type*>(actual_this->c_str());
 }
 
-UnicodeChar* UnicodeString_API::data() noexcept {
-  return this->data_;
+UnicodeString_API::value_type* UnicodeString_API::data() noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<value_type*>(actual_this->data());
 }
 
-const UnicodeChar* UnicodeString_API::data() const noexcept {
-  return this->data_;
+const UnicodeString_API::value_type*
+UnicodeString_API::data() const noexcept {
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return reinterpret_cast<const value_type*>(actual_this->data());
 }
 
 UnicodeString_API::size_type UnicodeString_API::length() const noexcept {
-  return this->length_;
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
+
+  return actual_this->length();
 }
 
 UnicodeString_API::size_type UnicodeString_API::size() const noexcept {
-  return this->length();
-}
+  auto& actual_this = std::get<unique_ptr_1_00>(this->str_);
 
-void UnicodeString_API::TerminateString(value_type* str, size_type pos) {
-  auto* actual_str = reinterpret_cast<UnicodeChar_1_00*>(str);
-
-  actual_str[pos].ch = u'\0';
+  return actual_this->size();
 }
 
 UnicodeString_API operator+(
