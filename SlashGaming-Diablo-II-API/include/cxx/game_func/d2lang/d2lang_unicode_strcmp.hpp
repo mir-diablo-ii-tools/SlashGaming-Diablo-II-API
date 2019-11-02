@@ -43,59 +43,21 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCMP_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCMP_HPP_
 
-#include <cstddef>
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#include "d2_unicode_char_impl.hpp"
+#include "../../../dllexport_define.inc"
 
-/**
- * Latest supported version: 1.14D
- */
+namespace d2::d2lang {
 
-namespace d2 {
+DLLEXPORT int Unicode_strcmp(
+    const UnicodeChar* str1,
+    const UnicodeChar* str2
+);
 
-UnicodeChar_API::UnicodeChar_API() :
-    UnicodeChar_API('\0') {
-}
+} // namespace d2::d2lang
 
-UnicodeChar_API::UnicodeChar_API(unsigned short ch) :
-    UnicodeChar_Wrapper(CreateUnicodeChar(ch)) {
-}
-
-UnicodeChar_API::UnicodeChar_API(const UnicodeChar_API& other) :
-    UnicodeChar_API(other.GetChar()) {
-}
-
-UnicodeChar_API::UnicodeChar_API(UnicodeChar_API&& other) noexcept = default;
-
-UnicodeChar_API::~UnicodeChar_API() {
-  DestroyUnicodeChar(this->Get());
-}
-
-UnicodeChar_API& UnicodeChar_API::operator=(
-    const UnicodeChar_API& other
-) = default;
-
-UnicodeChar_API& UnicodeChar_API::operator=(
-    UnicodeChar_API&& other
-) noexcept = default;
-
-UnicodeChar* CreateUnicodeChar(unsigned short ch) {
-  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[1];
-  ptr->ch = ch;
-
-  return reinterpret_cast<UnicodeChar*>(ptr);
-}
-
-UnicodeChar* CreateUnicodeCharArray(std::size_t count) {
-  UnicodeChar_1_00* ptr = new UnicodeChar_1_00[count];
-  return reinterpret_cast<UnicodeChar*>(ptr);
-}
-
-void DestroyUnicodeChar(UnicodeChar* ptr) {
-  UnicodeChar_1_00* actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(ptr);
-  delete[] actual_ptr;
-}
-
-} // namespace d2
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRCMP_HPP_

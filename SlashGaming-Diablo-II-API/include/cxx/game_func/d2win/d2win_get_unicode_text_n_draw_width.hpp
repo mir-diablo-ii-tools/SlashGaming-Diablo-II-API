@@ -43,38 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_GET_UNICODE_TEXT_N_DRAW_WIDTH_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_GET_UNICODE_TEXT_N_DRAW_WIDTH_HPP_
 
-#include <stddef.h>
+#include "../../game_struct/d2_unicode_char.hpp"
 
-#include "../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
-struct D2_UnicodeChar;
+namespace d2::d2win {
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
-
-DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
-
-DLLEXPORT void D2_UnicodeChar_SetChar(
-    struct D2_UnicodeChar* ptr,
-    char16_t ch
+DLLEXPORT int GetUnicodeTextNDrawWidth(
+    const UnicodeChar* text,
+    int length
 );
 
-DLLEXPORT void D2_UnicodeChar_CopyChar(
-    struct D2_UnicodeChar* ptr,
-    const struct D2_UnicodeChar* src
-);
+} // namespace d2::d2win
 
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_GET_UNICODE_TEXT_N_DRAW_WIDTH_HPP_

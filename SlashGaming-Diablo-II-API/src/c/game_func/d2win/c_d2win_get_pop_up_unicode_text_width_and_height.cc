@@ -43,14 +43,21 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/c/game_func/d2win/d2win_get_pop_up_unicode_text_width_and_height.h"
 
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strlen.hpp"
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2win/d2win_get_pop_up_unicode_text_width_and_height.hpp"
 
-namespace d2 {
+void D2_D2Win_GetPopUpUnicodeTextWidthAndHeight(
+    const D2_UnicodeChar* text,
+    int* width,
+    int* height
+) {
+  auto actual_text = reinterpret_cast<const d2::UnicodeChar*>(text);
 
-int UnicodeCharTraits::length(const UnicodeChar* str) {
-  return d2lang::Unicode_strlen(str);
+  d2::d2win::GetPopUpUnicodeTextWidthAndHeight(
+      actual_text,
+      width,
+      height
+  );
 }
-
-} // namespace d2

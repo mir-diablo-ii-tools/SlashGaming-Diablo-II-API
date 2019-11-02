@@ -43,38 +43,92 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include <stddef.h>
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncmp.hpp"
 
-#include "../../dllexport_define.inc"
+#include <cstdint>
 
-struct D2_UnicodeChar;
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+namespace d2::d2lang {
+namespace {
 
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
+int D2Lang_Unicode_strncmp_1_00(
+    const UnicodeChar* str1,
+    const UnicodeChar* str2,
+    std::size_t count
+) {
+  auto* actual_str1 = reinterpret_cast<const UnicodeChar_1_00*>(str1);
+  auto* actual_str2 = reinterpret_cast<const UnicodeChar_1_00*>(str2);
 
-DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
+  for (std::size_t i = 0; i < count; i += 1) {
+    int diff = actual_str1[i].ch - actual_str2[i].ch;
 
-DLLEXPORT void D2_UnicodeChar_SetChar(
-    struct D2_UnicodeChar* ptr,
-    char16_t ch
-);
+    if (diff != 0) {
+      return diff;
+    }
 
-DLLEXPORT void D2_UnicodeChar_CopyChar(
-    struct D2_UnicodeChar* ptr,
-    const struct D2_UnicodeChar* src
-);
+    if (actual_str1[i].ch == u'\0') {
+      return 0;
+    }
+  }
 
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
+  return 0;
+}
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+__declspec(naked) std::int32_t __cdecl
+D2Lang_Unicode_strncmp_1_10(
+    std::intptr_t func_ptr,
+    const UnicodeChar* str1,
+    const UnicodeChar* str2,
+    std::uint32_t count
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 20])
+  ASM_X86(mov edx, dword ptr [ebp + 16]);
+  ASM_X86(mov ecx, dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Lang_Unicode_strncmp() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+int Unicode_strncmp(
+    const UnicodeChar* str1,
+    const UnicodeChar* str2,
+    std::size_t count
+) {
+  std::intptr_t ptr = D2Lang_Unicode_strncmp();
+
+  if (GetRunningGameVersionId() < GameVersion::k1_10) {
+    return D2Lang_Unicode_strncmp_1_00(str1, str2, count);
+  } else {
+    return D2Lang_Unicode_strncmp_1_10(ptr, str1, str2, count);
+  }
+}
+
+} // namespace d2::d2lang

@@ -43,49 +43,22 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_UNICODE_TO_UTF8_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_UNICODE_TO_UTF8_HPP_
 
-#include "d2_unicode_char_impl.hpp"
+#include "../../game_struct/d2_unicode_char.hpp"
 
-namespace d2 {
+#include "../../../dllexport_define.inc"
 
-UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
-    const UnicodeChar* ptr
-) noexcept :
-    ptr_(ptr) {
-}
+namespace d2::d2lang {
 
-UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
-    const UnicodeChar_ConstWrapper& other
-) = default;
+DLLEXPORT char8_t* Unicode_unicodeToUtf8(
+    char8_t* dest,
+    const UnicodeChar* src,
+    int count_with_null_term
+);
 
-UnicodeChar_ConstWrapper::UnicodeChar_ConstWrapper(
-    UnicodeChar_ConstWrapper&& other
-) noexcept = default;
+} // namespace d2::d2lang
 
-UnicodeChar_ConstWrapper::~UnicodeChar_ConstWrapper() = default;
-
-UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
-    const UnicodeChar_ConstWrapper& other
-) = default;
-
-UnicodeChar_ConstWrapper& UnicodeChar_ConstWrapper::operator=(
-    UnicodeChar_ConstWrapper&& other
-) noexcept = default;
-
-UnicodeChar_ConstWrapper::operator unsigned short() const noexcept {
-  return this->GetChar();
-}
-
-const UnicodeChar* UnicodeChar_ConstWrapper::Get() const noexcept {
-  return this->ptr_;
-}
-
-unsigned short UnicodeChar_ConstWrapper::GetChar() const noexcept {
-  const UnicodeChar* ptr = this->Get();
-
-  auto actual_ptr = reinterpret_cast<const UnicodeChar_1_00*>(ptr);
-  return actual_ptr->ch;
-}
-
-} // namespace d2
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_UNICODE_TO_UTF8_HPP_

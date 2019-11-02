@@ -43,38 +43,64 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include <stddef.h>
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncat.hpp"
 
-#include "../../dllexport_define.inc"
+#include <cstdint>
 
-struct D2_UnicodeChar;
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+namespace d2::d2lang {
+namespace {
 
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
+__declspec(naked) UnicodeChar* __cdecl
+D2Lang_Unicode_strncat_1_00(
+    std::intptr_t func_ptr,
+    UnicodeChar* dest,
+    const UnicodeChar* src,
+    std::uint32_t count
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
 
-DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
 
-DLLEXPORT void D2_UnicodeChar_SetChar(
-    struct D2_UnicodeChar* ptr,
-    char16_t ch
-);
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(mov edx, dword ptr [ebp + 16]);
+  ASM_X86(mov ecx, dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
 
-DLLEXPORT void D2_UnicodeChar_CopyChar(
-    struct D2_UnicodeChar* ptr,
-    const struct D2_UnicodeChar* src
-);
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
 
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+std::intptr_t D2Lang_Unicode_strncat() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+UnicodeChar* Unicode_strncat(
+    UnicodeChar* dest,
+    const UnicodeChar* src,
+    std::size_t count
+) {
+  std::intptr_t ptr = D2Lang_Unicode_strncat();
+
+  return D2Lang_Unicode_strncat_1_00(ptr, dest, src, count);
+}
+
+} // namespace d2::d2lang

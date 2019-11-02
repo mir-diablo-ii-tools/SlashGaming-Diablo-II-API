@@ -64,9 +64,17 @@ static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
 
 #pragma pack(pop)
 
-UnicodeChar* CreateUnicodeChar(unsigned short ch);
+UnicodeChar* CreateUnicodeChar(char16_t ch);
 UnicodeChar* CreateUnicodeCharArray(std::size_t count);
 void DestroyUnicodeChar(UnicodeChar* ptr);
+
+inline bool operator==(const UnicodeChar_1_00& a, const UnicodeChar_1_00& b) {
+  return a.ch == b.ch;
+}
+
+inline int operator<=>(const UnicodeChar_1_00& a, const UnicodeChar_1_00& b) {
+  return a.ch - b.ch;
+}
 
 } // namespace d2
 

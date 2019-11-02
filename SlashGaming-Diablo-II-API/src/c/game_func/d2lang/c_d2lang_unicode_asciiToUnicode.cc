@@ -43,16 +43,22 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/c/game_func/d2lang/d2lang_unicode_asciiToUnicode.h"
 
-namespace d2 {
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_asciiToUnicode.hpp"
 
-UnicodeString::size_type UnicodeString::length() const noexcept {
-  return this->length_;
+D2_UnicodeChar* D2_D2Lang_Unicode_asciiToUnicode(
+    D2_UnicodeChar* dest,
+    const char* src,
+    int count_with_null_term
+) {
+  auto actual_dest = reinterpret_cast<d2::UnicodeChar*>(dest);
+  auto actual_result = d2::d2lang::Unicode_asciiToUnicode(
+      actual_dest,
+      src,
+      count_with_null_term
+  );
+
+  return reinterpret_cast<D2_UnicodeChar*>(actual_result);
 }
-
-UnicodeString::size_type UnicodeString::size() const noexcept {
-  return this->length_;
-}
-
-} // namespace d2

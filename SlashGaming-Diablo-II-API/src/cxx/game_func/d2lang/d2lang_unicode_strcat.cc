@@ -62,7 +62,7 @@ namespace {
 __declspec(naked) UnicodeChar* __cdecl
 D2Lang_Unicode_strcat_1_00(
     std::intptr_t func_ptr,
-    const UnicodeChar* dest,
+    UnicodeChar* dest,
     const UnicodeChar* src
 ) {
   ASM_X86(push ebp);

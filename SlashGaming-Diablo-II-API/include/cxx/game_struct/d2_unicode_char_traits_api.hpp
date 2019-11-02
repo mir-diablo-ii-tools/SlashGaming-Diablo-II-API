@@ -43,38 +43,42 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
 
-#include <stddef.h>
+#include "d2_unicode_char.hpp"
+
+#include <cstddef>
 
 #include "../../dllexport_define.inc"
 
-struct D2_UnicodeChar;
+namespace d2 {
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+/*
+ * Due to the nature of how this API must be implemented (information hiding
+ * being necessary to prevent user-created errors), all string APIs cannot be
+ * derived from the standard library's.
+ */
 
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
+class DLLEXPORT UnicodeCharTraits_API {
+ public:
+  using value_type = UnicodeChar;
 
-DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
+  static void assign(value_type& r, const value_type& a) noexcept;
+  static value_type* assign(value_type* p, std::size_t count, const value_type& a);
+  static bool eq(const value_type& a, const value_type& b);
+  static bool lt(const value_type& a, const value_type& b);
+  static value_type* move(value_type* dest, const value_type* src, std::size_t count);
+  static value_type* copy(value_type* dest, const value_type* src, std::size_t count);
+  static int compare(const value_type* s1, const value_type* s2, std::size_t count);
+  static const UnicodeCharTraits_API::value_type* find(
+      const value_type* p,
+      std::size_t count,
+      const value_type& ch
+  );
+};
 
-DLLEXPORT void D2_UnicodeChar_SetChar(
-    struct D2_UnicodeChar* ptr,
-    char16_t ch
-);
-
-DLLEXPORT void D2_UnicodeChar_CopyChar(
-    struct D2_UnicodeChar* ptr,
-    const struct D2_UnicodeChar* src
-);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
+} // namespace d2
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_

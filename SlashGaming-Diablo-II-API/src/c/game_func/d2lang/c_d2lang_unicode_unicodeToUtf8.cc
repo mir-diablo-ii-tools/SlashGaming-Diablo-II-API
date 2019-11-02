@@ -43,38 +43,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#include "../../../../include/c/game_func/d2lang/d2lang_unicode_unicodeToUtf8.h"
 
-#include <stddef.h>
+#include "../../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_unicodeToUtf8.hpp"
 
-#include "../../dllexport_define.inc"
+char* D2_D2Lang_Unicode_unicodeToUtf8(
+    char* dest,
+    const D2_UnicodeChar* src,
+    int count_with_null_term
+) {
+  auto actual_dest = reinterpret_cast<char8_t*>(dest);
+  auto actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
 
-struct D2_UnicodeChar;
+  auto actual_result = d2::d2lang::Unicode_unicodeToUtf8(
+      actual_dest,
+      actual_src,
+      count_with_null_term
+  );
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
-
-DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
-
-DLLEXPORT void D2_UnicodeChar_SetChar(
-    struct D2_UnicodeChar* ptr,
-    char16_t ch
-);
-
-DLLEXPORT void D2_UnicodeChar_CopyChar(
-    struct D2_UnicodeChar* ptr,
-    const struct D2_UnicodeChar* src
-);
-
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
-
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+  return reinterpret_cast<char*>(actual_result);
+}

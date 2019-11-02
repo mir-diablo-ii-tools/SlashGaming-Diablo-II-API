@@ -47,9 +47,17 @@
 #define SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_
 
 #include "d2lang/d2lang_get_string_by_index.h"
+#include "d2lang/d2lang_unicode_asciiToUnicode.h"
 #include "d2lang/d2lang_unicode_strcat.h"
+#include "d2lang/d2lang_unicode_strcmp.h"
+#include "d2lang/d2lang_unicode_strcpy.h"
 #include "d2lang/d2lang_unicode_strlen.h"
+#include "d2lang/d2lang_unicode_strncat.h"
+#include "d2lang/d2lang_unicode_strncmp.h"
+#include "d2lang/d2lang_unicode_strncpy.h"
 #include "d2lang/d2lang_unicode_tolower.h"
 #include "d2lang/d2lang_unicode_toupper.h"
+#include "d2lang/d2lang_unicode_unicodeToUtf8.h"
+#include "d2lang/d2lang_unicode_utf8ToUnicode.h"
 
 #endif // SGD2MAPI_C_GAME_FUNC_D2LANG_FUNC_H_

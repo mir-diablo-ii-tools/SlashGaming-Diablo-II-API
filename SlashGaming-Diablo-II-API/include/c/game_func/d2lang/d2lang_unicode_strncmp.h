@@ -43,38 +43,28 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
-#define SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRNCMP_H_
+#define SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRNCMP_H_
 
 #include <stddef.h>
 
-#include "../../dllexport_define.inc"
+#include "../../game_struct/d2_unicode_char.h"
 
-struct D2_UnicodeChar;
+#include "../../../dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateDefault(void);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch);
-DLLEXPORT struct D2_UnicodeChar* D2_UnicodeChar_CreateArray(size_t count);
-
-DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
-
-DLLEXPORT void D2_UnicodeChar_SetChar(
-    struct D2_UnicodeChar* ptr,
-    char16_t ch
-);
-
-DLLEXPORT void D2_UnicodeChar_CopyChar(
-    struct D2_UnicodeChar* ptr,
-    const struct D2_UnicodeChar* src
+DLLEXPORT int D2_D2Lang_Unicode_strncmp(
+    const struct D2_UnicodeChar* str1,
+    const struct D2_UnicodeChar* str2,
+    size_t count
 );
 
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_FUNC_D2LANG_D2LANG_UNICODE_STRNCMP_H_

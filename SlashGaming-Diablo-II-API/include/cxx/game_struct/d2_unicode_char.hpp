@@ -46,94 +46,39 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
-#include <memory>
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
 struct UnicodeChar;
+struct UnicodeChar_1_00;
 
-class DLLEXPORT UnicodeChar_ConstWrapper {
- public:
-  UnicodeChar_ConstWrapper() = delete;
-  UnicodeChar_ConstWrapper(const UnicodeChar* ptr) noexcept;
-
-  UnicodeChar_ConstWrapper(const UnicodeChar_ConstWrapper& other);
-  UnicodeChar_ConstWrapper(UnicodeChar_ConstWrapper&& other) noexcept;
-
-  virtual ~UnicodeChar_ConstWrapper();
-
-  UnicodeChar_ConstWrapper& operator=(const UnicodeChar_ConstWrapper& other);
-  UnicodeChar_ConstWrapper& operator=(UnicodeChar_ConstWrapper&& other) noexcept;
-
-  operator unsigned short() const noexcept;
-
-  const UnicodeChar* Get() const noexcept;
-
-  unsigned short GetChar() const noexcept;
-
- private:
-  const UnicodeChar* ptr_;
-};
-
-class DLLEXPORT UnicodeChar_Wrapper : public UnicodeChar_ConstWrapper {
+class DLLEXPORT UnicodeChar_Wrapper {
  public:
   UnicodeChar_Wrapper() = delete;
-  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
 
   UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other);
   UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
 
-  ~UnicodeChar_Wrapper() override;
+  virtual ~UnicodeChar_Wrapper();
 
   UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other);
   UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
 
+  static UnicodeChar_Wrapper FromPointer(UnicodeChar* ptr);
+  static const UnicodeChar_Wrapper FromPointer(const UnicodeChar* ptr);
+
   UnicodeChar* Get() noexcept;
   const UnicodeChar* Get() const noexcept;
 
-  void SetChar(unsigned short ch) noexcept;
+  void SetChar(char16_t ch) noexcept;
+  void SetChar(const UnicodeChar_Wrapper& ch) noexcept;
 
  private:
   UnicodeChar* ptr_;
-};
 
-class DLLEXPORT UnicodeChar_API : public UnicodeChar_Wrapper {
- public:
-  UnicodeChar_API();
-  UnicodeChar_API(unsigned short ch);
-
-  UnicodeChar_API(const UnicodeChar_API& other);
-  UnicodeChar_API(UnicodeChar_API&& other) noexcept;
-
-  ~UnicodeChar_API() override;
-
-  UnicodeChar_API& operator=(const UnicodeChar_API& other);
-  UnicodeChar_API& operator=(UnicodeChar_API&& other) noexcept;
-};
-
-// Do not derive from std::char_traits because of non-conformance with
-// return types.
-class DLLEXPORT UnicodeCharTraits {
-  static int length(const UnicodeChar* str);
-};
-
-// Do not derive from std::basic_string, for same reasons as
-// UnicodeCharTraits.
-class DLLEXPORT UnicodeString {
-  using traits_type = UnicodeCharTraits;
-  using value_type = UnicodeChar;
-  using size_type = int;
-  using reference = value_type&;
-  using const_reference = const value_type&;
-
- public:
-  size_type length() const noexcept;
-  size_type size() const noexcept;
-
- private:
-  UnicodeString::size_type length_;
+  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
+  UnicodeChar_Wrapper(const UnicodeChar* ptr) noexcept;
 };
 
 } // namespace d2

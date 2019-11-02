@@ -100,7 +100,6 @@ struct DrawAllCelFileFramesOptions {
 struct DrawTextOptions {
   TextColor text_color;
   DrawPositionXBehavior position_x_behavior;
-  DrawPositionYBehavior position_y_behavior;
 };
 
 } // namespace d2
