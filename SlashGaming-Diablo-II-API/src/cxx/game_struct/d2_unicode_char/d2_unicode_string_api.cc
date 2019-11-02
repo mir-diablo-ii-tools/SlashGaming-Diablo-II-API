@@ -59,6 +59,8 @@ namespace {
 using unistring_1_00 = std::basic_string<UnicodeChar_1_00>;
 using unique_ptr_1_00 = std::unique_ptr<unistring_1_00>;
 
+extern template std::basic_string_view<UnicodeChar_1_00>;
+
 } // namespace
 
 
