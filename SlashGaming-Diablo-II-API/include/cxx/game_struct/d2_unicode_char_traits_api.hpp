@@ -60,7 +60,7 @@ namespace d2 {
  * derived from the standard library's.
  */
 
-class DLLEXPORT UnicodeChar_Traits {
+class DLLEXPORT UnicodeCharTraits_API {
  public:
   using value_type = UnicodeChar;
 
@@ -71,7 +71,7 @@ class DLLEXPORT UnicodeChar_Traits {
   static value_type* move(value_type* dest, const value_type* src, std::size_t count);
   static value_type* copy(value_type* dest, const value_type* src, std::size_t count);
   static int compare(const value_type* s1, const value_type* s2, std::size_t count);
-  static const UnicodeChar_Traits::value_type* find(
+  static const UnicodeCharTraits_API::value_type* find(
       const value_type* p,
       std::size_t count,
       const value_type& ch

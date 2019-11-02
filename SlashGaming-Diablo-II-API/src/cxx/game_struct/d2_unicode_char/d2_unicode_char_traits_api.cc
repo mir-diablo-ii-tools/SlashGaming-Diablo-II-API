@@ -58,14 +58,14 @@ using unichar_traits_1_00 = std::char_traits<UnicodeChar_1_00>;
 
 } // namespace
 
-void UnicodeChar_Traits::assign(value_type& r, const value_type& a) noexcept {
+void UnicodeCharTraits_API::assign(value_type& r, const value_type& a) noexcept {
   UnicodeChar_1_00& actual_r = reinterpret_cast<UnicodeChar_1_00&>(r);
   const UnicodeChar_1_00& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
 
   unichar_traits_1_00::assign(actual_r, actual_a);
 }
 
-UnicodeChar_Traits::value_type* UnicodeChar_Traits::assign(
+UnicodeCharTraits_API::value_type* UnicodeCharTraits_API::assign(
     value_type* p,
     std::size_t count,
     const value_type& a
@@ -78,21 +78,21 @@ UnicodeChar_Traits::value_type* UnicodeChar_Traits::assign(
   return p;
 }
 
-bool UnicodeChar_Traits::eq(const value_type& a, const value_type& b) {
+bool UnicodeCharTraits_API::eq(const value_type& a, const value_type& b) {
   auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
   auto& actual_b = reinterpret_cast<const UnicodeChar_1_00&>(b);
 
   return unichar_traits_1_00::eq(actual_a, actual_b);
 }
 
-bool UnicodeChar_Traits::lt(const value_type& a, const value_type& b) {
+bool UnicodeCharTraits_API::lt(const value_type& a, const value_type& b) {
   auto& actual_a = reinterpret_cast<const UnicodeChar_1_00&>(a);
   auto& actual_b = reinterpret_cast<const UnicodeChar_1_00&>(b);
 
   return unichar_traits_1_00::lt(actual_a, actual_b);
 }
 
-UnicodeChar_Traits::value_type* UnicodeChar_Traits::move(
+UnicodeCharTraits_API::value_type* UnicodeCharTraits_API::move(
     value_type* dest,
     const value_type* src,
     std::size_t count
@@ -105,7 +105,7 @@ UnicodeChar_Traits::value_type* UnicodeChar_Traits::move(
   return dest;
 }
 
-UnicodeChar_Traits::value_type* UnicodeChar_Traits::copy(
+UnicodeCharTraits_API::value_type* UnicodeCharTraits_API::copy(
     value_type* dest,
     const value_type* src,
     std::size_t count
@@ -118,7 +118,7 @@ UnicodeChar_Traits::value_type* UnicodeChar_Traits::copy(
   return dest;
 }
 
-int UnicodeChar_Traits::compare(
+int UnicodeCharTraits_API::compare(
     const value_type* s1,
     const value_type* s2,
     std::size_t count
@@ -129,7 +129,7 @@ int UnicodeChar_Traits::compare(
   return unichar_traits_1_00::compare(actual_s1, actual_s2, count);
 }
 
-const UnicodeChar_Traits::value_type* UnicodeChar_Traits::find(
+const UnicodeCharTraits_API::value_type* UnicodeCharTraits_API::find(
     const value_type* p,
     std::size_t count,
     const value_type& ch
