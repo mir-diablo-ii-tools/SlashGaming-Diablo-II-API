@@ -45,14 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_unicode_string_view_api.hpp"
 
-#include <algorithm>
-#include <stdexcept>
-
 #include "../../../../include/cxx/game_func/d2lang_func.hpp"
 #include "../../../../include/cxx/game_func/d2win_func.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "d2_unicode_char_impl.hpp"
-#include "../../../../include/cxx/game_struct/d2_unicode_char_traits_api.hpp"
 
 namespace d2 {
 namespace {

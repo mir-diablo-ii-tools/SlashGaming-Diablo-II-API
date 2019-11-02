@@ -48,8 +48,6 @@
 #include <string>
 
 #include "d2_unicode_char_impl.hpp"
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncpy.hpp"
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncmp.hpp"
 
 namespace d2 {
 namespace {
