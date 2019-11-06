@@ -43,18 +43,72 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_context_api.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
-#include "game_struct/d2_unicode_char_traits_api.hpp"
-#include "game_struct/d2_unicode_string_api.hpp"
-#include "game_struct/d2_unicode_string_view_api.hpp"
+#include <memory>
+#include <variant>
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "d2_cel.hpp"
+#include "d2_cel_context.hpp"
+#include "d2_cel_file.hpp"
+#include "../game_constant/d2_draw_effect.hpp"
+#include "../../../include/cxx/helper/d2_draw_options.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+struct CelContext;
+struct CelContext_1_00;
+struct CelContext_1_12A;
+struct CelContext_1_13C;
+
+class DLLEXPORT CelContext_API {
+ public:
+  CelContext_API() = delete;
+  CelContext_API(
+      CelFile* cel_file,
+      unsigned int direction,
+      unsigned int frame
+  );
+
+  CelContext_API(const CelContext_API& other);
+  CelContext_API(CelContext_API&& other) noexcept;
+
+  ~CelContext_API();
+
+  CelContext_API& operator=(const CelContext_API& other);
+  CelContext_API& operator=(CelContext_API&& other) noexcept;
+
+  bool DrawFrame(int position_x, int position_y);
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      const DrawCelFileFrameOptions& frame_options
+  );
+
+  Cel* GetCel();
+
+  CelFile* GetCelFile() noexcept;
+  const CelFile* GetCelFile() const noexcept;
+  unsigned int GetDirection() const noexcept;
+  unsigned int GetFrame() const noexcept;
+
+  void SetCelFile(CelFile* cel_file) noexcept;
+  void SetDirection(unsigned int direction) noexcept;
+  void SetFrame(unsigned int frame) noexcept;
+
+ private:
+  std::variant<
+      std::unique_ptr<CelContext_1_00[]>,
+      std::unique_ptr<CelContext_1_12A[]>,
+      std::unique_ptr<CelContext_1_13C[]>
+  > cel_context_;
+};
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
