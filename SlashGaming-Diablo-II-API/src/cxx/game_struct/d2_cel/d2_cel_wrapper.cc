@@ -51,7 +51,7 @@
 namespace d2 {
 
 Cel_Wrapper::Cel_Wrapper(Cel* ptr) noexcept :
-    Cel_ConstWrapper(ptr),
+    Cel_View(ptr),
     ptr_(ptr) {
 }
 
@@ -74,7 +74,7 @@ Cel* Cel_Wrapper::Get() noexcept {
 }
 
 const Cel* Cel_Wrapper::Get() const noexcept {
-  return Cel_ConstWrapper::Get();
+  return Cel_View::Get();
 }
 
 void Cel_Wrapper::SetHeight(int value) noexcept {

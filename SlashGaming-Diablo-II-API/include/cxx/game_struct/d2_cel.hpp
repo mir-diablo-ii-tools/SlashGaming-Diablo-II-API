@@ -52,18 +52,18 @@ namespace d2 {
 
 struct Cel;
 
-class DLLEXPORT Cel_ConstWrapper {
+class DLLEXPORT Cel_View {
  public:
-  Cel_ConstWrapper() = delete;
-  Cel_ConstWrapper(const Cel* ptr) noexcept;
+  Cel_View() = delete;
+  Cel_View(const Cel* ptr) noexcept;
 
-  Cel_ConstWrapper(const Cel_ConstWrapper& other);
-  Cel_ConstWrapper(Cel_ConstWrapper&& other) noexcept;
+  Cel_View(const Cel_View& other);
+  Cel_View(Cel_View&& other) noexcept;
 
-  virtual ~Cel_ConstWrapper();
+  virtual ~Cel_View();
 
-  Cel_ConstWrapper& operator=(const Cel_ConstWrapper& other);
-  Cel_ConstWrapper& operator=(Cel_ConstWrapper&& other) noexcept;
+  Cel_View& operator=(const Cel_View& other);
+  Cel_View& operator=(Cel_View&& other) noexcept;
 
   const Cel* Get() const noexcept;
 
@@ -76,7 +76,7 @@ class DLLEXPORT Cel_ConstWrapper {
   const Cel* ptr_;
 };
 
-class DLLEXPORT Cel_Wrapper : public Cel_ConstWrapper {
+class DLLEXPORT Cel_Wrapper : public Cel_View {
  public:
   Cel_Wrapper() = delete;
   Cel_Wrapper(Cel* ptr) noexcept;

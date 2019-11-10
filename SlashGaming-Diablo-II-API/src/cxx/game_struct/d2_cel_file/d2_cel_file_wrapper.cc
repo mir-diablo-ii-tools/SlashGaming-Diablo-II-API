@@ -244,7 +244,7 @@ bool CelFile_Wrapper::DrawHorizontalThenVertical(
 
     final_result = final_result && current_result;
 
-    Cel_ConstWrapper current_cel(
+    Cel_View current_cel(
         this->GetCel(all_frames_options.cel_file_direction, current_frame)
     );
     frame_position_y += (current_cel.GetHeight() * direction_factor);
@@ -291,7 +291,7 @@ bool CelFile_Wrapper::DrawVerticalThenHorizontal(
 
     final_result = final_result && current_result;
 
-    Cel_ConstWrapper current_cel(
+    Cel_View current_cel(
         this->GetCel(all_frames_options.cel_file_direction, current_frame)
     );
     frame_position_x += (current_cel.GetWidth() * direction_factor);
@@ -338,7 +338,7 @@ bool CelFile_Wrapper::DrawRowOfFrames(
 
     final_result = final_result && current_result;
 
-    Cel_ConstWrapper current_cel(this->GetCel(direction, current_frame));
+    Cel_View current_cel(this->GetCel(direction, current_frame));
     frame_position_x += (current_cel.GetWidth() * direction_factor);
   }
 
@@ -383,7 +383,7 @@ bool CelFile_Wrapper::DrawColumnOfFrames(
 
     final_result = final_result && current_result;
 
-    Cel_ConstWrapper current_cel(this->GetCel(direction, current_frame));
+    Cel_View current_cel(this->GetCel(direction, current_frame));
     frame_position_y += (current_cel.GetHeight() * direction_factor);
   }
 
