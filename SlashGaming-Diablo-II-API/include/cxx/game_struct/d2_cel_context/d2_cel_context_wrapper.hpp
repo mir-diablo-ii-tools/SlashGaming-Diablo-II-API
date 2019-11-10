@@ -43,12 +43,59 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 
-#include "d2_cel_context/d2_cel_context_api.hpp"
-#include "d2_cel_context/d2_cel_context_struct.hpp"
-#include "d2_cel_context/d2_cel_context_view.hpp"
-#include "d2_cel_context/d2_cel_context_wrapper.hpp"
+#include "../d2_cel.hpp"
+#include "d2_cel_context_struct.hpp"
+#include "d2_cel_context_view.hpp"
+#include "../d2_cel_file.hpp"
+#include "../../helper/d2_draw_options.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT CelContext_Wrapper {
+ public:
+  CelContext_Wrapper() = delete;
+  CelContext_Wrapper(CelContext* ptr) noexcept;
+
+  CelContext_Wrapper(const CelContext_Wrapper& other) noexcept;
+  CelContext_Wrapper(CelContext_Wrapper&& other) noexcept;
+
+  ~CelContext_Wrapper() noexcept;
+
+  CelContext_Wrapper& operator=(const CelContext_Wrapper& other) noexcept;
+  CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
+
+  operator CelContext_View() const noexcept;
+
+  CelContext* Get() noexcept;
+  const CelContext* Get() const noexcept;
+
+  bool DrawFrame(int position_x, int position_y);
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      const DrawCelFileFrameOptions& frame_options
+  );
+
+  Cel* GetCel();
+
+  CelFile* GetCelFile() noexcept;
+  const CelFile* GetCelFile() const noexcept;
+
+  void SetCelFile(CelFile* cel_file) noexcept;
+  void SetDirection(unsigned int direction) noexcept;
+  void SetFrame(unsigned int frame) noexcept;
+
+ private:
+  CelContext* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_

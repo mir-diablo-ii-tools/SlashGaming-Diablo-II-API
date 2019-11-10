@@ -43,12 +43,40 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_
 
-#include "d2_cel_context/d2_cel_context_api.hpp"
-#include "d2_cel_context/d2_cel_context_struct.hpp"
-#include "d2_cel_context/d2_cel_context_view.hpp"
-#include "d2_cel_context/d2_cel_context_wrapper.hpp"
+#include "d2_cel_context_struct.hpp"
+#include "../d2_cel_file.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT CelContext_View {
+ public:
+  CelContext_View() = delete;
+  CelContext_View(const CelContext* ptr) noexcept;
+
+  CelContext_View(const CelContext_View& other) noexcept;
+  CelContext_View(CelContext_View&& other) noexcept;
+
+  ~CelContext_View() noexcept;
+
+  CelContext_View& operator=(const CelContext_View& other) noexcept;
+  CelContext_View& operator=(CelContext_View&& other) noexcept;
+
+  const CelContext* Get() const noexcept;
+
+  const CelFile* GetCelFile() const noexcept;
+  unsigned int GetDirection() const noexcept;
+  unsigned int GetFrame() const noexcept;
+
+ private:
+  const CelContext* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_

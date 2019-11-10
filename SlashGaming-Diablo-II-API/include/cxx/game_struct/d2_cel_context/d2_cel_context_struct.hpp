@@ -43,12 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_STRUCT_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_STRUCT_HPP_
 
-#include "d2_cel_context/d2_cel_context_api.hpp"
-#include "d2_cel_context/d2_cel_context_struct.hpp"
-#include "d2_cel_context/d2_cel_context_view.hpp"
-#include "d2_cel_context/d2_cel_context_wrapper.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_HPP_
+namespace d2 {
+
+struct CelContext;
+
+struct CelContext_1_00;
+struct CelContext_1_12A;
+struct CelContext_1_13C;
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_STRUCT_HPP_

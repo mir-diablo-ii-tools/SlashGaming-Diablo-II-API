@@ -49,13 +49,13 @@
 #include <memory>
 #include <variant>
 
-#include "d2_cel.hpp"
-#include "d2_cel_context.hpp"
-#include "d2_cel_file.hpp"
-#include "../game_constant/d2_draw_effect.hpp"
-#include "../../../include/cxx/helper/d2_draw_options.hpp"
+#include "../d2_cel.hpp"
+#include "d2_cel_context_wrapper.hpp"
+#include "../d2_cel_file.hpp"
+#include "../../game_constant/d2_draw_effect.hpp"
+#include "../../../../include/cxx/helper/d2_draw_options.hpp"
 
-#include "../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
 namespace d2 {
 
@@ -80,6 +80,9 @@ class DLLEXPORT CelContext_API {
 
   CelContext_API& operator=(const CelContext_API& other);
   CelContext_API& operator=(CelContext_API&& other) noexcept;
+
+  operator CelContext_View() const noexcept;
+  operator CelContext_Wrapper() noexcept;
 
   bool DrawFrame(int position_x, int position_y);
 
@@ -110,5 +113,5 @@ class DLLEXPORT CelContext_API {
 
 } // namespace d2
 
-#include "../../dllexport_undefine.inc"
+#include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_

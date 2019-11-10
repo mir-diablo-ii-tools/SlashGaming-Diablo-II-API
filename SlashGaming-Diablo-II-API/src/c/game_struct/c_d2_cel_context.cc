@@ -74,10 +74,10 @@ D2_CelFile* D2_CelContext_GetCelFile(D2_CelContext* cel_context) {
       cel_context
   );
 
-  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
+  d2::CelContext_Wrapper wrapper(actual_cel_context);
 
   return reinterpret_cast<D2_CelFile*>(
-      cel_context_wrapper.GetCelFile()
+      wrapper.GetCelFile()
   );
 }
 
@@ -88,11 +88,9 @@ const D2_CelFile* D2_CelContext_GetConstCelFile(
       cel_context
   );
 
-  d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
+  d2::CelContext_View view(actual_cel_context);
 
-  return reinterpret_cast<const D2_CelFile*>(
-      cel_context_wrapper.GetCelFile()
-  );
+  return reinterpret_cast<const D2_CelFile*>(view.GetCelFile());
 }
 
 void D2_CelContext_SetCelFile(
@@ -102,8 +100,8 @@ void D2_CelContext_SetCelFile(
   auto actual_cel_context = reinterpret_cast<d2::CelContext*>(cel_context);
   auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
 
-  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
-  cel_context_wrapper.SetCelFile(actual_cel_file);
+  d2::CelContext_Wrapper wrapper(actual_cel_context);
+  wrapper.SetCelFile(actual_cel_file);
 }
 
 unsigned int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
@@ -111,9 +109,9 @@ unsigned int D2_CelContext_GetDirection(const D2_CelContext* cel_context) {
       cel_context
   );
 
-  d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
+  d2::CelContext_View view(actual_cel_context);
 
-  return cel_context_wrapper.GetDirection();
+  return view.GetDirection();
 }
 
 void D2_CelContext_SetDirection(
@@ -124,8 +122,8 @@ void D2_CelContext_SetDirection(
       cel_context
   );
 
-  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
-  cel_context_wrapper.SetDirection(direction);
+  d2::CelContext_Wrapper wrapper(actual_cel_context);
+  wrapper.SetDirection(direction);
 }
 
 unsigned int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
@@ -133,9 +131,9 @@ unsigned int D2_CelContext_GetFrame(const D2_CelContext* cel_context) {
       cel_context
   );
 
-  d2::CelContext_ConstWrapper cel_context_wrapper(actual_cel_context);
+  d2::CelContext_View view(actual_cel_context);
 
-  return cel_context_wrapper.GetFrame();
+  return view.GetFrame();
 }
 
 void D2_CelContext_SetFrame(D2_CelContext* cel_context, unsigned int frame) {
@@ -143,6 +141,6 @@ void D2_CelContext_SetFrame(D2_CelContext* cel_context, unsigned int frame) {
       cel_context
   );
 
-  d2::CelContext_Wrapper cel_context_wrapper(actual_cel_context);
-  cel_context_wrapper.SetFrame(frame);
+  d2::CelContext_Wrapper wrapper(actual_cel_context);
+  wrapper.SetFrame(frame);
 }
