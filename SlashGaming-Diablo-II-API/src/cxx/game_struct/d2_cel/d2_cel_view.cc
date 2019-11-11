@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel/d2_cel_view.hpp"
 
 #include "d2_cel_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
@@ -54,48 +54,40 @@ Cel_View::Cel_View(const Cel* ptr) noexcept :
     ptr_(ptr) {
 }
 
-Cel_View::Cel_View(
-    const Cel_View& other
-) = default;
+Cel_View::Cel_View(const Cel_View& other) noexcept = default;
 
-Cel_View::Cel_View(
-    Cel_View&& other
-) noexcept = default;
+Cel_View::Cel_View(Cel_View&& other) noexcept = default;
 
-Cel_View::~Cel_View() = default;
+Cel_View::~Cel_View() noexcept = default;
 
-Cel_View& Cel_View::operator=(
-    const Cel_View& other
-) = default;
+Cel_View& Cel_View::operator=(const Cel_View& other) noexcept = default;
 
-Cel_View& Cel_View::operator=(
-    Cel_View&& other
-) noexcept = default;
+Cel_View& Cel_View::operator=(Cel_View&& other) noexcept = default;
 
 const Cel* Cel_View::Get() const noexcept {
   return this->ptr_;
 }
 
 int Cel_View::GetHeight() const noexcept {
-  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
 
   return actual_cel->height;
 }
 
 int Cel_View::GetOffsetX() const noexcept {
-  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
 
   return actual_cel->offset_x;
 }
 
 int Cel_View::GetOffsetY() const noexcept {
-  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
 
   return actual_cel->offset_y;
 }
 
 int Cel_View::GetWidth() const noexcept {
-  auto actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
 
   return actual_cel->width;
 }

@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel/d2_cel_wrapper.hpp"
 
 #include "d2_cel_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
@@ -51,30 +51,61 @@
 namespace d2 {
 
 Cel_Wrapper::Cel_Wrapper(Cel* ptr) noexcept :
-    Cel_View(ptr),
     ptr_(ptr) {
 }
 
-Cel_Wrapper::Cel_Wrapper(const Cel_Wrapper& other) = default;
+Cel_Wrapper::Cel_Wrapper(const Cel_Wrapper& other) noexcept = default;
 
 Cel_Wrapper::Cel_Wrapper(Cel_Wrapper&& other) noexcept = default;
 
-Cel_Wrapper::~Cel_Wrapper() = default;
+Cel_Wrapper::~Cel_Wrapper() noexcept = default;
 
 Cel_Wrapper& Cel_Wrapper::operator=(
     const Cel_Wrapper& other
-) = default;
+) noexcept = default;
 
 Cel_Wrapper& Cel_Wrapper::operator=(
     Cel_Wrapper&& other
 ) noexcept = default;
 
+Cel_Wrapper::operator Cel_View() const noexcept {
+  return Cel_View(this->ptr_);
+}
+
 Cel* Cel_Wrapper::Get() noexcept {
-  return this->ptr_;
+  const auto* const_this = this;
+
+  return const_cast<Cel*>(const_this->Get());
 }
 
 const Cel* Cel_Wrapper::Get() const noexcept {
-  return Cel_View::Get();
+  Cel_View view(*this);
+
+  return view.Get();
+}
+
+int Cel_Wrapper::GetHeight() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetHeight();
+}
+
+int Cel_Wrapper::GetOffsetX() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetOffsetX();
+}
+
+int Cel_Wrapper::GetOffsetY() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetOffsetY();
+}
+
+int Cel_Wrapper::GetWidth() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetWidth();
 }
 
 void Cel_Wrapper::SetHeight(int value) noexcept {
