@@ -43,4 +43,32 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_view.hpp"
+
+namespace d2 {
+
+MPQArchive_View::MPQArchive_View(const MPQArchive* ptr) noexcept :
+    ptr_(ptr) {
+}
+
+MPQArchive_View::MPQArchive_View(
+    const MPQArchive_View& other
+) noexcept = default;
+
+MPQArchive_View::MPQArchive_View(MPQArchive_View&& other) noexcept = default;
+
+MPQArchive_View::~MPQArchive_View() noexcept = default;
+
+MPQArchive_View& MPQArchive_View::operator=(
+    const MPQArchive_View& other
+) noexcept = default;
+
+MPQArchive_View& MPQArchive_View::operator=(
+    MPQArchive_View&& other
+) noexcept = default;
+
+const MPQArchive* MPQArchive_View::Get() const noexcept {
+  return this->ptr_;
+}
+
+} // namespace d2
