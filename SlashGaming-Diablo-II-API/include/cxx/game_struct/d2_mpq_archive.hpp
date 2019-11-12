@@ -46,15 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HPP_
 
-#include "../../dllexport_define.inc"
+#include "d2_mpq_archive/d2_mpq_archive_api.hpp"
+#include "d2_mpq_archive/d2_mpq_archive_struct.hpp"
+#include "d2_mpq_archive/d2_mpq_archive_view.hpp"
+#include "d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
 
-namespace d2 {
-
-struct MPQArchive;
-
-} // namespace d2
-
-// TODO (Mir Drualga): Add missing implementation.
-
-#include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HPP_
