@@ -43,4 +43,47 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
+
+namespace d2 {
+
+MPQArchive_Wrapper::MPQArchive_Wrapper(MPQArchive* ptr) noexcept :
+    ptr_(ptr) {
+}
+
+MPQArchive_Wrapper::MPQArchive_Wrapper(
+    const MPQArchive_Wrapper& other
+) noexcept = default;
+
+MPQArchive_Wrapper::MPQArchive_Wrapper(
+    MPQArchive_Wrapper&& other
+) noexcept = default;
+
+MPQArchive_Wrapper::~MPQArchive_Wrapper() noexcept = default;
+
+MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
+    const MPQArchive_Wrapper& other
+) noexcept = default;
+
+MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
+    MPQArchive_Wrapper&& other
+) noexcept = default;
+
+MPQArchive_Wrapper::operator MPQArchive_View() const noexcept {
+  return MPQArchive_View(this->ptr_);
+}
+
+MPQArchive* MPQArchive_Wrapper::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<MPQArchive*>(const_this->Get());
+}
+
+
+const MPQArchive* MPQArchive_Wrapper::Get() const noexcept {
+  MPQArchive_View view(*this);
+
+  return view.Get();
+}
+
+} // namespace d2
