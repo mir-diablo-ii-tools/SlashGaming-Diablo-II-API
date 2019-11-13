@@ -84,6 +84,9 @@ class DLLEXPORT CelContext_API {
   operator CelContext_View() const noexcept;
   operator CelContext_Wrapper() noexcept;
 
+  CelContext* Get() noexcept;
+  const CelContext* Get() const noexcept;
+
   bool DrawFrame(int position_x, int position_y);
 
   bool DrawFrame(

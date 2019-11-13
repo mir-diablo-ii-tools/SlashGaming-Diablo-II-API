@@ -69,7 +69,7 @@ Cel_Wrapper& Cel_Wrapper::operator=(
 ) noexcept = default;
 
 Cel_Wrapper::operator Cel_View() const noexcept {
-  return Cel_View(this->ptr_);
+  return Cel_View(this->Get());
 }
 
 Cel* Cel_Wrapper::Get() noexcept {
@@ -79,9 +79,7 @@ Cel* Cel_Wrapper::Get() noexcept {
 }
 
 const Cel* Cel_Wrapper::Get() const noexcept {
-  Cel_View view(*this);
-
-  return view.Get();
+  return this->ptr_;
 }
 
 int Cel_Wrapper::GetHeight() const noexcept {

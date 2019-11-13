@@ -88,7 +88,7 @@ CelContext* CelContext_Wrapper::Get() noexcept {
 }
 
 const CelContext* CelContext_Wrapper::Get() const noexcept {
-  return CelContext_View(this->ptr_).Get();
+  return this->ptr_;
 }
 
 bool CelContext_Wrapper::DrawFrame(int position_x, int position_y) {

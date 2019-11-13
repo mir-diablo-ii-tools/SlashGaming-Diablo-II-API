@@ -85,15 +85,15 @@ Cel_API::operator Cel_Wrapper() noexcept {
 }
 
 Cel* Cel_API::Get() noexcept {
-  Cel_Wrapper wrapper(*this);
+  const auto* const_this = this;
 
-  return wrapper.Get();
+  return this->Get();
 }
 
 const Cel* Cel_API::Get() const noexcept {
-  Cel_View view(*this);
+  const auto& actual_cel = std::get<unique_ptr_1_00>(this->cel_);
 
-  return view.Get();
+  return reinterpret_cast<const Cel*>(actual_cel.get());
 }
 
 int Cel_API::GetHeight() const noexcept {
