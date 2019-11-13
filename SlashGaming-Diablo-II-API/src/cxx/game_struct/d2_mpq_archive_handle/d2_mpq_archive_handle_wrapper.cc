@@ -52,7 +52,7 @@ namespace d2 {
 MPQArchiveHandle_Wrapper::MPQArchiveHandle_Wrapper(
     MPQArchiveHandle* ptr
 ) noexcept :
-    MPQArchiveHandle_ConstWrapper(ptr),
+    MPQArchiveHandle_View(ptr),
     ptr_(ptr) {
 }
 
@@ -79,7 +79,7 @@ MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() noexcept {
 }
 
 const MPQArchiveHandle* MPQArchiveHandle_Wrapper::Get() const noexcept {
-  return MPQArchiveHandle_ConstWrapper::Get();
+  return MPQArchiveHandle_View::Get();
 }
 
 MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() noexcept {
@@ -91,7 +91,7 @@ MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() noexcept {
 }
 
 const MPQArchive* MPQArchiveHandle_Wrapper::GetMPQArchive() const noexcept {
-  return MPQArchiveHandle_ConstWrapper::GetMPQArchive();
+  return MPQArchiveHandle_View::GetMPQArchive();
 }
 
 void MPQArchiveHandle_Wrapper::SetMPQArchive(
@@ -115,7 +115,7 @@ char* MPQArchiveHandle_Wrapper::GetMPQArchivePath() noexcept {
 }
 
 const char* MPQArchiveHandle_Wrapper::GetMPQArchivePath() const noexcept {
-  return MPQArchiveHandle_ConstWrapper::GetMPQArchivePath();
+  return MPQArchiveHandle_View::GetMPQArchivePath();
 }
 
 } // namespace d2

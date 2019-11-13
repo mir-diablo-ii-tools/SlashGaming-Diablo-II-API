@@ -50,37 +50,37 @@
 
 namespace d2 {
 
-MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
+MPQArchiveHandle_View::MPQArchiveHandle_View(
     const MPQArchiveHandle* ptr
 ) noexcept :
     ptr_(ptr) {
 }
 
-MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
-    const MPQArchiveHandle_ConstWrapper& other
+MPQArchiveHandle_View::MPQArchiveHandle_View(
+    const MPQArchiveHandle_View& other
 ) = default;
 
-MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
-    MPQArchiveHandle_ConstWrapper&& other
+MPQArchiveHandle_View::MPQArchiveHandle_View(
+    MPQArchiveHandle_View&& other
 ) noexcept = default;
 
-MPQArchiveHandle_ConstWrapper::~MPQArchiveHandle_ConstWrapper() = default;
+MPQArchiveHandle_View::~MPQArchiveHandle_View() = default;
 
-MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
-    const MPQArchiveHandle_ConstWrapper& other
+MPQArchiveHandle_View& MPQArchiveHandle_View::operator=(
+    const MPQArchiveHandle_View& other
 ) = default;
 
-MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
-    MPQArchiveHandle_ConstWrapper&& other
+MPQArchiveHandle_View& MPQArchiveHandle_View::operator=(
+    MPQArchiveHandle_View&& other
 ) noexcept = default;
 
 const MPQArchiveHandle*
-MPQArchiveHandle_ConstWrapper::Get() const noexcept {
+MPQArchiveHandle_View::Get() const noexcept {
   return this->ptr_;
 }
 
 const MPQArchive*
-MPQArchiveHandle_ConstWrapper::GetMPQArchive() const noexcept {
+MPQArchiveHandle_View::GetMPQArchive() const noexcept {
   const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
       this->Get()
   );
@@ -89,7 +89,7 @@ MPQArchiveHandle_ConstWrapper::GetMPQArchive() const noexcept {
 }
 
 const char*
-MPQArchiveHandle_ConstWrapper::GetMPQArchivePath() const noexcept {
+MPQArchiveHandle_View::GetMPQArchivePath() const noexcept {
   const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
       this->Get()
   );

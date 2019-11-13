@@ -57,23 +57,23 @@ namespace d2 {
 
 struct MPQArchiveHandle;
 
-class DLLEXPORT MPQArchiveHandle_ConstWrapper {
+class DLLEXPORT MPQArchiveHandle_View {
  public:
-  MPQArchiveHandle_ConstWrapper() = delete;
-  MPQArchiveHandle_ConstWrapper(const MPQArchiveHandle* ptr) noexcept;
+  MPQArchiveHandle_View() = delete;
+  MPQArchiveHandle_View(const MPQArchiveHandle* ptr) noexcept;
 
-  MPQArchiveHandle_ConstWrapper(const MPQArchiveHandle_ConstWrapper& other);
-  MPQArchiveHandle_ConstWrapper(
-      MPQArchiveHandle_ConstWrapper&& other
+  MPQArchiveHandle_View(const MPQArchiveHandle_View& other);
+  MPQArchiveHandle_View(
+      MPQArchiveHandle_View&& other
   ) noexcept;
 
-  virtual ~MPQArchiveHandle_ConstWrapper();
+  virtual ~MPQArchiveHandle_View();
 
-  MPQArchiveHandle_ConstWrapper& operator=(
-      const MPQArchiveHandle_ConstWrapper& other
+  MPQArchiveHandle_View& operator=(
+      const MPQArchiveHandle_View& other
   );
-  MPQArchiveHandle_ConstWrapper& operator=(
-      MPQArchiveHandle_ConstWrapper&& other
+  MPQArchiveHandle_View& operator=(
+      MPQArchiveHandle_View&& other
   ) noexcept;
 
   const MPQArchiveHandle* Get() const noexcept;
@@ -86,7 +86,7 @@ class DLLEXPORT MPQArchiveHandle_ConstWrapper {
 };
 
 class DLLEXPORT MPQArchiveHandle_Wrapper :
-    public MPQArchiveHandle_ConstWrapper {
+    public MPQArchiveHandle_View {
  public:
   MPQArchiveHandle_Wrapper() = delete;
   MPQArchiveHandle_Wrapper(MPQArchiveHandle* ptr) noexcept;
