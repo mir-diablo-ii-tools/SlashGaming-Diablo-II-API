@@ -72,6 +72,9 @@ class DLLEXPORT MPQArchive_API {
   operator MPQArchive_View() const noexcept;
   operator MPQArchive_Wrapper() noexcept;
 
+  MPQArchive* Get() noexcept;
+  const MPQArchive* Get() const noexcept;
+
  private:
   std::variant<
       std::unique_ptr<MPQArchive_1_00[]>

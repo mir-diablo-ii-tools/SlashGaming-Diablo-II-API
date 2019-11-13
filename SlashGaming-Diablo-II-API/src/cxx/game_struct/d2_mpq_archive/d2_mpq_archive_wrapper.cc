@@ -45,6 +45,9 @@
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
 
+#include "d2_mpq_archive_impl.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
 namespace d2 {
 
 MPQArchive_Wrapper::MPQArchive_Wrapper(MPQArchive* ptr) noexcept :
@@ -70,7 +73,7 @@ MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
 ) noexcept = default;
 
 MPQArchive_Wrapper::operator MPQArchive_View() const noexcept {
-  return MPQArchive_View(this->ptr_);
+  return MPQArchive_View(this->Get());
 }
 
 MPQArchive* MPQArchive_Wrapper::Get() noexcept {
@@ -79,11 +82,8 @@ MPQArchive* MPQArchive_Wrapper::Get() noexcept {
   return const_cast<MPQArchive*>(const_this->Get());
 }
 
-
 const MPQArchive* MPQArchive_Wrapper::Get() const noexcept {
-  MPQArchive_View view(*this);
-
-  return view.Get();
+  return this->ptr_;
 }
 
 } // namespace d2
