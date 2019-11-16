@@ -173,6 +173,12 @@ bool CelFile_API::DrawAllFrames(
   );
 }
 
+const Cel* CelFile_API::GetCel(unsigned int direction, unsigned int frame) {
+  CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
+
+  return wrapper.GetCel(direction, frame);
+}
+
 bool CelFile_API::IsOpen() const {
   return this->is_open_;
 }
