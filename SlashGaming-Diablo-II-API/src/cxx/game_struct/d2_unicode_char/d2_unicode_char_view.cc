@@ -43,39 +43,52 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/d2_unicode_char.h"
+#include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_char_view.hpp"
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-#include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include <cstdint>
 
-D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
-  return D2_UnicodeChar_CreateWithChar('\0');
+#include "d2_unicode_char_impl.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_unicodeToUtf8.hpp"
+
+/**
+ * Latest supported version: 1.14D
+ */
+
+namespace d2 {
+
+UnicodeChar_View::UnicodeChar_View(
+    const UnicodeChar& uch
+) noexcept :
+    uch_(&uch) {
 }
 
-D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
+UnicodeChar_View::UnicodeChar_View(
+    const UnicodeChar_View& other
+) noexcept = default;
+
+UnicodeChar_View::UnicodeChar_View(
+    UnicodeChar_View&& other
+) noexcept = default;
+
+UnicodeChar_View::~UnicodeChar_View() noexcept = default;
+
+UnicodeChar_View& UnicodeChar_View::operator=(
+    const UnicodeChar_View& other
+) noexcept = default;
+
+UnicodeChar_View& UnicodeChar_View::operator=(
+    UnicodeChar_View&& other
+) noexcept = default;
+
+const UnicodeChar& UnicodeChar_View::Get() const noexcept {
+  return *this->uch_;
 }
 
-D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
+std::u8string UnicodeChar_View::ToU8String() const {
+  char8_t str[4];
+  d2lang::Unicode_unicodeToUtf8(str, &this->Get(), 1);
+
+  return str;
 }
 
-void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
-  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
-}
-
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
-
-  return d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(actual_ch);
-}
-
-void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
-
-  return d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(*actual_src);
-}
+} // namespace d2

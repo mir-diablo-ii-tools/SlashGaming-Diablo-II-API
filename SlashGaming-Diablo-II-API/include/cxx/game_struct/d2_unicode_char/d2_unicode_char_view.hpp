@@ -43,39 +43,41 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/d2_unicode_char.h"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_VIEW_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_VIEW_HPP_
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-#include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include <string>
+#include <string_view>
 
-D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
-  return D2_UnicodeChar_CreateWithChar('\0');
-}
+#include "d2_unicode_char_struct.hpp"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
-}
+#include "../../../dllexport_define.inc"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
-}
+namespace d2 {
 
-void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
-  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
-}
+class DLLEXPORT UnicodeChar_View {
+ public:
+  UnicodeChar_View() = delete;
 
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
+  UnicodeChar_View(const UnicodeChar& src) noexcept;
 
-  return d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(actual_ch);
-}
+  UnicodeChar_View(const UnicodeChar_View& other) noexcept;
+  UnicodeChar_View(UnicodeChar_View&& other) noexcept;
 
-void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
+  ~UnicodeChar_View() noexcept;
 
-  return d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(*actual_src);
-}
+  UnicodeChar_View& operator=(const UnicodeChar_View& other) noexcept;
+  UnicodeChar_View& operator=(UnicodeChar_View&& other) noexcept;
+
+  const UnicodeChar& Get() const noexcept;
+
+  std::u8string ToU8String() const;
+
+ private:
+  const UnicodeChar* uch_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_VIEW_HPP_

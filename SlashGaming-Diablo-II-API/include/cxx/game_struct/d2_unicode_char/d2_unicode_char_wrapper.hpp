@@ -43,39 +43,48 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/d2_unicode_char.h"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_WRAPPER_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_WRAPPER_HPP_
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-#include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include <string>
+#include <string_view>
 
-D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
-  return D2_UnicodeChar_CreateWithChar('\0');
-}
+#include "d2_unicode_char_struct.hpp"
+#include "d2_unicode_char_view.hpp"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
-}
+#include "../../../dllexport_define.inc"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
-}
+namespace d2 {
 
-void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
-  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
-}
+class DLLEXPORT UnicodeChar_Wrapper {
+ public:
+  UnicodeChar_Wrapper() = delete;
 
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
+  UnicodeChar_Wrapper(UnicodeChar& src) noexcept;
 
-  return d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(actual_ch);
-}
+  UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other) noexcept;
+  UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
 
-void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
+  ~UnicodeChar_Wrapper() noexcept;
 
-  return d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(*actual_src);
-}
+  UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other) noexcept;
+  UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
+
+  operator UnicodeChar_View() const noexcept;
+
+  UnicodeChar& Get() noexcept;
+  const UnicodeChar& Get() const noexcept;
+
+  std::u8string ToU8String() const;
+
+  void SetChar(const UnicodeChar& uch) noexcept;
+  void SetChar(std::u8string_view view);
+
+ private:
+  UnicodeChar* uch_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_

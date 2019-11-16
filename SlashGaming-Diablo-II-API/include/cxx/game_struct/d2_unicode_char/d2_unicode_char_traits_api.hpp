@@ -43,14 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_TRAITS_API_HPP_
 
-#include "d2_unicode_char.hpp"
+#include "d2_unicode_char_struct.hpp"
 
 #include <cstddef>
 
-#include "../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
 namespace d2 {
 
@@ -80,5 +80,5 @@ class DLLEXPORT UnicodeCharTraits_API {
 
 } // namespace d2
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_TRAITS_API_HPP_
