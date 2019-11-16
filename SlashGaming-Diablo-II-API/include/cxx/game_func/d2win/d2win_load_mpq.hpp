@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_LOAD_MPQ_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_LOAD_MPQ_HPP_
 
-#include "../../game_struct/d2_mpq_archive_handle.hpp"
+#include "../../game_struct/d2_mpq_archive_handle/d2_mpq_archive_handle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 

@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_
 
-#include "../../game_struct/d2_cel_context.hpp"
+#include "../../game_struct/d2_cel_context/d2_cel_context_struct.hpp"
 #include "../../game_constant/d2_draw_effect.hpp"
 #include "../../game_undefined.hpp"
 

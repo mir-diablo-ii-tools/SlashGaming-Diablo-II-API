@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_STORM_STORM_S_FILE_CLOSE_ARCHIVE_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_STORM_STORM_S_FILE_CLOSE_ARCHIVE_HPP_
 
-#include "../../game_struct/d2_mpq_archive.hpp"
+#include "../../game_struct/d2_mpq_archive/d2_mpq_archive_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 

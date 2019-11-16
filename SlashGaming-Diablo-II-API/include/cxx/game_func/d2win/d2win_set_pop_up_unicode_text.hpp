@@ -47,7 +47,7 @@
 #define SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_SET_POP_UP_UNICODE_TEXT_HPP_
 
 #include "../../game_constant/d2_text_color.hpp"
-#include "../../game_struct/d2_unicode_char.hpp"
+#include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 

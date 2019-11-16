@@ -53,7 +53,6 @@
 
 #include "../../../asm_x86_macro.h"
 #include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2::d2gfx {

@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_UNLOAD_CEL_FILE_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2WIN_D2WIN_UNLOAD_CEL_FILE_HPP_
 
-#include "../../game_struct/d2_cel_file.hpp"
+#include "../../game_struct/d2_cel_file/d2_cel_file_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 

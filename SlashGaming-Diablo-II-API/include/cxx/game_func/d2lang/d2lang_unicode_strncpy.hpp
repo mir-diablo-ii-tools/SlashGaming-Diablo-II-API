@@ -48,7 +48,7 @@
 
 #include <cstddef>
 
-#include "../../game_struct/d2_unicode_char.hpp"
+#include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
