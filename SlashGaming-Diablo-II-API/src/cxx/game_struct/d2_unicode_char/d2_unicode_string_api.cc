@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_unicode_string_api.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_string_api.hpp"
 
 #include <string>
 
