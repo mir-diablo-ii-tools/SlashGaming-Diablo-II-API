@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_wrapper.hpp"
 
 #include "../../../../include/cxx/game_struct/d2_cel.hpp"
 #include "d2_cel_context_impl.hpp"
@@ -56,42 +56,46 @@ namespace d2 {
 CelContext_Wrapper::CelContext_Wrapper(
     CelContext* ptr
 ) noexcept :
-    CelContext_ConstWrapper(ptr),
     ptr_(ptr) {
 }
 
 CelContext_Wrapper::CelContext_Wrapper(
     const CelContext_Wrapper& other
-) = default;
+) noexcept = default;
 
 CelContext_Wrapper::CelContext_Wrapper(
     CelContext_Wrapper&& other
 ) noexcept = default;
 
-CelContext_Wrapper::~CelContext_Wrapper() = default;
+CelContext_Wrapper::~CelContext_Wrapper() noexcept = default;
 
 CelContext_Wrapper& CelContext_Wrapper::operator=(
     const CelContext_Wrapper& other
-) = default;
+) noexcept = default;
 
 CelContext_Wrapper& CelContext_Wrapper::operator=(
     CelContext_Wrapper&& other
 ) noexcept = default;
 
+CelContext_Wrapper::operator CelContext_View() const noexcept {
+  return CelContext_View(this->Get());
+}
+
 CelContext* CelContext_Wrapper::Get() noexcept {
-  return this->ptr_;
+  const auto* const_this = this;
+
+  return const_cast<CelContext*>(const_this->Get());
 }
 
 const CelContext* CelContext_Wrapper::Get() const noexcept {
-  return CelContext_ConstWrapper::Get();
+  return this->ptr_;
 }
 
 bool CelContext_Wrapper::DrawFrame(int position_x, int position_y) {
   DrawCelFileFrameOptions frame_options;
   frame_options.color = mapi::RGBA32BitColor();
   frame_options.draw_effect = DrawEffect::kNone;
-  frame_options.position_y_behavior =
-      DrawPositionYBehavior::kBottom;
+  frame_options.position_y_behavior = DrawPositionYBehavior::kBottom;
 
   return this->DrawFrame(
       position_x,
@@ -160,31 +164,15 @@ Cel* CelContext_Wrapper::GetCel() {
 }
 
 const CelFile* CelContext_Wrapper::GetCelFile() const noexcept {
-  return CelContext_ConstWrapper::GetCelFile();
+  CelContext_View view(*this);
+
+  return view.GetCelFile();
 }
 
 CelFile* CelContext_Wrapper::GetCelFile() noexcept {
-  CelContext* cel_context = this->Get();
-  GameVersion running_game_version = GetRunningGameVersionId();
+  const auto* const_this = this;
 
-  if (running_game_version >= GameVersion::k1_00
-      && running_game_version <= GameVersion::k1_10) {
-    auto actual_cel_context = reinterpret_cast<CelContext_1_00*>(
-        cel_context
-    );
-    return reinterpret_cast<CelFile*>(actual_cel_context->cel_file);
-  } else if (running_game_version == GameVersion::k1_12A) {
-    auto actual_cel_context = reinterpret_cast<CelContext_1_12A*>(
-        cel_context
-    );
-    return reinterpret_cast<CelFile*>(actual_cel_context->cel_file);
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
-    auto actual_cel_context = reinterpret_cast<CelContext_1_13C*>(
-        cel_context
-    );
-    return reinterpret_cast<CelFile*>(actual_cel_context->cel_file);
-  }
+  return const_cast<CelFile*>(const_this->GetCelFile());
 }
 
 void CelContext_Wrapper::SetCelFile(CelFile* cel_file) noexcept {

@@ -43,42 +43,59 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 
-#include "d2_unicode_char.hpp"
+#include "../d2_cel.hpp"
+#include "d2_cel_context_struct.hpp"
+#include "d2_cel_context_view.hpp"
+#include "../d2_cel_file.hpp"
+#include "../../helper/d2_draw_options.hpp"
 
-#include <cstddef>
-
-#include "../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-/*
- * Due to the nature of how this API must be implemented (information hiding
- * being necessary to prevent user-created errors), all string APIs cannot be
- * derived from the standard library's.
- */
-
-class DLLEXPORT UnicodeCharTraits_API {
+class DLLEXPORT CelContext_Wrapper {
  public:
-  using value_type = UnicodeChar;
+  CelContext_Wrapper() = delete;
+  CelContext_Wrapper(CelContext* ptr) noexcept;
 
-  static void assign(value_type& r, const value_type& a) noexcept;
-  static value_type* assign(value_type* p, std::size_t count, const value_type& a);
-  static bool eq(const value_type& a, const value_type& b);
-  static bool lt(const value_type& a, const value_type& b);
-  static value_type* move(value_type* dest, const value_type* src, std::size_t count);
-  static value_type* copy(value_type* dest, const value_type* src, std::size_t count);
-  static int compare(const value_type* s1, const value_type* s2, std::size_t count);
-  static const UnicodeCharTraits_API::value_type* find(
-      const value_type* p,
-      std::size_t count,
-      const value_type& ch
+  CelContext_Wrapper(const CelContext_Wrapper& other) noexcept;
+  CelContext_Wrapper(CelContext_Wrapper&& other) noexcept;
+
+  ~CelContext_Wrapper() noexcept;
+
+  CelContext_Wrapper& operator=(const CelContext_Wrapper& other) noexcept;
+  CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
+
+  operator CelContext_View() const noexcept;
+
+  CelContext* Get() noexcept;
+  const CelContext* Get() const noexcept;
+
+  bool DrawFrame(int position_x, int position_y);
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      const DrawCelFileFrameOptions& frame_options
   );
+
+  Cel* GetCel();
+
+  CelFile* GetCelFile() noexcept;
+  const CelFile* GetCelFile() const noexcept;
+
+  void SetCelFile(CelFile* cel_file) noexcept;
+  void SetDirection(unsigned int direction) noexcept;
+  void SetFrame(unsigned int frame) noexcept;
+
+ private:
+  CelContext* ptr_;
 };
 
 } // namespace d2
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_TRAITS_API_HPP_
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_

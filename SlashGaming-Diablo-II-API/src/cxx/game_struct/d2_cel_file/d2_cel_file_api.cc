@@ -43,35 +43,149 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
-
-#include <filesystem>
+#include "../../../../include/cxx/game_struct/d2_cel_file/d2_cel_file_api.hpp"
 
 #include "../../../../include/cxx/game_func/d2win_func.hpp"
 
 namespace d2 {
+namespace {
+
+using CelFileVariant = std::variant<
+    CelFile_1_00*
+>;
+
+CelFileVariant CreateVariant(
+    std::string_view cel_file_path,
+    bool is_dcc_else_dc6
+) {
+  CelFile* cel_file = d2win::LoadCelFile(
+      cel_file_path.data(),
+      is_dcc_else_dc6
+  );
+
+  return reinterpret_cast<CelFile_1_00*>(cel_file);
+}
+
+} // namespace
 
 CelFile_API::CelFile_API(
-    const std::filesystem::path& cel_file_path,
+    std::string_view cel_file_path,
     bool is_dcc_else_dc6
-) : CelFile_Wrapper(
-        d2win::LoadCelFile(
-            cel_file_path.string().data(),
+) : cel_file_(
+        CreateVariant(
+            cel_file_path.data(),
             is_dcc_else_dc6
         )
     ) {
 }
 
-CelFile_API::CelFile_API(const CelFile_API& other) = default;
-
 CelFile_API::CelFile_API(CelFile_API&& other) noexcept = default;
 
 CelFile_API::~CelFile_API() {
-  d2win::UnloadCelFile(this->Get());
+  CelFile* converted_cel_file;
+
+  auto* actual_cel_file = std::get<CelFile_1_00*>(this->cel_file_);
+  converted_cel_file = reinterpret_cast<CelFile*>(actual_cel_file);
+
+  d2win::UnloadCelFile(converted_cel_file);
 }
 
-CelFile_API& CelFile_API::operator=(const CelFile_API& other) = default;
-
 CelFile_API& CelFile_API::operator=(CelFile_API&& other) noexcept = default;
+
+CelFile_API::operator CelFile_View() const noexcept {
+  return CelFile_View(*this);
+}
+
+const CelFile* CelFile_API::Get() const noexcept {
+  auto* actual_cel_file = std::get<CelFile_1_00*>(this->cel_file_);
+
+  return reinterpret_cast<CelFile*>(actual_cel_file);
+}
+
+bool CelFile_API::DrawFrame(
+    int position_x,
+    int position_y,
+    unsigned int direction,
+    unsigned int frame
+) {
+  CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
+
+  return wrapper.DrawFrame(
+      position_x,
+      position_y,
+      direction,
+      frame
+  );
+}
+
+bool CelFile_API::DrawFrame(
+    int position_x,
+    int position_y,
+    unsigned int direction,
+    unsigned int frame,
+    const DrawCelFileFrameOptions& frame_options
+) {
+  CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
+
+  return wrapper.DrawFrame(
+      position_x,
+      position_y,
+      direction,
+      frame,
+      frame_options
+  );
+}
+
+bool CelFile_API::DrawAllFrames(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int rows
+) {
+  CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
+
+  return wrapper.DrawAllFrames(
+      position_x,
+      position_y,
+      columns,
+      rows
+  );
+}
+
+bool CelFile_API::DrawAllFrames(
+    int position_x,
+    int position_y,
+    unsigned int columns,
+    unsigned int rows,
+    const DrawAllCelFileFramesOptions& all_frames_options
+) {
+  CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
+
+  return wrapper.DrawAllFrames(
+      position_x,
+      position_y,
+      columns,
+      rows,
+      all_frames_options
+  );
+}
+
+unsigned int CelFile_API::GetVersion() const noexcept {
+  CelFile_View view(*this);
+
+  return view.GetVersion();
+}
+
+unsigned int CelFile_API::GetNumDirections() const noexcept {
+  CelFile_View view(*this);
+
+  return view.GetNumDirections();
+}
+
+unsigned int CelFile_API::GetNumFrames() const noexcept {
+  CelFile_View view(*this);
+
+  return view.GetNumFrames();
+}
 
 } // namespace d2

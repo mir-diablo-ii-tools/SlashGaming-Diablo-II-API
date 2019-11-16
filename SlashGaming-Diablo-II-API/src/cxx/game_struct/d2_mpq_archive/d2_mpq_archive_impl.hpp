@@ -53,7 +53,7 @@ namespace d2 {
 #pragma pack(push, 1)
 
 // TODO (Mir Drualga): Provide an implementation.
-struct MPQArchive_1_00;
+struct MPQArchive_1_00 {};
 
 #pragma pack(pop)
 

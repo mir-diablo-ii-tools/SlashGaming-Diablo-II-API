@@ -43,17 +43,17 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_VIEW_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_VIEW_API_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_VIEW_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_VIEW_API_HPP_
 
 #include <string_view>
 #include <memory>
 #include <variant>
 
-#include "../helper/d2_draw_options.hpp"
-#include "d2_unicode_char.hpp"
+#include "../../helper/d2_draw_options.hpp"
+#include "d2_unicode_char_struct.hpp"
 
-#include "../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
 namespace d2 {
 
@@ -145,5 +145,5 @@ class DLLEXPORT UnicodeStringView_API {
 
 } // namespace d2
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_VIEW_API_HPP_
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_VIEW_API_HPP_

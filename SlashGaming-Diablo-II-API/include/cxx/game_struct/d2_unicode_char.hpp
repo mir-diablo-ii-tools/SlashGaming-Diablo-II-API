@@ -46,42 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
-#include "../../dllexport_define.inc"
-
-namespace d2 {
-
-struct UnicodeChar;
-struct UnicodeChar_1_00;
-
-class DLLEXPORT UnicodeChar_Wrapper {
- public:
-  UnicodeChar_Wrapper() = delete;
-
-  UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other);
-  UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
-
-  virtual ~UnicodeChar_Wrapper();
-
-  UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other);
-  UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
-
-  static UnicodeChar_Wrapper FromPointer(UnicodeChar* ptr);
-  static const UnicodeChar_Wrapper FromPointer(const UnicodeChar* ptr);
-
-  UnicodeChar* Get() noexcept;
-  const UnicodeChar* Get() const noexcept;
-
-  void SetChar(char16_t ch) noexcept;
-  void SetChar(const UnicodeChar_Wrapper& ch) noexcept;
-
- private:
-  UnicodeChar* ptr_;
-
-  UnicodeChar_Wrapper(UnicodeChar* ptr) noexcept;
-  UnicodeChar_Wrapper(const UnicodeChar* ptr) noexcept;
-};
-
-} // namespace d2
+#include "d2_unicode_char/d2_unicode_char_struct.hpp"
+#include "d2_unicode_char/d2_unicode_char_traits_api.hpp"
+#include "d2_unicode_char/d2_unicode_char_wrapper.hpp"
+#include "d2_unicode_char/d2_unicode_string_api.hpp"
+#include "d2_unicode_char/d2_unicode_string_view_api.hpp"
 
 #include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_

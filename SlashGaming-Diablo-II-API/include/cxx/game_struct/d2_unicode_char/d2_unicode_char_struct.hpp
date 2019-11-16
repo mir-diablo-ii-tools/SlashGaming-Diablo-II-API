@@ -43,4 +43,15 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_
+
+namespace d2 {
+
+struct UnicodeChar;
+
+struct UnicodeChar_1_00;
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_

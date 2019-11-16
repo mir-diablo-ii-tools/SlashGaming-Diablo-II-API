@@ -64,7 +64,7 @@ DLLEXPORT void D2_UnicodeChar_Destroy(struct D2_UnicodeChar* ptr);
 
 DLLEXPORT void D2_UnicodeChar_SetChar(
     struct D2_UnicodeChar* ptr,
-    char16_t ch
+    const char* ch
 );
 
 DLLEXPORT void D2_UnicodeChar_CopyChar(

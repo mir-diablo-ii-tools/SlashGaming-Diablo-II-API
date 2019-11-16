@@ -43,19 +43,19 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_API_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_API_HPP_
 
 #include <memory>
 #include <string>
 #include <string_view>
 #include <variant>
 
-#include "../helper/d2_draw_options.hpp"
-#include "d2_unicode_char.hpp"
+#include "../../helper/d2_draw_options.hpp"
+#include "d2_unicode_char_struct.hpp"
 #include "d2_unicode_string_view_api.hpp"
 
-#include "../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
 namespace d2 {
 
@@ -181,56 +181,56 @@ class DLLEXPORT UnicodeString_API {
   UnicodeString_API(std::basic_string<UnicodeChar_1_00>&& str);
 };
 
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeString_API& lhs,
     const UnicodeString_API& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeString_API& lhs,
     const UnicodeChar* rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeString_API& lhs,
     const UnicodeChar& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeChar* lhs,
     const UnicodeString_API& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeChar& lhs,
     const UnicodeString_API& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     UnicodeString_API&& lhs,
     UnicodeString_API&& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     UnicodeString_API&& lhs,
     const UnicodeString_API& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     UnicodeString_API&& lhs,
     const UnicodeChar* rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     UnicodeString_API&& lhs,
     const UnicodeChar& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeString_API& lhs,
     UnicodeString_API&& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeChar* lhs,
     UnicodeString_API&& rhs
 );
-UnicodeString_API operator+(
+DLLEXPORT UnicodeString_API operator+(
     const UnicodeChar& lhs,
     UnicodeString_API&& rhs
 );
 
 } // namespace d2
 
-#include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_STRING_API_HPP_
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_API_HPP_

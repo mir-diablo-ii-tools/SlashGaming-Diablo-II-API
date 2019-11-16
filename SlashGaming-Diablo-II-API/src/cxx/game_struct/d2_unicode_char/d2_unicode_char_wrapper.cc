@@ -43,11 +43,13 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
+#include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_char_wrapper.hpp"
 
 #include <cstdint>
 
 #include "d2_unicode_char_impl.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_unicodeToUtf8.hpp"
+#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_utf8ToUnicode.hpp"
 
 /**
  * Latest supported version: 1.14D
@@ -56,64 +58,65 @@
 namespace d2 {
 
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
-    UnicodeChar* ptr
+    UnicodeChar& uch
 ) noexcept :
-    ptr_(ptr) {
-}
-
-UnicodeChar_Wrapper::UnicodeChar_Wrapper(
-    const UnicodeChar* ptr
-) noexcept :
-    ptr_(const_cast<UnicodeChar*>(ptr)) {
+    uch_(&uch) {
 }
 
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
     const UnicodeChar_Wrapper& other
-) = default;
+) noexcept = default;
 
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
     UnicodeChar_Wrapper&& other
 ) noexcept = default;
 
-UnicodeChar_Wrapper::~UnicodeChar_Wrapper() = default;
+UnicodeChar_Wrapper::~UnicodeChar_Wrapper() noexcept = default;
 
 UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
     const UnicodeChar_Wrapper& other
-) = default;
+) noexcept = default;
 
 UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
     UnicodeChar_Wrapper&& other
 ) noexcept = default;
 
-UnicodeChar_Wrapper UnicodeChar_Wrapper::FromPointer(
-    UnicodeChar* ptr
-) {
-  return UnicodeChar_Wrapper(ptr);
+UnicodeChar_Wrapper::operator UnicodeChar_View() const noexcept {
+  return UnicodeChar_View(*this->uch_);
 }
 
-const UnicodeChar_Wrapper UnicodeChar_Wrapper::FromPointer(
-    const UnicodeChar* ptr
-) {
-  return UnicodeChar_Wrapper(ptr);
+UnicodeChar& UnicodeChar_Wrapper::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<UnicodeChar&>(const_this->Get());
 }
 
-UnicodeChar* UnicodeChar_Wrapper::Get() noexcept {
-  return this->ptr_;
+const UnicodeChar& UnicodeChar_Wrapper::Get() const noexcept {
+  UnicodeChar_View view(*this);
+
+  return view.Get();
 }
 
-const UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
-  return this->ptr_;
+std::u8string UnicodeChar_Wrapper::ToU8String() const {
+  UnicodeChar_View view(*this);
+
+  return view.ToU8String();
 }
 
-void UnicodeChar_Wrapper::SetChar(char16_t ch) noexcept {
-  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(this->Get());
-  actual_ptr->ch = ch;
+void UnicodeChar_Wrapper::SetChar(const UnicodeChar& src) noexcept {
+  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00&>(this->Get());
+  auto actual_src = reinterpret_cast<const UnicodeChar_1_00&>(src);
+
+  actual_ptr.ch = actual_src.ch;
 }
 
-void UnicodeChar_Wrapper::SetChar(const UnicodeChar_Wrapper& src) noexcept {
-  auto actual_ptr = reinterpret_cast<UnicodeChar_1_00*>(this->Get());
-  auto actual_src = reinterpret_cast<const UnicodeChar_1_00*>(src.Get());
-  actual_ptr->ch = actual_src->ch;
+void UnicodeChar_Wrapper::SetChar(std::u8string_view view) {
+  UnicodeChar_1_00 temp_ch;
+  auto* converted_temp_ch = reinterpret_cast<UnicodeChar*>(&temp_ch);
+
+  d2lang::Unicode_utf8ToUnicode(converted_temp_ch, view.data(), 1);
+
+  this->SetChar(*converted_temp_ch);
 }
 
 } // namespace d2

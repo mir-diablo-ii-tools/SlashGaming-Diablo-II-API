@@ -43,4 +43,55 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_api.hpp"
+
+#include "d2_mpq_archive_impl.hpp"
+
+namespace d2 {
+namespace {
+
+using unique_ptr_1_00 = std::unique_ptr<MPQArchive_1_00[]>;
+
+using MPQArchiveVariant = std::variant<
+    unique_ptr_1_00
+>;
+
+} // namespace
+
+// TODO: Implement MPQArchive initialization.
+MPQArchive_API::MPQArchive_API(const MPQArchive_API& other) {
+}
+
+MPQArchive_API::MPQArchive_API(MPQArchive_API&& other) noexcept = default;
+
+MPQArchive_API::~MPQArchive_API() = default;
+
+MPQArchive_API& MPQArchive_API::operator=(const MPQArchive_API& other) {
+  return *this;
+}
+
+MPQArchive_API& MPQArchive_API::operator=(
+    MPQArchive_API&& other
+) noexcept = default;
+
+MPQArchive_API::operator MPQArchive_View() const noexcept {
+  return MPQArchive_View(this->Get());
+}
+
+MPQArchive_API::operator MPQArchive_Wrapper() noexcept {
+  return MPQArchive_Wrapper(this->Get());
+}
+
+MPQArchive* MPQArchive_API::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<MPQArchive*>(const_this->Get());
+}
+
+const MPQArchive* MPQArchive_API::Get() const noexcept {
+  const auto& actual_ptr = std::get<unique_ptr_1_00>(this->mpq_archive_);
+
+  return reinterpret_cast<const MPQArchive*>(actual_ptr.get());
+}
+
+} // namespace d2

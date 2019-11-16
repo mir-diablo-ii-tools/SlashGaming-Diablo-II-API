@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_api.hpp"
 
 #include <filesystem>
 
@@ -52,31 +52,171 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
+namespace {
+
+using unique_ptr_1_00 = std::unique_ptr<CelContext_1_00[]>;
+using unique_ptr_1_12A = std::unique_ptr<CelContext_1_12A[]>;
+using unique_ptr_1_13C = std::unique_ptr<CelContext_1_13C[]>;
+
+using CelContextVariant = std::variant<
+    unique_ptr_1_00,
+    unique_ptr_1_12A,
+    unique_ptr_1_13C
+>;
+
+CelContextVariant CreateVariant(
+    CelFile* cel_file,
+    unsigned int direction,
+    unsigned int frame
+) {
+  CelContext* cel_context = CreateCelContext(cel_file, direction, frame);
+
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  if (running_game_version >= d2::GameVersion::k1_00
+      && running_game_version <= d2::GameVersion::k1_09D) {
+    return unique_ptr_1_00(reinterpret_cast<CelContext_1_00*>(cel_context));
+  } else if (running_game_version == GameVersion::k1_12A) {
+    return unique_ptr_1_12A(reinterpret_cast<CelContext_1_12A*>(cel_context));
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    return unique_ptr_1_13C(reinterpret_cast<CelContext_1_13C*>(cel_context));
+  }
+}
+
+} // namespace
 
 CelContext_API::CelContext_API(
     CelFile* cel_file,
     unsigned int direction,
     unsigned int frame
-) : CelContext_Wrapper(
-        CreateCelContext(cel_file, direction, frame)
+) : cel_context_(
+        CreateVariant(cel_file, direction, frame)
     ) {
 }
 
-CelContext_API::CelContext_API(const CelContext_API& other) = default;
+CelContext_API::CelContext_API(const CelContext_API& other) :
+    CelContext_API(
+        const_cast<CelFile*>(other.GetCelFile()),
+        other.GetDirection(),
+        other.GetFrame()
+    ) {
+}
 
 CelContext_API::CelContext_API(CelContext_API&& other) noexcept = default;
 
-CelContext_API::~CelContext_API() {
-  DestroyCelContext(this->Get());
-}
+CelContext_API::~CelContext_API() = default;
 
 CelContext_API& CelContext_API::operator=(
     const CelContext_API& other
-) = default;
+) {
+  *this = CelContext_API(other);
+  return *this;
+}
 
 CelContext_API& CelContext_API::operator=(
     CelContext_API&& other
 ) noexcept = default;
+
+CelContext_API::operator CelContext_View() const noexcept {
+  return CelContext_View(this->Get());
+}
+
+CelContext_API::operator CelContext_Wrapper() noexcept {
+  return CelContext_Wrapper(this->Get());
+}
+
+CelContext* CelContext_API::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<CelContext*>(const_this->Get());
+}
+
+const CelContext* CelContext_API::Get() const noexcept {
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  if (running_game_version >= d2::GameVersion::k1_00
+      && running_game_version <= d2::GameVersion::k1_10) {
+    auto& cel_context = std::get<unique_ptr_1_00>(this->cel_context_);
+
+    return reinterpret_cast<CelContext*>(cel_context.get());
+  } else if (running_game_version == GameVersion::k1_12A) {
+    auto& cel_context = std::get<unique_ptr_1_12A>(this->cel_context_);
+
+    return reinterpret_cast<CelContext*>(cel_context.get());
+  } else if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) {
+    auto& cel_context = std::get<unique_ptr_1_13C>(this->cel_context_);
+
+    return reinterpret_cast<CelContext*>(cel_context.get());
+  }
+
+  return nullptr;
+}
+
+bool CelContext_API::DrawFrame(int position_x, int position_y) {
+  CelContext_Wrapper wrapper(*this);
+
+  return wrapper.DrawFrame(position_x, position_y);
+}
+
+bool CelContext_API::DrawFrame(
+    int position_x,
+    int position_y,
+    const DrawCelFileFrameOptions& frame_options
+) {
+  CelContext_Wrapper wrapper(*this);
+
+  return wrapper.DrawFrame(position_x, position_y, frame_options);
+}
+
+Cel* CelContext_API::GetCel() {
+  CelContext_Wrapper wrapper(*this);
+
+  return wrapper.GetCel();
+}
+
+CelFile* CelContext_API::GetCelFile() noexcept {
+  CelContext_Wrapper wrapper(*this);
+
+  return wrapper.GetCelFile();
+}
+
+const CelFile* CelContext_API::GetCelFile() const noexcept {
+  CelContext_View view(*this);
+
+  return view.GetCelFile();
+}
+
+unsigned int CelContext_API::GetDirection() const noexcept {
+  CelContext_View view(*this);
+
+  return view.GetDirection();
+}
+
+unsigned int CelContext_API::GetFrame() const noexcept {
+  CelContext_View view(*this);
+
+  return view.GetFrame();
+}
+
+void CelContext_API::SetCelFile(CelFile* cel_file) noexcept {
+  CelContext_Wrapper wrapper(*this);
+
+  wrapper.SetCelFile(cel_file);
+}
+
+void CelContext_API::SetDirection(unsigned int direction) noexcept {
+  CelContext_Wrapper wrapper(*this);
+
+  wrapper.SetDirection(direction);
+}
+
+void CelContext_API::SetFrame(unsigned int frame) noexcept {
+  CelContext_Wrapper wrapper(*this);
+
+  wrapper.SetFrame(frame);
+}
 
 CelContext* CreateCelContext(
     CelFile* cel_file,
@@ -87,30 +227,30 @@ CelContext* CreateCelContext(
 
   if (running_game_version >= d2::GameVersion::k1_00
       && running_game_version <= d2::GameVersion::k1_10) {
-    CelContext_1_00* cel_context = new CelContext_1_00[1];
+    std::unique_ptr cel_context = std::make_unique<CelContext_1_00[]>(1);
 
-    cel_context->cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
-    cel_context->direction = direction;
-    cel_context->frame = frame;
+    cel_context[0].cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
+    cel_context[0].direction = direction;
+    cel_context[0].frame = frame;
 
-    return reinterpret_cast<CelContext*>(cel_context);
+    return reinterpret_cast<CelContext*>(cel_context.release());
   } else if (running_game_version == GameVersion::k1_12A) {
-    CelContext_1_12A* cel_context = new CelContext_1_12A[1];
+    std::unique_ptr cel_context = std::make_unique<CelContext_1_12A[]>(1);
 
-    cel_context->cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
-    cel_context->direction = direction;
-    cel_context->frame = frame;
+    cel_context[0].cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
+    cel_context[0].direction = direction;
+    cel_context[0].frame = frame;
 
-    return reinterpret_cast<CelContext*>(cel_context);
+    return reinterpret_cast<CelContext*>(cel_context.release());
   } else if (running_game_version >= GameVersion::k1_13C
       && running_game_version <= GameVersion::kLod1_14D) {
-    CelContext_1_13C* cel_context = new CelContext_1_13C[1];
+    std::unique_ptr cel_context = std::make_unique<CelContext_1_13C[]>(1);
 
-    cel_context->cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
-    cel_context->direction = direction;
-    cel_context->frame = frame;
+    cel_context[0].cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
+    cel_context[0].direction = direction;
+    cel_context[0].frame = frame;
 
-    return reinterpret_cast<CelContext*>(cel_context);
+    return reinterpret_cast<CelContext*>(cel_context.release());
   }
 }
 
@@ -119,15 +259,18 @@ CelContext* CreateCelContextArray(std::size_t count) {
 
   if (running_game_version >= d2::GameVersion::k1_00
       && running_game_version <= d2::GameVersion::k1_09D) {
-    CelContext_1_00* cel_context_array = new CelContext_1_00[count];
-    return reinterpret_cast<CelContext*>(cel_context_array);
+    std::unique_ptr cel_context_array =
+        std::make_unique<CelContext_1_00[]>(count);
+    return reinterpret_cast<CelContext*>(cel_context_array.release());
   } else if (running_game_version == GameVersion::k1_12A) {
-    CelContext_1_12A* cel_context_array = new CelContext_1_12A[count];
-    return reinterpret_cast<CelContext*>(cel_context_array);
+    std::unique_ptr cel_context_array =
+        std::make_unique<CelContext_1_12A[]>(count);
+    return reinterpret_cast<CelContext*>(cel_context_array.release());
   } else if (running_game_version >= GameVersion::k1_13C
       && running_game_version <= GameVersion::kLod1_14D) {
-    CelContext_1_13C* cel_context_array = new CelContext_1_13C[count];
-    return reinterpret_cast<CelContext*>(cel_context_array);
+    std::unique_ptr cel_context_array =
+        std::make_unique<CelContext_1_13C[]>(count);
+    return reinterpret_cast<CelContext*>(cel_context_array.release());
   }
 }
 

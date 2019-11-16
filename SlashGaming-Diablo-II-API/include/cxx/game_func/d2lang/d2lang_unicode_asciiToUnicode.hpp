@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
 
-#include "../../game_struct/d2_unicode_char.hpp"
+#include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 

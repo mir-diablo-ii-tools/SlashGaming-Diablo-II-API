@@ -50,35 +50,35 @@
 
 namespace d2 {
 
-CelContext_ConstWrapper::CelContext_ConstWrapper(
+CelContext_View::CelContext_View(
     const CelContext* ptr
 ) noexcept :
     ptr_(ptr) {
 }
 
-CelContext_ConstWrapper::CelContext_ConstWrapper(
-    const CelContext_ConstWrapper& other
-) = default;
-
-CelContext_ConstWrapper::CelContext_ConstWrapper(
-    CelContext_ConstWrapper&& other
+CelContext_View::CelContext_View(
+    const CelContext_View& other
 ) noexcept = default;
 
-CelContext_ConstWrapper::~CelContext_ConstWrapper() = default;
-
-CelContext_ConstWrapper& CelContext_ConstWrapper::operator=(
-    const CelContext_ConstWrapper& other
-) = default;
-
-CelContext_ConstWrapper& CelContext_ConstWrapper::operator=(
-    CelContext_ConstWrapper&& other
+CelContext_View::CelContext_View(
+    CelContext_View&& other
 ) noexcept = default;
 
-const CelContext* CelContext_ConstWrapper::Get() const noexcept {
+CelContext_View::~CelContext_View() noexcept = default;
+
+CelContext_View& CelContext_View::operator=(
+    const CelContext_View& other
+) noexcept = default;
+
+CelContext_View& CelContext_View::operator=(
+    CelContext_View&& other
+) noexcept = default;
+
+const CelContext* CelContext_View::Get() const noexcept {
   return this->ptr_;
 }
 
-const CelFile* CelContext_ConstWrapper::GetCelFile() const noexcept {
+const CelFile* CelContext_View::GetCelFile() const noexcept {
   const CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -102,7 +102,7 @@ const CelFile* CelContext_ConstWrapper::GetCelFile() const noexcept {
   }
 }
 
-unsigned int CelContext_ConstWrapper::GetDirection() const noexcept {
+unsigned int CelContext_View::GetDirection() const noexcept {
   const CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 
@@ -126,7 +126,7 @@ unsigned int CelContext_ConstWrapper::GetDirection() const noexcept {
   }
 }
 
-unsigned int CelContext_ConstWrapper::GetFrame() const noexcept {
+unsigned int CelContext_View::GetFrame() const noexcept {
   const CelContext* cel_context = this->Get();
   GameVersion running_game_version = GetRunningGameVersionId();
 

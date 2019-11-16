@@ -49,16 +49,99 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
+namespace {
 
-Cel_API::Cel_API(const Cel_API& other) = default;
+using unique_ptr_1_00 = std::unique_ptr<Cel_1_00[]>;
+
+using CelVariant = std::variant<
+    unique_ptr_1_00
+>;
+
+} // namespace
+
+Cel_API::Cel_API(const Cel_API& other) {
+  // TODO (Mir Drualga): Implement this function when a viable constructor is
+  // available.
+}
 
 Cel_API::Cel_API(Cel_API&& other) noexcept = default;
 
-Cel_API::~Cel_API() {
+Cel_API::~Cel_API() = default;
+
+Cel_API& Cel_API::operator=(const Cel_API& other) {
+  *this = Cel_API(other);
+
+  return *this;
 }
 
-Cel_API& Cel_API::operator=(const Cel_API& other) = default;
-
 Cel_API& Cel_API::operator=(Cel_API&& other) noexcept = default;
+
+Cel_API::operator Cel_View() const noexcept {
+  return Cel_View(this->Get());
+}
+
+Cel_API::operator Cel_Wrapper() noexcept {
+  return Cel_Wrapper(this->Get());
+}
+
+Cel* Cel_API::Get() noexcept {
+  const auto* const_this = this;
+
+  return this->Get();
+}
+
+const Cel* Cel_API::Get() const noexcept {
+  const auto& actual_cel = std::get<unique_ptr_1_00>(this->cel_);
+
+  return reinterpret_cast<const Cel*>(actual_cel.get());
+}
+
+int Cel_API::GetHeight() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetHeight();
+}
+
+int Cel_API::GetOffsetX() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetOffsetX();
+}
+
+int Cel_API::GetOffsetY() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetOffsetY();
+}
+
+int Cel_API::GetWidth() const noexcept {
+  Cel_View view(*this);
+
+  return view.GetWidth();
+}
+
+void Cel_API::SetHeight(int value) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetHeight(value);
+}
+
+void Cel_API::SetOffsetX(int value) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetOffsetX(value);
+}
+
+void Cel_API::SetOffsetY(int value) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetOffsetY(value);
+}
+
+void Cel_API::SetWidth(int value) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetWidth(value);
+}
 
 } // namespace d2

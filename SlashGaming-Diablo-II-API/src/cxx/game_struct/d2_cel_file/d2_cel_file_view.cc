@@ -43,58 +43,56 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_file/d2_cel_file_view.hpp"
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
-#include "d2_mpq_archive_handle_impl.hpp"
+#include "d2_cel_file_impl.hpp"
 
 namespace d2 {
 
-MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
-    const MPQArchiveHandle* ptr
+CelFile_View::CelFile_View(
+    const CelFile* ptr
 ) noexcept :
     ptr_(ptr) {
 }
 
-MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
-    const MPQArchiveHandle_ConstWrapper& other
-) = default;
-
-MPQArchiveHandle_ConstWrapper::MPQArchiveHandle_ConstWrapper(
-    MPQArchiveHandle_ConstWrapper&& other
+CelFile_View::CelFile_View(
+    const CelFile_View& other
 ) noexcept = default;
 
-MPQArchiveHandle_ConstWrapper::~MPQArchiveHandle_ConstWrapper() = default;
-
-MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
-    const MPQArchiveHandle_ConstWrapper& other
-) = default;
-
-MPQArchiveHandle_ConstWrapper& MPQArchiveHandle_ConstWrapper::operator=(
-    MPQArchiveHandle_ConstWrapper&& other
+CelFile_View::CelFile_View(
+    CelFile_View&& other
 ) noexcept = default;
 
-const MPQArchiveHandle*
-MPQArchiveHandle_ConstWrapper::Get() const noexcept {
+CelFile_View::~CelFile_View() noexcept = default;
+
+CelFile_View& CelFile_View::operator=(
+    const CelFile_View& other
+) noexcept = default;
+
+CelFile_View& CelFile_View::operator=(
+    CelFile_View&& other
+) noexcept = default;
+
+const CelFile* CelFile_View::Get() const noexcept {
   return this->ptr_;
 }
 
-const MPQArchive*
-MPQArchiveHandle_ConstWrapper::GetMPQArchive() const noexcept {
-  const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
-      this->Get()
-  );
+unsigned int CelFile_View::GetVersion() const noexcept {
+  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
 
-  return reinterpret_cast<MPQArchive*>(actual_ptr->mpq_archive);
+  return actual_cel_file->version;
 }
 
-const char*
-MPQArchiveHandle_ConstWrapper::GetMPQArchivePath() const noexcept {
-  const auto actual_ptr = reinterpret_cast<const MPQArchiveHandle_1_00*>(
-      this->Get()
-  );
+unsigned int CelFile_View::GetNumDirections() const noexcept {
+  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
 
-  return actual_ptr->mpq_archive_path;
+  return actual_cel_file->num_directions;
+}
+
+unsigned int CelFile_View::GetNumFrames() const noexcept {
+  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+
+  return actual_cel_file->num_frames;
 }
 
 } // namespace d2

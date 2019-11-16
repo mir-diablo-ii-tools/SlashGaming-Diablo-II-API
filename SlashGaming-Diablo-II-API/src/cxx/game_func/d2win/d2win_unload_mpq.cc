@@ -53,8 +53,6 @@
 
 #include "../../../asm_x86_macro.h"
 #include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
-#include "../../../../include/cxx/game_func/fog_func.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "../../../../include/cxx/game_func/storm_func.hpp"
 

@@ -43,56 +43,78 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
 
-#include "d2_cel_file_impl.hpp"
+#include <memory>
+#include <variant>
+
+#include "../d2_cel.hpp"
+#include "d2_cel_context_wrapper.hpp"
+#include "../d2_cel_file.hpp"
+#include "../../game_constant/d2_draw_effect.hpp"
+#include "../../../../include/cxx/helper/d2_draw_options.hpp"
+
+#include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-CelFile_ConstWrapper::CelFile_ConstWrapper(
-    const CelFile* ptr
-) noexcept :
-    ptr_(ptr) {
-}
+struct CelContext;
+struct CelContext_1_00;
+struct CelContext_1_12A;
+struct CelContext_1_13C;
 
-CelFile_ConstWrapper::CelFile_ConstWrapper(
-    const CelFile_ConstWrapper& other
-) = default;
+class DLLEXPORT CelContext_API {
+ public:
+  CelContext_API() = delete;
+  CelContext_API(
+      CelFile* cel_file,
+      unsigned int direction,
+      unsigned int frame
+  );
 
-CelFile_ConstWrapper::CelFile_ConstWrapper(
-    CelFile_ConstWrapper&& other
-) noexcept = default;
+  CelContext_API(const CelContext_API& other);
+  CelContext_API(CelContext_API&& other) noexcept;
 
-CelFile_ConstWrapper::~CelFile_ConstWrapper() = default;
+  ~CelContext_API();
 
-CelFile_ConstWrapper& CelFile_ConstWrapper::operator=(
-    const CelFile_ConstWrapper& other
-) = default;
+  CelContext_API& operator=(const CelContext_API& other);
+  CelContext_API& operator=(CelContext_API&& other) noexcept;
 
-CelFile_ConstWrapper& CelFile_ConstWrapper::operator=(
-    CelFile_ConstWrapper&& other
-) noexcept = default;
+  operator CelContext_View() const noexcept;
+  operator CelContext_Wrapper() noexcept;
 
-const CelFile* CelFile_ConstWrapper::Get() const noexcept {
-  return this->ptr_;
-}
+  CelContext* Get() noexcept;
+  const CelContext* Get() const noexcept;
 
-unsigned int CelFile_ConstWrapper::GetVersion() const noexcept {
-  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+  bool DrawFrame(int position_x, int position_y);
 
-  return actual_cel_file->version;
-}
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      const DrawCelFileFrameOptions& frame_options
+  );
 
-unsigned int CelFile_ConstWrapper::GetNumDirections() const noexcept {
-  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+  Cel* GetCel();
 
-  return actual_cel_file->num_directions;
-}
+  CelFile* GetCelFile() noexcept;
+  const CelFile* GetCelFile() const noexcept;
+  unsigned int GetDirection() const noexcept;
+  unsigned int GetFrame() const noexcept;
 
-unsigned int CelFile_ConstWrapper::GetNumFrames() const noexcept {
-  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+  void SetCelFile(CelFile* cel_file) noexcept;
+  void SetDirection(unsigned int direction) noexcept;
+  void SetFrame(unsigned int frame) noexcept;
 
-  return actual_cel_file->num_frames;
-}
+ private:
+  std::variant<
+      std::unique_ptr<CelContext_1_00[]>,
+      std::unique_ptr<CelContext_1_12A[]>,
+      std::unique_ptr<CelContext_1_13C[]>
+  > cel_context_;
+};
 
 } // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_

@@ -50,55 +50,55 @@
 int D2_Cel_GetHeight(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
-  d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.GetHeight();
+  d2::Cel_View view(actual_cel);
+  return view.GetHeight();
 }
 
 void D2_Cel_SetHeight(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
-  d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.SetHeight(value);
+  d2::Cel_Wrapper wrapper(actual_cel);
+  wrapper.SetHeight(value);
 }
 
 int D2_Cel_GetOffsetX(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
-  d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.GetOffsetX();
+  d2::Cel_View view(actual_cel);
+  return view.GetOffsetX();
 }
 
 void D2_Cel_SetOffsetX(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
-  d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.SetOffsetX(value);
+  d2::Cel_Wrapper wrapper(actual_cel);
+  wrapper.SetOffsetX(value);
 }
 
 int D2_Cel_GetOffsetY(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
-  d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.GetOffsetY();
+  d2::Cel_View view(actual_cel);
+  return view.GetOffsetY();
 }
 
 void D2_Cel_SetOffsetY(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
-  d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.SetOffsetY(value);
+  d2::Cel_Wrapper wrapper(actual_cel);
+  wrapper.SetOffsetY(value);
 }
 
 int D2_Cel_GetWidth(const D2_Cel* cel) {
   auto actual_cel = reinterpret_cast<const d2::Cel*>(cel);
 
-  d2::Cel_ConstWrapper cel_wrapper(actual_cel);
-  return cel_wrapper.GetWidth();
+  d2::Cel_View view(actual_cel);
+  return view.GetWidth();
 }
 
 void D2_Cel_SetWidth(D2_Cel* cel, int value) {
   auto actual_cel = reinterpret_cast<d2::Cel*>(cel);
 
-  d2::Cel_Wrapper cel_wrapper(actual_cel);
-  return cel_wrapper.SetWidth(value);
+  d2::Cel_Wrapper wrapper(actual_cel);
+  wrapper.SetWidth(value);
 }

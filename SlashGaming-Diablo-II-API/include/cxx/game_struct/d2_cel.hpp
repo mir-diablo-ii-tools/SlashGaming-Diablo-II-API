@@ -46,77 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_HPP_
 
-#include "../../dllexport_define.inc"
+#include "d2_cel/d2_cel_api.hpp"
+#include "d2_cel/d2_cel_struct.hpp"
+#include "d2_cel/d2_cel_view.hpp"
+#include "d2_cel/d2_cel_wrapper.hpp"
 
-namespace d2 {
-
-struct Cel;
-
-class DLLEXPORT Cel_ConstWrapper {
- public:
-  Cel_ConstWrapper() = delete;
-  Cel_ConstWrapper(const Cel* ptr) noexcept;
-
-  Cel_ConstWrapper(const Cel_ConstWrapper& other);
-  Cel_ConstWrapper(Cel_ConstWrapper&& other) noexcept;
-
-  virtual ~Cel_ConstWrapper();
-
-  Cel_ConstWrapper& operator=(const Cel_ConstWrapper& other);
-  Cel_ConstWrapper& operator=(Cel_ConstWrapper&& other) noexcept;
-
-  const Cel* Get() const noexcept;
-
-  int GetHeight() const noexcept;
-  int GetOffsetX() const noexcept;
-  int GetOffsetY() const noexcept;
-  int GetWidth() const noexcept;
-
- private:
-  const Cel* ptr_;
-};
-
-class DLLEXPORT Cel_Wrapper : public Cel_ConstWrapper {
- public:
-  Cel_Wrapper() = delete;
-  Cel_Wrapper(Cel* ptr) noexcept;
-
-  Cel_Wrapper(const Cel_Wrapper& other);
-  Cel_Wrapper(Cel_Wrapper&& other) noexcept;
-
-  ~Cel_Wrapper() override;
-
-  Cel_Wrapper& operator=(
-      const Cel_Wrapper& other
-  );
-  Cel_Wrapper& operator=(Cel_Wrapper&& other) noexcept;
-
-  Cel* Get() noexcept;
-  const Cel* Get() const noexcept;
-
-  void SetHeight(int value) noexcept;
-  void SetOffsetX(int value) noexcept;
-  void SetOffsetY(int value) noexcept;
-  void SetWidth(int value) noexcept;
-
- private:
-  Cel* ptr_;
-};
-
-class DLLEXPORT Cel_API : public Cel_Wrapper {
- public:
-  Cel_API() = delete;
-
-  Cel_API(const Cel_API& other);
-  Cel_API(Cel_API&& other) noexcept;
-
-  ~Cel_API() override;
-
-  Cel_API& operator=(const Cel_API& other);
-  Cel_API& operator=(Cel_API&& other) noexcept;
-};
-
-} // namespace d2
-
-#include "../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_HPP_

@@ -64,17 +64,18 @@ void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
   d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
 }
 
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, char16_t ch) {
+void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
   auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
+  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
 
-  return d2::UnicodeChar_Wrapper::FromPointer(actual_ptr)
-      .SetChar(ch);
+  d2::UnicodeChar_Wrapper(*actual_ptr)
+      .SetChar(actual_ch);
 }
 
 void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
   auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
   auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
 
-  return d2::UnicodeChar_Wrapper::FromPointer(actual_ptr)
-      .SetChar(d2::UnicodeChar_Wrapper::FromPointer(actual_src));
+  d2::UnicodeChar_Wrapper(*actual_ptr)
+      .SetChar(*actual_src);
 }

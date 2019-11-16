@@ -53,7 +53,6 @@
 
 #include "../../../asm_x86_macro.h"
 #include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_struct/d2_unicode_char.hpp"
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
