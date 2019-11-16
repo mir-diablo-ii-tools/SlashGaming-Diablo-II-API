@@ -48,8 +48,6 @@
 
 #include <cstddef>
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
 #include "../d2_mpq_archive/d2_mpq_archive_impl.hpp"
 
 namespace d2 {

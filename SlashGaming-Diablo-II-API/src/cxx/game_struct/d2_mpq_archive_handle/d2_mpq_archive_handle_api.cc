@@ -43,16 +43,41 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle/d2_mpq_archive_handle_api.hpp"
 
-#include <filesystem>
-
+#include "d2_mpq_archive_handle_impl.hpp"
 #include "../../../../include/cxx/game_func/d2win_func.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
+namespace {
+
+using MPQArchiveHandleVariant = std::variant<
+    MPQArchiveHandle_1_00*
+>;
+
+MPQArchiveHandleVariant CreateVariant(
+    std::string_view mpq_archive_path,
+    bool is_set_error_on_drive_query_fail,
+    void* (*on_fail_callback)(),
+    int priority
+) {
+  MPQArchiveHandle* mpq_archive_handle = d2win::LoadMPQ(
+      mpq_archive_path.data(),
+      is_set_error_on_drive_query_fail,
+      on_fail_callback,
+      priority
+  );
+
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  return reinterpret_cast<MPQArchiveHandle_1_00*>(mpq_archive_handle);
+}
+
+} // namespace
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
-    const std::filesystem::path& mpq_file_path,
+    std::string_view mpq_file_path,
     bool is_set_error_on_drive_query_fail,
     int priority
 ) : MPQArchiveHandle_API(
@@ -64,13 +89,13 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 }
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
-    const std::filesystem::path& mpq_file_path,
+    std::string_view mpq_file_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
-) : MPQArchiveHandle_Wrapper(
-        d2win::LoadMPQ(
-            mpq_file_path.string().data(),
+) : mpq_archive_handle_(
+        CreateVariant(
+            mpq_file_path.data(),
             is_set_error_on_drive_query_fail,
             on_fail_callback,
             priority
@@ -79,23 +104,38 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 }
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
-    const MPQArchiveHandle_API& other
-) = default;
-
-MPQArchiveHandle_API::MPQArchiveHandle_API(
     MPQArchiveHandle_API&& other
 ) noexcept = default;
 
 MPQArchiveHandle_API::~MPQArchiveHandle_API() {
-  d2win::UnloadMPQ(this->Get());
+  d2win::UnloadMPQ(const_cast<MPQArchiveHandle*>(this->Get()));
 }
-
-MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
-    const MPQArchiveHandle_API& other
-) = default;
 
 MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
     MPQArchiveHandle_API&& other
 ) noexcept = default;
+
+MPQArchiveHandle_API::operator MPQArchiveHandle_View() const noexcept {
+  return MPQArchiveHandle_View(this->Get());
+}
+
+const MPQArchiveHandle* MPQArchiveHandle_API::Get() const noexcept {
+  auto* mpq_archive_handle =
+      std::get<MPQArchiveHandle_1_00*>(this->mpq_archive_handle_);
+
+  return reinterpret_cast<const MPQArchiveHandle*>(mpq_archive_handle);
+}
+
+const MPQArchive* MPQArchiveHandle_API::GetMPQArchive() const noexcept {
+  MPQArchiveHandle_View view(*this);
+
+  return view.GetMPQArchive();
+}
+
+const char* MPQArchiveHandle_API::GetMPQArchivePath() const noexcept {
+  MPQArchiveHandle_View view(*this);
+
+  return view.GetMPQArchivePath();
+}
 
 } // namespace d2

@@ -43,9 +43,8 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle.hpp"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle/d2_mpq_archive_handle_view.hpp"
 
-#include "../../../../include/cxx/game_struct/d2_mpq_archive.hpp"
 #include "d2_mpq_archive_handle_impl.hpp"
 
 namespace d2 {
@@ -58,17 +57,17 @@ MPQArchiveHandle_View::MPQArchiveHandle_View(
 
 MPQArchiveHandle_View::MPQArchiveHandle_View(
     const MPQArchiveHandle_View& other
-) = default;
+) noexcept = default;
 
 MPQArchiveHandle_View::MPQArchiveHandle_View(
     MPQArchiveHandle_View&& other
 ) noexcept = default;
 
-MPQArchiveHandle_View::~MPQArchiveHandle_View() = default;
+MPQArchiveHandle_View::~MPQArchiveHandle_View() noexcept = default;
 
 MPQArchiveHandle_View& MPQArchiveHandle_View::operator=(
     const MPQArchiveHandle_View& other
-) = default;
+) noexcept = default;
 
 MPQArchiveHandle_View& MPQArchiveHandle_View::operator=(
     MPQArchiveHandle_View&& other
@@ -85,7 +84,7 @@ MPQArchiveHandle_View::GetMPQArchive() const noexcept {
       this->Get()
   );
 
-  return reinterpret_cast<MPQArchive*>(actual_ptr->mpq_archive);
+  return reinterpret_cast<const MPQArchive*>(actual_ptr->mpq_archive);
 }
 
 const char*
