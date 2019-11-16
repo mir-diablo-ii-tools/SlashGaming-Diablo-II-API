@@ -61,7 +61,7 @@ namespace d2 {
 
 class DLLEXPORT CelFile_API {
  public:
-  CelFile_API() = delete;
+  CelFile_API();
   CelFile_API(
       std::string_view cel_file_path,
       bool is_dcc_else_dc6
@@ -78,6 +78,8 @@ class DLLEXPORT CelFile_API {
   operator CelFile_View() const noexcept;
 
   const CelFile* Get() const noexcept;
+
+  void Close();
 
   bool DrawFrame(
       int position_x,
@@ -109,6 +111,13 @@ class DLLEXPORT CelFile_API {
       const DrawAllCelFileFramesOptions& all_frames_options
   );
 
+  bool IsOpen() const;
+
+  void Open(
+    std::string_view cel_file_path,
+    bool is_dcc_else_dc6
+  );
+
   unsigned int GetVersion() const noexcept;
   unsigned int GetNumDirections() const noexcept;
   unsigned int GetNumFrames() const noexcept;
@@ -117,6 +126,8 @@ class DLLEXPORT CelFile_API {
   std::variant<
       CelFile_1_00*
   > cel_file_;
+
+  bool is_open_;
 };
 
 } // namespace d2

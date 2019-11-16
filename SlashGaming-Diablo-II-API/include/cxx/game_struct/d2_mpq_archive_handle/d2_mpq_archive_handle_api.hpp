@@ -60,6 +60,8 @@ namespace d2 {
 
 class DLLEXPORT MPQArchiveHandle_API {
  public:
+  MPQArchiveHandle_API();
+
   MPQArchiveHandle_API(
       std::string_view mpq_archive_path,
       bool is_set_error_on_drive_query_fail,
@@ -85,6 +87,22 @@ class DLLEXPORT MPQArchiveHandle_API {
 
   const MPQArchiveHandle* Get() const noexcept;
 
+  void Close();
+
+  bool IsOpen() const;
+
+  void Open(
+      std::string_view mpq_archive_path,
+      bool is_set_error_on_drive_query_fail,
+      int priority
+  );
+  void Open(
+      std::string_view mpq_archive_path,
+      bool is_set_error_on_drive_query_fail,
+      void* (*on_fail_callback)(),
+      int priority
+  );
+
   const MPQArchive* GetMPQArchive() const noexcept;
   const char* GetMPQArchivePath() const noexcept;
 
@@ -92,6 +110,8 @@ class DLLEXPORT MPQArchiveHandle_API {
   std::variant<
       MPQArchiveHandle_1_00*
   > mpq_archive_handle_;
+
+  bool is_open_;
 };
 
 } // namespace d2

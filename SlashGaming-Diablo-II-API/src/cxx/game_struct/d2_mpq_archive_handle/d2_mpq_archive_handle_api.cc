@@ -76,12 +76,17 @@ MPQArchiveHandleVariant CreateVariant(
 
 } // namespace
 
+MPQArchiveHandle_API::MPQArchiveHandle_API() :
+    mpq_archive_handle_(nullptr),
+    is_open_(false) {
+}
+
 MPQArchiveHandle_API::MPQArchiveHandle_API(
-    std::string_view mpq_file_path,
+    std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     int priority
 ) : MPQArchiveHandle_API(
-        mpq_file_path,
+        mpq_archive_path,
         is_set_error_on_drive_query_fail,
         nullptr,
         priority
@@ -89,18 +94,17 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 }
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
-    std::string_view mpq_file_path,
+    std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
-) : mpq_archive_handle_(
-        CreateVariant(
-            mpq_file_path.data(),
-            is_set_error_on_drive_query_fail,
-            on_fail_callback,
-            priority
-        )
-    ) {
+) {
+  Open(
+      mpq_archive_path,
+      is_set_error_on_drive_query_fail,
+      on_fail_callback,
+      priority
+  );
 }
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
@@ -108,7 +112,7 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 ) noexcept = default;
 
 MPQArchiveHandle_API::~MPQArchiveHandle_API() {
-  d2win::UnloadMPQ(const_cast<MPQArchiveHandle*>(this->Get()));
+  Close();
 }
 
 MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
@@ -124,6 +128,48 @@ const MPQArchiveHandle* MPQArchiveHandle_API::Get() const noexcept {
       std::get<MPQArchiveHandle_1_00*>(this->mpq_archive_handle_);
 
   return reinterpret_cast<const MPQArchiveHandle*>(mpq_archive_handle);
+}
+
+void MPQArchiveHandle_API::Close() {
+  if (this->IsOpen()) {
+    d2win::UnloadMPQ(const_cast<MPQArchiveHandle*>(this->Get()));
+    this->is_open_ = false;
+  }
+}
+
+bool MPQArchiveHandle_API::IsOpen() const {
+  return this->is_open_;
+}
+
+void MPQArchiveHandle_API::Open(
+    std::string_view mpq_archive_path,
+    bool is_set_error_on_drive_query_fail,
+    int priority
+) {
+  Open(
+      mpq_archive_path,
+      is_set_error_on_drive_query_fail,
+      nullptr,
+      priority
+  );
+}
+
+void MPQArchiveHandle_API::Open(
+    std::string_view mpq_archive_path,
+    bool is_set_error_on_drive_query_fail,
+    void* (*on_fail_callback)(),
+    int priority
+) {
+  this->Close();
+
+  this->mpq_archive_handle_ = CreateVariant(
+      mpq_archive_path,
+      is_set_error_on_drive_query_fail,
+      on_fail_callback,
+      priority
+  );
+
+  this->is_open_ = true;
 }
 
 const MPQArchive* MPQArchiveHandle_API::GetMPQArchive() const noexcept {
