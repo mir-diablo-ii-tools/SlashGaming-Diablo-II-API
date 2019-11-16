@@ -188,7 +188,7 @@ void CelFile_API::Open(
       is_dcc_else_dc6
   );
 
-  this->is_open_ = true;
+  this->is_open_ = (this->Get() != nullptr);
 }
 
 unsigned int CelFile_API::GetVersion() const noexcept {

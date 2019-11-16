@@ -169,7 +169,7 @@ void MPQArchiveHandle_API::Open(
       priority
   );
 
-  this->is_open_ = true;
+  this->is_open_ = (this->Get() != nullptr);
 }
 
 const MPQArchive* MPQArchiveHandle_API::GetMPQArchive() const noexcept {
