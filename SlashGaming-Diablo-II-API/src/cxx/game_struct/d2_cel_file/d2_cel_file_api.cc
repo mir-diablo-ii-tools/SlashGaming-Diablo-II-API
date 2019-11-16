@@ -68,26 +68,22 @@ CelFileVariant CreateVariant(
 
 } // namespace
 
+CelFile_API::CelFile_API() :
+    cel_file_(nullptr),
+    is_open_(false) {
+}
+
 CelFile_API::CelFile_API(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6
-) : cel_file_(
-        CreateVariant(
-            cel_file_path.data(),
-            is_dcc_else_dc6
-        )
-    ) {
+) {
+  Open(cel_file_path, is_dcc_else_dc6);
 }
 
 CelFile_API::CelFile_API(CelFile_API&& other) noexcept = default;
 
 CelFile_API::~CelFile_API() {
-  CelFile* converted_cel_file;
-
-  auto* actual_cel_file = std::get<CelFile_1_00*>(this->cel_file_);
-  converted_cel_file = reinterpret_cast<CelFile*>(actual_cel_file);
-
-  d2win::UnloadCelFile(converted_cel_file);
+  Close();
 }
 
 CelFile_API& CelFile_API::operator=(CelFile_API&& other) noexcept = default;
@@ -100,6 +96,13 @@ const CelFile* CelFile_API::Get() const noexcept {
   auto* actual_cel_file = std::get<CelFile_1_00*>(this->cel_file_);
 
   return reinterpret_cast<CelFile*>(actual_cel_file);
+}
+
+void CelFile_API::Close() {
+  if (this->IsOpen()) {
+    d2win::UnloadCelFile(const_cast<CelFile*>(this->Get()));
+    this->is_open_ = false;
+  }
 }
 
 bool CelFile_API::DrawFrame(
@@ -168,6 +171,24 @@ bool CelFile_API::DrawAllFrames(
       rows,
       all_frames_options
   );
+}
+
+bool CelFile_API::IsOpen() const {
+  return this->is_open_;
+}
+
+void CelFile_API::Open(
+    std::string_view cel_file_path,
+    bool is_dcc_else_dc6
+) {
+  this->Close();
+
+  this->cel_file_ = CreateVariant(
+      cel_file_path.data(),
+      is_dcc_else_dc6
+  );
+
+  this->is_open_ = true;
 }
 
 unsigned int CelFile_API::GetVersion() const noexcept {
