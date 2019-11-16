@@ -50,41 +50,41 @@
 unsigned int D2_CelFile_GetVersion(const D2_CelFile* cel_file) {
   auto actual_cel_file = reinterpret_cast<const d2::CelFile*>(cel_file);
 
-  d2::CelFile_ConstWrapper cel_file_wrapper(actual_cel_file);
-  return cel_file_wrapper.GetVersion();
+  d2::CelFile_View view(actual_cel_file);
+  return view.GetVersion();
 }
 
 void D2_CelFile_SetVersion(D2_CelFile* cel_file, unsigned int value) {
   auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
 
-  d2::CelFile_Wrapper cel_file_wrapper(actual_cel_file);
-  cel_file_wrapper.SetVersion(value);
+  d2::CelFile_Wrapper wrapper(actual_cel_file);
+  wrapper.SetVersion(value);
 }
 
 unsigned int D2_CelFile_GetNumDirections(const D2_CelFile* cel_file) {
   auto actual_cel_file = reinterpret_cast<const d2::CelFile*>(cel_file);
 
-  d2::CelFile_ConstWrapper cel_file_wrapper(actual_cel_file);
-  return cel_file_wrapper.GetNumDirections();
+  d2::CelFile_View view(actual_cel_file);
+  return view.GetNumDirections();
 }
 
 void D2_CelFile_SetNumDirections(D2_CelFile* cel_file, unsigned int value) {
   auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
 
-  d2::CelFile_Wrapper cel_file_wrapper(actual_cel_file);
-  cel_file_wrapper.SetNumDirections(value);
+  d2::CelFile_Wrapper wrapper(actual_cel_file);
+  wrapper.SetNumDirections(value);
 }
 
 unsigned int D2_CelFile_GetNumFrames(const D2_CelFile* cel_file) {
   auto actual_cel_file = reinterpret_cast<const d2::CelFile*>(cel_file);
 
-  d2::CelFile_ConstWrapper cel_file_wrapper(actual_cel_file);
-  return cel_file_wrapper.GetNumFrames();
+  d2::CelFile_View view(actual_cel_file);
+  return view.GetNumFrames();
 }
 
 void D2_CelFile_SetNumFrames(D2_CelFile* cel_file, unsigned int value) {
   auto actual_cel_file = reinterpret_cast<d2::CelFile*>(cel_file);
 
-  d2::CelFile_Wrapper cel_file_wrapper(actual_cel_file);
-  cel_file_wrapper.SetNumFrames(value);
+  d2::CelFile_Wrapper wrapper(actual_cel_file);
+  wrapper.SetNumFrames(value);
 }

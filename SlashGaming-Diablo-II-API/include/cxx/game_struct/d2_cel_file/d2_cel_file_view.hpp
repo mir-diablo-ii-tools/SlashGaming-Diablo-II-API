@@ -43,39 +43,39 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/d2_unicode_char.h"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_VIEW_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_VIEW_HPP_
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-#include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include "d2_cel_file_struct.hpp"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
-  return D2_UnicodeChar_CreateWithChar('\0');
-}
+#include "../../../dllexport_define.inc"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
-}
+namespace d2 {
 
-D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
-}
+class DLLEXPORT CelFile_View {
+ public:
+  CelFile_View() = delete;
+  CelFile_View(const CelFile* ptr) noexcept;
 
-void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
-  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
-}
+  CelFile_View(const CelFile_View& other) noexcept;
+  CelFile_View(CelFile_View&& other) noexcept;
 
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
+  ~CelFile_View() noexcept;
 
-  d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(actual_ch);
-}
+  CelFile_View& operator=(const CelFile_View& other) noexcept;
+  CelFile_View& operator=(CelFile_View&& other) noexcept;
 
-void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
+  const CelFile* Get() const noexcept;
 
-  d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(*actual_src);
-}
+  unsigned int GetVersion() const noexcept;
+  unsigned int GetNumDirections() const noexcept;
+  unsigned int GetNumFrames() const noexcept;
+
+ private:
+  const CelFile* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_VIEW_HPP_

@@ -43,39 +43,83 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/d2_unicode_char.h"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_API_HPP_
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-#include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include <string_view>
+#include <variant>
 
-D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
-  return D2_UnicodeChar_CreateWithChar('\0');
-}
+#include "d2_cel_file_struct.hpp"
+#include "d2_cel_file_view.hpp"
+#include "d2_cel_file_wrapper.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
+#include "../../helper/d2_draw_options.hpp"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
-}
+#include "../../../dllexport_define.inc"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
-}
+namespace d2 {
 
-void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
-  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
-}
+class DLLEXPORT CelFile_API {
+ public:
+  CelFile_API() = delete;
+  CelFile_API(
+      std::string_view cel_file_path,
+      bool is_dcc_else_dc6
+  );
 
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
+  CelFile_API(const CelFile_API& other) = delete;
+  CelFile_API(CelFile_API&& other) noexcept;
 
-  d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(actual_ch);
-}
+  ~CelFile_API();
 
-void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
+  CelFile_API& operator=(const CelFile_API& other) = delete;
+  CelFile_API& operator=(CelFile_API&& other) noexcept;
 
-  d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(*actual_src);
-}
+  operator CelFile_View() const noexcept;
+
+  const CelFile* Get() const noexcept;
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      unsigned int direction,
+      unsigned int frame
+  );
+
+  bool DrawFrame(
+      int position_x,
+      int position_y,
+      unsigned int direction,
+      unsigned int frame,
+      const DrawCelFileFrameOptions& frame_options
+  );
+
+  bool DrawAllFrames(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int rows
+  );
+
+  bool DrawAllFrames(
+      int position_x,
+      int position_y,
+      unsigned int columns,
+      unsigned int rows,
+      const DrawAllCelFileFramesOptions& all_frames_options
+  );
+
+  unsigned int GetVersion() const noexcept;
+  unsigned int GetNumDirections() const noexcept;
+  unsigned int GetNumFrames() const noexcept;
+
+ private:
+  std::variant<
+      CelFile_1_00*
+  > cel_file_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_API_HPP_

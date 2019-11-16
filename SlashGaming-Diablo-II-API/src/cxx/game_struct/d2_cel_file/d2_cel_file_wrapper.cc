@@ -43,9 +43,9 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_file/d2_cel_file_wrapper.hpp"
 
-#include "../../../../include/cxx/game_struct/d2_cel_context.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_api.hpp"
 #include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_cel_context.hpp"
 #include "d2_cel_file_impl.hpp"
 
@@ -54,34 +54,39 @@ namespace d2 {
 CelFile_Wrapper::CelFile_Wrapper(
     CelFile* ptr
 ) noexcept :
-    CelFile_ConstWrapper(ptr),
     ptr_(ptr) {
 }
 
 CelFile_Wrapper::CelFile_Wrapper(
     const CelFile_Wrapper& other
-) = default;
+) noexcept = default;
 
 CelFile_Wrapper::CelFile_Wrapper(
     CelFile_Wrapper&& other
 ) noexcept = default;
 
-CelFile_Wrapper::~CelFile_Wrapper() = default;
+CelFile_Wrapper::~CelFile_Wrapper() noexcept = default;
 
 CelFile_Wrapper& CelFile_Wrapper::operator=(
     const CelFile_Wrapper& other
-) = default;
+) noexcept = default;
 
 CelFile_Wrapper& CelFile_Wrapper::operator=(
     CelFile_Wrapper&& other
 ) noexcept = default;
 
+CelFile_Wrapper::operator CelFile_View() const noexcept {
+  return CelFile_View(this->Get());
+}
+
 CelFile* CelFile_Wrapper::Get() noexcept {
-  return this->ptr_;
+  const auto* const_this = this;
+
+  return const_cast<CelFile*>(const_this->Get());
 }
 
 const CelFile* CelFile_Wrapper::Get() const noexcept {
-  return CelFile_ConstWrapper::Get();
+  return this->ptr_;
 }
 
 bool CelFile_Wrapper::DrawFrame(
@@ -185,7 +190,14 @@ bool CelFile_Wrapper::DrawAllFrames(
 
 Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
   CelContext_API cel_context(this->Get(), direction, frame);
+
   return cel_context.GetCel();
+}
+
+unsigned int CelFile_Wrapper::GetVersion() const noexcept {
+  CelFile_View view(*this);
+
+  return view.GetVersion();
 }
 
 void CelFile_Wrapper::SetVersion(unsigned int value) noexcept {
@@ -194,10 +206,22 @@ void CelFile_Wrapper::SetVersion(unsigned int value) noexcept {
   actual_cel_file->version = value;
 }
 
+unsigned int CelFile_Wrapper::GetNumDirections() const noexcept {
+  CelFile_View view(*this);
+
+  return view.GetNumDirections();
+}
+
 void CelFile_Wrapper::SetNumDirections(unsigned int value) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
   actual_cel_file->num_directions = value;
+}
+
+unsigned int CelFile_Wrapper::GetNumFrames() const noexcept {
+  CelFile_View view(*this);
+
+  return view.GetNumFrames();
 }
 
 void CelFile_Wrapper::SetNumFrames(unsigned int value) noexcept {

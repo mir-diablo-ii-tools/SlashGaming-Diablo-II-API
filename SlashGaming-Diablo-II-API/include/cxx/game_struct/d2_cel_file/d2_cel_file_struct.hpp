@@ -43,39 +43,18 @@
  *  work.
  */
 
-#include "../../../include/c/game_struct/d2_unicode_char.h"
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_STRUCT_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_STRUCT_HPP_
 
-#include "../../../include/cxx/game_struct/d2_unicode_char.hpp"
-#include "../../cxx/game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
+#include "../../../dllexport_define.inc"
 
-D2_UnicodeChar* D2_UnicodeChar_CreateDefault() {
-  return D2_UnicodeChar_CreateWithChar('\0');
-}
+namespace d2 {
 
-D2_UnicodeChar* D2_UnicodeChar_CreateWithChar(unsigned short ch) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeChar(ch));
-}
+struct CelFile;
 
-D2_UnicodeChar* D2_UnicodeChar_CreateArray(std::size_t count) {
-  return reinterpret_cast<D2_UnicodeChar*>(d2::CreateUnicodeCharArray(count));
-}
+struct CelFile_1_00;
 
-void D2_UnicodeChar_Destroy(D2_UnicodeChar* ptr) {
-  d2::DestroyUnicodeChar(reinterpret_cast<d2::UnicodeChar*>(ptr));
-}
+} // namespace d2
 
-void D2_UnicodeChar_SetChar(D2_UnicodeChar* ptr, const char* ch) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_ch = reinterpret_cast<const char8_t*>(ch);
-
-  d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(actual_ch);
-}
-
-void D2_UnicodeChar_CopyChar(D2_UnicodeChar* ptr, const D2_UnicodeChar* src) {
-  auto* actual_ptr = reinterpret_cast<d2::UnicodeChar*>(ptr);
-  auto* actual_src = reinterpret_cast<const d2::UnicodeChar*>(src);
-
-  d2::UnicodeChar_Wrapper(*actual_ptr)
-      .SetChar(*actual_src);
-}
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_STRUCT_HPP_

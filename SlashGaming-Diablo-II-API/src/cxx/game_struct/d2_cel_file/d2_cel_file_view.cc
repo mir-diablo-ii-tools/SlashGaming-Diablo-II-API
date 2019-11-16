@@ -43,53 +43,53 @@
  *  work.
  */
 
-#include "../../../../include/cxx/game_struct/d2_cel_file.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel_file/d2_cel_file_view.hpp"
 
 #include "d2_cel_file_impl.hpp"
 
 namespace d2 {
 
-CelFile_ConstWrapper::CelFile_ConstWrapper(
+CelFile_View::CelFile_View(
     const CelFile* ptr
 ) noexcept :
     ptr_(ptr) {
 }
 
-CelFile_ConstWrapper::CelFile_ConstWrapper(
-    const CelFile_ConstWrapper& other
-) = default;
-
-CelFile_ConstWrapper::CelFile_ConstWrapper(
-    CelFile_ConstWrapper&& other
+CelFile_View::CelFile_View(
+    const CelFile_View& other
 ) noexcept = default;
 
-CelFile_ConstWrapper::~CelFile_ConstWrapper() = default;
-
-CelFile_ConstWrapper& CelFile_ConstWrapper::operator=(
-    const CelFile_ConstWrapper& other
-) = default;
-
-CelFile_ConstWrapper& CelFile_ConstWrapper::operator=(
-    CelFile_ConstWrapper&& other
+CelFile_View::CelFile_View(
+    CelFile_View&& other
 ) noexcept = default;
 
-const CelFile* CelFile_ConstWrapper::Get() const noexcept {
+CelFile_View::~CelFile_View() noexcept = default;
+
+CelFile_View& CelFile_View::operator=(
+    const CelFile_View& other
+) noexcept = default;
+
+CelFile_View& CelFile_View::operator=(
+    CelFile_View&& other
+) noexcept = default;
+
+const CelFile* CelFile_View::Get() const noexcept {
   return this->ptr_;
 }
 
-unsigned int CelFile_ConstWrapper::GetVersion() const noexcept {
+unsigned int CelFile_View::GetVersion() const noexcept {
   auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
 
   return actual_cel_file->version;
 }
 
-unsigned int CelFile_ConstWrapper::GetNumDirections() const noexcept {
+unsigned int CelFile_View::GetNumDirections() const noexcept {
   auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
 
   return actual_cel_file->num_directions;
 }
 
-unsigned int CelFile_ConstWrapper::GetNumFrames() const noexcept {
+unsigned int CelFile_View::GetNumFrames() const noexcept {
   auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
 
   return actual_cel_file->num_frames;
