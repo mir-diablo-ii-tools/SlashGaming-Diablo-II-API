@@ -89,7 +89,7 @@ CelFile_API::~CelFile_API() {
 CelFile_API& CelFile_API::operator=(CelFile_API&& other) noexcept = default;
 
 CelFile_API::operator CelFile_View() const noexcept {
-  return CelFile_View(*this);
+  return CelFile_View(this->Get());
 }
 
 const CelFile* CelFile_API::Get() const noexcept {
