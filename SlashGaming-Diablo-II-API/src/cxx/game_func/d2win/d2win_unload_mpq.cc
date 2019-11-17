@@ -123,14 +123,14 @@ void UnloadMPQ(
 
   d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
 
-  if ((running_game_version >= d2::GameVersion::k1_00
-      && running_game_version <= d2::GameVersion::k1_10)
-      || (running_game_version >= d2::GameVersion::kClassic1_14A
-        && running_game_version <= d2::GameVersion::kLod1_14D)) {
-    D2Win_UnloadMPQ_1_00(func_ptr, mpq_archive_handle);
-  } else if (running_game_version >= d2::GameVersion::k1_11
+  if (running_game_version >= d2::GameVersion::k1_11
       && running_game_version <= d2::GameVersion::k1_13D) {
     D2Win_UnloadMPQ_1_11(func_ptr, mpq_archive_handle);
+  } else /* if ((running_game_version >= d2::GameVersion::k1_00
+      && running_game_version <= d2::GameVersion::k1_10)
+      || (running_game_version >= d2::GameVersion::kClassic1_14A
+        && running_game_version <= d2::GameVersion::kLod1_14D)) */ {
+    D2Win_UnloadMPQ_1_00(func_ptr, mpq_archive_handle);
   }
 }
 
