@@ -76,11 +76,17 @@ CelFile_API::CelFile_API() :
 CelFile_API::CelFile_API(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6
-) {
-  Open(cel_file_path, is_dcc_else_dc6);
+) : cel_file_(nullptr),
+    is_open_(false) {
+  this->Open(cel_file_path, is_dcc_else_dc6);
 }
 
-CelFile_API::CelFile_API(CelFile_API&& other) noexcept = default;
+CelFile_API::CelFile_API(CelFile_API&& other) noexcept :
+    cel_file_(other.cel_file_),
+    is_open_(other.is_open_) {
+  other.cel_file_ = nullptr;
+  other.is_open_ = false;
+}
 
 CelFile_API::~CelFile_API() {
   Close();
@@ -190,7 +196,7 @@ void CelFile_API::Open(
   this->Close();
 
   this->cel_file_ = CreateVariant(
-      cel_file_path.data(),
+      cel_file_path,
       is_dcc_else_dc6
   );
 
