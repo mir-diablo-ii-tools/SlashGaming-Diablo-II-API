@@ -166,20 +166,18 @@ bool CelFile_Wrapper::DrawAllFrames(
     for (unsigned int current_column = 0; current_column < columns; current_column += 1) {
       unsigned int current_frame = current_column + (current_row * columns);
 
-      cel_views.push_back(this->GetCel(0, current_frame));
+      cel_views.push_back(this->GetCel(all_frames_options.cel_file_direction, current_frame));
     }
   }
 
   int cels_total_width = 0;
   for (unsigned int current_column = 0; current_column < columns; current_column += 1) {
-    Cel_View cel_view(this->GetCel(all_frames_options.cel_file_direction,  current_column));
-    cels_total_width += cel_view.GetWidth();
+    cels_total_width += cel_views.at(current_column).GetWidth();
   }
 
   int cels_total_height = 0;
   for (unsigned int current_row = 0; current_row < rows; current_row += 1) {
-    Cel_View cel_view(this->GetCel(all_frames_options.cel_file_direction, current_row * columns));
-    cels_total_height += cel_view.GetHeight();
+    cels_total_height += cel_views.at(current_row * columns).GetHeight();
   }
 
   // Determine starting positions.
@@ -214,16 +212,16 @@ bool CelFile_Wrapper::DrawAllFrames(
   int starting_position_y = position_y;
   switch (all_frames_options.position_y_behavior) {
     case DrawPositionYBehavior::kTop: {
-      starting_position_y += cels_total_height;
       break;
     }
 
     case DrawPositionYBehavior::kCenter: {
-      starting_position_y += cels_total_height / 2;
+      starting_position_y -= (cels_total_height / 2);
       break;
     }
 
     case DrawPositionYBehavior::kBottom: {
+      starting_position_y -= cels_total_height;
       break;
     }
 
