@@ -67,21 +67,6 @@ enum class DrawPositionYBehavior {
   kTop,
 };
 
-enum class DrawHorizontalDirection {
-  kLeftToRight,
-  kRightToLeft
-};
-
-enum class DrawVerticalDirection {
-  kTopToBottom,
-  kBottomToTop
-};
-
-enum class DrawAllFramesDirectionOrder {
-  kHorizontalThenVertical,
-  kVerticalThenHorizontal
-};
-
 struct DrawCelFileFrameOptions {
   mapi::RGBA32BitColor color;
   DrawEffect draw_effect;
@@ -90,11 +75,12 @@ struct DrawCelFileFrameOptions {
 };
 
 struct DrawAllCelFileFramesOptions {
-  DrawCelFileFrameOptions frame_options;
+  mapi::RGBA32BitColor color;
+  DrawEffect draw_effect;
+  DrawPositionXBehavior position_x_behavior;
+  DrawPositionYBehavior position_y_behavior;
+
   unsigned int cel_file_direction;
-  DrawHorizontalDirection horizontal_direction;
-  DrawVerticalDirection vertical_direction;
-  DrawAllFramesDirectionOrder direction_order;
 };
 
 struct DrawTextOptions {

@@ -63,6 +63,7 @@ namespace {
 constexpr std::wstring_view kFunctionFailErrorFormat =
     L"File: {} \n"
     L"Line: {} \n"
+    L"\n"
     L"The function {} failed with error code {:x}.";
 
 std::intptr_t
@@ -204,6 +205,7 @@ GetGameLibrary(
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: {} \n"
         L"Line: {} \n"
+        L"\n"
         L"Could not determine the game library from the file path: {}.";
 
     std::wstring full_message = fmt::format(

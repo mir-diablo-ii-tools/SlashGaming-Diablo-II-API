@@ -78,8 +78,8 @@ CelContextVariant CreateVariant(
     return unique_ptr_1_00(reinterpret_cast<CelContext_1_00*>(cel_context));
   } else if (running_game_version == GameVersion::k1_12A) {
     return unique_ptr_1_12A(reinterpret_cast<CelContext_1_12A*>(cel_context));
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     return unique_ptr_1_13C(reinterpret_cast<CelContext_1_13C*>(cel_context));
   }
 }
@@ -144,8 +144,8 @@ const CelContext* CelContext_API::Get() const noexcept {
     auto& cel_context = std::get<unique_ptr_1_12A>(this->cel_context_);
 
     return reinterpret_cast<CelContext*>(cel_context.get());
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     auto& cel_context = std::get<unique_ptr_1_13C>(this->cel_context_);
 
     return reinterpret_cast<CelContext*>(cel_context.get());
@@ -242,8 +242,8 @@ CelContext* CreateCelContext(
     cel_context[0].frame = frame;
 
     return reinterpret_cast<CelContext*>(cel_context.release());
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     std::unique_ptr cel_context = std::make_unique<CelContext_1_13C[]>(1);
 
     cel_context[0].cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
@@ -266,8 +266,8 @@ CelContext* CreateCelContextArray(std::size_t count) {
     std::unique_ptr cel_context_array =
         std::make_unique<CelContext_1_12A[]>(count);
     return reinterpret_cast<CelContext*>(cel_context_array.release());
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     std::unique_ptr cel_context_array =
         std::make_unique<CelContext_1_13C[]>(count);
     return reinterpret_cast<CelContext*>(cel_context_array.release());
@@ -282,8 +282,8 @@ void DestroyCelContext(CelContext* cel_context) {
     delete[] reinterpret_cast<CelContext_1_00*>(cel_context);
   } else if (running_game_version == GameVersion::k1_12A) {
     delete[] reinterpret_cast<CelContext_1_12A*>(cel_context);
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     delete[] reinterpret_cast<CelContext_1_13C*>(cel_context);
   }
 }

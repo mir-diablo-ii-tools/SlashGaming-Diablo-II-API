@@ -98,8 +98,9 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
-) {
-  Open(
+) : mpq_archive_handle_(nullptr),
+    is_open_(false) {
+  this->Open(
       mpq_archive_path,
       is_set_error_on_drive_query_fail,
       on_fail_callback,
@@ -109,10 +110,15 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
 
 MPQArchiveHandle_API::MPQArchiveHandle_API(
     MPQArchiveHandle_API&& other
-) noexcept = default;
+) noexcept :
+    mpq_archive_handle_(std::move(other.mpq_archive_handle_)),
+    is_open_(other.is_open_) {
+  other.mpq_archive_handle_ = nullptr;
+  other.is_open_ = false;
+}
 
 MPQArchiveHandle_API::~MPQArchiveHandle_API() {
-  Close();
+  this->Close();
 }
 
 MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
@@ -133,6 +139,7 @@ const MPQArchiveHandle* MPQArchiveHandle_API::Get() const noexcept {
 void MPQArchiveHandle_API::Close() {
   if (this->IsOpen()) {
     d2win::UnloadMPQ(const_cast<MPQArchiveHandle*>(this->Get()));
+    this->mpq_archive_handle_ = nullptr;
     this->is_open_ = false;
   }
 }
@@ -146,7 +153,7 @@ void MPQArchiveHandle_API::Open(
     bool is_set_error_on_drive_query_fail,
     int priority
 ) {
-  Open(
+  this->Open(
       mpq_archive_path,
       is_set_error_on_drive_query_fail,
       nullptr,

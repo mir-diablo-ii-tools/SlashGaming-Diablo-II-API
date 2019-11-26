@@ -271,8 +271,8 @@ MPQArchiveHandle* LoadMPQ(
         on_fail_callback,
         priority
     );
-  } else if (running_game_version >= d2::GameVersion::kClassic1_14A
-      && running_game_version <= d2::GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= d2::GameVersion::kClassic1_14A
+      && running_game_version <= d2::GameVersion::kLod1_14D) */ {
     return D2Win_LoadMPQ_1_14C(
         ptr,
         mpq_file_name,

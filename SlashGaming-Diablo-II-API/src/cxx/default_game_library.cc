@@ -120,6 +120,7 @@ GetDefaultLibraryPathWithRedirect(
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: {} \n"
         L"Line: {} \n"
+        L"\n"
         L"Could not determine the game library path from the library ID: {}.";
 
     std::wstring full_message = fmt::format(

@@ -93,8 +93,8 @@ const CelFile* CelContext_View::GetCelFile() const noexcept {
         cel_context
     );
     return reinterpret_cast<const CelFile*>(actual_cel_context->cel_file);
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
         cel_context
     );
@@ -117,8 +117,8 @@ unsigned int CelContext_View::GetDirection() const noexcept {
         cel_context
     );
     return actual_cel_context->direction;
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
         cel_context
     );
@@ -141,8 +141,8 @@ unsigned int CelContext_View::GetFrame() const noexcept {
         cel_context
     );
     return actual_cel_context->frame;
-  } else if (running_game_version >= GameVersion::k1_13C
-      && running_game_version <= GameVersion::kLod1_14D) {
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
     auto actual_cel_context = reinterpret_cast<const CelContext_1_13C*>(
         cel_context
     );

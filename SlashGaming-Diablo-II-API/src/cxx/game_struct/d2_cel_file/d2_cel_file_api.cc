@@ -76,20 +76,26 @@ CelFile_API::CelFile_API() :
 CelFile_API::CelFile_API(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6
-) {
-  Open(cel_file_path, is_dcc_else_dc6);
+) : cel_file_(nullptr),
+    is_open_(false) {
+  this->Open(cel_file_path, is_dcc_else_dc6);
 }
 
-CelFile_API::CelFile_API(CelFile_API&& other) noexcept = default;
+CelFile_API::CelFile_API(CelFile_API&& other) noexcept :
+    cel_file_(other.cel_file_),
+    is_open_(other.is_open_) {
+  other.cel_file_ = nullptr;
+  other.is_open_ = false;
+}
 
 CelFile_API::~CelFile_API() {
-  Close();
+  this->Close();
 }
 
 CelFile_API& CelFile_API::operator=(CelFile_API&& other) noexcept = default;
 
 CelFile_API::operator CelFile_View() const noexcept {
-  return CelFile_View(*this);
+  return CelFile_View(this->Get());
 }
 
 const CelFile* CelFile_API::Get() const noexcept {
@@ -101,6 +107,7 @@ const CelFile* CelFile_API::Get() const noexcept {
 void CelFile_API::Close() {
   if (this->IsOpen()) {
     d2win::UnloadCelFile(const_cast<CelFile*>(this->Get()));
+    this->cel_file_ = nullptr;
     this->is_open_ = false;
   }
 }
@@ -173,6 +180,12 @@ bool CelFile_API::DrawAllFrames(
   );
 }
 
+const Cel* CelFile_API::GetCel(unsigned int direction, unsigned int frame) {
+  CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
+
+  return wrapper.GetCel(direction, frame);
+}
+
 bool CelFile_API::IsOpen() const {
   return this->is_open_;
 }
@@ -184,7 +197,7 @@ void CelFile_API::Open(
   this->Close();
 
   this->cel_file_ = CreateVariant(
-      cel_file_path.data(),
+      cel_file_path,
       is_dcc_else_dc6
   );
 

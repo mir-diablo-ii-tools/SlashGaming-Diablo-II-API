@@ -45,6 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_string_view_api.hpp"
 
+#include <windows.h>
+#include <stdexcept>
+
+#include <fmt/format.h>
 #include "../../../../include/cxx/game_func/d2lang_func.hpp"
 #include "../../../../include/cxx/game_func/d2win_func.hpp"
 #include "../../../../include/cxx/game_version.hpp"
@@ -245,6 +249,31 @@ void UnicodeStringView_API::Draw(
     case DrawPositionXBehavior::kRight: {
       adjusted_position_x = position_x - draw_width;
       break;
+    }
+
+    default: {
+      constexpr std::wstring_view kErrorFormatMessage =
+          L"File: {} \n"
+          L"Line: {} \n"
+          L"\n"
+          L"Invalid value for DrawPositionXBehavior: "
+          L"{}.";
+
+      std::wstring full_message = fmt::format(
+          kErrorFormatMessage,
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(options.position_x_behavior)
+      );
+
+      MessageBoxW(
+          nullptr,
+          full_message.data(),
+          L"Invalid Value",
+          MB_OK | MB_ICONERROR
+      );
+
+      std::exit(0);
     }
   }
 

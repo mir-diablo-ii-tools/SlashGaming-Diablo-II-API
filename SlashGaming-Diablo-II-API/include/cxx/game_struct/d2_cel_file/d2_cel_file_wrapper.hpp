@@ -118,42 +118,6 @@ class DLLEXPORT CelFile_Wrapper {
 
  private:
   CelFile* ptr_;
-
-  bool DrawHorizontalThenVertical(
-      int position_x,
-      int position_y,
-      unsigned int columns,
-      unsigned int rows,
-      const DrawAllCelFileFramesOptions& all_frames_options
-  );
-
-  bool DrawVerticalThenHorizontal(
-      int position_x,
-      int position_y,
-      unsigned int columns,
-      unsigned int rows,
-      const DrawAllCelFileFramesOptions& all_frames_options
-  );
-
-  bool DrawRowOfFrames(
-      int position_x,
-      int position_y,
-      unsigned int columns,
-      unsigned int first_frame,
-      unsigned int direction,
-      const DrawCelFileFrameOptions& frame_options,
-      DrawHorizontalDirection horizontal_direction
-  );
-
-  bool DrawColumnOfFrames(
-      int position_x,
-      int position_y,
-      unsigned int rows,
-      unsigned int first_frame,
-      unsigned int direction,
-      const DrawCelFileFrameOptions& frame_options,
-      DrawVerticalDirection vertical_direction
-  );
 };
 
 } // namespace d2
