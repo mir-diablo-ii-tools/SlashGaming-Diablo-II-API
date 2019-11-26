@@ -105,6 +105,7 @@ GetGameAddress(
     constexpr std::wstring_view kErrorFormatMessage =
         L"File: {} \n"
         L"Line: {} \n"
+        L"\n"
         L"Address not defined for {}.";
 
     std::wstring full_message = fmt::format(

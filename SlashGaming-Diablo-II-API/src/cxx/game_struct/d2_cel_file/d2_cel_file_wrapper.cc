@@ -48,6 +48,7 @@
 #include <windows.h>
 #include <vector>
 
+#include <fmt/format.h>
 #include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_api.hpp"
 #include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_cel_context.hpp"
 #include "d2_cel_file_impl.hpp"
@@ -198,14 +199,28 @@ bool CelFile_Wrapper::DrawAllFrames(
     }
 
     default: {
+      constexpr std::wstring_view kErrorFormatMessage =
+          L"File: {} \n"
+          L"Line: {} \n"
+          L"\n"
+          L"Invalid value for DrawPositionXBehavior: "
+          L"{}.";
+
+      std::wstring full_message = fmt::format(
+          kErrorFormatMessage,
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(all_frames_options.position_x_behavior)
+      );
+
       MessageBoxW(
           nullptr,
-          L"Invalid value used for DrawPositionXBehavior.",
+          full_message.data(),
           L"Invalid Value",
           MB_OK | MB_ICONERROR
       );
 
-      throw std::exception("Invalid value used for DrawPositionXBehavior.");
+      std::exit(0);
     }
   }
 
@@ -226,14 +241,28 @@ bool CelFile_Wrapper::DrawAllFrames(
     }
 
     default: {
+      constexpr std::wstring_view kErrorFormatMessage =
+          L"File: {} \n"
+          L"Line: {} \n"
+          L"\n"
+          L"Invalid value for DrawPositionYBehavior: "
+          L"{}.";
+
+      std::wstring full_message = fmt::format(
+          kErrorFormatMessage,
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(all_frames_options.position_y_behavior)
+      );
+
       MessageBoxW(
           nullptr,
-          L"Invalid value used for DrawPositionYBehavior.",
+          full_message.data(),
           L"Invalid Value",
           MB_OK | MB_ICONERROR
       );
 
-      throw std::exception("Invalid value used for DrawPositionYBehavior.");
+      std::exit(0);
     }
   }
 

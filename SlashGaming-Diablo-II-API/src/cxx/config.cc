@@ -275,14 +275,22 @@ mjsoni::RapidJsonConfigReader ReadConfig(
 
   bool is_read = config_reader.Read();
   if (!is_read) {
-    std::wstring failed_to_read_message = fmt::format(
-        L"Failed to read config in: {}",
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"\n"
+        L"Failed to read config in: {}";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         config_file_path.wstring().data()
     );
 
     MessageBoxW(
         nullptr,
-        failed_to_read_message.data(),
+        full_message.data(),
         L"Failed to Read Config",
         MB_OK | MB_ICONERROR
     );
@@ -292,14 +300,22 @@ mjsoni::RapidJsonConfigReader ReadConfig(
 
   bool is_missing_entry_added = AddMissingConfigEntries(config_reader);
   if (!is_missing_entry_added) {
-    std::wstring failed_to_read_message = fmt::format(
-        L"Failed add missing entries to the config in: {}",
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"\n"
+        L"Failed add missing entries to the config in: {}";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         config_file_path.wstring().data()
     );
 
     MessageBoxW(
         nullptr,
-        failed_to_read_message.data(),
+        full_message.data(),
         L"Failed to Add Missing Entries to Config",
         MB_OK | MB_ICONERROR
     );

@@ -104,13 +104,21 @@ ResolveAddress(
   }
 
   // Should never occur!
-  std::wstring error_message = fmt::format(
+  constexpr std::wstring_view kErrorFormatMessage =
+      L"File: {} \n"
+      L"Line: {} \n"
+      L"\n"
       L"Unknown locator type specified. \n"
       L"\n"
       L"Library Path: {} \n"
       L"Address Name: {} \n"
       L"Locator Type: {} \n"
-      L"Locator Value: {}",
+      L"Locator Value: {}";
+
+  std::wstring full_message = fmt::format(
+      kErrorFormatMessage,
+      __FILEW__,
+      __LINE__,
       library_path.wstring().data(),
       nowide::widen(address_name.data()),
       nowide::widen(locator_type.data()),
@@ -119,8 +127,8 @@ ResolveAddress(
 
   MessageBoxW(
       nullptr,
-      error_message.data(),
-      L"Unknown Locator Type",
+      full_message.data(),
+      L"Unkown Locator Type",
       MB_OK | MB_ICONERROR
   );
 
@@ -140,14 +148,22 @@ ReadTsvTableFile(
 
   // Open the file and check for it to be valid.
   if (!std::filesystem::exists(table_file_path)) {
-    std::wstring error_message = fmt::format(
-        L"The file {} does not exist.",
+    constexpr std::wstring_view kErrorFormatMessage =
+          L"File: {} \n"
+          L"Line: {} \n"
+          L"\n"
+          L"The file {} does not exist.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         table_file_path.wstring().data()
     );
 
     MessageBoxW(
         nullptr,
-        error_message.data(),
+        full_message.data(),
         L"Could Not Locate Address Table",
         MB_OK | MB_ICONERROR
     );
@@ -160,17 +176,26 @@ ReadTsvTableFile(
   );
 
   if (!address_table_file_stream) {
-    std::wstring error_message = fmt::format(
-        L"The address table in {} could not be opened.",
+    constexpr std::wstring_view kErrorFormatMessage =
+          L"File: {} \n"
+          L"Line: {} \n"
+          L"\n"
+          L"The address table in {} could not be opened.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         table_file_path.wstring().data()
     );
 
     MessageBoxW(
         nullptr,
-        error_message.data(),
+        full_message.data(),
         L"Could Not Open Address Table",
         MB_OK | MB_ICONERROR
     );
+
     std::exit(0);
   }
 

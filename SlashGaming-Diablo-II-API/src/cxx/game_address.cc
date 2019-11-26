@@ -90,17 +90,26 @@ GameAddress GameAddress::FromDecoratedName(
   );
 
   if (raw_address == nullptr) {
-    std::wstring error_message = fmt::format(
-        L"The data or function with the name {} could not be found.",
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"\n"
+        L"The data or function with the name {} could not be found.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         nowide::widen(decorated_name.data())
     );
 
     MessageBoxW(
         nullptr,
-        error_message.data(),
+        full_message.data(),
         L"Failed to Locate Address",
         MB_OK | MB_ICONERROR
     );
+
     std::exit(0);
   }
 
@@ -150,17 +159,26 @@ GameAddress GameAddress::FromOrdinal(
   );
 
   if (func_address == nullptr) {
-    std::wstring error_message = fmt::format(
-        L"The data or function with the ordinal {} could not be found.",
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"File: {} \n"
+        L"Line: {} \n"
+        L"\n"
+        L"The data or function with the ordinal {} could not be found.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         ordinal
     );
 
     MessageBoxW(
         nullptr,
-        error_message.data(),
+        full_message.data(),
         L"Failed to Locate Address",
         MB_OK | MB_ICONERROR
     );
+
     std::exit(0);
   }
 

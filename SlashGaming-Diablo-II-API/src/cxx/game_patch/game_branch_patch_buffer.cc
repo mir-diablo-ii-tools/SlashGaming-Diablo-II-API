@@ -73,15 +73,23 @@ void InitGameBranchPatchBuffer(
   // Check that the patch size is large enough to allow the insertion of the
   // branch call.
   if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
-    std::wstring error_message = fmt::format(
-        L"The patch size specified at address {:X} is too small to perform a "
-        L"branch patch.",
+    constexpr std::wstring_view kErrorFormatMessage =
+          L"File: {} \n"
+          L"Line: {} \n"
+          L"\n"
+          L"The patch size specified at address {:X} is too small to perform a "
+          L"branch patch.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        __FILEW__,
+        __LINE__,
         raw_target_address
     );
 
     MessageBoxW(
         nullptr,
-        error_message.data(),
+        full_message.data(),
         L"Failed to Patch Game",
         MB_OK | MB_ICONERROR
     );
