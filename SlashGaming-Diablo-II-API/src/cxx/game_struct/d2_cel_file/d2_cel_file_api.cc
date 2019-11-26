@@ -89,7 +89,7 @@ CelFile_API::CelFile_API(CelFile_API&& other) noexcept :
 }
 
 CelFile_API::~CelFile_API() {
-  Close();
+  this->Close();
 }
 
 CelFile_API& CelFile_API::operator=(CelFile_API&& other) noexcept = default;
@@ -107,6 +107,7 @@ const CelFile* CelFile_API::Get() const noexcept {
 void CelFile_API::Close() {
   if (this->IsOpen()) {
     d2win::UnloadCelFile(const_cast<CelFile*>(this->Get()));
+    this->cel_file_ = nullptr;
     this->is_open_ = false;
   }
 }
