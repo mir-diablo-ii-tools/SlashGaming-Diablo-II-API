@@ -273,6 +273,8 @@ bool CelFile_Wrapper::DrawAllFrames(
   frame_options.position_x_behavior = DrawPositionXBehavior::kLeft;
   frame_options.position_y_behavior = DrawPositionYBehavior::kTop;
 
+  bool is_all_success = true;
+
   int current_covered_height = 0;
   for (unsigned int current_row = 0; current_row < rows; current_row += 1) {
     int current_covered_width = 0;
@@ -281,17 +283,21 @@ bool CelFile_Wrapper::DrawAllFrames(
       unsigned int current_frame = current_column + (current_row * columns);
 
       CelContext_API cel_context(this->Get(), all_frames_options.cel_file_direction, current_frame);
-      cel_context.DrawFrame(
+      bool is_success = cel_context.DrawFrame(
           starting_position_x + current_covered_width,
           starting_position_y + current_covered_height,
           frame_options
       );
+
+      is_all_success = is_all_success && is_success;
 
       current_covered_width += cel_views.at(current_frame).GetWidth();
     }
 
     current_covered_height += cel_views.at(current_row * columns).GetHeight();
   }
+
+  return is_all_success;
 }
 
 Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
