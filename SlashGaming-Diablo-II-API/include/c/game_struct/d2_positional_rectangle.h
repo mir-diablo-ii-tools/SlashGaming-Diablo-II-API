@@ -43,15 +43,70 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_C_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_H_
+#define SGD2MAPI_C_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_H_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_positional_rectangle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include <stddef.h>
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../dllexport_define.inc"
+
+struct D2_PositionalRectangle;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_PositionalRectangle*
+D2_PositionalRectangle_CreateWithPositions(
+    int left,
+    int right,
+    int top,
+    int bottom
+);
+
+DLLEXPORT void D2_PositionalRectangle_Destroy(
+    struct D2_PositionalRectangle* positional_rectangle
+);
+
+DLLEXPORT int D2_PositionalRectangle_GetLeft(
+    const struct D2_PositionalRectangle* positional_rectangle
+);
+
+DLLEXPORT void D2_PositionalRectangle_SetLeft(
+    struct D2_PositionalRectangle* positional_rectangle,
+    int value
+);
+
+DLLEXPORT int D2_PositionalRectangle_GetRight(
+    const struct D2_PositionalRectangle* positional_rectangle
+);
+
+DLLEXPORT void D2_PositionalRectangle_SetRight(
+    struct D2_PositionalRectangle* positional_rectangle,
+    int value
+);
+
+DLLEXPORT int D2_PositionalRectangle_GetTop(
+    const struct D2_PositionalRectangle* positional_rectangle
+);
+
+DLLEXPORT void D2_PositionalRectangle_SetTop(
+    struct D2_PositionalRectangle* positional_rectangle,
+    int value
+);
+
+DLLEXPORT int D2_PositionalRectangle_GetBottom(
+    const struct D2_PositionalRectangle* positional_rectangle
+);
+
+DLLEXPORT void D2_PositionalRectangle_SetBottom(
+    struct D2_PositionalRectangle* positional_rectangle,
+    int value
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_D2_UNICODE_CHAR_H_

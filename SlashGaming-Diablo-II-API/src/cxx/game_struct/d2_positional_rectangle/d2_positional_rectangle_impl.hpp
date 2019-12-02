@@ -43,15 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_IMPL_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_positional_rectangle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include <cstdint>
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../d2_mpq_archive/d2_mpq_archive_impl.hpp"
+
+namespace d2 {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x108 */ struct PositionalRectangle_1_00 {
+  /* 0x00 */ std::int32_t left;
+  /* 0x04 */ std::int32_t right;
+  /* 0x08 */ std::int32_t top;
+  /* 0x0C */ std::int32_t bottom;
+};
+
+static_assert(sizeof(PositionalRectangle_1_00) == 0x10);
+static_assert(offsetof(PositionalRectangle_1_00, left) == 0x00);
+static_assert(offsetof(PositionalRectangle_1_00, right) == 0x04);
+static_assert(offsetof(PositionalRectangle_1_00, top) == 0x08);
+static_assert(offsetof(PositionalRectangle_1_00, bottom) == 0x0C);
+
+#pragma pack(pop)
+
+PositionalRectangle* CreatePositionalRectangle(
+    int left,
+    int right,
+    int top,
+    int bottom
+);
+
+void DestroyPositionalRectangle(PositionalRectangle* positional_rectangle);
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_IMPL_HPP_

@@ -43,15 +43,57 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_positional_rectangle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include <memory>
+#include <variant>
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "d2_positional_rectangle_struct.hpp"
+#include "d2_positional_rectangle_view.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT PositionalRectangle_API {
+ public:
+  PositionalRectangle_API() = delete;
+  PositionalRectangle_API(
+      int left,
+      int right,
+      int top,
+      int bottom
+  );
+
+  PositionalRectangle_API(const PositionalRectangle_API& other);
+  PositionalRectangle_API(PositionalRectangle_API&& other) noexcept;
+
+  ~PositionalRectangle_API();
+
+  PositionalRectangle_API& operator=(
+      const PositionalRectangle_API& other
+  );
+  PositionalRectangle_API& operator=(
+      PositionalRectangle_API&& other
+  ) noexcept;
+
+  operator PositionalRectangle_View() const noexcept;
+
+  const PositionalRectangle* Get() const noexcept;
+
+  int GetLeft() const noexcept;
+  int GetRight() const noexcept;
+  int GetTop() const noexcept;
+  int GetBottom() const noexcept;
+
+ private:
+  std::variant<
+      std::unique_ptr<PositionalRectangle_1_00>
+  > positional_rectangle_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_

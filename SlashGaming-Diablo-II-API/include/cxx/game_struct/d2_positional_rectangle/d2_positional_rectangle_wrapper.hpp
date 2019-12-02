@@ -43,15 +43,55 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_positional_rectangle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "d2_positional_rectangle_struct.hpp"
+#include "d2_positional_rectangle_view.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT PositionalRectangle_Wrapper {
+ public:
+  PositionalRectangle_Wrapper() = delete;
+  PositionalRectangle_Wrapper(PositionalRectangle* ptr) noexcept;
+
+  PositionalRectangle_Wrapper(const PositionalRectangle_Wrapper& other) noexcept;
+  PositionalRectangle_Wrapper(PositionalRectangle_Wrapper&& other) noexcept;
+
+  ~PositionalRectangle_Wrapper() noexcept;
+
+  PositionalRectangle_Wrapper& operator=(
+      const PositionalRectangle_Wrapper& other
+  ) noexcept;
+  PositionalRectangle_Wrapper& operator=(
+      PositionalRectangle_Wrapper&& other
+  ) noexcept;
+
+  operator PositionalRectangle_View() const noexcept;
+
+  PositionalRectangle* Get() noexcept;
+  const PositionalRectangle* Get() const noexcept;
+
+  int GetLeft() const noexcept;
+  void SetLeft(int value) noexcept;
+
+  int GetRight() const noexcept;
+  void SetRight(int value) noexcept;
+
+  int GetTop() const noexcept;
+  void SetTop(int value) noexcept;
+
+  int GetBottom() const noexcept;
+  void SetBottom(int value) noexcept;
+
+ private:
+  PositionalRectangle* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_

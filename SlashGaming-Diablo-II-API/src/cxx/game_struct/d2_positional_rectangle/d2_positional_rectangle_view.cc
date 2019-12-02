@@ -43,15 +43,66 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_HPP_
+#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
-#include "game_struct/d2_cel.hpp"
-#include "game_struct/d2_cel_context.hpp"
-#include "game_struct/d2_cel_file.hpp"
-#include "game_struct/d2_mpq_archive.hpp"
-#include "game_struct/d2_mpq_archive_handle.hpp"
-#include "game_struct/d2_positional_rectangle.hpp"
-#include "game_struct/d2_unicode_char.hpp"
+#include "d2_positional_rectangle_impl.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_
+namespace d2 {
+
+PositionalRectangle_View::PositionalRectangle_View(
+    const PositionalRectangle* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+PositionalRectangle_View::PositionalRectangle_View(
+    const PositionalRectangle_View& other
+) noexcept = default;
+
+PositionalRectangle_View::PositionalRectangle_View(
+    PositionalRectangle_View&& other
+) noexcept = default;
+
+PositionalRectangle_View::~PositionalRectangle_View() noexcept = default;
+
+PositionalRectangle_View& PositionalRectangle_View::operator=(
+    const PositionalRectangle_View& other
+) noexcept = default;
+
+PositionalRectangle_View& PositionalRectangle_View::operator=(
+    PositionalRectangle_View&& other
+) noexcept = default;
+
+const PositionalRectangle* PositionalRectangle_View::Get() const noexcept {
+  return this->ptr_;
+}
+
+int PositionalRectangle_View::GetLeft() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
+
+  return actual_ptr->left;
+}
+
+int PositionalRectangle_View::GetRight() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
+
+  return actual_ptr->right;
+}
+
+int PositionalRectangle_View::GetTop() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
+
+  return actual_ptr->top;
+}
+
+int PositionalRectangle_View::GetBottom() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
+
+  return actual_ptr->bottom;
+}
+
+} // namespace d2
