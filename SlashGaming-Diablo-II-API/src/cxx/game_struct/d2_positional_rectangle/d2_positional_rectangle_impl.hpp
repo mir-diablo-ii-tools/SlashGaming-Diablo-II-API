@@ -54,7 +54,7 @@ namespace d2 {
 
 #pragma pack(push, 1)
 
-/* sizeof: 0x108 */ struct PositionalRectangle_1_00 {
+/* sizeof: 0x10 */ struct PositionalRectangle_1_00 {
   /* 0x00 */ std::int32_t left;
   /* 0x04 */ std::int32_t right;
   /* 0x08 */ std::int32_t top;
