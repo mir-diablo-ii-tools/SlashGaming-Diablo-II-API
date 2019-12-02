@@ -48,8 +48,6 @@
 
 #include <cstdint>
 
-#include "../d2_mpq_archive/d2_mpq_archive_impl.hpp"
-
 namespace d2 {
 
 #pragma pack(push, 1)
