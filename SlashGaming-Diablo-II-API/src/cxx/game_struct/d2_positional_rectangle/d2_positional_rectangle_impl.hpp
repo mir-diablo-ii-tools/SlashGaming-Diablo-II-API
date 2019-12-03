@@ -47,6 +47,9 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_IMPL_HPP_
 
 #include <cstdint>
+#include <cstddef>
+
+#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
 namespace d2 {
 
