@@ -43,16 +43,60 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_WRAPPER_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_WRAPPER_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_grid_layout_struct.hpp"
+#include "d2_grid_layout_view.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT GridLayout_Wrapper {
+ public:
+  GridLayout_Wrapper() = delete;
+  GridLayout_Wrapper(GridLayout* ptr) noexcept;
+
+  GridLayout_Wrapper(const GridLayout_Wrapper& other) noexcept;
+  GridLayout_Wrapper(GridLayout_Wrapper&& other) noexcept;
+
+  ~GridLayout_Wrapper() noexcept;
+
+  GridLayout_Wrapper& operator=(
+      const GridLayout_Wrapper& other
+  ) noexcept;
+  GridLayout_Wrapper& operator=(
+      GridLayout_Wrapper&& other
+  ) noexcept;
+
+  operator GridLayout_View() const noexcept;
+
+  GridLayout* Get() noexcept;
+  const GridLayout* Get() const noexcept;
+
+  std::uint_least8_t GetNumColumns() const noexcept;
+  void SetNumColumns(std::uint_least8_t value) noexcept;
+
+  std::uint_least8_t GetNumRows() const noexcept;
+  void SetNumRows(std::uint_least8_t value) noexcept;
+
+  PositionalRectangle* GetPosition() noexcept;
+  const PositionalRectangle* GetPosition() const noexcept;
+
+  std::uint_least8_t GetWidth() const noexcept;
+  void SetWidth(std::uint_least8_t value) noexcept;
+
+  std::uint_least8_t GetHeight() const noexcept;
+  void SetHeight(std::uint_least8_t value) noexcept;
+
+ private:
+  GridLayout* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_WRAPPER_HPP_

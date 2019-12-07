@@ -43,16 +43,73 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_view.hpp"
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include "d2_grid_layout_impl.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+namespace d2 {
+
+GridLayout_View::GridLayout_View(
+    const GridLayout* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+GridLayout_View::GridLayout_View(
+    const GridLayout_View& other
+) noexcept = default;
+
+GridLayout_View::GridLayout_View(
+    GridLayout_View&& other
+) noexcept = default;
+
+GridLayout_View::~GridLayout_View() noexcept = default;
+
+GridLayout_View& GridLayout_View::operator=(
+    const GridLayout_View& other
+) noexcept = default;
+
+GridLayout_View& GridLayout_View::operator=(
+    GridLayout_View&& other
+) noexcept = default;
+
+const GridLayout* GridLayout_View::Get() const noexcept {
+  return this->ptr_;
+}
+
+std::uint_least8_t GridLayout_View::GetNumColumns() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const GridLayout_1_00*>(this->Get());
+
+  return actual_ptr->num_columns;
+}
+
+std::uint_least8_t GridLayout_View::GetNumRows() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const GridLayout_1_00*>(this->Get());
+
+  return actual_ptr->num_rows;
+}
+
+const PositionalRectangle* GridLayout_View::GetPosition() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const GridLayout_1_00*>(this->Get());
+
+  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+}
+
+std::uint_least8_t GridLayout_View::GetWidth() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const GridLayout_1_00*>(this->Get());
+
+  return actual_ptr->width;
+}
+
+std::uint_least8_t GridLayout_View::GetHeight() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const GridLayout_1_00*>(this->Get());
+
+  return actual_ptr->height;
+}
+
+} // namespace d2

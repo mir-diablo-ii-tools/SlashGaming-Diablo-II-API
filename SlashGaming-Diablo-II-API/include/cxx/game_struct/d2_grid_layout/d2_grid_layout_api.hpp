@@ -43,16 +43,74 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
+#include <memory>
+#include <variant>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_grid_layout_struct.hpp"
+#include "d2_grid_layout_view.hpp"
+#include "d2_grid_layout_wrapper.hpp"
+
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT GridLayout_API {
+ public:
+  GridLayout_API() = delete;
+  GridLayout_API(
+      std::int_least8_t num_columns,
+      std::int_least8_t num_rows,
+      PositionalRectangle_View position,
+      std::int_least8_t width,
+      std::int_least8_t height
+  );
+
+  GridLayout_API(const GridLayout_API& other);
+  GridLayout_API(GridLayout_API&& other) noexcept;
+
+  ~GridLayout_API();
+
+  GridLayout_API& operator=(
+      const GridLayout_API& other
+  );
+  GridLayout_API& operator=(
+      GridLayout_API&& other
+  ) noexcept;
+
+  operator GridLayout_View() const noexcept;
+  operator GridLayout_Wrapper() noexcept;
+
+  GridLayout* Get() noexcept;
+  const GridLayout* Get() const noexcept;
+
+  std::uint_least8_t GetNumColumns() const noexcept;
+  void SetNumColumns(std::uint_least8_t value) noexcept;
+
+  std::uint_least8_t GetNumRows() const noexcept;
+  void SetNumRows(std::uint_least8_t value) noexcept;
+
+  PositionalRectangle* GetPosition() noexcept;
+  const PositionalRectangle* GetPosition() const noexcept;
+
+  std::uint_least8_t GetWidth() const noexcept;
+  void SetWidth(std::uint_least8_t value) noexcept;
+
+  std::uint_least8_t GetHeight() const noexcept;
+  void SetHeight(std::uint_least8_t value) noexcept;
+
+ private:
+  std::variant<
+      std::unique_ptr<GridLayout_1_00>
+  > grid_layout_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_

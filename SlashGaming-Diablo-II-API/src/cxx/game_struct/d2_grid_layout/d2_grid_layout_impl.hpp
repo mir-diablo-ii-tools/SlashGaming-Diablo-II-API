@@ -43,16 +43,48 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_IMPL_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
+#include <cstddef>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_impl.hpp"
+
+namespace d2 {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x18 */ struct GridLayout_1_00 {
+  /* 0x00 */ std::uint8_t num_columns;
+  /* 0x01 */ std::uint8_t num_rows;
+  /* 0x02 */ std::uint8_t unused__to_align_0x02[2];
+  /* 0x04 */ PositionalRectangle_1_00 position;
+  /* 0x14 */ std::uint8_t width;
+  /* 0x15 */ std::uint8_t height;
+  /* 0x16 */ std::uint8_t unused__to_align_0x22[2];
+};
+
+static_assert(sizeof(GridLayout_1_00) == 0x18);
+static_assert(offsetof(GridLayout_1_00, num_columns) == 0x00);
+static_assert(offsetof(GridLayout_1_00, num_rows) == 0x01);
+static_assert(offsetof(GridLayout_1_00, position) == 0x04);
+static_assert(offsetof(GridLayout_1_00, width) == 0x14);
+static_assert(offsetof(GridLayout_1_00, height) == 0x15);
+
+#pragma pack(pop)
+
+GridLayout* CreateGridLayout(
+    std::int_least8_t num_columns,
+    std::int_least8_t num_rows,
+    const PositionalRectangle* position,
+    std::int_least8_t width,
+    std::int_least8_t height
+);
+
+void DestroyGridLayout(GridLayout* grid_layout);
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_IMPL_HPP_

@@ -49,6 +49,7 @@
 #include "game_struct/d2_cel.hpp"
 #include "game_struct/d2_cel_context.hpp"
 #include "game_struct/d2_cel_file.hpp"
+#include "game_struct/d2_grid_layout.hpp"
 #include "game_struct/d2_mpq_archive.hpp"
 #include "game_struct/d2_mpq_archive_handle.hpp"
 #include "game_struct/d2_positional_rectangle.hpp"

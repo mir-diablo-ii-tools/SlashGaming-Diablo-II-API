@@ -43,16 +43,48 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_VIEW_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_VIEW_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_grid_layout_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT GridLayout_View {
+ public:
+  GridLayout_View() = delete;
+  GridLayout_View(const GridLayout* ptr) noexcept;
+
+  GridLayout_View(const GridLayout_View& other) noexcept;
+  GridLayout_View(GridLayout_View&& other) noexcept;
+
+  ~GridLayout_View() noexcept;
+
+  GridLayout_View& operator=(
+      const GridLayout_View& other
+  ) noexcept;
+  GridLayout_View& operator=(
+      GridLayout_View&& other
+  ) noexcept;
+
+  const GridLayout* Get() const noexcept;
+
+  std::uint_least8_t GetNumColumns() const noexcept;
+  std::uint_least8_t GetNumRows() const noexcept;
+  const PositionalRectangle* GetPosition() const noexcept;
+  std::uint_least8_t GetWidth() const noexcept;
+  std::uint_least8_t GetHeight() const noexcept;
+
+ private:
+  const GridLayout* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_VIEW_HPP_

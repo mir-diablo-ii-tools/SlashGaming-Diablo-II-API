@@ -43,16 +43,81 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_C_GAME_STRUCT_D2_GRID_LAYOUT_H_
+#define SGD2MAPI_C_GAME_STRUCT_D2_GRID_LAYOUT_H_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <stddef.h>
+#include <stdint.h>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_positional_rectangle.h"
+
+#include "../../dllexport_define.inc"
+
+struct D2_GridLayout;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_GridLayout* D2_GridLayout_CreateWithLayout(
+    int_least8_t num_columns,
+    int_least8_t num_rows,
+    const struct D2_PositionalRectangle* position,
+    int_least8_t width,
+    int_least8_t height
+);
+
+DLLEXPORT void D2_GridLayout_Destroy(
+    struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT uint_least8_t D2_GridLayout_GetNumColumns(
+    const struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT void D2_GridLayout_SetNumColumns(
+    struct D2_GridLayout* grid_layout,
+    uint_least8_t value
+);
+
+DLLEXPORT uint_least8_t D2_GridLayout_GetNumRows(
+    const struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT void D2_GridLayout_SetNumRows(
+    struct D2_GridLayout* grid_layout,
+    uint_least8_t value
+);
+
+DLLEXPORT struct D2_PositionalRectangle* D2_GridLayout_GetPosition(
+    struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT const struct D2_PositionalRectangle* D2_GridLayout_GetConstPosition(
+    const struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT uint_least8_t D2_GridLayout_GetWidth(
+    const struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT void D2_GridLayout_SetWidth(
+    struct D2_GridLayout* grid_layout,
+    uint_least8_t value
+);
+
+DLLEXPORT uint_least8_t D2_GridLayout_GetHeight(
+    const struct D2_GridLayout* grid_layout
+);
+
+DLLEXPORT void D2_GridLayout_SetHeight(
+    struct D2_GridLayout* grid_layout,
+    uint_least8_t value
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_D2_GRID_LAYOUT_H_
