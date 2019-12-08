@@ -43,17 +43,54 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_WRAPPER_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_WRAPPER_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_equipment_layout_struct.hpp"
+#include "d2_equipment_layout_view.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT EquipmentLayout_Wrapper {
+ public:
+  EquipmentLayout_Wrapper() = delete;
+  EquipmentLayout_Wrapper(EquipmentLayout* ptr) noexcept;
+
+  EquipmentLayout_Wrapper(const EquipmentLayout_Wrapper& other) noexcept;
+  EquipmentLayout_Wrapper(EquipmentLayout_Wrapper&& other) noexcept;
+
+  ~EquipmentLayout_Wrapper() noexcept;
+
+  EquipmentLayout_Wrapper& operator=(
+      const EquipmentLayout_Wrapper& other
+  ) noexcept;
+  EquipmentLayout_Wrapper& operator=(
+      EquipmentLayout_Wrapper&& other
+  ) noexcept;
+
+  operator EquipmentLayout_View() const noexcept;
+
+  EquipmentLayout* Get() noexcept;
+  const EquipmentLayout* Get() const noexcept;
+
+  PositionalRectangle* GetPosition() noexcept;
+  const PositionalRectangle* GetPosition() const noexcept;
+
+  std::uint_least8_t GetWidth() const noexcept;
+  void SetWidth(std::uint_least8_t value) noexcept;
+
+  std::uint_least8_t GetHeight() const noexcept;
+  void SetHeight(std::uint_least8_t value) noexcept;
+
+ private:
+  EquipmentLayout* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_WRAPPER_HPP_

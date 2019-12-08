@@ -43,17 +43,66 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_API_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
+#include <memory>
+#include <variant>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_equipment_layout_struct.hpp"
+#include "d2_equipment_layout_view.hpp"
+#include "d2_equipment_layout_wrapper.hpp"
+
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT EquipmentLayout_API {
+ public:
+  EquipmentLayout_API() = delete;
+  EquipmentLayout_API(
+      PositionalRectangle_View position,
+      std::int_least8_t width,
+      std::int_least8_t height
+  );
+
+  EquipmentLayout_API(const EquipmentLayout_API& other);
+  EquipmentLayout_API(EquipmentLayout_API&& other) noexcept;
+
+  ~EquipmentLayout_API();
+
+  EquipmentLayout_API& operator=(
+      const EquipmentLayout_API& other
+  );
+  EquipmentLayout_API& operator=(
+      EquipmentLayout_API&& other
+  ) noexcept;
+
+  operator EquipmentLayout_View() const noexcept;
+  operator EquipmentLayout_Wrapper() noexcept;
+
+  EquipmentLayout* Get() noexcept;
+  const EquipmentLayout* Get() const noexcept;
+
+  PositionalRectangle* GetPosition() noexcept;
+  const PositionalRectangle* GetPosition() const noexcept;
+
+  std::uint_least8_t GetWidth() const noexcept;
+  void SetWidth(std::uint_least8_t value) noexcept;
+
+  std::uint_least8_t GetHeight() const noexcept;
+  void SetHeight(std::uint_least8_t value) noexcept;
+
+ private:
+  std::variant<
+      std::unique_ptr<EquipmentLayout_1_00>
+  > equipment_layout_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_API_HPP_

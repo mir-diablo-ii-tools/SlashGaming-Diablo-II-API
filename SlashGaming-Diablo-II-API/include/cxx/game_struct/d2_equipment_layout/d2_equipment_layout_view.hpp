@@ -43,17 +43,46 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_VIEW_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_VIEW_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_equipment_layout_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT EquipmentLayout_View {
+ public:
+  EquipmentLayout_View() = delete;
+  EquipmentLayout_View(const EquipmentLayout* ptr) noexcept;
+
+  EquipmentLayout_View(const EquipmentLayout_View& other) noexcept;
+  EquipmentLayout_View(EquipmentLayout_View&& other) noexcept;
+
+  ~EquipmentLayout_View() noexcept;
+
+  EquipmentLayout_View& operator=(
+      const EquipmentLayout_View& other
+  ) noexcept;
+  EquipmentLayout_View& operator=(
+      EquipmentLayout_View&& other
+  ) noexcept;
+
+  const EquipmentLayout* Get() const noexcept;
+
+  const PositionalRectangle* GetPosition() const noexcept;
+  std::uint_least8_t GetWidth() const noexcept;
+  std::uint_least8_t GetHeight() const noexcept;
+
+ private:
+  const EquipmentLayout* ptr_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_VIEW_HPP_

@@ -43,17 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_IMPL_HPP_
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
+#include <cstddef>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_impl.hpp"
+
+namespace d2 {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x14 */ struct EquipmentLayout_1_00 {
+  /* 0x00 */ PositionalRectangle_1_00 position;
+  /* 0x10 */ std::uint8_t width;
+  /* 0x11 */ std::uint8_t height;
+  /* 0x12 */ std::uint8_t unused__to_align_0x12[2];
+};
+
+static_assert(sizeof(EquipmentLayout_1_00) == 0x14);
+static_assert(offsetof(EquipmentLayout_1_00, position) == 0x00);
+static_assert(offsetof(EquipmentLayout_1_00, width) == 0x10);
+static_assert(offsetof(EquipmentLayout_1_00, height) == 0x11);
+
+#pragma pack(pop)
+
+EquipmentLayout* CreateEquipmentLayout(
+    const PositionalRectangle* position,
+    std::int_least8_t width,
+    std::int_least8_t height
+);
+
+void DestroyEquipmentLayout(EquipmentLayout* equipment_layout);
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_IMPL_HPP_

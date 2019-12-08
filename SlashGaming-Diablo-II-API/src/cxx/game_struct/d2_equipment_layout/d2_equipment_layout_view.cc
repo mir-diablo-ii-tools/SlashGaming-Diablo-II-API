@@ -43,17 +43,59 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_view.hpp"
 
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include "d2_equipment_layout_impl.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+namespace d2 {
+
+EquipmentLayout_View::EquipmentLayout_View(
+    const EquipmentLayout* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+EquipmentLayout_View::EquipmentLayout_View(
+    const EquipmentLayout_View& other
+) noexcept = default;
+
+EquipmentLayout_View::EquipmentLayout_View(
+    EquipmentLayout_View&& other
+) noexcept = default;
+
+EquipmentLayout_View::~EquipmentLayout_View() noexcept = default;
+
+EquipmentLayout_View& EquipmentLayout_View::operator=(
+    const EquipmentLayout_View& other
+) noexcept = default;
+
+EquipmentLayout_View& EquipmentLayout_View::operator=(
+    EquipmentLayout_View&& other
+) noexcept = default;
+
+const EquipmentLayout* EquipmentLayout_View::Get() const noexcept {
+  return this->ptr_;
+}
+
+const PositionalRectangle* EquipmentLayout_View::GetPosition() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
+
+  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+}
+
+std::uint_least8_t EquipmentLayout_View::GetWidth() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
+
+  return actual_ptr->width;
+}
+
+std::uint_least8_t EquipmentLayout_View::GetHeight() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
+
+  return actual_ptr->height;
+}
+
+} // namespace d2
