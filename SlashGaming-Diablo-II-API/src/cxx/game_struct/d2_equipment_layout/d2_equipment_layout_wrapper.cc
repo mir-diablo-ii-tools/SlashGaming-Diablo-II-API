@@ -46,6 +46,7 @@
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
 
 #include "d2_equipment_layout_impl.hpp"
+#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 
 namespace d2 {
 
@@ -85,6 +86,14 @@ EquipmentLayout* EquipmentLayout_Wrapper::Get() noexcept {
 
 const EquipmentLayout* EquipmentLayout_Wrapper::Get() const noexcept {
   return this->ptr_;
+}
+
+void EquipmentLayout_Wrapper::Copy(EquipmentLayout_View src) noexcept {
+  PositionalRectangle_Wrapper this_positional_rectangle(this->GetPosition());
+  this_positional_rectangle.Copy(src.GetPosition());
+
+  this->SetWidth(src.GetWidth());
+  this->SetHeight(src.GetHeight());
 }
 
 PositionalRectangle* EquipmentLayout_Wrapper::GetPosition() noexcept {

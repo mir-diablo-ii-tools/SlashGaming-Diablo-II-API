@@ -43,60 +43,79 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
+#ifndef SGD2MAPI_C_GAME_STRUCT_D2_INVENTORY_RECORD_H_
+#define SGD2MAPI_C_GAME_STRUCT_D2_INVENTORY_RECORD_H_
 
-#include <memory>
-#include <variant>
+#include <stddef.h>
+#include <stdint.h>
 
-#include "d2_positional_rectangle_struct.hpp"
-#include "d2_positional_rectangle_view.hpp"
+#include "d2_equipment_layout.h"
+#include "d2_grid_layout.h"
+#include "d2_positional_rectangle.h"
 
-#include "../../../dllexport_define.inc"
+#include "../../dllexport_define.inc"
 
-namespace d2 {
+struct D2_InventoryRecord;
 
-class DLLEXPORT PositionalRectangle_API {
- public:
-  PositionalRectangle_API() = delete;
-  PositionalRectangle_API(
-      int left,
-      int right,
-      int top,
-      int bottom
-  );
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-  PositionalRectangle_API(const PositionalRectangle_API& other);
-  PositionalRectangle_API(PositionalRectangle_API&& other) noexcept;
+DLLEXPORT struct D2_InventoryRecord* D2_InventoryRecord_CreateWithRecord(
+    const struct D2_PositionalRectangle* position,
+    const struct D2_GridLayout* grid_layout,
+    const struct D2_EquipmentLayout* equipment_slots
+);
 
-  ~PositionalRectangle_API();
+DLLEXPORT void D2_InventoryRecord_Destroy(
+    struct D2_InventoryRecord* inventory_record
+);
 
-  PositionalRectangle_API& operator=(
-      const PositionalRectangle_API& other
-  );
-  PositionalRectangle_API& operator=(
-      PositionalRectangle_API&& other
-  ) noexcept;
+DLLEXPORT void D2_InventoryRecord_Copy(
+    struct D2_InventoryRecord* dest,
+    const struct D2_InventoryRecord* src
+);
 
-  operator PositionalRectangle_View() const noexcept;
+DLLEXPORT struct D2_EquipmentLayout* D2_InventoryRecord_GetEquipmentSlot(
+    struct D2_InventoryRecord* inventory_record,
+    size_t index
+);
 
-  PositionalRectangle* Get() noexcept;
-  const PositionalRectangle* Get() const noexcept;
+DLLEXPORT const struct D2_EquipmentLayout*
+D2_InventoryRecord_GetConstEquipmentSlot(
+    const struct D2_InventoryRecord* inventory_record,
+    size_t index
+);
 
-  void Copy(PositionalRectangle_View src) noexcept;
+DLLEXPORT struct D2_PositionalRectangle* D2_InventoryRecord_GetPosition(
+    struct D2_InventoryRecord* inventory_record
+);
 
-  int GetLeft() const noexcept;
-  int GetRight() const noexcept;
-  int GetTop() const noexcept;
-  int GetBottom() const noexcept;
+DLLEXPORT const struct D2_PositionalRectangle*
+D2_InventoryRecord_GetConstPosition(
+    const struct D2_InventoryRecord* inventory_record
+);
 
- private:
-  std::variant<
-      std::unique_ptr<PositionalRectangle_1_00>
-  > positional_rectangle_;
-};
+DLLEXPORT struct D2_GridLayout* D2_InventoryRecord_GetGridLayout(
+    struct D2_InventoryRecord* inventory_record
+);
 
-} // namespace d2
+DLLEXPORT const struct D2_GridLayout* D2_InventoryRecord_GetConstGridLayout(
+    const struct D2_InventoryRecord* inventory_record
+);
 
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
+DLLEXPORT struct D2_EquipmentLayout* D2_InventoryRecord_GetEquipmentSlots(
+    struct D2_InventoryRecord* inventory_record
+);
+
+DLLEXPORT const struct D2_EquipmentLayout*
+D2_InventoryRecord_GetConstEquipmentSlots(
+    const struct D2_InventoryRecord* inventory_record
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_D2_INVENTORY_RECORD_H_

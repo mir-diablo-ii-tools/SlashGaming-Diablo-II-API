@@ -50,6 +50,7 @@
 #include "game_struct/d2_cel_context.h"
 #include "game_struct/d2_cel_file.h"
 #include "game_struct/d2_equipment_layout.h"
+#include "game_struct/d2_inventory_record.h"
 #include "game_struct/d2_grid_layout.h"
 #include "game_struct/d2_mpq_archive.h"
 #include "game_struct/d2_mpq_archive_handle.h"

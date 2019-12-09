@@ -125,11 +125,23 @@ PositionalRectangle_API::operator PositionalRectangle_View() const noexcept {
   return PositionalRectangle_View(this->Get());
 }
 
+PositionalRectangle* PositionalRectangle_API::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(const_this->Get());
+}
+
 const PositionalRectangle* PositionalRectangle_API::Get() const noexcept {
   auto& actual_positional_rectangle =
       std::get<unique_ptr_1_00>(this->positional_rectangle_);
 
   return reinterpret_cast<const PositionalRectangle*>(actual_positional_rectangle.get());
+}
+
+void PositionalRectangle_API::Copy(PositionalRectangle_View src) noexcept {
+  PositionalRectangle_Wrapper wrapper(this->Get());
+
+  wrapper.Copy(src);
 }
 
 int PositionalRectangle_API::GetLeft() const noexcept {

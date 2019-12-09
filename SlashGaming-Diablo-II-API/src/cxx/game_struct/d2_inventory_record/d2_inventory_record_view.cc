@@ -43,60 +43,74 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
+#include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_view.hpp"
 
-#include <memory>
-#include <variant>
-
-#include "d2_positional_rectangle_struct.hpp"
-#include "d2_positional_rectangle_view.hpp"
-
-#include "../../../dllexport_define.inc"
+#include "d2_inventory_record_impl.hpp"
 
 namespace d2 {
 
-class DLLEXPORT PositionalRectangle_API {
- public:
-  PositionalRectangle_API() = delete;
-  PositionalRectangle_API(
-      int left,
-      int right,
-      int top,
-      int bottom
+InventoryRecord_View::InventoryRecord_View(
+    const InventoryRecord* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+InventoryRecord_View::InventoryRecord_View(
+    const InventoryRecord_View& other
+) noexcept = default;
+
+InventoryRecord_View::InventoryRecord_View(
+    InventoryRecord_View&& other
+) noexcept = default;
+
+InventoryRecord_View::~InventoryRecord_View() noexcept = default;
+
+InventoryRecord_View& InventoryRecord_View::operator=(
+    const InventoryRecord_View& other
+) noexcept = default;
+
+InventoryRecord_View& InventoryRecord_View::operator=(
+    InventoryRecord_View&& other
+) noexcept = default;
+
+const InventoryRecord* InventoryRecord_View::Get() const noexcept {
+  return this->ptr_;
+}
+
+const PositionalRectangle*
+InventoryRecord_View::GetPosition() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+}
+
+const GridLayout* InventoryRecord_View::GetGridLayout() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const GridLayout*>(&actual_ptr->grid_layout);
+}
+
+const EquipmentLayout*
+InventoryRecord_View::GetEquipmentSlots() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const EquipmentLayout*>(
+      &actual_ptr->equipment_slots
   );
+}
 
-  PositionalRectangle_API(const PositionalRectangle_API& other);
-  PositionalRectangle_API(PositionalRectangle_API&& other) noexcept;
+const EquipmentLayout* InventoryRecord_View::GetEquipmentSlot(
+    std::size_t index
+) const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
 
-  ~PositionalRectangle_API();
-
-  PositionalRectangle_API& operator=(
-      const PositionalRectangle_API& other
+  return reinterpret_cast<const EquipmentLayout*>(
+      &actual_ptr->equipment_slots[index]
   );
-  PositionalRectangle_API& operator=(
-      PositionalRectangle_API&& other
-  ) noexcept;
-
-  operator PositionalRectangle_View() const noexcept;
-
-  PositionalRectangle* Get() noexcept;
-  const PositionalRectangle* Get() const noexcept;
-
-  void Copy(PositionalRectangle_View src) noexcept;
-
-  int GetLeft() const noexcept;
-  int GetRight() const noexcept;
-  int GetTop() const noexcept;
-  int GetBottom() const noexcept;
-
- private:
-  std::variant<
-      std::unique_ptr<PositionalRectangle_1_00>
-  > positional_rectangle_;
-};
+}
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_

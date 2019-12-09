@@ -75,6 +75,8 @@ class DLLEXPORT PositionalRectangle_Wrapper {
   PositionalRectangle* Get() noexcept;
   const PositionalRectangle* Get() const noexcept;
 
+  void Copy(PositionalRectangle_View src) noexcept;
+
   int GetLeft() const noexcept;
   void SetLeft(int value) noexcept;
 

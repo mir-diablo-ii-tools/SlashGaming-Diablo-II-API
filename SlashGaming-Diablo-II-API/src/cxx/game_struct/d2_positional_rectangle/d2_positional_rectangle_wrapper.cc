@@ -89,6 +89,15 @@ const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
   return this->Get();
 }
 
+void PositionalRectangle_Wrapper::Copy(
+    PositionalRectangle_View src
+) noexcept {
+  this->SetLeft(src.GetLeft());
+  this->SetRight(src.GetRight());
+  this->SetTop(src.GetTop());
+  this->SetBottom(src.GetBottom());
+}
+
 int PositionalRectangle_Wrapper::GetLeft() const noexcept {
   PositionalRectangle_View view(this->Get());
 

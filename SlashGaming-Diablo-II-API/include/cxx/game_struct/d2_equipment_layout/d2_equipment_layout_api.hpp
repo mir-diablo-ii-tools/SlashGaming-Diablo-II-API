@@ -87,6 +87,8 @@ class DLLEXPORT EquipmentLayout_API {
   EquipmentLayout* Get() noexcept;
   const EquipmentLayout* Get() const noexcept;
 
+  void Copy(EquipmentLayout_View src) noexcept;
+
   PositionalRectangle* GetPosition() noexcept;
   const PositionalRectangle* GetPosition() const noexcept;
 

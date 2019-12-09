@@ -89,6 +89,8 @@ class DLLEXPORT GridLayout_API {
   GridLayout* Get() noexcept;
   const GridLayout* Get() const noexcept;
 
+  void Copy(GridLayout_View src) noexcept;
+
   std::uint_least8_t GetNumColumns() const noexcept;
   void SetNumColumns(std::uint_least8_t value) noexcept;
 

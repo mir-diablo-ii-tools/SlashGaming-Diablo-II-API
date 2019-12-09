@@ -46,6 +46,7 @@
 #include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_wrapper.hpp"
 
 #include "d2_grid_layout_impl.hpp"
+#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 
 namespace d2 {
 
@@ -85,6 +86,17 @@ GridLayout* GridLayout_Wrapper::Get() noexcept {
 
 const GridLayout* GridLayout_Wrapper::Get() const noexcept {
   return this->ptr_;
+}
+
+void GridLayout_Wrapper::Copy(GridLayout_View src) noexcept {
+  this->SetNumColumns(src.GetNumColumns());
+  this->SetNumRows(src.GetNumRows());
+
+  PositionalRectangle_Wrapper this_position_wrapper(this->GetPosition());
+  this_position_wrapper.Copy(src.GetPosition());
+
+  this->SetWidth(src.GetWidth());
+  this->SetHeight(src.GetHeight());
 }
 
 std::uint_least8_t GridLayout_Wrapper::GetNumColumns() const noexcept {

@@ -147,6 +147,12 @@ const GridLayout* GridLayout_API::Get() const noexcept {
   return reinterpret_cast<const GridLayout*>(actual_grid_layout.get());
 }
 
+void GridLayout_API::Copy(GridLayout_View src) noexcept {
+  GridLayout_Wrapper wrapper(this->Get());
+
+  wrapper.Copy(src);
+}
+
 std::uint_least8_t GridLayout_API::GetNumColumns() const noexcept {
   GridLayout_View view(this->Get());
 
@@ -222,17 +228,12 @@ GridLayout* CreateGridLayout(
   GridLayout_Wrapper wrapper(grid_layout);
   wrapper.SetNumColumns(num_columns);
   wrapper.SetNumRows(num_rows);
+
+  PositionalRectangle_Wrapper position_wrapper(wrapper.GetPosition());
+  position_wrapper.Copy(position);
+
   wrapper.SetWidth(width);
   wrapper.SetHeight(height);
-
-  PositionalRectangle_Wrapper grid_layout_position_wrapper(
-      wrapper.GetPosition()
-  );
-  PositionalRectangle_View position_view(position);
-  grid_layout_position_wrapper.SetLeft(position_view.GetLeft());
-  grid_layout_position_wrapper.SetRight(position_view.GetRight());
-  grid_layout_position_wrapper.SetTop(position_view.GetTop());
-  grid_layout_position_wrapper.SetBottom(position_view.GetBottom());
 
   return grid_layout;
 }

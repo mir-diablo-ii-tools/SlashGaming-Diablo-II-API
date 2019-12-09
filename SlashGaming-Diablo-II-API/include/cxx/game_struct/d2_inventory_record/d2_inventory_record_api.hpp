@@ -43,60 +43,70 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_API_HPP_
 
+#include <cstdint>
 #include <memory>
 #include <variant>
 
-#include "d2_positional_rectangle_struct.hpp"
-#include "d2_positional_rectangle_view.hpp"
+#include "d2_inventory_record_struct.hpp"
+#include "d2_inventory_record_view.hpp"
+#include "d2_inventory_record_wrapper.hpp"
+#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
+#include "../d2_grid_layout/d2_grid_layout_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT PositionalRectangle_API {
+class DLLEXPORT InventoryRecord_API {
  public:
-  PositionalRectangle_API() = delete;
-  PositionalRectangle_API(
-      int left,
-      int right,
-      int top,
-      int bottom
+  InventoryRecord_API() = delete;
+  InventoryRecord_API(
+      PositionalRectangle_View position,
+      GridLayout_View grid_layout,
+      const EquipmentLayout* equipment_slots
   );
 
-  PositionalRectangle_API(const PositionalRectangle_API& other);
-  PositionalRectangle_API(PositionalRectangle_API&& other) noexcept;
+  InventoryRecord_API(const InventoryRecord_API& other);
+  InventoryRecord_API(InventoryRecord_API&& other) noexcept;
 
-  ~PositionalRectangle_API();
+  ~InventoryRecord_API();
 
-  PositionalRectangle_API& operator=(
-      const PositionalRectangle_API& other
+  InventoryRecord_API& operator=(
+      const InventoryRecord_API& other
   );
-  PositionalRectangle_API& operator=(
-      PositionalRectangle_API&& other
+  InventoryRecord_API& operator=(
+      InventoryRecord_API&& other
   ) noexcept;
 
-  operator PositionalRectangle_View() const noexcept;
+  operator InventoryRecord_View() const noexcept;
+  operator InventoryRecord_Wrapper() noexcept;
 
-  PositionalRectangle* Get() noexcept;
-  const PositionalRectangle* Get() const noexcept;
+  InventoryRecord* Get() noexcept;
+  const InventoryRecord* Get() const noexcept;
 
-  void Copy(PositionalRectangle_View src) noexcept;
+  PositionalRectangle* GetPosition() noexcept;
+  const PositionalRectangle* GetPosition() const noexcept;
 
-  int GetLeft() const noexcept;
-  int GetRight() const noexcept;
-  int GetTop() const noexcept;
-  int GetBottom() const noexcept;
+  GridLayout* GetGridLayout() noexcept;
+  const GridLayout* GetGridLayout() const noexcept;
+
+  EquipmentLayout* GetEquipmentSlots() noexcept;
+  const EquipmentLayout* GetEquipmentSlots() const noexcept;
+
+  EquipmentLayout* GetEquipmentSlot(std::size_t index) noexcept;
+  const EquipmentLayout* GetEquipmentSlot(std::size_t index) const noexcept;
 
  private:
   std::variant<
-      std::unique_ptr<PositionalRectangle_1_00>
-  > positional_rectangle_;
+      std::unique_ptr<InventoryRecord_1_00>
+  > inventory_record_;
 };
 
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_API_HPP_

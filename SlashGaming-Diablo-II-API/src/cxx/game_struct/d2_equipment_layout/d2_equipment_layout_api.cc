@@ -137,6 +137,12 @@ const EquipmentLayout* EquipmentLayout_API::Get() const noexcept {
   return reinterpret_cast<const EquipmentLayout*>(actual_equipment_layout.get());
 }
 
+void EquipmentLayout_API::Copy(EquipmentLayout_View src) noexcept {
+  EquipmentLayout_Wrapper wrapper(this->Get());
+
+  wrapper.Copy(src);
+}
+
 PositionalRectangle* EquipmentLayout_API::GetPosition() noexcept {
   EquipmentLayout_Wrapper wrapper(this->Get());
 
@@ -184,17 +190,12 @@ EquipmentLayout* CreateEquipmentLayout(
 
   // Set all the values of the struct.
   EquipmentLayout_Wrapper wrapper(equipment_layout);
+
+  PositionalRectangle_Wrapper position_wrapper(wrapper.GetPosition());
+  position_wrapper.Copy(position);
+
   wrapper.SetWidth(width);
   wrapper.SetHeight(height);
-
-  PositionalRectangle_Wrapper grid_layout_position_wrapper(
-      wrapper.GetPosition()
-  );
-  PositionalRectangle_View position_view(position);
-  grid_layout_position_wrapper.SetLeft(position_view.GetLeft());
-  grid_layout_position_wrapper.SetRight(position_view.GetRight());
-  grid_layout_position_wrapper.SetTop(position_view.GetTop());
-  grid_layout_position_wrapper.SetBottom(position_view.GetBottom());
 
   return equipment_layout;
 }
