@@ -43,19 +43,70 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_C_GAME_STRUCT_D2_BELT_RECORD_H_
+#define SGD2MAPI_C_GAME_STRUCT_D2_BELT_RECORD_H_
 
-#include "game_struct/d2_belt_record.h"
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_inventory_record.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <stddef.h>
+#include <stdint.h>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_positional_rectangle.h"
+#include "../game_undefined.h"
+
+#include "../../dllexport_define.inc"
+
+struct D2_BeltRecord;
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_BeltRecord* D2_BeltRecord_CreateWithRecord(
+    struct MAPI_Undefined* reserved_00__set_to_nullptr,
+    uint_least8_t num_slots,
+    const struct D2_PositionalRectangle* slot_positions
+);
+
+DLLEXPORT void D2_BeltRecord_Destroy(
+    struct D2_BeltRecord* belt_record
+);
+
+DLLEXPORT void D2_BeltRecord_Copy(
+    struct D2_BeltRecord* dest,
+    const struct D2_BeltRecord* src
+);
+
+DLLEXPORT struct D2_PositionalRectangle* D2_BeltRecord_GetSlotPosition(
+    struct D2_BeltRecord* belt_record,
+    size_t index
+);
+
+DLLEXPORT const struct D2_PositionalRectangle*
+D2_BeltRecord_GetConstSlotPosition(
+    const struct D2_BeltRecord* belt_record,
+    size_t index
+);
+
+DLLEXPORT int_least8_t D2_BeltRecord_GetNumSlots(
+    const struct D2_BeltRecord* belt_record
+);
+
+DLLEXPORT void D2_BeltRecord_SetNumSlots(
+    struct D2_BeltRecord* belt_record,
+    int_least8_t value
+);
+
+DLLEXPORT struct D2_PositionalRectangle* D2_BeltRecord_GetSlotPositions(
+    struct D2_BeltRecord* belt_record
+);
+
+DLLEXPORT const struct D2_PositionalRectangle*
+D2_BeltRecord_GetConstSlotPositions(
+    const struct D2_BeltRecord* belt_record
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_STRUCT_D2_BELT_RECORD_H_

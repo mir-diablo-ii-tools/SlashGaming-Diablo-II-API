@@ -43,19 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_IMPL_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_IMPL_HPP_
 
-#include "game_struct/d2_belt_record.h"
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_inventory_record.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
+#include <cstddef>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_impl.hpp"
+#include "../../../../include/cxx/game_undefined.hpp"
+
+namespace d2 {
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x108 */ struct BeltRecord_1_00 {
+  /* 0x00 */ mapi::Undefined* unknown_0x00;
+  /* 0x04 */ std::uint8_t num_slots;
+  /* 0x05 */ std::uint8_t unused__to_align_0x05[3];
+  /* 0x08 */ PositionalRectangle_1_00 slot_positions[16];
+};
+
+static_assert(sizeof(BeltRecord_1_00) == 0x108);
+static_assert(offsetof(BeltRecord_1_00, num_slots) == 0x04);
+static_assert(offsetof(BeltRecord_1_00, slot_positions) == 0x08);
+
+#pragma pack(pop)
+
+BeltRecord* CreateBeltRecord(
+    mapi::Undefined* reserved_00__set_to_nullptr,
+    std::uint_least8_t num_slots,
+    const PositionalRectangle* slot_positions
+);
+
+void DestroyBeltRecord(BeltRecord* belt_record);
+
+} // namespace d2
+
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_IMPL_HPP_

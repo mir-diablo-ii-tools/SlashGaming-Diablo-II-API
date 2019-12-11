@@ -43,19 +43,67 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_API_HPP_
+#define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_API_HPP_
 
-#include "game_struct/d2_belt_record.h"
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_inventory_record.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include <cstdint>
+#include <cstddef>
+#include <memory>
+#include <variant>
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+#include "d2_belt_record_struct.hpp"
+#include "d2_belt_record_view.hpp"
+#include "d2_belt_record_wrapper.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../../game_undefined.hpp"
+
+#include "../../../dllexport_define.inc"
+
+namespace d2 {
+
+class DLLEXPORT BeltRecord_API {
+ public:
+  BeltRecord_API() = delete;
+  BeltRecord_API(
+      mapi::Undefined* reserved_00__set_to_nullptr,
+      std::uint_least8_t num_slots,
+      const PositionalRectangle* slot_positions
+  );
+
+  BeltRecord_API(const BeltRecord_API& other);
+  BeltRecord_API(BeltRecord_API&& other) noexcept;
+
+  ~BeltRecord_API();
+
+  BeltRecord_API& operator=(const BeltRecord_API& other);
+  BeltRecord_API& operator=(BeltRecord_API&& other) noexcept;
+
+  operator BeltRecord_View() const noexcept;
+  operator BeltRecord_Wrapper() noexcept;
+
+  BeltRecord* Get() noexcept;
+  const BeltRecord* Get() const noexcept;
+
+  void Copy(BeltRecord_View src) noexcept;
+
+  PositionalRectangle* GetSlotPosition(std::size_t index) noexcept;
+  const PositionalRectangle* GetSlotPosition(
+      std::size_t index
+  ) const noexcept;
+
+  std::uint_least8_t GetNumSlots() const noexcept;
+  void SetNumSlots(std::int_least8_t value) noexcept;
+
+  PositionalRectangle* GetSlotPositions() noexcept;
+  const PositionalRectangle* GetSlotPositions() const noexcept;
+
+ private:
+  std::variant<
+      std::unique_ptr<BeltRecord_1_00>
+  > belt_record_;
+};
+
+} // namespace d2
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_API_HPP_

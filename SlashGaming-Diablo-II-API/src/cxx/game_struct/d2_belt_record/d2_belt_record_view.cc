@@ -43,19 +43,66 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_STRUCT_H_
-#define SGD2MAPI_C_GAME_STRUCT_H_
+#include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_view.hpp"
 
-#include "game_struct/d2_belt_record.h"
-#include "game_struct/d2_cel.h"
-#include "game_struct/d2_cel_context.h"
-#include "game_struct/d2_cel_file.h"
-#include "game_struct/d2_equipment_layout.h"
-#include "game_struct/d2_inventory_record.h"
-#include "game_struct/d2_grid_layout.h"
-#include "game_struct/d2_mpq_archive.h"
-#include "game_struct/d2_mpq_archive_handle.h"
-#include "game_struct/d2_positional_rectangle.h"
-#include "game_struct/d2_unicode_char.h"
+#include "d2_belt_record_impl.hpp"
 
-#endif // SGD2MAPI_C_GAME_STRUCT_H_
+namespace d2 {
+
+BeltRecord_View::BeltRecord_View(
+    const BeltRecord* ptr
+) noexcept :
+    ptr_(ptr) {
+}
+
+BeltRecord_View::BeltRecord_View(
+    const BeltRecord_View& other
+) noexcept = default;
+
+BeltRecord_View::BeltRecord_View(
+    BeltRecord_View&& other
+) noexcept = default;
+
+BeltRecord_View::~BeltRecord_View() noexcept = default;
+
+BeltRecord_View& BeltRecord_View::operator=(
+    const BeltRecord_View& other
+) noexcept = default;
+
+BeltRecord_View& BeltRecord_View::operator=(
+    BeltRecord_View&& other
+) noexcept = default;
+
+const BeltRecord* BeltRecord_View::Get() const noexcept {
+  return this->ptr_;
+}
+
+const PositionalRectangle* BeltRecord_View::GetSlotPosition(
+    std::size_t index
+) const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const PositionalRectangle*>(
+      &actual_ptr->slot_positions[index]
+  );
+}
+
+std::uint_least8_t BeltRecord_View::GetNumSlots() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
+
+  return actual_ptr->num_slots;
+}
+
+const PositionalRectangle*
+BeltRecord_View::GetSlotPositions() const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const PositionalRectangle*>(
+      actual_ptr->slot_positions
+  );
+}
+
+} // namespace d2
