@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
 #define SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
 
+#include "d2common/d2common_global_belts_txt.h"
 #include "d2common/d2common_global_inventory_txt.h"
 #include "d2common/d2common_global_inventory_txt_records_count.h"
 

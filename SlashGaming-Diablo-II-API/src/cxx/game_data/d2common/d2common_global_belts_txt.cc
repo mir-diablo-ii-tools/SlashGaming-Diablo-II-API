@@ -43,11 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2common/d2common_global_belts_txt.hpp"
-#include "d2common/d2common_global_inventory_txt.hpp"
-#include "d2common/d2common_global_inventory_txt_records_count.hpp"
+#include "../../../../include/cxx/game_data/d2common/d2common_global_belts_txt.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2common {
+namespace {
+
+std::intptr_t D2Common_GetGlobalBeltsTxt() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+BeltRecord* GetGlobalBeltsTxt() {
+  std::intptr_t ptr = D2Common_GetGlobalBeltsTxt();
+
+  BeltRecord** converted_ptr = reinterpret_cast<BeltRecord**>(ptr);
+  return *converted_ptr;
+}
+
+void SetGlobalBeltsTxt(BeltRecord* value) {
+  std::intptr_t ptr = D2Common_GetGlobalBeltsTxt();
+
+  BeltRecord** converted_ptr = reinterpret_cast<BeltRecord**>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2common

@@ -43,11 +43,18 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+#include "../../../../include/c/game_data/d2common/d2common_global_belts_txt.h"
 
-#include "d2common/d2common_global_belts_txt.hpp"
-#include "d2common/d2common_global_inventory_txt.hpp"
-#include "d2common/d2common_global_inventory_txt_records_count.hpp"
+#include "../../../../include/cxx/game_data/d2common/d2common_global_belts_txt.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+D2_BeltRecord* D2_D2Common_GetGlobalBeltsTxt() {
+  return reinterpret_cast<D2_BeltRecord*>(
+      d2::d2common::GetGlobalBeltsTxt()
+  );
+}
+
+void D2_D2Common_SetGlobalBeltsTxt(D2_BeltRecord* value) {
+  d2::d2common::SetGlobalBeltsTxt(
+      reinterpret_cast<d2::BeltRecord*>(value)
+  );
+}
