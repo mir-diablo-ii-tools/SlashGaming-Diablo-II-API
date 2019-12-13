@@ -43,9 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2COMMON_D2COMMON_GLOBAL_INVENTORY_TXT_RECORDS_COUNT_H_
+#define SGD2MAPI_C_GAME_DATA_D2COMMON_D2COMMON_GLOBAL_INVENTORY_TXT_RECORDS_COUNT_H_
 
-#include "d2common/d2common_global_inventory_txt_records_count.h"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT unsigned int D2_D2Common_GetGlobalInventoryTxtRecordsCount(void);
+DLLEXPORT void D2_D2Common_SetGlobalInventoryTxtRecordsCount(unsigned int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2COMMON_D2COMMON_GLOBAL_INVENTORY_TXT_RECORDS_COUNT_H_

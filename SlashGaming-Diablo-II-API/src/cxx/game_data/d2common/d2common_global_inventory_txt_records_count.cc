@@ -43,9 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2common/d2common_global_inventory_txt_records_count.h"
+#include "../../../../include/cxx/game_data/d2common/d2common_global_inventory_txt_records_count.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2COMMON_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2common {
+namespace {
+
+std::intptr_t D2Common_GetGlobalInventoryTxtRecordsCount() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+unsigned int GetGlobalInventoryTxtRecordsCount() {
+  std::intptr_t ptr = D2Common_GetGlobalInventoryTxtRecordsCount();
+
+  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
+  return *converted_ptr;
+}
+
+void SetGlobalInventoryTxtRecordsCount(unsigned int value) {
+  std::intptr_t ptr = D2Common_GetGlobalInventoryTxtRecordsCount();
+
+  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2common
