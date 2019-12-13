@@ -43,10 +43,18 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+#include "../../../../include/c/game_data/d2common/d2common_global_inventory_txt.h"
 
-#include "d2common/d2common_global_inventory_txt.hpp"
-#include "d2common/d2common_global_inventory_txt_records_count.hpp"
+#include "../../../../include/cxx/game_data/d2common/d2common_global_inventory_txt.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+D2_InventoryRecord* D2_D2Common_GetGlobalInventoryTxt() {
+  return reinterpret_cast<D2_InventoryRecord*>(
+      d2::d2common::GetGlobalInventoryTxt()
+  );
+}
+
+void D2_D2Common_SetGlobalInventoryTxt(D2_InventoryRecord* value) {
+  d2::d2common::SetGlobalInventoryTxt(
+      reinterpret_cast<d2::InventoryRecord*>(value)
+  );
+}

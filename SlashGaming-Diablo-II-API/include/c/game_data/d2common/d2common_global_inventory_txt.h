@@ -43,10 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+#ifndef SGD2MAPI_C_GAME_DATA_D2COMMON_D2COMMON_GLOBAL_INVENTORY_TXT_H_
+#define SGD2MAPI_C_GAME_DATA_D2COMMON_D2COMMON_GLOBAL_INVENTORY_TXT_H_
 
-#include "d2common/d2common_global_inventory_txt.hpp"
-#include "d2common/d2common_global_inventory_txt_records_count.hpp"
+#include "../../game_struct/d2_inventory_record.h"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2COMMON_DATA_HPP_
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT struct D2_InventoryRecord* D2_D2Common_GetGlobalInventoryTxt(void);
+DLLEXPORT void D2_D2Common_SetGlobalInventoryTxt(
+    struct D2_InventoryRecord* value
+);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2COMMON_D2COMMON_GLOBAL_INVENTORY_TXT_H_
