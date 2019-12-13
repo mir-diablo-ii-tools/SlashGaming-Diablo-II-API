@@ -43,9 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
+#include "../../../../include/c/game_func/d2common/d2common_get_belt_slot_position.h"
 
-#include "d2common/d2common_get_belt_slot_position.hpp"
+#include "../../../../include/c/game_struct/d2_positional_rectangle.h"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_belt_slot_position.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
+void D2_D2Common_GetBeltSlotPosition(
+    unsigned int belt_record_index,
+    unsigned int inventory_arrange_mode,
+    D2_PositionalRectangle* out_belt_slot,
+    unsigned int belt_slot_index
+) {
+  auto* actual_out_belt_slot = reinterpret_cast<d2::PositionalRectangle*>(
+      out_belt_slot
+  );
+
+  d2::d2common::GetBeltSlotPosition(
+      belt_record_index,
+      inventory_arrange_mode,
+      actual_out_belt_slot,
+      belt_slot_index
+  );
+}

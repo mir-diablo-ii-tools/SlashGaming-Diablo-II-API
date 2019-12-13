@@ -46,4 +46,6 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_FUNC_H_
 #define SGD2MAPI_C_GAME_FUNC_D2COMMON_FUNC_H_
 
+#include "d2common/d2common_get_belt_slot_position.h"
+
 #endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_FUNC_H_
