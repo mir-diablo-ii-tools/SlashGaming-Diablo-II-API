@@ -43,10 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_HPP_
 
-#include "d2common/d2common_get_belt_slot_position.hpp"
-#include "d2common/d2common_get_belt_type_record.hpp"
+#include "../../game_struct/d2_belt_record/d2_belt_record_struct.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2common {
+
+DLLEXPORT void GetBeltTypeRecord(
+    unsigned int belt_record_index,
+    unsigned int inventory_arrange_mode,
+    BeltRecord* out_belt_record
+);
+
+} // namespace d2::d2common
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_HPP_
