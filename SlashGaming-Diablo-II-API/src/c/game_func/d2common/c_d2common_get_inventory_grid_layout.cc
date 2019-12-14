@@ -43,12 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
+#include "../../../../include/c/game_func/d2common/d2common_get_inventory_grid_layout.h"
 
-#include "d2common/d2common_get_belt_slot_position.hpp"
-#include "d2common/d2common_get_belt_type_record.hpp"
-#include "d2common/d2common_get_inventory_grid_layout.hpp"
-#include "d2common/d2common_get_inventory_position.hpp"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_inventory_grid_layout.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
+void D2_D2Common_GetInventoryGridLayout(
+    unsigned int inventory_record_index,
+    unsigned int inventory_arrange_mode,
+    D2_GridLayout* out_grid_layout
+) {
+  auto* actual_out_grid_layout = reinterpret_cast<d2::GridLayout*>(
+      out_grid_layout
+  );
+
+  d2::d2common::GetInventoryGridLayout(
+      inventory_record_index,
+      inventory_arrange_mode,
+      actual_out_grid_layout
+  );
+}
