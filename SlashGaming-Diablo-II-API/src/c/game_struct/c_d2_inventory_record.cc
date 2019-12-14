@@ -80,6 +80,32 @@ void D2_InventoryRecord_Destroy(
   d2::DestroyInventoryRecord(actual_inventory_record);
 }
 
+D2_InventoryRecord* D2_InventoryRecord_GetAt(
+    D2_InventoryRecord* inventory_record,
+    std::size_t index
+) {
+  d2::InventoryRecord_Wrapper inventory_record_wrapper(
+      reinterpret_cast<d2::InventoryRecord*>(inventory_record)
+  );
+
+  return reinterpret_cast<D2_InventoryRecord*>(
+      inventory_record_wrapper[index].Get()
+  );
+}
+
+const D2_InventoryRecord* D2_BeltRecord_GetConstAt(
+    const D2_InventoryRecord* inventory_record,
+    std::size_t index
+) {
+  d2::InventoryRecord_View inventory_record_view(
+      reinterpret_cast<const d2::InventoryRecord*>(inventory_record)
+  );
+
+  return reinterpret_cast<const D2_InventoryRecord*>(
+      inventory_record_view[index].Get()
+  );
+}
+
 void D2_InventoryRecord_Copy(
     D2_InventoryRecord* dest,
     const D2_InventoryRecord* src

@@ -74,6 +74,8 @@ class DLLEXPORT InventoryRecord_View {
       InventoryRecord_View&& other
   ) noexcept;
 
+  InventoryRecord_View operator[](std::size_t index) const noexcept;
+
   const InventoryRecord* Get() const noexcept;
 
   const PositionalRectangle* GetPosition() const noexcept;

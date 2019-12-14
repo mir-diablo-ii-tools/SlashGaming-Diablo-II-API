@@ -88,6 +88,22 @@ InventoryRecord* InventoryRecord_Wrapper::Get() noexcept {
   return const_cast<InventoryRecord*>(const_this->Get());
 }
 
+InventoryRecord_View InventoryRecord_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  InventoryRecord_View view(this->Get());
+
+  return view[index];
+}
+
+InventoryRecord_Wrapper InventoryRecord_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<InventoryRecord*>((*const_this)[index].Get());
+}
+
 const InventoryRecord* InventoryRecord_Wrapper::Get() const noexcept {
   return this->ptr_;
 }

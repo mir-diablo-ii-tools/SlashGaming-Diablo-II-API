@@ -79,6 +79,32 @@ void D2_BeltRecord_Destroy(
   d2::DestroyBeltRecord(actual_belt_record);
 }
 
+D2_BeltRecord* D2_BeltRecord_GetAt(
+    D2_BeltRecord* belt_record,
+    std::size_t index
+) {
+  d2::BeltRecord_Wrapper belt_record_wrapper(
+      reinterpret_cast<d2::BeltRecord*>(belt_record)
+  );
+
+  return reinterpret_cast<D2_BeltRecord*>(
+      belt_record_wrapper[index].Get()
+  );
+}
+
+const D2_BeltRecord* D2_BeltRecord_GetConstAt(
+    const D2_BeltRecord* belt_record,
+    std::size_t index
+) {
+  d2::BeltRecord_View belt_record_view(
+      reinterpret_cast<const d2::BeltRecord*>(belt_record)
+  );
+
+  return reinterpret_cast<const D2_BeltRecord*>(
+      belt_record_view[index].Get()
+  );
+}
+
 void D2_BeltRecord_Copy(
     D2_BeltRecord* dest,
     const D2_BeltRecord* src

@@ -72,6 +72,9 @@ class DLLEXPORT InventoryRecord_Wrapper {
       InventoryRecord_Wrapper&& other
   ) noexcept;
 
+  InventoryRecord_View operator[](std::size_t index) const noexcept;
+  InventoryRecord_Wrapper operator[](std::size_t index) noexcept;
+
   operator InventoryRecord_View() const noexcept;
 
   void Copy(InventoryRecord_View src) noexcept;

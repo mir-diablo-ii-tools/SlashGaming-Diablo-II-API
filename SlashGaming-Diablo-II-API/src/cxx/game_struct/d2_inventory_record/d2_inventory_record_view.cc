@@ -73,6 +73,15 @@ InventoryRecord_View& InventoryRecord_View::operator=(
     InventoryRecord_View&& other
 ) noexcept = default;
 
+InventoryRecord_View InventoryRecord_View::operator[](
+    std::size_t index
+) const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const InventoryRecord*>(&actual_ptr[index]);
+}
+
 const InventoryRecord* InventoryRecord_View::Get() const noexcept {
   return this->ptr_;
 }

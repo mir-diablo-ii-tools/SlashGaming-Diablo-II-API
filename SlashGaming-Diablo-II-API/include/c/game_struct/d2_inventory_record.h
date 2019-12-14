@@ -71,6 +71,16 @@ DLLEXPORT void D2_InventoryRecord_Destroy(
     struct D2_InventoryRecord* inventory_record
 );
 
+DLLEXPORT struct D2_InventoryRecord* D2_InventoryRecord_GetAt(
+    struct D2_InventoryRecord* inventory_record,
+    size_t index
+);
+
+DLLEXPORT const struct D2_InventoryRecord* D2_InventoryRecord_GetConstAt(
+    const struct D2_InventoryRecord* inventory_record,
+    size_t index
+);
+
 DLLEXPORT void D2_InventoryRecord_Copy(
     struct D2_InventoryRecord* dest,
     const struct D2_InventoryRecord* src

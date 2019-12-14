@@ -73,6 +73,15 @@ BeltRecord_View& BeltRecord_View::operator=(
     BeltRecord_View&& other
 ) noexcept = default;
 
+BeltRecord_View BeltRecord_View::operator[](
+    std::size_t index
+) const noexcept {
+  const auto* actual_ptr =
+      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
+
+  return reinterpret_cast<const BeltRecord*>(&actual_ptr[index]);
+}
+
 const BeltRecord* BeltRecord_View::Get() const noexcept {
   return this->ptr_;
 }

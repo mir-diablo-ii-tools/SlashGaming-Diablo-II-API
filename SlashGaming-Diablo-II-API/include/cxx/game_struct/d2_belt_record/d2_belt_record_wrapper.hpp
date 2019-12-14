@@ -68,6 +68,9 @@ class DLLEXPORT BeltRecord_Wrapper {
   BeltRecord_Wrapper& operator=(const BeltRecord_Wrapper& other) noexcept;
   BeltRecord_Wrapper& operator=(BeltRecord_Wrapper&& other) noexcept;
 
+  BeltRecord_View operator[](std::size_t index) const noexcept;
+  BeltRecord_Wrapper operator[](std::size_t index) noexcept;
+
   operator BeltRecord_View() const noexcept;
 
   BeltRecord* Get() noexcept;

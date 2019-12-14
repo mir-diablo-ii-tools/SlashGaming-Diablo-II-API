@@ -70,6 +70,16 @@ DLLEXPORT void D2_BeltRecord_Destroy(
     struct D2_BeltRecord* belt_record
 );
 
+DLLEXPORT struct D2_BeltRecord* D2_BeltRecord_GetAt(
+    struct D2_BeltRecord* belt_record,
+    size_t index
+);
+
+DLLEXPORT const struct D2_BeltRecord* D2_BeltRecord_GetConstAt(
+    const struct D2_BeltRecord* belt_record,
+    size_t index
+);
+
 DLLEXPORT void D2_BeltRecord_Copy(
     struct D2_BeltRecord* dest,
     const struct D2_BeltRecord* src

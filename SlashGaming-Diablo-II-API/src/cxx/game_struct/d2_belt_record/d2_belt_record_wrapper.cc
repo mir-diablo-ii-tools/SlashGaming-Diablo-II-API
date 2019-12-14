@@ -76,6 +76,22 @@ BeltRecord_Wrapper& BeltRecord_Wrapper::operator=(
     BeltRecord_Wrapper&& other
 ) noexcept = default;
 
+BeltRecord_View BeltRecord_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  BeltRecord_View view(this->Get());
+
+  return view[index];
+}
+
+BeltRecord_Wrapper BeltRecord_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<BeltRecord*>((*const_this)[index].Get());
+}
+
 BeltRecord_Wrapper::operator BeltRecord_View() const noexcept {
   return BeltRecord_View(this->Get());
 }

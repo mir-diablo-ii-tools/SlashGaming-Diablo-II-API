@@ -73,6 +73,8 @@ class DLLEXPORT BeltRecord_View {
       BeltRecord_View&& other
   ) noexcept;
 
+  BeltRecord_View operator[](std::size_t index) const noexcept;
+
   const BeltRecord* Get() const noexcept;
 
   const PositionalRectangle* GetSlotPosition(
