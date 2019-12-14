@@ -43,11 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_FUNC_H_
-#define SGD2MAPI_C_GAME_FUNC_D2COMMON_FUNC_H_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_POSITION_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_POSITION_HPP_
 
-#include "d2common/d2common_get_belt_slot_position.h"
-#include "d2common/d2common_get_belt_type_record.h"
-#include "d2common/d2common_get_inventory_position.h"
+#include "../../game_struct/d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
-#endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_FUNC_H_
+#include "../../../dllexport_define.inc"
+
+namespace d2::d2common {
+
+DLLEXPORT void GetInventoryPosition(
+    unsigned int inventory_record_index,
+    unsigned int inventory_arrange_mode,
+    PositionalRectangle* out_position
+);
+
+} // namespace d2::d2common
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_POSITION_HPP_

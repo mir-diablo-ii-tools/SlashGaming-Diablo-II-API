@@ -48,5 +48,6 @@
 
 #include "d2common/d2common_get_belt_slot_position.hpp"
 #include "d2common/d2common_get_belt_type_record.hpp"
+#include "d2common/d2common_get_inventory_position.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
