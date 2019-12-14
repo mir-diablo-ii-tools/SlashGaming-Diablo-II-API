@@ -48,6 +48,7 @@
 
 #include "d2common/d2common_get_belt_slot_position.h"
 #include "d2common/d2common_get_belt_type_record.h"
+#include "d2common/d2common_get_equipment_slot_layout.h"
 #include "d2common/d2common_get_inventory_grid_layout.h"
 #include "d2common/d2common_get_inventory_position.h"
 
