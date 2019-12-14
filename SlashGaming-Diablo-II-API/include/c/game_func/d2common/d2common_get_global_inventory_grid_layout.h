@@ -43,10 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_EQUIPMENT_SLOT_LAYOUT_H_
-#define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_EQUIPMENT_SLOT_LAYOUT_H_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_H_
+#define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_H_
 
-#include "../../game_struct/d2_equipment_layout.h"
+#include "../../game_struct/d2_grid_layout.h"
 
 #include "../../../dllexport_define.inc"
 
@@ -54,11 +54,10 @@
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void D2_D2Common_GetEquipmentSlotLayout(
+DLLEXPORT void D2_D2Common_GetGlobalInventoryGridLayout(
     unsigned int inventory_record_index,
     unsigned int inventory_arrange_mode,
-    struct D2_EquipmentLayout* out_equipment_slot_layout,
-    unsigned int equipment_slot_index
+    struct D2_GridLayout* out_grid_layout
 );
 
 #ifdef __cplusplus
@@ -66,4 +65,4 @@ DLLEXPORT void D2_D2Common_GetEquipmentSlotLayout(
 #endif // __cplusplus
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_EQUIPMENT_SLOT_LAYOUT_H_
+#endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_H_

@@ -43,26 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_GRID_LAYOUT_H_
-#define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_GRID_LAYOUT_H_
+#include "../../../../include/c/game_func/d2common/d2common_get_global_belt_record.h"
 
-#include "../../game_struct/d2_grid_layout.h"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_global_belt_record.hpp"
 
-#include "../../../dllexport_define.inc"
-
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-DLLEXPORT void D2_D2Common_GetInventoryGridLayout(
-    unsigned int inventory_record_index,
+void D2_D2Common_GetGlobalBeltRecord(
+    unsigned int belt_record_index,
     unsigned int inventory_arrange_mode,
-    struct D2_GridLayout* out_grid_layout
-);
+    D2_BeltRecord* out_belt_record
+) {
+  auto* actual_out_belt_record = reinterpret_cast<d2::BeltRecord*>(
+      out_belt_record
+  );
 
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_GRID_LAYOUT_H_
+  d2::d2common::GetGlobalBeltRecord(
+      belt_record_index,
+      inventory_arrange_mode,
+      actual_out_belt_record
+  );
+}

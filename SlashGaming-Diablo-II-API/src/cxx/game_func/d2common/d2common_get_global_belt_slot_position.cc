@@ -47,7 +47,7 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2common/d2common_get_belt_slot_position.hpp"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_global_belt_slot_position.hpp"
 
 #include <windows.h>
 #include <cstdint>
@@ -60,7 +60,7 @@ namespace d2::d2common {
 namespace {
 
 __declspec(naked) void __cdecl
-D2Common_GetBeltSlotPosition_1_00(
+D2Common_GetGlobalBeltSlotPosition_1_00(
     std::intptr_t func_ptr,
     std::uint32_t belt_record_index,
     PositionalRectangle* out_belt_slot,
@@ -87,7 +87,7 @@ D2Common_GetBeltSlotPosition_1_00(
 }
 
 __declspec(naked) void __cdecl
-D2Common_GetBeltSlotPosition_1_09D(
+D2Common_GetGlobalBeltSlotPosition_1_09D(
     std::intptr_t func_ptr,
     std::uint32_t belt_record_index,
     std::uint32_t inventory_arrange_mode,
@@ -115,7 +115,7 @@ D2Common_GetBeltSlotPosition_1_09D(
   ASM_X86(ret);
 }
 
-std::intptr_t D2Common_GetBeltSlotPosition() {
+std::intptr_t D2Common_GetGlobalBeltSlotPosition() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -124,24 +124,24 @@ std::intptr_t D2Common_GetBeltSlotPosition() {
 
 } // namespace
 
-void GetBeltSlotPosition(
+void GetGlobalBeltSlotPosition(
     unsigned int belt_record_index,
     unsigned int inventory_arrange_mode,
     PositionalRectangle* out_belt_slot,
     unsigned int belt_slot_index
 ) {
-  std::intptr_t func_ptr = D2Common_GetBeltSlotPosition();
+  std::intptr_t func_ptr = D2Common_GetGlobalBeltSlotPosition();
 
   GameVersion running_game_version = d2::GetRunningGameVersionId();
   if (running_game_version <= GameVersion::k1_06B) {
-    D2Common_GetBeltSlotPosition_1_00(
+    D2Common_GetGlobalBeltSlotPosition_1_00(
         func_ptr,
         belt_record_index,
         out_belt_slot,
         belt_slot_index
     );
   } else {
-    D2Common_GetBeltSlotPosition_1_09D(
+    D2Common_GetGlobalBeltSlotPosition_1_09D(
         func_ptr,
         belt_record_index,
         inventory_arrange_mode,

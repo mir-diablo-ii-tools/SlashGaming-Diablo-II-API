@@ -47,7 +47,7 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2common/d2common_get_belt_type_record.hpp"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_global_equipment_slot_layout.hpp"
 
 #include <windows.h>
 #include <cstdint>
@@ -60,36 +60,11 @@ namespace d2::d2common {
 namespace {
 
 __declspec(naked) void __cdecl
-D2Common_GetBeltTypeRecord_1_00(
+D2Common_GetGlobalEquipmentSlotLayout_1_00(
     std::intptr_t func_ptr,
-    std::uint32_t belt_record_index,
-    BeltRecord* out_belt_record
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
-
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 16]);
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-__declspec(naked) void __cdecl
-D2Common_GetBeltTypeRecord_1_09D(
-    std::intptr_t func_ptr,
-    std::uint32_t belt_record_index,
-    std::uint32_t inventory_arrange_mode,
-    BeltRecord* out_belt_record
+    std::uint32_t inventory_record_index,
+    EquipmentLayout* out_equipment_slot_layout,
+    std::uint32_t equipment_slot_index
 ) {
   ASM_X86(push ebp);
   ASM_X86(mov ebp, esp);
@@ -111,7 +86,36 @@ D2Common_GetBeltTypeRecord_1_09D(
   ASM_X86(ret);
 }
 
-std::intptr_t D2Common_GetBeltTypeRecord() {
+__declspec(naked) void __cdecl
+D2Common_GetGlobalEquipmentSlotLayout_1_09D(
+    std::intptr_t func_ptr,
+    std::uint32_t inventory_record_index,
+    std::uint32_t inventory_arrange_mode,
+    EquipmentLayout* out_equipment_slot_layout,
+    std::uint32_t equipment_slot_index
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 24]);
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(push dword ptr [ebp + 16]);
+  ASM_X86(push dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Common_GetGlobalEquipmentSlotLayout() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -120,26 +124,29 @@ std::intptr_t D2Common_GetBeltTypeRecord() {
 
 } // namespace
 
-void GetBeltTypeRecord(
-    unsigned int belt_record_index,
+void GetGlobalEquipmentSlotLayout(
+    unsigned int inventory_record_index,
     unsigned int inventory_arrange_mode,
-    BeltRecord* out_belt_record
+    EquipmentLayout* out_equipment_slot_layout,
+    unsigned int equipment_slot_index
 ) {
-  std::intptr_t func_ptr = D2Common_GetBeltTypeRecord();
+  std::intptr_t func_ptr = D2Common_GetGlobalEquipmentSlotLayout();
 
   GameVersion running_game_version = d2::GetRunningGameVersionId();
   if (running_game_version <= GameVersion::k1_06B) {
-    D2Common_GetBeltTypeRecord_1_00(
+    D2Common_GetGlobalEquipmentSlotLayout_1_00(
         func_ptr,
-        belt_record_index,
-        out_belt_record
+        inventory_record_index,
+        out_equipment_slot_layout,
+        equipment_slot_index
     );
   } else {
-    D2Common_GetBeltTypeRecord_1_09D(
+    D2Common_GetGlobalEquipmentSlotLayout_1_09D(
         func_ptr,
-        belt_record_index,
+        inventory_record_index,
         inventory_arrange_mode,
-        out_belt_record
+        out_equipment_slot_layout,
+        equipment_slot_index
     );
   }
 }

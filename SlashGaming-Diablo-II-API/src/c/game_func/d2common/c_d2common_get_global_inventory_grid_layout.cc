@@ -43,22 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_POSITION_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_POSITION_HPP_
+#include "../../../../include/c/game_func/d2common/d2common_get_global_inventory_grid_layout.h"
 
-#include "../../game_struct/d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_global_inventory_grid_layout.hpp"
 
-#include "../../../dllexport_define.inc"
-
-namespace d2::d2common {
-
-DLLEXPORT void GetInventoryPosition(
+void D2_D2Common_GetGlobalInventoryGridLayout(
     unsigned int inventory_record_index,
     unsigned int inventory_arrange_mode,
-    PositionalRectangle* out_position
-);
+    D2_GridLayout* out_grid_layout
+) {
+  auto* actual_out_grid_layout = reinterpret_cast<d2::GridLayout*>(
+      out_grid_layout
+  );
 
-} // namespace d2::d2common
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_INVENTORY_POSITION_HPP_
+  d2::d2common::GetGlobalInventoryGridLayout(
+      inventory_record_index,
+      inventory_arrange_mode,
+      actual_out_grid_layout
+  );
+}

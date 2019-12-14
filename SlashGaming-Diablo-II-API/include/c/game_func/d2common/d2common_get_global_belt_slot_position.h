@@ -43,10 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_H_
-#define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_H_
+#ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_BELT_SLOT_POSITION_H_
+#define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_BELT_SLOT_POSITION_H_
 
-#include "../../game_struct/d2_belt_record.h"
+#include "../../game_struct/d2_positional_rectangle.h"
 
 #include "../../../dllexport_define.inc"
 
@@ -54,10 +54,11 @@
 extern "C" {
 #endif // __cplusplus
 
-DLLEXPORT void D2_D2Common_GetBeltTypeRecord(
+DLLEXPORT void D2_D2Common_GetGlobalBeltSlotPosition(
     unsigned int belt_record_index,
     unsigned int inventory_arrange_mode,
-    struct D2_BeltRecord* out_belt_record
+    struct D2_PositionalRectangle* out_belt_slot,
+    unsigned int belt_slot_index
 );
 
 #ifdef __cplusplus
@@ -65,4 +66,4 @@ DLLEXPORT void D2_D2Common_GetBeltTypeRecord(
 #endif // __cplusplus
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_H_
+#endif // SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_BELT_SLOT_POSITION_H_

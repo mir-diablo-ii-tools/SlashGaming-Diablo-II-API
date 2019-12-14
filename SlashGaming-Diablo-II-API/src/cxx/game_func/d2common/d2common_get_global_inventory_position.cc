@@ -43,22 +43,105 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "../../game_struct/d2_belt_record/d2_belt_record_struct.hpp"
+#include "../../../../include/cxx/game_func/d2common/d2common_get_global_belt_slot_position.hpp"
 
-#include "../../../dllexport_define.inc"
+#include <windows.h>
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
 namespace d2::d2common {
+namespace {
 
-DLLEXPORT void GetBeltTypeRecord(
-    unsigned int belt_record_index,
+__declspec(naked) void __cdecl
+D2Common_GetGlobalInventoryPosition_1_00(
+    std::intptr_t func_ptr,
+    std::uint32_t inventory_record_index,
+    PositionalRectangle* out_position
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 16]);
+  ASM_X86(push dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+__declspec(naked) void __cdecl
+D2Common_GetGlobalInventoryPosition_1_09D(
+    std::intptr_t func_ptr,
+    std::uint32_t inventory_record_index,
+    std::uint32_t inventory_arrange_mode,
+    PositionalRectangle* out_position
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push eax);
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(push dword ptr [ebp + 16]);
+  ASM_X86(push dword ptr [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+  ASM_X86(pop eax);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Common_GetGlobalInventoryPosition() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+void GetGlobalInventoryPosition(
+    unsigned int inventory_record_index,
     unsigned int inventory_arrange_mode,
-    BeltRecord* out_belt_record
-);
+    PositionalRectangle* out_position
+) {
+  std::intptr_t func_ptr = D2Common_GetGlobalInventoryPosition();
+
+  GameVersion running_game_version = d2::GetRunningGameVersionId();
+  if (running_game_version <= GameVersion::k1_06B) {
+    D2Common_GetGlobalInventoryPosition_1_00(
+        func_ptr,
+        inventory_record_index,
+        out_position
+    );
+  } else {
+    D2Common_GetGlobalInventoryPosition_1_09D(
+        func_ptr,
+        inventory_record_index,
+        inventory_arrange_mode,
+        out_position
+    );
+  }
+}
 
 } // namespace d2::d2common
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_HPP_

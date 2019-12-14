@@ -46,10 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
 #define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_
 
-#include "d2common/d2common_get_belt_slot_position.hpp"
-#include "d2common/d2common_get_belt_type_record.hpp"
-#include "d2common/d2common_get_equipment_slot_layout.hpp"
-#include "d2common/d2common_get_inventory_grid_layout.hpp"
-#include "d2common/d2common_get_inventory_position.hpp"
+#include "d2common/d2common_get_global_belt_record.hpp"
+#include "d2common/d2common_get_global_belt_slot_position.hpp"
+#include "d2common/d2common_get_global_equipment_slot_layout.hpp"
+#include "d2common/d2common_get_global_inventory_grid_layout.hpp"
+#include "d2common/d2common_get_global_inventory_position.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_FUNC_HPP_

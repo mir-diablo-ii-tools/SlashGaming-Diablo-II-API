@@ -43,23 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_SLOT_POSITION_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_SLOT_POSITION_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_HPP_
+#define SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_HPP_
 
-#include "../../game_struct/d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../../game_struct/d2_grid_layout/d2_grid_layout_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2common {
 
-DLLEXPORT void GetBeltSlotPosition(
-    unsigned int belt_record_index,
+DLLEXPORT void GetGlobalInventoryGridLayout(
+    unsigned int inventory_record_index,
     unsigned int inventory_arrange_mode,
-    PositionalRectangle* out_belt_slot,
-    unsigned int belt_slot_index
+    GridLayout* out_grid_layout
 );
 
 } // namespace d2::d2common
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_SLOT_POSITION_HPP_
+#endif // SGD2MAPI_CXX_GAME_FUNC_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_HPP_
