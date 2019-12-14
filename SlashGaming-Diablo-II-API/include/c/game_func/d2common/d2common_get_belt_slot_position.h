@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_SLOT_POSITION_H_
 #define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_SLOT_POSITION_H_
 
-#include <stdbool.h>
-
 #include "../../game_struct/d2_positional_rectangle.h"
 
 #include "../../../dllexport_define.inc"

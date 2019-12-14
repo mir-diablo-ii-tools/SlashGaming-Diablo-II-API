@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_H_
 #define SGD2MAPI_C_GAME_FUNC_D2COMMON_D2COMMON_GET_BELT_TYPE_RECORD_H_
 
-#include <stdbool.h>
-
 #include "../../game_struct/d2_belt_record.h"
 
 #include "../../../dllexport_define.inc"
