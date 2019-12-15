@@ -57,7 +57,7 @@
 namespace d2::d2common {
 namespace {
 
-std::intptr_t D2Common_GetGlobalInventoryTxt() {
+std::intptr_t D2Common_GlobalInventoryTxt() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -67,14 +67,14 @@ std::intptr_t D2Common_GetGlobalInventoryTxt() {
 } // namespace
 
 InventoryRecord* GetGlobalInventoryTxt() {
-  std::intptr_t ptr = D2Common_GetGlobalInventoryTxt();
+  std::intptr_t ptr = D2Common_GlobalInventoryTxt();
 
   InventoryRecord** converted_ptr = reinterpret_cast<InventoryRecord**>(ptr);
   return *converted_ptr;
 }
 
 void SetGlobalInventoryTxt(InventoryRecord* value) {
-  std::intptr_t ptr = D2Common_GetGlobalInventoryTxt();
+  std::intptr_t ptr = D2Common_GlobalInventoryTxt();
 
   InventoryRecord** converted_ptr = reinterpret_cast<InventoryRecord**>(ptr);
   *converted_ptr = value;

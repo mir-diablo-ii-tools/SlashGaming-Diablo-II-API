@@ -57,7 +57,7 @@
 namespace d2::d2common {
 namespace {
 
-std::intptr_t D2Common_GetGlobalBeltsTxt() {
+std::intptr_t D2Common_GlobalBeltsTxt() {
   static std::intptr_t ptr = mapi::GetGameAddress(__func__)
       .raw_address();
 
@@ -67,14 +67,14 @@ std::intptr_t D2Common_GetGlobalBeltsTxt() {
 } // namespace
 
 BeltRecord* GetGlobalBeltsTxt() {
-  std::intptr_t ptr = D2Common_GetGlobalBeltsTxt();
+  std::intptr_t ptr = D2Common_GlobalBeltsTxt();
 
   BeltRecord** converted_ptr = reinterpret_cast<BeltRecord**>(ptr);
   return *converted_ptr;
 }
 
 void SetGlobalBeltsTxt(BeltRecord* value) {
-  std::intptr_t ptr = D2Common_GetGlobalBeltsTxt();
+  std::intptr_t ptr = D2Common_GlobalBeltsTxt();
 
   BeltRecord** converted_ptr = reinterpret_cast<BeltRecord**>(ptr);
   *converted_ptr = value;
