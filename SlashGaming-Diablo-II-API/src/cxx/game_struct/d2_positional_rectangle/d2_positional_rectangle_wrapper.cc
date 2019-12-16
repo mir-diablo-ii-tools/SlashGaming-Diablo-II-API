@@ -86,7 +86,7 @@ PositionalRectangle* PositionalRectangle_Wrapper::Get() noexcept {
 }
 
 const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
-  return this->Get();
+  return this->ptr_;
 }
 
 void PositionalRectangle_Wrapper::Copy(
