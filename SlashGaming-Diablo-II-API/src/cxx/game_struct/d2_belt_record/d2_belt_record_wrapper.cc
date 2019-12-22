@@ -107,16 +107,10 @@ const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
 }
 
 void BeltRecord_Wrapper::Copy(BeltRecord_View src) noexcept {
-  this->SetNumSlots(src.GetNumSlots());
-
-  std::size_t num_equipment_slots =
-      sizeof(BeltRecord_1_00::slot_positions)
-          / sizeof(BeltRecord_1_00::slot_positions[0]);
-
   std::copy_n(
-      reinterpret_cast<const BeltRecord_1_00*>(src.GetSlotPositions()),
-      num_equipment_slots,
-      reinterpret_cast<BeltRecord_1_00*>(this->GetSlotPositions())
+      reinterpret_cast<const BeltRecord_1_00*>(src.Get()),
+      1,
+      reinterpret_cast<BeltRecord_1_00*>(this->Get())
   );
 }
 
