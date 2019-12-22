@@ -43,14 +43,41 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "game_constant/d2_client_game_type.h"
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#include <cstddef>
+#include <array>
+#include <mutex>
+#include <unordered_map>
+
+#include "../../../include/cxx/game_constant/d2_constant.hpp"
+#include "d2_constant_impl.hpp"
+#include "../../../include/cxx/game_version.hpp"
+
+namespace d2 {
+
+template int
+ToGameValue(
+    ClientGameType_1_00 id
+);
+
+template ClientGameType_1_00
+ToAPIValue(
+    int value
+);
+
+template int
+ToGameValue(
+    ClientGameType_1_09D id
+);
+
+template ClientGameType_1_09D
+ToAPIValue(
+    int value
+);
+
+} // namespace d2

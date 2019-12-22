@@ -43,14 +43,34 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#include "../../../include/c/game_constant/d2_client_game_type.h"
 
-#include "game_constant/d2_client_game_type.h"
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+int D2_ClientGameType_1_00_ToGameValue(int id) {
+  d2::ClientGameType_1_00 actual_id =
+      static_cast<d2::ClientGameType_1_00>(id);
+
+  return d2::ToGameValue(actual_id);
+}
+
+int D2_ClientGameType_1_00_ToAPIValue(int value) {
+  d2::ClientGameType_1_00 actual_id =
+      d2::ToAPIValue<d2::ClientGameType_1_00>(value);
+
+  return static_cast<int>(actual_id);
+}
+
+int D2_ClientGameType_1_09D_ToGameValue(int id) {
+  d2::ClientGameType_1_09D actual_id =
+      static_cast<d2::ClientGameType_1_09D>(id);
+
+  return d2::ToGameValue(actual_id);
+}
+
+int D2_ClientGameType_1_09D_ToAPIValue(int value) {
+  d2::ClientGameType_1_09D actual_id =
+      d2::ToAPIValue<d2::ClientGameType_1_09D>(value);
+
+  return static_cast<int>(actual_id);
+}

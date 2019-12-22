@@ -43,14 +43,44 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#ifndef SGD2MAPI_C_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_H_
+#define SGD2MAPI_C_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_H_
 
-#include "game_constant/d2_client_game_type.h"
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include "../../dllexport_define.inc"
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+enum D2_ClientGameType_1_00 {
+  CLIENT_GAME_TYPE_1_00_SINGLE_PLAYER = 0,
+  CLIENT_GAME_TYPE_1_00_BATTLE_NET_JOIN = 3,
+  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_HOST = 6,
+  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_1_00_LAN_HOST,
+  CLIENT_GAME_TYPE_1_00_LAN_JOIN,
+};
+
+enum D2_ClientGameType_1_09D {
+  CLIENT_GAME_TYPE_1_09D_SINGLE_PLAYER = 0,
+  CLIENT_GAME_TYPE_1_09D_BATTLE_NET_JOIN = 3,
+  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_HOST = 6,
+  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_1_09D_LAN_HOST = CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_HOST,
+  CLIENT_GAME_TYPE_1_09D_LAN_JOIN = CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_JOIN,
+};
+
+DLLEXPORT int D2_ClientGameType_1_00_ToGameValue(int id);
+
+DLLEXPORT int D2_ClientGameType_1_00_ToAPIValue(int value);
+
+DLLEXPORT int D2_ClientGameType_1_09D_ToGameValue(int id);
+
+DLLEXPORT int D2_ClientGameType_1_09D_ToAPIValue(int value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_H_

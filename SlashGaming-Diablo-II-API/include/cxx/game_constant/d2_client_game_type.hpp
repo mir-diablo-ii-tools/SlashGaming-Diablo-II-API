@@ -43,14 +43,58 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_CONSTANT_H_
-#define SGD2MAPI_C_GAME_CONSTANT_H_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
 
-#include "game_constant/d2_client_game_type.h"
-#include "game_constant/d2_difficulty_level.h"
-#include "game_constant/d2_draw_effect.h"
-#include "game_constant/d2_text_color.h"
-#include "game_constant/d2_text_font.h"
-#include "game_constant/d2_video_mode.h"
+#include <cstddef>
 
-#endif // SGD2MAPI_C_GAME_CONSTANT_H_
+#include "d2_constant.hpp"
+
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+enum class ClientGameType_1_00 {
+  kSinglePlayer,
+  kBattleNetJoin = 3,
+
+  kOpenBattleNetHost = 6,
+  kOpenBattleNetJoin,
+  kLanHost = kOpenBattleNetHost,
+  kLanJoin = kOpenBattleNetJoin,
+};
+
+enum class ClientGameType_1_09D {
+  kSinglePlayer,
+  kBattleNetJoin = 3,
+
+  kOpenBattleNetHost = 6,
+  kOpenBattleNetJoin,
+  kLanHost,
+  kLanJoin,
+};
+
+extern template DLLEXPORT
+int ToGameValue(
+    ClientGameType_1_00 id
+);
+
+extern template DLLEXPORT
+ClientGameType_1_00 ToAPIValue(
+    int value
+);
+
+extern template DLLEXPORT
+int ToGameValue(
+    ClientGameType_1_09D id
+);
+
+extern template DLLEXPORT
+ClientGameType_1_09D ToAPIValue(
+    int value
+);
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
