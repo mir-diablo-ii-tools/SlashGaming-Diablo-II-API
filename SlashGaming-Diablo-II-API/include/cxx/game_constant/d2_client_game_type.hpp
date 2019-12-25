@@ -72,24 +72,6 @@ enum class ClientGameType {
 #endif
 };
 
-enum class ClientGameType_1_00 {
-  kSinglePlayer,
-  kBattleNetJoin = 3,
-
-  kOpenBattleNetHostOrLanHost = 6,
-  kOpenBattleNetJoinOrLanJoin,
-};
-
-enum class ClientGameType_1_09D {
-  kSinglePlayer,
-  kBattleNetJoin = 3,
-
-  kOpenBattleNetHost = 6,
-  kOpenBattleNetJoin,
-  kLanHost,
-  kLanJoin,
-};
-
 extern template DLLEXPORT
 int ToGameValue(
     ClientGameType id

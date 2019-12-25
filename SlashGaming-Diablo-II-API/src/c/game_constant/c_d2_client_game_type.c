@@ -47,6 +47,22 @@
 
 #include "../../../include/c/game_version.h"
 
+enum D2_ClientGameType_1_00 {
+  CLIENT_GAME_TYPE_1_00_SINGLE_PLAYER = 0,
+  CLIENT_GAME_TYPE_1_00_BATTLE_NET_JOIN = 3,
+  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_HOST_OR_LAN_HOST = 6,
+  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_JOIN_OR_LAN_JOIN,
+};
+
+enum D2_ClientGameType_1_09D {
+  CLIENT_GAME_TYPE_1_09D_SINGLE_PLAYER = 0,
+  CLIENT_GAME_TYPE_1_09D_BATTLE_NET_JOIN = 3,
+  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_HOST = 6,
+  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_1_09D_LAN_HOST,
+  CLIENT_GAME_TYPE_1_09D_LAN_JOIN,
+};
+
 static const int to_1_00_mapping[] = {
   CLIENT_GAME_TYPE_1_00_SINGLE_PLAYER,
   CLIENT_GAME_TYPE_1_00_BATTLE_NET_JOIN,
@@ -109,16 +125,4 @@ int D2_ClientGameType_ToApiValue(int value) {
   } else {
     return from_1_09d_mapping[value];
   }
-}
-
-int D2_ClientGameType_CompareApiValue(
-    int api_value,
-    int constant_api_value
-) {
-  int game_value = D2_ClientGameType_ToGameValue(api_value);
-  int constant_game_value = D2_ClientGameType_ToGameValue(
-      constant_api_value
-  );
-
-  return constant_game_value - game_value;
 }

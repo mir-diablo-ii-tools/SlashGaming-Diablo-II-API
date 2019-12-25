@@ -71,28 +71,8 @@ enum D2_ClientGameType {
 #endif
 };
 
-enum D2_ClientGameType_1_00 {
-  CLIENT_GAME_TYPE_1_00_SINGLE_PLAYER = 0,
-  CLIENT_GAME_TYPE_1_00_BATTLE_NET_JOIN = 3,
-  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_HOST_OR_LAN_HOST = 6,
-  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_JOIN_OR_LAN_JOIN,
-};
-
-enum D2_ClientGameType_1_09D {
-  CLIENT_GAME_TYPE_1_09D_SINGLE_PLAYER = 0,
-  CLIENT_GAME_TYPE_1_09D_BATTLE_NET_JOIN = 3,
-  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_HOST = 6,
-  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_JOIN,
-  CLIENT_GAME_TYPE_1_09D_LAN_HOST,
-  CLIENT_GAME_TYPE_1_09D_LAN_JOIN,
-};
-
 DLLEXPORT int D2_ClientGameType_ToGameValue(int id);
 DLLEXPORT int D2_ClientGameType_ToApiValue(int value);
-DLLEXPORT int D2_ClientGameType_CompareApiValue(
-    int api_value,
-    int constant_api_value
-);
 
 #ifdef __cplusplus
 } // extern "C"
