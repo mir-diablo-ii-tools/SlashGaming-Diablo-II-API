@@ -43,9 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
+#include "../../../../include/c/game_data/bnclient/bnclient_gateway_domain_name.h"
 
-#include "bnclient/bnclient_gateway_domain_name.hpp"
+#include "../../../../include/cxx/game_data/bnclient/bnclient_gateway_domain_name.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
+char* D2_BNClient_GetGatewayDomainName() {
+  return d2::bnclient::GetGatewayDomainName();
+}

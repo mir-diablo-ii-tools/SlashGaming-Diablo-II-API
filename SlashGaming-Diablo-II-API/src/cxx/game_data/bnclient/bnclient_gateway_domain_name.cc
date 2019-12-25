@@ -43,9 +43,39 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "bnclient/bnclient_gateway_domain_name.hpp"
+#include "../../../../include/cxx/game_data/bnclient/bnclient_gateway_domain_name.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::bnclient {
+namespace {
+
+std::intptr_t BNClient_GatewayDomainName() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+char* GetGatewayDomainName() {
+  std::intptr_t ptr = BNClient_GatewayDomainName();
+  GameVersion current_game_version = GetRunningGameVersionId();
+
+  char* value;
+
+  char** converted_ptr = reinterpret_cast<char**>(ptr);
+  value = *converted_ptr;
+
+  return value;
+}
+
+} // namespace d2::bnclient
