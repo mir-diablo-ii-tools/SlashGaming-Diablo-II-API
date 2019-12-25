@@ -43,41 +43,96 @@
  *  work.
  */
 
-/**
- * Latest supported version: 1.14D
- */
-
 #include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
 
-#include <cstddef>
-#include <array>
-#include <mutex>
-#include <unordered_map>
-
-#include "../../../include/cxx/game_constant/d2_constant.hpp"
-#include "d2_constant_impl.hpp"
-#include "../../../include/cxx/game_version.hpp"
+#include "../../../include/c/game_constant/d2_client_game_type.h"
 
 namespace d2 {
 
-template int
-ToGameValue(
-    ClientGameType_1_00 id
-);
+int ToGameValue(
+    ClientGameType id
+) {
+  return D2_ClientGameType_ToGameValue(
+      static_cast<int>(id)
+  );
+}
 
-template ClientGameType_1_00
-ToAPIValue(
+ClientGameType ToAPIValue(
     int value
+) {
+  return static_cast<ClientGameType>(
+      D2_ClientGameType_ToApiValue(value)
+  );
+}
+
+// ClientGameType assertions.
+static_assert(
+    static_cast<int>(ClientGameType::kSinglePlayer)
+        == D2_ClientGameType::CLIENT_GAME_TYPE_SINGLE_PLAYER
+);
+static_assert(
+    static_cast<int>(ClientGameType::kBattleNetJoin)
+        == D2_ClientGameType::CLIENT_GAME_TYPE_BATTLE_NET_JOIN
+);
+static_assert(
+    static_cast<int>(ClientGameType::kOpenBattleNetHost)
+        == D2_ClientGameType::CLIENT_GAME_TYPE_OPEN_BATTLE_NET_HOST
+);
+static_assert(
+    static_cast<int>(ClientGameType::kOpenBattleNetJoin)
+        == D2_ClientGameType::CLIENT_GAME_TYPE_OPEN_BATTLE_NET_JOIN
+);
+static_assert(
+    static_cast<int>(ClientGameType::kLanHost)
+        == D2_ClientGameType::CLIENT_GAME_TYPE_LAN_HOST
+);
+static_assert(
+    static_cast<int>(ClientGameType::kLanJoin)
+        == D2_ClientGameType::CLIENT_GAME_TYPE_LAN_JOIN
 );
 
-template int
-ToGameValue(
-    ClientGameType_1_09D id
+// ClientGameType_1_00 assertions.
+static_assert(
+    static_cast<int>(ClientGameType_1_00::kSinglePlayer)
+        == D2_ClientGameType_1_00::CLIENT_GAME_TYPE_1_00_SINGLE_PLAYER
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_00::kBattleNetJoin)
+        == D2_ClientGameType_1_00::CLIENT_GAME_TYPE_1_00_BATTLE_NET_JOIN
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_00::kOpenBattleNetHostOrLanHost)
+        == D2_ClientGameType_1_00::CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_HOST_OR_LAN_HOST
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin)
+        == D2_ClientGameType_1_00::CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_JOIN_OR_LAN_JOIN
 );
 
-template ClientGameType_1_09D
-ToAPIValue(
-    int value
+// ClientGameType_1_09D assertions.
+static_assert(
+    static_cast<int>(ClientGameType_1_09D::kSinglePlayer)
+        == D2_ClientGameType_1_09D::CLIENT_GAME_TYPE_1_09D_SINGLE_PLAYER
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_09D::kBattleNetJoin)
+        == D2_ClientGameType_1_09D::CLIENT_GAME_TYPE_1_09D_BATTLE_NET_JOIN
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_09D::kOpenBattleNetHost)
+        == D2_ClientGameType_1_09D::CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_HOST
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_09D::kOpenBattleNetJoin)
+        == D2_ClientGameType_1_09D::CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_JOIN
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_09D::kLanHost)
+        == D2_ClientGameType_1_09D::CLIENT_GAME_TYPE_1_09D_LAN_HOST
+);
+static_assert(
+    static_cast<int>(ClientGameType_1_09D::kLanJoin)
+        == D2_ClientGameType_1_09D::CLIENT_GAME_TYPE_1_09D_LAN_JOIN
 );
 
 } // namespace d2

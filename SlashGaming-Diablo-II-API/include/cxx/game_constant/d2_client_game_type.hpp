@@ -48,20 +48,36 @@
 
 #include <cstddef>
 
+#include "../../d2api_version.h"
 #include "d2_constant.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
+enum class ClientGameType {
+  kSinglePlayer,
+  kBattleNetJoin,
+
+#if D2API_VERSION == D2API_VERSION_1_00 || D2API_VERSION == D2API_VERSION_ALL
+  kOpenBattleNetHostOrLanHost = 2,
+  kOpenBattleNetJoinOrLanJoin,
+#endif
+
+#if D2API_VERSION == D2API_VERSION_1_09D || D2API_VERSION == D2API_VERSION_ALL
+  kOpenBattleNetHost = 4,
+  kOpenBattleNetJoin,
+  kLanHost,
+  kLanJoin
+#endif
+};
+
 enum class ClientGameType_1_00 {
   kSinglePlayer,
   kBattleNetJoin = 3,
 
-  kOpenBattleNetHost = 6,
-  kOpenBattleNetJoin,
-  kLanHost = kOpenBattleNetHost,
-  kLanJoin = kOpenBattleNetJoin,
+  kOpenBattleNetHostOrLanHost = 6,
+  kOpenBattleNetJoinOrLanJoin,
 };
 
 enum class ClientGameType_1_09D {
@@ -76,21 +92,11 @@ enum class ClientGameType_1_09D {
 
 extern template DLLEXPORT
 int ToGameValue(
-    ClientGameType_1_00 id
+    ClientGameType id
 );
 
 extern template DLLEXPORT
-ClientGameType_1_00 ToAPIValue(
-    int value
-);
-
-extern template DLLEXPORT
-int ToGameValue(
-    ClientGameType_1_09D id
-);
-
-extern template DLLEXPORT
-ClientGameType_1_09D ToAPIValue(
+ClientGameType ToAPIValue(
     int value
 );
 

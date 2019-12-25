@@ -45,32 +45,80 @@
 
 #include "../../../include/c/game_constant/d2_client_game_type.h"
 
-#include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
+#include "../../../include/c/game_version.h"
 
-int D2_ClientGameType_1_00_ToGameValue(int id) {
-  d2::ClientGameType_1_00 actual_id =
-      static_cast<d2::ClientGameType_1_00>(id);
+static const int to_1_00_mapping[] = {
+  CLIENT_GAME_TYPE_1_00_SINGLE_PLAYER,
+  CLIENT_GAME_TYPE_1_00_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_HOST_OR_LAN_HOST,
+  CLIENT_GAME_TYPE_1_00_OPEN_BATTLE_NET_JOIN_OR_LAN_JOIN,
+  0,
+  0,
+  0,
+  0
+};
 
-  return d2::ToGameValue(actual_id);
+static const int from_1_00_mapping[] = {
+  CLIENT_GAME_TYPE_SINGLE_PLAYER,
+  0,
+  0,
+  CLIENT_GAME_TYPE_BATTLE_NET_JOIN,
+  0,
+  0,
+  CLIENT_GAME_TYPE_OPEN_BATTLE_NET_HOST_OR_LAN_HOST,
+  CLIENT_GAME_TYPE_OPEN_BATTLE_NET_JOIN_OR_LAN_JOIN
+};
+
+static const int to_1_09d_mapping[] = {
+  CLIENT_GAME_TYPE_1_09D_SINGLE_PLAYER,
+  CLIENT_GAME_TYPE_1_09D_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_HOST,
+  CLIENT_GAME_TYPE_1_09D_OPEN_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_1_09D_LAN_HOST,
+  CLIENT_GAME_TYPE_1_09D_LAN_JOIN
+};
+
+static const int from_1_09d_mapping[] = {
+  CLIENT_GAME_TYPE_SINGLE_PLAYER,
+  0,
+  0,
+  CLIENT_GAME_TYPE_BATTLE_NET_JOIN,
+  0,
+  0,
+  CLIENT_GAME_TYPE_OPEN_BATTLE_NET_HOST,
+  CLIENT_GAME_TYPE_OPEN_BATTLE_NET_JOIN,
+  CLIENT_GAME_TYPE_LAN_HOST,
+  CLIENT_GAME_TYPE_LAN_JOIN
+};
+
+int D2_ClientGameType_ToGameValue(int id) {
+  enum D2_GameVersion running_game_version = D2_GetRunningGameVersionId();
+
+  if (running_game_version < VERSION_1_07) {
+    return to_1_00_mapping[id];
+  } else {
+    return to_1_09d_mapping[id];
+  }
 }
 
-int D2_ClientGameType_1_00_ToAPIValue(int value) {
-  d2::ClientGameType_1_00 actual_id =
-      d2::ToAPIValue<d2::ClientGameType_1_00>(value);
+int D2_ClientGameType_ToApiValue(int value) {
+  enum D2_GameVersion running_game_version = D2_GetRunningGameVersionId();
 
-  return static_cast<int>(actual_id);
+  if (running_game_version < VERSION_1_07) {
+    return from_1_00_mapping[value];
+  } else {
+    return from_1_09d_mapping[value];
+  }
 }
 
-int D2_ClientGameType_1_09D_ToGameValue(int id) {
-  d2::ClientGameType_1_09D actual_id =
-      static_cast<d2::ClientGameType_1_09D>(id);
+int D2_ClientGameType_CompareApiValue(
+    int api_value,
+    int constant_api_value
+) {
+  int game_value = D2_ClientGameType_ToGameValue(api_value);
+  int constant_game_value = D2_ClientGameType_ToGameValue(
+      constant_api_value
+  );
 
-  return d2::ToGameValue(actual_id);
-}
-
-int D2_ClientGameType_1_09D_ToAPIValue(int value) {
-  d2::ClientGameType_1_09D actual_id =
-      d2::ToAPIValue<d2::ClientGameType_1_09D>(value);
-
-  return static_cast<int>(actual_id);
+  return constant_game_value - game_value;
 }
