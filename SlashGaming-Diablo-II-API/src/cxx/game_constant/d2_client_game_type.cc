@@ -49,6 +49,7 @@
 
 namespace d2 {
 
+template <>
 int ToGameValue(
     ClientGameType id
 ) {
@@ -57,6 +58,7 @@ int ToGameValue(
   );
 }
 
+template <>
 ClientGameType ToAPIValue(
     int value
 ) {
