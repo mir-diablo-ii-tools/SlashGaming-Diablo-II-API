@@ -47,5 +47,6 @@
 #define SGD2MAPI_C_GAME_DATA_BNCLIENT_DATA_H_
 
 #include "bnclient/bnclient_gateway_domain_name.h"
+#include "bnclient/bnclient_gateway_ipv4_address.h"
 
 #endif // SGD2MAPI_C_GAME_DATA_BNCLIENT_DATA_H_

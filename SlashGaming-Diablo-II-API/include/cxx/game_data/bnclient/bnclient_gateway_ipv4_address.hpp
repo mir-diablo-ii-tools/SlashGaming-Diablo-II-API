@@ -43,10 +43,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
+#ifndef SGD2MAPI_CXX_GAME_DATA_BNCLIENT_BNCLIENT_GATEWAY_IPV4_ADDRESS_HPP_
+#define SGD2MAPI_CXX_GAME_DATA_BNCLIENT_BNCLIENT_GATEWAY_IPV4_ADDRESS_HPP_
 
-#include "bnclient/bnclient_gateway_domain_name.hpp"
-#include "bnclient/bnclient_gateway_ipv4_address.hpp"
+#include "../../../dllexport_define.inc"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
+namespace d2::bnclient {
+
+DLLEXPORT char* GetGatewayIPv4Address();
+
+} // namespace d2::bnclient
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_DATA_BNCLIENT_BNCLIENT_GATEWAY_IPV4_ADDRESS_HPP_
