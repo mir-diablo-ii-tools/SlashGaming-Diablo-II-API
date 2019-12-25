@@ -43,22 +43,29 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+#include "../../../../include/c/game_data/d2client/d2client_game_type.h"
 
-#include "d2client/d2client_difficulty_level.hpp"
-#include "d2client/d2client_game_type.hpp"
-#include "d2client/d2client_general_display_height.hpp"
-#include "d2client/d2client_general_display_width.hpp"
-#include "d2client/d2client_general_play_area_camera_shift_x.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
-#include "d2client/d2client_inventory_arrange_mode.hpp"
-#include "d2client/d2client_is_automap_open.hpp"
-#include "d2client/d2client_is_game_menu_open.hpp"
-#include "d2client/d2client_is_help_screen_open.hpp"
-#include "d2client/d2client_is_new_skill_button_pressed.hpp"
-#include "d2client/d2client_is_new_stats_button_pressed.hpp"
-#include "d2client/d2client_screen_open_mode.hpp"
-#include "d2client/d2client_screen_shift.hpp"
+#include "../../../../include/cxx/game_constant/d2_client_game_type.hpp"
+#include "../../../../include/cxx/game_data/d2client/d2client_game_type.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
+int D2_D2Client_GetGameType_ApiValue(void) {
+  return static_cast<int>(
+      d2::d2client::GetGameType_ApiValue()
+  );
+}
+
+void D2_D2Client_SetGameType_ApiValue(int value) {
+  d2::d2client::SetGameType_ApiValue(
+      static_cast<d2::ClientGameType>(value)
+  );
+}
+
+int D2_D2Client_GetGameType_GameValue() {
+  return static_cast<int>(
+      d2::d2client::GetGameType_GameValue()
+  );
+}
+
+void D2_D2Client_SetGameType_GameValue(int value) {
+  d2::d2client::SetGameType_GameValue(value);
+}
