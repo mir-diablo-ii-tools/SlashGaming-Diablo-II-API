@@ -72,8 +72,7 @@ char* GetGatewayDomainName() {
 
   char* value;
 
-  char** converted_ptr = reinterpret_cast<char**>(ptr);
-  value = *converted_ptr;
+  value = reinterpret_cast<char*>(ptr);
 
   return value;
 }
