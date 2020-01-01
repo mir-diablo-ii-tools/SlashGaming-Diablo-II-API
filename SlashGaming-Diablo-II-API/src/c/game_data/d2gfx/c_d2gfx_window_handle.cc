@@ -43,12 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+#include "../../../../include/c/game_data/d2gfx/d2gfx_window_handle.h"
 
-#include "d2gfx/d2gfx_is_windowed_mode.h"
-#include "d2gfx/d2gfx_resolution_mode.h"
-#include "d2gfx/d2gfx_video_mode.h"
-#include "d2gfx/d2gfx_window_handle.h"
+#include "../../../../include/cxx/game_data/d2gfx/d2gfx_window_handle.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+HWND D2_D2GFX_GetWindowHandle() {
+  return d2::d2gfx::GetWindowHandle();
+}
+
+void D2_D2GFX_SetWindowHandle(HWND value) {
+  d2::d2gfx::SetWindowHandle(value);
+}
