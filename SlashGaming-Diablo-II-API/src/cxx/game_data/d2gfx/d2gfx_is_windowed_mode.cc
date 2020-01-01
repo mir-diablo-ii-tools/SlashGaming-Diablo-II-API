@@ -43,11 +43,49 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "d2gfx/d2gfx_is_windowed_mode.h"
-#include "d2gfx/d2gfx_resolution_mode.h"
-#include "d2gfx/d2gfx_video_mode.h"
+#include "../../../../include/cxx/game_data/d2gfx/d2gfx_is_windowed_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+#include <cstdint>
+
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_bool.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace d2::d2gfx {
+namespace {
+
+std::intptr_t D2GFX_IsWindowedMode() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+bool GetIsWindowedMode() {
+  std::intptr_t ptr = D2GFX_IsWindowedMode();
+  GameVersion current_game_version = GetRunningGameVersionId();
+
+  bool value;
+
+  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
+  value = *converted_ptr;
+
+  return value;
+}
+
+void SetIsWindowedMode(bool value) {
+  std::intptr_t ptr = D2GFX_IsWindowedMode();
+
+  GameVersion current_game_version = GetRunningGameVersionId();
+
+  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
+  *converted_ptr = value;
+}
+
+} // namespace d2::d2gfx

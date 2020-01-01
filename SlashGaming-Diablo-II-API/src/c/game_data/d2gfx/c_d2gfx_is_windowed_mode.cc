@@ -43,11 +43,14 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+#include "../../../../include/c/game_data/d2gfx/d2gfx_is_windowed_mode.h"
 
-#include "d2gfx/d2gfx_is_windowed_mode.h"
-#include "d2gfx/d2gfx_resolution_mode.h"
-#include "d2gfx/d2gfx_video_mode.h"
+#include "../../../../include/cxx/game_data/d2gfx/d2gfx_is_windowed_mode.hpp"
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+bool D2_D2GFX_GetIsWindowedMode() {
+  return d2::d2gfx::GetIsWindowedMode();
+}
+
+void D2_D2GFX_SetIsWindowedMode(bool value) {
+  d2::d2gfx::SetIsWindowedMode(value);
+}

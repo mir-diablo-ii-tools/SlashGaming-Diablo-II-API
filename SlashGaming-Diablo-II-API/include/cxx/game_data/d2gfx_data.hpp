@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_D2GFX_DATA_HPP_
 
+#include "d2gfx/d2gfx_is_windowed_mode.hpp"
 #include "d2gfx/d2gfx_resolution_mode.hpp"
 #include "d2gfx/d2gfx_video_mode.hpp"
 

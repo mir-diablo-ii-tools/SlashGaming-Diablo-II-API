@@ -43,11 +43,23 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
-#define SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+#ifndef SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_IS_WINDOWED_MODE_H_
+#define SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_IS_WINDOWED_MODE_H_
 
-#include "d2gfx/d2gfx_is_windowed_mode.h"
-#include "d2gfx/d2gfx_resolution_mode.h"
-#include "d2gfx/d2gfx_video_mode.h"
+#include <windows.h>
 
-#endif // SGD2MAPI_C_GAME_DATA_D2GFX_DATA_H_
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+DLLEXPORT bool D2_D2GFX_GetIsWindowedMode(void);
+DLLEXPORT void D2_D2GFX_SetIsWindowedMode(bool value);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_C_GAME_DATA_D2GFX_D2GFX_IS_WINDOWED_MODE_H_
