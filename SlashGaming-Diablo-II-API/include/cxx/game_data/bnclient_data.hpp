@@ -46,4 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
 #define SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_
 
+#include "bnclient/bnclient_gateway_domain_name.hpp"
+#include "bnclient/bnclient_gateway_ipv4_address.hpp"
+
 #endif // SGD2MAPI_CXX_GAME_DATA_BNCLIENT_DATA_HPP_

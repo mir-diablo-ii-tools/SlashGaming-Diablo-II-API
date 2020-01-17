@@ -46,11 +46,16 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_HPP_
 
+#include "game_struct/d2_belt_record.hpp"
 #include "game_struct/d2_cel.hpp"
 #include "game_struct/d2_cel_context.hpp"
 #include "game_struct/d2_cel_file.hpp"
+#include "game_struct/d2_equipment_layout.hpp"
+#include "game_struct/d2_inventory_record.hpp"
+#include "game_struct/d2_grid_layout.hpp"
 #include "game_struct/d2_mpq_archive.hpp"
 #include "game_struct/d2_mpq_archive_handle.hpp"
+#include "game_struct/d2_positional_rectangle.hpp"
 #include "game_struct/d2_unicode_char.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_STRUCT_HPP_

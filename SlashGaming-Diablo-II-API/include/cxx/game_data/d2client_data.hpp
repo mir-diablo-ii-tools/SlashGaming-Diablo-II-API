@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_DATA_D2CLIENT_DATA_HPP_
 
 #include "d2client/d2client_difficulty_level.hpp"
+#include "d2client/d2client_game_type.hpp"
 #include "d2client/d2client_general_display_height.hpp"
 #include "d2client/d2client_general_display_width.hpp"
 #include "d2client/d2client_general_play_area_camera_shift_x.hpp"

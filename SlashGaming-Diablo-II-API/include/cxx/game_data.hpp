@@ -49,7 +49,7 @@
 #include "game_data/bnclient_data.hpp"
 #include "game_data/d2client_data.hpp"
 #include "game_data/d2cmp_data.hpp"
-#include "game_data/d2common_func.hpp"
+#include "game_data/d2common_data.hpp"
 #include "game_data/d2ddraw_data.hpp"
 #include "game_data/d2direct3d_data.hpp"
 #include "game_data/d2game_data.hpp"

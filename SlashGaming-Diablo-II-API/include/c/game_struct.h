@@ -46,11 +46,16 @@
 #ifndef SGD2MAPI_C_GAME_STRUCT_H_
 #define SGD2MAPI_C_GAME_STRUCT_H_
 
+#include "game_struct/d2_belt_record.h"
 #include "game_struct/d2_cel.h"
 #include "game_struct/d2_cel_context.h"
 #include "game_struct/d2_cel_file.h"
+#include "game_struct/d2_equipment_layout.h"
+#include "game_struct/d2_inventory_record.h"
+#include "game_struct/d2_grid_layout.h"
 #include "game_struct/d2_mpq_archive.h"
 #include "game_struct/d2_mpq_archive_handle.h"
+#include "game_struct/d2_positional_rectangle.h"
 #include "game_struct/d2_unicode_char.h"
 
 #endif // SGD2MAPI_C_GAME_STRUCT_H_

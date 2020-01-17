@@ -163,13 +163,15 @@ GameAddress GameAddress::FromOrdinal(
         L"File: {} \n"
         L"Line: {} \n"
         L"\n"
-        L"The data or function with the ordinal {} could not be found.";
+        L"The data or function with the ordinal {} from {} could not be "
+        L"found.";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
         __FILEW__,
         __LINE__,
-        ordinal
+        ordinal,
+        game_library.library_path().wstring()
     );
 
     MessageBoxW(

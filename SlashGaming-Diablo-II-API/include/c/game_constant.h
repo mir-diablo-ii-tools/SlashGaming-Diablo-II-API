@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_C_GAME_CONSTANT_H_
 #define SGD2MAPI_C_GAME_CONSTANT_H_
 
+#include "game_constant/d2_client_game_type.h"
 #include "game_constant/d2_difficulty_level.h"
 #include "game_constant/d2_draw_effect.h"
 #include "game_constant/d2_text_color.h"
