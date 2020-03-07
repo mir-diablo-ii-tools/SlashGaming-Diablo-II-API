@@ -46,10 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
 #include "../../d2api_version.h"
-#include "d2_constant.hpp"
 
 #include "../../dllexport_define.inc"
 
@@ -72,15 +71,33 @@ enum class ClientGameType {
 #endif
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    ClientGameType id
-);
+enum class ClientGameType_1_00 : std::int32_t {
+  kSinglePlayer,
+  kBattleNetJoin = 3,
+  kOpenBattleNetHostOrLanHost = 6,
+  kOpenBattleNetJoinOrLanJoin,
+};
 
-extern template DLLEXPORT
-ClientGameType ToAPIValue(
-    int value
-);
+enum class ClientGameType_1_07 : std::int32_t {
+  kSinglePlayer,
+  kBattleNetJoin = 3,
+  kOpenBattleNetHost = 6,
+  kOpenBattleNetJoin,
+  kLanHost,
+  kLanJoin
+};
+
+DLLEXPORT int ToGameValue(ClientGameType api_value);
+
+DLLEXPORT ClientGameType_1_00 ToGameValue_1_00(ClientGameType api_value);
+
+DLLEXPORT ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value);
+
+DLLEXPORT ClientGameType ToApiValue(int game_value);
+
+DLLEXPORT ClientGameType ToApiValue_1_00(ClientGameType_1_00 game_value);
+
+DLLEXPORT ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value);
 
 } // namespace d2
 

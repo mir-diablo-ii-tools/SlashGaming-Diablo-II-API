@@ -45,52 +45,81 @@
 
 #include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
 
-#include "../../../include/c/game_constant/d2_client_game_type.h"
+#include <unordered_map>
+
+#include "../../../include/cxx/game_version.hpp"
 
 namespace d2 {
+namespace {
 
-template <>
-int ToGameValue(
-    ClientGameType id
-) {
-  return D2_ClientGameType_ToGameValue(
-      static_cast<int>(id)
-  );
+static const std::unordered_map<ClientGameType, ClientGameType_1_00> kTo1_00 = {
+    { ClientGameType::kSinglePlayer, ClientGameType_1_00::kSinglePlayer },
+    { ClientGameType::kBattleNetJoin, ClientGameType_1_00::kBattleNetJoin },
+    { ClientGameType::kOpenBattleNetHostOrLanHost, ClientGameType_1_00::kOpenBattleNetHostOrLanHost },
+    { ClientGameType::kOpenBattleNetJoinOrLanJoin, ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin },
+};
+
+static const std::unordered_map<ClientGameType_1_00, ClientGameType> kFrom1_00 = {
+    { ClientGameType_1_00::kSinglePlayer, ClientGameType::kSinglePlayer },
+    { ClientGameType_1_00::kBattleNetJoin, ClientGameType::kBattleNetJoin },
+    { ClientGameType_1_00::kOpenBattleNetHostOrLanHost, ClientGameType::kOpenBattleNetHostOrLanHost },
+    { ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin, ClientGameType::kOpenBattleNetJoinOrLanJoin },
+};
+
+static const std::unordered_map<ClientGameType, ClientGameType_1_07> kTo1_07 = {
+    { ClientGameType::kSinglePlayer, ClientGameType_1_07::kSinglePlayer },
+    { ClientGameType::kBattleNetJoin, ClientGameType_1_07::kBattleNetJoin },
+    { ClientGameType::kOpenBattleNetHost, ClientGameType_1_07::kOpenBattleNetHost },
+    { ClientGameType::kOpenBattleNetJoin, ClientGameType_1_07::kOpenBattleNetJoin },
+    { ClientGameType::kLanHost, ClientGameType_1_07::kLanHost },
+    { ClientGameType::kLanJoin, ClientGameType_1_07::kLanJoin },
+};
+
+static const std::unordered_map<ClientGameType_1_07, ClientGameType> kFrom1_07 = {
+    { ClientGameType_1_07::kSinglePlayer, ClientGameType::kSinglePlayer },
+    { ClientGameType_1_07::kBattleNetJoin, ClientGameType::kBattleNetJoin },
+    { ClientGameType_1_07::kOpenBattleNetHost, ClientGameType::kOpenBattleNetHost },
+    { ClientGameType_1_07::kOpenBattleNetJoin, ClientGameType::kOpenBattleNetJoin },
+    { ClientGameType_1_07::kLanHost, ClientGameType::kLanHost },
+    { ClientGameType_1_07::kLanJoin, ClientGameType::kLanJoin },
+};
+
+} // namespace
+
+int ToGameValue(ClientGameType api_value) {
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version < GameVersion::k1_09D) {
+    return static_cast<int>(ToGameValue_1_00(api_value));
+  } else {
+    return static_cast<int>(ToGameValue_1_07(api_value));
+  }
 }
 
-template <>
-ClientGameType ToAPIValue(
-    int value
-) {
-  return static_cast<ClientGameType>(
-      D2_ClientGameType_ToApiValue(value)
-  );
+ClientGameType_1_00 ToGameValue_1_00(ClientGameType api_value) {
+  return kTo1_00.at(api_value);
 }
 
-// ClientGameType assertions.
-static_assert(
-    static_cast<int>(ClientGameType::kSinglePlayer)
-        == D2_ClientGameType::CLIENT_GAME_TYPE_SINGLE_PLAYER
-);
-static_assert(
-    static_cast<int>(ClientGameType::kBattleNetJoin)
-        == D2_ClientGameType::CLIENT_GAME_TYPE_BATTLE_NET_JOIN
-);
-static_assert(
-    static_cast<int>(ClientGameType::kOpenBattleNetHost)
-        == D2_ClientGameType::CLIENT_GAME_TYPE_OPEN_BATTLE_NET_HOST
-);
-static_assert(
-    static_cast<int>(ClientGameType::kOpenBattleNetJoin)
-        == D2_ClientGameType::CLIENT_GAME_TYPE_OPEN_BATTLE_NET_JOIN
-);
-static_assert(
-    static_cast<int>(ClientGameType::kLanHost)
-        == D2_ClientGameType::CLIENT_GAME_TYPE_LAN_HOST
-);
-static_assert(
-    static_cast<int>(ClientGameType::kLanJoin)
-        == D2_ClientGameType::CLIENT_GAME_TYPE_LAN_JOIN
-);
+ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
+  return kTo1_07.at(api_value);
+}
+
+ClientGameType ToApiValue(int game_value) {
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version < GameVersion::k1_06B) {
+    return ToApiValue_1_00(static_cast<ClientGameType_1_00>(game_value));
+  } else {
+    return ToApiValue_1_07(static_cast<ClientGameType_1_07>(game_value));
+  }
+}
+
+ClientGameType ToApiValue_1_00(ClientGameType_1_00 game_value) {
+  return kFrom1_00.at(game_value);
+}
+
+ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value) {
+  return kFrom1_07.at(game_value);
+}
 
 } // namespace d2
