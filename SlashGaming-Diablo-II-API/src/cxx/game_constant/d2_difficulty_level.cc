@@ -49,21 +49,39 @@
 
 #include "../../../include/cxx/game_constant/d2_difficulty_level.hpp"
 
-#include <cstddef>
-
-#include "../../../include/cxx/game_constant/d2_constant.hpp"
-#include "d2_constant_impl.hpp"
+#include <unordered_map>
 
 namespace d2 {
+namespace {
 
-template int
-ToGameValue(
-    DifficultyLevel id
-);
+static const std::unordered_map<DifficultyLevel, DifficultyLevel_1_00> kTo1_00 = {
+    { DifficultyLevel::kNormal, DifficultyLevel_1_00::kNormal },
+    { DifficultyLevel::kNightmare, DifficultyLevel_1_00::kNightmare },
+    { DifficultyLevel::kHell, DifficultyLevel_1_00::kHell },
+};
 
-template DifficultyLevel
-ToAPIValue(
-    int value
-);
+static const std::unordered_map<DifficultyLevel_1_00, DifficultyLevel> kFrom1_00 = {
+    { DifficultyLevel_1_00::kNormal, DifficultyLevel::kNormal },
+    { DifficultyLevel_1_00::kNightmare, DifficultyLevel::kNightmare },
+    { DifficultyLevel_1_00::kHell, DifficultyLevel::kHell },
+};
+
+} // namespace
+
+int ToGameValue(DifficultyLevel api_value) {
+  return static_cast<int>(ToGameValue_1_00(api_value));
+}
+
+DifficultyLevel_1_00 ToGameValue_1_00(DifficultyLevel api_value) {
+  return kTo1_00.at(api_value);
+}
+
+DifficultyLevel ToApiValue(int game_value) {
+  return ToApiValue_1_00(static_cast<DifficultyLevel_1_00>(game_value));
+}
+
+DifficultyLevel ToApiValue_1_00(DifficultyLevel_1_00 game_value) {
+  return kFrom1_00.at(game_value);
+}
 
 } // namespace d2
