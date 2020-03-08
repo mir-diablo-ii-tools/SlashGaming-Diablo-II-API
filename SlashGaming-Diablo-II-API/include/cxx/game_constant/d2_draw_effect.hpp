@@ -46,9 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_DRAW_EFFECT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_DRAW_EFFECT_HPP_
 
-#include <cstddef>
-
-#include "d2_constant.hpp"
+#include <cstdint>
 
 #include "../../dllexport_define.inc"
 
@@ -65,15 +63,24 @@ enum class DrawEffect {
   kUnknown07
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    DrawEffect id
-);
+enum class DrawEffect_1_00 : std::int32_t {
+  kOneFourthOpaque,
+  kHalfOpaque,
+  kThreeFourthsOpaque,
+  kUnknown03,
+  kUnknown04,
+  kNone,
+  kUnknown06,
+  kUnknown07
+};
 
-extern template DLLEXPORT
-DrawEffect ToAPIValue(
-    int value
-);
+DLLEXPORT int ToGameValue(DrawEffect api_value);
+
+DLLEXPORT DrawEffect_1_00 ToGameValue_1_00(DrawEffect api_value);
+
+DLLEXPORT DrawEffect ToApiValue(int game_value);
+
+DLLEXPORT DrawEffect ToApiValue_1_00(DrawEffect_1_00 game_value);
 
 } // namespace d2
 
