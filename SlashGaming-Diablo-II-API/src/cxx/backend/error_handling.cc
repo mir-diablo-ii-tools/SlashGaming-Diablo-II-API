@@ -51,20 +51,22 @@
 #include <cwchar>
 #include <memory>
 
+#include <fmt/format.h>
+
 namespace mapi {
 namespace {
 
 static constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: %s \n"
-    L"Line: %d \n"
+    L"File: {} \n"
+    L"Line: {} \n"
     L"\n"
-    L"The function %s failed with error code %X.";
+    L"The function {} failed with error code {:X}.";
 
 static constexpr std::wstring_view kGeneralFailErrorFormat =
-    L"File: %s \n"
-    L"Line: %d \n"
+    L"File: {} \n"
+    L"Line: {} \n"
     L"\n"
-    L"%s";
+    L"{}";
 
 } // namespace
 
@@ -75,27 +77,16 @@ void ExitOnGeneralFailure(
     int line
 ) {
 #ifndef NDEBUG
-  std::size_t full_message_size = kGeneralFailErrorFormat.length()
-      + message.length()
-      + file_name.length()
-      + static_cast<int>(std::log10(line));
-
-  std::unique_ptr full_message = std::make_unique<wchar_t[]>(
-      full_message_size
-  );
-
-  std::swprintf(
-      full_message.get(),
-      full_message_size,
-      kGeneralFailErrorFormat.data(),
-      file_name.data(),
+  std::wstring full_message = fmt::format(
+      kGeneralFailErrorFormat,
+      file_name,
       line,
-      message.data()
+      message
   );
 
   MessageBoxW(
       NULL,
-      full_message.get(),
+      full_message.data(),
       caption.data(),
       MB_OK | MB_ICONERROR
   );
@@ -112,45 +103,24 @@ void ExitOnWindowsFunctionFailureWithLastError(
 ){
 #ifndef NDEBUG
   // Build the message string.
-  std::size_t full_message_size = kGeneralFailErrorFormat.length()
-      + function_name.length()
-      + file_name.length()
-      + static_cast<std::size_t>(std::log10(line))
-      + static_cast<std::size_t>(std::log10(last_error));
-
-  std::unique_ptr full_message = std::make_unique<wchar_t[]>(
-      full_message_size
-  );
-
-  std::swprintf(
-      full_message.get(),
-      full_message_size,
-      kFunctionFailErrorFormat.data(),
-      file_name.data(),
+  std::wstring full_message = fmt::format(
+      kFunctionFailErrorFormat,
+      file_name,
       line,
-      function_name.data(),
+      function_name,
       last_error
   );
 
   // Build the caption string.
-  std::size_t full_caption_size = std::wstring_view(L"%s Failed").length()
-      + function_name.length();
-
-  std::unique_ptr full_caption = std::make_unique<wchar_t[]>(
-      full_caption_size
-  );
-
-  std::swprintf(
-      full_caption.get(),
-      full_caption_size,
-      L"%s Failed",
-      function_name.data()
+  std::wstring full_caption = fmt::format(
+      L"{} Failed",
+      function_name
   );
 
   MessageBoxW(
       NULL,
-      full_message.get(),
-      full_caption.get(),
+      full_message.data(),
+      full_caption.data(),
       MB_OK | MB_ICONERROR
   );
 #endif // NDEBUG
