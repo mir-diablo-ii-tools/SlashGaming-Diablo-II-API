@@ -51,6 +51,7 @@
 
 namespace mapi {
 
+[[noreturn]]
 void ExitOnGeneralFailure(
     std::wstring_view message,
     std::wstring_view caption,
@@ -58,6 +59,7 @@ void ExitOnGeneralFailure(
     int line
 );
 
+[[noreturn]]
 void ExitOnWindowsFunctionFailureWithLastError(
     std::wstring_view function_name,
     DWORD last_error,
