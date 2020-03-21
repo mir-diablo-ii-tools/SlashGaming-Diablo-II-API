@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,24 +45,33 @@
 
 #include "architecture_opcode.hpp"
 
+#include <stdexcept>
 #include <unordered_map>
 
 #include "../../include/cxx/game_branch_type.hpp"
+#include "../backend/error_handling.hpp"
 
 namespace mapi {
+namespace {
+
+static const std::unordered_map<BranchType, OpCode> kOpCodesByBranchTypes = {
+    { BranchType::kCall, OpCode::kCall },
+    { BranchType::kJump, OpCode::kJump }
+};
+
+} // namespace
 
 OpCode ToOpcode(BranchType branch_type) {
-  using BranchTypeAndOpcodeMapType = std::unordered_map<
-      BranchType,
-      OpCode
-  >;
-
-  static const BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
-      { BranchType::kCall, OpCode::kCall },
-      { BranchType::kJump, OpCode::kJump }
-  };
-
-  return op_codes_by_branch_types.at(branch_type);
+  try {
+    return kOpCodesByBranchTypes.at(branch_type);
+  } catch (std::out_of_range& e) {
+    ExitOnGeneralFailure(
+        L"Unknown branch type specified.",
+        L"Unknown Branch Type",
+        __FILEW__,
+        __LINE__
+    );
+  }
 }
 
 } // namespace mapi

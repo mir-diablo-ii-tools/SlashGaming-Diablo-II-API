@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
-#define SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#ifndef SGMAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#define SGMAPI_CXX_ARCHITECTURE_OPCODE_HPP_
 
 #include <cstdint>
 
@@ -62,4 +62,4 @@ OpCode ToOpcode(BranchType branch_type);
 
 } // namespace mapi
 
-#endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
+#endif // SGMAPI_CXX_ARCHITECTURE_OPCODE_HPP_
