@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -54,117 +54,162 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <nowide/convert.hpp>
 #include <fmt/format.h>
-#include "../../include/cxx/default_game_library.hpp"
 #include "../../include/cxx/game_address.hpp"
 #include "../wide_macro.h"
+#include "backend/encoding.hpp"
+#include "backend/error_handling.hpp"
 
 namespace d2 {
 namespace {
 
-constexpr std::wstring_view kFunctionFailErrorFormat =
-    L"File: {} \n"
-    L"Line: {} \n"
-    L"\n"
-    L"The function {} failed with error code {:X}.";
+struct GameDataInfo {
+  std::ptrdiff_t offset_value;
+  std::filesystem::path library_path;
+  GameVersion matching_version;
+  GameVersion non_matching_version;
+  std::vector<std::uint8_t> expected_values;
+};
 
-const std::unordered_map<
-    std::string_view,
-    GameVersion
->&
-GetGameVersionsByFileVersions() {
-  static const std::unordered_map<
-      std::string_view,
-      GameVersion
-  > game_versions_by_file_versions = {
-        // 1.00 & 1.01 have the same version #, but use completely different
-        // DLLs.
-        { "1.0.0.1", GameVersion::k1_01 },
-        { "1.0.2.0", GameVersion::k1_02 },
-        { "1.0.3.0", GameVersion::k1_03 },
-        // 1.04B and 1.04C use the same DLLs.
-        { "1.0.4.1", GameVersion::k1_04B_C },
-        { "1.0.4.2", GameVersion::k1_04B_C },
-        { "1.0.5.0", GameVersion::k1_05 },
-        { "1.0.5.1", GameVersion::k1_05B },
-        // 1.06 & 1.06B have the same version #, but use completely different
-        // DLLs.
-        { "1.0.6.0", GameVersion::k1_06 },
-        // 1.07 Beta & 1.07 have the same version #, but use completely
-        // different DLLs.
-        { "1.0.7.0", GameVersion::k1_07 },
-        { "1.0.8.28", GameVersion::k1_08 },
-        { "1.0.9.19", GameVersion::k1_09 },
-        { "1.0.9.20", GameVersion::k1_09B },
-        { "1.0.9.22", GameVersion::k1_09D },
-        { "1.0.10.9", GameVersion::k1_10Beta },
-        { "1.0.10.10", GameVersion::k1_10SBeta },
-        { "1.0.10.39", GameVersion::k1_10 },
-        { "1.0.11.45", GameVersion::k1_11 },
-        { "1.0.11.46", GameVersion::k1_11B },
-        { "1.0.12.49", GameVersion::k1_12A },
-        { "1.0.13.55", GameVersion::k1_13ABeta },
-        { "1.0.13.60", GameVersion::k1_13C },
-        { "1.0.13.64", GameVersion::k1_13D },
-        { "1.14.0.64", GameVersion::kLod1_14A },
-        { "1.14.1.68", GameVersion::kLod1_14B },
-        { "1.14.2.70", GameVersion::kLod1_14C },
-        { "1.14.3.71", GameVersion::kLod1_14D }
-  };
+static const std::unordered_map<
+    std::u8string_view, GameVersion
+> kGameVersionsByFileVersions = {
+    // 1.00 & 1.01 have the same version #, but use completely different
+    // DLLs.
+    { u8"1.0.0.1", GameVersion::k1_01 },
+    { u8"1.0.2.0", GameVersion::k1_02 },
+    { u8"1.0.3.0", GameVersion::k1_03 },
+    // 1.04B and 1.04C use the same DLLs.
+    { u8"1.0.4.1", GameVersion::k1_04B_C },
+    { u8"1.0.4.2", GameVersion::k1_04B_C },
+    { u8"1.0.5.0", GameVersion::k1_05 },
+    { u8"1.0.5.1", GameVersion::k1_05B },
+    // 1.06 & 1.06B have the same version #, but use completely different
+    // DLLs.
+    { u8"1.0.6.0", GameVersion::k1_06 },
+    // 1.07 Beta & 1.07 have the same version #, but use completely
+    // different DLLs.
+    { u8"1.0.7.0", GameVersion::k1_07 },
+    { u8"1.0.8.28", GameVersion::k1_08 },
+    { u8"1.0.9.19", GameVersion::k1_09 },
+    { u8"1.0.9.20", GameVersion::k1_09B },
+    { u8"1.0.9.22", GameVersion::k1_09D },
+    { u8"1.0.10.9", GameVersion::k1_10Beta },
+    { u8"1.0.10.10", GameVersion::k1_10SBeta },
+    { u8"1.0.10.39", GameVersion::k1_10 },
+    { u8"1.0.11.45", GameVersion::k1_11 },
+    { u8"1.0.11.46", GameVersion::k1_11B },
+    { u8"1.0.12.49", GameVersion::k1_12A },
+    { u8"1.0.13.55", GameVersion::k1_13ABeta },
+    { u8"1.0.13.60", GameVersion::k1_13C },
+    { u8"1.0.13.64", GameVersion::k1_13D },
+    { u8"1.14.0.64", GameVersion::kLod1_14A },
+    { u8"1.14.1.68", GameVersion::kLod1_14B },
+    { u8"1.14.2.70", GameVersion::kLod1_14C },
+    { u8"1.14.3.71", GameVersion::kLod1_14D },
+};
 
-  return game_versions_by_file_versions;
-}
+static const std::unordered_map<
+    GameVersion, std::u8string_view
+> kGameVersionNamesByGameVersionIds = {
+    { GameVersion::k1_00, u8"1.00" },
+    { GameVersion::k1_01, u8"1.01" },
+    { GameVersion::k1_02, u8"1.02" },
+    { GameVersion::k1_03, u8"1.03" },
+    // 1.04B and 1.04C use the same DLLs.
+    { GameVersion::k1_04B_C, u8"1.04B/C" },
+    { GameVersion::k1_05, u8"1.05" },
+    { GameVersion::k1_05B, u8"1.05B" },
+    { GameVersion::k1_06, u8"1.06" },
+    { GameVersion::k1_06B, u8"1.06B" },
+    { GameVersion::k1_07Beta, u8"1.07 Beta" },
+    { GameVersion::k1_07, u8"1.07" },
+    { GameVersion::k1_08, u8"1.08" },
+    { GameVersion::k1_09, u8"1.09" },
+    { GameVersion::k1_09B, u8"1.09B" },
+    { GameVersion::k1_09D, u8"1.09D" },
+    { GameVersion::k1_10Beta, u8"1.10 Beta" },
+    { GameVersion::k1_10SBeta, u8"1.10S Beta" },
+    { GameVersion::k1_10, u8"1.10" },
+    { GameVersion::k1_11, u8"1.11" },
+    { GameVersion::k1_11B, u8"1.11B" },
+    { GameVersion::k1_12A, u8"1.12A" },
+    { GameVersion::k1_13ABeta, u8"1.13A Beta" },
+    { GameVersion::k1_13C, u8"1.13C" },
+    { GameVersion::k1_13D, u8"1.13D" },
+    { GameVersion::kClassic1_14A, u8"Classic 1.14A" },
+    { GameVersion::kLod1_14A, u8"LoD 1.14A" },
+    { GameVersion::kClassic1_14B, u8"Classic 1.14B" },
+    { GameVersion::kLod1_14B, u8"LoD 1.14B" },
+    { GameVersion::kClassic1_14C, u8"Classic 1.14C" },
+    { GameVersion::kLod1_14C, u8"LoD 1.14C" },
+    { GameVersion::kClassic1_14D, u8"Classic 1.14D" },
+    { GameVersion::kLod1_14D, u8"LoD 1.14D" },
+};
 
-const std::unordered_map<
-    GameVersion,
-    std::string_view
->&
-GetGameVersionNamesByGameVersionIds() {
-  static const std::unordered_map<
-      GameVersion,
-      std::string_view
-  > game_version_names_by_game_version_ids = {
-        { GameVersion::k1_00, "1.00" },
-        { GameVersion::k1_01, "1.01" },
-        { GameVersion::k1_02, "1.02" },
-        { GameVersion::k1_03, "1.03" },
-        // 1.04B and 1.04C use the same DLLs.
-        { GameVersion::k1_04B_C, "1.04B/C" },
-        { GameVersion::k1_05, "1.05" },
-        { GameVersion::k1_05B, "1.05B" },
-        { GameVersion::k1_06, "1.06" },
-        { GameVersion::k1_06B, "1.06B" },
-        { GameVersion::k1_07Beta, "1.07 Beta" },
-        { GameVersion::k1_07, "1.07" },
-        { GameVersion::k1_08, "1.08" },
-        { GameVersion::k1_09, "1.09" },
-        { GameVersion::k1_09B, "1.09B" },
-        { GameVersion::k1_09D, "1.09D" },
-        { GameVersion::k1_10Beta, "1.10 Beta" },
-        { GameVersion::k1_10SBeta, "1.10S Beta" },
-        { GameVersion::k1_10, "1.10" },
-        { GameVersion::k1_11, "1.11" },
-        { GameVersion::k1_11B, "1.11B" },
-        { GameVersion::k1_12A, "1.12A" },
-        { GameVersion::k1_13ABeta, "1.13A Beta" },
-        { GameVersion::k1_13C, "1.13C" },
-        { GameVersion::k1_13D, "1.13D" },
-        { GameVersion::kClassic1_14A, "Classic 1.14A" },
-        { GameVersion::kLod1_14A, "LoD 1.14A" },
-        { GameVersion::kClassic1_14B, "Classic 1.14B" },
-        { GameVersion::kLod1_14B, "LoD 1.14B" },
-        { GameVersion::kClassic1_14C, "Classic 1.14C" },
-        { GameVersion::kLod1_14C, "LoD 1.14C" },
-        { GameVersion::kClassic1_14D, "Classic 1.14D" },
-        { GameVersion::kLod1_14D, "LoD 1.14D" }
-  };
+static const std::unordered_map<
+    GameVersion, GameDataInfo
+> kGameDataInfoByGameVersion = {
+    {
+        GameVersion::k1_01, {
+            0xF0,
+            "D2Client.dll",
+            GameVersion::k1_00,
+            GameVersion::k1_01,
+            { 0xF0 }
+        }
+    }, {
+        GameVersion::k1_06, {
+            0xE8,
+            "D2Client.dll",
+            GameVersion::k1_06,
+            GameVersion::k1_06B,
+            { 0x3F }
+        }
+    }, {
+        GameVersion::k1_07, {
+            0x3C,
+            "D2Client.dll",
+            GameVersion::k1_07Beta,
+            GameVersion::k1_07,
+            { 0xF0 }
+        }
+    }, {
+        GameVersion::kLod1_14A, {
+            0x120,
+            "Game.exe",
+            GameVersion::kClassic1_14A,
+            GameVersion::kLod1_14A,
+            { 0x38 }
+        }
+    }, {
+        GameVersion::kLod1_14B, {
+            0x110,
+            "Game.exe",
+            GameVersion::kClassic1_14B,
+            GameVersion::kLod1_14B,
+            { 0xAE }
+        }
+    }, {
+        GameVersion::kLod1_14C, {
+            0x110,
+            "Game.exe",
+            GameVersion::kClassic1_14C,
+            GameVersion::kLod1_14C,
+            { 0x52 }
+        }
+    }, {
+        GameVersion::kLod1_14C, {
+            0x128,
+            "Game.exe",
+            GameVersion::kClassic1_14D,
+            GameVersion::kLod1_14D,
+            { 0xC4 }
+        }
+    },
+};
 
-  return game_version_names_by_game_version_ids;
-}
-
-std::string
-ExtractFileVersionString(
+std::u8string ExtractFileVersionString(
     const std::filesystem::path& file_path
 ) {
   // All the code for this function originated from StackOverflow user
@@ -179,22 +224,12 @@ ExtractFileVersionString(
   );
 
   if (file_version_info_size == 0) {
-    std::wstring full_message = fmt::format(
-        kFunctionFailErrorFormat.data(),
-        __FILEW__,
-        __LINE__,
+    mapi::ExitOnWindowsFunctionFailureWithLastError(
         L"GetFileVersionInfoSizeW",
-        GetLastError()
+        GetLastError(),
+        __FILEW__,
+        __LINE__
     );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"GetFileVersionInfoSizeW Failed",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
   }
 
   // Get the file version info.
@@ -207,22 +242,12 @@ ExtractFileVersionString(
   );
 
   if (!is_get_file_version_info_success) {
-    std::wstring full_message = fmt::format(
-        kFunctionFailErrorFormat,
-        __FILEW__,
-        __LINE__,
+    mapi::ExitOnWindowsFunctionFailureWithLastError(
         L"GetFileVersionInfoW",
-        GetLastError()
+        GetLastError(),
+        __FILEW__,
+        __LINE__
     );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"GetFileVersionInfoW Failed",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
   }
 
   // Gather all of the information into the specified buffer, then check
@@ -238,29 +263,19 @@ ExtractFileVersionString(
   );
 
   if (!is_ver_query_value_success) {
-    std::wstring full_message = fmt::format(
-        kFunctionFailErrorFormat,
-        __FILEW__,
-        __LINE__,
+    mapi::ExitOnWindowsFunctionFailureWithLastError(
         L"VerQueryValueW",
-        GetLastError()
+        GetLastError(),
+        __FILEW__,
+        __LINE__
     );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"VerQueryValueW Failed",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
   }
 
   // Doesn't matter if you are on 32 bit or 64 bit,
   // DWORD is always 32 bits, so first two revision numbers
   // come from dwFileVersionMS, last two come from dwFileVersionLS
   return fmt::format(
-      "{}.{}.{}.{}",
+      u8"{}.{}.{}.{}",
       (version_info->dwFileVersionMS >> 16) & 0xFFFF,
       (version_info->dwFileVersionMS >> 0) & 0xFFFF,
       (version_info->dwFileVersionLS >> 16) & 0xFFFF,
@@ -268,176 +283,68 @@ ExtractFileVersionString(
   );
 }
 
-GameVersion
-DetermineGameVersionByFileVersion(
-    std::string_view version_string
+static GameVersion DetermineGameVersionByFileVersion(
+    std::u8string_view version_string
 ) {
-  const auto& game_versions_by_file_versions =
-      GetGameVersionsByFileVersions();
-
   try {
-    return game_versions_by_file_versions.at(version_string);
+    return kGameVersionsByFileVersions.at(version_string);
   } catch(const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
-        L"Could not determine the game version from the file version:"
-        L"\"{}\"";
+    std::wstring version_wide_string = mapi::ConvertUtf8ToWide(
+        version_string,
+        __FILEW__,
+        __LINE__
+    );
+
+    constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
+        L"the game version from the file version: \"{}\"";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
-        nowide::widen(version_string.data())
+        version_wide_string
     );
 
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
+    mapi::ExitOnGeneralFailure(
+        full_message,
         L"Failed to Determine Game Version",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 }
 
-GameVersion
-GetGameVersionByLibraryData(
+static GameVersion DetermineGameVersionByGameData(
     GameVersion game_version
 ) {
-  // When detecting game address, we need to specify the library as a path and
-  // not with the enum. The enum requires knowledge of the current game
-  // version, and if this function is called, we know that the game version is
-  // not yet known.
-
-  std::vector<BYTE> expected_values;
-  std::filesystem::path library_path;
-  std::intptr_t offset_value;
-  GameVersion matching_version;
-  GameVersion non_matching_version;
-
-  switch (game_version) {
-    case GameVersion::k1_01: {
-      expected_values = {
-          0xF0
-      };
-
-      library_path = "D2Client.dll";
-      offset_value = 0x3C;
-      matching_version = GameVersion::k1_00;
-      non_matching_version = GameVersion::k1_01;
-
-      break;
-    }
-
-    case GameVersion::k1_06: {
-      expected_values = {
-          0x3F
-      };
-
-      library_path = "D2Client.dll",
-      offset_value = 0xE8;
-      matching_version = GameVersion::k1_06;
-      non_matching_version = GameVersion::k1_06B;
-
-      break;
-    }
-
-    case GameVersion::k1_07: {
-      expected_values = {
-          0xF0
-      };
-
-      library_path = "D2Client.dll";
-      offset_value = 0x3C;
-      matching_version = GameVersion::k1_07Beta;
-      non_matching_version = GameVersion::k1_07;
-
-      break;
-    }
-
-    case GameVersion::kLod1_14A: {
-      expected_values = {
-          0x38
-      };
-
-      library_path = "Game.exe";
-      offset_value = 0x120;
-      matching_version = GameVersion::kClassic1_14A;
-      non_matching_version = GameVersion::kLod1_14A;
-
-      break;
-    }
-
-    case GameVersion::kLod1_14B: {
-      expected_values = {
-          0xAE
-      };
-
-      library_path = "Game.exe";
-      offset_value = 0x110;
-      matching_version = GameVersion::kClassic1_14B;
-      non_matching_version = GameVersion::kLod1_14B;
-
-      break;
-    }
-
-    case GameVersion::kLod1_14C: {
-      expected_values = {
-          0x52
-      };
-
-      library_path = "Game.exe";
-      offset_value = 0x110;
-      matching_version = GameVersion::kClassic1_14C;
-      non_matching_version = GameVersion::kLod1_14C;
-
-      break;
-    }
-
-   case GameVersion::kLod1_14D: {
-      expected_values = {
-          0xC4
-      };
-
-      library_path = "Game.exe";
-      offset_value = 0x128;
-      matching_version = GameVersion::kClassic1_14D;
-      non_matching_version = GameVersion::kLod1_14D;
-
-      break;
-    }
-
-    default: {
-      return game_version;
-    }
+  if (!kGameDataInfoByGameVersion.contains(game_version)) {
+    return game_version;
   }
 
+  const GameDataInfo& game_data_info = kGameDataInfoByGameVersion.at(
+      game_version
+  );
+
   mapi::GameAddress game_address = mapi::GameAddress::FromOffset(
-      std::move(library_path),
-      offset_value
+      game_data_info.library_path,
+      game_data_info.offset_value
   );
 
   std::intptr_t raw_address = game_address.raw_address();
 
   bool is_range_equal = std::equal(
-      expected_values.cbegin(),
-      expected_values.cend(),
+      game_data_info.expected_values.cbegin(),
+      game_data_info.expected_values.cend(),
       reinterpret_cast<const BYTE*>(raw_address)
   );
 
   if (is_range_equal) {
-    return matching_version;
+    return game_data_info.matching_version;
   } else {
-    return non_matching_version;
+    return game_data_info.non_matching_version;
   }
 }
 
-GameVersion
-DetermineRunningGameVersion() {
-  std::string game_version_string = ExtractFileVersionString(
+static GameVersion DetermineRunningGameVersion() {
+  std::u8string game_version_string = ExtractFileVersionString(
       mapi::GetGameExecutablePath()
   );
 
@@ -449,71 +356,55 @@ DetermineRunningGameVersion() {
 
   // Perform second stage game version detection by checking the bytes of game
   // libraries.
-  game_version = GetGameVersionByLibraryData(game_version);
+  game_version = DetermineGameVersionByGameData(game_version);
 
   return game_version;
 }
 
 } // namespace
 
-std::string_view
-GetGameVersionName(
-    GameVersion game_version
-) {
+std::u8string_view GetGameVersionName(GameVersion game_version) {
   try {
-    return GetGameVersionNamesByGameVersionIds().at(game_version);
+    return kGameVersionNamesByGameVersionIds.at(game_version);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
         L"Could not determine the game version name from the game version ID: "
         L"{}.";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
         static_cast<int>(game_version)
     );
 
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
+    mapi::ExitOnGeneralFailure(
+        full_message,
         L"Failed to Determine Game Version ID",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 }
 
-GameVersion
-GetRunningGameVersionId() {
-  static GameVersion running_game_version_id =
-      DetermineRunningGameVersion();
+GameVersion GetRunningGameVersionId() {
+  static GameVersion running_game_version_id = DetermineRunningGameVersion();
+
   return running_game_version_id;
 }
 
-std::string_view
-GetRunningGameVersionName() {
-  static std::string_view running_game_version_name = GetGameVersionName(
+std::u8string_view GetRunningGameVersionName() {
+  static std::u8string_view running_game_version_name = GetGameVersionName(
       GetRunningGameVersionId()
   );
   return running_game_version_name;
 }
 
-bool IsGameVersionAtLeast1_14(
-    GameVersion game_version
-) {
+bool IsGameVersionAtLeast1_14(GameVersion game_version) {
   return !(game_version >= GameVersion::k1_00
-               && game_version <= GameVersion::k1_13D);
+      && game_version <= GameVersion::k1_13D);
 }
 
 bool IsRunningGameVersionAtLeast1_14() {
-  return IsGameVersionAtLeast1_14(
-      GetRunningGameVersionId()
-  );
+  return IsGameVersionAtLeast1_14(GetRunningGameVersionId());
 }
 
 } // namespace d2
