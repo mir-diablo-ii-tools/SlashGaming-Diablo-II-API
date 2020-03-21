@@ -47,7 +47,6 @@
 
 #include <unordered_map>
 
-#include "../../include/c/game_branch_type.h"
 #include "../../include/cxx/game_branch_type.hpp"
 
 namespace mapi {
@@ -67,18 +66,3 @@ OpCode ToOpcode(BranchType branch_type) {
 }
 
 } // namespace mapi
-
-
-mapi::OpCode MAPI_ToOpcode(int branch_type) {
-  using MAPI_BranchTypeAndOpcodeMapType = std::unordered_map<
-      int,
-      mapi::OpCode
-  >;
-
-  static const MAPI_BranchTypeAndOpcodeMapType op_codes_by_branch_types = {
-      { MAPI_BranchType::BRANCH_CALL, mapi::OpCode::kCall },
-      { MAPI_BranchType::BRANCH_JUMP, mapi::OpCode::kJump },
-  };
-
-  return op_codes_by_branch_types.at(branch_type);
-}

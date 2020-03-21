@@ -48,7 +48,6 @@
 
 #include <cstdint>
 
-#include "../../include/c/game_branch_type.h"
 #include "../../include/cxx/game_branch_type.hpp"
 
 namespace mapi {
@@ -62,7 +61,5 @@ enum class OpCode : std::uint8_t {
 OpCode ToOpcode(BranchType branch_type);
 
 } // namespace mapi
-
-mapi::OpCode MAPI_ToOpcode(int branch_type);
 
 #endif // SGD2MAPI_CXX_ARCHITECTURE_OPCODE_HPP_
