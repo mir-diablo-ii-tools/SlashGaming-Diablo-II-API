@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,8 +48,7 @@
 
 #include <cstdint>
 #include <filesystem>
-
-#include "../../include/cxx/default_game_library.hpp"
+#include <map>
 
 namespace mapi {
 
@@ -59,75 +58,49 @@ namespace mapi {
 class GameLibrary {
  public:
   /**
-   * Creates a new instance of a GameLibrary using the default library ID.
+   * Creates a new instance of a GameLibrary using the library path.
    */
-  explicit GameLibrary(DefaultLibrary library);
+  explicit GameLibrary(const std::filesystem::path& file_path);
 
   /**
    * Creates a new instance of a GameLibrary using the library path.
    */
-  explicit GameLibrary(
-      const std::filesystem::path& library_path
-  );
+  explicit GameLibrary(std::filesystem::path&& file_path);
 
-  /**
-   * Creates a new instance of a GameLibrary using the library path.
-   */
-  explicit GameLibrary(
-      std::filesystem::path&& library_path
-  );
+  GameLibrary(const GameLibrary& rhs);
 
-  GameLibrary(
-      const GameLibrary& rhs
-  );
+  GameLibrary(GameLibrary&& rhs) noexcept;
 
-  GameLibrary(
-      GameLibrary&& rhs
-  );
+  virtual ~GameLibrary();
 
-  virtual
-  ~GameLibrary(
-      void
-  );
+  GameLibrary& operator=(const GameLibrary& rhs);
 
-  GameLibrary&
-  operator=(
-      const GameLibrary& rhs
-  );
+  GameLibrary& operator=(GameLibrary&& rhs) noexcept;
 
-  GameLibrary&
-  operator=(
-      GameLibrary&& rhs
+  static const GameLibrary& GetGameLibrary(
+      const std::filesystem::path& file_path
   );
 
   /**
    * Returns the base address value of this GameLibrary.
    */
-  std::intptr_t
-  base_address(
-      void
-  ) const noexcept;
+  std::intptr_t base_address() const noexcept;
 
   /**
    * Returns the library path of this GameLibrary.
    */
-  const std::filesystem::path&
-  library_path(
-      void
-  ) const noexcept;
+  const std::filesystem::path& file_path() const noexcept;
 
  private:
-  std::filesystem::path library_path_;
+  static std::map<std::filesystem::path, GameLibrary> libraries_by_paths;
+
+  std::filesystem::path file_path_;
   std::intptr_t base_address_;
+
+  std::intptr_t LoadGameLibraryBaseAddress(
+      const std::filesystem::path& library_path
+  );
 };
-
-const GameLibrary&
-GetGameLibrary(DefaultLibrary library);
-
-const GameLibrary&
-GetGameLibrary(
-    const std::filesystem::path& library_path
-);
 
 } // namespace mapi
 
