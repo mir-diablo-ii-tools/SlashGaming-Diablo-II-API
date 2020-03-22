@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_WIDE_MACRO_H_
-#define SGD2MAPI_WIDE_MACRO_H_
+#ifndef SGMAPI_WIDE_MACRO_H_
+#define SGMAPI_WIDE_MACRO_H_
 
 #ifndef MAPI_CAT
 #define MAPI_CAT(a, b) a##b
@@ -58,4 +58,4 @@
 #define __FILEW__ MAPI_WIDE_LIT(__FILE__)
 #endif /* __FILEW__ */
 
-#endif /* SGD2MAPI_WIDE_MACRO_H_ */
+#endif /* SGMAPI_WIDE_MACRO_H_ */
