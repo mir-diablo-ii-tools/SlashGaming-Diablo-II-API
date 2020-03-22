@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,10 +47,8 @@
  * Warning: This header should never be used in any public interface!
  */
 
-#ifndef SGD2MAPI_ASM_X86_MACRO_H_
-#define SGD2MAPI_ASM_X86_MACRO_H_
-
-#if defined(_MSC_VER)
+#ifndef SGMAPI_ASM_X86_MACRO_H_
+#define SGMAPI_ASM_X86_MACRO_H_
 
 #define ASM_X86(...) \
     __asm { \
@@ -59,15 +57,19 @@
 
 #define ASM_X86_FUNC(name) name
 
+#define ASM_X86_LABEL(name) name:
+
 #else
 
 #define ASM_X86(...) \
-    asm( \
+    __asm( \
         #__VA_ARGS__ \
     );
 
 #define ASM_X86_FUNC(name) _##name
 
+#define ASM_X86_LABEL(name) ASM_X86(name:)
+
 #endif
 
-#endif /* SGD2MAPI_ASM_X86_MACRO_H_ */
+#endif /* SGMAPI_ASM_X86_MACRO_H_ */
