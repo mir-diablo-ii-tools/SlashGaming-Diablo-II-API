@@ -46,8 +46,8 @@
 #ifndef SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
 #define SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
 
-#include <string_view>
 #include <windows.h>
+#include <string_view>
 
 namespace mapi {
 
