@@ -55,6 +55,7 @@
 
 #include <fmt/format.h>
 #include <mjsoni/rapid_json_config_reader.hpp>
+#include "error_handling.hpp"
 
 namespace mapi {
 namespace {
@@ -84,12 +85,10 @@ constexpr std::string_view kAddressTableDirectoryPathKey =
 const std::filesystem::path kDefaultAddressTableDirectoryPath =
     "Address Table";
 
-std::map<std::string, std::once_flag> once_flags_by_json_keys;
+static const std::filesystem::path kConfigPath = "SlashGaming-Config.json";
 
-const std::filesystem::path& GetConfigPath() {
-  static std::filesystem::path kConfigPath = "SlashGaming-Config.json";
-  return kConfigPath;
-}
+static std::map<std::string, std::once_flag> once_flags_by_json_keys;
+
 
 template <typename ...Args>
 std::once_flag& GetOnceFlag(const Args&... json_keys) {
@@ -276,51 +275,37 @@ mjsoni::RapidJsonConfigReader ReadConfig(
   bool is_read = config_reader.Read();
   if (!is_read) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
         L"Failed to read config in: {}";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
         config_file_path.wstring().data()
     );
 
-    MessageBoxW(
-        nullptr,
+    ExitOnGeneralFailure(
         full_message.data(),
         L"Failed to Read Config",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 
   bool is_missing_entry_added = AddMissingConfigEntries(config_reader);
   if (!is_missing_entry_added) {
     constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
         L"Failed add missing entries to the config in: {}";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
         config_file_path.wstring().data()
     );
 
-    MessageBoxW(
-        nullptr,
+    ExitOnGeneralFailure(
         full_message.data(),
         L"Failed to Add Missing Entries to Config",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 
   return config_reader;
@@ -328,7 +313,7 @@ mjsoni::RapidJsonConfigReader ReadConfig(
 
 mjsoni::RapidJsonConfigReader& GetConfigReader() {
   static mjsoni::RapidJsonConfigReader config_reader =
-      ReadConfig(GetConfigPath());
+      ReadConfig(kConfigPath);
   return config_reader;
 }
 
@@ -352,7 +337,7 @@ GetAddressTableDirectoryPath() {
 }
 
 bool RefreshConfig() {
-  GetConfigReader() = ReadConfig(GetConfigPath());
+  GetConfigReader() = ReadConfig(kConfigPath);
   once_flags_by_json_keys.clear();
 
   return true;
