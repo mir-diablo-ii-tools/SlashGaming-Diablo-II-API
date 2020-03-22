@@ -67,13 +67,13 @@ class GameLibrary {
    */
   explicit GameLibrary(std::filesystem::path&& file_path);
 
-  GameLibrary(const GameLibrary& rhs);
+  GameLibrary(const GameLibrary& rhs) = delete;
 
   GameLibrary(GameLibrary&& rhs) noexcept;
 
   virtual ~GameLibrary();
 
-  GameLibrary& operator=(const GameLibrary& rhs);
+  GameLibrary& operator=(const GameLibrary& rhs) = delete;
 
   GameLibrary& operator=(GameLibrary&& rhs) noexcept;
 

@@ -75,11 +75,6 @@ GameLibrary::GameLibrary(
       base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
 }
 
-GameLibrary::GameLibrary(const GameLibrary& rhs)
-    : file_path_(rhs.file_path_),
-      base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
-};
-
 GameLibrary::GameLibrary(GameLibrary&& rhs) noexcept
     : file_path_(std::move(rhs.file_path_)),
       base_address_(std::move(rhs.base_address_)) {
@@ -92,17 +87,6 @@ GameLibrary::~GameLibrary() {
   if (module_handle != nullptr) {
     FreeLibrary(module_handle);
   }
-}
-
-GameLibrary& GameLibrary::operator=(const GameLibrary& rhs) {
-  if (this == &rhs) {
-    return *this;
-  }
-
-  this->file_path_ = rhs.file_path();
-  this->base_address_ = this->LoadGameLibraryBaseAddress(this->file_path());
-
-  return *this;
 }
 
 GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {
