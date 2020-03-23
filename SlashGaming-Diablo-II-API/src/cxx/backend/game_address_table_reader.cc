@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,21 +47,20 @@
 
 #include <windows.h>
 #include <cstdint>
-#include <cstdlib>
 #include <charconv>
 #include <filesystem>
 #include <fstream>
 #include <regex>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 
-#include <nowide/convert.hpp>
 #include <fmt/format.h>
+#include "../../wide_macro.h"
 #include "../../include/cxx/game_address.hpp"
-#include "../../include/cxx/default_game_library.hpp"
-#include "game_library.hpp"
 #include "../../include/cxx/game_version.hpp"
+#include "encoding.hpp"
+#include "error_handling.hpp"
+#include "game_library.hpp"
 
 namespace mapi {
 namespace {
@@ -74,14 +73,13 @@ constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
 constexpr std::string_view kLocatorTypeDecoratedName = "Decorated Name";
 constexpr std::string_view kLocatorTypeNA = "N/A";
 
-GameAddress
-ResolveAddress(
+GameAddress ResolveAddress(
     const std::filesystem::path& library_path,
     std::string_view address_name,
     std::string_view locator_type,
     std::string_view locator_value
 ) {
-  const GameLibrary& game_library = GetGameLibrary(library_path);
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
   std::intptr_t game_library_base_address = game_library.base_address();
 
   if (locator_type == kLocatorTypeOffset) {
@@ -105,9 +103,6 @@ ResolveAddress(
 
   // Should never occur!
   constexpr std::wstring_view kErrorFormatMessage =
-      L"File: {} \n"
-      L"Line: {} \n"
-      L"\n"
       L"Unknown locator type specified. \n"
       L"\n"
       L"Library Path: {} \n"
@@ -115,30 +110,43 @@ ResolveAddress(
       L"Locator Type: {} \n"
       L"Locator Value: {}";
 
+  std::wstring address_name_wide = ConvertMultiByteUtf8ToWide(
+      address_name,
+      __FILEW__,
+      __LINE__
+  );
+
+  std::wstring locator_type_wide = ConvertMultiByteUtf8ToWide(
+      locator_type,
+      __FILEW__,
+      __LINE__
+  );
+
+  std::wstring locator_value_wide = ConvertMultiByteUtf8ToWide(
+      locator_value,
+      __FILEW__,
+      __LINE__
+  );
+
   std::wstring full_message = fmt::format(
       kErrorFormatMessage,
+      library_path.wstring(),
+      address_name_wide,
+      locator_type_wide,
+      locator_value_wide
+  );
+
+  ExitOnGeneralFailure(
+      full_message,
+      L"Unknown Locator Type",
       __FILEW__,
-      __LINE__,
-      library_path.wstring().data(),
-      nowide::widen(address_name.data()),
-      nowide::widen(locator_type.data()),
-      nowide::widen(locator_value.data())
+      __LINE__
   );
-
-  MessageBoxW(
-      nullptr,
-      full_message.data(),
-      L"Unkown Locator Type",
-      MB_OK | MB_ICONERROR
-  );
-
-  std::exit(0);
 }
 
 } // namespace
 
-std::unordered_map<std::string, GameAddress>
-ReadTsvTableFile(
+GameAddressTable ReadTsvTableFile(
     const std::filesystem::path& table_file_path
 ) {
   static const std::regex kLineRegex(
@@ -149,54 +157,38 @@ ReadTsvTableFile(
   // Open the file and check for it to be valid.
   if (!std::filesystem::exists(table_file_path)) {
     constexpr std::wstring_view kErrorFormatMessage =
-          L"File: {} \n"
-          L"Line: {} \n"
-          L"\n"
-          L"The file {} does not exist.";
+        L"The file {} does not exist.";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
-        table_file_path.wstring().data()
+        table_file_path.wstring()
     );
 
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
+    ExitOnGeneralFailure(
+        full_message,
         L"Could Not Locate Address Table",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 
-  std::ifstream address_table_file_stream(
-      table_file_path
-  );
+  std::ifstream address_table_file_stream(table_file_path);
 
   if (!address_table_file_stream) {
     constexpr std::wstring_view kErrorFormatMessage =
-          L"File: {} \n"
-          L"Line: {} \n"
-          L"\n"
-          L"The address table in {} could not be opened.";
+        L"The address table in {} could not be opened.";
 
     std::wstring full_message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
-        table_file_path.wstring().data()
+        table_file_path.wstring()
     );
 
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
+    ExitOnGeneralFailure(
+        full_message,
         L"Could Not Open Address Table",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 
   // Discard the header line, because it's for humans.
@@ -205,7 +197,7 @@ ReadTsvTableFile(
       '\n'
   );
 
-  std::unordered_map<std::string, GameAddress> address_table;
+  GameAddressTable address_table;
 
   // Read each line.
   for (std::string line; std::getline(address_table_file_stream, line); ) {
@@ -231,15 +223,14 @@ ReadTsvTableFile(
         locator_value
     );
 
-    library_path.replace_extension();
+    if (!address_table.contains(library_path)) {
+      address_table.insert_or_assign(library_path, GameAddressTable::mapped_type());
+    }
 
-    std::string full_address_name = library_path.filename().string()
-        + "_"
-        + address_name;
-
-    address_table.insert_or_assign(
-        std::move(full_address_name),
-        resolved_game_address
+    GameAddressTable::mapped_type& library_entries = address_table.at(library_path);
+    library_entries.insert_or_assign(
+        address_name,
+        std::move(resolved_game_address)
     );
   }
 

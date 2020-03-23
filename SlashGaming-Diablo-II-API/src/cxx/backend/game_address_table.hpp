@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,20 +46,15 @@
 #ifndef SGD2MAPI_CXX_GAME_ADDRESS_TABLE_HPP_
 #define SGD2MAPI_CXX_GAME_ADDRESS_TABLE_HPP_
 
-#include <cstdint>
+#include <filesystem>
 #include <string_view>
 
 #include "../../include/cxx/game_address.hpp"
 
 namespace mapi {
 
-const GameAddress&
-GetGameAddress(
-    std::string_view address_name
-);
-
-std::intptr_t
-GetRawAddress(
+const GameAddress& GetGameAddress(
+    std::filesystem::path library_path,
     std::string_view address_name
 );
 

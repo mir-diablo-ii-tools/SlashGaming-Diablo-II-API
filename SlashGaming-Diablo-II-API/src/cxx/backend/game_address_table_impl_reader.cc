@@ -43,52 +43,36 @@
  *  work.
  */
 
-#include "game_address_table.hpp"
-
-#include <filesystem>
-#include <stdexcept>
-#include <string>
-#include <string_view>
-
-#include <fmt/format.h>
-#include "../../wide_macro.h"
-#include "encoding.hpp"
-#include "error_handling.hpp"
 #include "game_address_table_impl.hpp"
 
+#include "../../../include/cxx/game_version.hpp"
+#include "config.hpp"
+#include "game_address_table_reader.hpp"
+
+#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
+
 namespace mapi {
+namespace {
 
-const GameAddress& GetGameAddress(
-    std::filesystem::path library_path,
-    std::string_view address_name
-) {
-  static GameAddressTable game_address_table = LoadGameAddressTable();
+static std::filesystem::path GetTableFilePath() {
+  const std::filesystem::path& address_table_directory =
+      GetAddressTableDirectoryPath();
+  std::u8string_view running_game_version_name =
+      d2::GetRunningGameVersionName();
 
-  try {
-    return game_address_table.at(library_path).at(address_name);
-  } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"Address not defined for library: {}, address name: {}.";
+  std::filesystem::path table_file_path(address_table_directory);
+  table_file_path /= running_game_version_name;
+  table_file_path += u8".txt";
 
-    std::wstring address_name_wide = ConvertMultiByteUtf8ToWide(
-        address_name,
-        __FILEW__,
-        __LINE__
-    );
+  return table_file_path;
+}
 
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        library_path.wstring(),
-        address_name_wide
-    );
+} // namespace
 
-    ExitOnGeneralFailure(
-        full_message,
-        L"Address Not Defined",
-        __FILEW__,
-        __LINE__
-    );
-  }
+GameAddressTable LoadGameAddressTable() {
+  return ReadTsvTableFile(GetTableFilePath());
 }
 
 } // namespace mapi
+
+#endif // SGMAPI_READ_ADDRESS_FROM_TXT_TABLE

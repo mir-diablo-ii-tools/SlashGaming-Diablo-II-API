@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,15 +48,25 @@
 
 #include <cstdint>
 #include <filesystem>
-#include <string>
+#include <map>
+#include <string_view>
 #include <unordered_map>
 
 #include "../../include/cxx/game_address.hpp"
 
 namespace mapi {
 
-std::unordered_map<std::string, GameAddress>
-ReadTsvTableFile(
+using GameAddressTable = std::map<
+    // Library path
+    std::filesystem::path,
+
+    // Address Name -> Game Address
+    std::unordered_map<
+        std::string_view, GameAddress
+    >
+>;
+
+GameAddressTable ReadTsvTableFile(
     const std::filesystem::path& file_path
 );
 
