@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,16 +45,16 @@
 
 #include "../../include/cxx/game_patch.hpp"
 
+#include <windows.h>
 #include <cstddef>
 #include <cstdint>
 #include <utility>
 #include <vector>
 
-#include "../../include/c/game_patch.h"
-#include "architecture_opcode.hpp"
+#include <fmt/format.h>
 #include "../../include/cxx/game_address.hpp"
-#include "game_patch/game_back_branch_patch_buffer.hpp"
-#include "game_patch/game_branch_patch_buffer.hpp"
+#include "backend/architecture_opcode.hpp"
+#include "backend/error_handling.hpp"
 
 namespace mapi {
 
@@ -115,167 +115,76 @@ GamePatch::GamePatch(
 }
 
 void GamePatch::Apply() {
-  MAPI_GamePatch c_game_patch;
-  c_game_patch.patch_size = patch_buffer_.size();
-  c_game_patch.game_address.raw_address = game_address_.raw_address();
-  c_game_patch.is_patch_applied = is_patch_applied_;
-  c_game_patch.old_buffer = unpatched_buffer_.data();
-  c_game_patch.patch_buffer = patch_buffer_.data();
+  if (this->is_patch_applied()) {
+    return;
+  }
 
-  MAPI_GamePatch_Apply(&c_game_patch);
+  std::intptr_t raw_address = this->game_address().raw_address();
 
-  is_patch_applied_ = c_game_patch.is_patch_applied;
+  // Restore the old state of the destination.
+  BOOL write_success = WriteProcessMemory(
+      GetCurrentProcess(),
+      (void*) raw_address,
+      this->patch_buffer().data(),
+      this->patch_buffer().size(),
+      nullptr
+  );
+
+  if (!write_success) {
+    ExitOnWindowsFunctionFailureWithLastError(
+        L"WriteProcessMemory",
+        GetLastError(),
+        __FILEW__,
+        __LINE__
+    );
+  }
+
+  this->is_patch_applied_ = true;
 }
 
 void GamePatch::Remove() {
-  MAPI_GamePatch c_game_patch;
-  c_game_patch.patch_size = patch_buffer_.size();
-  c_game_patch.game_address.raw_address = game_address_.raw_address();
-  c_game_patch.is_patch_applied = is_patch_applied_;
-  c_game_patch.old_buffer = unpatched_buffer_.data();
-  c_game_patch.patch_buffer = patch_buffer_.data();
+  if (!this->is_patch_applied()) {
+    return;
+  }
 
-  MAPI_GamePatch_Remove(&c_game_patch);
+  std::intptr_t raw_address = this->game_address().raw_address();
 
-  is_patch_applied_ = c_game_patch.is_patch_applied;
+  // Restore the old state of the destination.
+  BOOL write_success = WriteProcessMemory(
+      GetCurrentProcess(),
+      (void*) raw_address,
+      this->unpatched_buffer().data(),
+      this->unpatched_buffer().size(),
+      nullptr
+  );
+
+  if (!write_success) {
+    ExitOnWindowsFunctionFailureWithLastError(
+        L"WriteProcessMemory",
+        GetLastError(),
+        __FILEW__,
+        __LINE__
+    );
+  }
+
+  this->is_patch_applied_ = false;
 }
 
-GamePatch GamePatch::MakeGameBackBranchPatch(
-    const GameAddress& game_address,
-    BranchType branch_type,
-    void (*func_ptr)(),
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
-      game_address,
-      branch_type,
-      func_ptr,
-      patch_size
-  );
-
-  return GamePatch(
-      game_address,
-      std::move(patch_buffer)
-  );
+const GameAddress& GamePatch::game_address() const noexcept {
+  return this->game_address_;
 }
 
-GamePatch GamePatch::MakeGameBackBranchPatch(
-    GameAddress&& game_address,
-    BranchType branch_type,
-    void (*func_ptr)(),
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer = CreateGameBackBranchPatchBuffer(
-      game_address,
-      branch_type,
-      func_ptr,
-      patch_size
-  );
-
-  return GamePatch(
-      std::move(game_address),
-      std::move(patch_buffer)
-  );
+bool GamePatch::is_patch_applied() const noexcept {
+  return this->is_patch_applied_;
 }
 
-GamePatch GamePatch::MakeGameBranchPatch(
-    const GameAddress& game_address,
-    BranchType branch_type,
-    void (*func_ptr)(),
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
-      game_address,
-      branch_type,
-      func_ptr,
-      patch_size
-  );
-
-  return GamePatch(
-      game_address,
-      std::move(patch_buffer)
-  );
+const std::vector<std::uint8_t>& GamePatch::patch_buffer() const noexcept {
+  return this->patch_buffer_;
 }
 
-GamePatch GamePatch::MakeGameBranchPatch(
-    GameAddress&& game_address,
-    BranchType branch_type,
-    void (*func_ptr)(),
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer = CreateGameBranchPatchBuffer(
-      game_address,
-      branch_type,
-      func_ptr,
-      patch_size
-  );
-
-  return GamePatch(
-      std::move(game_address),
-      std::move(patch_buffer)
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    const GameAddress& game_address,
-    const std::uint8_t* patch_buffer,
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer_vector(
-      patch_buffer,
-      patch_buffer + patch_size
-  );
-
-  return GamePatch(
-      game_address,
-      std::move(patch_buffer_vector)
-  );
-}
-
-GamePatch GamePatch::MakeGameBufferPatch(
-    GameAddress&& game_address,
-    const std::uint8_t* patch_buffer,
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer_vector(
-      patch_buffer,
-      patch_buffer + patch_size
-  );
-
-  return GamePatch(
-      std::move(game_address),
-      std::move(patch_buffer_vector)
-  );
-}
-
-GamePatch GamePatch::MakeGameNopPatch(
-    const GameAddress& game_address,
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer(
-      patch_size,
-      static_cast<std::uint8_t>(OpCode::kNop)
-  );
-
-  return GamePatch(
-      game_address,
-      std::move(patch_buffer)
-  );
-}
-
-GamePatch GamePatch::MakeGameNopPatch(
-    GameAddress&& game_address,
-    std::size_t patch_size
-) {
-  std::vector<std::uint8_t> patch_buffer(
-      patch_size,
-      static_cast<std::uint8_t>(OpCode::kNop)
-  );
-
-  return GamePatch(
-      std::move(game_address),
-      std::move(patch_buffer)
-  );
+const std::vector<std::uint8_t>&
+GamePatch::unpatched_buffer() const noexcept {
+  return this->unpatched_buffer_;
 }
 
 } // namespace mapi

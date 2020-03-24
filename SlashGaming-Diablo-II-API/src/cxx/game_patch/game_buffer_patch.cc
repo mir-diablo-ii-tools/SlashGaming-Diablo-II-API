@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,36 +43,36 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
-#define SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_
-
-#include <cstddef>
-#include <cstdint>
-#include <memory>
-#include <vector>
-
-#include "../../../include/c/game_address.h"
-#include "../../../include/cxx/game_address.hpp"
-#include "../../../include/cxx/game_branch_type.hpp"
 #include "../../../include/cxx/game_patch.hpp"
 
 namespace mapi {
 
-std::vector<std::uint8_t>
-CreateGameBackBranchPatchBuffer(
+GamePatch GamePatch::MakeGameBufferPatch(
     const GameAddress& game_address,
-    BranchType branch_type,
-    void (*func_ptr)(),
+    const std::uint8_t* patch_buffer,
     std::size_t patch_size
-);
+) {
+  return GamePatch::MakeGameBufferPatch(
+      GameAddress(game_address),
+      patch_buffer,
+      patch_size
+  );
+}
+
+GamePatch GamePatch::MakeGameBufferPatch(
+    GameAddress&& game_address,
+    const std::uint8_t* patch_buffer,
+    std::size_t patch_size
+) {
+  std::vector<std::uint8_t> patch_buffer_vector(
+      patch_buffer,
+      patch_buffer + patch_size
+  );
+
+  return GamePatch(
+      std::move(game_address),
+      std::move(patch_buffer_vector)
+  );
+}
 
 } // namespace mapi
-
-std::unique_ptr<std::uint8_t[]> MAPI_CreateGameBackBranchPatchBuffer(
-    const MAPI_GameAddress& game_address,
-    int branch_type_id,
-    void (*func_ptr)(),
-    std::size_t patch_size
-);
-
-#endif // SGD2MAPI_CXX_GAME_PATCH_GAME_BACK_BRANCH_PATCH_BUFFER_HPP_

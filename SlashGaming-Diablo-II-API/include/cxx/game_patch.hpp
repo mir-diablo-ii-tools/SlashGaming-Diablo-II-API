@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -172,7 +172,10 @@ class DLLEXPORT GamePatch {
     static_assert (std::is_same<Iter::value_type, std::uint8_t>::value
         || std::is_same<Iter::value_type, std::int8_t>::value);
 
-    return GamePatch(game_address, std::vector<std::uint8_t>(first, last));
+    return GamePatch(
+        std::move(game_address),
+        std::vector<std::uint8_t>(first, last)
+    );
   }
 
   /**
@@ -215,6 +218,11 @@ class DLLEXPORT GamePatch {
       GameAddress&& game_address,
       std::vector<std::uint8_t>&& patch_buffer
   );
+
+  const GameAddress& game_address() const noexcept;
+  bool is_patch_applied() const noexcept;
+  const std::vector<std::uint8_t>& patch_buffer() const noexcept;
+  const std::vector<std::uint8_t>& unpatched_buffer() const noexcept;
 
   GameAddress game_address_;
   bool is_patch_applied_;

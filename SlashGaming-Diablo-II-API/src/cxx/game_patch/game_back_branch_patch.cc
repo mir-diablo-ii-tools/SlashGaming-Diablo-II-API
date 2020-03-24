@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,126 +43,85 @@
  *  work.
  */
 
-#include "game_branch_patch_buffer.hpp"
-
-#include <windows.h>
-#include <cstddef>
-#include <cstdint>
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
-#include <fmt/format.h>
-#include "../../../include/c/game_address.h"
-#include "../../../include/c/game_patch/game_back_branch_patch.h"
-#include "../architecture_opcode.hpp"
-#include "../../../include/cxx/game_address.hpp"
 #include "../../../include/cxx/game_patch.hpp"
 
+#include <fmt/format.h>
+#include "../../wide_macro.h"
+#include "../backend/architecture_opcode.hpp"
+#include "../backend/error_handling.hpp"
+
 namespace mapi {
-namespace {
 
-void InitGameBackBranchPatchBuffer(
-    std::uint8_t* game_patch_buffer,
-    std::intptr_t raw_target_address,
-    std::uint8_t opcode_value,
-    std::intptr_t func_ptr,
-    std::size_t patch_size
-) {
-  // Check that the patch size is large enough to allow the insertion of the
-  // branch call.
-  if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
-    constexpr std::wstring_view kErrorFormatMessage =
-          L"File: {} \n"
-          L"Line: {} \n"
-          L"\n"
-          L"The patch size specified at address {:X} is too small to perform a "
-          L"branch patch.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
-        raw_target_address
-    );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"Failed to Patch Game",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
-  }
-
-  // Fill the buffer with NOPs.
-  std::fill_n(
-      game_patch_buffer,
-      patch_size,
-      static_cast<std::uint8_t>(mapi::OpCode::kNop)
-  );
-
-  // Set the (last - sizeof(func_ptr)) byte in the buffer to the branch operation opcode byte.
-  std::size_t back_branch_start = patch_size
-      - (sizeof(func_ptr) + sizeof(std::uint8_t));
-
-  game_patch_buffer[back_branch_start] = static_cast<std::uint8_t>(opcode_value);
-
-  // Set the next bytes to the address of the inserted function.
-  std::intptr_t func_buffer = func_ptr - (raw_target_address + patch_size);
-
-  for (std::size_t i = 0; i < sizeof(func_buffer); i += 1) {
-    game_patch_buffer[(back_branch_start + 1) + i] =
-        (func_buffer >> (i * (sizeof(game_patch_buffer[0]) * 8))) & 0xFF;
-  }
-}
-
-} // namespace
-
-std::vector<std::uint8_t>
-CreateGameBackBranchPatchBuffer(
+GamePatch GamePatch::MakeGameBackBranchPatch(
     const GameAddress& game_address,
     BranchType branch_type,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
-  std::vector<std::uint8_t> back_branch_patch_buffer(patch_size);
-
-  OpCode actual_branch_type = ToOpcode(branch_type);
-
-  InitGameBackBranchPatchBuffer(
-      back_branch_patch_buffer.data(),
-      game_address.raw_address(),
-      static_cast<std::uint8_t>(actual_branch_type),
-      reinterpret_cast<std::intptr_t>(func_ptr),
+  return GamePatch::MakeGameBackBranchPatch(
+      GameAddress(game_address),
+      branch_type,
+      func_ptr,
       patch_size
   );
-
-  return back_branch_patch_buffer;
 }
 
-} // namespace mapi
-
-std::unique_ptr<std::uint8_t[]> MAPI_CreateGameBackBranchPatchBuffer(
-    const MAPI_GameAddress& game_address,
-    int branch_type_id,
+GamePatch GamePatch::MakeGameBackBranchPatch(
+    GameAddress&& game_address,
+    BranchType branch_type,
     void (*func_ptr)(),
     std::size_t patch_size
 ) {
-  std::unique_ptr back_branch_patch_buffer =
-      std::make_unique<std::uint8_t[]>(patch_size);
-
-  mapi::OpCode actual_branch_type = MAPI_ToOpcode(branch_type_id);
-
-  mapi::InitGameBackBranchPatchBuffer(
-      back_branch_patch_buffer.get(),
-      game_address.raw_address,
-      static_cast<std::uint8_t>(actual_branch_type),
-      reinterpret_cast<std::intptr_t>(func_ptr),
-      patch_size
+  // Fill the buffer with NOPs.
+  std::vector<std::uint8_t> branch_patch_buffer(
+      patch_size,
+      static_cast<std::uint8_t>(OpCode::kNop)
   );
 
-  return back_branch_patch_buffer;
+  // Check that the patch size is large enough to allow the insertion of the
+  // branch call.
+  if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
+    constexpr std::wstring_view kErrorFormatMessage =
+          L"The patch size specified at address {:X} is too small to perform a "
+          L"branch patch.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        game_address.raw_address()
+    );
+
+    ExitOnGeneralFailure(
+        full_message,
+        L"Failed to Patch Game",
+        __FILEW__,
+        __LINE__
+    );
+  }
+
+  // Set the (last - sizeof(func_ptr)) byte in the buffer to the branch
+  // operation opcode byte.
+  std::size_t back_branch_start = patch_size
+      - (sizeof(func_ptr) + sizeof(std::uint8_t));
+
+  OpCode branch_opcode_value = ToOpcode(branch_type);
+
+  branch_patch_buffer.at(back_branch_start) =
+      static_cast<std::uint8_t>(branch_opcode_value);
+
+  // Set the next bytes to the address of the inserted function.
+  std::intptr_t func_buffer = reinterpret_cast<std::intptr_t>(func_ptr)
+      - game_address.raw_address()
+      - patch_size;
+
+  for (std::size_t i = 0; i < sizeof(func_buffer); i += 1) {
+    branch_patch_buffer.at(i + (back_branch_start + 1)) =
+        (func_buffer >> (i * (sizeof(branch_patch_buffer.at(0)) * 8))) & 0xFF;
+  }
+
+  return GamePatch(
+      std::move(game_address),
+      std::move(branch_patch_buffer)
+  );
 }
+
+} // namespace mapi
