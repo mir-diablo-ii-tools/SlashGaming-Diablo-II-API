@@ -56,11 +56,19 @@
 namespace mapi {
 namespace {
 
-static constexpr std::wstring_view kFunctionFailErrorFormat =
+static constexpr std::wstring_view kWindowsFunctionFailErrorFormat =
     L"File: {} \n"
     L"Line: {} \n"
     L"\n"
     L"The function {} failed with error code {:X}.";
+
+static constexpr std::wstring_view kWindowsFunctionGeneralFailErrorFormat =
+    L"File: {} \n"
+    L"Line: {} \n"
+    L"Function: {} \n"
+    L"GetLastError: {:X} \n"
+    L"\n"
+    L"{}";
 
 static constexpr std::wstring_view kGeneralFailErrorFormat =
     L"File: {} \n"
@@ -95,6 +103,43 @@ void ExitOnGeneralFailure(
   std::exit(EXIT_FAILURE);
 }
 
+[[noreturn]]
+void ExitOnWindowsFunctionGeneralFailureWithLastError(
+    std::wstring_view message,
+    std::wstring_view caption,
+    std::wstring_view function_name,
+    DWORD last_error,
+    std::wstring_view file_name,
+    int line
+){
+#ifndef NDEBUG
+  // Build the message string.
+  std::wstring full_message = fmt::format(
+      kWindowsFunctionGeneralFailErrorFormat,
+      file_name,
+      line,
+      function_name,
+      last_error,
+      message
+  );
+
+  // Build the caption string.
+  std::wstring full_caption = fmt::format(
+      L"{} Failed",
+      function_name
+  );
+
+  MessageBoxW(
+      NULL,
+      full_message.data(),
+      full_caption.data(),
+      MB_OK | MB_ICONERROR
+  );
+#endif // NDEBUG
+
+  std::exit(EXIT_FAILURE);
+}
+
 void ExitOnWindowsFunctionFailureWithLastError(
     std::wstring_view function_name,
     DWORD last_error,
@@ -104,7 +149,7 @@ void ExitOnWindowsFunctionFailureWithLastError(
 #ifndef NDEBUG
   // Build the message string.
   std::wstring full_message = fmt::format(
-      kFunctionFailErrorFormat,
+      kWindowsFunctionFailErrorFormat,
       file_name,
       line,
       function_name,

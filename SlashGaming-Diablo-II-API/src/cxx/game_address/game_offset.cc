@@ -43,40 +43,29 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
-#define SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
+#include "../../../include/cxx/game_address.hpp"
 
-#include <windows.h>
-#include <string_view>
+#include "../backend/game_library.hpp"
 
 namespace mapi {
 
-[[noreturn]]
-void ExitOnGeneralFailure(
-    std::wstring_view message,
-    std::wstring_view caption,
-    std::wstring_view file_name,
-    int line
-);
+GameAddress GameAddress::FromOffset(
+    DefaultLibrary default_library,
+    std::ptrdiff_t offset
+) {
+  const std::filesystem::path& game_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
 
-[[noreturn]]
-void ExitOnWindowsFunctionGeneralFailureWithLastError(
-    std::wstring_view message,
-    std::wstring_view caption,
-    std::wstring_view function_name,
-    DWORD last_error,
-    std::wstring_view file_name,
-    int line
-);
+  return FromOffset(game_library_path, offset);
+}
 
-[[noreturn]]
-void ExitOnWindowsFunctionFailureWithLastError(
-    std::wstring_view function_name,
-    DWORD last_error,
-    std::wstring_view file_name,
-    int line
-);
+GameAddress GameAddress::FromOffset(
+    const std::filesystem::path& library_path,
+    std::ptrdiff_t offset
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  return GameAddress(game_library.base_address() + offset);
+}
 
 } // namespace mapi
-
-#endif // SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_

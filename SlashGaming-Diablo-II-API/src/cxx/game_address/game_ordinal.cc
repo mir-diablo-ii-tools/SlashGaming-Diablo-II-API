@@ -43,40 +43,61 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
-#define SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
+#include "../../../include/cxx/game_address.hpp"
 
 #include <windows.h>
-#include <string_view>
+
+#include <fmt/format.h>
+#include "../backend/error_handling.hpp"
+#include "../backend/game_library.hpp"
 
 namespace mapi {
 
-[[noreturn]]
-void ExitOnGeneralFailure(
-    std::wstring_view message,
-    std::wstring_view caption,
-    std::wstring_view file_name,
-    int line
-);
+GameAddress GameAddress::FromOrdinal(
+    DefaultLibrary default_library,
+    std::int16_t ordinal
+) {
+  const std::filesystem::path& game_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
 
-[[noreturn]]
-void ExitOnWindowsFunctionGeneralFailureWithLastError(
-    std::wstring_view message,
-    std::wstring_view caption,
-    std::wstring_view function_name,
-    DWORD last_error,
-    std::wstring_view file_name,
-    int line
-);
+  return FromOrdinal(game_library_path, ordinal);
+}
 
-[[noreturn]]
-void ExitOnWindowsFunctionFailureWithLastError(
-    std::wstring_view function_name,
-    DWORD last_error,
-    std::wstring_view file_name,
-    int line
-);
+GameAddress GameAddress::FromOrdinal(
+    const std::filesystem::path& library_path,
+    std::int16_t ordinal
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  FARPROC func_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      reinterpret_cast<const char*>(ordinal)
+  );
+
+  if (func_address == nullptr) {
+    DWORD last_error = GetLastError();
+
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"The data or function with the ordinal {} from {} could not be "
+        L"found.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        ordinal,
+        game_library.file_path().wstring()
+    );
+
+    ExitOnWindowsFunctionGeneralFailureWithLastError(
+        full_message,
+        L"Failed to Locate Address",
+        L"GetProcAddress",
+        last_error,
+        __FILEW__,
+        __LINE__
+    );
+  }
+
+  return GameAddress(reinterpret_cast<std::intptr_t>(func_address));
+}
 
 } // namespace mapi
-
-#endif // SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_

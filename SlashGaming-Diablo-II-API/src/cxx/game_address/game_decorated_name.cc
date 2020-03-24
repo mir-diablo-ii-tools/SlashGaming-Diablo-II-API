@@ -43,40 +43,66 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
-#define SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
+#include "../../../include/cxx/game_address.hpp"
 
 #include <windows.h>
-#include <string_view>
+
+#include <fmt/format.h>
+#include "../backend/encoding.hpp"
+#include "../backend/error_handling.hpp"
+#include "../backend/game_library.hpp"
 
 namespace mapi {
 
-[[noreturn]]
-void ExitOnGeneralFailure(
-    std::wstring_view message,
-    std::wstring_view caption,
-    std::wstring_view file_name,
-    int line
-);
+GameAddress GameAddress::FromDecoratedName(
+    DefaultLibrary default_library,
+    std::string_view decorated_name
+) {
+  const std::filesystem::path& default_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
 
-[[noreturn]]
-void ExitOnWindowsFunctionGeneralFailureWithLastError(
-    std::wstring_view message,
-    std::wstring_view caption,
-    std::wstring_view function_name,
-    DWORD last_error,
-    std::wstring_view file_name,
-    int line
-);
+  return FromDecoratedName(default_library_path, decorated_name);
+}
 
-[[noreturn]]
-void ExitOnWindowsFunctionFailureWithLastError(
-    std::wstring_view function_name,
-    DWORD last_error,
-    std::wstring_view file_name,
-    int line
-);
+GameAddress GameAddress::FromDecoratedName(
+    const std::filesystem::path& library_path,
+    std::string_view decorated_name
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  FARPROC raw_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      decorated_name.data()
+  );
+
+  if (raw_address == nullptr) {
+    DWORD last_error = GetLastError();
+
+    constexpr std::wstring_view kErrorFormatMessage =
+        L"The data or function with the name {} could not be found.";
+
+    std::wstring wide_decorated_name = ConvertMultiByteUtf8ToWide(
+        decorated_name,
+        __FILEW__,
+        __LINE__
+    );
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        wide_decorated_name
+    );
+
+    ExitOnWindowsFunctionGeneralFailureWithLastError(
+        full_message,
+        L"Failed to Locate Address",
+        L"GetProcAddress",
+        last_error,
+        __FILEW__,
+        __LINE__
+    );
+  }
+
+  return GameAddress(reinterpret_cast<std::intptr_t>(raw_address));
+}
 
 } // namespace mapi
-
-#endif // SGMAPI_CXX_BACKEND_ERROR_HANDLING_HPP_
