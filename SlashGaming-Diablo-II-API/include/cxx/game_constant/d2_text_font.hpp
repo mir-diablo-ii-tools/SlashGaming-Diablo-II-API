@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
 #include "d2_constant_template.hpp"
 
