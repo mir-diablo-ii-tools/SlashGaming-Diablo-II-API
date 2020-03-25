@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,11 +46,31 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_
 
+#include <cstddef>
+#include <cstdint>
+
 namespace d2 {
+
+/**
+ * Generic struct declaration
+ */
 
 struct UnicodeChar;
 
-struct UnicodeChar_1_00;
+/**
+ * Version-specific struct definitions
+ */
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x2 */ struct UnicodeChar_1_00 {
+  /* 0x0 */std::uint16_t ch;
+};
+
+static_assert(sizeof(UnicodeChar_1_00) >= 0x02);
+static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
+
+#pragma pack(pop)
 
 } // namespace d2
 
