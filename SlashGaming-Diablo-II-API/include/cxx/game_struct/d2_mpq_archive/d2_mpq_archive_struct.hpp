@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -50,9 +50,17 @@
 
 namespace d2 {
 
-struct MPQArchive;
+/**
+ * Generic struct declaration
+ */
 
-struct MPQArchive_1_00;
+struct MpqArchive;
+
+/**
+ * Version-specific struct definitions
+ */
+
+struct MpqArchive_1_00;
 
 } // namespace d2
 
