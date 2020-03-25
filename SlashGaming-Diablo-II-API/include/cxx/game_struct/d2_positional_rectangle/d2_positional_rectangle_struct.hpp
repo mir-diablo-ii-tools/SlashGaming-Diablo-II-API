@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,39 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_STRUCT_HPP_
 
+#include <cstddef>
+#include <cstdint>
+
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
+/**
+ * Generic struct declaration
+ */
+
 struct PositionalRectangle;
 
-struct PositionalRectangle_1_00;
+/**
+ * Version-specific struct definitions
+ */
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x10 */ struct PositionalRectangle_1_00 {
+  /* 0x00 */ std::int32_t left;
+  /* 0x04 */ std::int32_t right;
+  /* 0x08 */ std::int32_t top;
+  /* 0x0C */ std::int32_t bottom;
+};
+
+static_assert(sizeof(PositionalRectangle_1_00) == 0x10);
+static_assert(offsetof(PositionalRectangle_1_00, left) == 0x00);
+static_assert(offsetof(PositionalRectangle_1_00, right) == 0x04);
+static_assert(offsetof(PositionalRectangle_1_00, top) == 0x08);
+static_assert(offsetof(PositionalRectangle_1_00, bottom) == 0x0C);
+
+#pragma pack(pop)
 
 } // namespace d2
 
