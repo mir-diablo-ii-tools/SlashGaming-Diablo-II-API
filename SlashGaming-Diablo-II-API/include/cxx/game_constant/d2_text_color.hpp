@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,15 +46,37 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_COLOR_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_COLOR_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
-#include "d2_constant.hpp"
+#include "d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
 enum class TextColor {
+  kWhite,
+  kRed,
+  kGreen,
+  kBlue,
+  kGold,
+  kDarkGrey,
+  kBlack,
+  kTan,
+  kOrange,
+  kYellow,
+  kDarkerGreen,
+  kPurple,
+  kDarkGreen,
+  kMetallic,
+  kLightGrey,
+  kCorrupt,
+  kBrightWhite,
+  kDarkRed,
+  kBrown
+};
+
+enum class TextColor_1_00 : std::int32_t {
   kWhite,
   kRed,
   kGreen,
@@ -80,15 +102,14 @@ enum class TextColor {
   kBrown
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    TextColor id
-);
+DLLEXPORT int ToGameValue(TextColor api_value);
+
+DLLEXPORT TextColor_1_00 ToGameValue_1_00(TextColor api_value);
 
 extern template DLLEXPORT
-TextColor ToAPIValue(
-    int value
-);
+TextColor ToApiValue<TextColor>(int game_value);
+
+DLLEXPORT TextColor ToApiValue_1_00(TextColor_1_00 game_value);
 
 } // namespace d2
 

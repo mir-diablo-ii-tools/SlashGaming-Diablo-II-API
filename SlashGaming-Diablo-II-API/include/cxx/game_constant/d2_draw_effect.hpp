@@ -1,6 +1,6 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API.
  *
@@ -48,6 +48,8 @@
 
 #include <cstdint>
 
+#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
+
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -78,7 +80,8 @@ DLLEXPORT int ToGameValue(DrawEffect api_value);
 
 DLLEXPORT DrawEffect_1_00 ToGameValue_1_00(DrawEffect api_value);
 
-DLLEXPORT DrawEffect ToApiValue(int game_value);
+extern template
+DLLEXPORT DrawEffect ToApiValue<DrawEffect>(int game_value);
 
 DLLEXPORT DrawEffect ToApiValue_1_00(DrawEffect_1_00 game_value);
 

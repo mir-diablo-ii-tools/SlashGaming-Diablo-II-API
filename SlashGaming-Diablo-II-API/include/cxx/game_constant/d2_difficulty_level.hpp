@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,6 +48,8 @@
 
 #include <cstdint>
 
+#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
+
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -68,7 +70,8 @@ DLLEXPORT int ToGameValue(DifficultyLevel api_value);
 
 DLLEXPORT DifficultyLevel_1_00 ToGameValue_1_00(DifficultyLevel api_value);
 
-DLLEXPORT DifficultyLevel ToApiValue(int game_value);
+extern template DLLEXPORT
+DifficultyLevel ToApiValue<DifficultyLevel>(int game_value);
 
 DLLEXPORT DifficultyLevel ToApiValue_1_00(DifficultyLevel_1_00 game_value);
 

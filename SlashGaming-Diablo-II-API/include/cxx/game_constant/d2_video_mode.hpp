@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,13 +48,23 @@
 
 #include <cstddef>
 
-#include "d2_constant.hpp"
+#include "d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
 enum class VideoMode {
+  kGDI,
+  kSoftware,
+  kDirectDraw,
+  kGlide,
+  kOpenGL,
+  kDirect3D,
+  kRave,
+};
+
+enum class VideoMode_1_00 : std::int32_t {
   kGDI = 1,
   kSoftware,
   kDirectDraw,
@@ -64,15 +74,14 @@ enum class VideoMode {
   kRave
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    VideoMode id
-);
+DLLEXPORT int ToGameValue(VideoMode api_value);
+
+DLLEXPORT VideoMode_1_00 ToGameValue_1_00(VideoMode api_value);
 
 extern template DLLEXPORT
-VideoMode ToAPIValue(
-    int value
-);
+VideoMode ToApiValue<VideoMode>(int game_value);
+
+DLLEXPORT TextFont ToApiValue_1_00(VideoMode_1_00 game_value);
 
 } // namespace d2
 

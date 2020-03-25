@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,14 +48,15 @@
 
 #include <cstddef>
 
+#include "../../dllexport_define.inc"
+
 namespace d2 {
 
 template <typename ConstantType>
-int ToGameValue(ConstantType id);
-
-template <typename ConstantType>
-ConstantType ToAPIValue(int value);
+DLLEXPORT ConstantType ToApiValue(int value);
 
 } // namespace d2
+
+#include "../../dllexport_undefine.inc"
 
 #endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
