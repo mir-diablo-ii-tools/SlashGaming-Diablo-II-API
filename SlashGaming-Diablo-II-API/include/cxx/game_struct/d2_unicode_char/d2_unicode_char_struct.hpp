@@ -49,6 +49,8 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "../../../dllexport_define.inc"
+
 namespace d2 {
 
 /**
@@ -74,4 +76,5 @@ static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
 
 } // namespace d2
 
+#include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_CHAR_STRUCT_HPP_
