@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,40 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_STRUCT_HPP_
 
+#include <cstddef>
+#include <cstdint>
+
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
+/**
+ * Generic struct declaration
+ */
+
 struct EquipmentLayout;
 
-struct EquipmentLayout_1_00;
+/**
+ * Version-specific struct definitions
+ */
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x14 */ struct EquipmentLayout_1_00 {
+  /* 0x00 */ PositionalRectangle_1_00 position;
+  /* 0x10 */ std::uint8_t width;
+  /* 0x11 */ std::uint8_t height;
+  /* 0x12 */ std::uint8_t unused__to_align_0x12[2];
+};
+
+static_assert(sizeof(EquipmentLayout_1_00) == 0x14);
+static_assert(offsetof(EquipmentLayout_1_00, position) == 0x00);
+static_assert(offsetof(EquipmentLayout_1_00, width) == 0x10);
+static_assert(offsetof(EquipmentLayout_1_00, height) == 0x11);
+
+#pragma pack(pop)
 
 } // namespace d2
 
