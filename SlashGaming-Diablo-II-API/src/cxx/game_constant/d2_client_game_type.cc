@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -104,7 +104,8 @@ ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
   return kTo1_07.at(api_value);
 }
 
-ClientGameType ToApiValue(int game_value) {
+template <>
+ClientGameType ToApiValue<ClientGameType>(int game_value) {
   GameVersion running_game_version = GetRunningGameVersionId();
 
   if (running_game_version < GameVersion::k1_06B) {
