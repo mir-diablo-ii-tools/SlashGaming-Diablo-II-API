@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,21 +49,51 @@
 
 #include "../../../include/cxx/game_constant/d2_video_mode.hpp"
 
-#include <cstddef>
+#include <cstdint>
+#include <unordered_map>
 
-#include "../../../include/cxx/game_constant/d2_constant.hpp"
-#include "d2_constant_impl.hpp"
+#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
 namespace d2 {
+namespace {
 
-template int
-ToGameValue(
-    VideoMode id
-);
+static const std::unordered_map<VideoMode, VideoMode_1_00> kTo1_00 = {
+    { VideoMode::kGDI, VideoMode_1_00::kGDI },
+    { VideoMode::kSoftware, VideoMode_1_00::kSoftware },
+    { VideoMode::kDirectDraw, VideoMode_1_00::kDirectDraw },
+    { VideoMode::kGlide, VideoMode_1_00::kGlide },
+    { VideoMode::kOpenGL, VideoMode_1_00::kOpenGL },
+    { VideoMode::kDirect3D, VideoMode_1_00::kDirect3D },
+    { VideoMode::kRave, VideoMode_1_00::kRave },
+};
 
-template VideoMode
-ToAPIValue(
-    int value
-);
+static const std::unordered_map<VideoMode_1_00, VideoMode> kFrom1_00 = {
+    { VideoMode_1_00::kGDI, VideoMode::kGDI },
+    { VideoMode_1_00::kSoftware, VideoMode::kSoftware },
+    { VideoMode_1_00::kDirectDraw, VideoMode::kDirectDraw },
+    { VideoMode_1_00::kGlide, VideoMode::kGlide },
+    { VideoMode_1_00::kOpenGL, VideoMode::kOpenGL },
+    { VideoMode_1_00::kDirect3D, VideoMode::kDirect3D },
+    { VideoMode_1_00::kRave, VideoMode::kRave },
+};
+
+} // namespace
+
+int ToGameValue(VideoMode api_value) {
+  return static_cast<int>(ToGameValue_1_00(api_value));
+}
+
+VideoMode_1_00 ToGameValue_1_00(VideoMode api_value) {
+  return kTo1_00.at(api_value);
+}
+
+template <>
+VideoMode ToApiValue<VideoMode>(int game_value) {
+  return ToApiValue_1_00(static_cast<VideoMode_1_00>(game_value));
+}
+
+VideoMode ToApiValue_1_00(VideoMode_1_00 game_value) {
+  return kFrom1_00.at(game_value);
+}
 
 } // namespace d2

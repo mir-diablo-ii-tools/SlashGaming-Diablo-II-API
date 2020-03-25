@@ -46,7 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_VIDEO_MODE_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_VIDEO_MODE_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
 #include "d2_constant_template.hpp"
 
@@ -81,7 +81,7 @@ DLLEXPORT VideoMode_1_00 ToGameValue_1_00(VideoMode api_value);
 extern template DLLEXPORT
 VideoMode ToApiValue<VideoMode>(int game_value);
 
-DLLEXPORT TextFont ToApiValue_1_00(VideoMode_1_00 game_value);
+DLLEXPORT VideoMode ToApiValue_1_00(VideoMode_1_00 game_value);
 
 } // namespace d2
 
