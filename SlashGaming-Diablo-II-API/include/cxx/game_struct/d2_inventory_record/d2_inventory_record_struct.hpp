@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,41 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_STRUCT_HPP_
 
+#include <cstddef>
+#include <cstdint>
+
+#include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
+#include "../d2_grid_layout/d2_grid_layout_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
+/**
+ * Generic struct declaration
+ */
+
 struct InventoryRecord;
 
-struct InventoryRecord_1_00;
+/**
+ * Version-specific struct definitions
+ */
+
+#pragma pack(push, 1)
+
+/* sizeof: 0xF0 */ struct InventoryRecord_1_00 {
+  /* 0x00 */ PositionalRectangle_1_00 position;
+  /* 0x10 */ GridLayout_1_00 grid_layout;
+  /* 0x28 */ EquipmentLayout_1_00 equipment_slots[10];
+};
+
+static_assert(sizeof(InventoryRecord_1_00) == 0xF0);
+static_assert(offsetof(InventoryRecord_1_00, position) == 0x00);
+static_assert(offsetof(InventoryRecord_1_00, grid_layout) == 0x10);
+static_assert(offsetof(InventoryRecord_1_00, equipment_slots) == 0x28);
+
+#pragma pack(pop)
 
 } // namespace d2
 
