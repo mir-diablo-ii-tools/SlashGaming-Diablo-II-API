@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,7 +47,7 @@
 #define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
 
 #include "game_constant/d2_client_game_type.hpp"
-#include "game_constant/d2_constant.hpp"
+#include "game_constant/d2_constant_template.hpp"
 #include "game_constant/d2_difficulty_level.hpp"
 #include "game_constant/d2_draw_effect.hpp"
 #include "game_constant/d2_text_color.hpp"

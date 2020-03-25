@@ -55,6 +55,10 @@
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class ClientGameType {
   kSinglePlayer,
   kBattleNetJoin,
@@ -72,6 +76,10 @@ enum class ClientGameType {
 #endif
 };
 
+/**
+ * Version-specific enum definitions
+ */
+
 enum class ClientGameType_1_00 : std::int32_t {
   kSinglePlayer,
   kBattleNetJoin = 3,
@@ -87,6 +95,10 @@ enum class ClientGameType_1_07 : std::int32_t {
   kLanHost,
   kLanJoin
 };
+
+/**
+ * Function declarations
+ */
 
 DLLEXPORT int ToGameValue(ClientGameType api_value);
 

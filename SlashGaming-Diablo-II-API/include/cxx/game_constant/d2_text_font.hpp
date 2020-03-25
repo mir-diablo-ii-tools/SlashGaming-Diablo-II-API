@@ -54,6 +54,10 @@
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class TextFont {
   kDiabloMenu_24,
   kDiabloMenu_30,
@@ -74,6 +78,10 @@ enum class TextFont {
   kFormalWide_11,
 };
 
+/**
+ * Version-specific enum definitions
+ */
+
 enum class TextFont_1_00 : std::int32_t {
   kFormal_8,
   kExocet_16,
@@ -92,6 +100,10 @@ enum class TextFont_1_00 : std::int32_t {
 
   kFormal_11 = 13
 };
+
+/**
+ * Function declarations
+ */
 
 DLLEXPORT int ToGameValue(TextFont api_value);
 

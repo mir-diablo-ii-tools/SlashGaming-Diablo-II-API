@@ -54,6 +54,10 @@
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class TextColor {
   kWhite,
   kRed,
@@ -75,6 +79,10 @@ enum class TextColor {
   kDarkRed,
   kBrown
 };
+
+/**
+ * Version-specific enum definitions
+ */
 
 enum class TextColor_1_00 : std::int32_t {
   kWhite,
@@ -101,6 +109,10 @@ enum class TextColor_1_00 : std::int32_t {
   kDarkRed,
   kBrown
 };
+
+/**
+ * Function declarations
+ */
 
 DLLEXPORT int ToGameValue(TextColor api_value);
 

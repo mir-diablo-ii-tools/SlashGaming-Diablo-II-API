@@ -54,17 +54,29 @@
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class DifficultyLevel {
   kNormal,
   kNightmare,
   kHell
 };
 
+/**
+ * Version-specific enum definitions
+ */
+
 enum class DifficultyLevel_1_00 : std::uint32_t {
   kNormal,
   kNightmare,
   kHell
 };
+
+/**
+ * Function declarations
+ */
 
 DLLEXPORT int ToGameValue(DifficultyLevel api_value);
 

@@ -54,6 +54,10 @@
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class VideoMode {
   kGDI,
   kSoftware,
@@ -64,6 +68,10 @@ enum class VideoMode {
   kRave,
 };
 
+/**
+ * Version-specific enum definitions
+ */
+
 enum class VideoMode_1_00 : std::int32_t {
   kGDI = 1,
   kSoftware,
@@ -73,6 +81,10 @@ enum class VideoMode_1_00 : std::int32_t {
   kDirect3D,
   kRave
 };
+
+/**
+ * Function declarations
+ */
 
 DLLEXPORT int ToGameValue(VideoMode api_value);
 

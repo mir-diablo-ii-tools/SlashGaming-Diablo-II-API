@@ -2,7 +2,7 @@
  * SlashGaming Diablo II Modding API for C++
  * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -54,6 +54,10 @@
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class DrawEffect {
   kOneFourthOpaque,
   kHalfOpaque,
@@ -65,6 +69,10 @@ enum class DrawEffect {
   kUnknown07
 };
 
+/**
+ * Version-specific enum definitions
+ */
+
 enum class DrawEffect_1_00 : std::int32_t {
   kOneFourthOpaque,
   kHalfOpaque,
@@ -75,6 +83,10 @@ enum class DrawEffect_1_00 : std::int32_t {
   kUnknown06,
   kUnknown07
 };
+
+/**
+ * Function declarations
+ */
 
 DLLEXPORT int ToGameValue(DrawEffect api_value);
 
