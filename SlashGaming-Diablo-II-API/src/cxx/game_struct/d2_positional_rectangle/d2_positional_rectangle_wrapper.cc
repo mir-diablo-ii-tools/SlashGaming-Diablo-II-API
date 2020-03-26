@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -44,8 +44,6 @@
  */
 
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
-
-#include "d2_positional_rectangle_impl.hpp"
 
 namespace d2 {
 
@@ -89,13 +87,16 @@ const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
   return this->ptr_;
 }
 
-void PositionalRectangle_Wrapper::Copy(
+void PositionalRectangle_Wrapper::Assign(
     PositionalRectangle_View src
 ) noexcept {
-  this->SetLeft(src.GetLeft());
-  this->SetRight(src.GetRight());
-  this->SetTop(src.GetTop());
-  this->SetBottom(src.GetBottom());
+  auto* actual_dest =
+      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
+
+  const auto* actual_src =
+      reinterpret_cast<const PositionalRectangle_1_00*>(src.Get());
+
+  *actual_dest = *actual_src;
 }
 
 int PositionalRectangle_Wrapper::GetLeft() const noexcept {
@@ -104,10 +105,10 @@ int PositionalRectangle_Wrapper::GetLeft() const noexcept {
   return view.GetLeft();
 }
 
-void PositionalRectangle_Wrapper::SetLeft(int value) noexcept {
+void PositionalRectangle_Wrapper::SetLeft(int left) noexcept {
   auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->left = value;
+  actual_ptr->left = left;
 }
 
 int PositionalRectangle_Wrapper::GetRight() const noexcept {
@@ -116,10 +117,10 @@ int PositionalRectangle_Wrapper::GetRight() const noexcept {
   return view.GetRight();
 }
 
-void PositionalRectangle_Wrapper::SetRight(int value) noexcept {
+void PositionalRectangle_Wrapper::SetRight(int right) noexcept {
   auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->right = value;
+  actual_ptr->right = right;
 }
 
 int PositionalRectangle_Wrapper::GetTop() const noexcept {
@@ -128,10 +129,10 @@ int PositionalRectangle_Wrapper::GetTop() const noexcept {
   return view.GetTop();
 }
 
-void PositionalRectangle_Wrapper::SetTop(int value) noexcept {
+void PositionalRectangle_Wrapper::SetTop(int top) noexcept {
   auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->top = value;
+  actual_ptr->top = top;
 }
 
 int PositionalRectangle_Wrapper::GetBottom() const noexcept {
@@ -140,10 +141,10 @@ int PositionalRectangle_Wrapper::GetBottom() const noexcept {
   return view.GetBottom();
 }
 
-void PositionalRectangle_Wrapper::SetBottom(int value) noexcept {
+void PositionalRectangle_Wrapper::SetBottom(int bottom) noexcept {
   auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->bottom = value;
+  actual_ptr->bottom = bottom;
 }
 
 } // namespace d2
