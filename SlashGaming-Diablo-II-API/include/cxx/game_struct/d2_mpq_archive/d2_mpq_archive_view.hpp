@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -52,23 +52,23 @@
 
 namespace d2 {
 
-class DLLEXPORT MPQArchive_View {
+class DLLEXPORT MpqArchive_View {
  public:
-  MPQArchive_View() = delete;
-  MPQArchive_View(const MPQArchive* ptr) noexcept;
+  MpqArchive_View() = delete;
+  MpqArchive_View(const MpqArchive* ptr) noexcept;
 
-  MPQArchive_View(const MPQArchive_View& other) noexcept;
-  MPQArchive_View(MPQArchive_View&& other) noexcept;
+  MpqArchive_View(const MpqArchive_View& other) noexcept;
+  MpqArchive_View(MpqArchive_View&& other) noexcept;
 
-  ~MPQArchive_View() noexcept;
+  ~MpqArchive_View() noexcept;
 
-  MPQArchive_View& operator=(const MPQArchive_View& other) noexcept;
-  MPQArchive_View& operator=(MPQArchive_View&& other) noexcept;
+  MpqArchive_View& operator=(const MpqArchive_View& other) noexcept;
+  MpqArchive_View& operator=(MpqArchive_View&& other) noexcept;
 
-  const MPQArchive* Get() const noexcept;
+  const MpqArchive* Get() const noexcept;
 
  private:
-  const MPQArchive* ptr_;
+  const MpqArchive* ptr_;
 };
 
 } // namespace d2
