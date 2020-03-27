@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -50,39 +50,39 @@
 
 namespace d2 {
 
-MPQArchive_Wrapper::MPQArchive_Wrapper(MPQArchive* ptr) noexcept :
+MpqArchive_Wrapper::MpqArchive_Wrapper(MpqArchive* ptr) noexcept :
     ptr_(ptr) {
 }
 
-MPQArchive_Wrapper::MPQArchive_Wrapper(
-    const MPQArchive_Wrapper& other
+MpqArchive_Wrapper::MpqArchive_Wrapper(
+    const MpqArchive_Wrapper& other
 ) noexcept = default;
 
-MPQArchive_Wrapper::MPQArchive_Wrapper(
-    MPQArchive_Wrapper&& other
+MpqArchive_Wrapper::MpqArchive_Wrapper(
+    MpqArchive_Wrapper&& other
 ) noexcept = default;
 
-MPQArchive_Wrapper::~MPQArchive_Wrapper() noexcept = default;
+MpqArchive_Wrapper::~MpqArchive_Wrapper() noexcept = default;
 
-MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
-    const MPQArchive_Wrapper& other
+MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
+    const MpqArchive_Wrapper& other
 ) noexcept = default;
 
-MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
-    MPQArchive_Wrapper&& other
+MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
+    MpqArchive_Wrapper&& other
 ) noexcept = default;
 
-MPQArchive_Wrapper::operator MPQArchive_View() const noexcept {
-  return MPQArchive_View(this->Get());
+MpqArchive_Wrapper::operator MpqArchive_View() const noexcept {
+  return MpqArchive_View(this->Get());
 }
 
-MPQArchive* MPQArchive_Wrapper::Get() noexcept {
+MpqArchive* MpqArchive_Wrapper::Get() noexcept {
   const auto* const_this = this;
 
-  return const_cast<MPQArchive*>(const_this->Get());
+  return const_cast<MpqArchive*>(const_this->Get());
 }
 
-const MPQArchive* MPQArchive_Wrapper::Get() const noexcept {
+const MpqArchive* MpqArchive_Wrapper::Get() const noexcept {
   return this->ptr_;
 }
 
