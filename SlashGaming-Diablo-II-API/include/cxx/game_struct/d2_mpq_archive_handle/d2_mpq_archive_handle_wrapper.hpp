@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -54,38 +54,38 @@
 
 namespace d2 {
 
-class DLLEXPORT MPQArchiveHandle_Wrapper {
+class DLLEXPORT MpqArchiveHandle_Wrapper {
  public:
-  MPQArchiveHandle_Wrapper() = delete;
-  MPQArchiveHandle_Wrapper(MPQArchiveHandle* ptr) noexcept;
+  MpqArchiveHandle_Wrapper() = delete;
+  MpqArchiveHandle_Wrapper(MpqArchiveHandle* ptr) noexcept;
 
-  MPQArchiveHandle_Wrapper(const MPQArchiveHandle_Wrapper& other) noexcept;
-  MPQArchiveHandle_Wrapper(MPQArchiveHandle_Wrapper&& other) noexcept;
+  MpqArchiveHandle_Wrapper(const MpqArchiveHandle_Wrapper& other) noexcept;
+  MpqArchiveHandle_Wrapper(MpqArchiveHandle_Wrapper&& other) noexcept;
 
-  ~MPQArchiveHandle_Wrapper() noexcept;
+  ~MpqArchiveHandle_Wrapper() noexcept;
 
-  MPQArchiveHandle_Wrapper& operator=(
-      const MPQArchiveHandle_Wrapper& other
+  MpqArchiveHandle_Wrapper& operator=(
+      const MpqArchiveHandle_Wrapper& other
   ) noexcept;
-  MPQArchiveHandle_Wrapper& operator=(
-      MPQArchiveHandle_Wrapper&& other
+  MpqArchiveHandle_Wrapper& operator=(
+      MpqArchiveHandle_Wrapper&& other
   ) noexcept;
 
-  operator MPQArchiveHandle_View() const noexcept;
+  operator MpqArchiveHandle_View() const noexcept;
 
-  MPQArchiveHandle* Get() noexcept;
-  const MPQArchiveHandle* Get() const noexcept;
+  MpqArchiveHandle* Get() noexcept;
+  const MpqArchiveHandle* Get() const noexcept;
 
-  MPQArchive* GetMPQArchive() noexcept;
-  const MPQArchive* GetMPQArchive() const noexcept;
+  MpqArchive* GetMpqArchive() noexcept;
+  const MpqArchive* GetMpqArchive() const noexcept;
 
-  void SetMPQArchive(MPQArchive* mpq_archive) noexcept;
+  void SetMpqArchive(MpqArchive* mpq_archive) noexcept;
 
-  char* GetMPQArchivePath() noexcept;
-  const char* GetMPQArchivePath() const noexcept;
+  char* GetMpqArchivePath() noexcept;
+  const char* GetMpqArchivePath() const noexcept;
 
  private:
-  MPQArchiveHandle* ptr_;
+  MpqArchiveHandle* ptr_;
 };
 
 } // namespace d2
