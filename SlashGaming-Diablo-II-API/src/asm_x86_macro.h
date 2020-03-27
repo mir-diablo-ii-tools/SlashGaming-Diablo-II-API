@@ -50,6 +50,8 @@
 #ifndef SGMAPI_ASM_X86_MACRO_H_
 #define SGMAPI_ASM_X86_MACRO_H_
 
+#if defined(_MSC_VER)
+
 #define ASM_X86(...) \
     __asm { \
       __VA_ARGS__ \
