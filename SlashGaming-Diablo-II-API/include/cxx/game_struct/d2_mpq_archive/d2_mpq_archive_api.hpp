@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -57,27 +57,27 @@
 
 namespace d2 {
 
-class DLLEXPORT MPQArchive_API {
+class DLLEXPORT MpqArchive_Api {
  public:
-  MPQArchive_API() = delete;
+  MpqArchive_Api() = delete;
 
-  MPQArchive_API(const MPQArchive_API& other);
-  MPQArchive_API(MPQArchive_API&& other) noexcept;
+  MpqArchive_Api(const MpqArchive_Api& other);
+  MpqArchive_Api(MpqArchive_Api&& other) noexcept;
 
-  ~MPQArchive_API();
+  ~MpqArchive_Api();
 
-  MPQArchive_API& operator=(const MPQArchive_API& other);
-  MPQArchive_API& operator=(MPQArchive_API&& other) noexcept;
+  MpqArchive_Api& operator=(const MpqArchive_Api& other);
+  MpqArchive_Api& operator=(MpqArchive_Api&& other) noexcept;
 
-  operator MPQArchive_View() const noexcept;
-  operator MPQArchive_Wrapper() noexcept;
+  operator MpqArchive_View() const noexcept;
+  operator MpqArchive_Wrapper() noexcept;
 
-  MPQArchive* Get() noexcept;
-  const MPQArchive* Get() const noexcept;
+  MpqArchive* Get() noexcept;
+  const MpqArchive* Get() const noexcept;
 
  private:
   std::variant<
-      std::unique_ptr<MPQArchive_1_00[]>
+      std::unique_ptr<MpqArchive_1_00>
   > mpq_archive_;
 };
 
