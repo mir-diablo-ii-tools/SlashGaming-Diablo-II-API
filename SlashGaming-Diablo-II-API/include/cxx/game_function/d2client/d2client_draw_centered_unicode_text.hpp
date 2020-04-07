@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2CLIENT_D2CLIENT_DRAW_CENTERED_UNICODE_TEXT_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2CLIENT_D2CLIENT_DRAW_CENTERED_UNICODE_TEXT_HPP_
 
+#include <cstdint>
+
 #include "../../game_constant/d2_text_color.hpp"
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
@@ -59,6 +61,22 @@ DLLEXPORT void DrawCenteredUnicodeText(
     const UnicodeChar* text,
     int right,
     TextColor text_color
+);
+
+DLLEXPORT void DrawCenteredUnicodeText_1_00(
+    std::int32_t left,
+    std::int32_t position_y,
+    const UnicodeChar_1_00* text,
+    std::int32_t right,
+    TextColor_1_00 text_color
+);
+
+DLLEXPORT void DrawCenteredUnicodeText_1_12A(
+    std::int32_t left,
+    std::int32_t position_y,
+    const UnicodeChar_1_00* text,
+    std::int32_t right,
+    TextColor_1_00 text_color
 );
 
 } // namespace d2::d2client

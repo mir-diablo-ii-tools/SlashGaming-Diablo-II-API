@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,13 +47,12 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2client/d2client_draw_centered_unicode_text.hpp"
+#include "../../../../include/cxx/game_function/d2client/d2client_draw_centered_unicode_text.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_library.hpp"
 
 namespace d2::d2client {
 namespace {
@@ -89,7 +88,7 @@ D2Client_DrawCenteredUnicodeText_1_00(
   ASM_X86(ret);
 }
 
-__declspec(naked) void __cdecl
+__declspec(naked) static void __cdecl
 D2Client_DrawCenteredUnicodeText_1_12A(
     std::intptr_t func_ptr,
     std::int32_t left,
@@ -123,8 +122,10 @@ D2Client_DrawCenteredUnicodeText_1_12A(
 }
 
 std::intptr_t D2Client_DrawCenteredUnicodeText() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+  static std::intptr_t ptr = mapi::GetGameAddress(
+      "D2Client.dll",
+      "DrawCenteredUnicodeText"
+  ).raw_address();
 
   return ptr;
 }
