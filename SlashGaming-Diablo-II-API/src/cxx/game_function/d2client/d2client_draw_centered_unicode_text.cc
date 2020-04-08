@@ -53,7 +53,6 @@
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
 #include "../../backend/game_function/fastcall_function.hpp"
-#include "../../backend/game_library.hpp"
 
 namespace d2::d2client {
 namespace {
