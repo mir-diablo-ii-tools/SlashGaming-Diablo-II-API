@@ -52,48 +52,18 @@
 #include "../../../../include/cxx/game_version.hpp"
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 #include "../../backend/game_library.hpp"
 
 namespace d2::d2client {
 namespace {
 
-__declspec(naked) void __cdecl
-D2Client_DrawCenteredUnicodeText_1_00(
-    std::intptr_t func_ptr,
-    std::int32_t left,
-    std::int32_t position_y,
-    const UnicodeChar* text,
-    std::int32_t right,
-    std::int32_t text_color
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
-
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 28]);
-  ASM_X86(push dword ptr [ebp + 24]);
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(mov edx, [ebp + 16]);
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
 __declspec(naked) static void __cdecl
-D2Client_DrawCenteredUnicodeText_1_12A(
+DrawCenteredUnicodeText_1_12A_Shim(
     std::intptr_t func_ptr,
     std::int32_t left,
     std::int32_t position_y,
-    const UnicodeChar* text,
+    const UnicodeChar_1_00* text,
     std::int32_t right,
     std::int32_t text_color
 ) {
@@ -121,7 +91,7 @@ D2Client_DrawCenteredUnicodeText_1_12A(
   ASM_X86(ret);
 }
 
-std::intptr_t D2Client_DrawCenteredUnicodeText() {
+static std::intptr_t GetGameAddress() {
   static std::intptr_t ptr = mapi::GetGameAddress(
       "D2Client.dll",
       "DrawCenteredUnicodeText"
@@ -139,32 +109,63 @@ void DrawCenteredUnicodeText(
     int right,
     TextColor text_color
 ) {
-  std::intptr_t func_ptr = D2Client_DrawCenteredUnicodeText();
-
   int text_color_game_value = ToGameValue(text_color);
 
   GameVersion running_game_version = GetRunningGameVersionId();
 
-  if (running_game_version >= GameVersion::k1_11
-      && running_game_version <= GameVersion::k1_13D) {
-    D2Client_DrawCenteredUnicodeText_1_12A(
-        func_ptr,
+  if (running_game_version >= GameVersion::k1_00
+      && running_game_version <= GameVersion::k1_10) {
+    DrawCenteredUnicodeText_1_00(
         left,
         position_y,
-        text,
+        reinterpret_cast<const UnicodeChar_1_00*>(text),
         right,
-        text_color_game_value
+        static_cast<TextColor_1_00>(text_color)
     );
-  } else {
-    D2Client_DrawCenteredUnicodeText_1_00(
-        func_ptr,
+  } else /* if (running_game_version >= GameVersion::k1_11
+      && running_game_version <= GameVersion::k1_13D) */ {
+    DrawCenteredUnicodeText_1_12A(
         left,
         position_y,
-        text,
+        reinterpret_cast<const UnicodeChar_1_00*>(text),
         right,
-        text_color_game_value
+        static_cast<TextColor_1_00>(text_color)
     );
   }
+}
+
+void DrawCenteredUnicodeText_1_00(
+    std::int32_t left,
+    std::int32_t position_y,
+    const UnicodeChar_1_00* text,
+    std::int32_t right,
+    TextColor_1_00 text_color
+) {
+  mapi::CallFastcallFunction(
+      GetGameAddress(),
+      left,
+      position_y,
+      reinterpret_cast<const UnicodeChar_1_00*>(text),
+      right,
+      static_cast<TextColor_1_00>(text_color)
+  );
+}
+
+void DrawCenteredUnicodeText_1_12A(
+    std::int32_t left,
+    std::int32_t position_y,
+    const UnicodeChar_1_00* text,
+    std::int32_t right,
+    TextColor_1_00 text_color
+) {
+  DrawCenteredUnicodeText_1_12A_Shim(
+      GetGameAddress(),
+      left,
+      position_y,
+      reinterpret_cast<const UnicodeChar_1_00*>(text),
+      right,
+      static_cast<std::int32_t>(text_color)
+  );
 }
 
 } // namespace d2::d2client
