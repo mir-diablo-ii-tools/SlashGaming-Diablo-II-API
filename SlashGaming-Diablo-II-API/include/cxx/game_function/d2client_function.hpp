@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * Copyright (C) 2018-2020  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API.
  *
@@ -43,7 +43,7 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2CLIENT_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2CLIENT_FUNCTION_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2CLIENT_FUNC_HPP_
 
 #include "d2client/d2client_draw_centered_unicode_text.hpp"
