@@ -112,8 +112,9 @@ void DrawCenteredUnicodeText(
 
   GameVersion running_game_version = GetRunningGameVersionId();
 
-  if (running_game_version >= GameVersion::k1_00
-      && running_game_version <= GameVersion::k1_10) {
+  if ((running_game_version >= GameVersion::k1_00
+      && running_game_version <= GameVersion::k1_10)
+      || running_game_version >= GameVersion::kClassic1_14A) {
     DrawCenteredUnicodeText_1_00(
         left,
         position_y,
