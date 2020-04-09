@@ -59,27 +59,6 @@
 namespace d2::d2cmp {
 namespace {
 
-__declspec(naked) Cel* __cdecl
-D2CMP_GetCelFromCelContext_1_00(
-    std::intptr_t func_ptr,
-    CelContext* cel_context
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
-
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress& game_address = mapi::GetGameAddress(
       "D2CMP.dll",
