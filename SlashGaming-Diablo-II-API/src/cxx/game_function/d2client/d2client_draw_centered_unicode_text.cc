@@ -90,13 +90,13 @@ DrawCenteredUnicodeText_1_12A_Shim(
   ASM_X86(ret);
 }
 
-static std::intptr_t GetGameAddress() {
-  static std::intptr_t ptr = mapi::GetGameAddress(
+static const mapi::GameAddress& GetGameAddress() {
+  static mapi::GameAddress game_address = mapi::GetGameAddress(
       "D2Client.dll",
       "DrawCenteredUnicodeText"
-  ).raw_address();
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -142,7 +142,7 @@ void DrawCenteredUnicodeText_1_00(
     TextColor_1_00 text_color
 ) {
   mapi::CallFastcallFunction(
-      GetGameAddress(),
+      GetGameAddress().raw_address(),
       left,
       position_y,
       reinterpret_cast<const UnicodeChar_1_00*>(text),
@@ -159,7 +159,7 @@ void DrawCenteredUnicodeText_1_12A(
     TextColor_1_00 text_color
 ) {
   DrawCenteredUnicodeText_1_12A_Shim(
-      GetGameAddress(),
+      GetGameAddress().raw_address(),
       left,
       position_y,
       reinterpret_cast<const UnicodeChar_1_00*>(text),
