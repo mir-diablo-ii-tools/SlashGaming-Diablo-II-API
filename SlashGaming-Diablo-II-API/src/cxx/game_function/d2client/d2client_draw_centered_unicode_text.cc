@@ -91,7 +91,7 @@ DrawCenteredUnicodeText_1_12A_Shim(
 }
 
 static const mapi::GameAddress& GetGameAddress() {
-  static mapi::GameAddress game_address = mapi::GetGameAddress(
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
       "D2Client.dll",
       "DrawCenteredUnicodeText"
   );
