@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -54,6 +54,12 @@
 namespace d2::d2cmp {
 
 DLLEXPORT Cel* GetCelFromCelContext(CelContext* cel_context);
+
+DLLEXPORT Cel_1_00* GetCelFromCelContext_1_00(CelContext_1_00* cel_context);
+
+DLLEXPORT Cel_1_00* GetCelFromCelContext_1_12A(CelContext_1_12A* cel_context);
+
+DLLEXPORT Cel_1_00* GetCelFromCelContext_1_13C(CelContext_1_13C* cel_context);
 
 } // namespace d2::d2cmp
 

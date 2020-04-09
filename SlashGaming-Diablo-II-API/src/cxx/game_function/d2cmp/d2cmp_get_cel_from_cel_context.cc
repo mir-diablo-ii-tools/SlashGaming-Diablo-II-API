@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,13 +47,14 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2cmp/d2cmp_get_cel_from_cel_context.hpp"
+#include "../../../../include/cxx/game_function/d2cmp/d2cmp_get_cel_from_cel_context.hpp"
 
 #include <cstdint>
 
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/stdcall_function.hpp"
 
 namespace d2::d2cmp {
 namespace {
@@ -79,21 +80,79 @@ D2CMP_GetCelFromCelContext_1_00(
   ASM_X86(ret);
 }
 
-std::intptr_t D2CMP_GetCelFromCelContext() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2CMP.dll",
+      "GetCelFromCelContext"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 Cel* GetCelFromCelContext(CelContext* cel_context) {
-  std::intptr_t func_ptr = D2CMP_GetCelFromCelContext();
+  GameVersion running_game_version = GetRunningGameVersionId();
 
-  return D2CMP_GetCelFromCelContext_1_00(
-      func_ptr,
-      cel_context
+  if (running_game_version >= GameVersion::k1_00
+      && running_game_version <= GameVersion::k1_10) {
+    auto* actual_cel_context = reinterpret_cast<CelContext_1_00*>(
+        cel_context
+    );
+
+    return reinterpret_cast<Cel*>(
+        GetCelFromCelContext_1_00(actual_cel_context)
+    );
+  } else if (running_game_version == GameVersion::k1_12A) {
+    auto* actual_cel_context = reinterpret_cast<CelContext_1_12A*>(
+        cel_context
+    );
+
+    return reinterpret_cast<Cel*>(
+        GetCelFromCelContext_1_12A(actual_cel_context)
+    );
+  } else /* if (running_game_version >= GameVersion::k1_13C
+      && running_game_version <= GameVersion::kLod1_14D) */ {
+    auto* actual_cel_context = reinterpret_cast<CelContext_1_13C*>(
+        cel_context
+    );
+
+    return reinterpret_cast<Cel*>(
+        GetCelFromCelContext_1_13C(actual_cel_context)
+    );
+  }
+}
+
+Cel_1_00* GetCelFromCelContext_1_00(
+    CelContext_1_00* cel_context
+) {
+  return reinterpret_cast<Cel_1_00*>(
+      mapi::CallStdcallFunction(
+          GetGameAddress().raw_address(),
+          cel_context
+      )
+  );
+}
+
+Cel_1_00* GetCelFromCelContext_1_12A(
+    CelContext_1_12A* cel_context
+) {
+  return reinterpret_cast<Cel_1_00*>(
+      mapi::CallStdcallFunction(
+          GetGameAddress().raw_address(),
+          cel_context
+      )
+  );
+}
+
+Cel_1_00* GetCelFromCelContext_1_13C(
+    CelContext_1_13C* cel_context
+) {
+  return reinterpret_cast<Cel_1_00*>(
+      mapi::CallStdcallFunction(
+          GetGameAddress().raw_address(),
+          cel_context
+      )
   );
 }
 
