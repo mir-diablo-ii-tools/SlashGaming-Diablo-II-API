@@ -30,6 +30,7 @@ Makefile
 
 *.vcxproj
 *.filters
+*.pdb
 *.sdf
 *.sln
 *.suo
