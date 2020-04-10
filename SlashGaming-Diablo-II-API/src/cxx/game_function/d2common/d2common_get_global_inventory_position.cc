@@ -94,6 +94,7 @@ void GetGlobalInventoryPosition_1_00(
     PositionalRectangle_1_00* out_position
 ) {
   mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
       inventory_record_index,
       out_position
   );
@@ -105,6 +106,7 @@ void GetGlobalInventoryPosition_1_07(
     PositionalRectangle_1_00* out_position
 ) {
   mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
       inventory_record_index,
       inventory_arrange_mode,
       out_position

@@ -57,7 +57,7 @@
 namespace d2::d2common {
 namespace {
 
-static const mapi::GameAddress& D2Common_GetGlobalInventoryGridLayout() {
+static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress& game_address = mapi::GetGameAddress(
       "D2Common.dll",
       "GetGlobalInventoryGridLayout"
@@ -94,6 +94,7 @@ void GetGlobalInventoryGridLayout_1_00(
     GridLayout_1_00* out_grid_layout
 ) {
   mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
       inventory_record_index,
       out_grid_layout
   );
@@ -105,6 +106,7 @@ void GetGlobalInventoryGridLayout_1_07(
     GridLayout_1_00* out_grid_layout
 ) {
   mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
       inventory_record_index,
       inventory_arrange_mode,
       out_grid_layout

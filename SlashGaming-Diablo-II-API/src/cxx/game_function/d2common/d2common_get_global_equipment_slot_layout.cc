@@ -98,6 +98,7 @@ void GetGlobalEquipmentSlotLayout_1_00(
     std::uint32_t equipment_slot_index
 ) {
   mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
       inventory_record_index,
       out_equipment_slot_layout,
       equipment_slot_index
@@ -111,6 +112,7 @@ void GetGlobalEquipmentSlotLayout_1_07(
     std::uint32_t equipment_slot_index
 ) {
   mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
       inventory_record_index,
       inventory_arrange_mode,
       out_equipment_slot_layout,
