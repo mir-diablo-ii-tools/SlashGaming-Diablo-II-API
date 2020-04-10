@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_BELT_SLOT_POSITION_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_BELT_SLOT_POSITION_HPP_
 
+#include <cstdint>
+
 #include "../../game_struct/d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -57,6 +59,19 @@ DLLEXPORT void GetGlobalBeltSlotPosition(
     unsigned int inventory_arrange_mode,
     PositionalRectangle* out_belt_slot,
     unsigned int belt_slot_index
+);
+
+DLLEXPORT void GetGlobalBeltSlotPosition_1_00(
+    std::uint32_t belt_record_index,
+    PositionalRectangle_1_00* out_belt_slot,
+    std::uint32_t belt_slot_index
+);
+
+DLLEXPORT void GetGlobalBeltSlotPosition_1_07(
+    std::uint32_t belt_record_index,
+    std::uint32_t inventory_arrange_mode,
+    PositionalRectangle_1_00* out_belt_slot,
+    std::uint32_t belt_slot_index
 );
 
 } // namespace d2::d2common
