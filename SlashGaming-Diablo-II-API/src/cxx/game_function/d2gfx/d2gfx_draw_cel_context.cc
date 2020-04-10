@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,53 +47,23 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_cel_context.hpp"
+#include "../../../../include/cxx/game_function/d2gfx/d2gfx_draw_cel_context.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/stdcall_function.hpp"
 
 namespace d2::d2gfx {
 namespace {
 
-__declspec(naked) bool __cdecl
-D2GFX_DrawCelContext_1_00(
-    std::intptr_t func_ptr,
-    CelContext* cel_context,
-    std::int32_t position_x,
-    std::int32_t position_y,
-    std::uint32_t bgrt_color,
-    std::int32_t draw_effect,
-    mapi::Undefined* unknown_06__set_to_nullptr
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAdress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2GFX.dll",
+      "DrawCelContext"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 32]);
-  ASM_X86(push dword ptr [ebp + 28]);
-  ASM_X86(push dword ptr [ebp + 24]);
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(push dword ptr [ebp + 16]);
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2GFX_DrawCelContext() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -106,18 +76,104 @@ bool DrawCelContext(
     DrawEffect draw_effect,
     mapi::Undefined* unknown_06__set_to_nullptr
 ) {
-  std::intptr_t func_ptr = D2GFX_DrawCelContext();
+  GameVersion running_game_version = GetRunningGameVersionId();
 
-  int draw_effect_game_value = ToGameValue(draw_effect);
+  if (running_game_version <= GameVersion::k1_10) {
+    return static_cast<bool>(
+        DrawCelContext_1_00(
+            reinterpret_cast<CelContext_1_00*>(cel_context),
+            position_x,
+            position_y,
+            bgrt_color,
+            ToGameValue_1_00(draw_effect),
+            unknown_06__set_to_nullptr
+        )
+    );
+  } else if (running_game_version == GameVersion::k1_12A) {
+    return static_cast<bool>(
+        DrawCelContext_1_12A(
+            reinterpret_cast<CelContext_1_12A*>(cel_context),
+            position_x,
+            position_y,
+            bgrt_color,
+            ToGameValue_1_00(draw_effect),
+            unknown_06__set_to_nullptr
+        )
+    );
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
+    return static_cast<bool>(
+        DrawCelContext_1_13C(
+            reinterpret_cast<CelContext_1_13C*>(cel_context),
+            position_x,
+            position_y,
+            bgrt_color,
+            ToGameValue_1_00(draw_effect),
+            unknown_06__set_to_nullptr
+        )
+    );
+  }
+}
 
-  return D2GFX_DrawCelContext_1_00(
-      func_ptr,
-      cel_context,
-      position_x,
-      position_y,
-      bgrt_color,
-      draw_effect_game_value,
-      unknown_06__set_to_nullptr
+mapi::bool32 DrawCelContext_1_00(
+    CelContext_1_00* cel_context,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::uint32_t bgrt_color,
+    DrawEffect_1_00 draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+) {
+  return reinterpret_cast<mapi::bool32>(
+      mapi::CallStdcallFunction(
+          GetGameAdress().raw_address(),
+          cel_context,
+          position_x,
+          position_y,
+          bgrt_color,
+          draw_effect,
+          unknown_06__set_to_nullptr
+      )
+  );
+}
+
+mapi::bool32 DrawCelContext_1_12A(
+    CelContext_1_12A* cel_context,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::uint32_t bgrt_color,
+    DrawEffect_1_00 draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+) {
+  return reinterpret_cast<mapi::bool32>(
+      mapi::CallStdcallFunction(
+          GetGameAdress().raw_address(),
+          cel_context,
+          position_x,
+          position_y,
+          bgrt_color,
+          draw_effect,
+          unknown_06__set_to_nullptr
+      )
+  );
+}
+
+mapi::bool32 DrawCelContext_1_13C(
+    CelContext_1_13C* cel_context,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::uint32_t bgrt_color,
+    DrawEffect_1_00 draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+) {
+  return reinterpret_cast<mapi::bool32>(
+      mapi::CallStdcallFunction(
+          GetGameAdress().raw_address(),
+          cel_context,
+          position_x,
+          position_y,
+          bgrt_color,
+          draw_effect,
+          unknown_06__set_to_nullptr
+      )
   );
 }
 

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,8 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_D2GFX_DRAW_CEL_CONTEXT_HPP_
 
-#include "../../game_struct/d2_cel_context/d2_cel_context_struct.hpp"
+#include <cstdint>
+
+#include "../../game_bool.hpp"
 #include "../../game_constant/d2_draw_effect.hpp"
+#include "../../game_struct/d2_cel_context/d2_cel_context_struct.hpp"
 #include "../../game_undefined.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -60,6 +63,33 @@ DLLEXPORT bool DrawCelContext(
     int position_y,
     unsigned int bgrt_color,
     DrawEffect draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+);
+
+DLLEXPORT mapi::bool32 DrawCelContext_1_00(
+    CelContext_1_00* cel_context,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::uint32_t bgrt_color,
+    DrawEffect_1_00 draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+);
+
+DLLEXPORT mapi::bool32 DrawCelContext_1_12A(
+    CelContext_1_12A* cel_context,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::uint32_t bgrt_color,
+    DrawEffect_1_00 draw_effect,
+    mapi::Undefined* unknown_06__set_to_nullptr
+);
+
+DLLEXPORT mapi::bool32 DrawCelContext_1_13C(
+    CelContext_1_13C* cel_context,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    std::uint32_t bgrt_color,
+    DrawEffect_1_00 draw_effect,
     mapi::Undefined* unknown_06__set_to_nullptr
 );
 
