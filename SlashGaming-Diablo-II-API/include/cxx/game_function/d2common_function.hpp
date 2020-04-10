@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_FUNCTION_HPP_
+#define SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_FUNCTION_HPP_
 
 #include "d2common/d2common_get_global_belt_record.hpp"
 #include "d2common/d2common_get_global_belt_slot_position.hpp"
@@ -52,4 +52,4 @@
 #include "d2common/d2common_get_global_inventory_grid_layout.hpp"
 #include "d2common/d2common_get_global_inventory_position.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_FUNC_HPP_
+#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_FUNCTION_HPP_
