@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_EQUIPMENT_SLOT_LAYOUT_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_EQUIPMENT_SLOT_LAYOUT_HPP_
 
+#include <cstdint>
+
 #include "../../game_struct/d2_equipment_layout/d2_equipment_layout_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -57,6 +59,19 @@ DLLEXPORT void GetGlobalEquipmentSlotLayout(
     unsigned int inventory_arrange_mode,
     EquipmentLayout* out_equipment_slot_layout,
     unsigned int equipment_slot_index
+);
+
+DLLEXPORT void GetGlobalEquipmentSlotLayout_1_00(
+    std::uint32_t inventory_record_index,
+    EquipmentLayout* out_equipment_slot_layout,
+    std::uint32_t equipment_slot_index
+);
+
+DLLEXPORT void GetGlobalEquipmentSlotLayout_1_07(
+    std::uint32_t inventory_record_index,
+    std::uint32_t inventory_arrange_mode,
+    EquipmentLayout* out_equipment_slot_layout,
+    std::uint32_t equipment_slot_index
 );
 
 } // namespace d2::d2common

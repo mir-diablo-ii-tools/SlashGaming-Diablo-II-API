@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,79 +47,23 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2common/d2common_get_global_equipment_slot_layout.hpp"
+#include "../../../../include/cxx/game_function/d2common/d2common_get_global_equipment_slot_layout.hpp"
 
-#include <windows.h>
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/stdcall_function.hpp"
 
 namespace d2::d2common {
 namespace {
 
-__declspec(naked) void __cdecl
-D2Common_GetGlobalEquipmentSlotLayout_1_00(
-    std::intptr_t func_ptr,
-    std::uint32_t inventory_record_index,
-    EquipmentLayout* out_equipment_slot_layout,
-    std::uint32_t equipment_slot_index
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Common.dll",
+      "GetGlobalEquipmentSlotLayout"
+  );
 
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(push dword ptr [ebp + 16]);
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-__declspec(naked) void __cdecl
-D2Common_GetGlobalEquipmentSlotLayout_1_09D(
-    std::intptr_t func_ptr,
-    std::uint32_t inventory_record_index,
-    std::uint32_t inventory_arrange_mode,
-    EquipmentLayout* out_equipment_slot_layout,
-    std::uint32_t equipment_slot_index
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
-
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 24]);
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(push dword ptr [ebp + 16]);
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Common_GetGlobalEquipmentSlotLayout() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -130,25 +74,48 @@ void GetGlobalEquipmentSlotLayout(
     EquipmentLayout* out_equipment_slot_layout,
     unsigned int equipment_slot_index
 ) {
-  std::intptr_t func_ptr = D2Common_GetGlobalEquipmentSlotLayout();
-
   GameVersion running_game_version = d2::GetRunningGameVersionId();
+
   if (running_game_version <= GameVersion::k1_06B) {
-    D2Common_GetGlobalEquipmentSlotLayout_1_00(
-        func_ptr,
+    GetGlobalEquipmentSlotLayout_1_00(
         inventory_record_index,
         out_equipment_slot_layout,
         equipment_slot_index
     );
-  } else {
-    D2Common_GetGlobalEquipmentSlotLayout_1_09D(
-        func_ptr,
+  } else /* if (running_game_version >= GameVersion::k1_07Beta) */ {
+    GetGlobalEquipmentSlotLayout_1_07(
         inventory_record_index,
         inventory_arrange_mode,
         out_equipment_slot_layout,
         equipment_slot_index
     );
   }
+}
+
+void GetGlobalEquipmentSlotLayout_1_00(
+    std::uint32_t inventory_record_index,
+    EquipmentLayout* out_equipment_slot_layout,
+    std::uint32_t equipment_slot_index
+) {
+  mapi::CallStdcallFunction(
+      inventory_record_index,
+      out_equipment_slot_layout,
+      equipment_slot_index
+  );
+}
+
+void GetGlobalEquipmentSlotLayout_1_07(
+    std::uint32_t inventory_record_index,
+    std::uint32_t inventory_arrange_mode,
+    EquipmentLayout* out_equipment_slot_layout,
+    std::uint32_t equipment_slot_index
+) {
+  mapi::CallStdcallFunction(
+      inventory_record_index,
+      inventory_arrange_mode,
+      out_equipment_slot_layout,
+      equipment_slot_index
+  );
 }
 
 } // namespace d2::d2common
