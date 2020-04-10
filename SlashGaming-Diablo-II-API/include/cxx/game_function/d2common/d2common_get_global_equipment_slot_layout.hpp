@@ -63,14 +63,14 @@ DLLEXPORT void GetGlobalEquipmentSlotLayout(
 
 DLLEXPORT void GetGlobalEquipmentSlotLayout_1_00(
     std::uint32_t inventory_record_index,
-    EquipmentLayout* out_equipment_slot_layout,
+    EquipmentLayout_1_00* out_equipment_slot_layout,
     std::uint32_t equipment_slot_index
 );
 
 DLLEXPORT void GetGlobalEquipmentSlotLayout_1_07(
     std::uint32_t inventory_record_index,
     std::uint32_t inventory_arrange_mode,
-    EquipmentLayout* out_equipment_slot_layout,
+    EquipmentLayout_1_00* out_equipment_slot_layout,
     std::uint32_t equipment_slot_index
 );
 

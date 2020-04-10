@@ -79,14 +79,14 @@ void GetGlobalEquipmentSlotLayout(
   if (running_game_version <= GameVersion::k1_06B) {
     GetGlobalEquipmentSlotLayout_1_00(
         inventory_record_index,
-        out_equipment_slot_layout,
+        reinterpret_cast<EquipmentLayout_1_00*>(out_equipment_slot_layout),
         equipment_slot_index
     );
   } else /* if (running_game_version >= GameVersion::k1_07Beta) */ {
     GetGlobalEquipmentSlotLayout_1_07(
         inventory_record_index,
         inventory_arrange_mode,
-        out_equipment_slot_layout,
+        reinterpret_cast<EquipmentLayout_1_00*>(out_equipment_slot_layout),
         equipment_slot_index
     );
   }
@@ -94,7 +94,7 @@ void GetGlobalEquipmentSlotLayout(
 
 void GetGlobalEquipmentSlotLayout_1_00(
     std::uint32_t inventory_record_index,
-    EquipmentLayout* out_equipment_slot_layout,
+    EquipmentLayout_1_00* out_equipment_slot_layout,
     std::uint32_t equipment_slot_index
 ) {
   mapi::CallStdcallFunction(
@@ -107,7 +107,7 @@ void GetGlobalEquipmentSlotLayout_1_00(
 void GetGlobalEquipmentSlotLayout_1_07(
     std::uint32_t inventory_record_index,
     std::uint32_t inventory_arrange_mode,
-    EquipmentLayout* out_equipment_slot_layout,
+    EquipmentLayout_1_00* out_equipment_slot_layout,
     std::uint32_t equipment_slot_index
 ) {
   mapi::CallStdcallFunction(
