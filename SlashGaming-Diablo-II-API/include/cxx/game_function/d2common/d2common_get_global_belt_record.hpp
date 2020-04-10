@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_BELT_RECORD_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_BELT_RECORD_HPP_
 
+#include <cstdint>
+
+#include "../../../d2api_version.h"
 #include "../../game_struct/d2_belt_record/d2_belt_record_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -56,6 +59,17 @@ DLLEXPORT void GetGlobalBeltRecord(
     unsigned int belt_record_index,
     unsigned int inventory_arrange_mode,
     BeltRecord* out_belt_record
+);
+
+DLLEXPORT void GetGlobalBeltRecord_1_00(
+    std::uint32_t belt_record_index,
+    BeltRecord_1_00* out_belt_record
+);
+
+DLLEXPORT void GetGlobalBeltRecord_1_07(
+    std::uint32_t belt_record_index,
+    std::uint32_t inventory_arrange_mode,
+    BeltRecord_1_00* out_belt_record
 );
 
 } // namespace d2::d2common
