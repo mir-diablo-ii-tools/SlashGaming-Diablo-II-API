@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2COMMON_D2COMMON_GET_GLOBAL_INVENTORY_GRID_LAYOUT_HPP_
 
+#include <cstdint>
+
 #include "../../game_struct/d2_grid_layout/d2_grid_layout_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -56,6 +58,17 @@ DLLEXPORT void GetGlobalInventoryGridLayout(
     unsigned int inventory_record_index,
     unsigned int inventory_arrange_mode,
     GridLayout* out_grid_layout
+);
+
+DLLEXPORT void GetGlobalInventoryGridLayout_1_00(
+    std::uint32_t inventory_record_index,
+    GridLayout_1_00* out_grid_layout
+);
+
+DLLEXPORT void GetGlobalInventoryGridLayout_1_07(
+    std::uint32_t inventory_record_index,
+    std::uint32_t inventory_arrange_mode,
+    GridLayout_1_00* out_grid_layout
 );
 
 } // namespace d2::d2common
