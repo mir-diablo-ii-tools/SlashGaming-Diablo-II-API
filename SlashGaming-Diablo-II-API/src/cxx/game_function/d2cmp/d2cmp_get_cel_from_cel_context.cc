@@ -73,8 +73,7 @@ static const mapi::GameAddress& GetGameAddress() {
 Cel* GetCelFromCelContext(CelContext* cel_context) {
   GameVersion running_game_version = GetRunningGameVersionId();
 
-  if (running_game_version >= GameVersion::k1_00
-      && running_game_version <= GameVersion::k1_10) {
+  if (running_game_version <= GameVersion::k1_10) {
     auto* actual_cel_context = reinterpret_cast<CelContext_1_00*>(
         cel_context
     );
