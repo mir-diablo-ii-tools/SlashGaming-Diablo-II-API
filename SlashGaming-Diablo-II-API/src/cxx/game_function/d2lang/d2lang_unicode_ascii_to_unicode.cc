@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,22 +43,68 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
-#define SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
+#include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_ascii_to_unicode.hpp"
 
-#include "../../../dllexport_define.inc"
+#include <cstdint>
+
+#include "../../../asm_x86_macro.h"
+#include "../../../cxx/game_address_table.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
 namespace d2::d2lang {
+namespace {
 
-DLLEXPORT UnicodeChar* Unicode_asciiToUnicode(
+__declspec(naked) UnicodeChar* __cdecl
+D2Lang_Unicode_asciiToUnicode_1_00(
+    std::intptr_t func_ptr,
+    UnicodeChar* dest,
+    const char* src,
+    std::int32_t count_with_null_term
+) {
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push dword ptr [ebp + 20]);
+  ASM_X86(mov edx, [ebp + 16]);
+  ASM_X86(mov ecx, [ebp + 12]);
+  ASM_X86(call dword ptr [ebp + 8]);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+std::intptr_t D2Lang_Unicode_asciiToUnicode() {
+  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
+      .raw_address();
+
+  return ptr;
+}
+
+} // namespace
+
+UnicodeChar* Unicode_asciiToUnicode(
     UnicodeChar* dest,
     const char* src,
     int count_with_null_term
-);
+) {
+  std::intptr_t ptr = D2Lang_Unicode_asciiToUnicode();
+
+  return D2Lang_Unicode_asciiToUnicode_1_00(
+      ptr,
+      dest,
+      src,
+      count_with_null_term
+  );
+}
 
 } // namespace d2::d2lang
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
