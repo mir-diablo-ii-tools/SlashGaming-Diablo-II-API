@@ -49,7 +49,7 @@
 
 namespace mapi {
 
-void* __cdecl CallFastcallFunction_Impl(
+__declspec(naked) void* __cdecl CallFastcallFunction_Impl(
     std::intptr_t func_ptr,
     int num_params,
     ...
