@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,34 +47,42 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strncmp.hpp"
+#include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_strncmp.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
-#include "../../game_struct/d2_unicode_char/d2_unicode_char_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2lang {
 namespace {
 
-int D2Lang_Unicode_strncmp_1_00(
-    const UnicodeChar* str1,
-    const UnicodeChar* str2,
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Lang.dll",
+      "Unicode_strncmp"
+  );
+
+  return game_address;
+}
+
+/**
+ * This function did not exist in 1.00. It has been reconstructed to behave
+ * exactly like in 1.10+.
+ */
+static int Unicode_strncmp_1_00_Impl(
+    const UnicodeChar_1_00* str1,
+    const UnicodeChar_1_00* str2,
     std::size_t count
 ) {
-  auto* actual_str1 = reinterpret_cast<const UnicodeChar_1_00*>(str1);
-  auto* actual_str2 = reinterpret_cast<const UnicodeChar_1_00*>(str2);
-
   for (std::size_t i = 0; i < count; i += 1) {
-    int diff = actual_str1[i].ch - actual_str2[i].ch;
+    int diff = str1[i].ch - str2[i].ch;
 
     if (diff != 0) {
       return diff;
     }
 
-    if (actual_str1[i].ch == u'\0') {
+    if (str1[i].ch == u'\0') {
       return 0;
     }
   }
@@ -82,36 +90,19 @@ int D2Lang_Unicode_strncmp_1_00(
   return 0;
 }
 
-__declspec(naked) std::int32_t __cdecl
-D2Lang_Unicode_strncmp_1_10(
-    std::intptr_t func_ptr,
-    const UnicodeChar* str1,
-    const UnicodeChar* str2,
-    std::uint32_t count
+static std::int32_t Unicode_strncmp_1_10(
+    const UnicodeChar_1_00* str1,
+    const UnicodeChar_1_00* str2,
+    std::size_t count
 ) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
-
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 20])
-  ASM_X86(mov edx, dword ptr [ebp + 16]);
-  ASM_X86(mov ecx, dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Lang_Unicode_strncmp() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return reinterpret_cast<std::int32_t>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          str1,
+          str2,
+          count
+      )
+  );
 }
 
 } // namespace
@@ -121,13 +112,36 @@ int Unicode_strncmp(
     const UnicodeChar* str2,
     std::size_t count
 ) {
-  std::intptr_t ptr = D2Lang_Unicode_strncmp();
+  GameVersion running_game_version = GetRunningGameVersionId();
 
-  if (GetRunningGameVersionId() < GameVersion::k1_10) {
-    return D2Lang_Unicode_strncmp_1_00(str1, str2, count);
-  } else {
-    return D2Lang_Unicode_strncmp_1_10(ptr, str1, str2, count);
+  if (running_game_version <= GameVersion::k1_09D) {
+    return Unicode_strncmp_1_00_Impl(
+        reinterpret_cast<const UnicodeChar_1_00*>(str1),
+        reinterpret_cast<const UnicodeChar_1_00*>(str2),
+        count
+    );
+  } else /* if (running_game_version >= GameVersion::k1_10) */ {
+    return Unicode_strncmp_1_10(
+        reinterpret_cast<const UnicodeChar_1_00*>(str1),
+        reinterpret_cast<const UnicodeChar_1_00*>(str2),
+        count
+    );
   }
+}
+
+std::int32_t Unicode_strncmp_1_00(
+    const UnicodeChar_1_00* str1,
+    const UnicodeChar_1_00* str2,
+    std::uint32_t count
+) {
+  return reinterpret_cast<std::int32_t>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          str1,
+          str2,
+          count
+      )
+  );
 }
 
 } // namespace d2::d2lang
