@@ -46,16 +46,24 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_UNICODE_ASCII_TO_UNICODE_HPP_
 
+#include <cstdint>
+
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2lang {
 
-DLLEXPORT UnicodeChar* Unicode_asciiToUnicode(
+DLLEXPORT UnicodeChar* Unicode_AsciiToUnicode(
     UnicodeChar* dest,
     const char* src,
     int count_with_null_term
+);
+
+DLLEXPORT UnicodeChar_1_00* Unicode_AsciiToUnicode_1_00(
+    UnicodeChar_1_00* dest,
+    const char* src,
+    std::int32_t count_with_null_term
 );
 
 } // namespace d2::d2lang

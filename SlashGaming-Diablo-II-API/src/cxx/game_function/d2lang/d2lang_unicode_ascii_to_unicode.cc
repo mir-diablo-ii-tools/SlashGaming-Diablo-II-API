@@ -49,61 +49,50 @@
 
 #include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_ascii_to_unicode.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2lang {
 namespace {
 
-__declspec(naked) UnicodeChar* __cdecl
-D2Lang_Unicode_asciiToUnicode_1_00(
-    std::intptr_t func_ptr,
-    UnicodeChar* dest,
-    const char* src,
-    std::int32_t count_with_null_term
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Lang.dll",
+      "Unicode_AsciiToUnicode"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(mov edx, [ebp + 16]);
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Lang_Unicode_asciiToUnicode() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
-UnicodeChar* Unicode_asciiToUnicode(
+UnicodeChar* Unicode_AsciiToUnicode(
     UnicodeChar* dest,
     const char* src,
     int count_with_null_term
 ) {
-  std::intptr_t ptr = D2Lang_Unicode_asciiToUnicode();
+  return reinterpret_cast<UnicodeChar*>(
+      Unicode_AsciiToUnicode_1_00(
+          reinterpret_cast<UnicodeChar_1_00*>(dest),
+          src,
+          count_with_null_term
+      )
+  );
+}
 
-  return D2Lang_Unicode_asciiToUnicode_1_00(
-      ptr,
-      dest,
-      src,
-      count_with_null_term
+UnicodeChar_1_00* Unicode_AsciiToUnicode_1_00(
+    UnicodeChar_1_00* dest,
+    const char* src,
+    std::int32_t count_with_null_term
+) {
+  return reinterpret_cast<UnicodeChar_1_00*>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          dest,
+          src
+      )
   );
 }
 
