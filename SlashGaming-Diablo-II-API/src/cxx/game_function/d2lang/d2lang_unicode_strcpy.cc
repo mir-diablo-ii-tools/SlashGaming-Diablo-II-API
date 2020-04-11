@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,45 +47,23 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_strcpy.hpp"
+#include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_strcpy.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2lang {
 namespace {
 
-__declspec(naked) UnicodeChar* __cdecl
-D2Lang_Unicode_strcpy_1_00(
-    std::intptr_t func_ptr,
-    UnicodeChar* dest,
-    const UnicodeChar* src
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Lang.dll",
+      "Unicode_strcpy"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(mov edx, dword ptr [ebp + 16]);
-  ASM_X86(mov ecx, dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Lang_Unicode_strcpy() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -94,9 +72,25 @@ UnicodeChar* Unicode_strcpy(
     UnicodeChar* dest,
     const UnicodeChar* src
 ) {
-  std::intptr_t ptr = D2Lang_Unicode_strcpy();
+  return reinterpret_cast<UnicodeChar*>(
+      Unicode_strcpy_1_00(
+          reinterpret_cast<UnicodeChar_1_00*>(dest),
+          reinterpret_cast<const UnicodeChar_1_00*>(src)
+      )
+  );
+}
 
-  return D2Lang_Unicode_strcpy_1_00(ptr, dest, src);
+UnicodeChar_1_00* Unicode_strcpy_1_00(
+    UnicodeChar_1_00* dest,
+    const UnicodeChar_1_00* src
+) {
+  return reinterpret_cast<UnicodeChar_1_00*>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          dest,
+          src
+      )
+  );
 }
 
 } // namespace d2::d2lang
