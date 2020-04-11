@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_GET_STRING_BY_INDEX_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_GET_STRING_BY_INDEX_HPP_
 
+#include <cstdint>
+
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -54,6 +56,10 @@ namespace d2::d2lang {
 
 DLLEXPORT const UnicodeChar* GetStringByIndex(
     unsigned int id
+);
+
+DLLEXPORT const UnicodeChar_1_00* GetStringByIndex_1_00(
+    std::uint32_t id
 );
 
 } // namespace d2::d2lang

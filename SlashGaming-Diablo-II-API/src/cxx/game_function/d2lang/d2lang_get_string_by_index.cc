@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,43 +47,23 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2lang/d2lang_get_string_by_index.hpp"
+#include "../../../../include/cxx/game_function/d2lang/d2lang_get_string_by_index.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2lang {
 namespace {
 
-__declspec(naked) const UnicodeChar* __cdecl
-D2Lang_GetStringByIndex_1_00(
-    std::intptr_t func_ptr,
-    unsigned int id
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Lang.dll",
+      "GetStringByIndex"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Lang_GetStringByIndex() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -91,11 +71,17 @@ std::intptr_t D2Lang_GetStringByIndex() {
 const UnicodeChar* GetStringByIndex(
     unsigned int id
 ) {
-  std::intptr_t ptr = D2Lang_GetStringByIndex();
+  return reinterpret_cast<const UnicodeChar*>(GetStringByIndex_1_00(id));
+}
 
-  return D2Lang_GetStringByIndex_1_00(
-      ptr,
-      id
+const UnicodeChar_1_00* GetStringByIndex_1_00(
+    std::uint32_t id
+) {
+  return reinterpret_cast<UnicodeChar_1_00*>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          id
+      )
   );
 }
 
