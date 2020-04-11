@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,10 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_FUNCTION_HPP_
+#define SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_FUNCTION_HPP_
 
 #include "d2gfx/d2gfx_draw_cel_context.hpp"
 #include "d2gfx/d2gfx_draw_rectangle.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_FUNC_HPP_
+#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2GFX_FUNCTION_HPP_
