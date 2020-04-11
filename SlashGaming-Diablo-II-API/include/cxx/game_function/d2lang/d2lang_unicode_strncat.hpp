@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_D2LANG_UNICODE_STRNCAT_HPP_
 
 #include <cstddef>
+#include <cstdint>
 
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
@@ -58,6 +59,12 @@ DLLEXPORT UnicodeChar* Unicode_strncat(
     UnicodeChar* dest,
     const UnicodeChar* src,
     std::size_t count
+);
+
+DLLEXPORT UnicodeChar_1_00* Unicode_strncat_1_00(
+    UnicodeChar_1_00* dest,
+    const UnicodeChar_1_00* src,
+    std::uint32_t count
 );
 
 } // namespace d2::d2lang
