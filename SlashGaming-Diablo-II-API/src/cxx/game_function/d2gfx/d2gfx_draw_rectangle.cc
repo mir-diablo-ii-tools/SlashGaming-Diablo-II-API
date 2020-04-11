@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,55 +47,23 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_rectangle.hpp"
+#include "../../../../include/cxx/game_function/d2gfx/d2gfx_draw_rectangle.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/stdcall_function.hpp"
 
 namespace d2::d2gfx {
 namespace {
 
-__declspec(naked) void __cdecl
-D2GFX_DrawRectangle_1_00(
-    std::intptr_t func_ptr,
-    std::int32_t left,
-    std::int32_t top,
-    std::int32_t right,
-    std::int32_t bottom,
-    std::int32_t primitive_color_id,
-    std::int32_t draw_effect_id
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2GFX.dll",
+      "DrawRectangle"
+  );
 
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 32]);
-  ASM_X86(push dword ptr [ebp + 28]);
-  ASM_X86(push dword ptr [ebp + 24]);
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(push dword ptr [ebp + 16]);
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2GFX_DrawRectangle() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -108,18 +76,32 @@ void DrawRectangle(
     int primitive_color_id,
     DrawEffect draw_effect_id
 ) {
-  std::intptr_t func_ptr = D2GFX_DrawRectangle();
-
-  int draw_effect_game_value = ToGameValue(draw_effect_id);
-
-  D2GFX_DrawRectangle_1_00(
-      func_ptr,
+  DrawRectangle_1_00(
       left,
       top,
       right,
       bottom,
       primitive_color_id,
-      draw_effect_game_value
+      ToGameValue_1_00(draw_effect_id)
+  );
+}
+
+void DrawRectangle_1_00(
+    std::int32_t left,
+    std::int32_t top,
+    std::int32_t right,
+    std::int32_t bottom,
+    std::int32_t primitive_color_id,
+    DrawEffect_1_00 draw_effect_id
+) {
+  mapi::CallStdcallFunction(
+      GetGameAddress().raw_address(),
+      left,
+      top,
+      right,
+      bottom,
+      primitive_color_id,
+      draw_effect_id
   );
 }
 
