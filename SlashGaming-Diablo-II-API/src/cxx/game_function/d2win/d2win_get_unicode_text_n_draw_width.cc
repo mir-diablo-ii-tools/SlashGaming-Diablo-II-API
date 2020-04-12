@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,47 +47,23 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2win/d2win_get_unicode_text_n_draw_width.hpp"
+#include "../../../../include/cxx/game_function/d2win/d2win_get_unicode_text_n_draw_width.hpp"
 
-#include <windows.h>
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2win {
 namespace {
 
-__declspec(naked) std::int32_t __cdecl
-D2Win_GetUnicodeTextNDrawWidth_1_00(
-    std::intptr_t func_ptr,
-    const UnicodeChar* text,
-    std::int32_t length
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Win.dll",
+      "GetUnicodeTextNDrawWidth"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(mov edx, [ebp + 16]);
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Win_GetUnicodeTextNDrawWidth() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -96,15 +72,23 @@ int GetUnicodeTextNDrawWidth(
     const UnicodeChar* text,
     int length
 ) {
-  std::intptr_t func_ptr = D2Win_GetUnicodeTextNDrawWidth();
-
-  int result = D2Win_GetUnicodeTextNDrawWidth_1_00(
-      func_ptr,
-      text,
+  return GetUnicodeTextNDrawWidth_1_00(
+      reinterpret_cast<const UnicodeChar_1_00*>(text),
       length
   );
+}
 
-  return result;
+std::int32_t GetUnicodeTextNDrawWidth_1_00(
+    const UnicodeChar_1_00* text,
+    std::int32_t length
+) {
+  return reinterpret_cast<std::int32_t>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          text,
+          length
+      )
+  );
 }
 
 } // namespace d2::d2win

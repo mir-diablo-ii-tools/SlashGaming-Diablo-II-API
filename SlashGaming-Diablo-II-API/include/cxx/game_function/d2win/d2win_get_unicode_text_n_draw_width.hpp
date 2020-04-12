@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_GET_UNICODE_TEXT_N_DRAW_WIDTH_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_GET_UNICODE_TEXT_N_DRAW_WIDTH_HPP_
 
+#include <cstdint>
+
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -55,6 +57,11 @@ namespace d2::d2win {
 DLLEXPORT int GetUnicodeTextNDrawWidth(
     const UnicodeChar* text,
     int length
+);
+
+DLLEXPORT std::int32_t GetUnicodeTextNDrawWidth_1_00(
+    const UnicodeChar_1_00* text,
+    std::int32_t length
 );
 
 } // namespace d2::d2win
