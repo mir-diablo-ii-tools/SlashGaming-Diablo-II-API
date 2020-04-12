@@ -49,45 +49,21 @@
 
 #include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_unicode_to_utf8.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2lang {
 namespace {
 
-__declspec(naked) char8_t* __cdecl
-D2Lang_Unicode_unicodeToUtf8_1_00(
-    std::intptr_t func_ptr,
-    char8_t* dest,
-    const UnicodeChar* src,
-    std::int32_t count_with_null_term
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Lang.dll",
+      "Unicode_UnicodeToUtf8"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(mov edx, [ebp + 16]);
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Lang_Unicode_unicodeToUtf8() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -97,10 +73,20 @@ char8_t* Unicode_unicodeToUtf8(
     const UnicodeChar* src,
     int count_with_null_term
 ) {
-  std::intptr_t ptr = D2Lang_Unicode_unicodeToUtf8();
+  return Unicode_UnicodeToUtf8_1_00(
+      dest,
+      reinterpret_cast<const UnicodeChar_1_00*>(src),
+      count_with_null_term
+  );
+}
 
-  return D2Lang_Unicode_unicodeToUtf8_1_00(
-      ptr,
+char8_t* Unicode_UnicodeToUtf8_1_00(
+    char8_t* dest,
+    const UnicodeChar_1_00* src,
+    std::int32_t count_with_null_term
+) {
+  return reinterpret_cast<char8_t*>(
+      GetGameAddress().raw_address(),
       dest,
       src,
       count_with_null_term
