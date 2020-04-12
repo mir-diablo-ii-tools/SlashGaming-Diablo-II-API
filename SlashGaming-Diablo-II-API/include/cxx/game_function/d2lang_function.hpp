@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,11 +43,11 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_FUNCTION_HPP_
+#define SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_FUNCTION_HPP_
 
 #include "d2lang/d2lang_get_string_by_index.hpp"
-#include "d2lang/d2lang_unicode_asciiToUnicode.hpp"
+#include "d2lang/d2lang_unicode_ascii_to_unicode.hpp"
 #include "d2lang/d2lang_unicode_strcat.hpp"
 #include "d2lang/d2lang_unicode_strcmp.hpp"
 #include "d2lang/d2lang_unicode_strcpy.hpp"
@@ -57,7 +57,7 @@
 #include "d2lang/d2lang_unicode_strncpy.hpp"
 #include "d2lang/d2lang_unicode_tolower.hpp"
 #include "d2lang/d2lang_unicode_toupper.hpp"
-#include "d2lang/d2lang_unicode_unicodeToUtf8.hpp"
-#include "d2lang/d2lang_unicode_utf8ToUnicode.hpp"
+#include "d2lang/d2lang_unicode_unicode_to_utf8.hpp"
+#include "d2lang/d2lang_unicode_utf8_to_unicode.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_FUNC_HPP_
+#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2LANG_FUNCTION_HPP_
