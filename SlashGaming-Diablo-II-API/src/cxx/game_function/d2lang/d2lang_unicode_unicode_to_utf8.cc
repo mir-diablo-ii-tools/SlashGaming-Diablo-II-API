@@ -68,7 +68,7 @@ static const mapi::GameAddress& GetGameAddress() {
 
 } // namespace
 
-char8_t* Unicode_unicodeToUtf8(
+char8_t* Unicode_UnicodeToUtf8(
     char8_t* dest,
     const UnicodeChar* src,
     int count_with_null_term
