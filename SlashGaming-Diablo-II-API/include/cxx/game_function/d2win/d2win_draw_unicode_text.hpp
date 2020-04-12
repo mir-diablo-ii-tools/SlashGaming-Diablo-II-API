@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_DRAW_UNICODE_TEXT_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_DRAW_UNICODE_TEXT_HPP_
 
+#include <cstdint>
+
+#include "../../../../include/cxx/game_bool.hpp"
 #include "../../../../include/cxx/game_constant/d2_text_color.hpp"
 #include "../../game_struct/d2_unicode_char/d2_unicode_char_struct.hpp"
 
@@ -59,6 +62,14 @@ DLLEXPORT void DrawUnicodeText(
     int position_y,
     TextColor text_color,
     bool is_indented
+);
+
+DLLEXPORT void DrawUnicodeText_1_00(
+    const UnicodeChar_1_00* text,
+    std::int32_t position_x,
+    std::int32_t position_y,
+    TextColor_1_00 text_color,
+    mapi::bool32 is_indented
 );
 
 } // namespace d2::d2win
