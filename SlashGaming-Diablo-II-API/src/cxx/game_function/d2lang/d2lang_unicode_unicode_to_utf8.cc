@@ -86,10 +86,12 @@ char8_t* Unicode_UnicodeToUtf8_1_00(
     std::int32_t count_with_null_term
 ) {
   return reinterpret_cast<char8_t*>(
-      GetGameAddress().raw_address(),
-      dest,
-      src,
-      count_with_null_term
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          dest,
+          src,
+          count_with_null_term
+      )
   );
 }
 
