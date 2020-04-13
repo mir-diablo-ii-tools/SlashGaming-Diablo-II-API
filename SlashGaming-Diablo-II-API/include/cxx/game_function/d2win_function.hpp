@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_FUNCTION_HPP_
+#define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_FUNCTION_HPP_
 
 #include "d2win/d2win_draw_unicode_text.hpp"
 #include "d2win/d2win_get_pop_up_unicode_text_width_and_height.hpp"
@@ -57,4 +57,4 @@
 #include "d2win/d2win_unload_cel_file.hpp"
 #include "d2win/d2win_unload_mpq.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_FUNC_HPP_
+#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_FUNCTION_HPP_
