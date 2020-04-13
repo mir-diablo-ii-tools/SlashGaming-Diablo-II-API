@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,17 +46,63 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_LOAD_MPQ_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_LOAD_MPQ_HPP_
 
+#include <cstdint>
+
+#include "../../game_bool.hpp"
 #include "../../game_struct/d2_mpq_archive_handle/d2_mpq_archive_handle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2win {
 
-DLLEXPORT MPQArchiveHandle* LoadMPQ(
+DLLEXPORT MpqArchiveHandle* LoadMpq(
     const char* mpq_file_name,
     bool is_set_err_on_drive_query_fail,
     void* (*on_fail_callback)(void),
     int priority
+);
+
+DLLEXPORT MpqArchiveHandle_1_00* LoadMpq_1_00(
+    const char* dll_file_name,
+    const char* mpq_file_name,
+    const char* mpq_name,
+    void* unused_04__set_to_nullptr,
+    void* (*on_fail_callback)()
+);
+
+DLLEXPORT MpqArchiveHandle_1_00* LoadMpq_1_03(
+    const char* dll_file_name,
+    const char* mpq_file_name,
+    const char* mpq_name,
+    void* unused_04__set_to_nullptr,
+    mapi::bool32 is_set_err_on_drive_query_fail,
+    void* (*on_fail_callback)()
+);
+
+DLLEXPORT MpqArchiveHandle_1_00* LoadMpq_1_07(
+    const char* dll_file_name,
+    const char* mpq_file_name,
+    const char* mpq_name,
+    void* unused_04__set_to_nullptr,
+    mapi::bool32 is_set_err_on_drive_query_fail,
+    void* (*on_fail_callback)(),
+    std::int32_t priority
+);
+
+DLLEXPORT MpqArchiveHandle_1_00* LoadMpq_1_11(
+    const char* dll_file_name,
+    const char* mpq_file_name,
+    const char* mpq_name,
+    mapi::bool32 is_set_err_on_drive_query_fail,
+    void* (*on_fail_callback)(),
+    std::int32_t priority
+);
+
+DLLEXPORT MpqArchiveHandle_1_00* LoadMpq_1_14A(
+    const char* mpq_file_name,
+    mapi::bool32 is_set_err_on_drive_query_fail,
+    void* (*on_fail_callback)(),
+    std::int32_t priority
 );
 
 } // namespace d2::d2win
