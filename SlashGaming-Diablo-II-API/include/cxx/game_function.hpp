@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,27 +43,27 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNC_HPP_
-#define SGD2MAPI_CXX_GAME_FUNC_HPP_
+#ifndef SGD2MAPI_CXX_GAME_FUNCTION_HPP_
+#define SGD2MAPI_CXX_GAME_FUNCTION_HPP_
 
-#include "game_func/bnclient_func.hpp"
-#include "game_func/d2client_func.hpp"
-#include "game_func/d2cmp_func.hpp"
-#include "game_func/d2common_func.hpp"
-#include "game_func/d2ddraw_func.hpp"
-#include "game_func/d2direct3d_func.hpp"
-#include "game_func/d2game_func.hpp"
-#include "game_func/d2gdi_func.hpp"
-#include "game_func/d2gfx_func.hpp"
-#include "game_func/d2glide_func.hpp"
-#include "game_func/d2lang_func.hpp"
-#include "game_func/d2launch_func.hpp"
-#include "game_func/d2mcpclient_func.hpp"
-#include "game_func/d2multi_func.hpp"
-#include "game_func/d2net_func.hpp"
-#include "game_func/d2sound_func.hpp"
-#include "game_func/d2win_func.hpp"
-#include "game_func/fog_func.hpp"
-#include "game_func/storm_func.hpp"
+#include "game_function/bnclient_function.hpp"
+#include "game_function/d2client_function.hpp"
+#include "game_function/d2cmp_function.hpp"
+#include "game_function/d2common_function.hpp"
+#include "game_function/d2ddraw_function.hpp"
+#include "game_function/d2direct3d_function.hpp"
+#include "game_function/d2game_function.hpp"
+#include "game_function/d2gdi_function.hpp"
+#include "game_function/d2gfx_function.hpp"
+#include "game_function/d2glide_function.hpp"
+#include "game_function/d2lang_function.hpp"
+#include "game_function/d2launch_function.hpp"
+#include "game_function/d2mcpclient_function.hpp"
+#include "game_function/d2multi_function.hpp"
+#include "game_function/d2net_function.hpp"
+#include "game_function/d2sound_function.hpp"
+#include "game_function/d2win_function.hpp"
+#include "game_function/fog_function.hpp"
+#include "game_function/storm_function.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_FUNC_HPP_
+#endif // SGD2MAPI_CXX_GAME_FUNCTION_HPP_
