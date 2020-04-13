@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,57 +47,37 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2win/d2win_load_cel_file.hpp"
-
-#include <windows.h>
-#include <cstdint>
+#include "../../../../include/cxx/game_function/d2win/d2win_unload_cel_file.hpp"
 
 #include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2win {
 namespace {
 
-__declspec(naked) void __cdecl
-D2Win_UnloadCelFile_1_00(
-    std::intptr_t func_ptr,
-    CelFile* cel_file
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Win.dll",
+      "UnloadCelFile"
+  );
 
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Win_UnloadCelFile() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
-void UnloadCelFile(
-    CelFile* cel_file
-) {
-  std::intptr_t func_ptr = D2Win_UnloadCelFile();
+void UnloadCelFile(CelFile* cel_file) {
+  UnloadCelFile_1_00(
+      reinterpret_cast<CelFile_1_00*>(cel_file)
+  );
+}
 
-  D2Win_UnloadCelFile_1_00(func_ptr, cel_file);
+void UnloadCelFile_1_00(CelFile_1_00* cel_file) {
+  mapi::CallFastcallFunction(
+      GetGameAddress().raw_address(),
+      cel_file
+  );
 }
 
 } // namespace d2::d2win
