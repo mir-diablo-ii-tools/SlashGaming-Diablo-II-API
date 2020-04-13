@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,34 +47,32 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/bnclient/bnclient_gateway_domain_name.hpp"
+#include "../../../../include/cxx/game_variable/bnclient/bnclient_gateway_domain_name.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::bnclient {
 namespace {
 
-std::intptr_t BNClient_GatewayDomainName() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "BNClient.dll",
+      "GatewayDomainName"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 char* GetGatewayDomainName() {
-  std::intptr_t ptr = BNClient_GatewayDomainName();
-  GameVersion current_game_version = GetRunningGameVersionId();
+  return GetGatewayDomainName_1_00();
+}
 
-  char* value;
+char* GetGatewayDomainName_1_00() {
+  std::intptr_t ptr = GetGameAddress().raw_address();
 
-  value = reinterpret_cast<char*>(ptr);
-
-  return value;
+  return reinterpret_cast<char*>(ptr);
 }
 
 } // namespace d2::bnclient
