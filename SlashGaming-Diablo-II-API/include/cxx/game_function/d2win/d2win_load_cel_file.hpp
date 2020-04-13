@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_LOAD_CEL_FILE_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_LOAD_CEL_FILE_HPP_
 
+#include "../../game_bool.hpp"
 #include "../../game_struct/d2_cel_file/d2_cel_file_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -55,6 +56,11 @@ namespace d2::d2win {
 DLLEXPORT CelFile* LoadCelFile(
     const char* cel_file_name,
     bool is_dcc_else_dc6
+);
+
+DLLEXPORT CelFile_1_00* LoadCelFile_1_00(
+    const char* cel_file_name,
+    mapi::bool32 is_dcc_else_dc6
 );
 
 } // namespace d2::d2win
