@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_STORM_STORM_S_FILE_OPEN_ARCHIVE_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_STORM_STORM_S_FILE_OPEN_ARCHIVE_HPP_
 
+#include <cstdint>
+
+#include "../../game_bool.hpp"
 #include "../../game_struct/d2_mpq_archive/d2_mpq_archive_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -56,7 +59,14 @@ DLLEXPORT bool SFileOpenArchive(
     const char* mpq_archive_path,
     int priority,
     unsigned int flags,
-    MPQArchive** mpq_archive_ptr_out
+    MpqArchive** mpq_archive_ptr_out
+);
+
+DLLEXPORT mapi::bool32 SFileOpenArchive_1_00(
+    const char* mpq_archive_path,
+    std::int32_t priority,
+    std::uint32_t flags,
+    MpqArchive_1_00** mpq_archive_ptr_out
 );
 
 } // namespace d2::storm
