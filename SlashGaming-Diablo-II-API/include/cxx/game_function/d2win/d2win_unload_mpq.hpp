@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -52,9 +52,9 @@
 
 namespace d2::d2win {
 
-DLLEXPORT void UnloadMPQ(
-    MPQArchiveHandle* mpq_archive_handle
-);
+DLLEXPORT void UnloadMpq(MpqArchiveHandle* mpq_archive_handle);
+
+DLLEXPORT void UnloadMpq_1_00(MpqArchiveHandle_1_00* mpq_archive_handle);
 
 } // namespace d2::d2win
 

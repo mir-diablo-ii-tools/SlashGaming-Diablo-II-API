@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,90 +47,51 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/d2win/d2win_unload_mpq.hpp"
+#include "../../../../include/cxx/game_function/d2win/d2win_unload_mpq.hpp"
 
-#include <cstdint>
-
-#include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
-#include "../../../../include/cxx/game_func/storm_func.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/esi_function.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2win {
 namespace {
 
-__declspec(naked) void __cdecl
-D2Win_UnloadMPQ_1_00(
-    std::intptr_t func_ptr,
-    MPQArchiveHandle* mpq_archive_handle
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Win.dll",
+      "UnloadCelFile"
+  );
 
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-__declspec(naked) void __cdecl
-D2Win_UnloadMPQ_1_11(
-    std::intptr_t func_ptr,
-    MPQArchiveHandle* mpq_archive_handle
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
-
-  ASM_X86(push eax);
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-  ASM_X86(push esi);
-
-  ASM_X86(mov esi, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop esi);
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-  ASM_X86(pop eax);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t D2Win_UnloadMPQ() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
-void UnloadMPQ(
-    MPQArchiveHandle* mpq_archive_handle
+void UnloadMpq(
+    MpqArchiveHandle* mpq_archive_handle
 ) {
-  std::intptr_t func_ptr = D2Win_UnloadMPQ();
+  UnloadMpq_1_00(
+      reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle)
+  );
+}
 
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+void UnloadMpq_1_00(MpqArchiveHandle_1_00* mpq_archive_handle) {
+  GameVersion running_game_version = GetRunningGameVersionId();
 
-  if (running_game_version >= d2::GameVersion::k1_11
-      && running_game_version <= d2::GameVersion::k1_13D) {
-    D2Win_UnloadMPQ_1_11(func_ptr, mpq_archive_handle);
-  } else /* if ((running_game_version >= d2::GameVersion::k1_00
-      && running_game_version <= d2::GameVersion::k1_10)
-      || (running_game_version >= d2::GameVersion::kClassic1_14A
-        && running_game_version <= d2::GameVersion::kLod1_14D)) */ {
-    D2Win_UnloadMPQ_1_00(func_ptr, mpq_archive_handle);
+  if (running_game_version <= GameVersion::k1_10
+      || running_game_version >= GameVersion::kClassic1_14A) {
+    mapi::CallFastcallFunction(
+        GetGameAddress().raw_address(),
+        mpq_archive_handle
+    );
+  } else if (running_game_version >= GameVersion::k1_11
+      && running_game_version <= GameVersion::k1_13D) {
+    mapi::CallEsiFunction(
+        GetGameAddress().raw_address(),
+        mpq_archive_handle
+    );
   }
 }
 
