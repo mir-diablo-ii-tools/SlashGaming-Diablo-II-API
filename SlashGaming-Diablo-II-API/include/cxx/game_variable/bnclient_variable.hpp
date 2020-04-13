@@ -47,6 +47,6 @@
 #define SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_VARIABLE_HPP_
 
 #include "bnclient/bnclient_gateway_domain_name.hpp"
-#include "bnclient/bnclient_gateway_ipv4_address.hpp"
+#include "bnclient/bnclient_gateway_ip_v4_address.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_VARIABLE_HPP_

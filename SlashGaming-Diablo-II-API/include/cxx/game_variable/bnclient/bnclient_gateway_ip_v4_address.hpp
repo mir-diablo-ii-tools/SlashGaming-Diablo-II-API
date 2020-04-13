@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,38 +43,18 @@
  *  work.
  */
 
-/**
- * Latest supported version: 1.14D
- */
+#ifndef SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_BNCLIENT_GATEWAY_IPV4_ADDRESS_HPP_
+#define SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_BNCLIENT_GATEWAY_IPV4_ADDRESS_HPP_
 
-#include "../../../../include/cxx/game_data/bnclient/bnclient_gateway_ipv4_address.hpp"
-
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../../dllexport_define.inc"
 
 namespace d2::bnclient {
-namespace {
 
-std::intptr_t BNClient_GatewayIPv4Address() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+DLLEXPORT char* GetGatewayIpV4Address();
 
-  return ptr;
-}
-
-} // namespace
-
-char* GetGatewayIPv4Address() {
-  std::intptr_t ptr = BNClient_GatewayIPv4Address();
-  GameVersion current_game_version = GetRunningGameVersionId();
-
-  char* value;
-
-  value = reinterpret_cast<char*>(ptr);
-
-  return value;
-}
+DLLEXPORT char* GetGatewayIpV4Address_1_00();
 
 } // namespace d2::bnclient
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_BNCLIENT_GATEWAY_IPV4_ADDRESS_HPP_
