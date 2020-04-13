@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,56 +47,42 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/storm/storm_s_file_close_archive.hpp"
-
-#include <cstdint>
+#include "../../../../include/cxx/game_function/storm/storm_s_file_close_archive.hpp"
 
 #include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/stdcall_function.hpp"
 
 namespace d2::storm {
 namespace {
 
-__declspec(naked) mapi::bool32 __cdecl
-Storm_SFileCloseArchive_1_00(
-    std::intptr_t func_ptr,
-    MPQArchive* mpq_archive
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "Storm.dll",
+      "SFileCloseArchive"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t Storm_SFileCloseArchive() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 bool SFileCloseArchive(
-    MPQArchive* mpq_archive
+    MpqArchive* mpq_archive
 ) {
-  std::intptr_t ptr = Storm_SFileCloseArchive();
+  return SFileCloseArchive_1_00(
+      reinterpret_cast<MpqArchive_1_00*>(mpq_archive)
+  );
+}
 
-  return Storm_SFileCloseArchive_1_00(
-      ptr,
-      mpq_archive
+mapi::bool32 SFileCloseArchive_1_00(
+    MpqArchive_1_00* mpq_archive
+) {
+  return reinterpret_cast<mapi::bool32>(
+      mapi::CallStdcallFunction(
+          GetGameAddress().raw_address(),
+          mpq_archive
+      )
   );
 }
 
