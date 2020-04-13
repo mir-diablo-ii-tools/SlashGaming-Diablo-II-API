@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,9 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_DATA_HPP_
+#ifndef SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_VARIABLE_HPP_
+#define SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_VARIABLE_HPP_
 
-#include "d2win/d2win_main_menu_mouse_position.hpp"
+#include "bnclient/bnclient_gateway_domain_name.hpp"
+#include "bnclient/bnclient_gateway_ipv4_address.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_DATA_HPP_
+#endif // SGD2MAPI_CXX_GAME_VARIABLE_BNCLIENT_VARIABLE_HPP_

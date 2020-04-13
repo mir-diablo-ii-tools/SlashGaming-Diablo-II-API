@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,27 +43,22 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_DATA_HPP_
-#define SGD2MAPI_CXX_GAME_DATA_HPP_
+#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_VARIABLE_HPP_
+#define SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_VARIABLE_HPP_
 
-#include "game_data/bnclient_data.hpp"
-#include "game_data/d2client_data.hpp"
-#include "game_data/d2cmp_data.hpp"
-#include "game_data/d2common_data.hpp"
-#include "game_data/d2ddraw_data.hpp"
-#include "game_data/d2direct3d_data.hpp"
-#include "game_data/d2game_data.hpp"
-#include "game_data/d2gdi_data.hpp"
-#include "game_data/d2gfx_data.hpp"
-#include "game_data/d2glide_data.hpp"
-#include "game_data/d2lang_data.hpp"
-#include "game_data/d2launch_data.hpp"
-#include "game_data/d2mcpclient_data.hpp"
-#include "game_data/d2multi_data.hpp"
-#include "game_data/d2net_data.hpp"
-#include "game_data/d2sound_data.hpp"
-#include "game_data/d2win_data.hpp"
-#include "game_data/fog_data.hpp"
-#include "game_data/storm_data.hpp"
+#include "d2client/d2client_difficulty_level.hpp"
+#include "d2client/d2client_game_type.hpp"
+#include "d2client/d2client_general_display_height.hpp"
+#include "d2client/d2client_general_display_width.hpp"
+#include "d2client/d2client_general_play_area_camera_shift_x.hpp"
+#include "d2client/d2client_ingame_mouse_position.hpp"
+#include "d2client/d2client_inventory_arrange_mode.hpp"
+#include "d2client/d2client_is_automap_open.hpp"
+#include "d2client/d2client_is_game_menu_open.hpp"
+#include "d2client/d2client_is_help_screen_open.hpp"
+#include "d2client/d2client_is_new_skill_button_pressed.hpp"
+#include "d2client/d2client_is_new_stats_button_pressed.hpp"
+#include "d2client/d2client_screen_open_mode.hpp"
+#include "d2client/d2client_screen_shift.hpp"
 
-#endif // SGD2MAPI_CXX_GAME_DATA_HPP_
+#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_VARIABLE_HPP_
