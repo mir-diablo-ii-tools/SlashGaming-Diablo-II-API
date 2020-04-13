@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_FUNCTION_FOG_FOG_ALLOC_CLIENT_MEMORY_HPP_
 #define SGD2MAPI_CXX_GAME_FUNCTION_FOG_FOG_ALLOC_CLIENT_MEMORY_HPP_
 
+#include <cstdint>
+
 #include "../../../dllexport_define.inc"
 
 namespace d2::fog {
@@ -55,6 +57,13 @@ DLLEXPORT void* AllocClientMemory(
     const char* source_file,
     int line,
     int unused__set_to_0
+);
+
+DLLEXPORT void* AllocClientMemory_1_00(
+    std::int32_t size,
+    const char* source_file,
+    std::int32_t line,
+    std::int32_t unused__set_to_0
 );
 
 } // namespace d2::fog

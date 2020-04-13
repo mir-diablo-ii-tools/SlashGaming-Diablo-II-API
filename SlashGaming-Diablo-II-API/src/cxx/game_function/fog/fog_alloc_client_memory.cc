@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,49 +47,22 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_func/fog/fog_alloc_client_memory.hpp"
-
-#include <cstdint>
+#include "../../../../include/cxx/game_function/fog/fog_alloc_client_memory.hpp"
 
 #include "../../../asm_x86_macro.h"
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::fog {
 namespace {
 
-__declspec(naked) void* __cdecl
-Fog_AllocClientMemory_1_00(
-    std::intptr_t func_ptr,
-    std::int32_t size,
-    const char* source_file,
-    std::int32_t line,
-    std::int32_t unused
-) {
-  ASM_X86(push ebp);
-  ASM_X86(mov ebp, esp);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "Fog.dll",
+      "AllocClientMemory"
+  );
 
-  ASM_X86(push ecx);
-  ASM_X86(push edx);
-
-  ASM_X86(push dword ptr [ebp + 24]);
-  ASM_X86(push dword ptr [ebp + 20]);
-  ASM_X86(mov edx, [ebp + 16]);
-  ASM_X86(mov ecx, [ebp + 12]);
-  ASM_X86(call dword ptr [ebp + 8]);
-
-  ASM_X86(pop edx);
-  ASM_X86(pop ecx);
-
-  ASM_X86(leave);
-  ASM_X86(ret);
-}
-
-std::intptr_t Fog_AllocClientMemory() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
-
-  return ptr;
+  return game_address;
 }
 
 } // namespace
@@ -100,10 +73,22 @@ void* AllocClientMemory(
     int line,
     int unused__set_to_0
 ) {
-  std::intptr_t ptr = Fog_AllocClientMemory();
+  return AllocClientMemory_1_00(
+      size,
+      source_file,
+      line,
+      unused__set_to_0
+  );
+}
 
-  return Fog_AllocClientMemory_1_00(
-      ptr,
+void* AllocClientMemory_1_00(
+    std::int32_t size,
+    const char* source_file,
+    std::int32_t line,
+    std::int32_t unused__set_to_0
+) {
+  return mapi::CallFastcallFunction(
+      GetGameAddress().raw_address(),
       size,
       source_file,
       line,
