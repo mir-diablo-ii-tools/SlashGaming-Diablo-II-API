@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
-#define SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
+#ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_SCREEN_OPEN_MODE_HPP_
+#define SGD2MAPI_CXX_GAME_CONSTANT_D2_SCREEN_OPEN_MODE_HPP_
 
 #include <cstdint>
 
@@ -93,4 +93,4 @@ DLLEXPORT ScreenOpenMode ToApiValue_1_07(ScreenOpenMode_1_07 game_value);
 } // namespace d2
 
 #include "../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
+#endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_SCREEN_OPEN_MODE_HPP_
