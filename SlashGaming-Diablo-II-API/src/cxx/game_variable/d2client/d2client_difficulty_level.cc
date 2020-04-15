@@ -70,9 +70,9 @@ DifficultyLevel GetDifficultyLevel() {
 }
 
 DifficultyLevel_1_00 GetDifficultyLevel_1_00() {
-  std::intptr_t ptr = GetGameAddress().raw_address();
+  std::intptr_t raw_address = GetGameAddress().raw_address();
 
-  return *reinterpret_cast<DifficultyLevel_1_00*>(ptr);
+  return *reinterpret_cast<DifficultyLevel_1_00*>(raw_address);
 }
 
 void SetDifficultyLevel(DifficultyLevel difficulty_level) {
@@ -80,9 +80,9 @@ void SetDifficultyLevel(DifficultyLevel difficulty_level) {
 }
 
 void SetDifficultyLevel_1_00(DifficultyLevel_1_00 difficulty_level) {
-  std::intptr_t ptr = GetGameAddress().raw_address();
+  std::intptr_t raw_address = GetGameAddress().raw_address();
 
-  *reinterpret_cast<DifficultyLevel_1_00*>(ptr) = difficulty_level;
+  *reinterpret_cast<DifficultyLevel_1_00*>(raw_address) = difficulty_level;
 }
 
 } // namespace d2::d2client
