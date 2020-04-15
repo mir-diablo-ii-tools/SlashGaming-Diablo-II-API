@@ -52,11 +52,13 @@
 
 namespace d2::d2client {
 
-DLLEXPORT ClientGameType GetGameType_ApiValue();
-DLLEXPORT void SetGameType_ApiValue(ClientGameType value);
+DLLEXPORT ClientGameType GetGameType();
+DLLEXPORT ClientGameType_1_00 GetGameType_1_00();
+DLLEXPORT ClientGameType_1_07 GetGameType_1_07();
 
-DLLEXPORT int GetGameType_GameValue();
-DLLEXPORT void SetGameType_GameValue(int value);
+DLLEXPORT void SetGameType(ClientGameType game_type);
+DLLEXPORT void SetGameType_1_00(ClientGameType_1_00 game_type);
+DLLEXPORT void SetGameType_1_07(ClientGameType_1_07 game_type);
 
 } // namespace d2client
 

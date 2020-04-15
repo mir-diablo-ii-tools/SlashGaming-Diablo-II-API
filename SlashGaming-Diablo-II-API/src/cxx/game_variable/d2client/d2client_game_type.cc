@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,48 +47,67 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2client/d2client_game_type.hpp"
+#include "../../../../include/cxx/game_variable/d2client/d2client_game_type.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
 #include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_GameType() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Client.dll",
+      "GameType"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
-ClientGameType GetGameType_ApiValue() {
-  return ToAPIValue<ClientGameType>(GetGameType_GameValue());
+ClientGameType GetGameType() {
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version <= GameVersion::k1_06B) {
+    return ToApiValue_1_00(GetGameType_1_00());
+  } else /* if (running_game_version >= GameVersion::k1_07Beta) */ {
+    return ToApiValue_1_07(GetGameType_1_07());
+  }
 }
 
-void SetGameType_ApiValue(ClientGameType value) {
-  SetGameType_GameValue(ToGameValue(value));
+ClientGameType_1_00 GetGameType_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+
+  return *reinterpret_cast<ClientGameType_1_00*>(raw_address);
 }
 
-int GetGameType_GameValue() {
-  std::intptr_t ptr = D2Client_GameType();
-  int value;
+ClientGameType_1_07 GetGameType_1_07() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
 
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  value = *converted_ptr;
-
-  return value;
+  return *reinterpret_cast<ClientGameType_1_07*>(raw_address);
 }
 
-void SetGameType_GameValue(int value) {
-  std::intptr_t ptr = D2Client_GameType();
+void SetGameType(ClientGameType game_type) {
+  GameVersion running_game_version = GetRunningGameVersionId();
 
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
+  if (running_game_version <= GameVersion::k1_06B) {
+    SetGameType_1_00(ToGameValue_1_00(game_type));
+  } else /* if (running_game_version >= GameVersion::k1_07Beta) */ {
+    SetGameType_1_07(ToGameValue_1_07(game_type));
+  }
+}
+
+void SetGameType_1_00(ClientGameType_1_00 game_type) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+
+  *reinterpret_cast<ClientGameType_1_00*>(raw_address) = game_type;
+}
+
+void SetGameType_1_07(ClientGameType_1_07 game_type) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+
+  *reinterpret_cast<ClientGameType_1_07*>(raw_address) = game_type;
 }
 
 } // namespace d2::d2client
