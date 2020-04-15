@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,48 +47,42 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2client/d2client_difficulty_level.hpp"
+#include "../../../../include/cxx/game_variable/d2client/d2client_difficulty_level.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_DifficultyLevel() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Client.dll",
+      "DifficultyLevel"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 DifficultyLevel GetDifficultyLevel() {
-  std::intptr_t ptr = D2Client_DifficultyLevel();
-  GameVersion current_game_version = GetRunningGameVersionId();
-
-  int value;
-
-  std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
-  value = *converted_ptr;
-
-  return ToAPIValue<DifficultyLevel>(value);
+  return ToApiValue_1_00(GetDifficultyLevel_1_00());
 }
 
-void SetDifficultyLevel(DifficultyLevel value) {
-  std::intptr_t ptr = D2Client_DifficultyLevel();
-  int integer_value = ToGameValue<DifficultyLevel>(value);
+DifficultyLevel_1_00 GetDifficultyLevel_1_00() {
+  std::intptr_t ptr = GetGameAddress().raw_address();
 
-  GameVersion current_game_version = GetRunningGameVersionId();
+  return *reinterpret_cast<DifficultyLevel_1_00*>(ptr);
+}
 
-  if (current_game_version >= GameVersion::k1_00
-      && current_game_version <= GameVersion::kLod1_14D) {
-    std::int8_t* converted_ptr = reinterpret_cast<std::int8_t*>(ptr);
-    *converted_ptr = integer_value;
-  }
+void SetDifficultyLevel(DifficultyLevel difficulty_level) {
+  SetDifficultyLevel_1_00(ToGameValue_1_00(difficulty_level));
+}
+
+void SetDifficultyLevel_1_00(DifficultyLevel_1_00 difficulty_level) {
+  std::intptr_t ptr = GetGameAddress().raw_address();
+
+  *reinterpret_cast<DifficultyLevel_1_00*>(ptr) = difficulty_level;
 }
 
 } // namespace d2::d2client
