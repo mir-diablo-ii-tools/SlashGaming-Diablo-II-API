@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,37 +47,42 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2client/d2client_screen_open_mode.hpp"
+#include "../../../../include/cxx/game_variable/d2client/d2client_screen_open_mode.hpp"
 
 #include <cstdint>
 
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_ScreenOpenMode() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Client.dll",
+      "ScreenOpenMode"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
-unsigned int GetScreenOpenMode() {
-  std::intptr_t ptr = D2Client_ScreenOpenMode();
-
-  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
-  return *converted_ptr;
+ScreenOpenMode GetScreenOpenMode() {
+  return ToApiValue_1_07(GetScreenOpenMode_1_07());
 }
 
-void SetScreenOpenMode(unsigned int value) {
-  std::intptr_t ptr = D2Client_ScreenOpenMode();
+ScreenOpenMode_1_07 GetScreenOpenMode_1_07() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<ScreenOpenMode_1_07*>(raw_address);
+}
 
-  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
-  *converted_ptr = value;
+void SetScreenOpenMode(ScreenOpenMode screen_open_mode) {
+  SetScreenOpenMode_1_07(ToGameValue_1_07(screen_open_mode));
+}
+
+void SetScreenOpenMode_1_07(ScreenOpenMode_1_07 screen_open_mode) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<ScreenOpenMode_1_07*>(raw_address) = screen_open_mode;
 }
 
 } // namespace d2::d2client

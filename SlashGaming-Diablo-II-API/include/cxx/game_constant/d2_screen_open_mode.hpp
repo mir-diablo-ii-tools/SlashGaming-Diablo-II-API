@@ -70,7 +70,7 @@ enum class ScreenOpenMode {
  * Version-specific enum definitions
  */
 
-enum class ScreenOpenMode_1_07 : std::int32_t {
+enum class ScreenOpenMode_1_07 : std::uint32_t {
   kNone,
   kRight,
   kLeft,

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,12 +46,19 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_OPEN_MODE_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_OPEN_MODE_HPP_
 
+#include "../../game_constant/d2_screen_open_mode.hpp"
+
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2client {
 
-DLLEXPORT unsigned int GetScreenOpenMode();
-DLLEXPORT void SetScreenOpenMode(unsigned int value);
+DLLEXPORT ScreenOpenMode GetScreenOpenMode();
+
+DLLEXPORT ScreenOpenMode_1_07 GetScreenOpenMode_1_07();
+
+DLLEXPORT void SetScreenOpenMode(ScreenOpenMode screen_open_mode);
+
+DLLEXPORT void SetScreenOpenMode_1_07(ScreenOpenMode_1_07 screen_open_mode);
 
 } // namespace d2::d2client
 
