@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,12 +46,19 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_IS_AUTOMAP_OPEN_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_IS_AUTOMAP_OPEN_HPP_
 
+#include "../../game_bool.hpp"
+
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2client {
 
 DLLEXPORT bool GetIsAutomapOpen();
-DLLEXPORT void SetIsAutomapOpen(bool value);
+
+DLLEXPORT mapi::bool32 GetIsAutomapOpen_1_00();
+
+DLLEXPORT void SetIsAutomapOpen(bool is_automap_open);
+
+DLLEXPORT void SetIsAutomapOpen_1_00(mapi::bool32 is_automap_open);
 
 } // namespace d2::d2client
 

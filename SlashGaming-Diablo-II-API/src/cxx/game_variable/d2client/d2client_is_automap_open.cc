@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,37 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2client/d2client_is_automap_open.hpp"
+#include "../../../../include/cxx/game_variable/d2client/d2client_is_automap_open.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2client {
 namespace {
 
-std::intptr_t D2Client_IsAutomapOpen() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Client.dll",
+      "IsAutomapOpen"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 bool GetIsAutomapOpen() {
-  std::intptr_t ptr = D2Client_IsAutomapOpen();
-
-  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
-  return *converted_ptr;
+  return GetIsAutomapOpen_1_00();
 }
 
-void SetIsAutomapOpen(bool value) {
-  std::intptr_t ptr = D2Client_IsAutomapOpen();
+mapi::bool32 GetIsAutomapOpen_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<mapi::bool32*>(raw_address);
+}
 
-  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
-  *converted_ptr = value;
+void SetIsAutomapOpen(bool is_automap_open) {
+  SetIsAutomapOpen_1_00(is_automap_open);
+}
+
+void SetIsAutomapOpen_1_00(mapi::bool32 is_automap_open) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<mapi::bool32*>(raw_address) = is_automap_open;
 }
 
 } // namespace d2::d2client
