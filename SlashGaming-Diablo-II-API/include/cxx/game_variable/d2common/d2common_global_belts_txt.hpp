@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -53,7 +53,12 @@
 namespace d2::d2common {
 
 DLLEXPORT BeltRecord* GetGlobalBeltsTxt();
-DLLEXPORT void SetGlobalBeltsTxt(BeltRecord* value);
+
+DLLEXPORT BeltRecord_1_00* GetGlobalBeltsTxt_1_00();
+
+DLLEXPORT void SetGlobalBeltsTxt(BeltRecord* belt_record);
+
+DLLEXPORT void SetGlobalBeltsTxt_1_00(BeltRecord_1_00* belt_record);
 
 } // namespace d2::d2common
 
