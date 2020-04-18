@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,37 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2gdi/d2gdi_bit_block_height.hpp"
+#include "../../../../include/cxx/game_variable/d2gdi/d2gdi_bit_block_height.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2gdi {
 namespace {
 
-std::intptr_t D2GDI_BitBlockHeight() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2GDI.dll",
+      "BitBlockHeight"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 int GetBitBlockHeight() {
-  std::intptr_t ptr = D2GDI_BitBlockHeight();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  return *converted_ptr;
+  return GetBitBlockHeight_1_00();
 }
 
-void SetBitBlockHeight(int value) {
-  std::intptr_t ptr = D2GDI_BitBlockHeight();
+std::int32_t GetBitBlockHeight_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<std::int32_t*>(raw_address);
+}
 
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
+void SetBitBlockHeight(int height) {
+  SetBitBlockHeight_1_00(height);
+}
+
+void SetBitBlockHeight_1_00(std::int32_t height) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<std::int32_t*>(raw_address) = height;
 }
 
 } // namespace d2::d2gdi
