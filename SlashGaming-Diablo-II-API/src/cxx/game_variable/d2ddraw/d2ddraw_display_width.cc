@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,37 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2ddraw/d2ddraw_display_width.hpp"
+#include "../../../../include/cxx/game_variable/d2ddraw/d2ddraw_display_width.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2ddraw {
 namespace {
 
-std::intptr_t D2DDraw_DisplayWidth() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2DDraw.dll",
+      "DisplayWidth"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 int GetDisplayWidth() {
-  std::intptr_t ptr = D2DDraw_DisplayWidth();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  return *converted_ptr;
+  return GetDisplayWidth_1_00();
 }
 
-void SetDisplayWidth(int value) {
-  std::intptr_t ptr = D2DDraw_DisplayWidth();
+std::int32_t GetDisplayWidth_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<std::int32_t*>(raw_address);
+}
 
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
+void SetDisplayWidth(int width) {
+  SetDisplayWidth_1_00(width);
+}
+
+void SetDisplayWidth_1_00(std::int32_t width) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<std::int32_t*>(raw_address) = width;
 }
 
 } // namespace d2::d2ddraw
