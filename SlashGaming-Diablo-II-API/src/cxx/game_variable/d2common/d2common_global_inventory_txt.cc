@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,37 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2common/d2common_global_inventory_txt.hpp"
+#include "../../../../include/cxx/game_variable/d2common/d2common_global_inventory_txt.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2common {
 namespace {
 
-std::intptr_t D2Common_GlobalInventoryTxt() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Common.dll",
+      "GlobalInventoryTxt"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 InventoryRecord* GetGlobalInventoryTxt() {
-  std::intptr_t ptr = D2Common_GlobalInventoryTxt();
-
-  InventoryRecord** converted_ptr = reinterpret_cast<InventoryRecord**>(ptr);
-  return *converted_ptr;
+  return reinterpret_cast<InventoryRecord*>(GetGlobalInventoryTxt_1_00());
 }
 
-void SetGlobalInventoryTxt(InventoryRecord* value) {
-  std::intptr_t ptr = D2Common_GlobalInventoryTxt();
+InventoryRecord_1_00* GetGlobalInventoryTxt_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<InventoryRecord_1_00**>(raw_address);
+}
 
-  InventoryRecord** converted_ptr = reinterpret_cast<InventoryRecord**>(ptr);
-  *converted_ptr = value;
+void SetGlobalInventoryTxt(InventoryRecord* inventory_record) {
+  SetGlobalInventoryTxt_1_00(reinterpret_cast<InventoryRecord_1_00*>(inventory_record));
+}
+
+void SetGlobalInventoryTxt_1_00(InventoryRecord_1_00* inventory_record) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<InventoryRecord_1_00**>(raw_address) = inventory_record;
 }
 
 } // namespace d2::d2common
