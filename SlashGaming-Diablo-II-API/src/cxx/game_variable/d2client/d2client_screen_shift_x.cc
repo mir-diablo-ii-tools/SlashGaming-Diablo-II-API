@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,20 +43,44 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_SHIFT_HPP_
-#define SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_SHIFT_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_variable/d2client/d2client_screen_shift_x.hpp"
+
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2client {
+namespace {
 
-DLLEXPORT int GetScreenShiftX();
-DLLEXPORT void SetScreenShiftX(int value);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2Client.dll",
+      "ScreenShiftX"
+  );
 
-DLLEXPORT int GetScreenShiftY();
-DLLEXPORT void SetScreenShiftY(int value);
+  return game_address;
+}
+
+} // namespace
+
+int GetScreenShiftX() {
+  return GetScreenShiftX_1_00();
+}
+
+std::int32_t GetScreenShiftX_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<std::int32_t*>(raw_address);
+}
+
+void SetScreenShiftX(int screen_shift_x) {
+  SetScreenShiftX_1_00(screen_shift_x);
+}
+
+void SetScreenShiftX_1_00(std::int32_t screen_shift_x) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<std::int32_t*>(raw_address) = screen_shift_x;
+}
 
 } // namespace d2::d2client
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_SHIFT_HPP_

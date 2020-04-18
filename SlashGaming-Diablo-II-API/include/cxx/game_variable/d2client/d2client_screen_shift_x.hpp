@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,61 +43,24 @@
  *  work.
  */
 
-/**
- * Latest supported version: 1.14D
- */
-
-#include "../../../../include/cxx/game_data/d2client/d2client_screen_shift.hpp"
+#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_SHIFT_X_HPP_
+#define SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_SHIFT_X_HPP_
 
 #include <cstdint>
 
-#include "../../../cxx/game_address_table.hpp"
+#include "../../../dllexport_define.inc"
 
 namespace d2::d2client {
-namespace {
 
-std::intptr_t D2Client_ScreenShiftX() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+DLLEXPORT int GetScreenShiftX();
 
-  return ptr;
-}
+DLLEXPORT std::int32_t GetScreenShiftX_1_00();
 
-std::intptr_t D2Client_ScreenShiftY() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+DLLEXPORT void SetScreenShiftX(int screen_shift_x);
 
-  return ptr;
-}
-
-} // namespace
-
-int GetScreenShiftX() {
-  std::intptr_t ptr = D2Client_ScreenShiftX();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  return *converted_ptr;
-}
-
-void SetScreenShiftX(int value) {
-  std::intptr_t ptr = D2Client_ScreenShiftX();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
-}
-
-int GetScreenShiftY() {
-  std::intptr_t ptr = D2Client_ScreenShiftY();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  return *converted_ptr;
-}
-
-void SetScreenShiftY(int value) {
-  std::intptr_t ptr = D2Client_ScreenShiftY();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
-}
+DLLEXPORT void SetScreenShiftX_1_00(std::int32_t screen_shift_x);
 
 } // namespace d2::d2client
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_SCREEN_SHIFT_X_HPP_
