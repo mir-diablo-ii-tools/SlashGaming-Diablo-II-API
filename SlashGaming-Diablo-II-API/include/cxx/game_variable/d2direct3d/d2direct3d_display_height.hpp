@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,12 +46,19 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2DIRECT3D_D2DIRECT3D_DISPLAY_HEIGHT_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2DIRECT3D_D2DIRECT3D_DISPLAY_HEIGHT_HPP_
 
+#include <cstdint>
+
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2direct3d {
 
 DLLEXPORT int GetDisplayHeight();
-DLLEXPORT void SetDisplayHeight(int value);
+
+DLLEXPORT std::int32_t GetDisplayHeight_1_00();
+
+DLLEXPORT void SetDisplayHeight(int height);
+
+DLLEXPORT void SetDisplayHeight_1_00(std::int32_t height);
 
 } // namespace d2::d2direct3d
 
