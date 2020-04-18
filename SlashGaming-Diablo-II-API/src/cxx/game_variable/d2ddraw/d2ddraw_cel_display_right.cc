@@ -57,7 +57,7 @@ namespace {
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress& game_address = mapi::GetGameAddress(
       "D2DDraw.dll",
-      "CelDisplayLeft"
+      "CelDisplayRight"
   );
 
   return game_address;
