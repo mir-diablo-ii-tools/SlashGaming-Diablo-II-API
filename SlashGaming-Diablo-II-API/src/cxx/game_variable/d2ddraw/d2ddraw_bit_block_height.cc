@@ -78,7 +78,7 @@ void SetBitBlockHeight(int height) {
   SetBitBlockHeight_1_00(height);
 }
 
-void GetBitBlockHeight_1_00(std::int32_t height) {
+void SetBitBlockHeight_1_00(std::int32_t height) {
   std::intptr_t raw_address = GetGameAddress().raw_address();
   *reinterpret_cast<std::int32_t*>(raw_address) = height;
 }

@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2DDRAW_D2DDRAW_BIT_BLOCK_HEIGHT_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2DDRAW_D2DDRAW_BIT_BLOCK_HEIGHT_HPP_
 
+#include <cstdint>
+
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2ddraw {
