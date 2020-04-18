@@ -51,7 +51,8 @@
 #include "d2client/d2client_general_display_height.hpp"
 #include "d2client/d2client_general_display_width.hpp"
 #include "d2client/d2client_general_play_area_camera_shift_x.hpp"
-#include "d2client/d2client_ingame_mouse_position.hpp"
+#include "d2client/d2client_ingame_mouse_position_x.hpp"
+#include "d2client/d2client_ingame_mouse_position_y.hpp"
 #include "d2client/d2client_inventory_arrange_mode.hpp"
 #include "d2client/d2client_is_automap_open.hpp"
 #include "d2client/d2client_is_game_menu_open.hpp"
@@ -59,6 +60,7 @@
 #include "d2client/d2client_is_new_skill_button_pressed.hpp"
 #include "d2client/d2client_is_new_stats_button_pressed.hpp"
 #include "d2client/d2client_screen_open_mode.hpp"
-#include "d2client/d2client_screen_shift.hpp"
+#include "d2client/d2client_screen_shift_x.hpp"
+#include "d2client/d2client_screen_shift_y.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_VARIABLE_HPP_
