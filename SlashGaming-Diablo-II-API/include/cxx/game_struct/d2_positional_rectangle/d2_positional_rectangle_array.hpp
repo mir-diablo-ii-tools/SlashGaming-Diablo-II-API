@@ -79,6 +79,9 @@ class DLLEXPORT PositionalRectangle_Array {
       PositionalRectangle_Array&& other
   ) noexcept;
 
+  PositionalRectangle_View operator[](std::size_t index) const noexcept;
+  PositionalRectangle_Wrapper operator[](std::size_t index) noexcept;
+
   operator PositionalRectangle_View() const noexcept;
   operator PositionalRectangle_Wrapper() noexcept;
 

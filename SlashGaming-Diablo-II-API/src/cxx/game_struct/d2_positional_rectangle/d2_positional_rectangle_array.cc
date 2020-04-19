@@ -61,6 +61,22 @@ PositionalRectangle_Array& PositionalRectangle_Array::operator=(
     PositionalRectangle_Array&& other
 ) noexcept = default;
 
+PositionalRectangle_View PositionalRectangle_Array::operator[](
+    std::size_t index
+) const noexcept {
+  PositionalRectangle_View view(this->Get());
+
+  return view[index];
+}
+
+PositionalRectangle_Wrapper PositionalRectangle_Array::operator[](
+    std::size_t index
+) noexcept {
+  PositionalRectangle_Wrapper wrapper(this->Get());
+
+  return wrapper[index];
+}
+
 PositionalRectangle_Array::operator PositionalRectangle_View() const noexcept {
   return PositionalRectangle_View(this->Get());
 }

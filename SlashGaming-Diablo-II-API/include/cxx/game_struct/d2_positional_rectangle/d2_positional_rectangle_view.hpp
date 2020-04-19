@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_VIEW_HPP_
 
+#include <cstddef>
+
 #include "d2_positional_rectangle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -68,6 +70,8 @@ class DLLEXPORT PositionalRectangle_View {
   PositionalRectangle_View& operator=(
       PositionalRectangle_View&& other
   ) noexcept;
+
+  PositionalRectangle_View operator[](std::size_t index) const noexcept;
 
   const PositionalRectangle* Get() const noexcept;
 

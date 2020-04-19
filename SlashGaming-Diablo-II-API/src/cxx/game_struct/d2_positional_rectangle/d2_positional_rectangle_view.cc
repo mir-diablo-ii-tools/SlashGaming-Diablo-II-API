@@ -71,6 +71,17 @@ PositionalRectangle_View& PositionalRectangle_View::operator=(
     PositionalRectangle_View&& other
 ) noexcept = default;
 
+PositionalRectangle_View PositionalRectangle_View::operator[](
+    std::size_t index
+) const noexcept {
+  const auto* actual_positional_rectangle =
+      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
+
+  return reinterpret_cast<const PositionalRectangle*>(
+      &actual_positional_rectangle[index]
+  );
+}
+
 const PositionalRectangle* PositionalRectangle_View::Get() const noexcept {
   return this->positional_rectangle_;
 }

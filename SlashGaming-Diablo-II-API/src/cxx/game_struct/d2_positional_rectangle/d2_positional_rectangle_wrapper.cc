@@ -72,6 +72,22 @@ PositionalRectangle_Wrapper& PositionalRectangle_Wrapper::operator=(
     PositionalRectangle_Wrapper&& other
 ) noexcept = default;
 
+PositionalRectangle_View PositionalRectangle_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  PositionalRectangle_View view(this->Get());
+
+  return view[index];
+}
+
+PositionalRectangle_Wrapper PositionalRectangle_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>((*const_this)[index].Get());
+}
+
 PositionalRectangle_Wrapper::operator
 PositionalRectangle_View() const noexcept {
   return this->Get();

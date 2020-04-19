@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
 
+#include <cstddef>
+
 #include "d2_positional_rectangle_struct.hpp"
 #include "d2_positional_rectangle_view.hpp"
 
@@ -69,6 +71,9 @@ class DLLEXPORT PositionalRectangle_Wrapper {
   PositionalRectangle_Wrapper& operator=(
       PositionalRectangle_Wrapper&& other
   ) noexcept;
+
+  PositionalRectangle_View operator[](std::size_t index) const noexcept;
+  PositionalRectangle_Wrapper operator[](std::size_t index) noexcept;
 
   operator PositionalRectangle_View() const noexcept;
 
