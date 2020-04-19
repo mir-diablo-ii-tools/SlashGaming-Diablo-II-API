@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,17 +45,12 @@
 
 #include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_wrapper.hpp"
 
-#include <algorithm>
-
-#include "d2_belt_record_impl.hpp"
-#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
-
 namespace d2 {
 
 BeltRecord_Wrapper::BeltRecord_Wrapper(
-    BeltRecord* ptr
+    BeltRecord* belt_record
 ) noexcept :
-    ptr_(ptr) {
+    belt_record_(belt_record) {
 }
 
 BeltRecord_Wrapper::BeltRecord_Wrapper(
@@ -103,33 +98,12 @@ BeltRecord* BeltRecord_Wrapper::Get() noexcept {
 }
 
 const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->belt_record_;
 }
 
-void BeltRecord_Wrapper::Copy(BeltRecord_View src) noexcept {
-  std::copy_n(
-      reinterpret_cast<const BeltRecord_1_00*>(src.Get()),
-      1,
-      reinterpret_cast<BeltRecord_1_00*>(this->Get())
-  );
-}
-
-PositionalRectangle* BeltRecord_Wrapper::GetSlotPosition(
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(
-      const_this->GetSlotPosition(index)
-  );
-}
-
-const PositionalRectangle* BeltRecord_Wrapper::GetSlotPosition(
-    std::size_t index
-) const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetSlotPosition(index);
+void BeltRecord_Wrapper::Assign(BeltRecord_View src) noexcept {
+  *reinterpret_cast<BeltRecord_1_00*>(this->Get()) =
+      *reinterpret_cast<const BeltRecord_1_00*>(src.Get());
 }
 
 std::uint_least8_t BeltRecord_Wrapper::GetNumSlots() const noexcept {
@@ -138,10 +112,10 @@ std::uint_least8_t BeltRecord_Wrapper::GetNumSlots() const noexcept {
   return view.GetNumSlots();
 }
 
-void BeltRecord_Wrapper::SetNumSlots(std::uint_least8_t value) noexcept {
+void BeltRecord_Wrapper::SetNumSlots(std::uint_least8_t num_slots) noexcept {
   auto* actual_ptr = reinterpret_cast<BeltRecord_1_00*>(this->Get());
 
-  actual_ptr->num_slots = value;
+  actual_ptr->num_slots = num_slots;
 }
 
 PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() noexcept {
