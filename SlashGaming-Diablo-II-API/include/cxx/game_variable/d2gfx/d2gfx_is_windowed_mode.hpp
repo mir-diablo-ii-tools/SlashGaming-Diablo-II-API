@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,14 +46,19 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2GFX_D2GFX_IS_WINDOWED_MODE_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2GFX_D2GFX_IS_WINDOWED_MODE_HPP_
 
-#include <windows.h>
+#include "../../game_bool.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2gfx {
 
 DLLEXPORT bool GetIsWindowedMode();
-DLLEXPORT void SetIsWindowedMode(bool value);
+
+DLLEXPORT mapi::bool32 GetIsWindowedMode_1_00();
+
+DLLEXPORT void SetIsWindowedMode(bool is_windowed_mode);
+
+DLLEXPORT void SetIsWindowedMode_1_00(mapi::bool32 is_windowed_mode);
 
 } // namespace d2::d2gfx
 

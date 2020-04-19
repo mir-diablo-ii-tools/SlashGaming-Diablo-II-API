@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,45 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2gfx/d2gfx_is_windowed_mode.hpp"
+#include "../../../../include/cxx/game_variable/d2gfx/d2gfx_is_windowed_mode.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2gfx {
 namespace {
 
-std::intptr_t D2GFX_IsWindowedMode() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2GFX.dll",
+      "IsWindowedMode"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 bool GetIsWindowedMode() {
-  std::intptr_t ptr = D2GFX_IsWindowedMode();
-  GameVersion current_game_version = GetRunningGameVersionId();
-
-  bool value;
-
-  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
-  value = *converted_ptr;
-
-  return value;
+  return GetIsWindowedMode_1_00();
 }
 
-void SetIsWindowedMode(bool value) {
-  std::intptr_t ptr = D2GFX_IsWindowedMode();
+mapi::bool32 GetIsWindowedMode_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<mapi::bool32*>(raw_address);
+}
 
-  GameVersion current_game_version = GetRunningGameVersionId();
+void SetIsWindowedMode(bool is_windowed_mode) {
+  SetIsWindowedMode_1_00(is_windowed_mode);
+}
 
-  mapi::bool32* converted_ptr = reinterpret_cast<mapi::bool32*>(ptr);
-  *converted_ptr = value;
+void SetIsWindowedMode_1_00(mapi::bool32 is_windowed_mode) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<mapi::bool32*>(raw_address) = is_windowed_mode;
 }
 
 } // namespace d2::d2gfx
