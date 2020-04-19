@@ -51,20 +51,15 @@
 namespace d2 {
 namespace {
 
-using unique_ptr_1_00 = std::unique_ptr<PositionalRectangle_1_00>;
-
-using ptr_variant = std::variant<
-    unique_ptr_1_00
->;
-
-ptr_variant CreateVariant(
+template <typename PositionalRectangle_T>
+static std::unique_ptr<PositionalRectangle_T> CreatePtr(
     int left,
     int right,
     int top,
     int bottom
 ) {
-  unique_ptr_1_00 positional_rectangle =
-      std::make_unique<PositionalRectangle_1_00>();
+  std::unique_ptr positional_rectangle =
+      std::make_unique<PositionalRectangle_T>();
 
   positional_rectangle->left = left;
   positional_rectangle->right = right;
@@ -187,6 +182,15 @@ void PositionalRectangle_Api::SetBottom(int bottom) noexcept {
   PositionalRectangle_Wrapper wrapper(this->Get());
 
   return wrapper.SetBottom(bottom);
+}
+
+PositionalRectangle_Api::ptr_variant PositionalRectangle_Api::CreateVariant(
+    int left,
+    int right,
+    int top,
+    int bottom
+) {
+  return CreatePtr<PositionalRectangle_1_00>(left, right, top, bottom);
 }
 
 } // namespace d2

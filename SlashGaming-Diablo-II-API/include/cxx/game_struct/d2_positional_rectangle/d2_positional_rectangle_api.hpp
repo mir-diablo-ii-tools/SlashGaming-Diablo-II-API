@@ -58,6 +58,9 @@ namespace d2 {
 
 class DLLEXPORT PositionalRectangle_Api {
  public:
+  using unique_ptr_1_00 = std::unique_ptr<PositionalRectangle_1_00>;
+  using ptr_variant = std::variant<unique_ptr_1_00>;
+
   PositionalRectangle_Api();
 
   PositionalRectangle_Api(
@@ -99,9 +102,14 @@ class DLLEXPORT PositionalRectangle_Api {
   void SetBottom(int bottom) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<PositionalRectangle_1_00>
-  > positional_rectangle_;
+  ptr_variant positional_rectangle_;
+
+  static ptr_variant CreateVariant(
+      int left,
+      int right,
+      int top,
+      int bottom
+  );
 };
 
 } // namespace d2
