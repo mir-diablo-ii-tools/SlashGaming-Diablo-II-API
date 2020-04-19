@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,37 +49,33 @@
 #include <memory>
 #include <variant>
 
-#include "../d2_cel.hpp"
-#include "d2_cel_context_wrapper.hpp"
-#include "../d2_cel_file.hpp"
-#include "../../game_constant/d2_draw_effect.hpp"
 #include "../../../../include/cxx/helper/d2_draw_options.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_struct.hpp"
+#include "d2_cel_context_struct.hpp"
+#include "d2_cel_context_view.hpp"
+#include "d2_cel_context_wrapper.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-struct CelContext;
-struct CelContext_1_00;
-struct CelContext_1_12A;
-struct CelContext_1_13C;
-
-class DLLEXPORT CelContext_API {
+class DLLEXPORT CelContext_Api {
  public:
-  CelContext_API() = delete;
-  CelContext_API(
+  CelContext_Api() = delete;
+  CelContext_Api(
       CelFile* cel_file,
       unsigned int direction,
       unsigned int frame
   );
 
-  CelContext_API(const CelContext_API& other);
-  CelContext_API(CelContext_API&& other) noexcept;
+  CelContext_Api(const CelContext_Api& other);
+  CelContext_Api(CelContext_Api&& other) noexcept;
 
-  ~CelContext_API();
+  ~CelContext_Api();
 
-  CelContext_API& operator=(const CelContext_API& other);
-  CelContext_API& operator=(CelContext_API&& other) noexcept;
+  CelContext_Api& operator=(const CelContext_Api& other);
+  CelContext_Api& operator=(CelContext_Api&& other) noexcept;
 
   operator CelContext_View() const noexcept;
   operator CelContext_Wrapper() noexcept;
@@ -107,11 +103,23 @@ class DLLEXPORT CelContext_API {
   void SetFrame(unsigned int frame) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<CelContext_1_00[]>,
-      std::unique_ptr<CelContext_1_12A[]>,
-      std::unique_ptr<CelContext_1_13C[]>
-  > cel_context_;
+  using unique_ptr_1_00 = std::unique_ptr<CelContext_1_00>;
+  using unique_ptr_1_12A = std::unique_ptr<CelContext_1_12A>;
+  using unique_ptr_1_13C = std::unique_ptr<CelContext_1_13C>;
+
+  using ptr_variant = std::variant<
+      unique_ptr_1_00,
+      unique_ptr_1_12A,
+      unique_ptr_1_13C
+  >;
+
+  ptr_variant cel_context_;
+
+  static ptr_variant CreateVariant(
+      CelFile* cel_file,
+      unsigned int direction,
+      unsigned int frame
+  );
 };
 
 } // namespace d2
