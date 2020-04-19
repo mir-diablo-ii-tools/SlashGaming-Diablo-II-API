@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -51,32 +51,34 @@
 #include <memory>
 #include <variant>
 
+#include "../../game_undefined.hpp"
 #include "d2_belt_record_struct.hpp"
 #include "d2_belt_record_view.hpp"
 #include "d2_belt_record_wrapper.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
-#include "../../game_undefined.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT BeltRecord_API {
+class DLLEXPORT BeltRecord_Api {
  public:
-  BeltRecord_API() = delete;
-  BeltRecord_API(
+  using unique_ptr_1_00 = std::unique_ptr<BeltRecord_1_00>;
+  using ptr_variant = std::variant<unique_ptr_1_00>;
+
+  BeltRecord_Api() = delete;
+  BeltRecord_Api(
       mapi::Undefined* reserved_00__set_to_nullptr,
       std::uint_least8_t num_slots,
       const PositionalRectangle* slot_positions
   );
 
-  BeltRecord_API(const BeltRecord_API& other);
-  BeltRecord_API(BeltRecord_API&& other) noexcept;
+  BeltRecord_Api(const BeltRecord_Api& other);
+  BeltRecord_Api(BeltRecord_Api&& other) noexcept;
 
-  ~BeltRecord_API();
+  ~BeltRecord_Api();
 
-  BeltRecord_API& operator=(const BeltRecord_API& other);
-  BeltRecord_API& operator=(BeltRecord_API&& other) noexcept;
+  BeltRecord_Api& operator=(const BeltRecord_Api& other);
+  BeltRecord_Api& operator=(BeltRecord_Api&& other) noexcept;
 
   operator BeltRecord_View() const noexcept;
   operator BeltRecord_Wrapper() noexcept;
@@ -84,23 +86,22 @@ class DLLEXPORT BeltRecord_API {
   BeltRecord* Get() noexcept;
   const BeltRecord* Get() const noexcept;
 
-  void Copy(BeltRecord_View src) noexcept;
-
-  PositionalRectangle* GetSlotPosition(std::size_t index) noexcept;
-  const PositionalRectangle* GetSlotPosition(
-      std::size_t index
-  ) const noexcept;
+  void Assign(BeltRecord_View src) noexcept;
 
   std::uint_least8_t GetNumSlots() const noexcept;
-  void SetNumSlots(std::int_least8_t value) noexcept;
+  void SetNumSlots(std::int_least8_t num_slots) noexcept;
 
   PositionalRectangle* GetSlotPositions() noexcept;
   const PositionalRectangle* GetSlotPositions() const noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<BeltRecord_1_00>
-  > belt_record_;
+  static ptr_variant CreateVariant(
+      mapi::Undefined* reserved_00__set_to_nullptr,
+      std::int_least8_t num_slots,
+      const PositionalRectangle* slot_positions
+  );
+
+  ptr_variant belt_record_;
 };
 
 } // namespace d2
