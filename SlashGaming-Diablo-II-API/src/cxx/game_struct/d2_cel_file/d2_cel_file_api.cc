@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,7 +45,8 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel_file/d2_cel_file_api.hpp"
 
-#include "../../../../include/cxx/game_func/d2win_func.hpp"
+#include "../../../../include/cxx/game_function/d2win/d2win_load_cel_file.hpp"
+#include "../../../../include/cxx/game_function/d2win/d2win_unload_cel_file.hpp"
 
 namespace d2 {
 namespace {
@@ -68,12 +69,12 @@ CelFileVariant CreateVariant(
 
 } // namespace
 
-CelFile_API::CelFile_API() :
+CelFile_Api::CelFile_Api() :
     cel_file_(nullptr),
     is_open_(false) {
 }
 
-CelFile_API::CelFile_API(
+CelFile_Api::CelFile_Api(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6
 ) : cel_file_(nullptr),
@@ -81,30 +82,30 @@ CelFile_API::CelFile_API(
   this->Open(cel_file_path, is_dcc_else_dc6);
 }
 
-CelFile_API::CelFile_API(CelFile_API&& other) noexcept :
+CelFile_Api::CelFile_Api(CelFile_Api&& other) noexcept :
     cel_file_(other.cel_file_),
     is_open_(other.is_open_) {
   other.cel_file_ = nullptr;
   other.is_open_ = false;
 }
 
-CelFile_API::~CelFile_API() {
+CelFile_Api::~CelFile_Api() {
   this->Close();
 }
 
-CelFile_API& CelFile_API::operator=(CelFile_API&& other) noexcept = default;
+CelFile_Api& CelFile_Api::operator=(CelFile_Api&& other) noexcept = default;
 
-CelFile_API::operator CelFile_View() const noexcept {
+CelFile_Api::operator CelFile_View() const noexcept {
   return CelFile_View(this->Get());
 }
 
-const CelFile* CelFile_API::Get() const noexcept {
+const CelFile* CelFile_Api::Get() const noexcept {
   auto* actual_cel_file = std::get<CelFile_1_00*>(this->cel_file_);
 
   return reinterpret_cast<CelFile*>(actual_cel_file);
 }
 
-void CelFile_API::Close() {
+void CelFile_Api::Close() {
   if (this->IsOpen()) {
     d2win::UnloadCelFile(const_cast<CelFile*>(this->Get()));
     this->cel_file_ = nullptr;
@@ -112,7 +113,7 @@ void CelFile_API::Close() {
   }
 }
 
-bool CelFile_API::DrawFrame(
+bool CelFile_Api::DrawFrame(
     int position_x,
     int position_y,
     unsigned int direction,
@@ -128,7 +129,7 @@ bool CelFile_API::DrawFrame(
   );
 }
 
-bool CelFile_API::DrawFrame(
+bool CelFile_Api::DrawFrame(
     int position_x,
     int position_y,
     unsigned int direction,
@@ -146,7 +147,7 @@ bool CelFile_API::DrawFrame(
   );
 }
 
-bool CelFile_API::DrawAllFrames(
+bool CelFile_Api::DrawAllFrames(
     int position_x,
     int position_y,
     unsigned int columns,
@@ -162,7 +163,7 @@ bool CelFile_API::DrawAllFrames(
   );
 }
 
-bool CelFile_API::DrawAllFrames(
+bool CelFile_Api::DrawAllFrames(
     int position_x,
     int position_y,
     unsigned int columns,
@@ -180,17 +181,17 @@ bool CelFile_API::DrawAllFrames(
   );
 }
 
-const Cel* CelFile_API::GetCel(unsigned int direction, unsigned int frame) {
+const Cel* CelFile_Api::GetCel(unsigned int direction, unsigned int frame) {
   CelFile_Wrapper wrapper(const_cast<CelFile*>(this->Get()));
 
   return wrapper.GetCel(direction, frame);
 }
 
-bool CelFile_API::IsOpen() const {
+bool CelFile_Api::IsOpen() const {
   return this->is_open_;
 }
 
-void CelFile_API::Open(
+void CelFile_Api::Open(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6
 ) {
@@ -204,19 +205,19 @@ void CelFile_API::Open(
   this->is_open_ = (this->Get() != nullptr);
 }
 
-unsigned int CelFile_API::GetVersion() const noexcept {
+unsigned int CelFile_Api::GetVersion() const noexcept {
   CelFile_View view(*this);
 
   return view.GetVersion();
 }
 
-unsigned int CelFile_API::GetNumDirections() const noexcept {
+unsigned int CelFile_Api::GetNumDirections() const noexcept {
   CelFile_View view(*this);
 
   return view.GetNumDirections();
 }
 
-unsigned int CelFile_API::GetNumFrames() const noexcept {
+unsigned int CelFile_Api::GetNumFrames() const noexcept {
   CelFile_View view(*this);
 
   return view.GetNumFrames();

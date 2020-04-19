@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,31 +49,31 @@
 #include <string_view>
 #include <variant>
 
+#include "../../helper/d2_draw_options.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
 #include "d2_cel_file_struct.hpp"
 #include "d2_cel_file_view.hpp"
 #include "d2_cel_file_wrapper.hpp"
-#include "../d2_cel/d2_cel_struct.hpp"
-#include "../../helper/d2_draw_options.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT CelFile_API {
+class DLLEXPORT CelFile_Api {
  public:
-  CelFile_API();
-  CelFile_API(
+  CelFile_Api();
+  CelFile_Api(
       std::string_view cel_file_path,
       bool is_dcc_else_dc6
   );
 
-  CelFile_API(const CelFile_API& other) = delete;
-  CelFile_API(CelFile_API&& other) noexcept;
+  CelFile_Api(const CelFile_Api& other) = delete;
+  CelFile_Api(CelFile_Api&& other) noexcept;
 
-  ~CelFile_API();
+  ~CelFile_Api();
 
-  CelFile_API& operator=(const CelFile_API& other) = delete;
-  CelFile_API& operator=(CelFile_API&& other) noexcept;
+  CelFile_Api& operator=(const CelFile_Api& other) = delete;
+  CelFile_Api& operator=(CelFile_Api&& other) noexcept;
 
   operator CelFile_View() const noexcept;
 
