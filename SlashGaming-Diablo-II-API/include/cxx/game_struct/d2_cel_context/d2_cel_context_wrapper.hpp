@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,11 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 
-#include "../d2_cel.hpp"
+#include "../../helper/d2_draw_options.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_struct.hpp"
 #include "d2_cel_context_struct.hpp"
 #include "d2_cel_context_view.hpp"
-#include "../d2_cel_file.hpp"
-#include "../../helper/d2_draw_options.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -59,7 +59,7 @@ namespace d2 {
 class DLLEXPORT CelContext_Wrapper {
  public:
   CelContext_Wrapper() = delete;
-  CelContext_Wrapper(CelContext* ptr) noexcept;
+  CelContext_Wrapper(CelContext* cel_context) noexcept;
 
   CelContext_Wrapper(const CelContext_Wrapper& other) noexcept;
   CelContext_Wrapper(CelContext_Wrapper&& other) noexcept;
@@ -86,13 +86,16 @@ class DLLEXPORT CelContext_Wrapper {
 
   CelFile* GetCelFile() noexcept;
   const CelFile* GetCelFile() const noexcept;
-
   void SetCelFile(CelFile* cel_file) noexcept;
+
+  unsigned int GetDirection() const noexcept;
   void SetDirection(unsigned int direction) noexcept;
+
+  unsigned int GetFrame() const noexcept;
   void SetFrame(unsigned int frame) noexcept;
 
  private:
-  CelContext* ptr_;
+  CelContext* cel_context;
 };
 
 } // namespace d2
