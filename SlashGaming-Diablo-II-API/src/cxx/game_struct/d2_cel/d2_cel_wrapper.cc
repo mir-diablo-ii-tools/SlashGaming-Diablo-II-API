@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,13 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel/d2_cel_wrapper.hpp"
 
-#include "d2_cel_impl.hpp"
-#include "../../../../include/cxx/game_version.hpp"
-
 namespace d2 {
 
-Cel_Wrapper::Cel_Wrapper(Cel* ptr) noexcept :
-    ptr_(ptr) {
+Cel_Wrapper::Cel_Wrapper(Cel* cel) noexcept :
+    cel_(cel) {
 }
 
 Cel_Wrapper::Cel_Wrapper(const Cel_Wrapper& other) noexcept = default;
@@ -79,7 +76,7 @@ Cel* Cel_Wrapper::Get() noexcept {
 }
 
 const Cel* Cel_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->cel_;
 }
 
 int Cel_Wrapper::GetHeight() const noexcept {
@@ -88,10 +85,22 @@ int Cel_Wrapper::GetHeight() const noexcept {
   return view.GetHeight();
 }
 
+void Cel_Wrapper::SetHeight(int height) noexcept {
+  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
+
+  actual_cel->height = height;
+}
+
 int Cel_Wrapper::GetOffsetX() const noexcept {
   Cel_View view(*this);
 
   return view.GetOffsetX();
+}
+
+void Cel_Wrapper::SetOffsetX(int offset_x) noexcept {
+  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
+
+  actual_cel->offset_x = offset_x;
 }
 
 int Cel_Wrapper::GetOffsetY() const noexcept {
@@ -100,34 +109,22 @@ int Cel_Wrapper::GetOffsetY() const noexcept {
   return view.GetOffsetY();
 }
 
+void Cel_Wrapper::SetOffsetY(int offset_y) noexcept {
+  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
+
+  actual_cel->offset_y = offset_y;
+}
+
 int Cel_Wrapper::GetWidth() const noexcept {
   Cel_View view(*this);
 
   return view.GetWidth();
 }
 
-void Cel_Wrapper::SetHeight(int value) noexcept {
+void Cel_Wrapper::SetWidth(int width) noexcept {
   auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
 
-  actual_cel->height = value;
-}
-
-void Cel_Wrapper::SetOffsetX(int value) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->offset_x = value;
-}
-
-void Cel_Wrapper::SetOffsetY(int value) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->offset_y = value;
-}
-
-void Cel_Wrapper::SetWidth(int value) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->width = value;
+  actual_cel->width = width;
 }
 
 } // namespace d2

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,103 +45,100 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel.hpp"
 
-#include "d2_cel_impl.hpp"
-#include "../../../../include/cxx/game_version.hpp"
-
 namespace d2 {
 namespace {
 
-using unique_ptr_1_00 = std::unique_ptr<Cel_1_00[]>;
+using unique_ptr_1_00 = std::unique_ptr<Cel_1_00>;
 
-using CelVariant = std::variant<
+using ptr_variant = std::variant<
     unique_ptr_1_00
 >;
 
 } // namespace
 
-Cel_API::Cel_API(const Cel_API& other) {
+Cel_Api::Cel_Api(const Cel_Api& other) {
   // TODO (Mir Drualga): Implement this function when a viable constructor is
   // available.
 }
 
-Cel_API::Cel_API(Cel_API&& other) noexcept = default;
+Cel_Api::Cel_Api(Cel_Api&& other) noexcept = default;
 
-Cel_API::~Cel_API() = default;
+Cel_Api::~Cel_Api() = default;
 
-Cel_API& Cel_API::operator=(const Cel_API& other) {
-  *this = Cel_API(other);
+Cel_Api& Cel_Api::operator=(const Cel_Api& other) {
+  *this = Cel_Api(other);
 
   return *this;
 }
 
-Cel_API& Cel_API::operator=(Cel_API&& other) noexcept = default;
+Cel_Api& Cel_Api::operator=(Cel_Api&& other) noexcept = default;
 
-Cel_API::operator Cel_View() const noexcept {
+Cel_Api::operator Cel_View() const noexcept {
   return Cel_View(this->Get());
 }
 
-Cel_API::operator Cel_Wrapper() noexcept {
+Cel_Api::operator Cel_Wrapper() noexcept {
   return Cel_Wrapper(this->Get());
 }
 
-Cel* Cel_API::Get() noexcept {
+Cel* Cel_Api::Get() noexcept {
   const auto* const_this = this;
 
   return this->Get();
 }
 
-const Cel* Cel_API::Get() const noexcept {
+const Cel* Cel_Api::Get() const noexcept {
   const auto& actual_cel = std::get<unique_ptr_1_00>(this->cel_);
 
   return reinterpret_cast<const Cel*>(actual_cel.get());
 }
 
-int Cel_API::GetHeight() const noexcept {
+int Cel_Api::GetHeight() const noexcept {
   Cel_View view(*this);
 
   return view.GetHeight();
 }
 
-int Cel_API::GetOffsetX() const noexcept {
+void Cel_Api::SetHeight(int height) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetHeight(height);
+}
+
+int Cel_Api::GetOffsetX() const noexcept {
   Cel_View view(*this);
 
   return view.GetOffsetX();
 }
 
-int Cel_API::GetOffsetY() const noexcept {
+void Cel_Api::SetOffsetX(int offset_x) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetOffsetX(offset_x);
+}
+
+int Cel_Api::GetOffsetY() const noexcept {
   Cel_View view(*this);
 
   return view.GetOffsetY();
 }
 
-int Cel_API::GetWidth() const noexcept {
+void Cel_Api::SetOffsetY(int offset_y) noexcept {
+  Cel_Wrapper wrapper(*this);
+
+  wrapper.SetOffsetY(offset_y);
+}
+
+int Cel_Api::GetWidth() const noexcept {
   Cel_View view(*this);
 
   return view.GetWidth();
 }
 
-void Cel_API::SetHeight(int value) noexcept {
+void Cel_Api::SetWidth(int width) noexcept {
   Cel_Wrapper wrapper(*this);
 
-  wrapper.SetHeight(value);
-}
-
-void Cel_API::SetOffsetX(int value) noexcept {
-  Cel_Wrapper wrapper(*this);
-
-  wrapper.SetOffsetX(value);
-}
-
-void Cel_API::SetOffsetY(int value) noexcept {
-  Cel_Wrapper wrapper(*this);
-
-  wrapper.SetOffsetY(value);
-}
-
-void Cel_API::SetWidth(int value) noexcept {
-  Cel_Wrapper wrapper(*this);
-
-  wrapper.SetWidth(value);
+  wrapper.SetWidth(width);
 }
 
 } // namespace d2

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,13 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel/d2_cel_view.hpp"
 
-#include "d2_cel_impl.hpp"
-#include "../../../../include/cxx/game_version.hpp"
-
 namespace d2 {
 
 Cel_View::Cel_View(const Cel* ptr) noexcept :
-    ptr_(ptr) {
+    cel_(ptr) {
 }
 
 Cel_View::Cel_View(const Cel_View& other) noexcept = default;
@@ -65,7 +62,7 @@ Cel_View& Cel_View::operator=(const Cel_View& other) noexcept = default;
 Cel_View& Cel_View::operator=(Cel_View&& other) noexcept = default;
 
 const Cel* Cel_View::Get() const noexcept {
-  return this->ptr_;
+  return this->cel_;
 }
 
 int Cel_View::GetHeight() const noexcept {

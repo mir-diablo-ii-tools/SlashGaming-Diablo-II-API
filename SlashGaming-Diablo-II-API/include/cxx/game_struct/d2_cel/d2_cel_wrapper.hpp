@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -56,7 +56,7 @@ namespace d2 {
 class DLLEXPORT Cel_Wrapper {
  public:
   Cel_Wrapper() = delete;
-  Cel_Wrapper(Cel* ptr) noexcept;
+  Cel_Wrapper(Cel* cel) noexcept;
 
   Cel_Wrapper(const Cel_Wrapper& other) noexcept;
   Cel_Wrapper(Cel_Wrapper&& other) noexcept;
@@ -72,17 +72,20 @@ class DLLEXPORT Cel_Wrapper {
   const Cel* Get() const noexcept;
 
   int GetHeight() const noexcept;
-  int GetOffsetX() const noexcept;
-  int GetOffsetY() const noexcept;
-  int GetWidth() const noexcept;
+  void SetHeight(int height) noexcept;
 
-  void SetHeight(int value) noexcept;
-  void SetOffsetX(int value) noexcept;
-  void SetOffsetY(int value) noexcept;
-  void SetWidth(int value) noexcept;
+  int GetOffsetX() const noexcept;
+  void SetOffsetX(int offset_x) noexcept;
+
+  int GetOffsetY() const noexcept;
+  void SetOffsetY(int offset_y) noexcept;
+
+  int GetWidth() const noexcept;
+  void SetWidth(int width) noexcept;
+
 
  private:
-  Cel* ptr_;
+  Cel* cel_;
 };
 
 } // namespace d2
