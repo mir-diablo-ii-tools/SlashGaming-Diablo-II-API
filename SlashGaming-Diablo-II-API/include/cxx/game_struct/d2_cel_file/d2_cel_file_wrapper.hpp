@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,10 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_WRAPPER_HPP_
 
+#include "../../helper/d2_draw_options.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
 #include "d2_cel_file_struct.hpp"
 #include "d2_cel_file_view.hpp"
-#include "../d2_cel/d2_cel_struct.hpp"
-#include "../../helper/d2_draw_options.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -108,16 +108,16 @@ class DLLEXPORT CelFile_Wrapper {
   Cel* GetCel(unsigned int direction, unsigned int frame);
 
   unsigned int GetVersion() const noexcept;
-  void SetVersion(unsigned int value) noexcept;
+  void SetVersion(unsigned int version) noexcept;
 
   unsigned int GetNumDirections() const noexcept;
-  void SetNumDirections(unsigned int value) noexcept;
+  void SetNumDirections(unsigned int num_directions) noexcept;
 
   unsigned int GetNumFrames() const noexcept;
-  void SetNumFrames(unsigned int value) noexcept;
+  void SetNumFrames(unsigned int num_frames) noexcept;
 
  private:
-  CelFile* ptr_;
+  CelFile* cel_file_;
 };
 
 } // namespace d2

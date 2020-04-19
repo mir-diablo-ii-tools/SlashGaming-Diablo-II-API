@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,16 +49,18 @@
 #include <vector>
 
 #include <fmt/format.h>
+#include "../../../../include/cxx/game_function/d2gfx/d2gfx_draw_cel_context.hpp"
+#include "../../../../include/cxx/game_struct/d2_cel/d2_cel_view.hpp"
 #include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_api.hpp"
-#include "../../../../include/cxx/game_func/d2gfx/d2gfx_draw_cel_context.hpp"
-#include "d2_cel_file_impl.hpp"
+#include "../../../wide_macro.h"
+#include "../../backend/error_handling.hpp"
 
 namespace d2 {
 
 CelFile_Wrapper::CelFile_Wrapper(
-    CelFile* ptr
+    CelFile* cel_file
 ) noexcept :
-    ptr_(ptr) {
+    cel_file_(cel_file) {
 }
 
 CelFile_Wrapper::CelFile_Wrapper(
@@ -90,7 +92,7 @@ CelFile* CelFile_Wrapper::Get() noexcept {
 }
 
 const CelFile* CelFile_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->cel_file_;
 }
 
 bool CelFile_Wrapper::DrawFrame(
@@ -100,7 +102,7 @@ bool CelFile_Wrapper::DrawFrame(
     unsigned int frame
 ) {
   DrawCelFileFrameOptions draw_cel_file_frame_options;
-  draw_cel_file_frame_options.color = mapi::RGBA32BitColor();
+  draw_cel_file_frame_options.color = mapi::Rgba32BitColor();
   draw_cel_file_frame_options.draw_effect = DrawEffect::kNone;
   draw_cel_file_frame_options.position_x_behavior =
       DrawPositionXBehavior::kLeft;
@@ -123,7 +125,7 @@ bool CelFile_Wrapper::DrawFrame(
     unsigned int frame,
     const DrawCelFileFrameOptions& frame_options
 ) {
-  CelContext_API cel_context(this->Get(), direction, frame);
+  CelContext_Api cel_context(this->Get(), direction, frame);
 
   return cel_context.DrawFrame(
       position_x,
@@ -139,7 +141,7 @@ bool CelFile_Wrapper::DrawAllFrames(
     unsigned int rows
 ) {
   DrawAllCelFileFramesOptions all_frames_options;
-  all_frames_options.color = mapi::RGBA32BitColor();
+  all_frames_options.color = mapi::Rgba32BitColor();
   all_frames_options.draw_effect = DrawEffect::kNone;
   all_frames_options.cel_file_direction = 0;
   all_frames_options.position_x_behavior = DrawPositionXBehavior::kLeft;
@@ -200,27 +202,20 @@ bool CelFile_Wrapper::DrawAllFrames(
 
     default: {
       constexpr std::wstring_view kErrorFormatMessage =
-          L"File: {} \n"
-          L"Line: {} \n"
-          L"\n"
           L"Invalid value for DrawPositionXBehavior: "
           L"{}.";
 
       std::wstring full_message = fmt::format(
           kErrorFormatMessage,
-          __FILEW__,
-          __LINE__,
           static_cast<int>(all_frames_options.position_x_behavior)
       );
 
-      MessageBoxW(
-          nullptr,
-          full_message.data(),
+      mapi::ExitOnGeneralFailure(
+          full_message,
           L"Invalid Value",
-          MB_OK | MB_ICONERROR
+          __FILEW__,
+          __LINE__
       );
-
-      std::exit(0);
     }
   }
 
@@ -242,27 +237,20 @@ bool CelFile_Wrapper::DrawAllFrames(
 
     default: {
       constexpr std::wstring_view kErrorFormatMessage =
-          L"File: {} \n"
-          L"Line: {} \n"
-          L"\n"
           L"Invalid value for DrawPositionYBehavior: "
           L"{}.";
 
       std::wstring full_message = fmt::format(
           kErrorFormatMessage,
-          __FILEW__,
-          __LINE__,
           static_cast<int>(all_frames_options.position_y_behavior)
       );
 
-      MessageBoxW(
-          nullptr,
-          full_message.data(),
+      mapi::ExitOnGeneralFailure(
+          full_message,
           L"Invalid Value",
-          MB_OK | MB_ICONERROR
+          __FILEW__,
+          __LINE__
       );
-
-      std::exit(0);
     }
   }
 
@@ -282,7 +270,7 @@ bool CelFile_Wrapper::DrawAllFrames(
     for (unsigned int current_column = 0; current_column < columns; current_column += 1) {
       unsigned int current_frame = current_column + (current_row * columns);
 
-      CelContext_API cel_context(this->Get(), all_frames_options.cel_file_direction, current_frame);
+      CelContext_Api cel_context(this->Get(), all_frames_options.cel_file_direction, current_frame);
       bool is_success = cel_context.DrawFrame(
           starting_position_x + current_covered_width,
           starting_position_y + current_covered_height,
@@ -301,7 +289,7 @@ bool CelFile_Wrapper::DrawAllFrames(
 }
 
 Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
-  CelContext_API cel_context(this->Get(), direction, frame);
+  CelContext_Api cel_context(this->Get(), direction, frame);
 
   return cel_context.GetCel();
 }
@@ -312,10 +300,10 @@ unsigned int CelFile_Wrapper::GetVersion() const noexcept {
   return view.GetVersion();
 }
 
-void CelFile_Wrapper::SetVersion(unsigned int value) noexcept {
+void CelFile_Wrapper::SetVersion(unsigned int version) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
-  actual_cel_file->version = value;
+  actual_cel_file->version = version;
 }
 
 unsigned int CelFile_Wrapper::GetNumDirections() const noexcept {
@@ -324,10 +312,10 @@ unsigned int CelFile_Wrapper::GetNumDirections() const noexcept {
   return view.GetNumDirections();
 }
 
-void CelFile_Wrapper::SetNumDirections(unsigned int value) noexcept {
+void CelFile_Wrapper::SetNumDirections(unsigned int num_directions) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
-  actual_cel_file->num_directions = value;
+  actual_cel_file->num_directions = num_directions;
 }
 
 unsigned int CelFile_Wrapper::GetNumFrames() const noexcept {
@@ -336,10 +324,10 @@ unsigned int CelFile_Wrapper::GetNumFrames() const noexcept {
   return view.GetNumFrames();
 }
 
-void CelFile_Wrapper::SetNumFrames(unsigned int value) noexcept {
+void CelFile_Wrapper::SetNumFrames(unsigned int num_frames) noexcept {
   auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
 
-  actual_cel_file->num_frames = value;
+  actual_cel_file->num_frames = num_frames;
 }
 
 } // namespace d2
