@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,37 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2gfx/d2gfx_resolution_mode.hpp"
+#include "../../../../include/cxx/game_variable/d2gfx/d2gfx_resolution_mode.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2gfx {
 namespace {
 
-std::intptr_t D2GFX_ResolutionMode() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2GFX.dll",
+      "ResolutionMode"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 unsigned int GetResolutionMode() {
-  std::intptr_t ptr = D2GFX_ResolutionMode();
-
-  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
-  return *converted_ptr;
+  return GetResolutionMode_1_00();
 }
 
-void SetResolutionMode(unsigned int value) {
-  std::intptr_t ptr = D2GFX_ResolutionMode();
+std::uint32_t GetResolutionMode_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<std::uint32_t*>(raw_address);
+}
 
-  std::uint32_t* converted_ptr = reinterpret_cast<std::uint32_t*>(ptr);
-  *converted_ptr = value;
+void SetResolutionMode(unsigned int resolution_mode) {
+  SetResolutionMode_1_00(resolution_mode);
+}
+
+void SetResolutionMode_1_00(std::uint32_t resolution_mode) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<std::uint32_t*>(raw_address) = resolution_mode;
 }
 
 } // namespace d2::d2gfx

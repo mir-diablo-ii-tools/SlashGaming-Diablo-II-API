@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,12 +46,19 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2GFX_D2GFX_RESOLUTION_MODE_HPP_
 
+#include <cstdint>
+
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2gfx {
 
 DLLEXPORT unsigned int GetResolutionMode();
-DLLEXPORT void SetResolutionMode(unsigned int value);
+
+DLLEXPORT std::uint32_t GetResolutionMode_1_00();
+
+DLLEXPORT void SetResolutionMode(unsigned int resolution_mode);
+
+DLLEXPORT void SetResolutionMode_1_00(std::uint32_t resolution_mode);
 
 } // namespace d2::d2gfx
 
