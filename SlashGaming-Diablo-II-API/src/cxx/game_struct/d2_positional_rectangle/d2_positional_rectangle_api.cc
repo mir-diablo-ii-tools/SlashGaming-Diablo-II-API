@@ -53,11 +53,11 @@ namespace {
 
 using unique_ptr_1_00 = std::unique_ptr<PositionalRectangle_1_00>;
 
-using PositionalRectangleVariant = std::variant<
+using ptr_variant = std::variant<
     unique_ptr_1_00
 >;
 
-PositionalRectangleVariant CreateVariant(
+ptr_variant CreateVariant(
     int left,
     int right,
     int top,
