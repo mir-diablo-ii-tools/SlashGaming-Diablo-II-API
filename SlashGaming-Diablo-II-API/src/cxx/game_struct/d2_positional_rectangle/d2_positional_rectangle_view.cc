@@ -48,9 +48,9 @@
 namespace d2 {
 
 PositionalRectangle_View::PositionalRectangle_View(
-    const PositionalRectangle* ptr
+    const PositionalRectangle* positional_rectangle
 ) noexcept :
-    ptr_(ptr) {
+    positional_rectangle_(positional_rectangle) {
 }
 
 PositionalRectangle_View::PositionalRectangle_View(
@@ -72,35 +72,35 @@ PositionalRectangle_View& PositionalRectangle_View::operator=(
 ) noexcept = default;
 
 const PositionalRectangle* PositionalRectangle_View::Get() const noexcept {
-  return this->ptr_;
+  return this->positional_rectangle_;
 }
 
 int PositionalRectangle_View::GetLeft() const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_positional_rectangle =
       reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
 
-  return actual_ptr->left;
+  return actual_positional_rectangle->left;
 }
 
 int PositionalRectangle_View::GetRight() const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_positional_rectangle =
       reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
 
-  return actual_ptr->right;
+  return actual_positional_rectangle->right;
 }
 
 int PositionalRectangle_View::GetTop() const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_positional_rectangle =
       reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
 
-  return actual_ptr->top;
+  return actual_positional_rectangle->top;
 }
 
 int PositionalRectangle_View::GetBottom() const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_positional_rectangle =
       reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
 
-  return actual_ptr->bottom;
+  return actual_positional_rectangle->bottom;
 }
 
 } // namespace d2

@@ -48,9 +48,9 @@
 namespace d2 {
 
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
-    PositionalRectangle* ptr
+    PositionalRectangle* positional_rectangle
 ) noexcept :
-    ptr_(ptr) {
+    positonal_rectangle_(positional_rectangle) {
 }
 
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
@@ -84,7 +84,7 @@ PositionalRectangle* PositionalRectangle_Wrapper::Get() noexcept {
 }
 
 const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->positonal_rectangle_;
 }
 
 void PositionalRectangle_Wrapper::Assign(
@@ -106,9 +106,10 @@ int PositionalRectangle_Wrapper::GetLeft() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetLeft(int left) noexcept {
-  auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
+  auto* actual_positional_rectangle =
+      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->left = left;
+  actual_positional_rectangle->left = left;
 }
 
 int PositionalRectangle_Wrapper::GetRight() const noexcept {
@@ -118,9 +119,10 @@ int PositionalRectangle_Wrapper::GetRight() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetRight(int right) noexcept {
-  auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
+  auto* actual_positional_rectangle =
+      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->right = right;
+  actual_positional_rectangle->right = right;
 }
 
 int PositionalRectangle_Wrapper::GetTop() const noexcept {
@@ -130,9 +132,10 @@ int PositionalRectangle_Wrapper::GetTop() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetTop(int top) noexcept {
-  auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
+  auto* actual_positional_rectangle =
+      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->top = top;
+  actual_positional_rectangle->top = top;
 }
 
 int PositionalRectangle_Wrapper::GetBottom() const noexcept {
@@ -142,9 +145,10 @@ int PositionalRectangle_Wrapper::GetBottom() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetBottom(int bottom) noexcept {
-  auto* actual_ptr = reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
+  auto* actual_positional_rectangle =
+      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
 
-  actual_ptr->bottom = bottom;
+  actual_positional_rectangle->bottom = bottom;
 }
 
 } // namespace d2
