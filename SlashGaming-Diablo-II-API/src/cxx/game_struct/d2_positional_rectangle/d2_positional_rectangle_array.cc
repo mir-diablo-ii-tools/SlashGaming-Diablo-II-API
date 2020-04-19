@@ -77,14 +77,6 @@ PositionalRectangle_Wrapper PositionalRectangle_Array::operator[](
   return wrapper[index];
 }
 
-PositionalRectangle_Array::operator PositionalRectangle_View() const noexcept {
-  return PositionalRectangle_View(this->Get());
-}
-
-PositionalRectangle_Array::operator PositionalRectangle_Wrapper() noexcept {
-  return PositionalRectangle_Wrapper(this->Get());
-}
-
 PositionalRectangle* PositionalRectangle_Array::Get() noexcept {
   const auto* const_this = this;
 
