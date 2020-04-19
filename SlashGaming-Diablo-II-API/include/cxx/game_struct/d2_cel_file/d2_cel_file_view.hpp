@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -55,7 +55,7 @@ namespace d2 {
 class DLLEXPORT CelFile_View {
  public:
   CelFile_View() = delete;
-  CelFile_View(const CelFile* ptr) noexcept;
+  CelFile_View(const CelFile* cel_file) noexcept;
 
   CelFile_View(const CelFile_View& other) noexcept;
   CelFile_View(CelFile_View&& other) noexcept;
@@ -72,7 +72,7 @@ class DLLEXPORT CelFile_View {
   unsigned int GetNumFrames() const noexcept;
 
  private:
-  const CelFile* ptr_;
+  const CelFile* cel_file_;
 };
 
 } // namespace d2
