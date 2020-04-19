@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,20 +43,24 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_HPP_
-#define SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_HPP_
+#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_Y_HPP_
+#define SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_Y_HPP_
+
+#include <cstdint>
 
 #include "../../../dllexport_define.inc"
 
 namespace d2::d2win {
 
-DLLEXPORT int GetMainMenuMousePositionX();
-DLLEXPORT void SetMainMenuMousePositionX(int value);
-
 DLLEXPORT int GetMainMenuMousePositionY();
-DLLEXPORT void SetMainMenuMousePositionY(int value);
+
+DLLEXPORT std::int32_t GetMainMenuMousePositionY_1_00();
+
+DLLEXPORT void SetMainMenuMousePositionY(int mouse_position_y);
+
+DLLEXPORT void SetMainMenuMousePositionY_1_00(std::int32_t mouse_position_y);
 
 } // namespace d2::d2win
 
 #include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_HPP_
+#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_Y_HPP_

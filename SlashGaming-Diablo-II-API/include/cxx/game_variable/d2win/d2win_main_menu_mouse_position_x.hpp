@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -43,61 +43,24 @@
  *  work.
  */
 
-/**
- * Latest supported version: 1.14D
- */
-
-#include "../../../../include/cxx/game_data/d2win/d2win_main_menu_mouse_position.hpp"
+#ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_X_HPP_
+#define SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_X_HPP_
 
 #include <cstdint>
 
-#include "../../../cxx/game_address_table.hpp"
+#include "../../../dllexport_define.inc"
 
 namespace d2::d2win {
-namespace {
 
-std::intptr_t D2Win_MainMenuMousePositionX() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+DLLEXPORT int GetMainMenuMousePositionX();
 
-  return ptr;
-}
+DLLEXPORT std::int32_t GetMainMenuMousePositionX_1_00();
 
-std::intptr_t D2Win_MainMenuMousePositionY() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+DLLEXPORT void SetMainMenuMousePositionX(int mouse_position_x);
 
-  return ptr;
-}
-
-} // namespace
-
-int GetMainMenuMousePositionX() {
-  std::intptr_t ptr = D2Win_MainMenuMousePositionX();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  return *converted_ptr;
-}
-
-void SetMainMenuMousePositionX(int value) {
-  std::intptr_t ptr = D2Win_MainMenuMousePositionX();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
-}
-
-int GetMainMenuMousePositionY() {
-  std::intptr_t ptr = D2Win_MainMenuMousePositionY();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  return *converted_ptr;
-}
-
-void SetMainMenuMousePositionY(int value) {
-  std::intptr_t ptr = D2Win_MainMenuMousePositionY();
-
-  std::int32_t* converted_ptr = reinterpret_cast<std::int32_t*>(ptr);
-  *converted_ptr = value;
-}
+DLLEXPORT void SetMainMenuMousePositionX_1_00(std::int32_t mouse_position_x);
 
 } // namespace d2::d2win
+
+#include "../../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_D2WIN_MAIN_MENU_MOUSE_POSITION_X_HPP_
