@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,45 +47,40 @@
  * Latest supported version: 1.14D
  */
 
-#include "../../../../include/cxx/game_data/d2gfx/d2gfx_window_handle.hpp"
+#include "../../../../include/cxx/game_variable/d2gfx/d2gfx_window_handle.hpp"
 
-#include <cstdint>
-
-#include "../../../cxx/game_address_table.hpp"
-#include "../../../../include/cxx/game_bool.hpp"
-#include "../../../../include/cxx/game_version.hpp"
+#include "../../backend/game_address_table.hpp"
 
 namespace d2::d2gfx {
 namespace {
 
-std::intptr_t D2GFX_WindowHandle() {
-  static std::intptr_t ptr = mapi::GetGameAddress(__func__)
-      .raw_address();
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+      "D2GFX.dll",
+      "WindowHandle"
+  );
 
-  return ptr;
+  return game_address;
 }
 
 } // namespace
 
 HWND GetWindowHandle() {
-  std::intptr_t ptr = D2GFX_WindowHandle();
-  GameVersion current_game_version = GetRunningGameVersionId();
-
-  HWND value;
-
-  HWND* converted_ptr = reinterpret_cast<HWND*>(ptr);
-  value = *converted_ptr;
-
-  return value;
+  return GetWindowHandle_1_00();
 }
 
-void SetWindowHandle(HWND value) {
-  std::intptr_t ptr = D2GFX_WindowHandle();
+HWND GetWindowHandle_1_00() {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  return *reinterpret_cast<HWND*>(raw_address);
+}
 
-  GameVersion current_game_version = GetRunningGameVersionId();
+void SetWindowHandle(HWND window_handle) {
+  SetWindowHandle_1_00(window_handle);
+}
 
-  HWND* converted_ptr = reinterpret_cast<HWND*>(ptr);
-  *converted_ptr = value;
+void SetWindowHandle_1_00(HWND window_handle) {
+  std::intptr_t raw_address = GetGameAddress().raw_address();
+  *reinterpret_cast<HWND*>(raw_address) = window_handle;
 }
 
 } // namespace d2::d2gfx
