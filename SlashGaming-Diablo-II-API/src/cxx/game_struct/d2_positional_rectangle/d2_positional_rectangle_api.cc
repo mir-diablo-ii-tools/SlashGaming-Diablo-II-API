@@ -80,9 +80,7 @@ PositionalRectangle_Api::PositionalRectangle_Api(
     int right,
     int top,
     int bottom
-) : positional_rectangle_(
-        CreateVariant(left, right, top, bottom)
-    ) {
+) : positional_rectangle_(CreateVariant(left, right, top, bottom)) {
 }
 
 PositionalRectangle_Api::PositionalRectangle_Api(
@@ -115,6 +113,10 @@ PositionalRectangle_Api& PositionalRectangle_Api::operator=(
 
 PositionalRectangle_Api::operator PositionalRectangle_View() const noexcept {
   return PositionalRectangle_View(this->Get());
+}
+
+PositionalRectangle_Api::operator PositionalRectangle_Wrapper() noexcept {
+  return PositionalRectangle_Wrapper(this->Get());
 }
 
 PositionalRectangle* PositionalRectangle_Api::Get() noexcept {

@@ -51,6 +51,7 @@
 
 #include "d2_positional_rectangle_struct.hpp"
 #include "d2_positional_rectangle_view.hpp"
+#include "d2_positional_rectangle_wrapper.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -83,6 +84,7 @@ class DLLEXPORT PositionalRectangle_Api {
   ) noexcept;
 
   operator PositionalRectangle_View() const noexcept;
+  operator PositionalRectangle_Wrapper() noexcept;
 
   PositionalRectangle* Get() noexcept;
   const PositionalRectangle* Get() const noexcept;
