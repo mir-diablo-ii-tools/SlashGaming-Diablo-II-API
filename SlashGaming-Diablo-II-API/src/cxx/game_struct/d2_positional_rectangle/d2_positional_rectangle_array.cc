@@ -87,7 +87,9 @@ const PositionalRectangle* PositionalRectangle_Array::Get() const noexcept {
   auto& actual_positional_rectangles =
       std::get<unique_array_1_00>(this->positional_rectangles_);
 
-  return reinterpret_cast<const PositionalRectangle*>(actual_positional_rectangles.get());
+  return reinterpret_cast<const PositionalRectangle*>(
+      actual_positional_rectangles.get()
+  );
 }
 
 void PositionalRectangle_Array::Assign(
