@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -52,26 +52,26 @@
 
 namespace mapi {
 
-class DLLEXPORT RGBA32BitColor {
+class DLLEXPORT Rgba32BitColor {
  public:
-  RGBA32BitColor() noexcept;
+  Rgba32BitColor() noexcept;
 
-  RGBA32BitColor(
+  Rgba32BitColor(
       std::uint8_t red,
       std::uint8_t green,
       std::uint8_t blue,
       std::uint8_t alpha
   ) noexcept;
 
-  static RGBA32BitColor FromRGBA(std::uint32_t color);
-  static RGBA32BitColor FromBGRA(std::uint32_t color);
-  static RGBA32BitColor FromARGB(std::uint32_t color);
-  static RGBA32BitColor FromABGR(std::uint32_t color);
+  static Rgba32BitColor FromRgba(std::uint32_t color);
+  static Rgba32BitColor FromBgra(std::uint32_t color);
+  static Rgba32BitColor FromArgb(std::uint32_t color);
+  static Rgba32BitColor FromAbgr(std::uint32_t color);
 
-  std::uint32_t ToRGBA() const;
-  std::uint32_t ToBGRA() const;
-  std::uint32_t ToARGB() const;
-  std::uint32_t ToABGR() const;
+  std::uint32_t ToRgba() const;
+  std::uint32_t ToBgra() const;
+  std::uint32_t ToArgb() const;
+  std::uint32_t ToAbgr() const;
 
   std::uint8_t red() const noexcept;
   std::uint8_t green() const noexcept;

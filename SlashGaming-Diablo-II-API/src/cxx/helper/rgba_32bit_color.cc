@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,11 +47,11 @@
 
 namespace mapi {
 
-RGBA32BitColor::RGBA32BitColor() noexcept :
-    RGBA32BitColor(0xFF, 0xFF, 0xFF, 0xFF) {
+Rgba32BitColor::Rgba32BitColor() noexcept :
+    Rgba32BitColor(0xFF, 0xFF, 0xFF, 0xFF) {
 }
 
-RGBA32BitColor::RGBA32BitColor(
+Rgba32BitColor::Rgba32BitColor(
     std::uint8_t red,
     std::uint8_t green,
     std::uint8_t blue,
@@ -63,43 +63,43 @@ RGBA32BitColor::RGBA32BitColor(
     alpha_(alpha) {
 }
 
-RGBA32BitColor RGBA32BitColor::FromRGBA(std::uint32_t color) {
+Rgba32BitColor Rgba32BitColor::FromRgba(std::uint32_t color) {
   std::uint8_t red = (color >> (3 * 8)) & 0xFF;
   std::uint8_t green = (color >> (2 * 8)) & 0xFF;
   std::uint8_t blue = (color >> (1 * 8)) & 0xFF;
   std::uint8_t alpha = (color >> (0 * 8)) & 0xFF;
 
-  return RGBA32BitColor(red, green, blue, alpha);
+  return Rgba32BitColor(red, green, blue, alpha);
 }
 
-RGBA32BitColor RGBA32BitColor::FromBGRA(std::uint32_t color) {
+Rgba32BitColor Rgba32BitColor::FromBgra(std::uint32_t color) {
   std::uint8_t red = (color >> (1 * 8)) & 0xFF;
   std::uint8_t green = (color >> (2 * 8)) & 0xFF;
   std::uint8_t blue = (color >> (3 * 8)) & 0xFF;
   std::uint8_t alpha = (color >> (0 * 8)) & 0xFF;
 
-  return RGBA32BitColor(red, green, blue, alpha);
+  return Rgba32BitColor(red, green, blue, alpha);
 }
 
-RGBA32BitColor RGBA32BitColor::FromARGB(std::uint32_t color) {
+Rgba32BitColor Rgba32BitColor::FromArgb(std::uint32_t color) {
   std::uint8_t red = (color >> (2 * 8)) & 0xFF;
   std::uint8_t green = (color >> (1 * 8)) & 0xFF;
   std::uint8_t blue = (color >> (0 * 8)) & 0xFF;
   std::uint8_t alpha = (color >> (3 * 8)) & 0xFF;
 
-  return RGBA32BitColor(red, green, blue, alpha);
+  return Rgba32BitColor(red, green, blue, alpha);
 }
 
-RGBA32BitColor RGBA32BitColor::FromABGR(std::uint32_t color) {
+Rgba32BitColor Rgba32BitColor::FromAbgr(std::uint32_t color) {
   std::uint8_t red = (color >> (0 * 8)) & 0xFF;
   std::uint8_t green = (color >> (1 * 8)) & 0xFF;
   std::uint8_t blue = (color >> (2 * 8)) & 0xFF;
   std::uint8_t alpha = (color >> (3 * 8)) & 0xFF;
 
-  return RGBA32BitColor(red, green, blue, alpha);
+  return Rgba32BitColor(red, green, blue, alpha);
 }
 
-std::uint32_t RGBA32BitColor::ToRGBA() const {
+std::uint32_t Rgba32BitColor::ToRgba() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (3 * 8);
@@ -110,7 +110,7 @@ std::uint32_t RGBA32BitColor::ToRGBA() const {
   return color;
 }
 
-std::uint32_t RGBA32BitColor::ToBGRA() const {
+std::uint32_t Rgba32BitColor::ToBgra() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (1 * 8);
@@ -121,7 +121,7 @@ std::uint32_t RGBA32BitColor::ToBGRA() const {
   return color;
 }
 
-std::uint32_t RGBA32BitColor::ToARGB() const {
+std::uint32_t Rgba32BitColor::ToArgb() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (2 * 8);
@@ -132,7 +132,7 @@ std::uint32_t RGBA32BitColor::ToARGB() const {
   return color;
 }
 
-std::uint32_t RGBA32BitColor::ToABGR() const {
+std::uint32_t Rgba32BitColor::ToAbgr() const {
   std::uint32_t color = 0;
 
   color |= this->red() << (0 * 8);
@@ -144,19 +144,19 @@ std::uint32_t RGBA32BitColor::ToABGR() const {
 }
 
 
-std::uint8_t RGBA32BitColor::red() const noexcept {
+std::uint8_t Rgba32BitColor::red() const noexcept {
   return this->red_;
 }
 
-std::uint8_t RGBA32BitColor::green() const noexcept {
+std::uint8_t Rgba32BitColor::green() const noexcept {
   return this->green_;
 }
 
-std::uint8_t RGBA32BitColor::blue() const noexcept {
+std::uint8_t Rgba32BitColor::blue() const noexcept {
   return this->blue_;
 }
 
-std::uint8_t RGBA32BitColor::alpha() const noexcept {
+std::uint8_t Rgba32BitColor::alpha() const noexcept {
   return this->alpha_;
 }
 
