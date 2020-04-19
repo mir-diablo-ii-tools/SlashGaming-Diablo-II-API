@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_view.hpp"
 
-#include "d2_belt_record_impl.hpp"
-
 namespace d2 {
 
-BeltRecord_View::BeltRecord_View(
-    const BeltRecord* ptr
-) noexcept :
-    ptr_(ptr) {
+BeltRecord_View::BeltRecord_View(const BeltRecord* belt_record) noexcept :
+    belt_record_(belt_record) {
 }
 
 BeltRecord_View::BeltRecord_View(
@@ -76,41 +72,30 @@ BeltRecord_View& BeltRecord_View::operator=(
 BeltRecord_View BeltRecord_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_belt_record =
       reinterpret_cast<const BeltRecord_1_00*>(this->Get());
 
-  return reinterpret_cast<const BeltRecord*>(&actual_ptr[index]);
+  return reinterpret_cast<const BeltRecord*>(&actual_belt_record[index]);
 }
 
 const BeltRecord* BeltRecord_View::Get() const noexcept {
-  return this->ptr_;
-}
-
-const PositionalRectangle* BeltRecord_View::GetSlotPosition(
-    std::size_t index
-) const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(
-      &actual_ptr->slot_positions[index]
-  );
+  return this->belt_record_;
 }
 
 std::uint_least8_t BeltRecord_View::GetNumSlots() const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_belt_record =
       reinterpret_cast<const BeltRecord_1_00*>(this->Get());
 
-  return actual_ptr->num_slots;
+  return actual_belt_record->num_slots;
 }
 
 const PositionalRectangle*
 BeltRecord_View::GetSlotPositions() const noexcept {
-  const auto* actual_ptr =
+  const auto* actual_belt_record =
       reinterpret_cast<const BeltRecord_1_00*>(this->Get());
 
   return reinterpret_cast<const PositionalRectangle*>(
-      actual_ptr->slot_positions
+      actual_belt_record->slot_positions
   );
 }
 
