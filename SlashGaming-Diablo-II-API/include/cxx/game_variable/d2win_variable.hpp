@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_VARIABLE_HPP_
 #define SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_VARIABLE_HPP_
 
-#include "d2win/d2win_main_menu_mouse_position.hpp"
+#include "d2win/d2win_main_menu_mouse_position_x.hpp"
+#include "d2win/d2win_main_menu_mouse_position_y.hpp"
 
 #endif // SGD2MAPI_CXX_GAME_VARIABLE_D2WIN_VARIABLE_HPP_
