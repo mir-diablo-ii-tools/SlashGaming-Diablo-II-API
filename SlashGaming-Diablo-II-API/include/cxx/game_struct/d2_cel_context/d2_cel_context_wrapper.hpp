@@ -69,6 +69,9 @@ class DLLEXPORT CelContext_Wrapper {
   CelContext_Wrapper& operator=(const CelContext_Wrapper& other) noexcept;
   CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
 
+  CelContext_View operator[](std::size_t index) const noexcept;
+  CelContext_Wrapper operator[](std::size_t index) noexcept;
+
   operator CelContext_View() const noexcept;
 
   CelContext* Get() noexcept;

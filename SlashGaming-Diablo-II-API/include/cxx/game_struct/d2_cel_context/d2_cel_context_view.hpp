@@ -66,6 +66,8 @@ class DLLEXPORT CelContext_View {
   CelContext_View& operator=(const CelContext_View& other) noexcept;
   CelContext_View& operator=(CelContext_View&& other) noexcept;
 
+  CelContext_View operator[](std::size_t index) const noexcept;
+
   const CelContext* Get() const noexcept;
 
   const CelFile* GetCelFile() const noexcept;

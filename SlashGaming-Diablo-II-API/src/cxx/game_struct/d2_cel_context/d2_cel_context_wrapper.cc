@@ -76,6 +76,22 @@ CelContext_Wrapper& CelContext_Wrapper::operator=(
     CelContext_Wrapper&& other
 ) noexcept = default;
 
+CelContext_View CelContext_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  CelContext_View view(this->Get());
+
+  return view[index];
+}
+
+CelContext_Wrapper CelContext_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<CelContext*>((*const_this)[index].Get());
+}
+
 CelContext_Wrapper::operator CelContext_View() const noexcept {
   return CelContext_View(this->Get());
 }

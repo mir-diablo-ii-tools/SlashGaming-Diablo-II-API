@@ -73,6 +73,27 @@ CelContext_View& CelContext_View::operator=(
     CelContext_View&& other
 ) noexcept = default;
 
+CelContext_View CelContext_View::operator[](std::size_t index) const noexcept {
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version <= GameVersion::k1_10) {
+    const auto* actual_cel_context =
+        reinterpret_cast<const CelContext_1_00*>(this->Get());
+
+    return reinterpret_cast<const CelContext*>(&actual_cel_context[index]);
+  } else if (running_game_version == GameVersion::k1_12A) {
+    const auto* actual_cel_context =
+        reinterpret_cast<const CelContext_1_12A*>(this->Get());
+
+    return reinterpret_cast<const CelContext*>(&actual_cel_context[index]);
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
+    const auto* actual_cel_context =
+        reinterpret_cast<const CelContext_1_13C*>(this->Get());
+
+    return reinterpret_cast<const CelContext*>(&actual_cel_context[index]);
+  }
+}
+
 const CelContext* CelContext_View::Get() const noexcept {
   return this->cel_context_;
 }
@@ -90,7 +111,7 @@ const CelFile* CelContext_View::GetCelFile() const noexcept {
         reinterpret_cast<const CelContext_1_12A*>(this->Get());
 
     return reinterpret_cast<const CelFile*>(actual_cel_context->cel_file);
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
     const auto* actual_cel_context =
         reinterpret_cast<const CelContext_1_13C*>(this->Get());
 
@@ -111,7 +132,7 @@ unsigned int CelContext_View::GetDirection() const noexcept {
         reinterpret_cast<const CelContext_1_12A*>(this->Get());
 
     return actual_cel_context->direction;
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
     const auto* actual_cel_context =
         reinterpret_cast<const CelContext_1_13C*>(this->Get());
 
@@ -132,7 +153,7 @@ unsigned int CelContext_View::GetFrame() const noexcept {
         reinterpret_cast<const CelContext_1_12A*>(this->Get());
 
     return actual_cel_context->frame;
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
     const auto* actual_cel_context =
         reinterpret_cast<const CelContext_1_13C*>(this->Get());
 

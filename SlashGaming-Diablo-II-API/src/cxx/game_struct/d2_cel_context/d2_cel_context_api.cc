@@ -72,9 +72,7 @@ CelContext_Api::CelContext_Api(
     CelFile* cel_file,
     unsigned int direction,
     unsigned int frame
-) : cel_context_(
-        CreateVariant(cel_file, direction, frame)
-    ) {
+) : cel_context_(CreateVariant(cel_file, direction, frame)) {
 }
 
 CelContext_Api::CelContext_Api(const CelContext_Api& other) :
@@ -134,7 +132,7 @@ const CelContext* CelContext_Api::Get() const noexcept {
 }
 
 bool CelContext_Api::DrawFrame(int position_x, int position_y) {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   return wrapper.DrawFrame(position_x, position_y);
 }
@@ -144,55 +142,55 @@ bool CelContext_Api::DrawFrame(
     int position_y,
     const DrawCelFileFrameOptions& frame_options
 ) {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   return wrapper.DrawFrame(position_x, position_y, frame_options);
 }
 
 Cel* CelContext_Api::GetCel() {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   return wrapper.GetCel();
 }
 
 CelFile* CelContext_Api::GetCelFile() noexcept {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   return wrapper.GetCelFile();
 }
 
 const CelFile* CelContext_Api::GetCelFile() const noexcept {
-  CelContext_View view(*this);
+  CelContext_View view(this->Get());
 
   return view.GetCelFile();
 }
 
 unsigned int CelContext_Api::GetDirection() const noexcept {
-  CelContext_View view(*this);
+  CelContext_View view(this->Get());
 
   return view.GetDirection();
 }
 
 unsigned int CelContext_Api::GetFrame() const noexcept {
-  CelContext_View view(*this);
+  CelContext_View view(this->Get());
 
   return view.GetFrame();
 }
 
 void CelContext_Api::SetCelFile(CelFile* cel_file) noexcept {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   wrapper.SetCelFile(cel_file);
 }
 
 void CelContext_Api::SetDirection(unsigned int direction) noexcept {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   wrapper.SetDirection(direction);
 }
 
 void CelContext_Api::SetFrame(unsigned int frame) noexcept {
-  CelContext_Wrapper wrapper(*this);
+  CelContext_Wrapper wrapper(this->Get());
 
   wrapper.SetFrame(frame);
 }
