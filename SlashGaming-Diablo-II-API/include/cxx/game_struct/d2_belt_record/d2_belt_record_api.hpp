@@ -62,9 +62,6 @@ namespace d2 {
 
 class DLLEXPORT BeltRecord_Api {
  public:
-  using unique_ptr_1_00 = std::unique_ptr<BeltRecord_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
-
   BeltRecord_Api() = delete;
   BeltRecord_Api(
       mapi::Undefined* reserved_00__set_to_nullptr,
@@ -95,6 +92,9 @@ class DLLEXPORT BeltRecord_Api {
   const PositionalRectangle* GetSlotPositions() const noexcept;
 
  private:
+  using unique_ptr_1_00 = std::unique_ptr<BeltRecord_1_00>;
+  using ptr_variant = std::variant<unique_ptr_1_00>;
+
   static ptr_variant CreateVariant(
       mapi::Undefined* reserved_00__set_to_nullptr,
       std::int_least8_t num_slots,
