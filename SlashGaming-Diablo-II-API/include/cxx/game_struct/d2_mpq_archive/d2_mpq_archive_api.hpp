@@ -49,6 +49,7 @@
 #include <memory>
 #include <variant>
 
+#include "../../game_undefined.hpp"
 #include "d2_mpq_archive_struct.hpp"
 #include "d2_mpq_archive_view.hpp"
 #include "d2_mpq_archive_wrapper.hpp"
@@ -76,9 +77,9 @@ class DLLEXPORT MpqArchive_Api {
   const MpqArchive* Get() const noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<MpqArchive_1_00>
-  > mpq_archive_;
+  using ptr_variant = std::variant<mapi::Undefined*>;
+
+  ptr_variant mpq_archive_;
 };
 
 } // namespace d2

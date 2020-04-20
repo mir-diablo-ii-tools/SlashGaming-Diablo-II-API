@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_VIEW_HPP_
 
+#include <cstddef>
+
 #include "d2_mpq_archive_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -65,10 +67,14 @@ class DLLEXPORT MpqArchive_View {
   MpqArchive_View& operator=(const MpqArchive_View& other) noexcept;
   MpqArchive_View& operator=(MpqArchive_View&& other) noexcept;
 
+  /* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
+  MpqArchive_View operator[](std::size_t index) const noexcept;
+  */
+
   const MpqArchive* Get() const noexcept;
 
  private:
-  const MpqArchive* ptr_;
+  const MpqArchive* mpq_archive_;
 };
 
 } // namespace d2

@@ -46,19 +46,6 @@
 #include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_api.hpp"
 
 namespace d2 {
-namespace {
-
-using unique_ptr_1_00 = std::unique_ptr<MpqArchive_1_00>;
-
-using MpqArchiveVariant = std::variant<
-    unique_ptr_1_00
->;
-
-} // namespace
-
-// TODO: Delete when actual definition exists.
-struct MpqArchive_1_00 {
-};
 
 // TODO: Implement MPQArchive initialization.
 MpqArchive_Api::MpqArchive_Api(const MpqArchive_Api& other) {
@@ -93,9 +80,9 @@ MpqArchive* MpqArchive_Api::Get() noexcept {
 }
 
 const MpqArchive* MpqArchive_Api::Get() const noexcept {
-  const auto& actual_ptr = std::get<unique_ptr_1_00>(this->mpq_archive_);
+  const auto& actual_mpq_archive = std::get<0>(this->mpq_archive_);
 
-  return reinterpret_cast<const MpqArchive*>(actual_ptr.get());
+  return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
 }
 
 } // namespace d2

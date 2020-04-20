@@ -72,7 +72,7 @@ class DLLEXPORT MpqArchive_Wrapper {
   const MpqArchive* Get() const noexcept;
 
  private:
-  MpqArchive* ptr_;
+  MpqArchive* mpq_archive_;
 };
 
 } // namespace d2

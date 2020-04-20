@@ -47,8 +47,8 @@
 
 namespace d2 {
 
-MpqArchive_View::MpqArchive_View(const MpqArchive* ptr) noexcept :
-    ptr_(ptr) {
+MpqArchive_View::MpqArchive_View(const MpqArchive* mpq_archive) noexcept :
+    mpq_archive_(mpq_archive) {
 }
 
 MpqArchive_View::MpqArchive_View(
@@ -67,8 +67,17 @@ MpqArchive_View& MpqArchive_View::operator=(
     MpqArchive_View&& other
 ) noexcept = default;
 
+/* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
+MpqArchive_View MpqArchive_View::operator[](std::size_t index) const noexcept {
+  const auto* actual_mpq_archive =
+      reinterpret_cast<const MpqArchive_1_00*>(this->Get());
+
+  return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive[index]);
+}
+*/
+
 const MpqArchive* MpqArchive_View::Get() const noexcept {
-  return this->ptr_;
+  return this->mpq_archive_;
 }
 
 } // namespace d2

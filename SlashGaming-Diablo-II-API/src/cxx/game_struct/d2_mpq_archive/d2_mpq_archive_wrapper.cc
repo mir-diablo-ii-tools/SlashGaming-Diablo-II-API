@@ -45,13 +45,12 @@
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
 
-#include "d2_mpq_archive_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
 
-MpqArchive_Wrapper::MpqArchive_Wrapper(MpqArchive* ptr) noexcept :
-    ptr_(ptr) {
+MpqArchive_Wrapper::MpqArchive_Wrapper(MpqArchive* mpq_archive) noexcept :
+    mpq_archive_(mpq_archive) {
 }
 
 MpqArchive_Wrapper::MpqArchive_Wrapper(
@@ -83,7 +82,7 @@ MpqArchive* MpqArchive_Wrapper::Get() noexcept {
 }
 
 const MpqArchive* MpqArchive_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->mpq_archive_;
 }
 
 } // namespace d2
