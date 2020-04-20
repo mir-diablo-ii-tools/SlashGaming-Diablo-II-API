@@ -51,22 +51,6 @@
 namespace d2 {
 namespace {
 
-using CelFileVariant = std::variant<
-    CelFile_1_00*
->;
-
-CelFileVariant CreateVariant(
-    std::string_view cel_file_path,
-    bool is_dcc_else_dc6
-) {
-  CelFile* cel_file = d2win::LoadCelFile(
-      cel_file_path.data(),
-      is_dcc_else_dc6
-  );
-
-  return reinterpret_cast<CelFile_1_00*>(cel_file);
-}
-
 } // namespace
 
 CelFile_Api::CelFile_Api() :
@@ -106,11 +90,13 @@ const CelFile* CelFile_Api::Get() const noexcept {
 }
 
 void CelFile_Api::Close() {
-  if (this->IsOpen()) {
-    d2win::UnloadCelFile(const_cast<CelFile*>(this->Get()));
-    this->cel_file_ = nullptr;
-    this->is_open_ = false;
+  if (!this->IsOpen()) {
+    return;
   }
+
+  d2win::UnloadCelFile(const_cast<CelFile*>(this->Get()));
+  this->cel_file_ = nullptr;
+  this->is_open_ = false;
 }
 
 bool CelFile_Api::DrawFrame(
@@ -206,21 +192,33 @@ void CelFile_Api::Open(
 }
 
 unsigned int CelFile_Api::GetVersion() const noexcept {
-  CelFile_View view(*this);
+  CelFile_View view(this->Get());
 
   return view.GetVersion();
 }
 
 unsigned int CelFile_Api::GetNumDirections() const noexcept {
-  CelFile_View view(*this);
+  CelFile_View view(this->Get());
 
   return view.GetNumDirections();
 }
 
 unsigned int CelFile_Api::GetNumFrames() const noexcept {
-  CelFile_View view(*this);
+  CelFile_View view(this->Get());
 
   return view.GetNumFrames();
+}
+
+CelFile_Api::ptr_variant CelFile_Api::CreateVariant(
+    std::string_view cel_file_path,
+    bool is_dcc_else_dc6
+) {
+  CelFile* cel_file = d2win::LoadCelFile(
+      cel_file_path.data(),
+      is_dcc_else_dc6
+  );
+
+  return reinterpret_cast<CelFile_1_00*>(cel_file);
 }
 
 } // namespace d2

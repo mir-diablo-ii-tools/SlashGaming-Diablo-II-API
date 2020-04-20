@@ -71,24 +71,34 @@ CelFile_View& CelFile_View::operator=(
     CelFile_View&& other
 ) noexcept = default;
 
+CelFile_View CelFile_View::operator[](std::size_t index) const noexcept {
+  const auto* actual_cel_file =
+      reinterpret_cast<const CelFile_1_00*>(this->Get());
+
+  return reinterpret_cast<const CelFile*>(&actual_cel_file[index]);
+}
+
 const CelFile* CelFile_View::Get() const noexcept {
   return this->cel_file_;
 }
 
 unsigned int CelFile_View::GetVersion() const noexcept {
-  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+  const auto* actual_cel_file =
+      reinterpret_cast<const CelFile_1_00*>(this->Get());
 
   return actual_cel_file->version;
 }
 
 unsigned int CelFile_View::GetNumDirections() const noexcept {
-  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+  const auto* actual_cel_file =
+      reinterpret_cast<const CelFile_1_00*>(this->Get());
 
   return actual_cel_file->num_directions;
 }
 
 unsigned int CelFile_View::GetNumFrames() const noexcept {
-  auto actual_cel_file = reinterpret_cast<const CelFile_1_00*>(this->Get());
+  const auto* actual_cel_file =
+      reinterpret_cast<const CelFile_1_00*>(this->Get());
 
   return actual_cel_file->num_frames;
 }

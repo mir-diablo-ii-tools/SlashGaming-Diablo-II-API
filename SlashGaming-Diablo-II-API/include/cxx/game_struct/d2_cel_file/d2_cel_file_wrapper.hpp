@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_WRAPPER_HPP_
 
+#include <cstddef>
+
 #include "../../helper/d2_draw_options.hpp"
 #include "../d2_cel/d2_cel_struct.hpp"
 #include "d2_cel_file_struct.hpp"
@@ -65,10 +67,11 @@ class DLLEXPORT CelFile_Wrapper {
 
   ~CelFile_Wrapper() noexcept;
 
-  CelFile_Wrapper& operator=(
-      const CelFile_Wrapper& other
-  ) noexcept;
+  CelFile_Wrapper& operator=(const CelFile_Wrapper& other) noexcept;
   CelFile_Wrapper& operator=(CelFile_Wrapper&& other) noexcept;
+
+  CelFile_View operator[](std::size_t index) const noexcept;
+  CelFile_Wrapper operator[](std::size_t index) noexcept;
 
   operator CelFile_View() const noexcept;
 

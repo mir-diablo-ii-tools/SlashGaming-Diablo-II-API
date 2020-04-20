@@ -85,6 +85,18 @@ CelFile_Wrapper::operator CelFile_View() const noexcept {
   return CelFile_View(this->Get());
 }
 
+CelFile_View CelFile_Wrapper::operator[](std::size_t index) const noexcept {
+  CelFile_View view(this->Get());
+
+  return view[index];
+}
+
+CelFile_Wrapper CelFile_Wrapper::operator[](std::size_t index) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<CelFile*>((*const_this)[index].Get());
+}
+
 CelFile* CelFile_Wrapper::Get() noexcept {
   const auto* const_this = this;
 

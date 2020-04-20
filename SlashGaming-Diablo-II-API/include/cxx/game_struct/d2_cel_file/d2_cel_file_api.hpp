@@ -125,11 +125,15 @@ class DLLEXPORT CelFile_Api {
   unsigned int GetNumFrames() const noexcept;
 
  private:
-  std::variant<
-      CelFile_1_00*
-  > cel_file_;
+  using ptr_variant = std::variant<CelFile_1_00*>;
 
+  ptr_variant cel_file_;
   bool is_open_;
+
+  static ptr_variant CreateVariant(
+      std::string_view cel_file_path,
+      bool is_dcc_else_dc6
+  );
 };
 
 } // namespace d2
