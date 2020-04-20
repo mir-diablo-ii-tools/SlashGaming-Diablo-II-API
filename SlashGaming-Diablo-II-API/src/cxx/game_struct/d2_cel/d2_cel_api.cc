@@ -46,15 +46,6 @@
 #include "../../../../include/cxx/game_struct/d2_cel.hpp"
 
 namespace d2 {
-namespace {
-
-using unique_ptr_1_00 = std::unique_ptr<Cel_1_00>;
-
-using ptr_variant = std::variant<
-    unique_ptr_1_00
->;
-
-} // namespace
 
 Cel_Api::Cel_Api(const Cel_Api& other) {
   // TODO (Mir Drualga): Implement this function when a viable constructor is
@@ -94,49 +85,49 @@ const Cel* Cel_Api::Get() const noexcept {
 }
 
 int Cel_Api::GetHeight() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetHeight();
 }
 
 void Cel_Api::SetHeight(int height) noexcept {
-  Cel_Wrapper wrapper(*this);
+  Cel_Wrapper wrapper(this->Get());
 
   wrapper.SetHeight(height);
 }
 
 int Cel_Api::GetOffsetX() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetOffsetX();
 }
 
 void Cel_Api::SetOffsetX(int offset_x) noexcept {
-  Cel_Wrapper wrapper(*this);
+  Cel_Wrapper wrapper(this->Get());
 
   wrapper.SetOffsetX(offset_x);
 }
 
 int Cel_Api::GetOffsetY() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetOffsetY();
 }
 
 void Cel_Api::SetOffsetY(int offset_y) noexcept {
-  Cel_Wrapper wrapper(*this);
+  Cel_Wrapper wrapper(this->Get());
 
   wrapper.SetOffsetY(offset_y);
 }
 
 int Cel_Api::GetWidth() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetWidth();
 }
 
 void Cel_Api::SetWidth(int width) noexcept {
-  Cel_Wrapper wrapper(*this);
+  Cel_Wrapper wrapper(this->Get());
 
   wrapper.SetWidth(width);
 }

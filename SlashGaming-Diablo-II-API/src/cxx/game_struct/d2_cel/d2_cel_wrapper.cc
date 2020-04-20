@@ -65,6 +65,22 @@ Cel_Wrapper& Cel_Wrapper::operator=(
     Cel_Wrapper&& other
 ) noexcept = default;
 
+Cel_View Cel_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  Cel_View view(this->Get());
+
+  return view[index];
+}
+
+Cel_Wrapper Cel_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<Cel*>((*const_this)[index].Get());
+}
+
 Cel_Wrapper::operator Cel_View() const noexcept {
   return Cel_View(this->Get());
 }
@@ -80,7 +96,7 @@ const Cel* Cel_Wrapper::Get() const noexcept {
 }
 
 int Cel_Wrapper::GetHeight() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetHeight();
 }
@@ -92,7 +108,7 @@ void Cel_Wrapper::SetHeight(int height) noexcept {
 }
 
 int Cel_Wrapper::GetOffsetX() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetOffsetX();
 }
@@ -104,7 +120,7 @@ void Cel_Wrapper::SetOffsetX(int offset_x) noexcept {
 }
 
 int Cel_Wrapper::GetOffsetY() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetOffsetY();
 }
@@ -116,7 +132,7 @@ void Cel_Wrapper::SetOffsetY(int offset_y) noexcept {
 }
 
 int Cel_Wrapper::GetWidth() const noexcept {
-  Cel_View view(*this);
+  Cel_View view(this->Get());
 
   return view.GetWidth();
 }

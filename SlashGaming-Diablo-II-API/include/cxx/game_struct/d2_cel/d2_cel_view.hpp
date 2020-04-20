@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_VIEW_HPP_
 
+#include <cstddef>
+
 #include "d2_cel_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -64,6 +66,8 @@ class DLLEXPORT Cel_View {
 
   Cel_View& operator=(const Cel_View& other) noexcept;
   Cel_View& operator=(Cel_View&& other) noexcept;
+
+  Cel_View operator[](std::size_t index) const noexcept;
 
   const Cel* Get() const noexcept;
 

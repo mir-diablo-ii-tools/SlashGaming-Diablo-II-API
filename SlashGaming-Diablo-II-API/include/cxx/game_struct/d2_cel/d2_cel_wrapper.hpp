@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_WRAPPER_HPP_
 
+#include <cstddef>
+
 #include "d2_cel_struct.hpp"
 #include "d2_cel_view.hpp"
 
@@ -66,6 +68,9 @@ class DLLEXPORT Cel_Wrapper {
   Cel_Wrapper& operator=(const Cel_Wrapper& other) noexcept;
   Cel_Wrapper& operator=(Cel_Wrapper&& other) noexcept;
 
+  Cel_View operator[](std::size_t index) const noexcept;
+  Cel_Wrapper operator[](std::size_t index) noexcept;
+
   operator Cel_View() const noexcept;
 
   Cel* Get() noexcept;
@@ -82,7 +87,6 @@ class DLLEXPORT Cel_Wrapper {
 
   int GetWidth() const noexcept;
   void SetWidth(int width) noexcept;
-
 
  private:
   Cel* cel_;

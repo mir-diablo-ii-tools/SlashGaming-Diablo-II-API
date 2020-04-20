@@ -47,8 +47,8 @@
 
 namespace d2 {
 
-Cel_View::Cel_View(const Cel* ptr) noexcept :
-    cel_(ptr) {
+Cel_View::Cel_View(const Cel* cel) noexcept :
+    cel_(cel) {
 }
 
 Cel_View::Cel_View(const Cel_View& other) noexcept = default;
@@ -60,6 +60,12 @@ Cel_View::~Cel_View() noexcept = default;
 Cel_View& Cel_View::operator=(const Cel_View& other) noexcept = default;
 
 Cel_View& Cel_View::operator=(Cel_View&& other) noexcept = default;
+
+Cel_View Cel_View::operator[](std::size_t index) const noexcept {
+  const auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+
+  return reinterpret_cast<const Cel*>(&actual_cel[index]);
+}
 
 const Cel* Cel_View::Get() const noexcept {
   return this->cel_;
