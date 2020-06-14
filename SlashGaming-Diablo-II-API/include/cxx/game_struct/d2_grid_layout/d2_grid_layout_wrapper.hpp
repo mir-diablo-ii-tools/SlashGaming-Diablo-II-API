@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_WRAPPER_HPP_
 
+#include <cstddef>
 #include <cstdint>
 
 #include "d2_grid_layout_struct.hpp"
@@ -58,44 +59,43 @@ namespace d2 {
 class DLLEXPORT GridLayout_Wrapper {
  public:
   GridLayout_Wrapper() = delete;
-  GridLayout_Wrapper(GridLayout* ptr) noexcept;
+  GridLayout_Wrapper(GridLayout* grid_layout) noexcept;
 
   GridLayout_Wrapper(const GridLayout_Wrapper& other) noexcept;
   GridLayout_Wrapper(GridLayout_Wrapper&& other) noexcept;
 
   ~GridLayout_Wrapper() noexcept;
 
-  GridLayout_Wrapper& operator=(
-      const GridLayout_Wrapper& other
-  ) noexcept;
-  GridLayout_Wrapper& operator=(
-      GridLayout_Wrapper&& other
-  ) noexcept;
+  GridLayout_Wrapper& operator=(const GridLayout_Wrapper& other) noexcept;
+  GridLayout_Wrapper& operator=(GridLayout_Wrapper&& other) noexcept;
+
+  GridLayout_View operator[](std::size_t index) const noexcept;
+  GridLayout_Wrapper operator[](std::size_t index) noexcept;
 
   operator GridLayout_View() const noexcept;
 
   GridLayout* Get() noexcept;
   const GridLayout* Get() const noexcept;
 
-  void Copy(GridLayout_View src) noexcept;
+  void Assign(GridLayout_View src) noexcept;
 
-  std::uint_least8_t GetNumColumns() const noexcept;
-  void SetNumColumns(std::uint_least8_t value) noexcept;
+  unsigned char GetNumColumns() const noexcept;
+  void SetNumColumns(unsigned char num_columns) noexcept;
 
-  std::uint_least8_t GetNumRows() const noexcept;
-  void SetNumRows(std::uint_least8_t value) noexcept;
+  unsigned char GetNumRows() const noexcept;
+  void SetNumRows(unsigned char num_rows) noexcept;
 
   PositionalRectangle* GetPosition() noexcept;
   const PositionalRectangle* GetPosition() const noexcept;
 
-  std::uint_least8_t GetWidth() const noexcept;
-  void SetWidth(std::uint_least8_t value) noexcept;
+  unsigned char GetWidth() const noexcept;
+  void SetWidth(unsigned char width) noexcept;
 
-  std::uint_least8_t GetHeight() const noexcept;
-  void SetHeight(std::uint_least8_t value) noexcept;
+  unsigned char GetHeight() const noexcept;
+  void SetHeight(unsigned char height) noexcept;
 
  private:
-  GridLayout* ptr_;
+  GridLayout* grid_layout_;
 };
 
 } // namespace d2

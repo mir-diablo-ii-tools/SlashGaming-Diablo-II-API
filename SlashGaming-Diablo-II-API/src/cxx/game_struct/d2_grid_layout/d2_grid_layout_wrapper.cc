@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,15 +45,12 @@
 
 #include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_wrapper.hpp"
 
-#include "d2_grid_layout_impl.hpp"
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 
 namespace d2 {
 
-GridLayout_Wrapper::GridLayout_Wrapper(
-    GridLayout* ptr
-) noexcept :
-    ptr_(ptr) {
+GridLayout_Wrapper::GridLayout_Wrapper(GridLayout* grid_layout) noexcept :
+    grid_layout_(grid_layout) {
 }
 
 GridLayout_Wrapper::GridLayout_Wrapper(
@@ -78,6 +75,22 @@ GridLayout_Wrapper::operator GridLayout_View() const noexcept {
   return GridLayout_View(this->Get());
 }
 
+GridLayout_View GridLayout_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  GridLayout_View view(this->Get());
+
+  return view[index];
+}
+
+GridLayout_Wrapper GridLayout_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<GridLayout*>((*const_this)[index].Get());
+}
+
 GridLayout* GridLayout_Wrapper::Get() noexcept {
   const auto* const_this = this;
 
@@ -85,42 +98,42 @@ GridLayout* GridLayout_Wrapper::Get() noexcept {
 }
 
 const GridLayout* GridLayout_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->grid_layout_;
 }
 
-void GridLayout_Wrapper::Copy(GridLayout_View src) noexcept {
+void GridLayout_Wrapper::Assign(GridLayout_View src) noexcept {
   this->SetNumColumns(src.GetNumColumns());
   this->SetNumRows(src.GetNumRows());
 
   PositionalRectangle_Wrapper this_position_wrapper(this->GetPosition());
-  this_position_wrapper.Copy(src.GetPosition());
+  this_position_wrapper.Assign(src.GetPosition());
 
   this->SetWidth(src.GetWidth());
   this->SetHeight(src.GetHeight());
 }
 
-std::uint_least8_t GridLayout_Wrapper::GetNumColumns() const noexcept {
+unsigned char GridLayout_Wrapper::GetNumColumns() const noexcept {
   GridLayout_View view(this->Get());
 
   return view.GetNumColumns();
 }
 
-void GridLayout_Wrapper::SetNumColumns(std::uint_least8_t value) noexcept {
+void GridLayout_Wrapper::SetNumColumns(unsigned char num_columns) noexcept {
   auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
 
-  actual_ptr->num_columns = value;
+  actual_ptr->num_columns = num_columns;
 }
 
-std::uint_least8_t GridLayout_Wrapper::GetNumRows() const noexcept {
+unsigned char GridLayout_Wrapper::GetNumRows() const noexcept {
   GridLayout_View view(this->Get());
 
   return view.GetNumRows();
 }
 
-void GridLayout_Wrapper::SetNumRows(std::uint_least8_t value) noexcept {
+void GridLayout_Wrapper::SetNumRows(unsigned char num_rows) noexcept {
   auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
 
-  actual_ptr->num_rows = value;
+  actual_ptr->num_rows = num_rows;
 }
 
 PositionalRectangle* GridLayout_Wrapper::GetPosition() noexcept {
@@ -135,28 +148,28 @@ const PositionalRectangle* GridLayout_Wrapper::GetPosition() const noexcept {
   return view.GetPosition();
 }
 
-std::uint_least8_t GridLayout_Wrapper::GetWidth() const noexcept {
+unsigned char GridLayout_Wrapper::GetWidth() const noexcept {
   GridLayout_View view(this->Get());
 
   return view.GetWidth();
 }
 
-void GridLayout_Wrapper::SetWidth(std::uint_least8_t value) noexcept {
+void GridLayout_Wrapper::SetWidth(unsigned char width) noexcept {
   auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
 
-  actual_ptr->width = value;
+  actual_ptr->width = width;
 }
 
-std::uint_least8_t GridLayout_Wrapper::GetHeight() const noexcept {
+unsigned char GridLayout_Wrapper::GetHeight() const noexcept {
   GridLayout_View view(this->Get());
 
   return view.GetHeight();
 }
 
-void GridLayout_Wrapper::SetHeight(std::uint_least8_t value) noexcept {
+void GridLayout_Wrapper::SetHeight(unsigned char height) noexcept {
   auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
 
-  actual_ptr->height = value;
+  actual_ptr->height = height;
 }
 
 } // namespace d2
