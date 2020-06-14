@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -52,40 +52,39 @@
 
 #include "d2_mpq_archive_handle_struct.hpp"
 #include "d2_mpq_archive_handle_view.hpp"
-#include "d2_mpq_archive_handle_wrapper.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT MPQArchiveHandle_API {
+class DLLEXPORT MpqArchiveHandle_Api {
  public:
-  MPQArchiveHandle_API();
+  MpqArchiveHandle_Api();
 
-  MPQArchiveHandle_API(
+  MpqArchiveHandle_Api(
       std::string_view mpq_archive_path,
       bool is_set_error_on_drive_query_fail,
       int priority
   );
 
-  MPQArchiveHandle_API(
+  MpqArchiveHandle_Api(
       std::string_view mpq_archive_path,
       bool is_set_error_on_drive_query_fail,
       void* (*on_fail_callback)(),
       int priority
   );
 
-  MPQArchiveHandle_API(const MPQArchiveHandle_API& other) = delete;
-  MPQArchiveHandle_API(MPQArchiveHandle_API&& other) noexcept;
+  MpqArchiveHandle_Api(const MpqArchiveHandle_Api& other) = delete;
+  MpqArchiveHandle_Api(MpqArchiveHandle_Api&& other) noexcept;
 
-  ~MPQArchiveHandle_API();
+  ~MpqArchiveHandle_Api();
 
-  MPQArchiveHandle_API& operator=(const MPQArchiveHandle_API& other) = delete;
-  MPQArchiveHandle_API& operator=(MPQArchiveHandle_API&& other) noexcept;
+  MpqArchiveHandle_Api& operator=(const MpqArchiveHandle_Api& other) = delete;
+  MpqArchiveHandle_Api& operator=(MpqArchiveHandle_Api&& other) noexcept;
 
-  operator MPQArchiveHandle_View() const noexcept;
+  operator MpqArchiveHandle_View() const noexcept;
 
-  const MPQArchiveHandle* Get() const noexcept;
+  const MpqArchiveHandle* Get() const noexcept;
 
   void Close();
 
@@ -103,15 +102,25 @@ class DLLEXPORT MPQArchiveHandle_API {
       int priority
   );
 
-  const MPQArchive* GetMPQArchive() const noexcept;
-  const char* GetMPQArchivePath() const noexcept;
+  const MpqArchive* GetMpqArchive() const noexcept;
+  const char* GetMpqArchivePath() const noexcept;
 
  private:
-  std::variant<
-      MPQArchiveHandle_1_00*
-  > mpq_archive_handle_;
+  using unique_ptr_1_00 = std::unique_ptr<MpqArchiveHandle_1_00>;
+  using ptr_variant = std::variant<unique_ptr_1_00>;
+
+  ptr_variant mpq_archive_handle_;
 
   bool is_open_;
+
+  static ptr_variant CreateVariant(
+      std::string_view mpq_archive_path,
+      bool is_set_error_on_drive_query_fail,
+      void* (*on_fail_callback)(),
+      int priority
+  );
+
+  MpqArchiveHandle* Get() noexcept;
 };
 
 } // namespace d2

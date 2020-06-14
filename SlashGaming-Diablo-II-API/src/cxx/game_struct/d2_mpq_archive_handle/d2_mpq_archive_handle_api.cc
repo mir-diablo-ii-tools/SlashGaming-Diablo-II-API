@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,47 +45,21 @@
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive_handle/d2_mpq_archive_handle_api.hpp"
 
-#include "d2_mpq_archive_handle_impl.hpp"
-#include "../../../../include/cxx/game_func/d2win_func.hpp"
+#include "../../../../include/cxx/game_function/d2win_function.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
 
-using MPQArchiveHandleVariant = std::variant<
-    MPQArchiveHandle_1_00*
->;
-
-MPQArchiveHandleVariant CreateVariant(
-    std::string_view mpq_archive_path,
-    bool is_set_error_on_drive_query_fail,
-    void* (*on_fail_callback)(),
-    int priority
-) {
-  MPQArchiveHandle* mpq_archive_handle = d2win::LoadMPQ(
-      mpq_archive_path.data(),
-      is_set_error_on_drive_query_fail,
-      on_fail_callback,
-      priority
-  );
-
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
-
-  return reinterpret_cast<MPQArchiveHandle_1_00*>(mpq_archive_handle);
-}
-
-} // namespace
-
-MPQArchiveHandle_API::MPQArchiveHandle_API() :
+MpqArchiveHandle_Api::MpqArchiveHandle_Api() :
     mpq_archive_handle_(nullptr),
     is_open_(false) {
 }
 
-MPQArchiveHandle_API::MPQArchiveHandle_API(
+MpqArchiveHandle_Api::MpqArchiveHandle_Api(
     std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     int priority
-) : MPQArchiveHandle_API(
+) : MpqArchiveHandle_Api(
         mpq_archive_path,
         is_set_error_on_drive_query_fail,
         nullptr,
@@ -93,7 +67,7 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
     ) {
 }
 
-MPQArchiveHandle_API::MPQArchiveHandle_API(
+MpqArchiveHandle_Api::MpqArchiveHandle_Api(
     std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
@@ -108,47 +82,63 @@ MPQArchiveHandle_API::MPQArchiveHandle_API(
   );
 }
 
-MPQArchiveHandle_API::MPQArchiveHandle_API(
-    MPQArchiveHandle_API&& other
+MpqArchiveHandle_Api::MpqArchiveHandle_Api(
+    MpqArchiveHandle_Api&& other
 ) noexcept :
     mpq_archive_handle_(std::move(other.mpq_archive_handle_)),
-    is_open_(other.is_open_) {
+    is_open_(std::move(other.is_open_)) {
   other.mpq_archive_handle_ = nullptr;
   other.is_open_ = false;
 }
 
-MPQArchiveHandle_API::~MPQArchiveHandle_API() {
+MpqArchiveHandle_Api::~MpqArchiveHandle_Api() {
   this->Close();
 }
 
-MPQArchiveHandle_API& MPQArchiveHandle_API::operator=(
-    MPQArchiveHandle_API&& other
-) noexcept = default;
+MpqArchiveHandle_Api& MpqArchiveHandle_Api::operator=(
+    MpqArchiveHandle_Api&& other
+) noexcept {
+  this->mpq_archive_handle_ = std::move(other.mpq_archive_handle_);
+  this->is_open_ = std::move(other.is_open_);
 
-MPQArchiveHandle_API::operator MPQArchiveHandle_View() const noexcept {
-  return MPQArchiveHandle_View(this->Get());
+  other.mpq_archive_handle_ = nullptr;
+  other.is_open_ = false;
+
+  return *this;
 }
 
-const MPQArchiveHandle* MPQArchiveHandle_API::Get() const noexcept {
-  auto* mpq_archive_handle =
-      std::get<MPQArchiveHandle_1_00*>(this->mpq_archive_handle_);
-
-  return reinterpret_cast<const MPQArchiveHandle*>(mpq_archive_handle);
+MpqArchiveHandle_Api::operator MpqArchiveHandle_View() const noexcept {
+  return MpqArchiveHandle_View(this->Get());
 }
 
-void MPQArchiveHandle_API::Close() {
+MpqArchiveHandle* MpqArchiveHandle_Api::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<MpqArchiveHandle*>(const_this->Get());
+}
+
+const MpqArchiveHandle* MpqArchiveHandle_Api::Get() const noexcept {
+  auto& actual_mpq_archive_handle =
+      std::get<unique_ptr_1_00>(this->mpq_archive_handle_);
+
+  return reinterpret_cast<const MpqArchiveHandle*>(
+      actual_mpq_archive_handle.get()
+  );
+}
+
+void MpqArchiveHandle_Api::Close() {
   if (this->IsOpen()) {
-    d2win::UnloadMPQ(const_cast<MPQArchiveHandle*>(this->Get()));
+    d2win::UnloadMpq(const_cast<MpqArchiveHandle*>(this->Get()));
     this->mpq_archive_handle_ = nullptr;
     this->is_open_ = false;
   }
 }
 
-bool MPQArchiveHandle_API::IsOpen() const {
+bool MpqArchiveHandle_Api::IsOpen() const {
   return this->is_open_;
 }
 
-void MPQArchiveHandle_API::Open(
+void MpqArchiveHandle_Api::Open(
     std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     int priority
@@ -161,7 +151,7 @@ void MPQArchiveHandle_API::Open(
   );
 }
 
-void MPQArchiveHandle_API::Open(
+void MpqArchiveHandle_Api::Open(
     std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
@@ -179,16 +169,36 @@ void MPQArchiveHandle_API::Open(
   this->is_open_ = (this->Get() != nullptr);
 }
 
-const MPQArchive* MPQArchiveHandle_API::GetMPQArchive() const noexcept {
-  MPQArchiveHandle_View view(*this);
+const MpqArchive* MpqArchiveHandle_Api::GetMpqArchive() const noexcept {
+  MpqArchiveHandle_View view(*this);
 
-  return view.GetMPQArchive();
+  return view.GetMpqArchive();
 }
 
-const char* MPQArchiveHandle_API::GetMPQArchivePath() const noexcept {
-  MPQArchiveHandle_View view(*this);
+const char* MpqArchiveHandle_Api::GetMpqArchivePath() const noexcept {
+  MpqArchiveHandle_View view(*this);
 
-  return view.GetMPQArchivePath();
+  return view.GetMpqArchivePath();
+}
+
+MpqArchiveHandle_Api::ptr_variant MpqArchiveHandle_Api::CreateVariant(
+    std::string_view mpq_archive_path,
+    bool is_set_error_on_drive_query_fail,
+    void* (*on_fail_callback)(),
+    int priority
+) {
+  MpqArchiveHandle* mpq_archive_handle = d2win::LoadMpq(
+      mpq_archive_path.data(),
+      is_set_error_on_drive_query_fail,
+      on_fail_callback,
+      priority
+  );
+
+  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+
+  return unique_ptr_1_00(
+      reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle)
+  );
 }
 
 } // namespace d2
