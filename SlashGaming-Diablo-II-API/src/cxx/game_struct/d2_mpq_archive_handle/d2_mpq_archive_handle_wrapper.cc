@@ -48,9 +48,9 @@
 namespace d2 {
 
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
-    MpqArchiveHandle* ptr
+    MpqArchiveHandle* mpq_archive_handle
 ) noexcept :
-    ptr_(ptr) {
+    mpq_archive_handle_(mpq_archive_handle) {
 }
 
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
@@ -71,6 +71,22 @@ MpqArchiveHandle_Wrapper& MpqArchiveHandle_Wrapper::operator=(
     MpqArchiveHandle_Wrapper&& other
 ) noexcept = default;
 
+MpqArchiveHandle_View MpqArchiveHandle_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  MpqArchiveHandle_View view(this->Get());
+
+  return view[index];
+}
+
+MpqArchiveHandle_Wrapper MpqArchiveHandle_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<MpqArchiveHandle*>((*const_this)[index].Get());
+}
+
 MpqArchiveHandle_Wrapper::operator MpqArchiveHandle_View() const noexcept {
   return MpqArchiveHandle_View(this->Get());
 }
@@ -82,7 +98,7 @@ MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() noexcept {
 }
 
 const MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->mpq_archive_handle_;
 }
 
 MpqArchive* MpqArchiveHandle_Wrapper::GetMpqArchive() noexcept {

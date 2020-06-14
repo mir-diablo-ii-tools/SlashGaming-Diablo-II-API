@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_WRAPPER_HPP_
 
+#include <cstddef>
+
 #include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
 #include "d2_mpq_archive_handle_struct.hpp"
 #include "d2_mpq_archive_handle_view.hpp"
@@ -67,9 +69,13 @@ class DLLEXPORT MpqArchiveHandle_Wrapper {
   MpqArchiveHandle_Wrapper& operator=(
       const MpqArchiveHandle_Wrapper& other
   ) noexcept;
+
   MpqArchiveHandle_Wrapper& operator=(
       MpqArchiveHandle_Wrapper&& other
   ) noexcept;
+
+  MpqArchiveHandle_View operator[](std::size_t index) const noexcept;
+  MpqArchiveHandle_Wrapper operator[](std::size_t index) noexcept;
 
   operator MpqArchiveHandle_View() const noexcept;
 
@@ -85,7 +91,7 @@ class DLLEXPORT MpqArchiveHandle_Wrapper {
   const char* GetMpqArchivePath() const noexcept;
 
  private:
-  MpqArchiveHandle* ptr_;
+  MpqArchiveHandle* mpq_archive_handle_;
 };
 
 } // namespace d2
