@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_STRUCT_HPP_
 
+#include <windows.h>
 #include <cstddef>
 
 #include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
@@ -68,7 +69,7 @@ struct MpqArchiveHandle;
 
 /* sizeof: 0x108 */ struct MpqArchiveHandle_1_00 {
   /* 0x0 */ MpqArchive_1_00* mpq_archive;
-  /* 0x4 */ char mpq_archive_path[/* 0x104 */ 260];
+  /* 0x4 */ char mpq_archive_path[/* 0x104, 260 */ MAX_PATH];
 };
 
 static_assert(sizeof(MpqArchiveHandle_1_00) >= 0x108);
