@@ -48,9 +48,9 @@
 namespace d2 {
 
 MpqArchiveHandle_View::MpqArchiveHandle_View(
-    const MpqArchiveHandle* ptr
+    const MpqArchiveHandle* mpq_archive_handle
 ) noexcept :
-    ptr_(ptr) {
+    mpq_archive_handle_(mpq_archive_handle) {
 }
 
 MpqArchiveHandle_View::MpqArchiveHandle_View(
@@ -71,9 +71,20 @@ MpqArchiveHandle_View& MpqArchiveHandle_View::operator=(
     MpqArchiveHandle_View&& other
 ) noexcept = default;
 
+MpqArchiveHandle_View MpqArchiveHandle_View::operator[](
+    std::size_t index
+) const noexcept {
+  const auto* actual_mpq_archive_handle =
+      reinterpret_cast<const MpqArchiveHandle_1_00*>(this->Get());
+
+  return reinterpret_cast<const MpqArchiveHandle*>(
+      &actual_mpq_archive_handle[index]
+  );
+}
+
 const MpqArchiveHandle*
 MpqArchiveHandle_View::Get() const noexcept {
-  return this->ptr_;
+  return this->mpq_archive_handle_;
 }
 
 const MpqArchive*
