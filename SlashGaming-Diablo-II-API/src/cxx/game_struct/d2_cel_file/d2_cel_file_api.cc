@@ -77,7 +77,15 @@ CelFile_Api::~CelFile_Api() {
   this->Close();
 }
 
-CelFile_Api& CelFile_Api::operator=(CelFile_Api&& other) noexcept = default;
+CelFile_Api& CelFile_Api::operator=(CelFile_Api&& other) noexcept {
+  this->cel_file_ = std::move(other.cel_file_);
+  this->is_open_ = std::move(other.is_open_);
+
+  other.cel_file_ = nullptr;
+  other.is_open_ = false;
+
+  return *this;
+}
 
 CelFile_Api::operator CelFile_View() const noexcept {
   return CelFile_View(this->Get());
