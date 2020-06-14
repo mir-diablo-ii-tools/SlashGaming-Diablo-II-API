@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_view.hpp"
 
-#include "d2_grid_layout_impl.hpp"
-
 namespace d2 {
 
-GridLayout_View::GridLayout_View(
-    const GridLayout* ptr
-) noexcept :
-    ptr_(ptr) {
+GridLayout_View::GridLayout_View(const GridLayout* grid_layout) noexcept :
+    grid_layout_(grid_layout) {
 }
 
 GridLayout_View::GridLayout_View(
@@ -73,18 +69,27 @@ GridLayout_View& GridLayout_View::operator=(
     GridLayout_View&& other
 ) noexcept = default;
 
-const GridLayout* GridLayout_View::Get() const noexcept {
-  return this->ptr_;
+GridLayout_View GridLayout_View::operator[](
+    std::size_t index
+) const noexcept {
+  const auto* actual_grid_layout =
+      reinterpret_cast<const GridLayout_1_00*>(this->Get());
+
+  return reinterpret_cast<const GridLayout*>(&actual_grid_layout[index]);
 }
 
-std::uint_least8_t GridLayout_View::GetNumColumns() const noexcept {
+const GridLayout* GridLayout_View::Get() const noexcept {
+  return this->grid_layout_;
+}
+
+unsigned char GridLayout_View::GetNumColumns() const noexcept {
   const auto* actual_ptr =
       reinterpret_cast<const GridLayout_1_00*>(this->Get());
 
   return actual_ptr->num_columns;
 }
 
-std::uint_least8_t GridLayout_View::GetNumRows() const noexcept {
+unsigned char GridLayout_View::GetNumRows() const noexcept {
   const auto* actual_ptr =
       reinterpret_cast<const GridLayout_1_00*>(this->Get());
 
@@ -98,14 +103,14 @@ const PositionalRectangle* GridLayout_View::GetPosition() const noexcept {
   return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
 }
 
-std::uint_least8_t GridLayout_View::GetWidth() const noexcept {
+unsigned char GridLayout_View::GetWidth() const noexcept {
   const auto* actual_ptr =
       reinterpret_cast<const GridLayout_1_00*>(this->Get());
 
   return actual_ptr->width;
 }
 
-std::uint_least8_t GridLayout_View::GetHeight() const noexcept {
+unsigned char GridLayout_View::GetHeight() const noexcept {
   const auto* actual_ptr =
       reinterpret_cast<const GridLayout_1_00*>(this->Get());
 

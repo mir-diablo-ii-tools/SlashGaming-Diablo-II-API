@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,10 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_VIEW_HPP_
 
+#include <cstddef>
 #include <cstdint>
 
-#include "d2_grid_layout_struct.hpp"
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "d2_grid_layout_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -58,30 +59,28 @@ namespace d2 {
 class DLLEXPORT GridLayout_View {
  public:
   GridLayout_View() = delete;
-  GridLayout_View(const GridLayout* ptr) noexcept;
+  GridLayout_View(const GridLayout* grid_layout) noexcept;
 
   GridLayout_View(const GridLayout_View& other) noexcept;
   GridLayout_View(GridLayout_View&& other) noexcept;
 
   ~GridLayout_View() noexcept;
 
-  GridLayout_View& operator=(
-      const GridLayout_View& other
-  ) noexcept;
-  GridLayout_View& operator=(
-      GridLayout_View&& other
-  ) noexcept;
+  GridLayout_View& operator=(const GridLayout_View& other) noexcept;
+  GridLayout_View& operator=(GridLayout_View&& other) noexcept;
+
+  GridLayout_View operator[](std::size_t index) const noexcept;
 
   const GridLayout* Get() const noexcept;
 
-  std::uint_least8_t GetNumColumns() const noexcept;
-  std::uint_least8_t GetNumRows() const noexcept;
+  unsigned char GetNumColumns() const noexcept;
+  unsigned char GetNumRows() const noexcept;
   const PositionalRectangle* GetPosition() const noexcept;
-  std::uint_least8_t GetWidth() const noexcept;
-  std::uint_least8_t GetHeight() const noexcept;
+  unsigned char GetWidth() const noexcept;
+  unsigned char GetHeight() const noexcept;
 
  private:
-  const GridLayout* ptr_;
+  const GridLayout* grid_layout_;
 };
 
 } // namespace d2
