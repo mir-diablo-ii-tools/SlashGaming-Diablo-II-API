@@ -128,7 +128,7 @@ const MpqArchiveHandle* MpqArchiveHandle_Api::Get() const noexcept {
 
 void MpqArchiveHandle_Api::Close() {
   if (this->IsOpen()) {
-    d2win::UnloadMpq(const_cast<MpqArchiveHandle*>(this->Get()));
+    d2win::UnloadMpq(this->Get());
     this->mpq_archive_handle_ = nullptr;
     this->is_open_ = false;
   }
