@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "../include/sgd2mapi.h"
+#include "../include/sgd2mapi.hpp"
 
 #include <windows.h>
 
