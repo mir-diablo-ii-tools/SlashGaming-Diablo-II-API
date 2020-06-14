@@ -134,6 +134,8 @@ class DLLEXPORT CelFile_Api {
       std::string_view cel_file_path,
       bool is_dcc_else_dc6
   );
+
+  CelFile* Get() noexcept;
 };
 
 } // namespace d2
