@@ -56,10 +56,11 @@ static std::unique_ptr<CelContext_T> CreatePtr(
     unsigned int direction,
     unsigned int frame
 ) {
+  using CelFile_T = std::remove_pointer_t<decltype(CelContext_T::cel_file)>;
+
   std::unique_ptr cel_context = std::make_unique<CelContext_T>();
 
-  cel_context->cel_file =
-      reinterpret_cast<decltype(CelContext_T::cel_file)>(cel_file);
+  cel_context->cel_file = reinterpret_cast<CelFile_T*>(cel_file);
   cel_context->direction = direction;
   cel_context->frame = frame;
 
