@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,9 +45,6 @@
 
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_wrapper.hpp"
 
-#include <algorithm>
-
-#include "d2_inventory_record_impl.hpp"
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
 #include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_wrapper.hpp"
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
@@ -55,9 +52,9 @@
 namespace d2 {
 
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
-    InventoryRecord* ptr
+    InventoryRecord* inventory_record
 ) noexcept :
-    ptr_(ptr) {
+    inventory_record_(inventory_record) {
 }
 
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
@@ -105,44 +102,16 @@ InventoryRecord* InventoryRecord_Wrapper::Get() noexcept {
 }
 
 const InventoryRecord* InventoryRecord_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return this->inventory_record_;
 }
 
-void InventoryRecord_Wrapper::Copy(InventoryRecord_View src) noexcept {
-  std::size_t num_equipment_slots =
-      sizeof(InventoryRecord_1_00::equipment_slots)
-          / sizeof(InventoryRecord_1_00::equipment_slots[0]);
+void InventoryRecord_Wrapper::Assign(InventoryRecord_View src) noexcept {
+  InventoryRecord_1_00* actual_dest =
+      reinterpret_cast<InventoryRecord_1_00*>(this->Get());
+  const InventoryRecord_1_00* actual_src =
+      reinterpret_cast<const InventoryRecord_1_00*>(src.Get());
 
-  // Set all the values of the struct.
-  InventoryRecord_Wrapper wrapper(this->Get());
-
-  PositionalRectangle_Wrapper position_wrapper(wrapper.GetPosition());
-  position_wrapper.Copy(src.GetPosition());
-
-  GridLayout_Wrapper grid_layout_wrapper(wrapper.GetGridLayout());
-  grid_layout_wrapper.Copy(src.GetGridLayout());
-
-  std::copy_n(
-      reinterpret_cast<const EquipmentLayout_1_00*>(src.GetEquipmentSlots()),
-      num_equipment_slots,
-      reinterpret_cast<EquipmentLayout_1_00*>(this->GetEquipmentSlots())
-  );
-}
-
-EquipmentLayout* InventoryRecord_Wrapper::GetEquipmentSlot(
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<EquipmentLayout*>(const_this->GetEquipmentSlot(index));
-}
-
-const EquipmentLayout* InventoryRecord_Wrapper::GetEquipmentSlot(
-    std::size_t index
-) const noexcept {
-  InventoryRecord_View view(this->Get());
-
-  return view.GetEquipmentSlot(index);
+  *actual_dest = *actual_src;
 }
 
 PositionalRectangle* InventoryRecord_Wrapper::GetPosition() noexcept {

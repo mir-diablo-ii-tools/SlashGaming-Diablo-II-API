@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -58,7 +58,7 @@ namespace d2 {
 class DLLEXPORT InventoryRecord_Wrapper {
  public:
   InventoryRecord_Wrapper() = delete;
-  InventoryRecord_Wrapper(InventoryRecord* ptr) noexcept;
+  InventoryRecord_Wrapper(InventoryRecord* inventory_record) noexcept;
 
   InventoryRecord_Wrapper(const InventoryRecord_Wrapper& other) noexcept;
   InventoryRecord_Wrapper(InventoryRecord_Wrapper&& other) noexcept;
@@ -77,10 +77,7 @@ class DLLEXPORT InventoryRecord_Wrapper {
 
   operator InventoryRecord_View() const noexcept;
 
-  void Copy(InventoryRecord_View src) noexcept;
-
-  EquipmentLayout* GetEquipmentSlot(std::size_t index) noexcept;
-  const EquipmentLayout* GetEquipmentSlot(std::size_t index) const noexcept;
+  void Assign(InventoryRecord_View src) noexcept;
 
   InventoryRecord* Get() noexcept;
   const InventoryRecord* Get() const noexcept;
@@ -95,7 +92,7 @@ class DLLEXPORT InventoryRecord_Wrapper {
   const EquipmentLayout* GetEquipmentSlots() const noexcept;
 
  private:
-  InventoryRecord* ptr_;
+  InventoryRecord* inventory_record_;
 };
 
 } // namespace d2
