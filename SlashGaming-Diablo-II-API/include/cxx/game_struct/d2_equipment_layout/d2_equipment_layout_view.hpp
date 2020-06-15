@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,10 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_VIEW_HPP_
 
+#include <cstddef>
 #include <cstdint>
 
-#include "d2_equipment_layout_struct.hpp"
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "d2_equipment_layout_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -58,28 +59,26 @@ namespace d2 {
 class DLLEXPORT EquipmentLayout_View {
  public:
   EquipmentLayout_View() = delete;
-  EquipmentLayout_View(const EquipmentLayout* ptr) noexcept;
+  EquipmentLayout_View(const EquipmentLayout* equipment_layout) noexcept;
 
   EquipmentLayout_View(const EquipmentLayout_View& other) noexcept;
   EquipmentLayout_View(EquipmentLayout_View&& other) noexcept;
 
   ~EquipmentLayout_View() noexcept;
 
-  EquipmentLayout_View& operator=(
-      const EquipmentLayout_View& other
-  ) noexcept;
-  EquipmentLayout_View& operator=(
-      EquipmentLayout_View&& other
-  ) noexcept;
+  EquipmentLayout_View& operator=(const EquipmentLayout_View& other) noexcept;
+  EquipmentLayout_View& operator=(EquipmentLayout_View&& other) noexcept;
+
+  EquipmentLayout_View operator[](std::size_t index) const noexcept;
 
   const EquipmentLayout* Get() const noexcept;
 
   const PositionalRectangle* GetPosition() const noexcept;
-  std::uint_least8_t GetWidth() const noexcept;
-  std::uint_least8_t GetHeight() const noexcept;
+  unsigned char GetWidth() const noexcept;
+  unsigned char GetHeight() const noexcept;
 
  private:
-  const EquipmentLayout* ptr_;
+  const EquipmentLayout* equipment_layout_;
 };
 
 } // namespace d2

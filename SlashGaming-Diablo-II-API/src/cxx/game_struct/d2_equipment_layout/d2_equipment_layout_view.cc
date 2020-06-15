@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,12 @@
 
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_view.hpp"
 
-#include "d2_equipment_layout_impl.hpp"
-
 namespace d2 {
 
 EquipmentLayout_View::EquipmentLayout_View(
-    const EquipmentLayout* ptr
+    const EquipmentLayout* equipment_layout
 ) noexcept :
-    ptr_(ptr) {
+    equipment_layout_(equipment_layout) {
 }
 
 EquipmentLayout_View::EquipmentLayout_View(
@@ -73,8 +71,19 @@ EquipmentLayout_View& EquipmentLayout_View::operator=(
     EquipmentLayout_View&& other
 ) noexcept = default;
 
+EquipmentLayout_View EquipmentLayout_View::operator[](
+    std::size_t index
+) const noexcept {
+  const auto* actual_equipment_layout =
+      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
+
+  return reinterpret_cast<const EquipmentLayout*>(
+      &actual_equipment_layout[index]
+  );
+}
+
 const EquipmentLayout* EquipmentLayout_View::Get() const noexcept {
-  return this->ptr_;
+  return this->equipment_layout_;
 }
 
 const PositionalRectangle* EquipmentLayout_View::GetPosition() const noexcept {
@@ -84,14 +93,14 @@ const PositionalRectangle* EquipmentLayout_View::GetPosition() const noexcept {
   return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
 }
 
-std::uint_least8_t EquipmentLayout_View::GetWidth() const noexcept {
+unsigned char EquipmentLayout_View::GetWidth() const noexcept {
   const auto* actual_ptr =
       reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
 
   return actual_ptr->width;
 }
 
-std::uint_least8_t EquipmentLayout_View::GetHeight() const noexcept {
+unsigned char EquipmentLayout_View::GetHeight() const noexcept {
   const auto* actual_ptr =
       reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
 
