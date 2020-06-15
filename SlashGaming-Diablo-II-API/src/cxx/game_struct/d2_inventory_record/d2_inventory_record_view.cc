@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,12 @@
 
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_view.hpp"
 
-#include "d2_inventory_record_impl.hpp"
-
 namespace d2 {
 
 InventoryRecord_View::InventoryRecord_View(
-    const InventoryRecord* ptr
+    const InventoryRecord* inventory_record
 ) noexcept :
-    ptr_(ptr) {
+    inventory_record_(inventory_record) {
 }
 
 InventoryRecord_View::InventoryRecord_View(
@@ -83,7 +81,7 @@ InventoryRecord_View InventoryRecord_View::operator[](
 }
 
 const InventoryRecord* InventoryRecord_View::Get() const noexcept {
-  return this->ptr_;
+  return this->inventory_record_;
 }
 
 const PositionalRectangle*
@@ -108,17 +106,6 @@ InventoryRecord_View::GetEquipmentSlots() const noexcept {
 
   return reinterpret_cast<const EquipmentLayout*>(
       &actual_ptr->equipment_slots
-  );
-}
-
-const EquipmentLayout* InventoryRecord_View::GetEquipmentSlot(
-    std::size_t index
-) const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const EquipmentLayout*>(
-      &actual_ptr->equipment_slots[index]
   );
 }
 
