@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -60,26 +60,22 @@
 
 namespace d2 {
 
-class DLLEXPORT EquipmentLayout_API {
+class DLLEXPORT EquipmentLayout_Api {
  public:
-  EquipmentLayout_API() = delete;
-  EquipmentLayout_API(
+  EquipmentLayout_Api() = delete;
+  EquipmentLayout_Api(
       PositionalRectangle_View position,
-      std::int_least8_t width,
-      std::int_least8_t height
+      unsigned char width,
+      unsigned char height
   );
 
-  EquipmentLayout_API(const EquipmentLayout_API& other);
-  EquipmentLayout_API(EquipmentLayout_API&& other) noexcept;
+  EquipmentLayout_Api(const EquipmentLayout_Api& other);
+  EquipmentLayout_Api(EquipmentLayout_Api&& other) noexcept;
 
-  ~EquipmentLayout_API();
+  ~EquipmentLayout_Api();
 
-  EquipmentLayout_API& operator=(
-      const EquipmentLayout_API& other
-  );
-  EquipmentLayout_API& operator=(
-      EquipmentLayout_API&& other
-  ) noexcept;
+  EquipmentLayout_Api& operator=(const EquipmentLayout_Api& other);
+  EquipmentLayout_Api& operator=(EquipmentLayout_Api&& other) noexcept;
 
   operator EquipmentLayout_View() const noexcept;
   operator EquipmentLayout_Wrapper() noexcept;
@@ -87,21 +83,28 @@ class DLLEXPORT EquipmentLayout_API {
   EquipmentLayout* Get() noexcept;
   const EquipmentLayout* Get() const noexcept;
 
-  void Copy(EquipmentLayout_View src) noexcept;
+  void Assign(EquipmentLayout_View src) noexcept;
 
   PositionalRectangle* GetPosition() noexcept;
   const PositionalRectangle* GetPosition() const noexcept;
 
-  std::uint_least8_t GetWidth() const noexcept;
-  void SetWidth(std::uint_least8_t value) noexcept;
+  unsigned char GetWidth() const noexcept;
+  void SetWidth(unsigned char width) noexcept;
 
-  std::uint_least8_t GetHeight() const noexcept;
-  void SetHeight(std::uint_least8_t value) noexcept;
+  unsigned char GetHeight() const noexcept;
+  void SetHeight(unsigned char height) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<EquipmentLayout_1_00>
-  > equipment_layout_;
+  using unique_ptr_1_00 = std::unique_ptr<EquipmentLayout_1_00>;
+  using ptr_variant = std::variant<unique_ptr_1_00>;
+
+  ptr_variant equipment_layout_;
+
+  static ptr_variant CreateVariant(
+      const PositionalRectangle* position,
+      unsigned char width,
+      unsigned char height
+  );
 };
 
 } // namespace d2
