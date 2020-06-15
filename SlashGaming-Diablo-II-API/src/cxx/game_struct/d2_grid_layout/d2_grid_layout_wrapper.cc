@@ -102,14 +102,12 @@ const GridLayout* GridLayout_Wrapper::Get() const noexcept {
 }
 
 void GridLayout_Wrapper::Assign(GridLayout_View src) noexcept {
-  this->SetNumColumns(src.GetNumColumns());
-  this->SetNumRows(src.GetNumRows());
+  GridLayout_1_00* actual_dest =
+      reinterpret_cast<GridLayout_1_00*>(this->Get());
+  const GridLayout_1_00* actual_src =
+      reinterpret_cast<const GridLayout_1_00*>(src.Get());
 
-  PositionalRectangle_Wrapper this_position_wrapper(this->GetPosition());
-  this_position_wrapper.Assign(src.GetPosition());
-
-  this->SetWidth(src.GetWidth());
-  this->SetHeight(src.GetHeight());
+  *actual_dest = *actual_src;
 }
 
 unsigned char GridLayout_Wrapper::GetNumColumns() const noexcept {
