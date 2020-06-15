@@ -65,7 +65,7 @@ class DLLEXPORT BeltRecord_Api {
   BeltRecord_Api() = delete;
   BeltRecord_Api(
       mapi::Undefined* reserved_00__set_to_nullptr,
-      std::uint_least8_t num_slots,
+      unsigned char num_slots,
       const PositionalRectangle* slot_positions
   );
 
@@ -85,7 +85,7 @@ class DLLEXPORT BeltRecord_Api {
 
   void Assign(BeltRecord_View src) noexcept;
 
-  std::uint_least8_t GetNumSlots() const noexcept;
+  unsigned char GetNumSlots() const noexcept;
   void SetNumSlots(std::int_least8_t num_slots) noexcept;
 
   PositionalRectangle* GetSlotPositions() noexcept;

@@ -82,7 +82,7 @@ const BeltRecord* BeltRecord_View::Get() const noexcept {
   return this->belt_record_;
 }
 
-std::uint_least8_t BeltRecord_View::GetNumSlots() const noexcept {
+unsigned char BeltRecord_View::GetNumSlots() const noexcept {
   const auto* actual_belt_record =
       reinterpret_cast<const BeltRecord_1_00*>(this->Get());
 

@@ -73,7 +73,7 @@ class DLLEXPORT BeltRecord_View {
 
   const BeltRecord* Get() const noexcept;
 
-  std::uint_least8_t GetNumSlots() const noexcept;
+  unsigned char GetNumSlots() const noexcept;
   const PositionalRectangle* GetSlotPositions() const noexcept;
 
  private:

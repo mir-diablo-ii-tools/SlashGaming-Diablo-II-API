@@ -106,13 +106,13 @@ void BeltRecord_Wrapper::Assign(BeltRecord_View src) noexcept {
       *reinterpret_cast<const BeltRecord_1_00*>(src.Get());
 }
 
-std::uint_least8_t BeltRecord_Wrapper::GetNumSlots() const noexcept {
+unsigned char BeltRecord_Wrapper::GetNumSlots() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetNumSlots();
 }
 
-void BeltRecord_Wrapper::SetNumSlots(std::uint_least8_t num_slots) noexcept {
+void BeltRecord_Wrapper::SetNumSlots(unsigned char num_slots) noexcept {
   auto* actual_ptr = reinterpret_cast<BeltRecord_1_00*>(this->Get());
 
   actual_ptr->num_slots = num_slots;

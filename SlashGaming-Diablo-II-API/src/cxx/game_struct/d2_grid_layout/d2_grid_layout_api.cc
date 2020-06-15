@@ -196,7 +196,7 @@ void GridLayout_Api::SetWidth(unsigned char width) noexcept {
   wrapper.SetWidth(width);
 }
 
-std::uint_least8_t GridLayout_Api::GetHeight() const noexcept {
+unsigned char GridLayout_Api::GetHeight() const noexcept {
   GridLayout_View view(this->Get());
 
   return view.GetHeight();

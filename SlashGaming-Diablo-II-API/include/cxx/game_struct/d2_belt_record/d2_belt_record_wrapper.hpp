@@ -80,8 +80,8 @@ class DLLEXPORT BeltRecord_Wrapper {
 
   void Assign(BeltRecord_View src) noexcept;
 
-  std::uint_least8_t GetNumSlots() const noexcept;
-  void SetNumSlots(std::uint_least8_t num_slots) noexcept;
+  unsigned char GetNumSlots() const noexcept;
+  void SetNumSlots(unsigned char num_slots) noexcept;
 
   PositionalRectangle* GetSlotPositions() noexcept;
   const PositionalRectangle* GetSlotPositions() const noexcept;

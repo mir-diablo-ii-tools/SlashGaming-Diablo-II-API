@@ -57,7 +57,7 @@ namespace {
 template <typename BeltRecord_T>
 static std::unique_ptr<BeltRecord_T> CreatePtr(
     mapi::Undefined* reserved_00__set_to_nullptr,
-    std::int_least8_t num_slots,
+    unsigned char num_slots,
     const PositionalRectangle* slot_positions
 ) {
   using SlotPosition_T = decltype(BeltRecord_T::slot_positions);
@@ -82,7 +82,7 @@ static std::unique_ptr<BeltRecord_T> CreatePtr(
 
 BeltRecord_Api::BeltRecord_Api(
     mapi::Undefined* reserved_00__set_to_nullptr,
-    std::uint_least8_t num_slots,
+    unsigned char num_slots,
     const PositionalRectangle* slot_positions
 ) : belt_record_(
         CreateVariant(
@@ -147,7 +147,7 @@ void BeltRecord_Api::Assign(BeltRecord_View src) noexcept {
   wrapper.Assign(src);
 }
 
-std::uint_least8_t BeltRecord_Api::GetNumSlots() const noexcept {
+unsigned char BeltRecord_Api::GetNumSlots() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetNumSlots();
