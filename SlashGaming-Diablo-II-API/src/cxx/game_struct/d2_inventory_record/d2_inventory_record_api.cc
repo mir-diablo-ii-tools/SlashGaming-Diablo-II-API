@@ -46,6 +46,7 @@
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_api.hpp"
 
 #include <algorithm>
+#include <type_traits>
 
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
 #include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_wrapper.hpp"
@@ -67,10 +68,10 @@ static std::unique_ptr<InventoryRecord_T> CreatePtr(
       std::remove_pointer_t<decltype(InventoryRecord_T::grid_layout)>;
   using EquipmentLayout_T =
       std::remove_extent_t<decltype(InventoryRecord_T::equipment_slots)>;
+  using EquipmentSlots_A =
+      decltype(InventoryRecord_T::equipment_slots);
 
-  constexpr std::size_t kNumEquipmentSlots =
-      sizeof(InventoryRecord_T::equipment_slots)
-          / sizeof(InventoryRecord_T::equipment_slots[0]);
+  constexpr std::size_t kNumEquipmentSlots = std::extent_v<EquipmentSlots_A>;
 
   const PositionalRectangle_T* actual_src_positional_rectangle =
       reinterpret_cast<const PositionalRectangle_T*>(position);
@@ -86,8 +87,7 @@ static std::unique_ptr<InventoryRecord_T> CreatePtr(
 
   std::copy_n(
       actual_src_equipment_slots,
-      sizeof(inventory_record->equipment_slots)
-          / sizeof(inventory_record->equipment_slots[0]),
+      kNumEquipmentSlots,
       inventory_record->equipment_slots
   );
 
