@@ -60,7 +60,14 @@ static std::unique_ptr<BeltRecord_T> CreatePtr(
     unsigned char num_slots,
     const PositionalRectangle* slot_positions
 ) {
-  using SlotPosition_T = decltype(BeltRecord_T::slot_positions);
+  using PositionalRectangle_T =
+      std::remove_extent_t<decltype(BeltRecord_T::slot_positions)>;
+  using SlotPositions_A = decltype(BeltRecord_T::slot_positions);
+
+  constexpr std::size_t kNumSlotPositions = std::extent_v<SlotPositions_A>;
+
+  const PositionalRectangle_T* actual_src_slot_positions =
+      reinterpret_cast<const PositionalRectangle_T*>(slot_positions);
 
   std::unique_ptr belt_record = std::make_unique<BeltRecord_T>();
 
@@ -68,10 +75,8 @@ static std::unique_ptr<BeltRecord_T> CreatePtr(
   belt_record->num_slots = num_slots;
 
   std::copy_n(
-      reinterpret_cast<
-          const std::remove_extent_t<SlotPosition_T>*
-      >(slot_positions),
-      std::extent_v<SlotPosition_T>,
+      actual_src_slot_positions,
+      kNumSlotPositions,
       belt_record->slot_positions
   );
 
