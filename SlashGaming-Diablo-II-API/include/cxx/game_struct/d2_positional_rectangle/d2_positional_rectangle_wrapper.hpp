@@ -58,9 +58,13 @@ namespace d2 {
 class DLLEXPORT PositionalRectangle_Wrapper {
  public:
   PositionalRectangle_Wrapper() = delete;
-  PositionalRectangle_Wrapper(PositionalRectangle* positional_rectangle) noexcept;
+  PositionalRectangle_Wrapper(
+      PositionalRectangle* positional_rectangle
+  ) noexcept;
 
-  PositionalRectangle_Wrapper(const PositionalRectangle_Wrapper& other) noexcept;
+  PositionalRectangle_Wrapper(
+      const PositionalRectangle_Wrapper& other
+  ) noexcept;
   PositionalRectangle_Wrapper(PositionalRectangle_Wrapper&& other) noexcept;
 
   ~PositionalRectangle_Wrapper() noexcept;

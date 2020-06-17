@@ -59,7 +59,7 @@ namespace d2 {
 class DLLEXPORT MpqArchiveHandle_Wrapper {
  public:
   MpqArchiveHandle_Wrapper() = delete;
-  MpqArchiveHandle_Wrapper(MpqArchiveHandle* ptr) noexcept;
+  MpqArchiveHandle_Wrapper(MpqArchiveHandle* mpq_archive_handle) noexcept;
 
   MpqArchiveHandle_Wrapper(const MpqArchiveHandle_Wrapper& other) noexcept;
   MpqArchiveHandle_Wrapper(MpqArchiveHandle_Wrapper&& other) noexcept;

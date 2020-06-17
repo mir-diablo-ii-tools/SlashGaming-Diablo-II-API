@@ -57,7 +57,9 @@ namespace d2 {
 class DLLEXPORT PositionalRectangle_View {
  public:
   PositionalRectangle_View() = delete;
-  PositionalRectangle_View(const PositionalRectangle* positional_rectangle) noexcept;
+  PositionalRectangle_View(
+      const PositionalRectangle* positional_rectangle
+  ) noexcept;
 
   PositionalRectangle_View(const PositionalRectangle_View& other) noexcept;
   PositionalRectangle_View(PositionalRectangle_View&& other) noexcept;
