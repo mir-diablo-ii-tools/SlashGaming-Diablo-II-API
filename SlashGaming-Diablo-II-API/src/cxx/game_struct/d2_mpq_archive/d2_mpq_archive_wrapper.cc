@@ -71,6 +71,25 @@ MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
     MpqArchive_Wrapper&& other
 ) noexcept = default;
 
+/* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
+MpqArchive_View MpqArchive_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  const MpqArchive_1_00* actual_mpq_archive =
+      reinterpret_cast<const MpqArchive_1_00*>(this->Get());
+
+  return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive[index]);
+}
+
+MpqArchive_Wrapper MpqArchive_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<MpqArchive*>((*const_this)[index].Get());
+}
+*/
+
 MpqArchive_Wrapper::operator MpqArchive_View() const noexcept {
   return MpqArchive_View(this->Get());
 }

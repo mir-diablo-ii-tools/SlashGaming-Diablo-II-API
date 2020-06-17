@@ -62,12 +62,14 @@ class DLLEXPORT MpqArchive_Api {
  public:
   MpqArchive_Api() = delete;
 
-  MpqArchive_Api(const MpqArchive_Api& other);
+  // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
+  MpqArchive_Api(const MpqArchive_Api& other) = delete;
   MpqArchive_Api(MpqArchive_Api&& other) noexcept;
 
   ~MpqArchive_Api();
 
-  MpqArchive_Api& operator=(const MpqArchive_Api& other);
+  // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
+  MpqArchive_Api& operator=(const MpqArchive_Api& other) = delete;
   MpqArchive_Api& operator=(MpqArchive_Api&& other) noexcept;
 
   operator MpqArchive_View() const noexcept;
@@ -77,6 +79,9 @@ class DLLEXPORT MpqArchive_Api {
   const MpqArchive* Get() const noexcept;
 
  private:
+  using unique_ptr_1_00 = std::unique_ptr<MpqArchive_1_00>;
+  // TODO (Mir Drualga): Change to std::variant<unique_ptr_1_00> when
+  // MpqArchive_1_00 is implemented.
   using ptr_variant = std::variant<mapi::Undefined*>;
 
   ptr_variant mpq_archive_;

@@ -47,19 +47,17 @@
 
 namespace d2 {
 
-// TODO: Implement MPQArchive initialization.
-MpqArchive_Api::MpqArchive_Api(const MpqArchive_Api& other) {
-}
-
 MpqArchive_Api::MpqArchive_Api(MpqArchive_Api&& other) noexcept = default;
 
 MpqArchive_Api::~MpqArchive_Api() = default;
 
+/* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
 MpqArchive_Api& MpqArchive_Api::operator=(const MpqArchive_Api& other) {
   *this = MpqArchive_Api(other);
 
   return *this;
 }
+*/
 
 MpqArchive_Api& MpqArchive_Api::operator=(
     MpqArchive_Api&& other

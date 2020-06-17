@@ -67,9 +67,8 @@ class DLLEXPORT MpqArchive_View {
   MpqArchive_View& operator=(const MpqArchive_View& other) noexcept;
   MpqArchive_View& operator=(MpqArchive_View&& other) noexcept;
 
-  /* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
-  MpqArchive_View operator[](std::size_t index) const noexcept;
-  */
+  // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
+  MpqArchive_View operator[](std::size_t index) const noexcept = delete;
 
   const MpqArchive* Get() const noexcept;
 

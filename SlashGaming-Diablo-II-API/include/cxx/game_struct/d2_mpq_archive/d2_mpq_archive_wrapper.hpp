@@ -46,6 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_WRAPPER_HPP_
 
+#include <cstddef>
+
 #include "d2_mpq_archive_struct.hpp"
 #include "d2_mpq_archive_view.hpp"
 
@@ -65,6 +67,11 @@ class DLLEXPORT MpqArchive_Wrapper {
 
   MpqArchive_Wrapper& operator=(const MpqArchive_Wrapper& other) noexcept;
   MpqArchive_Wrapper& operator=(MpqArchive_Wrapper&& other) noexcept;
+
+  // TODO (Mir Drualga): Undelete these operator[] when
+  // MpqArchive_1_00 is implemented.
+  MpqArchive_View operator[](std::size_t index) const noexcept = delete;
+  MpqArchive_Wrapper operator[](std::size_t index) noexcept = delete;
 
   operator MpqArchive_View() const noexcept;
 
