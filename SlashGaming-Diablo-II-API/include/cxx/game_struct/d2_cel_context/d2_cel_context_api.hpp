@@ -97,11 +97,12 @@ class DLLEXPORT CelContext_Api {
 
   CelFile* GetCelFile() noexcept;
   const CelFile* GetCelFile() const noexcept;
-  unsigned int GetDirection() const noexcept;
-  unsigned int GetFrame() const noexcept;
-
   void SetCelFile(CelFile* cel_file) noexcept;
+
+  unsigned int GetDirection() const noexcept;
   void SetDirection(unsigned int direction) noexcept;
+
+  unsigned int GetFrame() const noexcept;
   void SetFrame(unsigned int frame) noexcept;
 
  private:

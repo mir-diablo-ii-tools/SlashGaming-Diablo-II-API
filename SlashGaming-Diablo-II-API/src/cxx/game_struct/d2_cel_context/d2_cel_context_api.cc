@@ -172,28 +172,28 @@ const CelFile* CelContext_Api::GetCelFile() const noexcept {
   return view.GetCelFile();
 }
 
-unsigned int CelContext_Api::GetDirection() const noexcept {
-  CelContext_View view(this->Get());
-
-  return view.GetDirection();
-}
-
-unsigned int CelContext_Api::GetFrame() const noexcept {
-  CelContext_View view(this->Get());
-
-  return view.GetFrame();
-}
-
 void CelContext_Api::SetCelFile(CelFile* cel_file) noexcept {
   CelContext_Wrapper wrapper(this->Get());
 
   wrapper.SetCelFile(cel_file);
 }
 
+unsigned int CelContext_Api::GetDirection() const noexcept {
+  CelContext_View view(this->Get());
+
+  return view.GetDirection();
+}
+
 void CelContext_Api::SetDirection(unsigned int direction) noexcept {
   CelContext_Wrapper wrapper(this->Get());
 
   wrapper.SetDirection(direction);
+}
+
+unsigned int CelContext_Api::GetFrame() const noexcept {
+  CelContext_View view(this->Get());
+
+  return view.GetFrame();
 }
 
 void CelContext_Api::SetFrame(unsigned int frame) noexcept {
