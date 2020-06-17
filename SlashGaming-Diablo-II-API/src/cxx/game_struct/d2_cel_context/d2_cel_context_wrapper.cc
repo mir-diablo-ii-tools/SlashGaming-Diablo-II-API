@@ -106,6 +106,33 @@ const CelContext* CelContext_Wrapper::Get() const noexcept {
   return this->cel_context;
 }
 
+void CelContext_Wrapper::Assign(CelContext_View src) {
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version <= GameVersion::k1_10) {
+    CelContext_1_00* actual_dest =
+        reinterpret_cast<CelContext_1_00*>(this->Get());
+    const CelContext_1_00* actual_src =
+        reinterpret_cast<const CelContext_1_00*>(src.Get());
+
+    *actual_dest = *actual_src;
+  } else if (running_game_version == GameVersion::k1_12A) {
+    CelContext_1_12A* actual_dest =
+        reinterpret_cast<CelContext_1_12A*>(this->Get());
+    const CelContext_1_12A* actual_src =
+        reinterpret_cast<const CelContext_1_12A*>(src.Get());
+
+    *actual_dest = *actual_src;
+  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
+    CelContext_1_13C* actual_dest =
+        reinterpret_cast<CelContext_1_13C*>(this->Get());
+    const CelContext_1_13C* actual_src =
+        reinterpret_cast<const CelContext_1_13C*>(src.Get());
+
+    *actual_dest = *actual_src;
+  }
+}
+
 bool CelContext_Wrapper::DrawFrame(int position_x, int position_y) {
   DrawCelFileFrameOptions frame_options;
   frame_options.color = mapi::Rgba32BitColor();

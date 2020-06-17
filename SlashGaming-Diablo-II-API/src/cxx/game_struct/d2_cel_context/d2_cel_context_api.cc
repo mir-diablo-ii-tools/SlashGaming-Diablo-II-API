@@ -132,6 +132,12 @@ const CelContext* CelContext_Api::Get() const noexcept {
   }
 }
 
+void CelContext_Api::Assign(CelContext_View src) {
+  CelContext_Wrapper dest_wrapper(this->Get());
+
+  dest_wrapper.Assign(src);
+}
+
 bool CelContext_Api::DrawFrame(int position_x, int position_y) {
   CelContext_Wrapper wrapper(this->Get());
 

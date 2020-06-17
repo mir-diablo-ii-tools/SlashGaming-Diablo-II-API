@@ -102,8 +102,12 @@ const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
 }
 
 void BeltRecord_Wrapper::Assign(BeltRecord_View src) noexcept {
-  *reinterpret_cast<BeltRecord_1_00*>(this->Get()) =
-      *reinterpret_cast<const BeltRecord_1_00*>(src.Get());
+  BeltRecord_1_00* actual_dest =
+      reinterpret_cast<BeltRecord_1_00*>(this->Get());
+  const BeltRecord_1_00* actual_src =
+      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
+
+  *actual_dest = *actual_src;
 }
 
 unsigned char BeltRecord_Wrapper::GetNumSlots() const noexcept {
