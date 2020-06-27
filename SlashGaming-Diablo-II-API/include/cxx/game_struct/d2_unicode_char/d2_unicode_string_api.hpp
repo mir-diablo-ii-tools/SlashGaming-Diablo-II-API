@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -59,7 +59,7 @@
 
 namespace d2 {
 
-class DLLEXPORT UnicodeString_API {
+class DLLEXPORT UnicodeString_Api {
  public:
   using value_type = UnicodeChar;
   using size_type = int;
@@ -68,167 +68,261 @@ class DLLEXPORT UnicodeString_API {
   using pointer = value_type*;
   using const_pointer = const value_type*;
 
-  UnicodeString_API();
-  UnicodeString_API(size_type size, const value_type& ch);
-  UnicodeString_API(const UnicodeString_API& str);
-  UnicodeString_API(const UnicodeString_API& str, size_type pos);
-  UnicodeString_API(
-      const UnicodeString_API& str,
+  static const size_type npos = -1;
+
+  UnicodeString_Api();
+  UnicodeString_Api(size_type size, const value_type& ch);
+  UnicodeString_Api(const UnicodeString_Api& str);
+  UnicodeString_Api(const UnicodeString_Api& str, size_type pos);
+  UnicodeString_Api(
+      const UnicodeString_Api& str,
       size_type pos,
       size_type count
   );
-  UnicodeString_API(const value_type* str);
-  UnicodeString_API(const value_type* str, size_type count);
-  UnicodeString_API(UnicodeString_API&& str) noexcept;
+  UnicodeString_Api(const value_type* str);
+  UnicodeString_Api(const value_type* str, size_type count);
+  UnicodeString_Api(UnicodeString_Api&& str) noexcept;
 
-  ~UnicodeString_API();
+  ~UnicodeString_Api();
 
-  UnicodeString_API& operator=(const UnicodeString_API& str);
-  UnicodeString_API& operator=(UnicodeString_API&& other) noexcept;
-  UnicodeString_API& operator=(const value_type* str);
-  UnicodeString_API& operator=(const value_type& str);
+  UnicodeString_Api& operator=(const UnicodeString_Api& str);
+  UnicodeString_Api& operator=(UnicodeString_Api&& other) noexcept;
+  UnicodeString_Api& operator=(const value_type* str);
+  UnicodeString_Api& operator=(const value_type& str);
 
-  UnicodeString_API& operator+=(const UnicodeString_API& str);
-  UnicodeString_API& operator+=(const value_type& ch);
-  UnicodeString_API& operator+=(const value_type* str);
+  UnicodeString_Api& operator+=(const UnicodeString_Api& str);
+  UnicodeString_Api& operator+=(const value_type& ch);
+  UnicodeString_Api& operator+=(const value_type* str);
 
-  operator UnicodeStringView_API() const noexcept;
+  operator UnicodeStringView_Api() const noexcept;
+
+  /**
+   * Element access
+   */
 
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
 
-  static UnicodeString_API FromU8String(std::u8string_view src);
-
-  std::u8string ToU8String() const;
-
-  UnicodeString_API& append(size_type count, const value_type& ch);
-  UnicodeString_API& append(const UnicodeString_API& str);
-  UnicodeString_API& append(
-      const UnicodeString_API& str,
-      size_type pos
-  );
-  UnicodeString_API& append(
-      const UnicodeString_API& str,
-      size_type pos,
-      size_type count
-  );
-  UnicodeString_API& append(const value_type* str);
-  UnicodeString_API& append(const value_type* str, size_type count);
-
   reference at(size_type pos);
   const_reference at(size_type pos) const;
-
-  value_type& back();
-  const value_type& back() const;
-
-  void clear() noexcept;
-
-  size_type copy(
-      value_type* dest,
-      size_type count
-  ) const;
-  size_type copy(
-      value_type* dest,
-      size_type count,
-      size_type pos
-  ) const;
-
-  void Draw(int position_x, int position_y) const;
-  void Draw(int position_x, int position_y, const DrawTextOptions& options) const;
-
-  [[nodiscard]]
-  bool empty() const noexcept;
-
-  bool ends_with(UnicodeStringView_API x) const noexcept;
-  bool ends_with(const value_type& x) const noexcept;
-  bool ends_with(const value_type* x) const;
 
   value_type& front();
   const value_type& front() const;
 
-  void pop_back();
+  value_type& back();
+  const value_type& back() const;
+
+  value_type* data() noexcept;
+  const value_type* data() const noexcept;
+
+  const value_type* c_str() const noexcept;
+
+  /**
+   * Capacity
+   */
+
+  [[nodiscard]] bool empty() const noexcept;
+  size_type size() const noexcept;
+  size_type length() const noexcept;
+  size_type max_size() const noexcept;
+  void reserve(size_type new_cap);
+  size_type capacity() const noexcept;
+  void shrink_to_fit();
+
+  /**
+   * Operations
+   */
+
+  UnicodeString_Api& assign(size_type count, const value_type& ch);
+  UnicodeString_Api& assign(const UnicodeString_Api& str);
+  UnicodeString_Api& assign(
+      const UnicodeString_Api& str,
+      size_type pos,
+      size_type count = npos
+  );
+  UnicodeString_Api& assign(UnicodeString_Api&& str) noexcept;
+  UnicodeString_Api& assign(const value_type* s, size_type count);
+  UnicodeString_Api& assign(const value_type* s);
+
+  void clear() noexcept;
+
+  UnicodeString_Api& insert(
+      size_type index,
+      size_type count,
+      const value_type& ch
+  );
+  UnicodeString_Api& insert(
+      size_type index,
+      const value_type* ch
+  );
+  UnicodeString_Api& insert(
+      size_type index,
+      const value_type* ch,
+      size_type count
+  );
+  UnicodeString_Api& insert(
+      size_type index,
+      const UnicodeString_Api& str,
+      size_type index_str,
+      size_type count = npos
+  );
+
+  UnicodeString_Api& erase(
+      size_type index = 0,
+      size_type count = npos
+  );
 
   void push_back(const value_type& ch);
+  void pop_back();
+
+  UnicodeString_Api& append(size_type count, const value_type& ch);
+  UnicodeString_Api& append(const UnicodeString_Api& str);
+  UnicodeString_Api& append(
+      const UnicodeString_Api& str,
+      size_type pos
+  );
+  UnicodeString_Api& append(
+      const UnicodeString_Api& str,
+      size_type pos,
+      size_type count
+  );
+  UnicodeString_Api& append(const value_type* str);
+  UnicodeString_Api& append(const value_type* str, size_type count);
+
+  int compare(const UnicodeString_Api& str) const noexcept;
+  int compare(
+      size_type pos1,
+      size_type count1,
+      const UnicodeString_Api& str
+  ) const;
+  int compare(
+      size_type pos1,
+      size_type count1,
+      const UnicodeString_Api& str,
+      size_type pos2,
+      size_type count2 = npos
+  ) const;
+  int compare(const value_type* s) const;
+  int compare(size_type pos1, size_type count1, const value_type* s) const;
+  int compare(
+      size_type pos1,
+      size_type count1,
+      const value_type* s,
+      size_type count2
+  ) const;
+
+  bool starts_with(UnicodeStringView_Api sv) const noexcept;
+  bool starts_with(const value_type& c) const noexcept;
+  bool starts_with(const value_type* s) const;
+
+  bool ends_with(UnicodeStringView_Api sv) const noexcept;
+  bool ends_with(const value_type& c) const noexcept;
+  bool ends_with(const value_type* s) const;
+
+  UnicodeString_Api substr() const;
+  UnicodeString_Api substr(size_type pos) const;
+  UnicodeString_Api substr(size_type pos, size_type count) const;
+
+  size_type copy(
+      value_type* dest,
+      size_type count,
+      size_type pos = 0
+  ) const;
 
   void resize(size_type count);
   void resize(size_type count, const value_type& ch);
 
-  void shrink_to_fit();
+  void swap(UnicodeString_Api& other);
 
-  bool starts_with(UnicodeStringView_API x) const noexcept;
-  bool starts_with(const value_type& x) const noexcept;
-  bool starts_with(const value_type* x) const;
+  /**
+   * Extended Diablo II functions
+   */
 
-  UnicodeString_API substr() const;
-  UnicodeString_API substr(size_type pos) const;
-  UnicodeString_API substr(size_type pos, size_type count) const;
+  void Draw(int position_x, int position_y) const;
+  void Draw(int position_x, int position_y, const DrawTextOptions& options) const;
 
-  void swap(UnicodeString_API& other);
+  static UnicodeString_Api FromUtf8String(std::u8string_view src);
 
-  UnicodeChar* data() noexcept;
-  const UnicodeChar* data() const noexcept;
-
-  size_type capacity() const noexcept;
-  const UnicodeChar* c_str() const noexcept;
-  size_type size() const noexcept;
-  size_type length() const noexcept;
+  std::u8string ToUtf8String() const;
 
  private:
-  std::variant<
-      std::unique_ptr<std::basic_string<UnicodeChar_1_00>>
-  > str_;
+  using ApiVariant = std::variant<
+      std::basic_string<UnicodeChar_1_00>
+  >;
 
-  UnicodeString_API(std::basic_string<UnicodeChar_1_00>&& str);
+  ApiVariant str_;
+
+  UnicodeString_Api(ApiVariant&& str);
 };
 
-DLLEXPORT UnicodeString_API operator+(
-    const UnicodeString_API& lhs,
-    const UnicodeString_API& rhs
+DLLEXPORT UnicodeString_Api operator+(
+    const UnicodeString_Api& lhs,
+    const UnicodeString_Api& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    const UnicodeString_API& lhs,
+DLLEXPORT UnicodeString_Api operator+(
+    const UnicodeString_Api& lhs,
     const UnicodeChar* rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    const UnicodeString_API& lhs,
+DLLEXPORT UnicodeString_Api operator+(
+    const UnicodeString_Api& lhs,
     const UnicodeChar& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
+DLLEXPORT UnicodeString_Api operator+(
     const UnicodeChar* lhs,
-    const UnicodeString_API& rhs
+    const UnicodeString_Api& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
+DLLEXPORT UnicodeString_Api operator+(
     const UnicodeChar& lhs,
-    const UnicodeString_API& rhs
+    const UnicodeString_Api& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    UnicodeString_API&& lhs,
-    UnicodeString_API&& rhs
+DLLEXPORT UnicodeString_Api operator+(
+    UnicodeString_Api&& lhs,
+    UnicodeString_Api&& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    UnicodeString_API&& lhs,
-    const UnicodeString_API& rhs
+DLLEXPORT UnicodeString_Api operator+(
+    UnicodeString_Api&& lhs,
+    const UnicodeString_Api& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    UnicodeString_API&& lhs,
+DLLEXPORT UnicodeString_Api operator+(
+    UnicodeString_Api&& lhs,
     const UnicodeChar* rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    UnicodeString_API&& lhs,
+DLLEXPORT UnicodeString_Api operator+(
+    UnicodeString_Api&& lhs,
     const UnicodeChar& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
-    const UnicodeString_API& lhs,
-    UnicodeString_API&& rhs
+DLLEXPORT UnicodeString_Api operator+(
+    const UnicodeString_Api& lhs,
+    UnicodeString_Api&& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
+DLLEXPORT UnicodeString_Api operator+(
     const UnicodeChar* lhs,
-    UnicodeString_API&& rhs
+    UnicodeString_Api&& rhs
 );
-DLLEXPORT UnicodeString_API operator+(
+DLLEXPORT UnicodeString_Api operator+(
     const UnicodeChar& lhs,
-    UnicodeString_API&& rhs
+    UnicodeString_Api&& rhs
 );
+
+DLLEXPORT bool operator==(
+    const UnicodeString_Api& lhs,
+    const UnicodeString_Api& rhs
+) noexcept;
+
+DLLEXPORT bool operator==(
+    const UnicodeString_Api& lhs,
+    const UnicodeChar* rhs
+) noexcept;
+
+DLLEXPORT std::strong_ordering operator<=>(
+    const UnicodeString_Api& lhs,
+    const UnicodeString_Api& rhs
+) noexcept;
+
+DLLEXPORT std::strong_ordering operator<=>(
+    const UnicodeString_Api& lhs,
+    const UnicodeChar* rhs
+) noexcept;
 
 } // namespace d2
 
