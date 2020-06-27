@@ -50,7 +50,11 @@ namespace d2 {
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
     PositionalRectangle* positional_rectangle
 ) noexcept :
-    positonal_rectangle_(positional_rectangle) {
+    positional_rectangle_([positional_rectangle]() {
+      return reinterpret_cast<PositionalRectangle_1_00*>(
+          positional_rectangle
+      );
+    }()) {
 }
 
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
@@ -94,25 +98,43 @@ PositionalRectangle_View() const noexcept {
 }
 
 PositionalRectangle* PositionalRectangle_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->Get());
+  return std::visit(
+      [](auto& actual_positional_rectangle) {
+        return reinterpret_cast<PositionalRectangle*>(
+            &actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
 const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
-  return this->positonal_rectangle_;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
 void PositionalRectangle_Wrapper::Assign(
     PositionalRectangle_View src
 ) noexcept {
-  auto* actual_dest =
-      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  const auto* actual_src =
-      reinterpret_cast<const PositionalRectangle_1_00*>(src.Get());
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
 
-  *actual_dest = *actual_src;
+        *actual_dest = *actual_src;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_Wrapper::GetLeft() const noexcept {
@@ -122,10 +144,12 @@ int PositionalRectangle_Wrapper::GetLeft() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetLeft(int left) noexcept {
-  auto* actual_positional_rectangle =
-      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
-
-  actual_positional_rectangle->left = left;
+  std::visit(
+      [left](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->left = left;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_Wrapper::GetRight() const noexcept {
@@ -135,10 +159,12 @@ int PositionalRectangle_Wrapper::GetRight() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetRight(int right) noexcept {
-  auto* actual_positional_rectangle =
-      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
-
-  actual_positional_rectangle->right = right;
+  std::visit(
+      [right](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->right = right;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_Wrapper::GetTop() const noexcept {
@@ -148,10 +174,12 @@ int PositionalRectangle_Wrapper::GetTop() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetTop(int top) noexcept {
-  auto* actual_positional_rectangle =
-      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
-
-  actual_positional_rectangle->top = top;
+  std::visit(
+      [top](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->top = top;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_Wrapper::GetBottom() const noexcept {
@@ -161,10 +189,12 @@ int PositionalRectangle_Wrapper::GetBottom() const noexcept {
 }
 
 void PositionalRectangle_Wrapper::SetBottom(int bottom) noexcept {
-  auto* actual_positional_rectangle =
-      reinterpret_cast<PositionalRectangle_1_00*>(this->Get());
-
-  actual_positional_rectangle->bottom = bottom;
+  std::visit(
+      [bottom](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->bottom = bottom;
+      },
+      this->positional_rectangle_
+  );
 }
 
 } // namespace d2

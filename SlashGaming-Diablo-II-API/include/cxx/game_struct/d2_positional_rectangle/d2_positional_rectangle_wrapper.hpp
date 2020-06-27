@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_positional_rectangle_struct.hpp"
 #include "d2_positional_rectangle_view.hpp"
@@ -99,7 +100,11 @@ class DLLEXPORT PositionalRectangle_Wrapper {
   void SetBottom(int bottom) noexcept;
 
  private:
-  PositionalRectangle* positonal_rectangle_;
+  using WrapperVariant = std::variant<
+      PositionalRectangle_1_00*
+  >;
+
+  WrapperVariant positional_rectangle_;
 };
 
 } // namespace d2
