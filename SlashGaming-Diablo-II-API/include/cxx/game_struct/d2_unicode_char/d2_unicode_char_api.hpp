@@ -61,6 +61,7 @@ namespace d2 {
 class DLLEXPORT UnicodeChar_Api {
  public:
   UnicodeChar_Api();
+  UnicodeChar_Api(const UnicodeChar& uch);
 
   UnicodeChar_Api(const UnicodeChar_Api& other);
   UnicodeChar_Api(UnicodeChar_Api&& other) noexcept;
@@ -95,10 +96,6 @@ class DLLEXPORT UnicodeChar_Api {
   using ApiVariant = std::variant<UnicodeChar_1_00>;
 
   ApiVariant uch_;
-
-  UnicodeChar_Api(ApiVariant uch);
-
-  static ApiVariant CreateVariant();
 };
 
 } // namespace d2

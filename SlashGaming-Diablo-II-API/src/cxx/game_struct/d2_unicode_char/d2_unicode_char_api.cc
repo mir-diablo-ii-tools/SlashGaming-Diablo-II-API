@@ -52,16 +52,16 @@
 
 namespace d2 {
 
-UnicodeChar_Api::UnicodeChar_Api() : uch_(CreateVariant()) {
-  std::visit(
-      [](auto& actual_uch) {
-        actual_uch.ch = 0;
-      },
-      this->uch_
-  );
+UnicodeChar_Api::UnicodeChar_Api() :
+    uch_([](){
+      return UnicodeChar_1_00();
+    }()) {
 }
 
-UnicodeChar_Api::UnicodeChar_Api(ApiVariant uch) : uch_(std::move(uch)) {
+UnicodeChar_Api::UnicodeChar_Api(const UnicodeChar& uch) :
+    uch_([&uch](){
+      return reinterpret_cast<const UnicodeChar_1_00&>(uch);
+    }()) {
 }
 
 UnicodeChar_Api::UnicodeChar_Api(const UnicodeChar_Api& other) = default;
@@ -88,10 +88,6 @@ UnicodeChar_Api::operator UnicodeChar_Wrapper() noexcept {
   UnicodeChar_Wrapper wrapper(this->Get());
 
   return wrapper;
-}
-
-UnicodeChar_Api::ApiVariant UnicodeChar_Api::CreateVariant() {
-  return UnicodeChar_1_00();
 }
 
 UnicodeChar_Api UnicodeChar_Api::FromUtf8Char(
@@ -129,7 +125,7 @@ void UnicodeChar_Api::Assign(UnicodeChar_View src) noexcept {
 }
 
 UnicodeChar_Api UnicodeChar_Api::ToLower() const {
-  return std::visit(
+  auto actual_to_lower_uch = std::visit(
       [](const auto& actual_uch) {
         using UnicodeChar_T = std::remove_const_t<
             std::remove_pointer_t<
@@ -144,14 +140,16 @@ UnicodeChar_Api UnicodeChar_Api::ToLower() const {
             reinterpret_cast<UnicodeChar*>(&to_lower_uch)
         );
 
-        return ApiVariant(to_lower_uch);
+        return to_lower_uch;
       },
       this->uch_
   );
+
+  return reinterpret_cast<UnicodeChar&>(actual_to_lower_uch);
 }
 
 UnicodeChar_Api UnicodeChar_Api::ToUpper() const {
-  return std::visit(
+  auto actual_to_upper_uch = std::visit(
       [](const auto& actual_uch) {
         using UnicodeChar_T = std::remove_const_t<
             std::remove_pointer_t<
@@ -166,10 +164,12 @@ UnicodeChar_Api UnicodeChar_Api::ToUpper() const {
             reinterpret_cast<UnicodeChar*>(&to_upper_uch)
         );
 
-        return ApiVariant(to_upper_uch);
+        return to_upper_uch;
       },
       this->uch_
   );
+
+  return reinterpret_cast<UnicodeChar&>(actual_to_upper_uch);
 }
 
 std::u8string UnicodeChar_Api::ToUtf8Char() const {
