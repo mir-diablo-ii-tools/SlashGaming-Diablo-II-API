@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../../../dllexport_define.inc"
 
@@ -72,6 +73,8 @@ struct PositionalRectangle;
   /* 0x0C */ std::int32_t bottom;
 };
 
+static_assert(std::is_standard_layout_v<PositionalRectangle_1_00>);
+static_assert(std::is_trivial_v<PositionalRectangle_1_00>);
 static_assert(sizeof(PositionalRectangle_1_00) == 0x10);
 static_assert(offsetof(PositionalRectangle_1_00, left) == 0x00);
 static_assert(offsetof(PositionalRectangle_1_00, right) == 0x04);
