@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../../../dllexport_define.inc"
 
@@ -69,7 +70,9 @@ struct UnicodeChar;
   /* 0x0 */std::uint16_t ch;
 };
 
-static_assert(sizeof(UnicodeChar_1_00) >= 0x02);
+static_assert(std::is_standard_layout_v<UnicodeChar_1_00>);
+static_assert(std::is_trivial_v<UnicodeChar_1_00>);
+static_assert(sizeof(UnicodeChar_1_00) == 0x02);
 static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
 
 #pragma pack(pop)
