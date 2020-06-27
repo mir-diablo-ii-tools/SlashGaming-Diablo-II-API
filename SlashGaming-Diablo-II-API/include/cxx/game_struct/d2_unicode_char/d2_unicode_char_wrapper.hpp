@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,6 +48,7 @@
 
 #include <string>
 #include <string_view>
+#include <variant>
 
 #include "d2_unicode_char_struct.hpp"
 #include "d2_unicode_char_view.hpp"
@@ -60,7 +61,7 @@ class DLLEXPORT UnicodeChar_Wrapper {
  public:
   UnicodeChar_Wrapper() = delete;
 
-  UnicodeChar_Wrapper(UnicodeChar& src) noexcept;
+  UnicodeChar_Wrapper(UnicodeChar* uch) noexcept;
 
   UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other) noexcept;
   UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
@@ -72,16 +73,24 @@ class DLLEXPORT UnicodeChar_Wrapper {
 
   operator UnicodeChar_View() const noexcept;
 
-  UnicodeChar& Get() noexcept;
-  const UnicodeChar& Get() const noexcept;
+  UnicodeChar* Get() noexcept;
+  const UnicodeChar* Get() const noexcept;
 
-  std::u8string ToU8String() const;
+  void Assign(UnicodeChar_View view);
 
-  void SetChar(const UnicodeChar& uch) noexcept;
-  void SetChar(std::u8string_view view);
+  std::u8string ToUtf8Char() const;
+
+  int GetChar() const noexcept;
+
+  void SetAsciiChar(char ch) noexcept;
+  void SetUtf8Char(std::u8string_view ch);
 
  private:
-  UnicodeChar* uch_;
+  using WrapperVariant = std::variant<
+      UnicodeChar_1_00*
+  >;
+
+  WrapperVariant uch_;
 };
 
 } // namespace d2
