@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <compare>
 #include <type_traits>
 
 #include "../../../dllexport_define.inc"
@@ -76,6 +77,17 @@ static_assert(sizeof(UnicodeChar_1_00) == 0x02);
 static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
 
 #pragma pack(pop)
+
+DLLEXPORT inline bool operator==(UnicodeChar_1_00 ch1, UnicodeChar_1_00 ch2) {
+  return ch1.ch == ch2.ch;
+}
+
+DLLEXPORT inline std::strong_ordering operator<=>(
+    UnicodeChar_1_00 ch1,
+    UnicodeChar_1_00 ch2
+) {
+  return (ch1.ch - ch2.ch) <=> 0;
+}
 
 } // namespace d2
 
