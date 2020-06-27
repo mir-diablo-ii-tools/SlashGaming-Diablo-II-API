@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -48,6 +48,7 @@
 
 #include <string>
 #include <string_view>
+#include <variant>
 
 #include "d2_unicode_char_struct.hpp"
 
@@ -59,7 +60,7 @@ class DLLEXPORT UnicodeChar_View {
  public:
   UnicodeChar_View() = delete;
 
-  UnicodeChar_View(const UnicodeChar& src) noexcept;
+  UnicodeChar_View(const UnicodeChar* uch) noexcept;
 
   UnicodeChar_View(const UnicodeChar_View& other) noexcept;
   UnicodeChar_View(UnicodeChar_View&& other) noexcept;
@@ -69,12 +70,20 @@ class DLLEXPORT UnicodeChar_View {
   UnicodeChar_View& operator=(const UnicodeChar_View& other) noexcept;
   UnicodeChar_View& operator=(UnicodeChar_View&& other) noexcept;
 
-  const UnicodeChar& Get() const noexcept;
+  const UnicodeChar* Get() const noexcept;
 
-  std::u8string ToU8String() const;
+  int GetChar() const noexcept;
+
+  std::u8string ToUtf8Char() const;
 
  private:
-  const UnicodeChar* uch_;
+  using ViewVariant = std::variant<
+      const UnicodeChar_1_00*
+  >;
+
+  UnicodeChar_View(ViewVariant uch) noexcept;
+
+  ViewVariant uch_;
 };
 
 } // namespace d2

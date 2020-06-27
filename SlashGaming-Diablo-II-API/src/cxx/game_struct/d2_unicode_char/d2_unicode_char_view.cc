@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,9 +46,9 @@
 #include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_char_view.hpp"
 
 #include <cstdint>
+#include <array>
 
-#include "d2_unicode_char_impl.hpp"
-#include "../../../../include/cxx/game_func/d2lang/d2lang_unicode_unicodeToUtf8.hpp"
+#include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_unicode_to_utf8.hpp"
 
 /**
  * Latest supported version: 1.14D
@@ -56,10 +56,12 @@
 
 namespace d2 {
 
-UnicodeChar_View::UnicodeChar_View(
-    const UnicodeChar& uch
-) noexcept :
-    uch_(&uch) {
+UnicodeChar_View::UnicodeChar_View(const UnicodeChar* uch) noexcept {
+  this->uch_ = reinterpret_cast<const UnicodeChar_1_00*>(uch);
+}
+
+UnicodeChar_View::UnicodeChar_View(ViewVariant uch) noexcept :
+    uch_(std::move(uch)) {
 }
 
 UnicodeChar_View::UnicodeChar_View(
@@ -80,15 +82,43 @@ UnicodeChar_View& UnicodeChar_View::operator=(
     UnicodeChar_View&& other
 ) noexcept = default;
 
-const UnicodeChar& UnicodeChar_View::Get() const noexcept {
-  return *this->uch_;
+const UnicodeChar* UnicodeChar_View::Get() const noexcept {
+  return std::visit(
+      [](const auto& actual_uch) {
+        return reinterpret_cast<const UnicodeChar*>(actual_uch);
+      },
+      this->uch_
+  );
 }
 
-std::u8string UnicodeChar_View::ToU8String() const {
-  char8_t str[4];
-  d2lang::Unicode_unicodeToUtf8(str, &this->Get(), 1);
+int UnicodeChar_View::GetChar() const noexcept {
+  return std::visit(
+      [](const auto& actual_uch) {
+        return actual_uch->ch;
+      },
+      this->uch_
+  );
+}
 
-  return str;
+std::u8string UnicodeChar_View::ToUtf8Char() const {
+  return std::visit(
+      [](const auto& actual_uch) {
+        using UnicodeChar_T = std::remove_pointer_t<
+            std::remove_reference_t<decltype(actual_uch)>
+        >;
+
+        std::array<char8_t, 5> temp_uch;
+
+        d2lang::Unicode_UnicodeToUtf8(
+            temp_uch.data(),
+            reinterpret_cast<const UnicodeChar*>(&actual_uch),
+            2
+        );
+
+        return std::u8string(temp_uch.data());
+      },
+      this->uch_
+  );
 }
 
 } // namespace d2
