@@ -50,7 +50,11 @@ namespace d2 {
 PositionalRectangle_View::PositionalRectangle_View(
     const PositionalRectangle* positional_rectangle
 ) noexcept :
-    positional_rectangle_(positional_rectangle) {
+    positional_rectangle_([positional_rectangle]() {
+      return reinterpret_cast<const PositionalRectangle_1_00*>(
+          positional_rectangle
+      );
+    }()) {
 }
 
 PositionalRectangle_View::PositionalRectangle_View(
@@ -74,44 +78,61 @@ PositionalRectangle_View& PositionalRectangle_View::operator=(
 PositionalRectangle_View PositionalRectangle_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(
-      &actual_positional_rectangle[index]
+  return std::visit(
+      [index](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_positional_rectangle[index]
+        );
+      },
+      this->positional_rectangle_
   );
 }
 
 const PositionalRectangle* PositionalRectangle_View::Get() const noexcept {
-  return this->positional_rectangle_;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetLeft() const noexcept {
-  const auto* actual_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_positional_rectangle->left;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->left;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetRight() const noexcept {
-  const auto* actual_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_positional_rectangle->right;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->right;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetTop() const noexcept {
-  const auto* actual_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_positional_rectangle->top;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->top;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetBottom() const noexcept {
-  const auto* actual_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_positional_rectangle->bottom;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->bottom;
+      },
+      this->positional_rectangle_
+  );
 }
 
 } // namespace d2

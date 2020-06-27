@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_VIEW_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_positional_rectangle_struct.hpp"
 
@@ -57,6 +58,7 @@ namespace d2 {
 class DLLEXPORT PositionalRectangle_View {
  public:
   PositionalRectangle_View() = delete;
+
   PositionalRectangle_View(
       const PositionalRectangle* positional_rectangle
   ) noexcept;
@@ -83,7 +85,11 @@ class DLLEXPORT PositionalRectangle_View {
   int GetBottom() const noexcept;
 
  private:
-  const PositionalRectangle* positional_rectangle_;
+  using ViewVariant = std::variant<
+      const PositionalRectangle_1_00*
+  >;
+
+  ViewVariant positional_rectangle_;
 };
 
 } // namespace d2
