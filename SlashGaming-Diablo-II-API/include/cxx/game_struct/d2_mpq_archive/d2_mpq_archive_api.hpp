@@ -79,12 +79,11 @@ class DLLEXPORT MpqArchive_Api {
   const MpqArchive* Get() const noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<MpqArchive_1_00>;
-  // TODO (Mir Drualga): Change to std::variant<unique_ptr_1_00> when
+  // TODO (Mir Drualga): Change to std::variant<MpqArchive_1_00> when
   // MpqArchive_1_00 is implemented.
-  using ptr_variant = std::variant<mapi::Undefined*>;
+  using ApiVariant = std::variant<mapi::Undefined*>;
 
-  ptr_variant mpq_archive_;
+  ApiVariant mpq_archive_;
 };
 
 } // namespace d2

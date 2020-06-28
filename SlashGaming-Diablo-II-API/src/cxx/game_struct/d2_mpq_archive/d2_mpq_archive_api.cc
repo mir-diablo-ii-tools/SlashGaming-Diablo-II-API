@@ -52,11 +52,9 @@ MpqArchive_Api::MpqArchive_Api(MpqArchive_Api&& other) noexcept = default;
 MpqArchive_Api::~MpqArchive_Api() = default;
 
 /* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
-MpqArchive_Api& MpqArchive_Api::operator=(const MpqArchive_Api& other) {
-  *this = MpqArchive_Api(other);
-
-  return *this;
-}
+MpqArchive_Api& MpqArchive_Api::operator=(
+    const MpqArchive_Api& other
+) = default;
 */
 
 MpqArchive_Api& MpqArchive_Api::operator=(
@@ -72,15 +70,21 @@ MpqArchive_Api::operator MpqArchive_Wrapper() noexcept {
 }
 
 MpqArchive* MpqArchive_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<MpqArchive*>(const_this->Get());
+  return std::visit(
+      [](auto& actual_mpq_archive) {
+        return reinterpret_cast<MpqArchive*>(&actual_mpq_archive);
+      },
+      this->mpq_archive_
+  );
 }
 
 const MpqArchive* MpqArchive_Api::Get() const noexcept {
-  const auto& actual_mpq_archive = std::get<0>(this->mpq_archive_);
-
-  return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
+  return std::visit(
+      [](const auto& actual_mpq_archive) {
+        return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive);
+      },
+      this->mpq_archive_
+  );
 }
 
 } // namespace d2
