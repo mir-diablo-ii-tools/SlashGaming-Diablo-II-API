@@ -101,7 +101,7 @@ PositionalRectangle* PositionalRectangle_Wrapper::Get() noexcept {
   return std::visit(
       [](auto& actual_positional_rectangle) {
         return reinterpret_cast<PositionalRectangle*>(
-            &actual_positional_rectangle
+            actual_positional_rectangle
         );
       },
       this->positional_rectangle_
@@ -112,7 +112,7 @@ const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
   return std::visit(
       [](const auto& actual_positional_rectangle) {
         return reinterpret_cast<const PositionalRectangle*>(
-            &actual_positional_rectangle
+            actual_positional_rectangle
         );
       },
       this->positional_rectangle_

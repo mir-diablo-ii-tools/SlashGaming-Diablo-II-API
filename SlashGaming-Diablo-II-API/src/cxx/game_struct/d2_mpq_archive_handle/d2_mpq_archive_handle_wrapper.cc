@@ -105,7 +105,7 @@ const MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() const noexcept {
   return std::visit(
       [](auto& actual_mpq_archive_handle) {
         return reinterpret_cast<const MpqArchiveHandle*>(
-            &actual_mpq_archive_handle
+            actual_mpq_archive_handle
         );
       },
       this->mpq_archive_handle_

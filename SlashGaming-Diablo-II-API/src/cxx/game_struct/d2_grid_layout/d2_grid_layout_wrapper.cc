@@ -98,9 +98,7 @@ GridLayout_Wrapper GridLayout_Wrapper::operator[](
 GridLayout* GridLayout_Wrapper::Get() noexcept {
   return std::visit(
       [](auto& actual_grid_layout) {
-        return reinterpret_cast<GridLayout*>(
-            &actual_grid_layout
-        );
+        return reinterpret_cast<GridLayout*>(actual_grid_layout);
       },
       this->grid_layout_
   );
@@ -109,9 +107,7 @@ GridLayout* GridLayout_Wrapper::Get() noexcept {
 const GridLayout* GridLayout_Wrapper::Get() const noexcept {
   return std::visit(
       [](const auto& actual_grid_layout) {
-        return reinterpret_cast<const GridLayout*>(
-            &actual_grid_layout
-        );
+        return reinterpret_cast<const GridLayout*>(actual_grid_layout);
       },
       this->grid_layout_
   );
