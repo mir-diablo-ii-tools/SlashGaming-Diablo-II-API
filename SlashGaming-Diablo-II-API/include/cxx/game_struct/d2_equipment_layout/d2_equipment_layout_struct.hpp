@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
@@ -74,6 +75,8 @@ struct EquipmentLayout;
   /* 0x12 */ std::uint8_t unused__to_align_0x12[2];
 };
 
+static_assert(std::is_standard_layout_v<EquipmentLayout_1_00>);
+static_assert(std::is_trivial_v<EquipmentLayout_1_00>);
 static_assert(sizeof(EquipmentLayout_1_00) == 0x14);
 static_assert(offsetof(EquipmentLayout_1_00, position) == 0x00);
 static_assert(offsetof(EquipmentLayout_1_00, width) == 0x10);
