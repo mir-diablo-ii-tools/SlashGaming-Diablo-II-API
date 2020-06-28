@@ -46,7 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_API_HPP_
 
-#include <memory>
 #include <variant>
 
 #include "d2_cel_struct.hpp"
@@ -59,9 +58,6 @@ namespace d2 {
 
 class DLLEXPORT Cel_Api {
  public:
-  using unique_ptr_1_00 = std::unique_ptr<Cel_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
-
   Cel_Api() = delete;
 
   Cel_Api(const Cel_Api& other);
@@ -91,7 +87,9 @@ class DLLEXPORT Cel_Api {
   void SetWidth(int width) noexcept;
 
  private:
-  ptr_variant cel_;
+  using ApiVariant = std::variant<Cel_1_00*>;
+
+  ApiVariant cel_;
 };
 
 } // namespace d2

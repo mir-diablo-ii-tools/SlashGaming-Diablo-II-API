@@ -79,9 +79,12 @@ Cel* Cel_Api::Get() noexcept {
 }
 
 const Cel* Cel_Api::Get() const noexcept {
-  const auto& actual_cel = std::get<unique_ptr_1_00>(this->cel_);
-
-  return reinterpret_cast<const Cel*>(actual_cel.get());
+  return std::visit(
+      [](const auto& actual_mpq_archive) {
+        return reinterpret_cast<const Cel*>(actual_mpq_archive);
+      },
+      this->cel_
+  );
 }
 
 int Cel_Api::GetHeight() const noexcept {
