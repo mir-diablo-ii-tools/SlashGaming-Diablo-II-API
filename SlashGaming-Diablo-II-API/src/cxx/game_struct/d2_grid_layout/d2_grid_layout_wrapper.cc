@@ -50,7 +50,11 @@
 namespace d2 {
 
 GridLayout_Wrapper::GridLayout_Wrapper(GridLayout* grid_layout) noexcept :
-    grid_layout_(grid_layout) {
+    grid_layout_([grid_layout]() {
+      return reinterpret_cast<GridLayout_1_00*>(
+          grid_layout
+      );
+    }()) {
 }
 
 GridLayout_Wrapper::GridLayout_Wrapper(
@@ -92,22 +96,41 @@ GridLayout_Wrapper GridLayout_Wrapper::operator[](
 }
 
 GridLayout* GridLayout_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<GridLayout*>(const_this->Get());
+  return std::visit(
+      [](auto& actual_grid_layout) {
+        return reinterpret_cast<GridLayout*>(
+            &actual_grid_layout
+        );
+      },
+      this->grid_layout_
+  );
 }
 
 const GridLayout* GridLayout_Wrapper::Get() const noexcept {
-  return this->grid_layout_;
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return reinterpret_cast<const GridLayout*>(
+            &actual_grid_layout
+        );
+      },
+      this->grid_layout_
+  );
 }
 
 void GridLayout_Wrapper::Assign(GridLayout_View src) noexcept {
-  GridLayout_1_00* actual_dest =
-      reinterpret_cast<GridLayout_1_00*>(this->Get());
-  const GridLayout_1_00* actual_src =
-      reinterpret_cast<const GridLayout_1_00*>(src.Get());
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  *actual_dest = *actual_src;
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+        *actual_dest = *actual_src;
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_Wrapper::GetNumColumns() const noexcept {
@@ -117,9 +140,12 @@ unsigned char GridLayout_Wrapper::GetNumColumns() const noexcept {
 }
 
 void GridLayout_Wrapper::SetNumColumns(unsigned char num_columns) noexcept {
-  auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
-
-  actual_ptr->num_columns = num_columns;
+  std::visit(
+      [num_columns](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->num_columns = num_columns;
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_Wrapper::GetNumRows() const noexcept {
@@ -129,9 +155,12 @@ unsigned char GridLayout_Wrapper::GetNumRows() const noexcept {
 }
 
 void GridLayout_Wrapper::SetNumRows(unsigned char num_rows) noexcept {
-  auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
-
-  actual_ptr->num_rows = num_rows;
+  std::visit(
+      [num_rows](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->num_rows = num_rows;
+      },
+      this->grid_layout_
+  );
 }
 
 PositionalRectangle* GridLayout_Wrapper::GetPosition() noexcept {
@@ -153,9 +182,12 @@ unsigned char GridLayout_Wrapper::GetWidth() const noexcept {
 }
 
 void GridLayout_Wrapper::SetWidth(unsigned char width) noexcept {
-  auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
-
-  actual_ptr->width = width;
+  std::visit(
+      [width](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->width = width;
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_Wrapper::GetHeight() const noexcept {
@@ -165,9 +197,12 @@ unsigned char GridLayout_Wrapper::GetHeight() const noexcept {
 }
 
 void GridLayout_Wrapper::SetHeight(unsigned char height) noexcept {
-  auto* actual_ptr = reinterpret_cast<GridLayout_1_00*>(this->Get());
-
-  actual_ptr->height = height;
+  std::visit(
+      [height](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->height = height;
+      },
+      this->grid_layout_
+  );
 }
 
 } // namespace d2

@@ -47,7 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_WRAPPER_HPP_
 
 #include <cstddef>
-#include <cstdint>
+#include <variant>
 
 #include "d2_grid_layout_struct.hpp"
 #include "d2_grid_layout_view.hpp"
@@ -95,7 +95,9 @@ class DLLEXPORT GridLayout_Wrapper {
   void SetHeight(unsigned char height) noexcept;
 
  private:
-  GridLayout* grid_layout_;
+  using WrapperVariant = std::variant<GridLayout_1_00*>;
+
+  WrapperVariant grid_layout_;
 };
 
 } // namespace d2
