@@ -48,7 +48,9 @@
 namespace d2 {
 
 BeltRecord_View::BeltRecord_View(const BeltRecord* belt_record) noexcept :
-    belt_record_(belt_record) {
+    belt_record_([belt_record]() {
+      return reinterpret_cast<const BeltRecord_1_00*>(belt_record);
+    }()) {
 }
 
 BeltRecord_View::BeltRecord_View(
@@ -72,30 +74,43 @@ BeltRecord_View& BeltRecord_View::operator=(
 BeltRecord_View BeltRecord_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_belt_record =
-      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const BeltRecord*>(&actual_belt_record[index]);
+  return std::visit(
+      [index](const auto& actual_belt_record) {
+        return reinterpret_cast<const BeltRecord*>(
+            &actual_belt_record[index]
+        );
+      },
+      this->belt_record_
+  );
 }
 
 const BeltRecord* BeltRecord_View::Get() const noexcept {
-  return this->belt_record_;
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return reinterpret_cast<const BeltRecord*>(actual_belt_record);
+      },
+      this->belt_record_
+  );
 }
 
 unsigned char BeltRecord_View::GetNumSlots() const noexcept {
-  const auto* actual_belt_record =
-      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
-
-  return actual_belt_record->num_slots;
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return actual_belt_record->num_slots;
+      },
+      this->belt_record_
+  );
 }
 
 const PositionalRectangle*
 BeltRecord_View::GetSlotPositions() const noexcept {
-  const auto* actual_belt_record =
-      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(
-      actual_belt_record->slot_positions
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            actual_belt_record->slot_positions
+        );
+      },
+      this->belt_record_
   );
 }
 

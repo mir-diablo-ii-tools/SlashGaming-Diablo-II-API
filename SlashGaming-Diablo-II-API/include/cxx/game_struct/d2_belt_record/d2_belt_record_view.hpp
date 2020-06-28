@@ -46,8 +46,8 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_VIEW_HPP_
 
-#include <cstdint>
 #include <cstddef>
+#include <variant>
 
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_belt_record_struct.hpp"
@@ -77,7 +77,9 @@ class DLLEXPORT BeltRecord_View {
   const PositionalRectangle* GetSlotPositions() const noexcept;
 
  private:
-  const BeltRecord* belt_record_;
+  using ViewVariant = std::variant<const BeltRecord_1_00*>;
+
+  ViewVariant belt_record_;
 };
 
 } // namespace d2
