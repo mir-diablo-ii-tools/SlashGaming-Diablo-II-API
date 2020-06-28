@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_VIEW_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
 #include "../d2_grid_layout/d2_grid_layout_struct.hpp"
@@ -83,7 +84,9 @@ class DLLEXPORT InventoryRecord_View {
   const EquipmentLayout* GetEquipmentSlots() const noexcept;
 
  private:
-  const InventoryRecord* inventory_record_;
+  using ViewVariant = std::variant<const InventoryRecord_1_00*>;
+
+  ViewVariant inventory_record_;
 };
 
 } // namespace d2

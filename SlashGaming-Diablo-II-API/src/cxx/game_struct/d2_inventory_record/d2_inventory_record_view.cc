@@ -50,7 +50,9 @@ namespace d2 {
 InventoryRecord_View::InventoryRecord_View(
     const InventoryRecord* inventory_record
 ) noexcept :
-    inventory_record_(inventory_record) {
+    inventory_record_([inventory_record]() {
+      return reinterpret_cast<const InventoryRecord_1_00*>(inventory_record);
+    }()) {
 }
 
 InventoryRecord_View::InventoryRecord_View(
@@ -74,38 +76,59 @@ InventoryRecord_View& InventoryRecord_View::operator=(
 InventoryRecord_View InventoryRecord_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const InventoryRecord*>(&actual_ptr[index]);
+  return std::visit(
+      [index](const auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(
+            &actual_inventory_record[index]
+        );
+      },
+      this->inventory_record_
+  );
 }
 
 const InventoryRecord* InventoryRecord_View::Get() const noexcept {
-  return this->inventory_record_;
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(
+            actual_inventory_record
+        );
+      },
+      this->inventory_record_
+  );
 }
 
 const PositionalRectangle*
 InventoryRecord_View::GetPosition() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_inventory_record->position
+        );
+      },
+      this->inventory_record_
+  );
 }
 
 const GridLayout* InventoryRecord_View::GetGridLayout() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const GridLayout*>(&actual_ptr->grid_layout);
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const GridLayout*>(
+            &actual_inventory_record->grid_layout
+        );
+      },
+      this->inventory_record_
+  );
 }
 
 const EquipmentLayout*
 InventoryRecord_View::GetEquipmentSlots() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const EquipmentLayout*>(
-      &actual_ptr->equipment_slots
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            actual_inventory_record->equipment_slots
+        );
+      },
+      this->inventory_record_
   );
 }
 
