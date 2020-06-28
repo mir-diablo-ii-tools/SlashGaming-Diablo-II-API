@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,8 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_HPP_
 
+#include "d2_unicode_char/d2_unicode_char_api.hpp"
 #include "d2_unicode_char/d2_unicode_char_struct.hpp"
-#include "d2_unicode_char/d2_unicode_char_traits_api.hpp"
+#include "d2_unicode_char/d2_unicode_char_view.hpp"
 #include "d2_unicode_char/d2_unicode_char_wrapper.hpp"
 #include "d2_unicode_char/d2_unicode_string_api.hpp"
 #include "d2_unicode_char/d2_unicode_string_view_api.hpp"
