@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "../d2_cel_file/d2_cel_file_struct.hpp"
 #include "d2_cel_context_struct.hpp"
 
@@ -75,7 +78,13 @@ class DLLEXPORT CelContext_View {
   unsigned int GetFrame() const noexcept;
 
  private:
-  const CelContext* cel_context_;
+  using ViewVariant = std::variant<
+      const CelContext_1_00*,
+      const CelContext_1_12A*,
+      const CelContext_1_13C*
+  >;
+
+  ViewVariant cel_context_;
 };
 
 } // namespace d2
