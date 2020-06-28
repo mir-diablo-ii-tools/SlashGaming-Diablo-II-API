@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../../game_undefined.hpp"
 #include "../d2_cel_file/d2_cel_file_struct.hpp"
@@ -68,6 +69,8 @@ struct CelContext;
   /* 0x10 */ mapi::UndefinedByte unknown_0x10[0x48 - 0x10];
 };
 
+static_assert(std::is_standard_layout_v<CelContext_1_00>);
+static_assert(std::is_trivial_v<CelContext_1_00>);
 static_assert(sizeof(CelContext_1_00) == 0x48);
 static_assert(offsetof(CelContext_1_00, cel_file) == 0x04);
 static_assert(offsetof(CelContext_1_00, frame) == 0x08);
@@ -81,6 +84,8 @@ static_assert(offsetof(CelContext_1_00, direction) == 0x0C);
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
+static_assert(std::is_standard_layout_v<CelContext_1_12A>);
+static_assert(std::is_trivial_v<CelContext_1_12A>);
 static_assert(sizeof(CelContext_1_12A) == 0x48);
 static_assert(offsetof(CelContext_1_12A, cel_file) == 0x3C);
 static_assert(offsetof(CelContext_1_12A, frame) == 0x40);
@@ -95,6 +100,8 @@ static_assert(offsetof(CelContext_1_12A, direction) == 0x38);
   /* 0x44 */ mapi::UndefinedByte unknown_0x44[0x48 - 0x44];
 };
 
+static_assert(std::is_standard_layout_v<CelContext_1_13C>);
+static_assert(std::is_trivial_v<CelContext_1_13C>);
 static_assert(sizeof(CelContext_1_13C) == 0x48);
 static_assert(offsetof(CelContext_1_13C, cel_file) == 0x34);
 static_assert(offsetof(CelContext_1_13C, frame) == 0x00);
