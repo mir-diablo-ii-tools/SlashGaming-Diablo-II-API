@@ -50,7 +50,11 @@ namespace d2 {
 MpqArchiveHandle_View::MpqArchiveHandle_View(
     const MpqArchiveHandle* mpq_archive_handle
 ) noexcept :
-    mpq_archive_handle_(mpq_archive_handle) {
+    mpq_archive_handle_([mpq_archive_handle]() {
+      return reinterpret_cast<const MpqArchiveHandle_1_00*>(
+          mpq_archive_handle
+      );
+    }()) {
 }
 
 MpqArchiveHandle_View::MpqArchiveHandle_View(
@@ -74,35 +78,48 @@ MpqArchiveHandle_View& MpqArchiveHandle_View::operator=(
 MpqArchiveHandle_View MpqArchiveHandle_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_mpq_archive_handle =
-      reinterpret_cast<const MpqArchiveHandle_1_00*>(this->Get());
-
-  return reinterpret_cast<const MpqArchiveHandle*>(
-      &actual_mpq_archive_handle[index]
+  return std::visit(
+      [index](const auto& actual_mpq_archive_handle) {
+        return reinterpret_cast<const MpqArchiveHandle*>(
+            &actual_mpq_archive_handle[index]
+        );
+      },
+      this->mpq_archive_handle_
   );
 }
 
 const MpqArchiveHandle*
 MpqArchiveHandle_View::Get() const noexcept {
-  return this->mpq_archive_handle_;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const MpqArchiveHandle*>(
+            actual_positional_rectangle
+        );
+      },
+      this->mpq_archive_handle_
+  );
 }
 
 const MpqArchive*
 MpqArchiveHandle_View::GetMpqArchive() const noexcept {
-  const auto actual_ptr = reinterpret_cast<const MpqArchiveHandle_1_00*>(
-      this->Get()
+  return std::visit(
+      [](const auto& actual_mpq_archive_handle) {
+        return reinterpret_cast<const MpqArchive*>(
+            actual_mpq_archive_handle->mpq_archive
+        );
+      },
+      this->mpq_archive_handle_
   );
-
-  return reinterpret_cast<const MpqArchive*>(actual_ptr->mpq_archive);
 }
 
 const char*
 MpqArchiveHandle_View::GetMpqArchivePath() const noexcept {
-  const auto actual_ptr = reinterpret_cast<const MpqArchiveHandle_1_00*>(
-      this->Get()
+  return std::visit(
+      [](const auto& actual_mpq_archive_handle) {
+        return actual_mpq_archive_handle->mpq_archive_path;
+      },
+      this->mpq_archive_handle_
   );
-
-  return actual_ptr->mpq_archive_path;
 }
 
 } // namespace d2
