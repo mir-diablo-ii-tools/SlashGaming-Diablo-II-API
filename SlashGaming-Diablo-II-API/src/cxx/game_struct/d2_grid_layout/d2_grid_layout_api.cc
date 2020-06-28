@@ -49,33 +49,6 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
-
-template <typename GridLayout_T>
-static std::unique_ptr<GridLayout_T> CreatePtr(
-    unsigned char num_columns,
-    unsigned char num_rows,
-    const PositionalRectangle* position,
-    unsigned char width,
-    unsigned char height
-) {
-  using PositionalRectangle_T = decltype(GridLayout_T::position);
-
-  std::unique_ptr grid_layout = std::make_unique<GridLayout_T>();
-
-  grid_layout->num_columns = num_columns;
-  grid_layout->num_rows = num_rows;
-
-  grid_layout->position =
-      *reinterpret_cast<const PositionalRectangle_T*>(position);
-
-  grid_layout->width = width;
-  grid_layout->height = height;
-
-  return grid_layout;
-}
-
-} // namespace
 
 GridLayout_Api::GridLayout_Api(
     unsigned char num_columns,
