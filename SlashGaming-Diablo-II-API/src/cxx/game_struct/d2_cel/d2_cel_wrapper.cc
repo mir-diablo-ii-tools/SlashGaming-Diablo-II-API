@@ -48,7 +48,9 @@
 namespace d2 {
 
 Cel_Wrapper::Cel_Wrapper(Cel* cel) noexcept :
-    cel_(cel) {
+    cel_([cel]() {
+      return reinterpret_cast<Cel_1_00*>(cel);
+    }()) {
 }
 
 Cel_Wrapper::Cel_Wrapper(const Cel_Wrapper& other) noexcept = default;
@@ -92,7 +94,12 @@ Cel* Cel_Wrapper::Get() noexcept {
 }
 
 const Cel* Cel_Wrapper::Get() const noexcept {
-  return this->cel_;
+  return std::visit(
+      [](const auto& actual_cel) {
+        return reinterpret_cast<const Cel*>(actual_cel);
+      },
+      this->cel_
+  );
 }
 
 int Cel_Wrapper::GetHeight() const noexcept {
@@ -102,9 +109,12 @@ int Cel_Wrapper::GetHeight() const noexcept {
 }
 
 void Cel_Wrapper::SetHeight(int height) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->height = height;
+  std::visit(
+      [height](auto& actual_cel) {
+        actual_cel->height = height;
+      },
+      this->cel_
+  );
 }
 
 int Cel_Wrapper::GetOffsetX() const noexcept {
@@ -114,9 +124,12 @@ int Cel_Wrapper::GetOffsetX() const noexcept {
 }
 
 void Cel_Wrapper::SetOffsetX(int offset_x) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->offset_x = offset_x;
+  std::visit(
+      [offset_x](auto& actual_cel) {
+        actual_cel->offset_x = offset_x;
+      },
+      this->cel_
+  );
 }
 
 int Cel_Wrapper::GetOffsetY() const noexcept {
@@ -126,9 +139,12 @@ int Cel_Wrapper::GetOffsetY() const noexcept {
 }
 
 void Cel_Wrapper::SetOffsetY(int offset_y) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->offset_y = offset_y;
+  std::visit(
+      [offset_y](auto& actual_cel) {
+        actual_cel->offset_y = offset_y;
+      },
+      this->cel_
+  );
 }
 
 int Cel_Wrapper::GetWidth() const noexcept {
@@ -138,9 +154,12 @@ int Cel_Wrapper::GetWidth() const noexcept {
 }
 
 void Cel_Wrapper::SetWidth(int width) noexcept {
-  auto actual_cel = reinterpret_cast<Cel_1_00*>(this->Get());
-
-  actual_cel->width = width;
+  std::visit(
+      [width](auto& actual_cel) {
+        actual_cel->width = width;
+      },
+      this->cel_
+  );
 }
 
 } // namespace d2

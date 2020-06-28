@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_cel_struct.hpp"
 #include "d2_cel_view.hpp"
@@ -89,7 +90,9 @@ class DLLEXPORT Cel_Wrapper {
   void SetWidth(int width) noexcept;
 
  private:
-  Cel* cel_;
+  using WrapperVariant = std::variant<Cel_1_00*>;
+
+  WrapperVariant cel_;
 };
 
 } // namespace d2
