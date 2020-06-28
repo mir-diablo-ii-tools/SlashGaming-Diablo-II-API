@@ -54,45 +54,55 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
 
-template <typename InventoryRecord_T>
-static std::unique_ptr<InventoryRecord_T> CreatePtr(
+InventoryRecord_Api::ApiVariant InventoryRecord_Api::CreateVariant(
     const PositionalRectangle* position,
     const GridLayout* grid_layout,
     const EquipmentLayout* equipment_slots
 ) {
-  using PositionalRectangle_T =
-      std::remove_pointer_t<decltype(InventoryRecord_T::position)>;
-  using GridLayout_T =
-      std::remove_pointer_t<decltype(InventoryRecord_T::grid_layout)>;
-  using EquipmentLayout_T =
-      std::remove_extent_t<decltype(InventoryRecord_T::equipment_slots)>;
-  using EquipmentSlots_A =
-      decltype(InventoryRecord_T::equipment_slots);
+  ApiVariant inventory_record;
 
-  constexpr std::size_t kNumEquipmentSlots = std::extent_v<EquipmentSlots_A>;
+  inventory_record = InventoryRecord_1_00();
 
-  const PositionalRectangle_T* actual_src_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_T*>(position);
-  const GridLayout_T* actual_src_grid_layout =
-      reinterpret_cast<const GridLayout_T*>(grid_layout);
-  const EquipmentLayout_T* actual_src_equipment_slots =
-      reinterpret_cast<const EquipmentLayout_T*>(equipment_slots);
+  std::visit(
+      [=](auto& actual_inventory_record) {
+        using InventoryRecord_T = std::remove_reference_t<
+            decltype(actual_inventory_record)
+        >;
+        using PositionalRectangle_T = std::remove_pointer_t<
+            decltype(InventoryRecord_T::position)
+        >;
+        using GridLayout_T = std::remove_pointer_t<
+            decltype(InventoryRecord_T::grid_layout)
+        >;
+        using EquipmentLayout_T = std::remove_extent_t<
+            decltype(InventoryRecord_T::equipment_slots)
+        >;
+        using EquipmentSlots_A = decltype(InventoryRecord_T::equipment_slots);
 
-  std::unique_ptr inventory_record = std::make_unique<InventoryRecord_T>();
+        constexpr std::size_t kNumEquipmentSlots =
+            std::extent_v<EquipmentSlots_A>;
 
-  inventory_record->position = *actual_src_positional_rectangle;
-  inventory_record->grid_layout = *actual_src_grid_layout;
+        const PositionalRectangle_T* actual_src_positional_rectangle =
+            reinterpret_cast<const PositionalRectangle_T*>(position);
+        const GridLayout_T* actual_src_grid_layout =
+            reinterpret_cast<const GridLayout_T*>(grid_layout);
+        const EquipmentLayout_T* actual_src_equipment_slots =
+            reinterpret_cast<const EquipmentLayout_T*>(equipment_slots);
 
-  std::copy_n(
-      actual_src_equipment_slots,
-      kNumEquipmentSlots,
-      inventory_record->equipment_slots
+        actual_inventory_record.position = *actual_src_positional_rectangle;
+        actual_inventory_record.grid_layout = *actual_src_grid_layout;
+
+        std::copy_n(
+            actual_src_equipment_slots,
+            kNumEquipmentSlots,
+            actual_inventory_record.equipment_slots
+        );
+      },
+      inventory_record
   );
 
   return inventory_record;
-}
 
 } // namespace
 
@@ -101,11 +111,7 @@ InventoryRecord_Api::InventoryRecord_Api(
     GridLayout_View grid_layout,
     EquipmentLayout_View equipment_slots
 ) : inventory_record_(
-        CreateVariant(
-            position.Get(),
-            grid_layout.Get(),
-            equipment_slots.Get()
-        )
+        CreateVariant(position.Get(), grid_layout.Get(), equipment_slots.Get())
     ) {
 }
 
@@ -155,10 +161,14 @@ InventoryRecord* InventoryRecord_Api::Get() noexcept {
 }
 
 const InventoryRecord* InventoryRecord_Api::Get() const noexcept {
-  auto& actual_inventory_record =
-      std::get<unique_ptr_1_00>(this->inventory_record_);
-
-  return reinterpret_cast<const InventoryRecord*>(actual_inventory_record.get());
+  return std::visit(
+      [](auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(
+            &actual_inventory_record
+        );
+      },
+      this->inventory_record_
+  );
 }
 
 PositionalRectangle* InventoryRecord_Api::GetPosition() noexcept {
@@ -196,18 +206,6 @@ InventoryRecord_Api::GetEquipmentSlots() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetEquipmentSlots();
-}
-
-InventoryRecord_Api::ptr_variant InventoryRecord_Api::CreateVariant(
-    const PositionalRectangle* position,
-    const GridLayout* grid_layout,
-    const EquipmentLayout* equipment_slots
-) {
-  return CreatePtr<InventoryRecord_1_00>(
-      position,
-      grid_layout,
-      equipment_slots
-  );
 }
 
 } // namespace d2

@@ -47,7 +47,6 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_API_HPP_
 
 #include <cstdint>
-#include <memory>
 #include <variant>
 
 #include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
@@ -98,12 +97,11 @@ class DLLEXPORT InventoryRecord_Api {
   const EquipmentLayout* GetEquipmentSlots() const noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<InventoryRecord_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
+  using ApiVariant = std::variant<InventoryRecord_1_00>;
 
-  ptr_variant inventory_record_;
+  ApiVariant inventory_record_;
 
-  static ptr_variant CreateVariant(
+  static ApiVariant CreateVariant(
       const PositionalRectangle* position,
       const GridLayout* grid_layout,
       const EquipmentLayout* equipment_slots
