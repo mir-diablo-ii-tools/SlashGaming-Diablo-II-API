@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
@@ -77,6 +78,8 @@ struct GridLayout;
   /* 0x16 */ std::uint8_t unused__to_align_0x22[2];
 };
 
+static_assert(std::is_standard_layout_v<GridLayout_1_00>);
+static_assert(std::is_trivial_v<GridLayout_1_00>);
 static_assert(sizeof(GridLayout_1_00) == 0x18);
 static_assert(offsetof(GridLayout_1_00, num_columns) == 0x00);
 static_assert(offsetof(GridLayout_1_00, num_rows) == 0x01);
