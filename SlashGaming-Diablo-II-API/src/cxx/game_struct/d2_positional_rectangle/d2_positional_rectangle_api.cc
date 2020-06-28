@@ -45,7 +45,6 @@
 
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_api.hpp"
 
-#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
