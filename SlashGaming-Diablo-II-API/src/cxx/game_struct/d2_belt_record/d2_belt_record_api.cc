@@ -52,74 +52,60 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
-
-template <typename BeltRecord_T>
-static std::unique_ptr<BeltRecord_T> CreatePtr(
-    mapi::Undefined* reserved_00__set_to_nullptr,
-    unsigned char num_slots,
-    const PositionalRectangle* slot_positions
-) {
-  using PositionalRectangle_T =
-      std::remove_extent_t<decltype(BeltRecord_T::slot_positions)>;
-  using SlotPositions_A = decltype(BeltRecord_T::slot_positions);
-
-  constexpr std::size_t kNumSlotPositions = std::extent_v<SlotPositions_A>;
-
-  const PositionalRectangle_T* actual_src_slot_positions =
-      reinterpret_cast<const PositionalRectangle_T*>(slot_positions);
-
-  std::unique_ptr belt_record = std::make_unique<BeltRecord_T>();
-
-  belt_record->unknown_0x00 = reserved_00__set_to_nullptr;
-  belt_record->num_slots = num_slots;
-
-  std::copy_n(
-      actual_src_slot_positions,
-      kNumSlotPositions,
-      belt_record->slot_positions
-  );
-
-  return belt_record;
-}
-
-} // namespace
 
 BeltRecord_Api::BeltRecord_Api(
     mapi::Undefined* reserved_00__set_to_nullptr,
     unsigned char num_slots,
     const PositionalRectangle* slot_positions
-) : belt_record_(
-        CreateVariant(
-            reserved_00__set_to_nullptr,
-            num_slots,
-            slot_positions
-        )
-    ) {
+) : belt_record_([=]() {
+      ApiVariant belt_record;
+
+      belt_record = BeltRecord_1_00();
+
+      std::visit(
+          [=](auto& actual_belt_record) {
+            using BeltRecord_T = std::remove_reference_t<
+                decltype(actual_belt_record)
+            >;
+            using PositionalRectangle_T =
+                std::remove_extent_t<decltype(BeltRecord_T::slot_positions)>;
+            using SlotPositions_A = decltype(BeltRecord_T::slot_positions);
+
+            constexpr std::size_t kNumSlotPositions =
+                std::extent_v<SlotPositions_A>;
+
+            const PositionalRectangle_T* actual_src_slot_positions =
+                reinterpret_cast<const PositionalRectangle_T*>(
+                    slot_positions
+                );
+
+            actual_belt_record.unknown_0x00 = reserved_00__set_to_nullptr;
+            actual_belt_record.num_slots = num_slots;
+
+            std::copy_n(
+                actual_src_slot_positions,
+                kNumSlotPositions,
+                actual_belt_record.slot_positions
+            );
+          },
+          belt_record
+      );
+
+      return belt_record;
+    }()) {
 }
 
 BeltRecord_Api::BeltRecord_Api(
     const BeltRecord_Api& other
-) : BeltRecord_Api(
-        nullptr,
-        other.GetNumSlots(),
-        other.GetSlotPositions()
-    ) {
-}
+) = default;
 
 BeltRecord_Api::BeltRecord_Api(BeltRecord_Api&& other) noexcept = default;
 
 BeltRecord_Api::~BeltRecord_Api() = default;
 
-BeltRecord_Api& BeltRecord_Api::operator=(const BeltRecord_Api& other) {
-  *this = BeltRecord_Api(
-      nullptr,
-      other.GetNumSlots(),
-      other.GetSlotPositions()
-  );
-
-  return *this;
-}
+BeltRecord_Api& BeltRecord_Api::operator=(
+    const BeltRecord_Api& other
+) = default;
 
 BeltRecord_Api& BeltRecord_Api::operator=(
     BeltRecord_Api&& other
@@ -140,10 +126,12 @@ BeltRecord* BeltRecord_Api::Get() noexcept {
 }
 
 const BeltRecord* BeltRecord_Api::Get() const noexcept {
-  auto& actual_belt_record =
-      std::get<unique_ptr_1_00>(this->belt_record_);
-
-  return reinterpret_cast<const BeltRecord*>(actual_belt_record.get());
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return reinterpret_cast<const BeltRecord*>(&actual_belt_record);
+      },
+      this->belt_record_
+  );
 }
 
 void BeltRecord_Api::Assign(BeltRecord_View src) noexcept {
@@ -158,7 +146,7 @@ unsigned char BeltRecord_Api::GetNumSlots() const noexcept {
   return view.GetNumSlots();
 }
 
-void BeltRecord_Api::SetNumSlots(std::int_least8_t num_slots) noexcept {
+void BeltRecord_Api::SetNumSlots(unsigned char num_slots) noexcept {
   BeltRecord_Wrapper wrapper(this->Get());
 
   return wrapper.SetNumSlots(num_slots);
@@ -174,18 +162,6 @@ const PositionalRectangle* BeltRecord_Api::GetSlotPositions() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetSlotPositions();
-}
-
-BeltRecord_Api::ptr_variant BeltRecord_Api::CreateVariant(
-    mapi::Undefined* reserved_00__set_to_nullptr,
-    std::int_least8_t num_slots,
-    const PositionalRectangle* slot_positions
-) {
-  return CreatePtr<BeltRecord_1_00>(
-      nullptr,
-      num_slots,
-      slot_positions
-  );
 }
 
 } // namespace d2

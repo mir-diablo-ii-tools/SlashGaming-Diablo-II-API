@@ -46,12 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_API_HPP_
 
-#include <cstdint>
 #include <cstddef>
-#include <memory>
 #include <variant>
 
 #include "../../game_undefined.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_belt_record_struct.hpp"
 #include "d2_belt_record_view.hpp"
 #include "d2_belt_record_wrapper.hpp"
@@ -86,22 +85,15 @@ class DLLEXPORT BeltRecord_Api {
   void Assign(BeltRecord_View src) noexcept;
 
   unsigned char GetNumSlots() const noexcept;
-  void SetNumSlots(std::int_least8_t num_slots) noexcept;
+  void SetNumSlots(unsigned char num_slots) noexcept;
 
   PositionalRectangle* GetSlotPositions() noexcept;
   const PositionalRectangle* GetSlotPositions() const noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<BeltRecord_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
+  using ApiVariant = std::variant<BeltRecord_1_00>;
 
-  static ptr_variant CreateVariant(
-      mapi::Undefined* reserved_00__set_to_nullptr,
-      std::int_least8_t num_slots,
-      const PositionalRectangle* slot_positions
-  );
-
-  ptr_variant belt_record_;
+  ApiVariant belt_record_;
 };
 
 } // namespace d2
