@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_mpq_archive_struct.hpp"
 #include "d2_mpq_archive_view.hpp"
@@ -58,7 +59,7 @@ namespace d2 {
 class DLLEXPORT MpqArchive_Wrapper {
  public:
   MpqArchive_Wrapper() = delete;
-  MpqArchive_Wrapper(MpqArchive* ptr) noexcept;
+  MpqArchive_Wrapper(MpqArchive* mpq_archive) noexcept;
 
   MpqArchive_Wrapper(const MpqArchive_Wrapper& other) noexcept;
   MpqArchive_Wrapper(MpqArchive_Wrapper&& other) noexcept;
@@ -79,7 +80,9 @@ class DLLEXPORT MpqArchive_Wrapper {
   const MpqArchive* Get() const noexcept;
 
  private:
-  MpqArchive* mpq_archive_;
+  using WrapperVariant = std::variant<MpqArchive_1_00*>;
+
+  WrapperVariant mpq_archive_;
 };
 
 } // namespace d2
