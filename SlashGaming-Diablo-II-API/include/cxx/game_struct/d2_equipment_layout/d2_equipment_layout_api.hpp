@@ -95,16 +95,9 @@ class DLLEXPORT EquipmentLayout_Api {
   void SetHeight(unsigned char height) noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<EquipmentLayout_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
+  using ApiVariant = std::variant<EquipmentLayout_1_00>;
 
-  ptr_variant equipment_layout_;
-
-  static ptr_variant CreateVariant(
-      const PositionalRectangle* position,
-      unsigned char width,
-      unsigned char height
-  );
+  ApiVariant equipment_layout_;
 };
 
 } // namespace d2
