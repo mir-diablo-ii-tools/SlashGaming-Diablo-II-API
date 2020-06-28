@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../../game_undefined.hpp"
 
@@ -75,6 +76,8 @@ struct CelFile;
   /* 0x18 */ mapi::UndefinedByte cels[0]; // This field gives the struct variable length.
 };
 
+static_assert(std::is_standard_layout_v<CelFile_1_00>);
+static_assert(std::is_trivial_v<CelFile_1_00>);
 static_assert(sizeof(CelFile_1_00) >= 0x18);
 static_assert(offsetof(CelFile_1_00, version) == 0x00);
 static_assert(offsetof(CelFile_1_00, num_directions) == 0x10);
