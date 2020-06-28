@@ -48,41 +48,15 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
-
-template <typename CelContext_T>
-static std::unique_ptr<CelContext_T> CreatePtr(
-    CelFile* cel_file,
-    unsigned int direction,
-    unsigned int frame
-) {
-  using CelFile_T = std::remove_pointer_t<decltype(CelContext_T::cel_file)>;
-
-  std::unique_ptr cel_context = std::make_unique<CelContext_T>();
-
-  cel_context->cel_file = reinterpret_cast<CelFile_T*>(cel_file);
-  cel_context->direction = direction;
-  cel_context->frame = frame;
-
-  return cel_context;
-}
-
-} // namespace
 
 CelContext_Api::CelContext_Api(
-    CelFile* cel_file,
+    CelFile_Wrapper cel_file,
     unsigned int direction,
     unsigned int frame
-) : cel_context_(CreateVariant(cel_file, direction, frame)) {
+) : cel_context_(CreateVariant(cel_file.Get(), direction, frame)) {
 }
 
-CelContext_Api::CelContext_Api(const CelContext_Api& other) :
-    CelContext_Api(
-        const_cast<CelFile*>(other.GetCelFile()),
-        other.GetDirection(),
-        other.GetFrame()
-    ) {
-}
+CelContext_Api::CelContext_Api(const CelContext_Api& other) = default;
 
 CelContext_Api::CelContext_Api(CelContext_Api&& other) noexcept = default;
 
@@ -90,11 +64,7 @@ CelContext_Api::~CelContext_Api() = default;
 
 CelContext_Api& CelContext_Api::operator=(
     const CelContext_Api& other
-) {
-  *this = CelContext_Api(other);
-
-  return *this;
-}
+) = default;
 
 CelContext_Api& CelContext_Api::operator=(
     CelContext_Api&& other
@@ -115,21 +85,12 @@ CelContext* CelContext_Api::Get() noexcept {
 }
 
 const CelContext* CelContext_Api::Get() const noexcept {
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
-
-  if (running_game_version <= d2::GameVersion::k1_10) {
-    auto& cel_context = std::get<unique_ptr_1_00>(this->cel_context_);
-
-    return reinterpret_cast<CelContext*>(cel_context.get());
-  } else if (running_game_version == GameVersion::k1_12A) {
-    auto& cel_context = std::get<unique_ptr_1_12A>(this->cel_context_);
-
-    return reinterpret_cast<CelContext*>(cel_context.get());
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
-    auto& cel_context = std::get<unique_ptr_1_13C>(this->cel_context_);
-
-    return reinterpret_cast<CelContext*>(cel_context.get());
-  }
+  return std::visit(
+      [](const auto& actual_cel_context) {
+        return reinterpret_cast<const CelContext*>(&actual_cel_context);
+      },
+      this->cel_context_
+  );
 }
 
 void CelContext_Api::Assign(CelContext_View src) {
@@ -202,20 +163,41 @@ void CelContext_Api::SetFrame(unsigned int frame) noexcept {
   wrapper.SetFrame(frame);
 }
 
-CelContext_Api::ptr_variant CelContext_Api::CreateVariant(
+CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
     CelFile* cel_file,
     unsigned int direction,
     unsigned int frame
 ) {
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+  ApiVariant cel_context;
+
+  GameVersion running_game_version = GetRunningGameVersionId();
 
   if (running_game_version <= d2::GameVersion::k1_10) {
-    return CreatePtr<CelContext_1_00>(cel_file, direction, frame);
+    cel_context = CelContext_1_00();
   } else if (running_game_version == GameVersion::k1_12A) {
-    return CreatePtr<CelContext_1_12A>(cel_file, direction, frame);
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
-    return CreatePtr<CelContext_1_13C>(cel_file, direction, frame);
+    cel_context = CelContext_1_12A();
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
+    cel_context = CelContext_1_13C();
   }
+
+  std::visit(
+      [cel_file, direction, frame](auto& actual_cel_context) {
+        using CelContext_T = std::remove_reference_t<
+            decltype(actual_cel_context)
+        >;
+        using CelFile_T = std::remove_pointer_t<
+            decltype(CelContext_T::cel_file)
+        >;
+
+        actual_cel_context.cel_file =
+            reinterpret_cast<CelFile_T*>(cel_file);
+        actual_cel_context.direction = direction;
+        actual_cel_context.frame = frame;
+      },
+      cel_context
+  );
+
+  return cel_context;
 }
 
 } // namespace d2

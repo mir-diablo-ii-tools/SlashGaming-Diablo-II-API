@@ -46,12 +46,12 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
 
-#include <memory>
 #include <variant>
 
 #include "../../../../include/cxx/helper/d2_draw_options.hpp"
 #include "../d2_cel/d2_cel_struct.hpp"
 #include "../d2_cel_file/d2_cel_file_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_wrapper.hpp"
 #include "d2_cel_context_struct.hpp"
 #include "d2_cel_context_view.hpp"
 #include "d2_cel_context_wrapper.hpp"
@@ -64,7 +64,7 @@ class DLLEXPORT CelContext_Api {
  public:
   CelContext_Api() = delete;
   CelContext_Api(
-      CelFile* cel_file,
+      CelFile_Wrapper cel_file,
       unsigned int direction,
       unsigned int frame
   );
@@ -106,19 +106,15 @@ class DLLEXPORT CelContext_Api {
   void SetFrame(unsigned int frame) noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<CelContext_1_00>;
-  using unique_ptr_1_12A = std::unique_ptr<CelContext_1_12A>;
-  using unique_ptr_1_13C = std::unique_ptr<CelContext_1_13C>;
-
-  using ptr_variant = std::variant<
-      unique_ptr_1_00,
-      unique_ptr_1_12A,
-      unique_ptr_1_13C
+  using ApiVariant = std::variant<
+      CelContext_1_00,
+      CelContext_1_12A,
+      CelContext_1_13C
   >;
 
-  ptr_variant cel_context_;
+  ApiVariant cel_context_;
 
-  static ptr_variant CreateVariant(
+  static ApiVariant CreateVariant(
       CelFile* cel_file,
       unsigned int direction,
       unsigned int frame
