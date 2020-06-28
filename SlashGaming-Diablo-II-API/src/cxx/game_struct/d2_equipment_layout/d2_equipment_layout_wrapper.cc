@@ -50,7 +50,11 @@ namespace d2 {
 EquipmentLayout_Wrapper::EquipmentLayout_Wrapper(
     EquipmentLayout* equipment_layout
 ) noexcept :
-    equipment_layout_(equipment_layout) {
+    equipment_layout_([equipment_layout]() {
+      return reinterpret_cast<EquipmentLayout_1_00*>(
+          equipment_layout
+      );
+    }()) {
 }
 
 EquipmentLayout_Wrapper::EquipmentLayout_Wrapper(
@@ -98,16 +102,30 @@ EquipmentLayout* EquipmentLayout_Wrapper::Get() noexcept {
 }
 
 const EquipmentLayout* EquipmentLayout_Wrapper::Get() const noexcept {
-  return this->equipment_layout_;
+  return std::visit(
+      [](auto& actual_equipment_layout) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            actual_equipment_layout
+        );
+      },
+      this->equipment_layout_
+  );
 }
 
 void EquipmentLayout_Wrapper::Assign(EquipmentLayout_View src) noexcept {
-  EquipmentLayout_1_00* actual_dest =
-      reinterpret_cast<EquipmentLayout_1_00*>(this->Get());
-  const EquipmentLayout_1_00* actual_src =
-      reinterpret_cast<const EquipmentLayout_1_00*>(src.Get());
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  *actual_dest = *actual_src;
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+        *actual_dest = *actual_src;
+      },
+      this->equipment_layout_
+  );
 }
 
 PositionalRectangle* EquipmentLayout_Wrapper::GetPosition() noexcept {
@@ -129,9 +147,12 @@ unsigned char EquipmentLayout_Wrapper::GetWidth() const noexcept {
 }
 
 void EquipmentLayout_Wrapper::SetWidth(unsigned char width) noexcept {
-  auto* actual_ptr = reinterpret_cast<EquipmentLayout_1_00*>(this->Get());
-
-  actual_ptr->width = width;
+  std::visit(
+      [width](auto& actual_equipment_layout) {
+        actual_equipment_layout->width = width;
+      },
+      this->equipment_layout_
+  );
 }
 
 unsigned char EquipmentLayout_Wrapper::GetHeight() const noexcept {
@@ -141,9 +162,12 @@ unsigned char EquipmentLayout_Wrapper::GetHeight() const noexcept {
 }
 
 void EquipmentLayout_Wrapper::SetHeight(unsigned char height) noexcept {
-  auto* actual_ptr = reinterpret_cast<EquipmentLayout_1_00*>(this->Get());
-
-  actual_ptr->height = height;
+  std::visit(
+      [height](auto& actual_equipment_layout) {
+        actual_equipment_layout->height = height;
+      },
+      this->equipment_layout_
+  );
 }
 
 } // namespace d2

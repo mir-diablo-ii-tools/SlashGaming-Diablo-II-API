@@ -47,8 +47,8 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_WRAPPER_HPP_
 
 #include <cstddef>
-#include <cstdint>
 
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_equipment_layout_struct.hpp"
 #include "d2_equipment_layout_view.hpp"
 
@@ -93,7 +93,9 @@ class DLLEXPORT EquipmentLayout_Wrapper {
   void SetHeight(unsigned char height) noexcept;
 
  private:
-  EquipmentLayout* equipment_layout_;
+  using WrapperVariant = std::variant<EquipmentLayout_1_00*>;
+
+  WrapperVariant equipment_layout_;
 };
 
 } // namespace d2
