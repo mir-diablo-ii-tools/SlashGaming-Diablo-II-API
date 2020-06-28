@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
 #include "d2_mpq_archive_handle_struct.hpp"
@@ -91,7 +92,9 @@ class DLLEXPORT MpqArchiveHandle_Wrapper {
   const char* GetMpqArchivePath() const noexcept;
 
  private:
-  MpqArchiveHandle* mpq_archive_handle_;
+  using WrapperVariant = std::variant<MpqArchiveHandle_1_00*>;
+
+  WrapperVariant mpq_archive_handle_;
 };
 
 } // namespace d2

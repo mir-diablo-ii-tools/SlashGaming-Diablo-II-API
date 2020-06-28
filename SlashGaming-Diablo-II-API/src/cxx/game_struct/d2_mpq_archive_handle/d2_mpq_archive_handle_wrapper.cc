@@ -50,7 +50,11 @@ namespace d2 {
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
     MpqArchiveHandle* mpq_archive_handle
 ) noexcept :
-    mpq_archive_handle_(mpq_archive_handle) {
+    mpq_archive_handle_([mpq_archive_handle]() {
+      return reinterpret_cast<MpqArchiveHandle_1_00*>(
+          mpq_archive_handle
+      );
+    }()) {
 }
 
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
@@ -98,7 +102,14 @@ MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() noexcept {
 }
 
 const MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() const noexcept {
-  return this->mpq_archive_handle_;
+  return std::visit(
+      [](auto& actual_mpq_archive_handle) {
+        return reinterpret_cast<const MpqArchiveHandle*>(
+            &actual_mpq_archive_handle
+        );
+      },
+      this->mpq_archive_handle_
+  );
 }
 
 MpqArchive* MpqArchiveHandle_Wrapper::GetMpqArchive() noexcept {
@@ -116,13 +127,20 @@ const MpqArchive* MpqArchiveHandle_Wrapper::GetMpqArchive() const noexcept {
 void MpqArchiveHandle_Wrapper::SetMpqArchive(
     MpqArchive* mpq_archive
 ) noexcept {
-  auto* actual_mpq_archive_handle = reinterpret_cast<MpqArchiveHandle_1_00*>(
-      this->Get()
+  std::visit(
+      [mpq_archive](auto& actual_mpq_archive_handle) {
+        using MpqArchiveHandle_T = std::remove_pointer_t<
+            std::remove_reference_t<decltype(actual_mpq_archive_handle)>
+        >;
+        using MpqArchive_T = std::remove_pointer_t<
+            decltype(MpqArchiveHandle_T::mpq_archive)
+        >;
+
+        actual_mpq_archive_handle->mpq_archive =
+            reinterpret_cast<MpqArchive_T*>(mpq_archive);
+      },
+      this->mpq_archive_handle_
   );
-
-  auto* actual_mpq_archive = reinterpret_cast<MpqArchive_1_00*>(mpq_archive);
-
-  actual_mpq_archive_handle->mpq_archive = actual_mpq_archive;
 }
 
 char* MpqArchiveHandle_Wrapper::GetMpqArchivePath() noexcept {
