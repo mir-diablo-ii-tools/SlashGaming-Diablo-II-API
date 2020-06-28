@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "../../helper/d2_draw_options.hpp"
 #include "../d2_cel/d2_cel_struct.hpp"
@@ -60,7 +61,7 @@ namespace d2 {
 class DLLEXPORT CelFile_Wrapper {
  public:
   CelFile_Wrapper() = delete;
-  CelFile_Wrapper(CelFile* ptr) noexcept;
+  CelFile_Wrapper(CelFile* cel_file) noexcept;
 
   CelFile_Wrapper(const CelFile_Wrapper& other) noexcept;
   CelFile_Wrapper(CelFile_Wrapper&& other) noexcept;
@@ -120,7 +121,9 @@ class DLLEXPORT CelFile_Wrapper {
   void SetNumFrames(unsigned int num_frames) noexcept;
 
  private:
-  CelFile* cel_file_;
+  using WrapperVariant = std::variant<CelFile_1_00*>;
+
+  WrapperVariant cel_file_;
 };
 
 } // namespace d2

@@ -60,7 +60,9 @@ namespace d2 {
 CelFile_Wrapper::CelFile_Wrapper(
     CelFile* cel_file
 ) noexcept :
-    cel_file_(cel_file) {
+    cel_file_([cel_file]() {
+      return reinterpret_cast<CelFile_1_00*>(cel_file);
+    }()) {
 }
 
 CelFile_Wrapper::CelFile_Wrapper(
@@ -104,7 +106,14 @@ CelFile* CelFile_Wrapper::Get() noexcept {
 }
 
 const CelFile* CelFile_Wrapper::Get() const noexcept {
-  return this->cel_file_;
+  return std::visit(
+      [](const auto& actual_cel_file) {
+        return reinterpret_cast<const CelFile*>(
+            actual_cel_file
+        );
+      },
+      this->cel_file_
+  );
 }
 
 bool CelFile_Wrapper::DrawFrame(
@@ -307,39 +316,48 @@ Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
 }
 
 unsigned int CelFile_Wrapper::GetVersion() const noexcept {
-  CelFile_View view(*this);
+  CelFile_View view(this->Get());
 
   return view.GetVersion();
 }
 
 void CelFile_Wrapper::SetVersion(unsigned int version) noexcept {
-  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
-
-  actual_cel_file->version = version;
+  std::visit(
+      [version](auto& actual_cel_file) {
+        actual_cel_file->version = version;
+      },
+      this->cel_file_
+  );
 }
 
 unsigned int CelFile_Wrapper::GetNumDirections() const noexcept {
-  CelFile_View view(*this);
+  CelFile_View view(this->Get());
 
   return view.GetNumDirections();
 }
 
 void CelFile_Wrapper::SetNumDirections(unsigned int num_directions) noexcept {
-  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
-
-  actual_cel_file->num_directions = num_directions;
+  std::visit(
+      [num_directions](auto& actual_cel_file) {
+        actual_cel_file->num_directions = num_directions;
+      },
+      this->cel_file_
+  );
 }
 
 unsigned int CelFile_Wrapper::GetNumFrames() const noexcept {
-  CelFile_View view(*this);
+  CelFile_View view(this->Get());
 
   return view.GetNumFrames();
 }
 
 void CelFile_Wrapper::SetNumFrames(unsigned int num_frames) noexcept {
-  auto actual_cel_file = reinterpret_cast<CelFile_1_00*>(this->Get());
-
-  actual_cel_file->num_frames = num_frames;
+  std::visit(
+      [num_frames](auto& actual_cel_file) {
+        actual_cel_file->num_frames = num_frames;
+      },
+      this->cel_file_
+  );
 }
 
 } // namespace d2
