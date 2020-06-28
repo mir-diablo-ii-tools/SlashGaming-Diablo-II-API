@@ -50,7 +50,9 @@ namespace d2 {
 CelFile_View::CelFile_View(
     const CelFile* cel_file
 ) noexcept :
-    cel_file_(cel_file) {
+    cel_file_([cel_file]() {
+      return reinterpret_cast<const CelFile_1_00*>(cel_file);
+    }()) {
 }
 
 CelFile_View::CelFile_View(
@@ -72,35 +74,48 @@ CelFile_View& CelFile_View::operator=(
 ) noexcept = default;
 
 CelFile_View CelFile_View::operator[](std::size_t index) const noexcept {
-  const auto* actual_cel_file =
-      reinterpret_cast<const CelFile_1_00*>(this->Get());
-
-  return reinterpret_cast<const CelFile*>(&actual_cel_file[index]);
+  return std::visit(
+      [index](const auto& actual_cel_file) {
+        return reinterpret_cast<const CelFile*>(&actual_cel_file[index]);
+      },
+      this->cel_file_
+  );
 }
 
 const CelFile* CelFile_View::Get() const noexcept {
-  return this->cel_file_;
+  return std::visit(
+      [](const auto& actual_cel_file) {
+        return reinterpret_cast<const CelFile*>(actual_cel_file);
+      },
+      this->cel_file_
+  );
 }
 
 unsigned int CelFile_View::GetVersion() const noexcept {
-  const auto* actual_cel_file =
-      reinterpret_cast<const CelFile_1_00*>(this->Get());
-
-  return actual_cel_file->version;
+  return std::visit(
+      [](const auto& actual_cel_file) {
+        return actual_cel_file->version;
+      },
+      this->cel_file_
+  );
 }
 
 unsigned int CelFile_View::GetNumDirections() const noexcept {
-  const auto* actual_cel_file =
-      reinterpret_cast<const CelFile_1_00*>(this->Get());
-
-  return actual_cel_file->num_directions;
+  return std::visit(
+      [](const auto& actual_cel_file) {
+        return actual_cel_file->num_directions;
+      },
+      this->cel_file_
+  );
 }
 
 unsigned int CelFile_View::GetNumFrames() const noexcept {
-  const auto* actual_cel_file =
-      reinterpret_cast<const CelFile_1_00*>(this->Get());
-
-  return actual_cel_file->num_frames;
+  return std::visit(
+      [](const auto& actual_cel_file) {
+        return actual_cel_file->num_frames;
+      },
+      this->cel_file_
+  );
 }
 
 } // namespace d2

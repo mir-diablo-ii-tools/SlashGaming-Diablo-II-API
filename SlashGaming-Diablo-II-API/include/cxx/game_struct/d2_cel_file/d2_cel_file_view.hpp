@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_VIEW_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_cel_file_struct.hpp"
 
@@ -76,7 +77,9 @@ class DLLEXPORT CelFile_View {
   unsigned int GetNumFrames() const noexcept;
 
  private:
-  const CelFile* cel_file_;
+  using ViewVariant = std::variant<const CelFile_1_00*>;
+
+  ViewVariant cel_file_;
 };
 
 } // namespace d2
