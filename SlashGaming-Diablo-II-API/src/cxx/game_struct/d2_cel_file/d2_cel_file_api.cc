@@ -49,9 +49,6 @@
 #include "../../../../include/cxx/game_function/d2win/d2win_unload_cel_file.hpp"
 
 namespace d2 {
-namespace {
-
-} // namespace
 
 CelFile_Api::CelFile_Api() :
     cel_file_(nullptr),
@@ -67,8 +64,8 @@ CelFile_Api::CelFile_Api(
 }
 
 CelFile_Api::CelFile_Api(CelFile_Api&& other) noexcept :
-    cel_file_(other.cel_file_),
-    is_open_(other.is_open_) {
+    cel_file_(std::move(other.cel_file_)),
+    is_open_(std::move(other.is_open_)) {
   other.cel_file_ = nullptr;
   other.is_open_ = false;
 }
@@ -98,9 +95,12 @@ CelFile* CelFile_Api::Get() noexcept {
 }
 
 const CelFile* CelFile_Api::Get() const noexcept {
-  auto* actual_cel_file = std::get<CelFile_1_00*>(this->cel_file_);
-
-  return reinterpret_cast<CelFile*>(actual_cel_file);
+  return std::visit(
+      [](const auto& actual_cel_file) {
+        return reinterpret_cast<const CelFile*>(actual_cel_file);
+      },
+      this->cel_file_
+  );
 }
 
 void CelFile_Api::Close() {
@@ -223,7 +223,7 @@ unsigned int CelFile_Api::GetNumFrames() const noexcept {
   return view.GetNumFrames();
 }
 
-CelFile_Api::ptr_variant CelFile_Api::CreateVariant(
+CelFile_Api::ApiVariant CelFile_Api::CreateVariant(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6
 ) {
