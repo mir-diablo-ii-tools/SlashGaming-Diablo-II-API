@@ -47,7 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_STRUCT_HPP_
 
 #include <cstddef>
-#include <cstdint>
+#include <type_traits>
 
 #include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
 #include "../d2_grid_layout/d2_grid_layout_struct.hpp"
@@ -75,6 +75,8 @@ struct InventoryRecord;
   /* 0x28 */ EquipmentLayout_1_00 equipment_slots[10];
 };
 
+static_assert(std::is_standard_layout_v<InventoryRecord_1_00>);
+static_assert(std::is_trivial_v<InventoryRecord_1_00>);
 static_assert(sizeof(InventoryRecord_1_00) == 0xF0);
 static_assert(offsetof(InventoryRecord_1_00, position) == 0x00);
 static_assert(offsetof(InventoryRecord_1_00, grid_layout) == 0x10);
