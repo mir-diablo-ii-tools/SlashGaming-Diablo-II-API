@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../../game_undefined.hpp"
 
@@ -76,6 +77,8 @@ struct Cel;
   /* 0x10 */ std::int32_t offset_y;
 };
 
+static_assert(std::is_standard_layout_v<Cel_1_00>);
+static_assert(std::is_trivial_v<Cel_1_00>);
 static_assert(sizeof(Cel_1_00) >= 0x14);
 static_assert(offsetof(Cel_1_00, width) == 0x04);
 static_assert(offsetof(Cel_1_00, height) == 0x08);
