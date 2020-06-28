@@ -49,27 +49,6 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
-
-template <typename PositionalRectangle_T>
-static std::unique_ptr<PositionalRectangle_T> CreatePtr(
-    int left,
-    int right,
-    int top,
-    int bottom
-) {
-  std::unique_ptr positional_rectangle =
-      std::make_unique<PositionalRectangle_T>();
-
-  positional_rectangle->left = left;
-  positional_rectangle->right = right;
-  positional_rectangle->top = top;
-  positional_rectangle->bottom = bottom;
-
-  return positional_rectangle;
-}
-
-} // namespace
 
 PositionalRectangle_Api::PositionalRectangle_Api() :
     PositionalRectangle_Api(0, 0, 0, 0) {
@@ -80,18 +59,28 @@ PositionalRectangle_Api::PositionalRectangle_Api(
     int right,
     int top,
     int bottom
-) : positional_rectangle_(CreateVariant(left, right, top, bottom)) {
+) : positional_rectangle_([left, right, top, bottom]() {
+      ApiVariant positional_rectangle;
+
+      positional_rectangle = PositionalRectangle_1_00();
+
+      std::visit(
+          [left, right, top, bottom](auto& actual_positional_rectangle) {
+            actual_positional_rectangle.left = left;
+            actual_positional_rectangle.right = right;
+            actual_positional_rectangle.top = top;
+            actual_positional_rectangle.bottom = bottom;
+          },
+          positional_rectangle
+      );
+
+      return positional_rectangle;
+    }()) {
 }
 
 PositionalRectangle_Api::PositionalRectangle_Api(
     const PositionalRectangle_Api& other
-) : PositionalRectangle_Api(
-        other.GetLeft(),
-        other.GetRight(),
-        other.GetTop(),
-        other.GetBottom()
-    ) {
-}
+) = default;
 
 PositionalRectangle_Api::PositionalRectangle_Api(
     PositionalRectangle_Api&& other
@@ -101,11 +90,7 @@ PositionalRectangle_Api::~PositionalRectangle_Api() = default;
 
 PositionalRectangle_Api& PositionalRectangle_Api::operator=(
     const PositionalRectangle_Api& other
-) {
-  *this = PositionalRectangle_Api(other);
-
-  return *this;
-}
+) = default;
 
 PositionalRectangle_Api& PositionalRectangle_Api::operator=(
     PositionalRectangle_Api&& other
@@ -120,16 +105,25 @@ PositionalRectangle_Api::operator PositionalRectangle_Wrapper() noexcept {
 }
 
 PositionalRectangle* PositionalRectangle_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->Get());
+  return std::visit(
+      [](auto& actual_positional_rectangle) {
+        return reinterpret_cast<PositionalRectangle*>(
+            &actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
 const PositionalRectangle* PositionalRectangle_Api::Get() const noexcept {
-  auto& actual_positional_rectangle =
-      std::get<unique_ptr_1_00>(this->positional_rectangle_);
-
-  return reinterpret_cast<const PositionalRectangle*>(actual_positional_rectangle.get());
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
 void PositionalRectangle_Api::Assign(PositionalRectangle_View src) noexcept {
@@ -184,15 +178,6 @@ void PositionalRectangle_Api::SetBottom(int bottom) noexcept {
   PositionalRectangle_Wrapper wrapper(this->Get());
 
   return wrapper.SetBottom(bottom);
-}
-
-PositionalRectangle_Api::ptr_variant PositionalRectangle_Api::CreateVariant(
-    int left,
-    int right,
-    int top,
-    int bottom
-) {
-  return CreatePtr<PositionalRectangle_1_00>(left, right, top, bottom);
 }
 
 } // namespace d2
