@@ -48,6 +48,7 @@
 
 #include <windows.h>
 #include <cstddef>
+#include <type_traits>
 
 #include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
 
@@ -72,6 +73,8 @@ struct MpqArchiveHandle;
   /* 0x4 */ char mpq_archive_path[/* 0x104, 260 */ MAX_PATH];
 };
 
+static_assert(std::is_standard_layout_v<MpqArchiveHandle_1_00>);
+static_assert(std::is_trivial_v<MpqArchiveHandle_1_00>);
 static_assert(sizeof(MpqArchiveHandle_1_00) >= 0x108);
 static_assert(offsetof(MpqArchiveHandle_1_00, mpq_archive) == 0x00);
 static_assert(offsetof(MpqArchiveHandle_1_00, mpq_archive_path) == 0x04);
