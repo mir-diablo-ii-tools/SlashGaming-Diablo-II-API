@@ -118,11 +118,13 @@ MpqArchiveHandle* MpqArchiveHandle_Api::Get() noexcept {
 }
 
 const MpqArchiveHandle* MpqArchiveHandle_Api::Get() const noexcept {
-  auto& actual_mpq_archive_handle =
-      std::get<unique_ptr_1_00>(this->mpq_archive_handle_);
-
-  return reinterpret_cast<const MpqArchiveHandle*>(
-      actual_mpq_archive_handle.get()
+  return std::visit(
+      [](const auto& actual_mpq_archive_handle) {
+        return reinterpret_cast<const MpqArchiveHandle*>(
+            actual_mpq_archive_handle
+        );
+      },
+      this->mpq_archive_handle_
   );
 }
 
@@ -181,7 +183,7 @@ const char* MpqArchiveHandle_Api::GetMpqArchivePath() const noexcept {
   return view.GetMpqArchivePath();
 }
 
-MpqArchiveHandle_Api::ptr_variant MpqArchiveHandle_Api::CreateVariant(
+MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
     std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
@@ -196,9 +198,7 @@ MpqArchiveHandle_Api::ptr_variant MpqArchiveHandle_Api::CreateVariant(
 
   d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
 
-  return unique_ptr_1_00(
-      reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle)
-  );
+  return reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle);
 }
 
 } // namespace d2

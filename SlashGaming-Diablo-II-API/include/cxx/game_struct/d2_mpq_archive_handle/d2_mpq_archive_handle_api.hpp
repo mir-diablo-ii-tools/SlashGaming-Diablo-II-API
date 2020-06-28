@@ -106,14 +106,13 @@ class DLLEXPORT MpqArchiveHandle_Api {
   const char* GetMpqArchivePath() const noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<MpqArchiveHandle_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
+  using ApiVariant = std::variant<MpqArchiveHandle_1_00*>;
 
-  ptr_variant mpq_archive_handle_;
+  ApiVariant mpq_archive_handle_;
 
   bool is_open_;
 
-  static ptr_variant CreateVariant(
+  ApiVariant CreateVariant(
       std::string_view mpq_archive_path,
       bool is_set_error_on_drive_query_fail,
       void* (*on_fail_callback)(),
