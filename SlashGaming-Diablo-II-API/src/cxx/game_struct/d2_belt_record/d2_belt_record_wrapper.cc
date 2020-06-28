@@ -50,7 +50,9 @@ namespace d2 {
 BeltRecord_Wrapper::BeltRecord_Wrapper(
     BeltRecord* belt_record
 ) noexcept :
-    belt_record_(belt_record) {
+    belt_record_([belt_record]() {
+      return reinterpret_cast<BeltRecord_1_00*>(belt_record);
+    }()) {
 }
 
 BeltRecord_Wrapper::BeltRecord_Wrapper(
@@ -92,22 +94,37 @@ BeltRecord_Wrapper::operator BeltRecord_View() const noexcept {
 }
 
 BeltRecord* BeltRecord_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<BeltRecord*>(const_this->Get());
+  return std::visit(
+      [](auto& actual_belt_record) {
+        return reinterpret_cast<BeltRecord*>(actual_belt_record);
+      },
+      this->belt_record_
+  );
 }
 
 const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
-  return this->belt_record_;
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return reinterpret_cast<const BeltRecord*>(actual_belt_record);
+      },
+      this->belt_record_
+  );
 }
 
 void BeltRecord_Wrapper::Assign(BeltRecord_View src) noexcept {
-  BeltRecord_1_00* actual_dest =
-      reinterpret_cast<BeltRecord_1_00*>(this->Get());
-  const BeltRecord_1_00* actual_src =
-      reinterpret_cast<const BeltRecord_1_00*>(this->Get());
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  *actual_dest = *actual_src;
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+        *actual_dest = *actual_src;
+      },
+      this->belt_record_
+  );
 }
 
 unsigned char BeltRecord_Wrapper::GetNumSlots() const noexcept {
@@ -117,9 +134,12 @@ unsigned char BeltRecord_Wrapper::GetNumSlots() const noexcept {
 }
 
 void BeltRecord_Wrapper::SetNumSlots(unsigned char num_slots) noexcept {
-  auto* actual_ptr = reinterpret_cast<BeltRecord_1_00*>(this->Get());
-
-  actual_ptr->num_slots = num_slots;
+  std::visit(
+      [num_slots](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->num_slots = num_slots;
+      },
+      this->belt_record_
+  );
 }
 
 PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() noexcept {

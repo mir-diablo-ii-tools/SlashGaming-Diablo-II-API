@@ -47,7 +47,6 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_WRAPPER_HPP_
 
 #include <cstddef>
-#include <cstdint>
 
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_belt_record_struct.hpp"
@@ -87,7 +86,9 @@ class DLLEXPORT BeltRecord_Wrapper {
   const PositionalRectangle* GetSlotPositions() const noexcept;
 
  private:
-  BeltRecord* belt_record_;
+  using WrapperVariant = std::variant<BeltRecord_1_00*>;
+
+  WrapperVariant belt_record_;
 };
 
 } // namespace d2
