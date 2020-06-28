@@ -48,7 +48,9 @@
 namespace d2 {
 
 GridLayout_View::GridLayout_View(const GridLayout* grid_layout) noexcept :
-    grid_layout_(grid_layout) {
+    grid_layout_([grid_layout]() {
+      return reinterpret_cast<const GridLayout_1_00*>(grid_layout);
+    }()) {
 }
 
 GridLayout_View::GridLayout_View(
@@ -72,49 +74,70 @@ GridLayout_View& GridLayout_View::operator=(
 GridLayout_View GridLayout_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_grid_layout =
-      reinterpret_cast<const GridLayout_1_00*>(this->Get());
-
-  return reinterpret_cast<const GridLayout*>(&actual_grid_layout[index]);
+  return std::visit(
+      [index](const auto& actual_grid_layout) {
+        return reinterpret_cast<const GridLayout*>(
+            &actual_grid_layout[index]
+        );
+      },
+      this->grid_layout_
+  );
 }
 
 const GridLayout* GridLayout_View::Get() const noexcept {
-  return this->grid_layout_;
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return reinterpret_cast<const GridLayout*>(actual_grid_layout);
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_View::GetNumColumns() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const GridLayout_1_00*>(this->Get());
-
-  return actual_ptr->num_columns;
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return actual_grid_layout->num_columns;
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_View::GetNumRows() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const GridLayout_1_00*>(this->Get());
-
-  return actual_ptr->num_rows;
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return actual_grid_layout->num_rows;
+      },
+      this->grid_layout_
+  );
 }
 
 const PositionalRectangle* GridLayout_View::GetPosition() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const GridLayout_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_grid_layout->position
+        );
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_View::GetWidth() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const GridLayout_1_00*>(this->Get());
-
-  return actual_ptr->width;
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return actual_grid_layout->width;
+      },
+      this->grid_layout_
+  );
 }
 
 unsigned char GridLayout_View::GetHeight() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const GridLayout_1_00*>(this->Get());
-
-  return actual_ptr->height;
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return actual_grid_layout->height;
+      },
+      this->grid_layout_
+  );
 }
 
 } // namespace d2

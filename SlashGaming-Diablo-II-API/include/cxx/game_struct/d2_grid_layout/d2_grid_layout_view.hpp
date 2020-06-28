@@ -47,7 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_VIEW_HPP_
 
 #include <cstddef>
-#include <cstdint>
+#include <variant>
 
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_grid_layout_struct.hpp"
@@ -80,7 +80,9 @@ class DLLEXPORT GridLayout_View {
   unsigned char GetHeight() const noexcept;
 
  private:
-  const GridLayout* grid_layout_;
+  using ViewVariant = std::variant<const GridLayout_1_00*>;
+
+  ViewVariant grid_layout_;
 };
 
 } // namespace d2
