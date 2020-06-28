@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_VIEW_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_cel_struct.hpp"
 
@@ -77,7 +78,9 @@ class DLLEXPORT Cel_View {
   int GetWidth() const noexcept;
 
  private:
-  const Cel* cel_;
+  using ViewVariant = std::variant<const Cel_1_00*>;
+
+  ViewVariant cel_;
 };
 
 } // namespace d2
