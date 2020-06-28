@@ -47,7 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_VIEW_HPP_
 
 #include <cstddef>
-#include <cstdint>
+#include <variant>
 
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_equipment_layout_struct.hpp"
@@ -78,7 +78,9 @@ class DLLEXPORT EquipmentLayout_View {
   unsigned char GetHeight() const noexcept;
 
  private:
-  const EquipmentLayout* equipment_layout_;
+  using ViewVariant = std::variant<const EquipmentLayout_1_00*>;
+
+  ViewVariant equipment_layout_;
 };
 
 } // namespace d2

@@ -50,7 +50,11 @@ namespace d2 {
 EquipmentLayout_View::EquipmentLayout_View(
     const EquipmentLayout* equipment_layout
 ) noexcept :
-    equipment_layout_(equipment_layout) {
+    equipment_layout_([equipment_layout]() {
+      return reinterpret_cast<const EquipmentLayout_1_00*>(
+          equipment_layout
+      );
+    }()) {
 }
 
 EquipmentLayout_View::EquipmentLayout_View(
@@ -74,37 +78,54 @@ EquipmentLayout_View& EquipmentLayout_View::operator=(
 EquipmentLayout_View EquipmentLayout_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_equipment_layout =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
-
-  return reinterpret_cast<const EquipmentLayout*>(
-      &actual_equipment_layout[index]
+  return std::visit(
+      [index](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            &actual_equipment_layout[index]
+        );
+      },
+      this->equipment_layout_
   );
 }
 
 const EquipmentLayout* EquipmentLayout_View::Get() const noexcept {
-  return this->equipment_layout_;
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            actual_equipment_layout
+        );
+      },
+      this->equipment_layout_
+  );
 }
 
 const PositionalRectangle* EquipmentLayout_View::GetPosition() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_equipment_layout->position
+        );
+      },
+      this->equipment_layout_
+  );
 }
 
 unsigned char EquipmentLayout_View::GetWidth() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
-
-  return actual_ptr->width;
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return actual_equipment_layout->width;
+      },
+      this->equipment_layout_
+  );
 }
 
 unsigned char EquipmentLayout_View::GetHeight() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
-
-  return actual_ptr->height;
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return actual_equipment_layout->height;
+      },
+      this->equipment_layout_
+  );
 }
 
 } // namespace d2
