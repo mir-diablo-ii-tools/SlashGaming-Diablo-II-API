@@ -103,18 +103,9 @@ class DLLEXPORT GridLayout_Api {
   void SetHeight(unsigned char height) noexcept;
 
  private:
-  using unique_ptr_1_00 = std::unique_ptr<GridLayout_1_00>;
-  using ptr_variant = std::variant<unique_ptr_1_00>;
+  using ApiVariant = std::variant<GridLayout_1_00>;
 
-  ptr_variant grid_layout_;
-
-  static ptr_variant CreateVariant(
-      unsigned char num_columns,
-      unsigned char num_rows,
-      const PositionalRectangle* position,
-      unsigned char width,
-      unsigned char height
-  );
+  ApiVariant grid_layout_;
 };
 
 } // namespace d2

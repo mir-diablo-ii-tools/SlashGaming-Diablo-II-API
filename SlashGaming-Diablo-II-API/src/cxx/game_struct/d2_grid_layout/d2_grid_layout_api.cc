@@ -83,21 +83,36 @@ GridLayout_Api::GridLayout_Api(
     PositionalRectangle_View position,
     unsigned char width,
     unsigned char height
-) : grid_layout_(
-        CreateVariant(num_columns, num_rows, position.Get(), width, height)
-    ) {
+) : grid_layout_([=]() {
+      ApiVariant grid_layout;
+
+      grid_layout = GridLayout_1_00();
+
+      std::visit(
+          [=](auto& actual_grid_layout) {
+            actual_grid_layout.num_columns = num_columns;
+            actual_grid_layout.num_rows = num_rows;
+
+            PositionalRectangle_Wrapper position_wrapper(
+                reinterpret_cast<PositionalRectangle*>(
+                    &actual_grid_layout.position
+                )
+            );
+            position_wrapper.Assign(position);
+
+            actual_grid_layout.width = width;
+            actual_grid_layout.height = height;
+          },
+          grid_layout
+      );
+
+      return grid_layout;
+    }()) {
 }
 
 GridLayout_Api::GridLayout_Api(
     const GridLayout_Api& other
-) : GridLayout_Api(
-        other.GetNumColumns(),
-        other.GetNumRows(),
-        other.GetPosition(),
-        other.GetWidth(),
-        other.GetHeight()
-    ) {
-}
+) = default;
 
 GridLayout_Api::GridLayout_Api(GridLayout_Api&& other) noexcept = default;
 
@@ -105,17 +120,7 @@ GridLayout_Api::~GridLayout_Api() = default;
 
 GridLayout_Api& GridLayout_Api::operator=(
     const GridLayout_Api& other
-) {
-  *this = GridLayout_Api(
-      other.GetNumColumns(),
-      other.GetNumRows(),
-      other.GetPosition(),
-      other.GetWidth(),
-      other.GetHeight()
-  );
-
-  return *this;
-}
+) = default;
 
 GridLayout_Api& GridLayout_Api::operator=(
     GridLayout_Api&& other
@@ -130,16 +135,25 @@ GridLayout_Api::operator GridLayout_Wrapper() noexcept {
 }
 
 GridLayout* GridLayout_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<GridLayout*>(const_this->Get());
+  return std::visit(
+      [](auto& actual_grid_layout) {
+        return reinterpret_cast<GridLayout*>(
+            &actual_grid_layout
+        );
+      },
+      this->grid_layout_
+  );
 }
 
 const GridLayout* GridLayout_Api::Get() const noexcept {
-  auto& actual_grid_layout =
-      std::get<unique_ptr_1_00>(this->grid_layout_);
-
-  return reinterpret_cast<const GridLayout*>(actual_grid_layout.get());
+  return std::visit(
+      [](const auto& actual_grid_layout) {
+        return reinterpret_cast<const GridLayout*>(
+            &actual_grid_layout
+        );
+      },
+      this->grid_layout_
+  );
 }
 
 void GridLayout_Api::Assign(GridLayout_View src) noexcept {
@@ -206,22 +220,6 @@ void GridLayout_Api::SetHeight(unsigned char height) noexcept {
   GridLayout_Wrapper wrapper(this->Get());
 
   wrapper.SetHeight(height);
-}
-
-GridLayout_Api::ptr_variant GridLayout_Api::CreateVariant(
-    unsigned char num_columns,
-    unsigned char num_rows,
-    const PositionalRectangle* position,
-    unsigned char width,
-    unsigned char height
-) {
-  return CreatePtr<GridLayout_1_00>(
-      num_columns,
-      num_rows,
-      position,
-      width,
-      height
-  );
 }
 
 } // namespace d2
