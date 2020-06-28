@@ -54,7 +54,11 @@ namespace d2 {
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
     InventoryRecord* inventory_record
 ) noexcept :
-    inventory_record_(inventory_record) {
+    inventory_record_([inventory_record]() {
+      return reinterpret_cast<InventoryRecord_1_00*>(
+          inventory_record
+      );
+    }()) {
 }
 
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
@@ -102,16 +106,28 @@ InventoryRecord* InventoryRecord_Wrapper::Get() noexcept {
 }
 
 const InventoryRecord* InventoryRecord_Wrapper::Get() const noexcept {
-  return this->inventory_record_;
+  return std::visit(
+      [](auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(actual_inventory_record);
+      },
+      this->inventory_record_
+  );
 }
 
 void InventoryRecord_Wrapper::Assign(InventoryRecord_View src) noexcept {
-  InventoryRecord_1_00* actual_dest =
-      reinterpret_cast<InventoryRecord_1_00*>(this->Get());
-  const InventoryRecord_1_00* actual_src =
-      reinterpret_cast<const InventoryRecord_1_00*>(src.Get());
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  *actual_dest = *actual_src;
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+        *actual_dest = *actual_src;
+      },
+      this->inventory_record_
+  );
 }
 
 PositionalRectangle* InventoryRecord_Wrapper::GetPosition() noexcept {

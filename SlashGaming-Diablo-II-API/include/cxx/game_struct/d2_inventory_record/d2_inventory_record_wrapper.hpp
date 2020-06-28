@@ -47,7 +47,11 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
+#include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
+#include "../d2_grid_layout/d2_grid_layout_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_inventory_record_struct.hpp"
 #include "d2_inventory_record_view.hpp"
 
@@ -92,7 +96,9 @@ class DLLEXPORT InventoryRecord_Wrapper {
   const EquipmentLayout* GetEquipmentSlots() const noexcept;
 
  private:
-  InventoryRecord* inventory_record_;
+  using WrapperVariant = std::variant<InventoryRecord_1_00*>;
+
+  WrapperVariant inventory_record_;
 };
 
 } // namespace d2
