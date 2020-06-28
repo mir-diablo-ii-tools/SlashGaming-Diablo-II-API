@@ -55,7 +55,17 @@ namespace d2 {
 CelContext_Wrapper::CelContext_Wrapper(
     CelContext* cel_context
 ) noexcept :
-    cel_context(cel_context) {
+    cel_context_([cel_context]() -> WrapperVariant {
+      GameVersion running_game_version = GetRunningGameVersionId();
+
+      if (running_game_version <= GameVersion::k1_10) {
+        return reinterpret_cast<CelContext_1_00*>(cel_context);
+      } else if (running_game_version == GameVersion::k1_12A) {
+        return reinterpret_cast<CelContext_1_12A*>(cel_context);
+      } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
+        return reinterpret_cast<CelContext_1_13C*>(cel_context);
+      }
+    }()) {
 }
 
 CelContext_Wrapper::CelContext_Wrapper(
@@ -103,34 +113,28 @@ CelContext* CelContext_Wrapper::Get() noexcept {
 }
 
 const CelContext* CelContext_Wrapper::Get() const noexcept {
-  return this->cel_context;
+  return std::visit(
+      [](const auto& actual_cel_context) {
+        return reinterpret_cast<const CelContext*>(actual_cel_context);
+      },
+      this->cel_context_
+  );
 }
 
 void CelContext_Wrapper::Assign(CelContext_View src) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  if (running_game_version <= GameVersion::k1_10) {
-    CelContext_1_00* actual_dest =
-        reinterpret_cast<CelContext_1_00*>(this->Get());
-    const CelContext_1_00* actual_src =
-        reinterpret_cast<const CelContext_1_00*>(src.Get());
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
 
-    *actual_dest = *actual_src;
-  } else if (running_game_version == GameVersion::k1_12A) {
-    CelContext_1_12A* actual_dest =
-        reinterpret_cast<CelContext_1_12A*>(this->Get());
-    const CelContext_1_12A* actual_src =
-        reinterpret_cast<const CelContext_1_12A*>(src.Get());
-
-    *actual_dest = *actual_src;
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
-    CelContext_1_13C* actual_dest =
-        reinterpret_cast<CelContext_1_13C*>(this->Get());
-    const CelContext_1_13C* actual_src =
-        reinterpret_cast<const CelContext_1_13C*>(src.Get());
-
-    *actual_dest = *actual_src;
-  }
+        *actual_dest = *actual_src;
+      },
+      this->cel_context_
+  );
 }
 
 bool CelContext_Wrapper::DrawFrame(int position_x, int position_y) {
@@ -218,26 +222,19 @@ CelFile* CelContext_Wrapper::GetCelFile() noexcept {
 }
 
 void CelContext_Wrapper::SetCelFile(CelFile* cel_file) noexcept {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  std::visit(
+      [cel_file](auto& actual_cel_context) {
+        using CelContext_T = std::remove_pointer_t<
+            std::remove_reference_t<decltype(actual_cel_context)>
+        >;
+        using CelFile_T = std::remove_pointer_t<
+            decltype(CelContext_T::cel_file)
+        >;
 
-  auto* actual_cel_file = reinterpret_cast<CelFile_1_00*>(cel_file);
-
-  if (running_game_version <= GameVersion::k1_10) {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_00*>(this->Get());
-
-    actual_cel_context->cel_file = actual_cel_file;
-  } else if (running_game_version == GameVersion::k1_12A) {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_12A*>(this->Get());
-
-    actual_cel_context->cel_file = actual_cel_file;
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_13C*>(this->Get());
-
-    actual_cel_context->cel_file = actual_cel_file;
-  }
+        actual_cel_context->cel_file = reinterpret_cast<CelFile_T*>(cel_file);
+      },
+      this->cel_context_
+  );
 }
 
 unsigned int CelContext_Wrapper::GetDirection() const noexcept {
@@ -247,24 +244,12 @@ unsigned int CelContext_Wrapper::GetDirection() const noexcept {
 }
 
 void CelContext_Wrapper::SetDirection(unsigned int direction) noexcept {
-  GameVersion running_game_version = GetRunningGameVersionId();
-
-  if (running_game_version <= GameVersion::k1_10) {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_00*>(this->Get());
-
-    actual_cel_context->direction = direction;
-  } else if (running_game_version == GameVersion::k1_12A) {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_12A*>(this->Get());
-
-    actual_cel_context->direction = direction;
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_13C*>(this->Get());
-
-    actual_cel_context->direction = direction;
-  }
+  std::visit(
+      [direction](auto& actual_cel_context) {
+        actual_cel_context->direction = direction;
+      },
+      this->cel_context_
+  );
 }
 
 unsigned int CelContext_Wrapper::GetFrame() const noexcept {
@@ -274,24 +259,12 @@ unsigned int CelContext_Wrapper::GetFrame() const noexcept {
 }
 
 void CelContext_Wrapper::SetFrame(unsigned int frame) noexcept {
-  GameVersion running_game_version = GetRunningGameVersionId();
-
-  if (running_game_version <= GameVersion::k1_10) {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_00*>(this->Get());
-
-    actual_cel_context->frame = frame;
-  } else if (running_game_version == GameVersion::k1_12A) {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_12A*>(this->Get());
-
-    actual_cel_context->frame = frame;
-  } else /* if (running_game_version >= GameVersion::k1_13C) */ {
-    auto* actual_cel_context =
-        reinterpret_cast<CelContext_1_13C*>(this->Get());
-
-    actual_cel_context->frame = frame;
-  }
+  std::visit(
+      [frame](auto& actual_cel_context) {
+        actual_cel_context->direction = frame;
+      },
+      this->cel_context_
+  );
 }
 
 } // namespace d2

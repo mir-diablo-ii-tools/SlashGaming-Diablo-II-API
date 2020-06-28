@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 
+#include <cstddef>
+#include <type_traits>
+
 #include "../../helper/d2_draw_options.hpp"
 #include "../d2_cel/d2_cel_struct.hpp"
 #include "../d2_cel_file/d2_cel_file_struct.hpp"
@@ -100,7 +103,13 @@ class DLLEXPORT CelContext_Wrapper {
   void SetFrame(unsigned int frame) noexcept;
 
  private:
-  CelContext* cel_context;
+  using WrapperVariant = std::variant<
+      CelContext_1_00*,
+      CelContext_1_12A*,
+      CelContext_1_13C*
+  >;
+
+  WrapperVariant cel_context_;
 };
 
 } // namespace d2
