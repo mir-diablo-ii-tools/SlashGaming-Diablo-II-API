@@ -48,6 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "../../game_undefined.hpp"
 #include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
@@ -75,6 +76,8 @@ struct BeltRecord;
   /* 0x08 */ PositionalRectangle_1_00 slot_positions[16];
 };
 
+static_assert(std::is_standard_layout_v<BeltRecord_1_00>);
+static_assert(std::is_trivial_v<BeltRecord_1_00>);
 static_assert(sizeof(BeltRecord_1_00) == 0x108);
 static_assert(offsetof(BeltRecord_1_00, num_slots) == 0x04);
 static_assert(offsetof(BeltRecord_1_00, slot_positions) == 0x08);
