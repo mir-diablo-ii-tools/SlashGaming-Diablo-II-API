@@ -47,6 +47,7 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_VIEW_HPP_
 
 #include <cstddef>
+#include <variant>
 
 #include "d2_mpq_archive_struct.hpp"
 
@@ -57,7 +58,7 @@ namespace d2 {
 class DLLEXPORT MpqArchive_View {
  public:
   MpqArchive_View() = delete;
-  MpqArchive_View(const MpqArchive* ptr) noexcept;
+  MpqArchive_View(const MpqArchive* mpq_archive) noexcept;
 
   MpqArchive_View(const MpqArchive_View& other) noexcept;
   MpqArchive_View(MpqArchive_View&& other) noexcept;
@@ -73,7 +74,9 @@ class DLLEXPORT MpqArchive_View {
   const MpqArchive* Get() const noexcept;
 
  private:
-  const MpqArchive* mpq_archive_;
+  using ViewVariant = std::variant<const MpqArchive_1_00*>;
+
+  ViewVariant mpq_archive_;
 };
 
 } // namespace d2

@@ -48,7 +48,9 @@
 namespace d2 {
 
 MpqArchive_View::MpqArchive_View(const MpqArchive* mpq_archive) noexcept :
-    mpq_archive_(mpq_archive) {
+    mpq_archive_([mpq_archive]() {
+      return reinterpret_cast<const MpqArchive_1_00*>(mpq_archive);
+    }()) {
 }
 
 MpqArchive_View::MpqArchive_View(
@@ -77,7 +79,12 @@ MpqArchive_View MpqArchive_View::operator[](std::size_t index) const noexcept {
 */
 
 const MpqArchive* MpqArchive_View::Get() const noexcept {
-  return this->mpq_archive_;
+  return std::visit(
+      [](const auto& actual_mpq_archive) {
+        return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
+      },
+      this->mpq_archive_
+  );
 }
 
 } // namespace d2
