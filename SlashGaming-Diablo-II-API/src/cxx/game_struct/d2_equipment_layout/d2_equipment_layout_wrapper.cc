@@ -103,7 +103,7 @@ EquipmentLayout* EquipmentLayout_Wrapper::Get() noexcept {
 
 const EquipmentLayout* EquipmentLayout_Wrapper::Get() const noexcept {
   return std::visit(
-      [](auto& actual_equipment_layout) {
+      [](const auto& actual_equipment_layout) {
         return reinterpret_cast<const EquipmentLayout*>(
             actual_equipment_layout
         );
