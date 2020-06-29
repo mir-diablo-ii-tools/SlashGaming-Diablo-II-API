@@ -51,10 +51,10 @@
 #include "cxx/game_address.hpp"
 #include "cxx/game_bool.hpp"
 #include "cxx/game_constant.hpp"
-#include "cxx/game_data.hpp"
-#include "cxx/game_func.hpp"
+#include "cxx/game_function.hpp"
 #include "cxx/game_patch.hpp"
 #include "cxx/game_struct.hpp"
+#include "cxx/game_variable.hpp"
 #include "cxx/game_version.hpp"
 
 #endif // SGD2MAPI_SGD2MAPI_HPP_
