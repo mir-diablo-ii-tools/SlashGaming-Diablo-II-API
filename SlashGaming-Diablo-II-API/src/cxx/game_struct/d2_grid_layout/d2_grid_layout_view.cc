@@ -48,9 +48,7 @@
 namespace d2 {
 
 GridLayout_View::GridLayout_View(const GridLayout* grid_layout) noexcept :
-    grid_layout_([grid_layout]() {
-      return reinterpret_cast<const GridLayout_1_00*>(grid_layout);
-    }()) {
+    grid_layout_(CreateVariant(grid_layout)) {
 }
 
 GridLayout_View::GridLayout_View(
@@ -138,6 +136,12 @@ unsigned char GridLayout_View::GetHeight() const noexcept {
       },
       this->grid_layout_
   );
+}
+
+GridLayout_View::ViewVariant GridLayout_View::CreateVariant(
+    const GridLayout* grid_layout
+) {
+  return reinterpret_cast<const GridLayout_1_00*>(grid_layout);
 }
 
 } // namespace d2

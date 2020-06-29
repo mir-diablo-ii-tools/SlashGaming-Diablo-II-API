@@ -77,13 +77,11 @@ class DLLEXPORT UnicodeChar_View {
   std::u8string ToUtf8Char() const;
 
  private:
-  using ViewVariant = std::variant<
-      const UnicodeChar_1_00*
-  >;
-
-  UnicodeChar_View(ViewVariant uch) noexcept;
+  using ViewVariant = std::variant<const UnicodeChar_1_00*>;
 
   ViewVariant uch_;
+
+  static ViewVariant CreateVariant(const UnicodeChar* uch);
 };
 
 } // namespace d2

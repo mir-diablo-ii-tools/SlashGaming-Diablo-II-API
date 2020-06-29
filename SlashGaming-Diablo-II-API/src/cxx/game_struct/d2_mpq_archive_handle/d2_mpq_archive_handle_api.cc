@@ -129,11 +129,13 @@ const MpqArchiveHandle* MpqArchiveHandle_Api::Get() const noexcept {
 }
 
 void MpqArchiveHandle_Api::Close() {
-  if (this->IsOpen()) {
-    d2win::UnloadMpq(this->Get());
-    this->mpq_archive_handle_ = nullptr;
-    this->is_open_ = false;
+  if (!this->IsOpen()) {
+    return;
   }
+
+  d2win::UnloadMpq(this->Get());
+  this->mpq_archive_handle_ = nullptr;
+  this->is_open_ = false;
 }
 
 bool MpqArchiveHandle_Api::IsOpen() const {
@@ -172,13 +174,13 @@ void MpqArchiveHandle_Api::Open(
 }
 
 const MpqArchive* MpqArchiveHandle_Api::GetMpqArchive() const noexcept {
-  MpqArchiveHandle_View view(*this);
+  MpqArchiveHandle_View view(this->Get());
 
   return view.GetMpqArchive();
 }
 
 const char* MpqArchiveHandle_Api::GetMpqArchivePath() const noexcept {
-  MpqArchiveHandle_View view(*this);
+  MpqArchiveHandle_View view(this->Get());
 
   return view.GetMpqArchivePath();
 }
@@ -196,7 +198,7 @@ MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
       priority
   );
 
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+  GameVersion running_game_version = GetRunningGameVersionId();
 
   return reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle);
 }

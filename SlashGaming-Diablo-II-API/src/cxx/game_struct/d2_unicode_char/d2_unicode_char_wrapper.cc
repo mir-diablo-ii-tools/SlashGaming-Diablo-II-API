@@ -45,7 +45,6 @@
 
 #include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_char_wrapper.hpp"
 
-#include <cstdint>
 #include <array>
 
 #include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_ascii_to_unicode.hpp"
@@ -60,8 +59,7 @@ namespace d2 {
 
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
     UnicodeChar* uch
-) noexcept {
-  this->uch_ = reinterpret_cast<UnicodeChar_1_00*>(uch);
+) noexcept : uch_(CreateVariant(uch)) {
 }
 
 UnicodeChar_Wrapper::UnicodeChar_Wrapper(
@@ -101,15 +99,15 @@ const UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
   );
 }
 
-void UnicodeChar_Wrapper::Assign(UnicodeChar_View view) {
+void UnicodeChar_Wrapper::Assign(UnicodeChar_View src) {
   std::visit(
-      [&view](auto& actual_dest) {
+      [&src](auto& actual_dest) {
         using Dest_T = decltype(actual_dest);
         using ActualSrc_T = const std::remove_pointer_t<
             std::remove_reference_t<Dest_T>
         >*;
 
-        const auto* actual_src = reinterpret_cast<ActualSrc_T>(view.Get());
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
 
         *actual_dest = *actual_src;
       },
@@ -175,6 +173,12 @@ void UnicodeChar_Wrapper::SetUtf8Char(std::u8string_view ch) {
       },
       this->uch_
   );
+}
+
+UnicodeChar_Wrapper::WrapperVariant UnicodeChar_Wrapper::CreateVariant(
+    UnicodeChar* uch
+) {
+  return reinterpret_cast<UnicodeChar_1_00*>(uch);
 }
 
 } // namespace d2

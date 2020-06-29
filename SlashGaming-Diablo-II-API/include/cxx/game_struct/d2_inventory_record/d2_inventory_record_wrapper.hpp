@@ -99,6 +99,8 @@ class DLLEXPORT InventoryRecord_Wrapper {
   using WrapperVariant = std::variant<InventoryRecord_1_00*>;
 
   WrapperVariant inventory_record_;
+
+  static WrapperVariant CreateVariant(InventoryRecord* inventory_record);
 };
 
 } // namespace d2

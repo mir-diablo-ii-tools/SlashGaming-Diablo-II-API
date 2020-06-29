@@ -87,6 +87,8 @@ class DLLEXPORT InventoryRecord_View {
   using ViewVariant = std::variant<const InventoryRecord_1_00*>;
 
   ViewVariant inventory_record_;
+
+  static ViewVariant CreateVariant(const InventoryRecord* inventory_record);
 };
 
 } // namespace d2

@@ -48,9 +48,7 @@
 namespace d2 {
 
 MpqArchive_View::MpqArchive_View(const MpqArchive* mpq_archive) noexcept :
-    mpq_archive_([mpq_archive]() {
-      return reinterpret_cast<const MpqArchive_1_00*>(mpq_archive);
-    }()) {
+    mpq_archive_(CreateVariant(mpq_archive)) {
 }
 
 MpqArchive_View::MpqArchive_View(
@@ -85,6 +83,12 @@ const MpqArchive* MpqArchive_View::Get() const noexcept {
       },
       this->mpq_archive_
   );
+}
+
+MpqArchive_View::ViewVariant MpqArchive_View::CreateVariant(
+    const MpqArchive* mpq_archive
+) {
+  return reinterpret_cast<const MpqArchive_1_00*>(mpq_archive);
 }
 
 } // namespace d2

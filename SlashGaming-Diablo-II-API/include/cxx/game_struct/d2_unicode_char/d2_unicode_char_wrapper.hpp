@@ -76,7 +76,7 @@ class DLLEXPORT UnicodeChar_Wrapper {
   UnicodeChar* Get() noexcept;
   const UnicodeChar* Get() const noexcept;
 
-  void Assign(UnicodeChar_View view);
+  void Assign(UnicodeChar_View src);
 
   std::u8string ToUtf8Char() const;
 
@@ -86,11 +86,11 @@ class DLLEXPORT UnicodeChar_Wrapper {
   void SetUtf8Char(std::u8string_view ch);
 
  private:
-  using WrapperVariant = std::variant<
-      UnicodeChar_1_00*
-  >;
+  using WrapperVariant = std::variant<UnicodeChar_1_00*>;
 
   WrapperVariant uch_;
+
+  static WrapperVariant CreateVariant(UnicodeChar* uch);
 };
 
 } // namespace d2

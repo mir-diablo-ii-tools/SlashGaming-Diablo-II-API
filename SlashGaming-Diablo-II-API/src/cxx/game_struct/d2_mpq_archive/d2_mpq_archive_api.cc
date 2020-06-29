@@ -70,12 +70,9 @@ MpqArchive_Api::operator MpqArchive_Wrapper() noexcept {
 }
 
 MpqArchive* MpqArchive_Api::Get() noexcept {
-  return std::visit(
-      [](auto& actual_mpq_archive) {
-        return reinterpret_cast<MpqArchive*>(&actual_mpq_archive);
-      },
-      this->mpq_archive_
-  );
+  const auto* const_this = this;
+
+  return const_cast<MpqArchive*>(const_this->Get());
 }
 
 const MpqArchive* MpqArchive_Api::Get() const noexcept {

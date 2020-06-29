@@ -48,9 +48,7 @@
 namespace d2 {
 
 BeltRecord_View::BeltRecord_View(const BeltRecord* belt_record) noexcept :
-    belt_record_([belt_record]() {
-      return reinterpret_cast<const BeltRecord_1_00*>(belt_record);
-    }()) {
+    belt_record_(CreateVariant(belt_record)) {
 }
 
 BeltRecord_View::BeltRecord_View(
@@ -112,6 +110,12 @@ BeltRecord_View::GetSlotPositions() const noexcept {
       },
       this->belt_record_
   );
+}
+
+BeltRecord_View::ViewVariant BeltRecord_View::CreateVariant(
+    const BeltRecord* belt_record
+) {
+  return reinterpret_cast<const BeltRecord_1_00*>(belt_record);
 }
 
 } // namespace d2

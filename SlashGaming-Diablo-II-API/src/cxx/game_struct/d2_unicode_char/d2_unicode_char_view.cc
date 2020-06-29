@@ -45,7 +45,6 @@
 
 #include "../../../../include/cxx/game_struct/d2_unicode_char/d2_unicode_char_view.hpp"
 
-#include <cstdint>
 #include <array>
 
 #include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_unicode_to_utf8.hpp"
@@ -56,12 +55,8 @@
 
 namespace d2 {
 
-UnicodeChar_View::UnicodeChar_View(const UnicodeChar* uch) noexcept {
-  this->uch_ = reinterpret_cast<const UnicodeChar_1_00*>(uch);
-}
-
-UnicodeChar_View::UnicodeChar_View(ViewVariant uch) noexcept :
-    uch_(std::move(uch)) {
+UnicodeChar_View::UnicodeChar_View(const UnicodeChar* uch) noexcept :
+    uch_(CreateVariant(uch)) {
 }
 
 UnicodeChar_View::UnicodeChar_View(
@@ -119,6 +114,12 @@ std::u8string UnicodeChar_View::ToUtf8Char() const {
       },
       this->uch_
   );
+}
+
+UnicodeChar_View::ViewVariant UnicodeChar_View::CreateVariant(
+    const UnicodeChar* uch
+) {
+  return reinterpret_cast<const UnicodeChar_1_00*>(uch);
 }
 
 } // namespace d2

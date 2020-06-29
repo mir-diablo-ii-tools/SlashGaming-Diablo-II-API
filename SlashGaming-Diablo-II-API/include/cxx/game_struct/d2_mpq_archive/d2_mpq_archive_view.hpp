@@ -77,6 +77,8 @@ class DLLEXPORT MpqArchive_View {
   using ViewVariant = std::variant<const MpqArchive_1_00*>;
 
   ViewVariant mpq_archive_;
+
+  static ViewVariant CreateVariant(const MpqArchive* mpq_archive);
 };
 
 } // namespace d2

@@ -94,6 +94,12 @@ class DLLEXPORT BeltRecord_Api {
   using ApiVariant = std::variant<BeltRecord_1_00>;
 
   ApiVariant belt_record_;
+
+  static ApiVariant CreateVariant(
+      mapi::Undefined* reserved_00__set_to_nullptr,
+      unsigned char num_slots,
+      const PositionalRectangle* slot_positions
+  );
 };
 
 } // namespace d2

@@ -81,6 +81,8 @@ class DLLEXPORT EquipmentLayout_View {
   using ViewVariant = std::variant<const EquipmentLayout_1_00*>;
 
   ViewVariant equipment_layout_;
+
+  static ViewVariant CreateVariant(const EquipmentLayout* equipment_layout);
 };
 
 } // namespace d2

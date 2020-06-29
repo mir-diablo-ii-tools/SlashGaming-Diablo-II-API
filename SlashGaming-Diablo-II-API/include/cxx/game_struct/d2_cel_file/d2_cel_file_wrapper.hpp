@@ -124,6 +124,8 @@ class DLLEXPORT CelFile_Wrapper {
   using WrapperVariant = std::variant<CelFile_1_00*>;
 
   WrapperVariant cel_file_;
+
+  static WrapperVariant CreateVariant(CelFile* cel_file);
 };
 
 } // namespace d2

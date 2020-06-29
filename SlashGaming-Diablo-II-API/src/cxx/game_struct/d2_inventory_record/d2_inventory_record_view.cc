@@ -49,10 +49,7 @@ namespace d2 {
 
 InventoryRecord_View::InventoryRecord_View(
     const InventoryRecord* inventory_record
-) noexcept :
-    inventory_record_([inventory_record]() {
-      return reinterpret_cast<const InventoryRecord_1_00*>(inventory_record);
-    }()) {
+) noexcept : inventory_record_(CreateVariant(inventory_record)) {
 }
 
 InventoryRecord_View::InventoryRecord_View(
@@ -130,6 +127,12 @@ InventoryRecord_View::GetEquipmentSlots() const noexcept {
       },
       this->inventory_record_
   );
+}
+
+InventoryRecord_View::ViewVariant InventoryRecord_View::CreateVariant(
+    const InventoryRecord* inventory_record
+) {
+  return reinterpret_cast<const InventoryRecord_1_00*>(inventory_record);
 }
 
 } // namespace d2

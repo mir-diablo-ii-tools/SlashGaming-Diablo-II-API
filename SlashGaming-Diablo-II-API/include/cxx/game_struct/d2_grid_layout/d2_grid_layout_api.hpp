@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_
 
-#include <cstdint>
-#include <memory>
 #include <variant>
 
 #include "d2_grid_layout_struct.hpp"
@@ -106,6 +104,14 @@ class DLLEXPORT GridLayout_Api {
   using ApiVariant = std::variant<GridLayout_1_00>;
 
   ApiVariant grid_layout_;
+
+  static ApiVariant CreateVariant(
+      unsigned char num_columns,
+      unsigned char num_rows,
+      const PositionalRectangle* position,
+      unsigned char width,
+      unsigned char height
+  );
 };
 
 } // namespace d2

@@ -56,31 +56,13 @@ GridLayout_Api::GridLayout_Api(
     PositionalRectangle_View position,
     unsigned char width,
     unsigned char height
-) : grid_layout_([=]() {
-      ApiVariant grid_layout;
-
-      grid_layout = GridLayout_1_00();
-
-      std::visit(
-          [=](auto& actual_grid_layout) {
-            actual_grid_layout.num_columns = num_columns;
-            actual_grid_layout.num_rows = num_rows;
-
-            PositionalRectangle_Wrapper position_wrapper(
-                reinterpret_cast<PositionalRectangle*>(
-                    &actual_grid_layout.position
-                )
-            );
-            position_wrapper.Assign(position);
-
-            actual_grid_layout.width = width;
-            actual_grid_layout.height = height;
-          },
-          grid_layout
-      );
-
-      return grid_layout;
-    }()) {
+) : grid_layout_(CreateVariant(
+        num_columns,
+        num_rows,
+        position.Get(),
+        width,
+        height
+    )) {
 }
 
 GridLayout_Api::GridLayout_Api(
@@ -108,14 +90,9 @@ GridLayout_Api::operator GridLayout_Wrapper() noexcept {
 }
 
 GridLayout* GridLayout_Api::Get() noexcept {
-  return std::visit(
-      [](auto& actual_grid_layout) {
-        return reinterpret_cast<GridLayout*>(
-            &actual_grid_layout
-        );
-      },
-      this->grid_layout_
-  );
+  const auto* const_this = this;
+
+  return const_cast<GridLayout*>(const_this->Get());
 }
 
 const GridLayout* GridLayout_Api::Get() const noexcept {
@@ -193,6 +170,38 @@ void GridLayout_Api::SetHeight(unsigned char height) noexcept {
   GridLayout_Wrapper wrapper(this->Get());
 
   wrapper.SetHeight(height);
+}
+
+GridLayout_Api::ApiVariant GridLayout_Api::CreateVariant(
+    unsigned char num_columns,
+    unsigned char num_rows,
+    const PositionalRectangle* position,
+    unsigned char width,
+    unsigned char height
+) {
+  ApiVariant grid_layout;
+
+  grid_layout = GridLayout_1_00();
+
+  std::visit(
+      [=](auto& actual_grid_layout) {
+        actual_grid_layout.num_columns = num_columns;
+        actual_grid_layout.num_rows = num_rows;
+
+        PositionalRectangle_Wrapper position_wrapper(
+            reinterpret_cast<PositionalRectangle*>(
+                &actual_grid_layout.position
+            )
+        );
+        position_wrapper.Assign(position);
+
+        actual_grid_layout.width = width;
+        actual_grid_layout.height = height;
+      },
+      grid_layout
+  );
+
+  return grid_layout;
 }
 
 } // namespace d2

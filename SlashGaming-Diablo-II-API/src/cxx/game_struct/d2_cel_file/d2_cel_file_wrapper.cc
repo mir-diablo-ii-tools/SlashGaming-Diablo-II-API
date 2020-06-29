@@ -59,10 +59,7 @@ namespace d2 {
 
 CelFile_Wrapper::CelFile_Wrapper(
     CelFile* cel_file
-) noexcept :
-    cel_file_([cel_file]() {
-      return reinterpret_cast<CelFile_1_00*>(cel_file);
-    }()) {
+) noexcept : cel_file_(CreateVariant(cel_file)) {
 }
 
 CelFile_Wrapper::CelFile_Wrapper(
@@ -358,6 +355,12 @@ void CelFile_Wrapper::SetNumFrames(unsigned int num_frames) noexcept {
       },
       this->cel_file_
   );
+}
+
+CelFile_Wrapper::WrapperVariant CelFile_Wrapper::CreateVariant(
+    CelFile* cel_file
+) {
+  return reinterpret_cast<CelFile_1_00*>(cel_file);
 }
 
 } // namespace d2

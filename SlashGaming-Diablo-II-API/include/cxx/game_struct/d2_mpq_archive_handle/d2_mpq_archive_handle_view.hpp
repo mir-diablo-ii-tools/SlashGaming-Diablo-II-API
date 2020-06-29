@@ -83,6 +83,10 @@ class DLLEXPORT MpqArchiveHandle_View {
   using ViewVariant = std::variant<const MpqArchiveHandle_1_00*>;
 
   ViewVariant mpq_archive_handle_;
+
+  static ViewVariant CreateVariant(
+      const MpqArchiveHandle* mpq_archive_handle
+  );
 };
 
 } // namespace d2

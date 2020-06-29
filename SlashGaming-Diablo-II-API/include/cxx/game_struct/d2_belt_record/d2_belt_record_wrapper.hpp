@@ -89,6 +89,8 @@ class DLLEXPORT BeltRecord_Wrapper {
   using WrapperVariant = std::variant<BeltRecord_1_00*>;
 
   WrapperVariant belt_record_;
+
+  static WrapperVariant CreateVariant(BeltRecord* belt_record);
 };
 
 } // namespace d2

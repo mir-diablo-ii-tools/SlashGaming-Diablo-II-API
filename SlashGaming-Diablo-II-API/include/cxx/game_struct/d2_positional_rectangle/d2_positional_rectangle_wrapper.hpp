@@ -105,6 +105,8 @@ class DLLEXPORT PositionalRectangle_Wrapper {
   >;
 
   WrapperVariant positional_rectangle_;
+
+  static WrapperVariant CreateVariant(PositionalRectangle* positional_rectangle);
 };
 
 } // namespace d2

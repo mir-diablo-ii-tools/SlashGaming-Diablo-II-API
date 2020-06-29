@@ -46,7 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_API_HPP_
 
-#include <memory>
 #include <variant>
 
 #include "../../game_undefined.hpp"

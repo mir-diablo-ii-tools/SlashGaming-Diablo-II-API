@@ -80,6 +80,8 @@ class DLLEXPORT CelFile_View {
   using ViewVariant = std::variant<const CelFile_1_00*>;
 
   ViewVariant cel_file_;
+
+  static ViewVariant CreateVariant(const CelFile* cel_file);
 };
 
 } // namespace d2

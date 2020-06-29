@@ -95,6 +95,8 @@ class DLLEXPORT MpqArchiveHandle_Wrapper {
   using WrapperVariant = std::variant<MpqArchiveHandle_1_00*>;
 
   WrapperVariant mpq_archive_handle_;
+
+  static WrapperVariant CreateVariant(MpqArchiveHandle* mpq_archive_handle);
 };
 
 } // namespace d2

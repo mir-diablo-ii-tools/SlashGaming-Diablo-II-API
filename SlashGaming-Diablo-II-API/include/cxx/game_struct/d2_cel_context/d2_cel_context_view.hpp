@@ -85,6 +85,8 @@ class DLLEXPORT CelContext_View {
   >;
 
   ViewVariant cel_context_;
+
+  static ViewVariant CreateVariant(const CelContext* cel_context);
 };
 
 } // namespace d2

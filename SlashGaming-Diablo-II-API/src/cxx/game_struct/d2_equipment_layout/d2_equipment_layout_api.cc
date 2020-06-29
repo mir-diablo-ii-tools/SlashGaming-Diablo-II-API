@@ -49,57 +49,12 @@
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
-
-template <typename EquipmentLayout_T>
-static std::unique_ptr<EquipmentLayout_T> CreatePtr(
-    const PositionalRectangle* position,
-    unsigned char width,
-    unsigned char height
-) {
-  using PositionalRectangle_T =
-      std::remove_pointer_t<decltype(EquipmentLayout_T::position)>;
-
-  const PositionalRectangle_T* actual_positional_rectangle =
-      reinterpret_cast<const PositionalRectangle_T*>(position);
-
-  std::unique_ptr equipment_layout = std::make_unique<EquipmentLayout_T>();
-
-  equipment_layout->position = *actual_positional_rectangle;
-  equipment_layout->width = width;
-  equipment_layout->height = height;
-
-  return equipment_layout;
-}
-
-} // namespace
 
 EquipmentLayout_Api::EquipmentLayout_Api(
     PositionalRectangle_View position,
     unsigned char width,
     unsigned char height
-) : equipment_layout_([position, width, height]() {
-      ApiVariant equipment_layout;
-
-      equipment_layout = EquipmentLayout_1_00();
-
-      std::visit(
-          [position, width, height](auto& actual_equipment_layout) {
-            PositionalRectangle_Wrapper position_wrapper(
-                reinterpret_cast<PositionalRectangle*>(
-                    &actual_equipment_layout.position
-                )
-            );
-            position_wrapper.Assign(position);
-
-            actual_equipment_layout.width = width;
-            actual_equipment_layout.height = height;
-          },
-          equipment_layout
-      );
-
-      return equipment_layout;
-    }()) {
+) : equipment_layout_(CreateVariant(position.Get(), width, height)) {
 }
 
 EquipmentLayout_Api::EquipmentLayout_Api(
@@ -129,14 +84,9 @@ EquipmentLayout_Api::operator EquipmentLayout_Wrapper() noexcept {
 }
 
 EquipmentLayout* EquipmentLayout_Api::Get() noexcept {
-  return std::visit(
-      [](auto& actual_equipment_layout) {
-        return reinterpret_cast<EquipmentLayout*>(
-            &actual_equipment_layout
-        );
-      },
-      this->equipment_layout_
-  );
+  const auto* const_this = this;
+
+  return const_cast<EquipmentLayout*>(const_this->Get());
 }
 
 const EquipmentLayout* EquipmentLayout_Api::Get() const noexcept {
@@ -190,6 +140,35 @@ void EquipmentLayout_Api::SetHeight(unsigned char height) noexcept {
   EquipmentLayout_Wrapper wrapper(this->Get());
 
   wrapper.SetHeight(height);
+}
+
+EquipmentLayout_Api::ApiVariant EquipmentLayout_Api::CreateVariant(
+    const PositionalRectangle* position,
+    unsigned char width,
+    unsigned char height
+) {
+  ApiVariant equipment_layout;
+
+  equipment_layout = EquipmentLayout_1_00();
+
+  std::visit(
+      [position, width, height](auto& actual_equipment_layout) {
+        using EquipmentLayout_T = std::remove_reference_t<
+            decltype(actual_equipment_layout)
+        >;
+        using PositionalRectangle_T = decltype(EquipmentLayout_T::position);
+
+        const PositionalRectangle_T* actual_src_position =
+            reinterpret_cast<const PositionalRectangle_T*>(position);
+
+        actual_equipment_layout.position = *actual_src_position;
+        actual_equipment_layout.width = width;
+        actual_equipment_layout.height = height;
+      },
+      equipment_layout
+  );
+
+  return equipment_layout;
 }
 
 } // namespace d2

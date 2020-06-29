@@ -49,12 +49,7 @@ namespace d2 {
 
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
     MpqArchiveHandle* mpq_archive_handle
-) noexcept :
-    mpq_archive_handle_([mpq_archive_handle]() {
-      return reinterpret_cast<MpqArchiveHandle_1_00*>(
-          mpq_archive_handle
-      );
-    }()) {
+) noexcept : mpq_archive_handle_(CreateVariant(mpq_archive_handle)) {
 }
 
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
@@ -119,7 +114,7 @@ MpqArchive* MpqArchiveHandle_Wrapper::GetMpqArchive() noexcept {
 }
 
 const MpqArchive* MpqArchiveHandle_Wrapper::GetMpqArchive() const noexcept {
-  MpqArchiveHandle_View view(*this);
+  MpqArchiveHandle_View view(this->Get());
 
   return view.GetMpqArchive();
 }
@@ -150,9 +145,16 @@ char* MpqArchiveHandle_Wrapper::GetMpqArchivePath() noexcept {
 }
 
 const char* MpqArchiveHandle_Wrapper::GetMpqArchivePath() const noexcept {
-  MpqArchiveHandle_View view(*this);
+  MpqArchiveHandle_View view(this->Get());
 
   return view.GetMpqArchivePath();
+}
+
+MpqArchiveHandle_Wrapper::WrapperVariant
+MpqArchiveHandle_Wrapper::CreateVariant(
+    MpqArchiveHandle* mpq_archive_handle
+) {
+  return reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle);
 }
 
 } // namespace d2

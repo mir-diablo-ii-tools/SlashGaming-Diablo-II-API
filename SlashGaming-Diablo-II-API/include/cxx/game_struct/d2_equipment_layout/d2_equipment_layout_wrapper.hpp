@@ -96,6 +96,8 @@ class DLLEXPORT EquipmentLayout_Wrapper {
   using WrapperVariant = std::variant<EquipmentLayout_1_00*>;
 
   WrapperVariant equipment_layout_;
+
+  static WrapperVariant CreateVariant(EquipmentLayout* equipment_layout);
 };
 
 } // namespace d2

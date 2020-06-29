@@ -54,7 +54,10 @@ namespace d2 {
 
 UnicodeChar_Api::UnicodeChar_Api() :
     uch_([](){
-      return UnicodeChar_1_00();
+      UnicodeChar_1_00 uch;
+      uch.ch = 0;
+
+      return uch;
     }()) {
 }
 
@@ -101,12 +104,9 @@ UnicodeChar_Api UnicodeChar_Api::FromUtf8Char(
 }
 
 UnicodeChar* UnicodeChar_Api::Get() noexcept {
-  return std::visit(
-      [](auto& actual_uch) {
-        return reinterpret_cast<UnicodeChar*>(&actual_uch);
-      },
-      this->uch_
-  );
+  const auto* const_this = this;
+
+  return const_cast<UnicodeChar*>(const_this->Get());
 }
 
 const UnicodeChar* UnicodeChar_Api::Get() const noexcept {

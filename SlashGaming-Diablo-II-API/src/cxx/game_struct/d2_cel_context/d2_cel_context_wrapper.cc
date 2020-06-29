@@ -54,18 +54,7 @@ namespace d2 {
 
 CelContext_Wrapper::CelContext_Wrapper(
     CelContext* cel_context
-) noexcept :
-    cel_context_([cel_context]() -> WrapperVariant {
-      GameVersion running_game_version = GetRunningGameVersionId();
-
-      if (running_game_version <= GameVersion::k1_10) {
-        return reinterpret_cast<CelContext_1_00*>(cel_context);
-      } else if (running_game_version == GameVersion::k1_12A) {
-        return reinterpret_cast<CelContext_1_12A*>(cel_context);
-      } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
-        return reinterpret_cast<CelContext_1_13C*>(cel_context);
-      }
-    }()) {
+) noexcept : cel_context_(CreateVariant(cel_context)) {
 }
 
 CelContext_Wrapper::CelContext_Wrapper(
@@ -265,6 +254,20 @@ void CelContext_Wrapper::SetFrame(unsigned int frame) noexcept {
       },
       this->cel_context_
   );
+}
+
+CelContext_Wrapper::WrapperVariant CelContext_Wrapper::CreateVariant(
+    CelContext* cel_context
+) {
+  GameVersion running_game_version = GetRunningGameVersionId();
+
+  if (running_game_version <= GameVersion::k1_10) {
+    return reinterpret_cast<CelContext_1_00*>(cel_context);
+  } else if (running_game_version == GameVersion::k1_12A) {
+    return reinterpret_cast<CelContext_1_12A*>(cel_context);
+  } else /* if (running_game_version >= GameVersion::k1_13ABeta) */ {
+    return reinterpret_cast<CelContext_1_13C*>(cel_context);
+  }
 }
 
 } // namespace d2

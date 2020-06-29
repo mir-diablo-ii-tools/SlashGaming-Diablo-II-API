@@ -47,12 +47,8 @@
 
 namespace d2 {
 
-BeltRecord_Wrapper::BeltRecord_Wrapper(
-    BeltRecord* belt_record
-) noexcept :
-    belt_record_([belt_record]() {
-      return reinterpret_cast<BeltRecord_1_00*>(belt_record);
-    }()) {
+BeltRecord_Wrapper::BeltRecord_Wrapper(BeltRecord* belt_record) noexcept :
+    belt_record_(CreateVariant(belt_record)) {
 }
 
 BeltRecord_Wrapper::BeltRecord_Wrapper(
@@ -94,12 +90,9 @@ BeltRecord_Wrapper::operator BeltRecord_View() const noexcept {
 }
 
 BeltRecord* BeltRecord_Wrapper::Get() noexcept {
-  return std::visit(
-      [](auto& actual_belt_record) {
-        return reinterpret_cast<BeltRecord*>(actual_belt_record);
-      },
-      this->belt_record_
-  );
+  const auto* const_this = this;
+
+  return const_cast<BeltRecord*>(const_this->Get());
 }
 
 const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
@@ -152,6 +145,12 @@ const PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() const noexcept
   BeltRecord_View view(this->Get());
 
   return view.GetSlotPositions();
+}
+
+BeltRecord_Wrapper::WrapperVariant BeltRecord_Wrapper::CreateVariant(
+    BeltRecord* belt_record
+) {
+  return reinterpret_cast<BeltRecord_1_00*>(belt_record);
 }
 
 } // namespace d2

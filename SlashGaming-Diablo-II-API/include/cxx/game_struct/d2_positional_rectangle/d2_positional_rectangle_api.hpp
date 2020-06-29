@@ -46,7 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
 
-#include <memory>
 #include <variant>
 
 #include "d2_positional_rectangle_struct.hpp"
@@ -104,6 +103,8 @@ class DLLEXPORT PositionalRectangle_Api {
   using ApiVariant = std::variant<PositionalRectangle_1_00>;
 
   ApiVariant positional_rectangle_;
+
+  static ApiVariant CreateVariant(int left, int right, int top, int bottom);
 };
 
 } // namespace d2

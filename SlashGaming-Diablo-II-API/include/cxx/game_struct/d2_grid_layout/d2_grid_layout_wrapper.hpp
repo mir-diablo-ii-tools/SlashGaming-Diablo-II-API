@@ -98,6 +98,8 @@ class DLLEXPORT GridLayout_Wrapper {
   using WrapperVariant = std::variant<GridLayout_1_00*>;
 
   WrapperVariant grid_layout_;
+
+  static WrapperVariant CreateVariant(GridLayout* grid_layout);
 };
 
 } // namespace d2

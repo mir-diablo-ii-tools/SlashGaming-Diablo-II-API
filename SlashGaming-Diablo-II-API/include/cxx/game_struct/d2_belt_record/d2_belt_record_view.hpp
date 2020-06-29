@@ -80,6 +80,8 @@ class DLLEXPORT BeltRecord_View {
   using ViewVariant = std::variant<const BeltRecord_1_00*>;
 
   ViewVariant belt_record_;
+
+  static ViewVariant CreateVariant(const BeltRecord* belt_record);
 };
 
 } // namespace d2

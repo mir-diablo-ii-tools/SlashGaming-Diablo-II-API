@@ -50,11 +50,7 @@
 namespace d2 {
 
 GridLayout_Wrapper::GridLayout_Wrapper(GridLayout* grid_layout) noexcept :
-    grid_layout_([grid_layout]() {
-      return reinterpret_cast<GridLayout_1_00*>(
-          grid_layout
-      );
-    }()) {
+    grid_layout_(CreateVariant(grid_layout)) {
 }
 
 GridLayout_Wrapper::GridLayout_Wrapper(
@@ -96,12 +92,9 @@ GridLayout_Wrapper GridLayout_Wrapper::operator[](
 }
 
 GridLayout* GridLayout_Wrapper::Get() noexcept {
-  return std::visit(
-      [](auto& actual_grid_layout) {
-        return reinterpret_cast<GridLayout*>(actual_grid_layout);
-      },
-      this->grid_layout_
-  );
+  const auto* const_this = this;
+
+  return const_cast<GridLayout*>(const_this->Get());
 }
 
 const GridLayout* GridLayout_Wrapper::Get() const noexcept {
@@ -199,6 +192,12 @@ void GridLayout_Wrapper::SetHeight(unsigned char height) noexcept {
       },
       this->grid_layout_
   );
+}
+
+GridLayout_Wrapper::WrapperVariant GridLayout_Wrapper::CreateVariant(
+    GridLayout* grid_layout
+) {
+  return reinterpret_cast<GridLayout_1_00*>(grid_layout);
 }
 
 } // namespace d2

@@ -50,11 +50,7 @@ namespace d2 {
 PositionalRectangle_View::PositionalRectangle_View(
     const PositionalRectangle* positional_rectangle
 ) noexcept :
-    positional_rectangle_([positional_rectangle]() {
-      return reinterpret_cast<const PositionalRectangle_1_00*>(
-          positional_rectangle
-      );
-    }()) {
+    positional_rectangle_(CreateVariant(positional_rectangle)) {
 }
 
 PositionalRectangle_View::PositionalRectangle_View(
@@ -132,6 +128,15 @@ int PositionalRectangle_View::GetBottom() const noexcept {
         return actual_positional_rectangle->bottom;
       },
       this->positional_rectangle_
+  );
+}
+
+PositionalRectangle_View::ViewVariant
+PositionalRectangle_View::CreateVariant(
+  const PositionalRectangle* positional_rectangle
+) {
+  return reinterpret_cast<const PositionalRectangle_1_00*>(
+      positional_rectangle
   );
 }
 

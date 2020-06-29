@@ -55,57 +55,6 @@
 
 namespace d2 {
 
-InventoryRecord_Api::ApiVariant InventoryRecord_Api::CreateVariant(
-    const PositionalRectangle* position,
-    const GridLayout* grid_layout,
-    const EquipmentLayout* equipment_slots
-) {
-  ApiVariant inventory_record;
-
-  inventory_record = InventoryRecord_1_00();
-
-  std::visit(
-      [=](auto& actual_inventory_record) {
-        using InventoryRecord_T = std::remove_reference_t<
-            decltype(actual_inventory_record)
-        >;
-        using PositionalRectangle_T = std::remove_pointer_t<
-            decltype(InventoryRecord_T::position)
-        >;
-        using GridLayout_T = std::remove_pointer_t<
-            decltype(InventoryRecord_T::grid_layout)
-        >;
-        using EquipmentLayout_T = std::remove_extent_t<
-            decltype(InventoryRecord_T::equipment_slots)
-        >;
-        using EquipmentSlots_A = decltype(InventoryRecord_T::equipment_slots);
-
-        constexpr std::size_t kNumEquipmentSlots =
-            std::extent_v<EquipmentSlots_A>;
-
-        const PositionalRectangle_T* actual_src_positional_rectangle =
-            reinterpret_cast<const PositionalRectangle_T*>(position);
-        const GridLayout_T* actual_src_grid_layout =
-            reinterpret_cast<const GridLayout_T*>(grid_layout);
-        const EquipmentLayout_T* actual_src_equipment_slots =
-            reinterpret_cast<const EquipmentLayout_T*>(equipment_slots);
-
-        actual_inventory_record.position = *actual_src_positional_rectangle;
-        actual_inventory_record.grid_layout = *actual_src_grid_layout;
-
-        std::copy_n(
-            actual_src_equipment_slots,
-            kNumEquipmentSlots,
-            actual_inventory_record.equipment_slots
-        );
-      },
-      inventory_record
-  );
-
-  return inventory_record;
-
-} // namespace
-
 InventoryRecord_Api::InventoryRecord_Api(
     PositionalRectangle_View position,
     GridLayout_View grid_layout,
@@ -117,12 +66,7 @@ InventoryRecord_Api::InventoryRecord_Api(
 
 InventoryRecord_Api::InventoryRecord_Api(
     const InventoryRecord_Api& other
-) : InventoryRecord_Api(
-        other.GetPosition(),
-        other.GetGridLayout(),
-        other.GetEquipmentSlots()
-    ) {
-}
+) = default;
 
 InventoryRecord_Api::InventoryRecord_Api(
     InventoryRecord_Api&& other
@@ -132,15 +76,7 @@ InventoryRecord_Api::~InventoryRecord_Api() = default;
 
 InventoryRecord_Api& InventoryRecord_Api::operator=(
     const InventoryRecord_Api& other
-) {
-  *this = InventoryRecord_Api(
-      other.GetPosition(),
-      other.GetGridLayout(),
-      other.GetEquipmentSlots()
-  );
-
-  return *this;
-}
+) = default;
 
 InventoryRecord_Api& InventoryRecord_Api::operator=(
     InventoryRecord_Api&& other
@@ -206,6 +142,56 @@ InventoryRecord_Api::GetEquipmentSlots() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetEquipmentSlots();
+}
+
+InventoryRecord_Api::ApiVariant InventoryRecord_Api::CreateVariant(
+    const PositionalRectangle* position,
+    const GridLayout* grid_layout,
+    const EquipmentLayout* equipment_slots
+) {
+  ApiVariant inventory_record;
+
+  inventory_record = InventoryRecord_1_00();
+
+  std::visit(
+      [=](auto& actual_inventory_record) {
+        using InventoryRecord_T = std::remove_reference_t<
+            decltype(actual_inventory_record)
+        >;
+        using PositionalRectangle_T = std::remove_pointer_t<
+            decltype(InventoryRecord_T::position)
+        >;
+        using GridLayout_T = std::remove_pointer_t<
+            decltype(InventoryRecord_T::grid_layout)
+        >;
+        using EquipmentLayout_T = std::remove_extent_t<
+            decltype(InventoryRecord_T::equipment_slots)
+        >;
+        using EquipmentSlots_A = decltype(InventoryRecord_T::equipment_slots);
+
+        constexpr std::size_t kNumEquipmentSlots =
+            std::extent_v<EquipmentSlots_A>;
+
+        const PositionalRectangle_T* actual_src_positional_rectangle =
+            reinterpret_cast<const PositionalRectangle_T*>(position);
+        const GridLayout_T* actual_src_grid_layout =
+            reinterpret_cast<const GridLayout_T*>(grid_layout);
+        const EquipmentLayout_T* actual_src_equipment_slots =
+            reinterpret_cast<const EquipmentLayout_T*>(equipment_slots);
+
+        actual_inventory_record.position = *actual_src_positional_rectangle;
+        actual_inventory_record.grid_layout = *actual_src_grid_layout;
+
+        std::copy_n(
+            actual_src_equipment_slots,
+            kNumEquipmentSlots,
+            actual_inventory_record.equipment_slots
+        );
+      },
+      inventory_record
+  );
+
+  return inventory_record;
 }
 
 } // namespace d2

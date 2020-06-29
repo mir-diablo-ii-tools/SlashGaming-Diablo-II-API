@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_API_HPP_
 
-#include <cstdint>
-#include <memory>
 #include <variant>
 
 #include "d2_equipment_layout_struct.hpp"
@@ -98,6 +96,12 @@ class DLLEXPORT EquipmentLayout_Api {
   using ApiVariant = std::variant<EquipmentLayout_1_00>;
 
   ApiVariant equipment_layout_;
+
+  static ApiVariant CreateVariant(
+      const PositionalRectangle* position,
+      unsigned char width,
+      unsigned char height
+  );
 };
 
 } // namespace d2

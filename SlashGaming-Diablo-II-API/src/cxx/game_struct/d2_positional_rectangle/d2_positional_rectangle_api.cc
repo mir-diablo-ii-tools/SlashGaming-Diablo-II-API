@@ -58,23 +58,7 @@ PositionalRectangle_Api::PositionalRectangle_Api(
     int right,
     int top,
     int bottom
-) : positional_rectangle_([left, right, top, bottom]() {
-      ApiVariant positional_rectangle;
-
-      positional_rectangle = PositionalRectangle_1_00();
-
-      std::visit(
-          [left, right, top, bottom](auto& actual_positional_rectangle) {
-            actual_positional_rectangle.left = left;
-            actual_positional_rectangle.right = right;
-            actual_positional_rectangle.top = top;
-            actual_positional_rectangle.bottom = bottom;
-          },
-          positional_rectangle
-      );
-
-      return positional_rectangle;
-    }()) {
+) : positional_rectangle_(CreateVariant(left, right, top, bottom)) {
 }
 
 PositionalRectangle_Api::PositionalRectangle_Api(
@@ -104,14 +88,9 @@ PositionalRectangle_Api::operator PositionalRectangle_Wrapper() noexcept {
 }
 
 PositionalRectangle* PositionalRectangle_Api::Get() noexcept {
-  return std::visit(
-      [](auto& actual_positional_rectangle) {
-        return reinterpret_cast<PositionalRectangle*>(
-            &actual_positional_rectangle
-        );
-      },
-      this->positional_rectangle_
-  );
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(const_this->Get());
 }
 
 const PositionalRectangle* PositionalRectangle_Api::Get() const noexcept {
@@ -177,6 +156,29 @@ void PositionalRectangle_Api::SetBottom(int bottom) noexcept {
   PositionalRectangle_Wrapper wrapper(this->Get());
 
   return wrapper.SetBottom(bottom);
+}
+
+PositionalRectangle_Api::ApiVariant PositionalRectangle_Api::CreateVariant(
+    int left,
+    int right,
+    int top,
+    int bottom
+) {
+  ApiVariant positional_rectangle;
+
+  positional_rectangle = PositionalRectangle_1_00();
+
+  std::visit(
+      [left, right, top, bottom](auto& actual_positional_rectangle) {
+        actual_positional_rectangle.left = left;
+        actual_positional_rectangle.right = right;
+        actual_positional_rectangle.top = top;
+        actual_positional_rectangle.bottom = bottom;
+      },
+      positional_rectangle
+  );
+
+  return positional_rectangle;
 }
 
 } // namespace d2

@@ -47,7 +47,6 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_API_HPP_
 
 #include <string_view>
-#include <memory>
 #include <variant>
 
 #include "d2_mpq_archive_handle_struct.hpp"
@@ -112,7 +111,7 @@ class DLLEXPORT MpqArchiveHandle_Api {
 
   bool is_open_;
 
-  ApiVariant CreateVariant(
+  static ApiVariant CreateVariant(
       std::string_view mpq_archive_path,
       bool is_set_error_on_drive_query_fail,
       void* (*on_fail_callback)(),

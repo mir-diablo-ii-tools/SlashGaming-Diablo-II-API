@@ -49,12 +49,7 @@ namespace d2 {
 
 EquipmentLayout_Wrapper::EquipmentLayout_Wrapper(
     EquipmentLayout* equipment_layout
-) noexcept :
-    equipment_layout_([equipment_layout]() {
-      return reinterpret_cast<EquipmentLayout_1_00*>(
-          equipment_layout
-      );
-    }()) {
+) noexcept : equipment_layout_(CreateVariant(equipment_layout)) {
 }
 
 EquipmentLayout_Wrapper::EquipmentLayout_Wrapper(
@@ -168,6 +163,13 @@ void EquipmentLayout_Wrapper::SetHeight(unsigned char height) noexcept {
       },
       this->equipment_layout_
   );
+}
+
+EquipmentLayout_Wrapper::WrapperVariant
+EquipmentLayout_Wrapper::CreateVariant(
+    EquipmentLayout* equipment_layout
+) {
+  return reinterpret_cast<EquipmentLayout_1_00*>(equipment_layout);
 }
 
 } // namespace d2

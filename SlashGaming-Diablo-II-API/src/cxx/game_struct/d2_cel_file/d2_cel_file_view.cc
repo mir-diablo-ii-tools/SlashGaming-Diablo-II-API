@@ -49,10 +49,7 @@ namespace d2 {
 
 CelFile_View::CelFile_View(
     const CelFile* cel_file
-) noexcept :
-    cel_file_([cel_file]() {
-      return reinterpret_cast<const CelFile_1_00*>(cel_file);
-    }()) {
+) noexcept : cel_file_(CreateVariant(cel_file)) {
 }
 
 CelFile_View::CelFile_View(
@@ -116,6 +113,12 @@ unsigned int CelFile_View::GetNumFrames() const noexcept {
       },
       this->cel_file_
   );
+}
+
+CelFile_View::ViewVariant CelFile_View::CreateVariant(
+    const CelFile* cel_file
+) {
+  return reinterpret_cast<const CelFile_1_00*>(cel_file);
 }
 
 } // namespace d2

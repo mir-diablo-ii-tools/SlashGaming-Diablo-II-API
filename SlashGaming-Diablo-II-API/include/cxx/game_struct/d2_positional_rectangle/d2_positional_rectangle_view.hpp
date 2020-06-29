@@ -90,6 +90,10 @@ class DLLEXPORT PositionalRectangle_View {
   >;
 
   ViewVariant positional_rectangle_;
+
+  static ViewVariant CreateVariant(
+      const PositionalRectangle* positional_rectangle
+  );
 };
 
 } // namespace d2

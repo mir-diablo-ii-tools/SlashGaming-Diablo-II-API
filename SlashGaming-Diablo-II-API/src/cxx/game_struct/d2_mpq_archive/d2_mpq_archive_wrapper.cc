@@ -50,9 +50,7 @@
 namespace d2 {
 
 MpqArchive_Wrapper::MpqArchive_Wrapper(MpqArchive* mpq_archive) noexcept :
-    mpq_archive_([mpq_archive](){
-      return reinterpret_cast<MpqArchive_1_00*>(mpq_archive);
-    }()) {
+    mpq_archive_(CreateVariant(mpq_archive)) {
 }
 
 MpqArchive_Wrapper::MpqArchive_Wrapper(
@@ -97,12 +95,9 @@ MpqArchive_Wrapper::operator MpqArchive_View() const noexcept {
 }
 
 MpqArchive* MpqArchive_Wrapper::Get() noexcept {
-  return std::visit(
-      [](auto& actual_mpq_archive) {
-        return reinterpret_cast<MpqArchive*>(actual_mpq_archive);
-      },
-      this->mpq_archive_
-  );
+  const auto* const_this = this;
+
+  return const_cast<MpqArchive*>(const_this->Get());
 }
 
 const MpqArchive* MpqArchive_Wrapper::Get() const noexcept {
@@ -112,6 +107,12 @@ const MpqArchive* MpqArchive_Wrapper::Get() const noexcept {
       },
       this->mpq_archive_
   );
+}
+
+MpqArchive_Wrapper::WrapperVariant MpqArchive_Wrapper::CreateVariant(
+    MpqArchive* mpq_archive
+) {
+  return reinterpret_cast<MpqArchive_1_00*>(mpq_archive);
 }
 
 } // namespace d2

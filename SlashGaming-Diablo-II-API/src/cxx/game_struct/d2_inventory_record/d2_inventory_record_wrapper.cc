@@ -53,12 +53,7 @@ namespace d2 {
 
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
     InventoryRecord* inventory_record
-) noexcept :
-    inventory_record_([inventory_record]() {
-      return reinterpret_cast<InventoryRecord_1_00*>(
-          inventory_record
-      );
-    }()) {
+) noexcept : inventory_record_(CreateVariant(inventory_record)) {
 }
 
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
@@ -108,7 +103,9 @@ InventoryRecord* InventoryRecord_Wrapper::Get() noexcept {
 const InventoryRecord* InventoryRecord_Wrapper::Get() const noexcept {
   return std::visit(
       [](auto& actual_inventory_record) {
-        return reinterpret_cast<const InventoryRecord*>(actual_inventory_record);
+        return reinterpret_cast<const InventoryRecord*>(
+            actual_inventory_record
+        );
       },
       this->inventory_record_
   );
@@ -166,6 +163,13 @@ InventoryRecord_Wrapper::GetEquipmentSlots() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetEquipmentSlots();
+}
+
+InventoryRecord_Wrapper::WrapperVariant
+InventoryRecord_Wrapper::CreateVariant(
+    InventoryRecord* inventory_record
+) {
+  return reinterpret_cast<InventoryRecord_1_00*>(inventory_record);
 }
 
 } // namespace d2

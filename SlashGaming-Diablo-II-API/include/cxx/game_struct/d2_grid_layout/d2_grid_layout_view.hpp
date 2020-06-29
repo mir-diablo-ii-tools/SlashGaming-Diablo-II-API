@@ -83,6 +83,8 @@ class DLLEXPORT GridLayout_View {
   using ViewVariant = std::variant<const GridLayout_1_00*>;
 
   ViewVariant grid_layout_;
+
+  static ViewVariant CreateVariant(const GridLayout* grid_layout);
 };
 
 } // namespace d2

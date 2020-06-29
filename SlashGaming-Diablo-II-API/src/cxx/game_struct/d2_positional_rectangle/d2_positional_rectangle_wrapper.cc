@@ -50,11 +50,7 @@ namespace d2 {
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
     PositionalRectangle* positional_rectangle
 ) noexcept :
-    positional_rectangle_([positional_rectangle]() {
-      return reinterpret_cast<PositionalRectangle_1_00*>(
-          positional_rectangle
-      );
-    }()) {
+    positional_rectangle_(CreateVariant(positional_rectangle)) {
 }
 
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
@@ -98,14 +94,9 @@ PositionalRectangle_View() const noexcept {
 }
 
 PositionalRectangle* PositionalRectangle_Wrapper::Get() noexcept {
-  return std::visit(
-      [](auto& actual_positional_rectangle) {
-        return reinterpret_cast<PositionalRectangle*>(
-            actual_positional_rectangle
-        );
-      },
-      this->positional_rectangle_
-  );
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(const_this->Get());
 }
 
 const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
@@ -194,6 +185,15 @@ void PositionalRectangle_Wrapper::SetBottom(int bottom) noexcept {
         actual_positional_rectangle->bottom = bottom;
       },
       this->positional_rectangle_
+  );
+}
+
+PositionalRectangle_Wrapper::WrapperVariant
+PositionalRectangle_Wrapper::CreateVariant(
+    PositionalRectangle* positional_rectangle
+) {
+  return reinterpret_cast<PositionalRectangle_1_00*>(
+      positional_rectangle
   );
 }
 

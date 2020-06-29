@@ -48,9 +48,7 @@
 namespace d2 {
 
 Cel_View::Cel_View(const Cel* cel) noexcept :
-    cel_([cel]() {
-      return reinterpret_cast<const Cel_1_00*>(cel);
-    }()) {
+    cel_(CreateVariant(cel)) {
 }
 
 Cel_View::Cel_View(const Cel_View& other) noexcept = default;
@@ -117,6 +115,10 @@ int Cel_View::GetWidth() const noexcept {
       },
       this->cel_
   );
+}
+
+Cel_View::ViewVariant Cel_View::CreateVariant(const Cel* cel) {
+  return reinterpret_cast<const Cel_1_00*>(cel);
 }
 
 } // namespace d2

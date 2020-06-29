@@ -110,6 +110,8 @@ class DLLEXPORT CelContext_Wrapper {
   >;
 
   WrapperVariant cel_context_;
+
+  static WrapperVariant CreateVariant(CelContext* cel_context);
 };
 
 } // namespace d2

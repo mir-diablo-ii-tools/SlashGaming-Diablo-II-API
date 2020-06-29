@@ -48,9 +48,7 @@
 namespace d2 {
 
 Cel_Wrapper::Cel_Wrapper(Cel* cel) noexcept :
-    cel_([cel]() {
-      return reinterpret_cast<Cel_1_00*>(cel);
-    }()) {
+    cel_(CreateVariant(cel)) {
 }
 
 Cel_Wrapper::Cel_Wrapper(const Cel_Wrapper& other) noexcept = default;
@@ -160,6 +158,10 @@ void Cel_Wrapper::SetWidth(int width) noexcept {
       },
       this->cel_
   );
+}
+
+Cel_Wrapper::WrapperVariant Cel_Wrapper::CreateVariant(Cel* cel) {
+  return reinterpret_cast<Cel_1_00*>(cel);
 }
 
 } // namespace d2
