@@ -49,7 +49,7 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_cel_file/d2_cel_file_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_view.hpp"
 #include "d2_cel_context_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -73,7 +73,7 @@ class DLLEXPORT CelContext_View {
 
   const CelContext* Get() const noexcept;
 
-  const CelFile* GetCelFile() const noexcept;
+  CelFile_View GetCelFile() const noexcept;
   unsigned int GetDirection() const noexcept;
   unsigned int GetFrame() const noexcept;
 

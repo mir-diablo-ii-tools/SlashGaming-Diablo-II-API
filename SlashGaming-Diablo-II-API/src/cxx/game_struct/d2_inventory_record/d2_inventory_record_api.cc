@@ -107,41 +107,41 @@ const InventoryRecord* InventoryRecord_Api::Get() const noexcept {
   );
 }
 
-PositionalRectangle* InventoryRecord_Api::GetPosition() noexcept {
-  InventoryRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.GetPosition();
-}
-
-const PositionalRectangle* InventoryRecord_Api::GetPosition() const noexcept {
+PositionalRectangle_View InventoryRecord_Api::GetPosition() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetPosition();
 }
 
-GridLayout* InventoryRecord_Api::GetGridLayout() noexcept {
+PositionalRectangle_Wrapper InventoryRecord_Api::GetPosition() noexcept {
   InventoryRecord_Wrapper wrapper(this->Get());
 
-  return wrapper.GetGridLayout();
+  return wrapper.GetPosition();
 }
 
-const GridLayout* InventoryRecord_Api::GetGridLayout() const noexcept {
+GridLayout_View InventoryRecord_Api::GetGridLayout() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetGridLayout();
 }
 
-EquipmentLayout* InventoryRecord_Api::GetEquipmentSlots() noexcept {
+GridLayout_Wrapper InventoryRecord_Api::GetGridLayout() noexcept {
   InventoryRecord_Wrapper wrapper(this->Get());
 
-  return wrapper.GetEquipmentSlots();
+  return wrapper.GetGridLayout();
 }
 
-const EquipmentLayout*
+EquipmentLayout_View
 InventoryRecord_Api::GetEquipmentSlots() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetEquipmentSlots();
+}
+
+EquipmentLayout_Wrapper InventoryRecord_Api::GetEquipmentSlots() noexcept {
+  InventoryRecord_Wrapper wrapper(this->Get());
+
+  return wrapper.GetEquipmentSlots();
 }
 
 InventoryRecord_Api::ApiVariant InventoryRecord_Api::CreateVariant(

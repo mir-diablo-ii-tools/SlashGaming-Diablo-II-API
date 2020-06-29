@@ -92,7 +92,7 @@ const CelContext* CelContext_View::Get() const noexcept {
   );
 }
 
-const CelFile* CelContext_View::GetCelFile() const noexcept {
+CelFile_View CelContext_View::GetCelFile() const noexcept {
   return std::visit(
       [](const auto& actual_cel_context) {
         return reinterpret_cast<const CelFile*>(

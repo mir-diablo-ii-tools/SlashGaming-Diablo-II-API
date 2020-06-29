@@ -50,7 +50,7 @@
 #include <variant>
 
 #include "../../helper/d2_draw_options.hpp"
-#include "../d2_cel/d2_cel_struct.hpp"
+#include "../d2_cel/d2_cel_wrapper.hpp"
 #include "d2_cel_file_struct.hpp"
 #include "d2_cel_file_view.hpp"
 
@@ -109,7 +109,7 @@ class DLLEXPORT CelFile_Wrapper {
       const DrawAllCelFileFramesOptions& all_frames_options
   );
 
-  Cel* GetCel(unsigned int direction, unsigned int frame);
+  Cel_Wrapper GetCel(unsigned int direction, unsigned int frame);
 
   unsigned int GetVersion() const noexcept;
   void SetVersion(unsigned int version) noexcept;

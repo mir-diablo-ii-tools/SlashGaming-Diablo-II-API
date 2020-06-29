@@ -49,7 +49,7 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
+#include "../d2_mpq_archive/d2_mpq_archive_view.hpp"
 #include "d2_mpq_archive_handle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -76,7 +76,7 @@ class DLLEXPORT MpqArchiveHandle_View {
 
   const MpqArchiveHandle* Get() const noexcept;
 
-  const MpqArchive* GetMpqArchive() const noexcept;
+  MpqArchive_View GetMpqArchive() const noexcept;
   const char* GetMpqArchivePath() const noexcept;
 
  private:

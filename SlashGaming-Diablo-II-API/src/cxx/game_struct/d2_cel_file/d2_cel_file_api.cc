@@ -181,7 +181,7 @@ bool CelFile_Api::DrawAllFrames(
   );
 }
 
-const Cel* CelFile_Api::GetCel(unsigned int direction, unsigned int frame) {
+Cel_View CelFile_Api::GetCel(unsigned int direction, unsigned int frame) {
   CelFile_Wrapper wrapper(this->Get());
 
   return wrapper.GetCel(direction, frame);

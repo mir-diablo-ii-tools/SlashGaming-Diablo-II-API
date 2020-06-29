@@ -94,7 +94,7 @@ const EquipmentLayout* EquipmentLayout_View::Get() const noexcept {
   );
 }
 
-const PositionalRectangle* EquipmentLayout_View::GetPosition() const noexcept {
+PositionalRectangle_View EquipmentLayout_View::GetPosition() const noexcept {
   return std::visit(
       [](const auto& actual_equipment_layout) {
         return reinterpret_cast<const PositionalRectangle*>(

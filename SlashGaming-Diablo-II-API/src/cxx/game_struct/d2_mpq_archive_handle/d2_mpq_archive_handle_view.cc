@@ -83,8 +83,7 @@ MpqArchiveHandle_View MpqArchiveHandle_View::operator[](
   );
 }
 
-const MpqArchiveHandle*
-MpqArchiveHandle_View::Get() const noexcept {
+const MpqArchiveHandle* MpqArchiveHandle_View::Get() const noexcept {
   return std::visit(
       [](const auto& actual_positional_rectangle) {
         return reinterpret_cast<const MpqArchiveHandle*>(
@@ -95,8 +94,7 @@ MpqArchiveHandle_View::Get() const noexcept {
   );
 }
 
-const MpqArchive*
-MpqArchiveHandle_View::GetMpqArchive() const noexcept {
+MpqArchive_View MpqArchiveHandle_View::GetMpqArchive() const noexcept {
   return std::visit(
       [](const auto& actual_mpq_archive_handle) {
         return reinterpret_cast<const MpqArchive*>(
@@ -107,8 +105,7 @@ MpqArchiveHandle_View::GetMpqArchive() const noexcept {
   );
 }
 
-const char*
-MpqArchiveHandle_View::GetMpqArchivePath() const noexcept {
+const char* MpqArchiveHandle_View::GetMpqArchivePath() const noexcept {
   return std::visit(
       [](const auto& actual_mpq_archive_handle) {
         return actual_mpq_archive_handle->mpq_archive_path;

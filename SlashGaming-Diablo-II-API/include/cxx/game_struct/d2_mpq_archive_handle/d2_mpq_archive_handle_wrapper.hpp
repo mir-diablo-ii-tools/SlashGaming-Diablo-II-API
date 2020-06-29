@@ -49,7 +49,8 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
+#include "../d2_mpq_archive/d2_mpq_archive_view.hpp"
+#include "../d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
 #include "d2_mpq_archive_handle_struct.hpp"
 #include "d2_mpq_archive_handle_view.hpp"
 
@@ -83,10 +84,10 @@ class DLLEXPORT MpqArchiveHandle_Wrapper {
   MpqArchiveHandle* Get() noexcept;
   const MpqArchiveHandle* Get() const noexcept;
 
-  MpqArchive* GetMpqArchive() noexcept;
-  const MpqArchive* GetMpqArchive() const noexcept;
+  MpqArchive_View GetMpqArchive() const noexcept;
+  MpqArchive_Wrapper GetMpqArchive() noexcept;
 
-  void SetMpqArchive(MpqArchive* mpq_archive) noexcept;
+  void SetMpqArchive(MpqArchive_Wrapper mpq_archive) noexcept;
 
   char* GetMpqArchivePath() noexcept;
   const char* GetMpqArchivePath() const noexcept;

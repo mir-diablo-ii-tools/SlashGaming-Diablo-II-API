@@ -135,16 +135,19 @@ void BeltRecord_Wrapper::SetNumSlots(unsigned char num_slots) noexcept {
   );
 }
 
-PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->GetSlotPositions());
-}
-
-const PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() const noexcept {
+PositionalRectangle_View
+BeltRecord_Wrapper::GetSlotPositions() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetSlotPositions();
+}
+
+PositionalRectangle_Wrapper BeltRecord_Wrapper::GetSlotPositions() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(
+      const_this->GetSlotPositions().Get()
+  );
 }
 
 BeltRecord_Wrapper::WrapperVariant BeltRecord_Wrapper::CreateVariant(

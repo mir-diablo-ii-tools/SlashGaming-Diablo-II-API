@@ -48,7 +48,8 @@
 
 #include <cstddef>
 
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "d2_belt_record_struct.hpp"
 #include "d2_belt_record_view.hpp"
 
@@ -82,8 +83,8 @@ class DLLEXPORT BeltRecord_Wrapper {
   unsigned char GetNumSlots() const noexcept;
   void SetNumSlots(unsigned char num_slots) noexcept;
 
-  PositionalRectangle* GetSlotPositions() noexcept;
-  const PositionalRectangle* GetSlotPositions() const noexcept;
+  PositionalRectangle_View GetSlotPositions() const noexcept;
+  PositionalRectangle_Wrapper GetSlotPositions() noexcept;
 
  private:
   using WrapperVariant = std::variant<BeltRecord_1_00*>;

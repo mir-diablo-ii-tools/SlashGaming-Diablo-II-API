@@ -111,7 +111,7 @@ class DLLEXPORT CelFile_Api {
       const DrawAllCelFileFramesOptions& all_frames_options
   );
 
-  const Cel* GetCel(unsigned int direction, unsigned int frame);
+  Cel_View GetCel(unsigned int direction, unsigned int frame);
 
   bool IsOpen() const;
 

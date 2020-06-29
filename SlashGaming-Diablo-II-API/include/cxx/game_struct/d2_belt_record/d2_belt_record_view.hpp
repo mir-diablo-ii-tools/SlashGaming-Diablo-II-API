@@ -49,7 +49,7 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 #include "d2_belt_record_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -74,7 +74,7 @@ class DLLEXPORT BeltRecord_View {
   const BeltRecord* Get() const noexcept;
 
   unsigned char GetNumSlots() const noexcept;
-  const PositionalRectangle* GetSlotPositions() const noexcept;
+  PositionalRectangle_View GetSlotPositions() const noexcept;
 
  private:
   using ViewVariant = std::variant<const BeltRecord_1_00*>;

@@ -101,7 +101,7 @@ class DLLEXPORT MpqArchiveHandle_Api {
       int priority
   );
 
-  const MpqArchive* GetMpqArchive() const noexcept;
+  MpqArchive_View GetMpqArchive() const noexcept;
   const char* GetMpqArchivePath() const noexcept;
 
  private:

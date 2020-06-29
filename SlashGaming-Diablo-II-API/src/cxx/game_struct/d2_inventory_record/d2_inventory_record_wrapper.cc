@@ -45,10 +45,6 @@
 
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_wrapper.hpp"
 
-#include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
-#include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_wrapper.hpp"
-#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
-
 namespace d2 {
 
 InventoryRecord_Wrapper::InventoryRecord_Wrapper(
@@ -127,42 +123,43 @@ void InventoryRecord_Wrapper::Assign(InventoryRecord_View src) noexcept {
   );
 }
 
-PositionalRectangle* InventoryRecord_Wrapper::GetPosition() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->GetPosition());
-}
-
-const PositionalRectangle*
+PositionalRectangle_View
 InventoryRecord_Wrapper::GetPosition() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetPosition();
 }
 
-GridLayout* InventoryRecord_Wrapper::GetGridLayout() noexcept {
+PositionalRectangle_Wrapper InventoryRecord_Wrapper::GetPosition() noexcept {
   const auto* const_this = this;
 
-  return const_cast<GridLayout*>(const_this->GetGridLayout());
+  return const_cast<PositionalRectangle*>(const_this->GetPosition().Get());
 }
 
-const GridLayout* InventoryRecord_Wrapper::GetGridLayout() const noexcept {
+GridLayout_View InventoryRecord_Wrapper::GetGridLayout() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetGridLayout();
 }
 
-EquipmentLayout* InventoryRecord_Wrapper::GetEquipmentSlots() noexcept {
+GridLayout_Wrapper InventoryRecord_Wrapper::GetGridLayout() noexcept {
   const auto* const_this = this;
 
-  return const_cast<EquipmentLayout*>(const_this->GetEquipmentSlots());
+  return const_cast<GridLayout*>(const_this->GetGridLayout().Get());
 }
 
-const EquipmentLayout*
+EquipmentLayout_View
 InventoryRecord_Wrapper::GetEquipmentSlots() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetEquipmentSlots();
+}
+
+EquipmentLayout_Wrapper
+InventoryRecord_Wrapper::GetEquipmentSlots() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<EquipmentLayout*>(const_this->GetEquipmentSlots().Get());
 }
 
 InventoryRecord_Wrapper::WrapperVariant

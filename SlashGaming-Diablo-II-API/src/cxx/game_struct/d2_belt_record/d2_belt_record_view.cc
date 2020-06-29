@@ -100,8 +100,7 @@ unsigned char BeltRecord_View::GetNumSlots() const noexcept {
   );
 }
 
-const PositionalRectangle*
-BeltRecord_View::GetSlotPositions() const noexcept {
+PositionalRectangle_View BeltRecord_View::GetSlotPositions() const noexcept {
   return std::visit(
       [](const auto& actual_belt_record) {
         return reinterpret_cast<const PositionalRectangle*>(

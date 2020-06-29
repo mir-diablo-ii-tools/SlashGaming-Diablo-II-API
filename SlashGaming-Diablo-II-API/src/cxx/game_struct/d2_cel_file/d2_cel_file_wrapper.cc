@@ -306,7 +306,7 @@ bool CelFile_Wrapper::DrawAllFrames(
   return is_all_success;
 }
 
-Cel* CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
+Cel_Wrapper CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
   CelContext_Api cel_context(this->Get(), direction, frame);
 
   return cel_context.GetCel();

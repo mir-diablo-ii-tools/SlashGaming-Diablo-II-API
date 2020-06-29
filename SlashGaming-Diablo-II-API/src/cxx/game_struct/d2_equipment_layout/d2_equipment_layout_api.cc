@@ -106,16 +106,16 @@ void EquipmentLayout_Api::Assign(EquipmentLayout_View src) noexcept {
   wrapper.Assign(src);
 }
 
-PositionalRectangle* EquipmentLayout_Api::GetPosition() noexcept {
-  EquipmentLayout_Wrapper wrapper(this->Get());
-
-  return wrapper.GetPosition();
-}
-
-const PositionalRectangle* EquipmentLayout_Api::GetPosition() const noexcept {
+PositionalRectangle_View EquipmentLayout_Api::GetPosition() const noexcept {
   EquipmentLayout_View view(this->Get());
 
   return view.GetPosition();
+}
+
+PositionalRectangle_Wrapper EquipmentLayout_Api::GetPosition() noexcept {
+  EquipmentLayout_Wrapper wrapper(this->Get());
+
+  return wrapper.GetPosition();
 }
 
 unsigned char EquipmentLayout_Api::GetWidth() const noexcept {

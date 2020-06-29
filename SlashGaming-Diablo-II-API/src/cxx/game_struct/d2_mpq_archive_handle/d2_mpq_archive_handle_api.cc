@@ -173,7 +173,7 @@ void MpqArchiveHandle_Api::Open(
   this->is_open_ = (this->Get() != nullptr);
 }
 
-const MpqArchive* MpqArchiveHandle_Api::GetMpqArchive() const noexcept {
+MpqArchive_View MpqArchiveHandle_Api::GetMpqArchive() const noexcept {
   MpqArchiveHandle_View view(this->Get());
 
   return view.GetMpqArchive();

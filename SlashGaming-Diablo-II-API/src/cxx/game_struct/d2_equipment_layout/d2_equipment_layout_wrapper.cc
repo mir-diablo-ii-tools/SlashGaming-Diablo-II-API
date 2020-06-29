@@ -123,16 +123,16 @@ void EquipmentLayout_Wrapper::Assign(EquipmentLayout_View src) noexcept {
   );
 }
 
-PositionalRectangle* EquipmentLayout_Wrapper::GetPosition() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->GetPosition());
-}
-
-const PositionalRectangle* EquipmentLayout_Wrapper::GetPosition() const noexcept {
+PositionalRectangle_View EquipmentLayout_Wrapper::GetPosition() const noexcept {
   EquipmentLayout_View view(this->Get());
 
   return view.GetPosition();
+}
+
+PositionalRectangle_Wrapper EquipmentLayout_Wrapper::GetPosition() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(const_this->GetPosition().Get());
 }
 
 unsigned char EquipmentLayout_Wrapper::GetWidth() const noexcept {

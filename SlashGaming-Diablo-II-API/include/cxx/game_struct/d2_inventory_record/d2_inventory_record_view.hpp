@@ -49,9 +49,9 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
-#include "../d2_grid_layout/d2_grid_layout_struct.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
+#include "../d2_grid_layout/d2_grid_layout_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 #include "d2_inventory_record_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -79,9 +79,9 @@ class DLLEXPORT InventoryRecord_View {
 
   const InventoryRecord* Get() const noexcept;
 
-  const PositionalRectangle* GetPosition() const noexcept;
-  const GridLayout* GetGridLayout() const noexcept;
-  const EquipmentLayout* GetEquipmentSlots() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  GridLayout_View GetGridLayout() const noexcept;
+  EquipmentLayout_View GetEquipmentSlots() const noexcept;
 
  private:
   using ViewVariant = std::variant<const InventoryRecord_1_00*>;

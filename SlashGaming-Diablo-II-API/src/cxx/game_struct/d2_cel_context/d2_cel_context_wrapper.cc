@@ -198,21 +198,21 @@ Cel* CelContext_Wrapper::GetCel() {
   return d2::d2cmp::GetCelFromCelContext(this->Get());
 }
 
-const CelFile* CelContext_Wrapper::GetCelFile() const noexcept {
+CelFile_Wrapper CelContext_Wrapper::GetCelFile() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<CelFile*>(const_this->GetCelFile().Get());
+}
+
+CelFile_View CelContext_Wrapper::GetCelFile() const noexcept {
   CelContext_View view(*this);
 
   return view.GetCelFile();
 }
 
-CelFile* CelContext_Wrapper::GetCelFile() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<CelFile*>(const_this->GetCelFile());
-}
-
-void CelContext_Wrapper::SetCelFile(CelFile* cel_file) noexcept {
+void CelContext_Wrapper::SetCelFile(CelFile_Wrapper cel_file) noexcept {
   std::visit(
-      [cel_file](auto& actual_cel_context) {
+      [&cel_file](auto& actual_cel_context) {
         using CelContext_T = std::remove_pointer_t<
             std::remove_reference_t<decltype(actual_cel_context)>
         >;
@@ -220,7 +220,8 @@ void CelContext_Wrapper::SetCelFile(CelFile* cel_file) noexcept {
             decltype(CelContext_T::cel_file)
         >;
 
-        actual_cel_context->cel_file = reinterpret_cast<CelFile_T*>(cel_file);
+        actual_cel_context->cel_file =
+            reinterpret_cast<CelFile_T*>(cel_file.Get());
       },
       this->cel_context_
   );

@@ -48,11 +48,12 @@
 
 #include <variant>
 
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_grid_layout_struct.hpp"
 #include "d2_grid_layout_view.hpp"
 #include "d2_grid_layout_wrapper.hpp"
-
-#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -91,8 +92,8 @@ class DLLEXPORT GridLayout_Api {
   unsigned char GetNumRows() const noexcept;
   void SetNumRows(unsigned char num_rows) noexcept;
 
-  PositionalRectangle* GetPosition() noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  PositionalRectangle_Wrapper GetPosition() noexcept;
 
   unsigned char GetWidth() const noexcept;
   void SetWidth(unsigned char width) noexcept;

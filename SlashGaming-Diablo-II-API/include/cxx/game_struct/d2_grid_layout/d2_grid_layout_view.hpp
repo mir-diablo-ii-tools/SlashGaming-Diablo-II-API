@@ -49,7 +49,7 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 #include "d2_grid_layout_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -75,7 +75,7 @@ class DLLEXPORT GridLayout_View {
 
   unsigned char GetNumColumns() const noexcept;
   unsigned char GetNumRows() const noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
   unsigned char GetWidth() const noexcept;
   unsigned char GetHeight() const noexcept;
 

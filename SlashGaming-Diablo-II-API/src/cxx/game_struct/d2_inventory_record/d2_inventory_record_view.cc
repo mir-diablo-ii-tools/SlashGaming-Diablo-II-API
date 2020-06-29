@@ -94,8 +94,7 @@ const InventoryRecord* InventoryRecord_View::Get() const noexcept {
   );
 }
 
-const PositionalRectangle*
-InventoryRecord_View::GetPosition() const noexcept {
+PositionalRectangle_View InventoryRecord_View::GetPosition() const noexcept {
   return std::visit(
       [](const auto& actual_inventory_record) {
         return reinterpret_cast<const PositionalRectangle*>(
@@ -106,7 +105,7 @@ InventoryRecord_View::GetPosition() const noexcept {
   );
 }
 
-const GridLayout* InventoryRecord_View::GetGridLayout() const noexcept {
+GridLayout_View InventoryRecord_View::GetGridLayout() const noexcept {
   return std::visit(
       [](const auto& actual_inventory_record) {
         return reinterpret_cast<const GridLayout*>(
@@ -117,7 +116,7 @@ const GridLayout* InventoryRecord_View::GetGridLayout() const noexcept {
   );
 }
 
-const EquipmentLayout*
+EquipmentLayout_View
 InventoryRecord_View::GetEquipmentSlots() const noexcept {
   return std::visit(
       [](const auto& actual_inventory_record) {

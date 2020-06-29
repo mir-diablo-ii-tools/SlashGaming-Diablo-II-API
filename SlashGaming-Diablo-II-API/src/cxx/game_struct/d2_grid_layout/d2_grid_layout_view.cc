@@ -109,7 +109,7 @@ unsigned char GridLayout_View::GetNumRows() const noexcept {
   );
 }
 
-const PositionalRectangle* GridLayout_View::GetPosition() const noexcept {
+PositionalRectangle_View GridLayout_View::GetPosition() const noexcept {
   return std::visit(
       [](const auto& actual_grid_layout) {
         return reinterpret_cast<const PositionalRectangle*>(

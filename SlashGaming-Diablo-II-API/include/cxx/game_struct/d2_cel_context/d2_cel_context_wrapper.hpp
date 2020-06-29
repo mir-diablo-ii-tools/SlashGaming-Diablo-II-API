@@ -51,7 +51,8 @@
 
 #include "../../helper/d2_draw_options.hpp"
 #include "../d2_cel/d2_cel_struct.hpp"
-#include "../d2_cel_file/d2_cel_file_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_view.hpp"
+#include "../d2_cel_file/d2_cel_file_wrapper.hpp"
 #include "d2_cel_context_struct.hpp"
 #include "d2_cel_context_view.hpp"
 
@@ -92,9 +93,9 @@ class DLLEXPORT CelContext_Wrapper {
 
   Cel* GetCel();
 
-  CelFile* GetCelFile() noexcept;
-  const CelFile* GetCelFile() const noexcept;
-  void SetCelFile(CelFile* cel_file) noexcept;
+  CelFile_View GetCelFile() const noexcept;
+  CelFile_Wrapper GetCelFile() noexcept;
+  void SetCelFile(CelFile_Wrapper cel_file) noexcept;
 
   unsigned int GetDirection() const noexcept;
   void SetDirection(unsigned int direction) noexcept;

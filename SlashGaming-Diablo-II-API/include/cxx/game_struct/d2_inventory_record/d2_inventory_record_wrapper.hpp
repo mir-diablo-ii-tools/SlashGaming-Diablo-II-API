@@ -49,9 +49,12 @@
 #include <cstddef>
 #include <variant>
 
-#include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
-#include "../d2_grid_layout/d2_grid_layout_struct.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
+#include "../d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
+#include "../d2_grid_layout/d2_grid_layout_view.hpp"
+#include "../d2_grid_layout/d2_grid_layout_wrapper.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "d2_inventory_record_struct.hpp"
 #include "d2_inventory_record_view.hpp"
 
@@ -86,14 +89,14 @@ class DLLEXPORT InventoryRecord_Wrapper {
   InventoryRecord* Get() noexcept;
   const InventoryRecord* Get() const noexcept;
 
-  PositionalRectangle* GetPosition() noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  PositionalRectangle_Wrapper GetPosition() noexcept;
 
-  GridLayout* GetGridLayout() noexcept;
-  const GridLayout* GetGridLayout() const noexcept;
+  GridLayout_View GetGridLayout() const noexcept;
+  GridLayout_Wrapper GetGridLayout() noexcept;
 
-  EquipmentLayout* GetEquipmentSlots() noexcept;
-  const EquipmentLayout* GetEquipmentSlots() const noexcept;
+  EquipmentLayout_View GetEquipmentSlots() const noexcept;
+  EquipmentLayout_Wrapper GetEquipmentSlots() noexcept;
 
  private:
   using WrapperVariant = std::variant<InventoryRecord_1_00*>;

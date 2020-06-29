@@ -48,11 +48,11 @@
 
 #include <variant>
 
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "d2_equipment_layout_struct.hpp"
 #include "d2_equipment_layout_view.hpp"
 #include "d2_equipment_layout_wrapper.hpp"
-
-#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -83,8 +83,8 @@ class DLLEXPORT EquipmentLayout_Api {
 
   void Assign(EquipmentLayout_View src) noexcept;
 
-  PositionalRectangle* GetPosition() noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  PositionalRectangle_Wrapper GetPosition() noexcept;
 
   unsigned char GetWidth() const noexcept;
   void SetWidth(unsigned char width) noexcept;

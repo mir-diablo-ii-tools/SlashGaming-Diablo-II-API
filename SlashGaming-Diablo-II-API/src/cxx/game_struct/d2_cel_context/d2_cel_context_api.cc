@@ -121,19 +121,19 @@ Cel* CelContext_Api::GetCel() {
   return wrapper.GetCel();
 }
 
-CelFile* CelContext_Api::GetCelFile() noexcept {
-  CelContext_Wrapper wrapper(this->Get());
-
-  return wrapper.GetCelFile();
-}
-
-const CelFile* CelContext_Api::GetCelFile() const noexcept {
+CelFile_View CelContext_Api::GetCelFile() const noexcept {
   CelContext_View view(this->Get());
 
   return view.GetCelFile();
 }
 
-void CelContext_Api::SetCelFile(CelFile* cel_file) noexcept {
+CelFile_Wrapper CelContext_Api::GetCelFile() noexcept {
+  CelContext_Wrapper wrapper(this->Get());
+
+  return wrapper.GetCelFile();
+}
+
+void CelContext_Api::SetCelFile(CelFile_Wrapper cel_file) noexcept {
   CelContext_Wrapper wrapper(this->Get());
 
   wrapper.SetCelFile(cel_file);

@@ -136,16 +136,16 @@ void GridLayout_Api::SetNumRows(unsigned char num_rows) noexcept {
   wrapper.SetNumRows(num_rows);
 }
 
-PositionalRectangle* GridLayout_Api::GetPosition() noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  return wrapper.GetPosition();
-}
-
-const PositionalRectangle* GridLayout_Api::GetPosition() const noexcept {
+PositionalRectangle_View GridLayout_Api::GetPosition() const noexcept {
   GridLayout_View view(this->Get());
 
   return view.GetPosition();
+}
+
+PositionalRectangle_Wrapper GridLayout_Api::GetPosition() noexcept {
+  GridLayout_Wrapper wrapper(this->Get());
+
+  return wrapper.GetPosition();
 }
 
 unsigned char GridLayout_Api::GetWidth() const noexcept {

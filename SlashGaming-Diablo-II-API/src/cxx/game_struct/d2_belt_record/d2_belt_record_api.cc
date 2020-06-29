@@ -121,16 +121,16 @@ void BeltRecord_Api::SetNumSlots(unsigned char num_slots) noexcept {
   return wrapper.SetNumSlots(num_slots);
 }
 
-PositionalRectangle* BeltRecord_Api::GetSlotPositions() noexcept {
-  BeltRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.GetSlotPositions();
-}
-
-const PositionalRectangle* BeltRecord_Api::GetSlotPositions() const noexcept {
+PositionalRectangle_View BeltRecord_Api::GetSlotPositions() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetSlotPositions();
+}
+
+PositionalRectangle_Wrapper BeltRecord_Api::GetSlotPositions() noexcept {
+  BeltRecord_Wrapper wrapper(this->Get());
+
+  return wrapper.GetSlotPositions();
 }
 
 BeltRecord_Api::ApiVariant BeltRecord_Api::CreateVariant(
