@@ -47,13 +47,36 @@
 #define SGMAPI_CXX_GAME_UNDEFINED_HPP_
 
 #include <cstdint>
+#include <variant>
+
+#include "../dllexport_define.inc"
 
 namespace mapi {
 
+/**
+ * A type used for struct definitions where the type of a pointer
+ * member is not yet documented. It is intentionally unimplemented to
+ * so that an assignment requires explicit casting.
+ */
 struct Undefined;
 
+/**
+ * A type that occupies a single byte of space. Used to explicitly
+ * document that a type is not yet known and that space should be
+ * reserved for proper struct alignment.
+ */
 using UndefinedByte = std::uint8_t;
+
+/**
+ * STL DLL interface
+ */
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<UndefinedByte>;
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<UndefinedByte*>;
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<Undefined*>;
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<const Undefined*>;
 
 } // namespace mapi
 
+#include "../dllexport_undefine.inc"
 #endif // SGMAPI_CXX_GAME_UNDEFINED_HPP_
