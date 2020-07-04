@@ -44,3 +44,4 @@
  */
 
 #undef DLLEXPORT
+#undef DLL_TEMPL_EXTERN

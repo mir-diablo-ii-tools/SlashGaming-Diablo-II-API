@@ -45,8 +45,11 @@
 
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
+#define DLL_TEMPL_EXTERN
 #elif defined(SGD2MAPI_DLLIMPORT)
 #define DLLEXPORT __declspec(dllimport)
+#define DLL_TEMPL_EXTERN extern
 #else
 #define DLLEXPORT
+#define DLL_TEMPL_EXTERN extern
 #endif
