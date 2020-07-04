@@ -75,7 +75,7 @@ Cel_Api::operator Cel_Wrapper() noexcept {
 Cel* Cel_Api::Get() noexcept {
   const auto* const_this = this;
 
-  return this->Get();
+  return const_cast<Cel*>(const_this->Get());
 }
 
 const Cel* Cel_Api::Get() const noexcept {
