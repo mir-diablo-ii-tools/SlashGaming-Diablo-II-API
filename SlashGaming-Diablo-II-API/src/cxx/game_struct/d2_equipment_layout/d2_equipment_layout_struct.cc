@@ -43,65 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_STRUCT_HPP_
-
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
-#include <variant>
-
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct EquipmentLayout;
-
-/**
- * Version-specific struct definitions
- */
-
-#pragma pack(push, 1)
-
-/* sizeof: 0x14 */ struct EquipmentLayout_1_00 {
-  /* 0x00 */ PositionalRectangle_1_00 position;
-  /* 0x10 */ std::uint8_t width;
-  /* 0x11 */ std::uint8_t height;
-  /* 0x12 */ std::uint8_t unused__to_align_0x12[2];
-};
-
-static_assert(std::is_standard_layout_v<EquipmentLayout_1_00>);
-static_assert(std::is_trivial_v<EquipmentLayout_1_00>);
-static_assert(sizeof(EquipmentLayout_1_00) == 0x14);
-static_assert(offsetof(EquipmentLayout_1_00, position) == 0x00);
-static_assert(offsetof(EquipmentLayout_1_00, width) == 0x10);
-static_assert(offsetof(EquipmentLayout_1_00, height) == 0x11);
-
-#pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const EquipmentLayout_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    EquipmentLayout_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     EquipmentLayout_1_00
 >;
 
-} // namespace d2
+template class std::variant<
+    EquipmentLayout_1_00*
+>;
 
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_EQUIPMENT_LAYOUT_D2_EQUIPMENT_LAYOUT_STRUCT_HPP_
+template class std::variant<
+    const EquipmentLayout_1_00*
+>;
+
+} // namespace d2
