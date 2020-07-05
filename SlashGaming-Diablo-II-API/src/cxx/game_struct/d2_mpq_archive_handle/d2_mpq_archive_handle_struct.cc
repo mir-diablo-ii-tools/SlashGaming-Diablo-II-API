@@ -43,62 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_STRUCT_HPP_
-
-#include <windows.h>
-#include <cstddef>
-#include <type_traits>
-#include <variant>
-
-#include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive_handle/d2_mpq_archive_handle_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct MpqArchiveHandle;
-
-/**
- * Version-specific struct definitions
- */
-
-#pragma pack(push, 1)
-
-/* sizeof: 0x108 */ struct MpqArchiveHandle_1_00 {
-  /* 0x0 */ MpqArchive_1_00* mpq_archive;
-  /* 0x4 */ char mpq_archive_path[/* 0x104, 260 */ MAX_PATH];
-};
-
-static_assert(std::is_standard_layout_v<MpqArchiveHandle_1_00>);
-static_assert(std::is_trivial_v<MpqArchiveHandle_1_00>);
-static_assert(sizeof(MpqArchiveHandle_1_00) >= 0x108);
-static_assert(offsetof(MpqArchiveHandle_1_00, mpq_archive) == 0x00);
-static_assert(offsetof(MpqArchiveHandle_1_00, mpq_archive_path) == 0x04);
-
-#pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     MpqArchiveHandle_1_00
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     MpqArchiveHandle_1_00*
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     const MpqArchiveHandle_1_00*
 >;
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_STRUCT_HPP_
