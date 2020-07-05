@@ -43,65 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_STRUCT_HPP_
-
-#include <cstddef>
-#include <type_traits>
-#include <variant>
-
-#include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
-#include "../d2_grid_layout/d2_grid_layout_struct.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct InventoryRecord;
-
-/**
- * Version-specific struct definitions
- */
-
-#pragma pack(push, 1)
-
-/* sizeof: 0xF0 */ struct InventoryRecord_1_00 {
-  /* 0x00 */ PositionalRectangle_1_00 position;
-  /* 0x10 */ GridLayout_1_00 grid_layout;
-  /* 0x28 */ EquipmentLayout_1_00 equipment_slots[10];
-};
-
-static_assert(std::is_standard_layout_v<InventoryRecord_1_00>);
-static_assert(std::is_trivial_v<InventoryRecord_1_00>);
-static_assert(sizeof(InventoryRecord_1_00) == 0xF0);
-static_assert(offsetof(InventoryRecord_1_00, position) == 0x00);
-static_assert(offsetof(InventoryRecord_1_00, grid_layout) == 0x10);
-static_assert(offsetof(InventoryRecord_1_00, equipment_slots) == 0x28);
-
-#pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     InventoryRecord_1_00
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     InventoryRecord_1_00*
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     const InventoryRecord_1_00*
 >;
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_STRUCT_HPP_
