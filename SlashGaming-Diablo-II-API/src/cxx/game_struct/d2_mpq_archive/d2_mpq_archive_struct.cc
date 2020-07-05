@@ -43,40 +43,16 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_STRUCT_HPP_
-
-#include <variant>
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct MpqArchive;
-
-/**
- * Version-specific struct definitions
- */
-
-struct MpqArchive_1_00;
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     MpqArchive_1_00*
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     const MpqArchive_1_00*
 >;
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_STRUCT_HPP_
