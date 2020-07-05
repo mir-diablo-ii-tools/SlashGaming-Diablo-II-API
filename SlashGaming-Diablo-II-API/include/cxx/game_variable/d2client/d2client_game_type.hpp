@@ -60,7 +60,7 @@ DLLEXPORT void SetGameType(ClientGameType game_type);
 DLLEXPORT void SetGameType_1_00(ClientGameType_1_00 game_type);
 DLLEXPORT void SetGameType_1_07(ClientGameType_1_07 game_type);
 
-} // namespace d2client
+} // namespace d2::d2client
 
 #include "../../../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_VARIABLE_D2CLIENT_D2CLIENT_GAME_TYPE_HPP_
