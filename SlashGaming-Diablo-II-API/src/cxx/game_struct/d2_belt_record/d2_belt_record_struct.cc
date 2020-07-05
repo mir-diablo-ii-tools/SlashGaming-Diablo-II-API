@@ -43,65 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_STRUCT_HPP_
-
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
-#include <variant>
-
-#include "../../game_undefined.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct BeltRecord;
-
-/**
- * Version-specific struct definitions
- */
-
-#pragma pack(push, 1)
-
-/* sizeof: 0x108 */ struct BeltRecord_1_00 {
-  /* 0x00 */ mapi::Undefined* unknown_0x00;
-  /* 0x04 */ std::uint8_t num_slots;
-  /* 0x05 */ std::uint8_t unused__to_align_0x05[3];
-  /* 0x08 */ PositionalRectangle_1_00 slot_positions[16];
-};
-
-static_assert(std::is_standard_layout_v<BeltRecord_1_00>);
-static_assert(std::is_trivial_v<BeltRecord_1_00>);
-static_assert(sizeof(BeltRecord_1_00) == 0x108);
-static_assert(offsetof(BeltRecord_1_00, num_slots) == 0x04);
-static_assert(offsetof(BeltRecord_1_00, slot_positions) == 0x08);
-
-#pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     BeltRecord_1_00
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     BeltRecord_1_00*
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     const BeltRecord_1_00*
 >;
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_STRUCT_HPP_
