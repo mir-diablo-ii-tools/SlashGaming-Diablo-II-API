@@ -79,15 +79,18 @@ static_assert(offsetof(UnicodeChar_1_00, ch) == 0x00);
 
 #pragma pack(pop)
 
-DLLEXPORT inline bool operator==(UnicodeChar_1_00 ch1, UnicodeChar_1_00 ch2) {
-  return ch1.ch == ch2.ch;
-}
-
-DLLEXPORT inline std::strong_ordering operator<=>(
+constexpr bool operator==(
     UnicodeChar_1_00 ch1,
     UnicodeChar_1_00 ch2
 ) {
-  return (ch1.ch - ch2.ch) <=> 0;
+  return ch1.ch == ch2.ch;
+}
+
+constexpr std::strong_ordering operator<=>(
+    UnicodeChar_1_00 ch1,
+    UnicodeChar_1_00 ch2
+) {
+  return ch1.ch <=> ch2.ch;
 }
 
 /**
