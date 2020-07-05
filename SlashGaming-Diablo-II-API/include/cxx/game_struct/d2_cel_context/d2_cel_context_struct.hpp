@@ -109,6 +109,28 @@ static_assert(offsetof(CelContext_1_13C, direction) == 0x40);
 
 #pragma pack(pop)
 
+/**
+ * STL DLL interface
+ */
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    CelContext_1_00,
+    CelContext_1_12A,
+    CelContext_1_13C
+>;
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    CelContext_1_00*,
+    CelContext_1_12A*,
+    CelContext_1_13C*
+>;
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    const CelContext_1_00*,
+    const CelContext_1_12A*,
+    const CelContext_1_13C*
+>;
+
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"
