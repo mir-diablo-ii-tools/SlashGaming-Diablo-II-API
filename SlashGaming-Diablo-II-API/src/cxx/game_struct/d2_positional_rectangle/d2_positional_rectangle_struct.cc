@@ -43,64 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_STRUCT_HPP_
-
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
-#include <variant>
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct PositionalRectangle;
-
-/**
- * Version-specific struct definitions
- */
-
-#pragma pack(push, 1)
-
-/* sizeof: 0x10 */ struct PositionalRectangle_1_00 {
-  /* 0x00 */ std::int32_t left;
-  /* 0x04 */ std::int32_t right;
-  /* 0x08 */ std::int32_t top;
-  /* 0x0C */ std::int32_t bottom;
-};
-
-static_assert(std::is_standard_layout_v<PositionalRectangle_1_00>);
-static_assert(std::is_trivial_v<PositionalRectangle_1_00>);
-static_assert(sizeof(PositionalRectangle_1_00) == 0x10);
-static_assert(offsetof(PositionalRectangle_1_00, left) == 0x00);
-static_assert(offsetof(PositionalRectangle_1_00, right) == 0x04);
-static_assert(offsetof(PositionalRectangle_1_00, top) == 0x08);
-static_assert(offsetof(PositionalRectangle_1_00, bottom) == 0x0C);
-
-#pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     PositionalRectangle_1_00
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     PositionalRectangle_1_00*
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     const PositionalRectangle_1_00*
 >;
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_STRUCT_HPP_
