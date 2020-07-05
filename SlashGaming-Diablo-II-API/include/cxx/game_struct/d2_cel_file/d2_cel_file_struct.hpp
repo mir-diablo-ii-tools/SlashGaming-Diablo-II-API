@@ -76,7 +76,9 @@ struct CelFile;
   /* 0x08 */ mapi::UndefinedByte unknown_0x08[0x10 - 0x08];
   /* 0x10 */ std::uint32_t num_directions;
   /* 0x14 */ std::uint32_t num_frames;
-  /* 0x18 */ Cel_1_00* cels[1]; // This field has variable length.
+
+  // This field has variable length.
+  /* 0x18 */ Cel_1_00* cels[1];
 };
 
 static_assert(std::is_standard_layout_v<CelFile_1_00>);
