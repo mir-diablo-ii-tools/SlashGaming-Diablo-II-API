@@ -49,6 +49,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <type_traits>
+#include <variant>
 
 #include "../../game_undefined.hpp"
 #include "../d2_cel_file/d2_cel_file_struct.hpp"
