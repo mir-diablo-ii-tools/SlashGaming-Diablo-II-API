@@ -43,69 +43,20 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_STRUCT_HPP_
-#define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_STRUCT_HPP_
-
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
-#include <variant>
-
-#include "../../game_undefined.hpp"
-#include "../d2_cel/d2_cel_struct.hpp"
-
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/game_struct/d2_cel_file/d2_cel_file_struct.hpp"
 
 namespace d2 {
 
-/**
- * Generic struct declaration
- */
-
-struct CelFile;
-
-/**
- * Version-specific struct definitions
- */
-
-#pragma pack(push, 1)
-
-/* sizeof: 0x18 + sizeof(cels) */ struct CelFile_1_00 {
-  /* 0x00 */ std::uint32_t version;
-  /* 0x04 */ std::uint32_t flags;
-  /* 0x08 */ mapi::UndefinedByte unknown_0x08[0x10 - 0x08];
-  /* 0x10 */ std::uint32_t num_directions;
-  /* 0x14 */ std::uint32_t num_frames;
-  /* 0x18 */ Cel_1_00* cels[1]; // This field has variable length.
-};
-
-static_assert(std::is_standard_layout_v<CelFile_1_00>);
-static_assert(std::is_trivial_v<CelFile_1_00>);
-static_assert(sizeof(CelFile_1_00) >= 0x18);
-static_assert(offsetof(CelFile_1_00, version) == 0x00);
-static_assert(offsetof(CelFile_1_00, flags) == 0x04);
-static_assert(offsetof(CelFile_1_00, num_directions) == 0x10);
-static_assert(offsetof(CelFile_1_00, num_frames) == 0x14);
-
-#pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     CelFile_1_00
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     CelFile_1_00*
 >;
 
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+template class std::variant<
     const CelFile_1_00*
 >;
 
 } // namespace d2
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_STRUCT_HPP_
