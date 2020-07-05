@@ -51,6 +51,7 @@
 #include <type_traits>
 
 #include "../../game_undefined.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
