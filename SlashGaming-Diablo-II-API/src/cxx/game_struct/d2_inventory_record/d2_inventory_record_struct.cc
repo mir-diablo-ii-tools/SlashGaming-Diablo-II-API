@@ -45,7 +45,11 @@
 
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_struct.hpp"
 
+#include "../../../../include/dllexport_define.inc"
+
 namespace d2 {
+
+#if !defined(SUPPRESS_SRC_TEMPL_INST)
 
 template class std::variant<
     InventoryRecord_1_00
@@ -59,4 +63,8 @@ template class std::variant<
     const InventoryRecord_1_00*
 >;
 
+#endif // !defined(SUPPRESS_SRC_TEMPL_INST)
+
 } // namespace d2
+
+#include "../../../../include/dllexport_undefine.inc"

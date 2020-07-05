@@ -46,6 +46,7 @@
 #if defined(SGD2MAPI_DLLEXPORT)
 #define DLLEXPORT __declspec(dllexport)
 #define DLL_TEMPL_EXTERN
+#define SUPPRESS_SRC_TEMPL_INST
 #elif defined(SGD2MAPI_DLLIMPORT)
 #define DLLEXPORT __declspec(dllimport)
 #define DLL_TEMPL_EXTERN extern
