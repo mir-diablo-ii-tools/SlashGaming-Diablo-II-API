@@ -43,13 +43,13 @@
  *  work.
  */
 
+#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
+
 #include "game_address_table_impl.hpp"
 
 #include "../../../include/cxx/game_version.hpp"
 #include "config.hpp"
 #include "game_address_table_reader.hpp"
-
-#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
 
 namespace mapi {
 namespace {
