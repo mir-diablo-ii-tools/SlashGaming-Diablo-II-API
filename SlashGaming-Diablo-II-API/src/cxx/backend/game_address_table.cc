@@ -57,37 +57,52 @@
 #include "game_address_table_impl.hpp"
 
 namespace mapi {
+namespace {
 
-const GameAddress& GetGameAddress(
+[[noreturn]] void ExitOnAddressNotDefined(
+    const std::filesystem::path& library_path,
+    std::string_view address_name,
+    std::wstring_view source_code_file_path,
+    int source_code_line
+) {
+  constexpr std::wstring_view kErrorFormatMessage =
+        L"Address not defined for library: {}, address name: {}.";
+
+  std::wstring address_name_wide = ConvertMultiByteUtf8ToWide(
+      address_name,
+      source_code_file_path,
+      source_code_line
+  );
+
+  std::wstring full_message = fmt::format(
+      kErrorFormatMessage,
+      library_path.wstring(),
+      address_name_wide
+  );
+
+  ExitOnGeneralFailure(
+      full_message,
+      L"Address Not Defined",
+      source_code_file_path,
+      source_code_line
+  );
+}
+
+} // namespace
+
+GameAddress LoadGameAddress(
     std::filesystem::path library_path,
     std::string_view address_name
 ) {
   static GameAddressTable game_address_table = LoadGameAddressTable();
 
   try {
-    return game_address_table.at(library_path).at(address_name);
+    const std::unique_ptr<IGameAddressLocator>& locator =
+        game_address_table.at(library_path).at(address_name);
+
+    return locator->LocateGameAddress();
   } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"Address not defined for library: {}, address name: {}.";
-
-    std::wstring address_name_wide = ConvertMultiByteUtf8ToWide(
-        address_name,
-        __FILEW__,
-        __LINE__
-    );
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        library_path.wstring(),
-        address_name_wide
-    );
-
-    ExitOnGeneralFailure(
-        full_message,
-        L"Address Not Defined",
-        __FILEW__,
-        __LINE__
-    );
+    ExitOnAddressNotDefined(library_path, address_name, __FILEW__, __LINE__);
   }
 }
 

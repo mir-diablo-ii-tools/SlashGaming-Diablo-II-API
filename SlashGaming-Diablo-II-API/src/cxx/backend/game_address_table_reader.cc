@@ -50,16 +50,20 @@
 #include <charconv>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <regex>
 #include <string>
 #include <string_view>
 
 #include <fmt/format.h>
-#include "../../wide_macro.h"
-#include "../../include/cxx/game_address.hpp"
 #include "../../include/cxx/game_version.hpp"
+#include "../../wide_macro.h"
 #include "encoding.hpp"
 #include "error_handling.hpp"
+#include "game_address_locator/game_address_locator.hpp"
+#include "game_address_locator/game_decorated_name_locator.hpp"
+#include "game_address_locator/game_offset_locator.hpp"
+#include "game_address_locator/game_ordinal_locator.hpp"
 #include "game_library.hpp"
 
 namespace mapi {
@@ -73,7 +77,7 @@ constexpr std::string_view kLocatorTypeOrdinal = "Ordinal";
 constexpr std::string_view kLocatorTypeDecoratedName = "Decorated Name";
 constexpr std::string_view kLocatorTypeNA = "N/A";
 
-GameAddress ResolveAddress(
+std::unique_ptr<IGameAddressLocator> ResolveLocator(
     const std::filesystem::path& library_path,
     std::string_view address_name,
     std::string_view locator_type,
@@ -85,7 +89,7 @@ GameAddress ResolveAddress(
   if (locator_type == kLocatorTypeOffset) {
     int offset = std::stoi(locator_value.data(), 0, 16);
 
-    return GameAddress::FromOffset(library_path, offset);
+    return std::make_unique<GameOffsetLocator>(library_path, offset);
   } else if (locator_type == kLocatorTypeOrdinal) {
     int ordinal;
     std::from_chars(
@@ -94,11 +98,14 @@ GameAddress ResolveAddress(
         ordinal
     );
 
-    return GameAddress::FromOrdinal(library_path, ordinal);
+    return std::make_unique<GameOrdinalLocator>(library_path, ordinal);
   } else if (locator_type == kLocatorTypeDecoratedName) {
-    return GameAddress::FromDecoratedName(library_path, locator_value);
+    return std::make_unique<GameDecoratedNameLocator>(
+        library_path,
+        locator_value.data()
+    );
   } else if (locator_type == kLocatorTypeNA) {
-    return GameAddress::FromOffset(library_path, 0);
+    return std::make_unique<GameOffsetLocator>(library_path, 0);
   }
 
   // Should never occur!
@@ -216,12 +223,13 @@ GameAddressTable ReadTsvTableFile(
         library_path_text
     );
 
-    GameAddress resolved_game_address = ResolveAddress(
-        library_path,
-        address_name,
-        locator_type,
-        locator_value
-    );
+    std::unique_ptr<IGameAddressLocator> resolved_game_address_locator =
+        ResolveLocator(
+            library_path,
+            address_name,
+            locator_type,
+            locator_value
+        );
 
     if (!address_table.contains(library_path)) {
       address_table.insert_or_assign(library_path, GameAddressTable::mapped_type());
@@ -230,7 +238,7 @@ GameAddressTable ReadTsvTableFile(
     GameAddressTable::mapped_type& library_entries = address_table.at(library_path);
     library_entries.insert_or_assign(
         address_name,
-        std::move(resolved_game_address)
+        std::move(resolved_game_address_locator)
     );
   }
 

@@ -48,10 +48,11 @@
 
 #include <filesystem>
 #include <map>
+#include <memory>
 #include <string_view>
 #include <unordered_map>
 
-#include "../../../include/cxx/game_address.hpp"
+#include "game_address_locator/game_address_locator.hpp"
 
 namespace mapi {
 
@@ -59,9 +60,10 @@ using GameAddressTable = std::map<
     // Library path
     std::filesystem::path,
 
-    // Address Name -> Game Address
+    // Address Name -> Address Locator
     std::unordered_map<
-        std::string_view, GameAddress
+        std::string_view,
+        std::unique_ptr<IGameAddressLocator>
     >
 >;
 

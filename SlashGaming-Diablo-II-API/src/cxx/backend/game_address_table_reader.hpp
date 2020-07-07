@@ -46,25 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_ADDRESS_TABLE_READER_HPP_
 #define SGD2MAPI_CXX_GAME_ADDRESS_TABLE_READER_HPP_
 
-#include <cstdint>
 #include <filesystem>
-#include <map>
-#include <string_view>
-#include <unordered_map>
 
-#include "../../include/cxx/game_address.hpp"
+#include "game_address_table_impl.hpp"
 
 namespace mapi {
-
-using GameAddressTable = std::map<
-    // Library path
-    std::filesystem::path,
-
-    // Address Name -> Game Address
-    std::unordered_map<
-        std::string_view, GameAddress
-    >
->;
 
 GameAddressTable ReadTsvTableFile(
     const std::filesystem::path& file_path

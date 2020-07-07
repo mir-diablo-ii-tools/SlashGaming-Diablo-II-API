@@ -53,7 +53,7 @@
 
 namespace mapi {
 
-const GameAddress& GetGameAddress(
+GameAddress LoadGameAddress(
     std::filesystem::path library_path,
     std::string_view address_name
 );
