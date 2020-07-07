@@ -55,7 +55,7 @@ namespace d2::d2gfx {
 namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
-  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+  static const mapi::GameAddress game_address = mapi::LoadGameAddress(
       "D2GFX.dll",
       "ResolutionMode"
   );

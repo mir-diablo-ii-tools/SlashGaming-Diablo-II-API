@@ -57,7 +57,7 @@ namespace d2::storm {
 namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
-  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+  static const mapi::GameAddress game_address = mapi::LoadGameAddress(
       "Storm.dll",
       "SFileCloseArchive"
   );

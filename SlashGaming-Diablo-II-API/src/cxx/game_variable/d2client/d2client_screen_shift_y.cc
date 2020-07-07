@@ -55,7 +55,7 @@ namespace d2::d2client {
 namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
-  static const mapi::GameAddress& game_address = mapi::GetGameAddress(
+  static const mapi::GameAddress game_address = mapi::LoadGameAddress(
       "D2Client.dll",
       "ScreenShiftY"
   );
