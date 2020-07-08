@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,7 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_VIEW_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_UNICODE_CHAR_D2_UNICODE_STRING_VIEW_API_HPP_
 
+#include <compare>
 #include <string_view>
 #include <memory>
 #include <variant>
@@ -57,7 +58,7 @@
 
 namespace d2 {
 
-class DLLEXPORT UnicodeStringView_API {
+class DLLEXPORT UnicodeStringView_Api {
  public:
   using value_type = UnicodeChar;
   using size_type = int;
@@ -66,38 +67,73 @@ class DLLEXPORT UnicodeStringView_API {
   using pointer = value_type*;
   using const_pointer = const value_type*;
 
-  UnicodeStringView_API() noexcept;
-  UnicodeStringView_API(const UnicodeStringView_API& other) noexcept;
-  UnicodeStringView_API(UnicodeStringView_API&& other) noexcept;
-  UnicodeStringView_API(const value_type* s, size_type count);
-  UnicodeStringView_API(const value_type* s);
+  static constexpr size_type npos = size_type(-1);
 
-  ~UnicodeStringView_API() noexcept;
+  UnicodeStringView_Api() noexcept;
+  UnicodeStringView_Api(const UnicodeStringView_Api& other) noexcept;
+  UnicodeStringView_Api(UnicodeStringView_Api&& other) noexcept;
+  UnicodeStringView_Api(const value_type* s, size_type count);
+  UnicodeStringView_Api(const value_type* s);
 
-  UnicodeStringView_API& operator=(
-      const UnicodeStringView_API& view
+  ~UnicodeStringView_Api() noexcept;
+
+  UnicodeStringView_Api& operator=(
+      const UnicodeStringView_Api& view
   ) noexcept;
 
-  UnicodeStringView_API& operator=(
-      UnicodeStringView_API&& view
+  UnicodeStringView_Api& operator=(
+      UnicodeStringView_Api&& view
   ) noexcept;
+
+  /**
+   * Element access
+   */
 
   const_reference operator[](size_type pos) const;
 
   const_reference at(size_type pos) const;
-
+  const_reference front() const;
   const_reference back() const;
+  const_pointer data() const noexcept;
 
-  int compare(UnicodeStringView_API v) const noexcept;
+  /**
+   * Capacity
+   */
+
+  size_type size() const noexcept;
+  size_type length() const noexcept;
+  size_type max_size() const noexcept;
+  [[nodiscard]] bool empty() const noexcept;
+
+  /**
+   * Modifiers
+   */
+
+  void remove_prefix(size_type n);
+  void remove_suffix(size_type n);
+  void swap(UnicodeStringView_Api& v) noexcept;
+
+  /**
+   * Operations
+   */
+
+  size_type copy(value_type* dest, size_type count) const;
+  size_type copy(value_type* dest, size_type count, size_type pos) const;
+
+  UnicodeStringView_Api substr() const;
+  UnicodeStringView_Api substr(size_type pos) const;
+  UnicodeStringView_Api substr(size_type pos, size_type count) const;
+
+  int compare(UnicodeStringView_Api v) const noexcept;
   int compare(
       size_type pos1,
       size_type count1,
-      UnicodeStringView_API v
+      UnicodeStringView_Api v
   ) const;
   int compare(
       size_type pos1,
       size_type count1,
-      UnicodeStringView_API v,
+      UnicodeStringView_Api v,
       size_type pos2,
       size_type count2
   ) const;
@@ -114,34 +150,51 @@ class DLLEXPORT UnicodeStringView_API {
       size_type count2
   ) const;
 
-  size_type copy(value_type* dest, size_type count) const;
-  size_type copy(value_type* dest, size_type count, size_type pos) const;
+  bool starts_with(UnicodeStringView_Api sv) const noexcept;
+  bool starts_with(const value_type& c) const noexcept;
+  bool starts_with(const value_type* s) const;
+
+  bool ends_with(UnicodeStringView_Api sv) const noexcept;
+  bool ends_with(const value_type& c) const noexcept;
+  bool ends_with(const value_type* s) const;
+
+  /**
+   * Search
+   */
+
+  size_type find(UnicodeStringView_Api v, size_type pos = 0) const noexcept;
+  size_type find(value_type& ch, size_type pos = 0) const noexcept;
+  size_type find(const value_type* s, size_type pos, size_type count) const;
+  size_type find(const value_type* s, size_type pos = 0) const;
+
+  /**
+   * Extended Diablo II functions
+   */
 
   void Draw(int position_x, int position_y) const;
   void Draw(int position_x, int position_y, const DrawTextOptions& options) const;
 
-  [[nodiscard]]
-  bool empty() const noexcept;
-
-  const_reference front() const;
-
-  UnicodeStringView_API substr() const;
-  UnicodeStringView_API substr(size_type pos) const;
-  UnicodeStringView_API substr(size_type pos, size_type count) const;
-
-  const_pointer data() const noexcept;
-  size_type length() const noexcept;
-  size_type size() const noexcept;
-
  private:
-  std::variant<
-    std::unique_ptr<std::basic_string_view<UnicodeChar_1_00>>
-  > view_;
+  using ApiVariant = std::variant<
+      std::basic_string_view<UnicodeChar_1_00>
+  >;
 
-  explicit UnicodeStringView_API(
-      std::basic_string_view<UnicodeChar_1_00>&& ptr
+  ApiVariant view_;
+
+  explicit UnicodeStringView_Api(
+      ApiVariant&& ptr
   );
 };
+
+DLLEXPORT bool operator==(
+    UnicodeStringView_Api lhs,
+    UnicodeStringView_Api rhs
+) noexcept;
+
+DLLEXPORT std::strong_ordering operator<=>(
+    UnicodeStringView_Api lhs,
+    UnicodeStringView_Api rhs
+) noexcept;
 
 } // namespace d2
 

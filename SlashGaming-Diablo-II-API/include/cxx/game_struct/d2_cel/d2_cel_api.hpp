@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,7 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_API_HPP_
 
-#include <memory>
 #include <variant>
 
 #include "d2_cel_struct.hpp"
@@ -57,17 +56,17 @@
 
 namespace d2 {
 
-class DLLEXPORT Cel_API {
+class DLLEXPORT Cel_Api {
  public:
-  Cel_API() = delete;
+  Cel_Api() = delete;
 
-  Cel_API(const Cel_API& other);
-  Cel_API(Cel_API&& other) noexcept;
+  Cel_Api(const Cel_Api& other);
+  Cel_Api(Cel_Api&& other) noexcept;
 
-  ~Cel_API();
+  ~Cel_Api();
 
-  Cel_API& operator=(const Cel_API& other);
-  Cel_API& operator=(Cel_API&& other) noexcept;
+  Cel_Api& operator=(const Cel_Api& other);
+  Cel_Api& operator=(Cel_Api&& other) noexcept;
 
   operator Cel_View() const noexcept;
   operator Cel_Wrapper() noexcept;
@@ -76,19 +75,21 @@ class DLLEXPORT Cel_API {
   const Cel* Get() const noexcept;
 
   int GetHeight() const noexcept;
-  int GetOffsetX() const noexcept;
-  int GetOffsetY() const noexcept;
-  int GetWidth() const noexcept;
+  void SetHeight(int height) noexcept;
 
-  void SetHeight(int value) noexcept;
-  void SetOffsetX(int value) noexcept;
-  void SetOffsetY(int value) noexcept;
-  void SetWidth(int value) noexcept;
+  int GetOffsetX() const noexcept;
+  void SetOffsetX(int offset_x) noexcept;
+
+  int GetOffsetY() const noexcept;
+  void SetOffsetY(int offset_y) noexcept;
+
+  int GetWidth() const noexcept;
+  void SetWidth(int width) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<Cel_1_00[]>
-  > cel_;
+  using ApiVariant = std::variant<Cel_1_00*>;
+
+  ApiVariant cel_;
 };
 
 } // namespace d2

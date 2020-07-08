@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_VIEW_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "d2_cel_file_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -55,7 +58,7 @@ namespace d2 {
 class DLLEXPORT CelFile_View {
  public:
   CelFile_View() = delete;
-  CelFile_View(const CelFile* ptr) noexcept;
+  CelFile_View(const CelFile* cel_file) noexcept;
 
   CelFile_View(const CelFile_View& other) noexcept;
   CelFile_View(CelFile_View&& other) noexcept;
@@ -65,6 +68,8 @@ class DLLEXPORT CelFile_View {
   CelFile_View& operator=(const CelFile_View& other) noexcept;
   CelFile_View& operator=(CelFile_View&& other) noexcept;
 
+  CelFile_View operator[](std::size_t index) const noexcept;
+
   const CelFile* Get() const noexcept;
 
   unsigned int GetVersion() const noexcept;
@@ -72,7 +77,11 @@ class DLLEXPORT CelFile_View {
   unsigned int GetNumFrames() const noexcept;
 
  private:
-  const CelFile* ptr_;
+  using ViewVariant = std::variant<const CelFile_1_00*>;
+
+  ViewVariant cel_file_;
+
+  static ViewVariant CreateVariant(const CelFile* cel_file);
 };
 
 } // namespace d2

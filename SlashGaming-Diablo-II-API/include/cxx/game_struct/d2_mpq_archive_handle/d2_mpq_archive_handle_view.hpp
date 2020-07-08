@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,37 +46,47 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_VIEW_HPP_
 
-#include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
+#include <cstddef>
+#include <variant>
+
+#include "../d2_mpq_archive/d2_mpq_archive_view.hpp"
 #include "d2_mpq_archive_handle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT MPQArchiveHandle_View {
+class DLLEXPORT MpqArchiveHandle_View {
  public:
-  MPQArchiveHandle_View() = delete;
-  MPQArchiveHandle_View(const MPQArchiveHandle* ptr) noexcept;
+  MpqArchiveHandle_View() = delete;
+  MpqArchiveHandle_View(const MpqArchiveHandle* mpq_archive_handle) noexcept;
 
-  MPQArchiveHandle_View(const MPQArchiveHandle_View& other) noexcept;
-  MPQArchiveHandle_View(MPQArchiveHandle_View&& other) noexcept;
+  MpqArchiveHandle_View(const MpqArchiveHandle_View& other) noexcept;
+  MpqArchiveHandle_View(MpqArchiveHandle_View&& other) noexcept;
 
-  ~MPQArchiveHandle_View() noexcept;
+  ~MpqArchiveHandle_View() noexcept;
 
-  MPQArchiveHandle_View& operator=(
-      const MPQArchiveHandle_View& other
-  ) noexcept;
-  MPQArchiveHandle_View& operator=(
-      MPQArchiveHandle_View&& other
+  MpqArchiveHandle_View& operator=(
+      const MpqArchiveHandle_View& other
   ) noexcept;
 
-  const MPQArchiveHandle* Get() const noexcept;
+  MpqArchiveHandle_View& operator=(MpqArchiveHandle_View&& other) noexcept;
 
-  const MPQArchive* GetMPQArchive() const noexcept;
-  const char* GetMPQArchivePath() const noexcept;
+  MpqArchiveHandle_View operator[](std::size_t index) const noexcept;
+
+  const MpqArchiveHandle* Get() const noexcept;
+
+  MpqArchive_View GetMpqArchive() const noexcept;
+  const char* GetMpqArchivePath() const noexcept;
 
  private:
-  const MPQArchiveHandle* ptr_;
+  using ViewVariant = std::variant<const MpqArchiveHandle_1_00*>;
+
+  ViewVariant mpq_archive_handle_;
+
+  static ViewVariant CreateVariant(
+      const MpqArchiveHandle* mpq_archive_handle
+  );
 };
 
 } // namespace d2

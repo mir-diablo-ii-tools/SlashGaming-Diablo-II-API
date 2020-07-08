@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,15 +45,11 @@
 
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
 
-#include "d2_equipment_layout_impl.hpp"
-#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
-
 namespace d2 {
 
 EquipmentLayout_Wrapper::EquipmentLayout_Wrapper(
-    EquipmentLayout* ptr
-) noexcept :
-    ptr_(ptr) {
+    EquipmentLayout* equipment_layout
+) noexcept : equipment_layout_(CreateVariant(equipment_layout)) {
 }
 
 EquipmentLayout_Wrapper::EquipmentLayout_Wrapper(
@@ -78,6 +74,22 @@ EquipmentLayout_Wrapper::operator EquipmentLayout_View() const noexcept {
   return EquipmentLayout_View(this->Get());
 }
 
+EquipmentLayout_View EquipmentLayout_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  EquipmentLayout_View view(this->Get());
+
+  return view[index];
+}
+
+EquipmentLayout_Wrapper EquipmentLayout_Wrapper::operator[](
+    std::size_t index
+) noexcept {
+  const auto* const_this = this;
+
+  return const_cast<EquipmentLayout*>((*const_this)[index].Get());
+}
+
 EquipmentLayout* EquipmentLayout_Wrapper::Get() noexcept {
   const auto* const_this = this;
 
@@ -85,51 +97,79 @@ EquipmentLayout* EquipmentLayout_Wrapper::Get() noexcept {
 }
 
 const EquipmentLayout* EquipmentLayout_Wrapper::Get() const noexcept {
-  return this->ptr_;
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            actual_equipment_layout
+        );
+      },
+      this->equipment_layout_
+  );
 }
 
-void EquipmentLayout_Wrapper::Copy(EquipmentLayout_View src) noexcept {
-  PositionalRectangle_Wrapper this_positional_rectangle(this->GetPosition());
-  this_positional_rectangle.Copy(src.GetPosition());
+void EquipmentLayout_Wrapper::Assign(EquipmentLayout_View src) noexcept {
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  this->SetWidth(src.GetWidth());
-  this->SetHeight(src.GetHeight());
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+        *actual_dest = *actual_src;
+      },
+      this->equipment_layout_
+  );
 }
 
-PositionalRectangle* EquipmentLayout_Wrapper::GetPosition() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->GetPosition());
-}
-
-const PositionalRectangle* EquipmentLayout_Wrapper::GetPosition() const noexcept {
+PositionalRectangle_View EquipmentLayout_Wrapper::GetPosition() const noexcept {
   EquipmentLayout_View view(this->Get());
 
   return view.GetPosition();
 }
 
-std::uint_least8_t EquipmentLayout_Wrapper::GetWidth() const noexcept {
+PositionalRectangle_Wrapper EquipmentLayout_Wrapper::GetPosition() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(const_this->GetPosition().Get());
+}
+
+unsigned char EquipmentLayout_Wrapper::GetWidth() const noexcept {
   EquipmentLayout_View view(this->Get());
 
   return view.GetWidth();
 }
 
-void EquipmentLayout_Wrapper::SetWidth(std::uint_least8_t value) noexcept {
-  auto* actual_ptr = reinterpret_cast<EquipmentLayout_1_00*>(this->Get());
-
-  actual_ptr->width = value;
+void EquipmentLayout_Wrapper::SetWidth(unsigned char width) noexcept {
+  std::visit(
+      [width](auto& actual_equipment_layout) {
+        actual_equipment_layout->width = width;
+      },
+      this->equipment_layout_
+  );
 }
 
-std::uint_least8_t EquipmentLayout_Wrapper::GetHeight() const noexcept {
+unsigned char EquipmentLayout_Wrapper::GetHeight() const noexcept {
   EquipmentLayout_View view(this->Get());
 
   return view.GetHeight();
 }
 
-void EquipmentLayout_Wrapper::SetHeight(std::uint_least8_t value) noexcept {
-  auto* actual_ptr = reinterpret_cast<EquipmentLayout_1_00*>(this->Get());
+void EquipmentLayout_Wrapper::SetHeight(unsigned char height) noexcept {
+  std::visit(
+      [height](auto& actual_equipment_layout) {
+        actual_equipment_layout->height = height;
+      },
+      this->equipment_layout_
+  );
+}
 
-  actual_ptr->height = value;
+EquipmentLayout_Wrapper::WrapperVariant
+EquipmentLayout_Wrapper::CreateVariant(
+    EquipmentLayout* equipment_layout
+) {
+  return reinterpret_cast<EquipmentLayout_1_00*>(equipment_layout);
 }
 
 } // namespace d2

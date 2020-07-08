@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,12 @@
 
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
-#include "d2_positional_rectangle_impl.hpp"
-
 namespace d2 {
 
 PositionalRectangle_View::PositionalRectangle_View(
-    const PositionalRectangle* ptr
+    const PositionalRectangle* positional_rectangle
 ) noexcept :
-    ptr_(ptr) {
+    positional_rectangle_(CreateVariant(positional_rectangle)) {
 }
 
 PositionalRectangle_View::PositionalRectangle_View(
@@ -73,36 +71,73 @@ PositionalRectangle_View& PositionalRectangle_View::operator=(
     PositionalRectangle_View&& other
 ) noexcept = default;
 
+PositionalRectangle_View PositionalRectangle_View::operator[](
+    std::size_t index
+) const noexcept {
+  return std::visit(
+      [index](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_positional_rectangle[index]
+        );
+      },
+      this->positional_rectangle_
+  );
+}
+
 const PositionalRectangle* PositionalRectangle_View::Get() const noexcept {
-  return this->ptr_;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetLeft() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_ptr->left;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->left;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetRight() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_ptr->right;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->right;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetTop() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
-
-  return actual_ptr->top;
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->top;
+      },
+      this->positional_rectangle_
+  );
 }
 
 int PositionalRectangle_View::GetBottom() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const PositionalRectangle_1_00*>(this->Get());
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return actual_positional_rectangle->bottom;
+      },
+      this->positional_rectangle_
+  );
+}
 
-  return actual_ptr->bottom;
+PositionalRectangle_View::ViewVariant
+PositionalRectangle_View::CreateVariant(
+  const PositionalRectangle* positional_rectangle
+) {
+  return reinterpret_cast<const PositionalRectangle_1_00*>(
+      positional_rectangle
+  );
 }
 
 } // namespace d2

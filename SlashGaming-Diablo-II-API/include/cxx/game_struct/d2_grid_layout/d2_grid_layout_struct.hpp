@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,65 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_STRUCT_HPP_
 
+#include <cstddef>
+#include <cstdint>
+#include <type_traits>
+#include <variant>
+
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
+
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
+/**
+ * Generic struct declaration
+ */
+
 struct GridLayout;
 
-struct GridLayout_1_00;
+/**
+ * Version-specific struct definitions
+ */
+
+#pragma pack(push, 1)
+
+/* sizeof: 0x18 */ struct GridLayout_1_00 {
+  /* 0x00 */ std::uint8_t num_columns;
+  /* 0x01 */ std::uint8_t num_rows;
+  /* 0x02 */ std::uint8_t unused__to_align_0x02[2];
+  /* 0x04 */ PositionalRectangle_1_00 position;
+  /* 0x14 */ std::uint8_t width;
+  /* 0x15 */ std::uint8_t height;
+  /* 0x16 */ std::uint8_t unused__to_align_0x22[2];
+};
+
+static_assert(std::is_standard_layout_v<GridLayout_1_00>);
+static_assert(std::is_trivial_v<GridLayout_1_00>);
+static_assert(sizeof(GridLayout_1_00) == 0x18);
+static_assert(offsetof(GridLayout_1_00, num_columns) == 0x00);
+static_assert(offsetof(GridLayout_1_00, num_rows) == 0x01);
+static_assert(offsetof(GridLayout_1_00, position) == 0x04);
+static_assert(offsetof(GridLayout_1_00, width) == 0x14);
+static_assert(offsetof(GridLayout_1_00, height) == 0x15);
+
+#pragma pack(pop)
+
+/**
+ * STL DLL interface
+ */
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    GridLayout_1_00
+>;
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    GridLayout_1_00*
+>;
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    const GridLayout_1_00*
+>;
 
 } // namespace d2
 

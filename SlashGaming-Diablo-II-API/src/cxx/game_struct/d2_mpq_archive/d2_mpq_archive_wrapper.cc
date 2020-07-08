@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,45 +45,74 @@
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
 
-#include "d2_mpq_archive_impl.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
 
-MPQArchive_Wrapper::MPQArchive_Wrapper(MPQArchive* ptr) noexcept :
-    ptr_(ptr) {
+MpqArchive_Wrapper::MpqArchive_Wrapper(MpqArchive* mpq_archive) noexcept :
+    mpq_archive_(CreateVariant(mpq_archive)) {
 }
 
-MPQArchive_Wrapper::MPQArchive_Wrapper(
-    const MPQArchive_Wrapper& other
+MpqArchive_Wrapper::MpqArchive_Wrapper(
+    const MpqArchive_Wrapper& other
 ) noexcept = default;
 
-MPQArchive_Wrapper::MPQArchive_Wrapper(
-    MPQArchive_Wrapper&& other
+MpqArchive_Wrapper::MpqArchive_Wrapper(
+    MpqArchive_Wrapper&& other
 ) noexcept = default;
 
-MPQArchive_Wrapper::~MPQArchive_Wrapper() noexcept = default;
+MpqArchive_Wrapper::~MpqArchive_Wrapper() noexcept = default;
 
-MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
-    const MPQArchive_Wrapper& other
+MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
+    const MpqArchive_Wrapper& other
 ) noexcept = default;
 
-MPQArchive_Wrapper& MPQArchive_Wrapper::operator=(
-    MPQArchive_Wrapper&& other
+MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
+    MpqArchive_Wrapper&& other
 ) noexcept = default;
 
-MPQArchive_Wrapper::operator MPQArchive_View() const noexcept {
-  return MPQArchive_View(this->Get());
+/* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
+MpqArchive_View MpqArchive_Wrapper::operator[](
+    std::size_t index
+) const noexcept {
+  const MpqArchive_1_00* actual_mpq_archive =
+      reinterpret_cast<const MpqArchive_1_00*>(this->Get());
+
+  return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive[index]);
 }
 
-MPQArchive* MPQArchive_Wrapper::Get() noexcept {
+MpqArchive_Wrapper MpqArchive_Wrapper::operator[](
+    std::size_t index
+) noexcept {
   const auto* const_this = this;
 
-  return const_cast<MPQArchive*>(const_this->Get());
+  return const_cast<MpqArchive*>((*const_this)[index].Get());
+}
+*/
+
+MpqArchive_Wrapper::operator MpqArchive_View() const noexcept {
+  return MpqArchive_View(this->Get());
 }
 
-const MPQArchive* MPQArchive_Wrapper::Get() const noexcept {
-  return this->ptr_;
+MpqArchive* MpqArchive_Wrapper::Get() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<MpqArchive*>(const_this->Get());
+}
+
+const MpqArchive* MpqArchive_Wrapper::Get() const noexcept {
+  return std::visit(
+      [](const auto& actual_mpq_archive) {
+        return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
+      },
+      this->mpq_archive_
+  );
+}
+
+MpqArchive_Wrapper::WrapperVariant MpqArchive_Wrapper::CreateVariant(
+    MpqArchive* mpq_archive
+) {
+  return reinterpret_cast<MpqArchive_1_00*>(mpq_archive);
 }
 
 } // namespace d2

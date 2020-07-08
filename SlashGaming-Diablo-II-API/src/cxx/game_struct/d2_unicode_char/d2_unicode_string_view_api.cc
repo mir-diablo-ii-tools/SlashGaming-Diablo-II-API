@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,174 +49,567 @@
 #include <stdexcept>
 
 #include <fmt/format.h>
-#include "../../../../include/cxx/game_func/d2lang_func.hpp"
-#include "../../../../include/cxx/game_func/d2win_func.hpp"
+#include "../../../../include/cxx/game_function/d2lang_function.hpp"
+#include "../../../../include/cxx/game_function/d2win_function.hpp"
 #include "../../../../include/cxx/game_version.hpp"
-#include "d2_unicode_char_impl.hpp"
 
 namespace d2 {
 namespace {
 
-using unistring_view_1_00 = std::basic_string_view<UnicodeChar_1_00>;
-using unique_ptr_1_00 = std::unique_ptr<unistring_view_1_00>;
+using UnicodeStringView_1_00 = std::basic_string_view<UnicodeChar_1_00>;
 
 } // namespace
 
-UnicodeStringView_API::UnicodeStringView_API() noexcept
-    : view_(std::make_unique<unistring_view_1_00>()) {
+UnicodeStringView_Api::UnicodeStringView_Api() noexcept :
+    view_([]() {
+      return UnicodeStringView_1_00();
+    }()) {
 }
 
-UnicodeStringView_API::UnicodeStringView_API(
-    const UnicodeStringView_API& other
-) noexcept
-    : UnicodeStringView_API(other.data(), other.length()) {
+UnicodeStringView_Api::UnicodeStringView_Api(
+    const UnicodeStringView_Api& other
+) noexcept :
+    UnicodeStringView_Api(other.data(), other.length()) {
 }
 
-UnicodeStringView_API::UnicodeStringView_API(
-    UnicodeStringView_API&& other
+UnicodeStringView_Api::UnicodeStringView_Api(
+    UnicodeStringView_Api&& other
 ) noexcept = default;
 
-UnicodeStringView_API::UnicodeStringView_API(
+UnicodeStringView_Api::UnicodeStringView_Api(
     const value_type* s,
     size_type count
-) : view_(
-        std::make_unique<unistring_view_1_00>(
-            reinterpret_cast<const UnicodeChar_1_00*>(s), count
-        )
-    ) {
+) : view_([s, count]() {
+      const UnicodeChar_1_00* actual_s =
+          reinterpret_cast<const UnicodeChar_1_00*>(s);
+
+      return UnicodeStringView_1_00(actual_s, count);
+    }()) {
 }
 
-UnicodeStringView_API::UnicodeStringView_API(const value_type* s)
-  : view_(
-        std::make_unique<unistring_view_1_00>(
-            reinterpret_cast<const UnicodeChar_1_00*>(s)
-        )
-    ) {
+UnicodeStringView_Api::UnicodeStringView_Api(const value_type* s)
+  : view_([s]() {
+      const UnicodeChar_1_00* actual_s =
+          reinterpret_cast<const UnicodeChar_1_00*>(s);
+
+      return UnicodeStringView_1_00(actual_s);
+    }()) {
 }
 
-UnicodeStringView_API::UnicodeStringView_API(unistring_view_1_00&& ptr)
-    : view_(std::make_unique<unistring_view_1_00>(std::move(ptr))) {
+UnicodeStringView_Api::UnicodeStringView_Api(ApiVariant&& ptr)
+    : view_(std::move(ptr)) {
 }
 
-UnicodeStringView_API::~UnicodeStringView_API() noexcept = default;
+UnicodeStringView_Api::~UnicodeStringView_Api() noexcept = default;
 
-UnicodeStringView_API& UnicodeStringView_API::operator=(
-    const UnicodeStringView_API& view
+UnicodeStringView_Api& UnicodeStringView_Api::operator=(
+    const UnicodeStringView_Api& view
 ) noexcept {
-  *this = UnicodeStringView_API(view);
+  *this = UnicodeStringView_Api(view);
 
   return *this;
 }
 
-UnicodeStringView_API& UnicodeStringView_API::operator=(
-    UnicodeStringView_API&& other
+UnicodeStringView_Api& UnicodeStringView_Api::operator=(
+    UnicodeStringView_Api&& other
 ) noexcept = default;
 
-UnicodeStringView_API::const_reference UnicodeStringView_API::operator[](
+UnicodeStringView_Api::const_reference UnicodeStringView_Api::operator[](
     size_type pos
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
+  const auto* actual_pointer = std::visit(
+      [pos](const auto& actual_view) {
+        return &actual_view[pos];
+      },
+      this->view_
+  );
 
-  return reinterpret_cast<const_reference>((*actual_this.get())[pos]);
+  return *reinterpret_cast<const_pointer>(actual_pointer);
 }
 
-UnicodeStringView_API::const_reference
-UnicodeStringView_API::at(size_type pos) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return reinterpret_cast<const_reference>(actual_this->at(pos));
+UnicodeStringView_Api::const_reference
+UnicodeStringView_Api::at(size_type pos) const {
+  return *std::visit(
+      [pos](const auto& actual_view) {
+        return reinterpret_cast<const_pointer>(&actual_view.at(pos));
+      },
+      this->view_
+  );
 }
 
-UnicodeStringView_API::const_reference UnicodeStringView_API::back() const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return reinterpret_cast<const_reference>(actual_this->back());
+UnicodeStringView_Api::const_reference UnicodeStringView_Api::front() const {
+  return *std::visit(
+      [](auto& actual_view) {
+        return reinterpret_cast<const_pointer>(&actual_view.front());
+      },
+      this->view_
+  );
 }
 
-UnicodeStringView_API::size_type UnicodeStringView_API::copy(
+UnicodeStringView_Api::const_reference UnicodeStringView_Api::back() const {
+  return *std::visit(
+      [](const auto& actual_view) {
+        return reinterpret_cast<const_pointer>(&actual_view.back());
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::const_pointer
+UnicodeStringView_Api::data() const noexcept {
+  return std::visit(
+      [](const auto& actual_view) {
+        return reinterpret_cast<const_pointer>(actual_view.data());
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type
+UnicodeStringView_Api::size() const noexcept {
+  return std::visit(
+      [](const auto& actual_view) {
+        return actual_view.size();
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type
+UnicodeStringView_Api::length() const noexcept {
+  return std::visit(
+      [](const auto& actual_view) {
+        return actual_view.length();
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type
+UnicodeStringView_Api::max_size() const noexcept {
+  return std::visit(
+      [](const auto& actual_view) {
+        return actual_view.max_size();
+      },
+      this->view_
+  );
+}
+
+bool UnicodeStringView_Api::empty() const noexcept {
+  return std::visit(
+      [](const auto& actual_view) {
+        return actual_view.empty();
+      },
+      this->view_
+  );
+}
+
+void UnicodeStringView_Api::remove_prefix(size_type n) {
+  std::visit(
+      [n](auto& actual_view) {
+        return actual_view.remove_prefix(n);
+      },
+      this->view_
+  );
+}
+
+void UnicodeStringView_Api::remove_suffix(size_type n) {
+  std::visit(
+      [n](auto& actual_view) {
+        return actual_view.remove_suffix(n);
+      },
+      this->view_
+  );
+}
+
+void UnicodeStringView_Api::swap(UnicodeStringView_Api& v) noexcept {
+  std::visit(
+      [&v](auto& actual_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_view)
+        >;
+
+        UnicodeStringView_T& actual_v =
+            std::get<UnicodeStringView_T>(v.view_);
+
+        return actual_view.swap(actual_v);
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type UnicodeStringView_Api::copy(
     value_type* dest,
     size_type count
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
+  return std::visit(
+      [dest, count](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_src_view)
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
 
-  auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
+        UnicodeChar_T* actual_dest = reinterpret_cast<UnicodeChar_T*>(dest);
 
-  return actual_this->copy(actual_dest, count);
+        return actual_src_view.copy(actual_dest, count);
+      },
+      this->view_
+  );
 }
 
-int UnicodeStringView_API::compare(UnicodeStringView_API v) const noexcept {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto& actual_v = std::get<unique_ptr_1_00>(v.view_);
-
-  return actual_this->compare(*actual_v);
-}
-
-int UnicodeStringView_API::compare(
-    size_type pos1,
-    size_type count1,
-    UnicodeStringView_API v
+UnicodeStringView_Api::size_type UnicodeStringView_Api::copy(
+    value_type* dest,
+    size_type count,
+    size_type pos
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto& actual_v = std::get<unique_ptr_1_00>(v.view_);
+  return std::visit(
+      [dest, count, pos](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_src_view)
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
 
-  return actual_this->compare(pos1, count1, *actual_v);
+        UnicodeChar_T* actual_dest = reinterpret_cast<UnicodeChar_T*>(dest);
+
+        return actual_src_view.copy(actual_dest, count, pos);
+      },
+      this->view_
+  );
 }
 
-int UnicodeStringView_API::compare(
+UnicodeStringView_Api UnicodeStringView_Api::substr() const {
+  return UnicodeStringView_Api(
+      std::visit(
+          [](const auto& actual_view) {
+            return actual_view.substr();
+          },
+          this->view_
+      )
+  );
+}
+
+UnicodeStringView_Api UnicodeStringView_Api::substr(size_type pos) const {
+  return UnicodeStringView_Api(
+      std::visit(
+          [pos](const auto& actual_view) {
+            return actual_view.substr(pos);
+          },
+          this->view_
+      )
+  );
+}
+
+UnicodeStringView_Api UnicodeStringView_Api::substr(
+    size_type pos,
+    size_type count
+) const {
+  return UnicodeStringView_Api(
+      std::visit(
+          [pos, count](const auto& actual_view) {
+            return actual_view.substr(pos, count);
+          },
+          this->view_
+      )
+  );
+}
+
+int UnicodeStringView_Api::compare(UnicodeStringView_Api v) const noexcept {
+  return std::visit(
+      [&v](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_src_view)>
+        >;
+
+        UnicodeStringView_T actual_v = std::get<UnicodeStringView_T>(v.view_);
+
+        return actual_src_view.compare(actual_v);
+      },
+      this->view_
+  );
+}
+
+int UnicodeStringView_Api::compare(
     size_type pos1,
     size_type count1,
-    UnicodeStringView_API v,
+    UnicodeStringView_Api v
+) const {
+  return std::visit(
+      [pos1, count1, &v](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_src_view)>
+        >;
+
+        UnicodeStringView_T actual_v = std::get<UnicodeStringView_T>(v.view_);
+
+        return actual_src_view.compare(pos1, count1, actual_v);
+      },
+      this->view_
+  );
+}
+
+int UnicodeStringView_Api::compare(
+    size_type pos1,
+    size_type count1,
+    UnicodeStringView_Api v,
     size_type pos2,
     size_type count2
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto& actual_v = std::get<unique_ptr_1_00>(v.view_);
+  return std::visit(
+      [pos1, count1, &v, pos2, count2](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_src_view)>
+        >;
 
-  return actual_this->compare(pos1, count1, *actual_v, pos2, count2);
+        UnicodeStringView_T actual_v = std::get<UnicodeStringView_T>(v.view_);
+
+        return actual_src_view.compare(pos1, count1, actual_v, pos2, count2);
+      },
+      this->view_
+  );
 }
 
-int UnicodeStringView_API::compare(const value_type* s) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto* actual_s = reinterpret_cast<const UnicodeChar_1_00*>(s);
+int UnicodeStringView_Api::compare(const value_type* s) const {
+  return std::visit(
+      [s](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_src_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
 
-  return actual_this->compare(actual_s);
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_src_view.compare(actual_s);
+      },
+      this->view_
+  );
 }
 
-int UnicodeStringView_API::compare(
+int UnicodeStringView_Api::compare(
     size_type pos1,
     size_type count1,
     const value_type* s
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto* actual_s = reinterpret_cast<const UnicodeChar_1_00*>(s);
+  return std::visit(
+      [pos1, count1, s](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_src_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
 
-  return actual_this->compare(pos1, count1, actual_s);
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_src_view.compare(pos1, count1, actual_s);
+      },
+      this->view_
+  );
 }
 
-int UnicodeStringView_API::compare(
+int UnicodeStringView_Api::compare(
     size_type pos1,
     size_type count1,
     const value_type* s,
     size_type count2
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto* actual_s = reinterpret_cast<const UnicodeChar_1_00*>(s);
+  return std::visit(
+      [pos1, count1, s, count2](const auto& actual_src_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_src_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
 
-  return actual_this->compare(pos1, count1, actual_s, count2);
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_src_view.compare(pos1, count1, actual_s, count2);
+      },
+      this->view_
+  );
 }
 
-UnicodeStringView_API::size_type UnicodeStringView_API::copy(
-    value_type* dest,
-    size_type count,
+bool UnicodeStringView_Api::starts_with(UnicodeStringView_Api sv) const noexcept {
+  return std::visit(
+      [&sv](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_view)>
+        >;
+
+        UnicodeStringView_T actual_sv_data =
+            std::get<UnicodeStringView_T>(sv.view_);
+
+        return actual_view.starts_with(actual_sv_data);
+      },
+      this->view_
+  );
+}
+
+bool UnicodeStringView_Api::starts_with(const value_type& c) const noexcept {
+  return std::visit(
+      [&c](const auto& actual_str_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_str_view)
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        const UnicodeChar_T& actual_c =
+            reinterpret_cast<const UnicodeChar_T&>(c);
+
+        return actual_str_view.starts_with(actual_c);
+      },
+      this->view_
+  );
+}
+
+bool UnicodeStringView_Api::starts_with(const value_type* s) const {
+  return std::visit(
+      [s](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_view)
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_view.starts_with(actual_s);
+      },
+      this->view_
+  );
+}
+
+bool UnicodeStringView_Api::ends_with(UnicodeStringView_Api sv) const noexcept {
+  return std::visit(
+      [&sv](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_view)>
+        >;
+
+        UnicodeStringView_T actual_sv_data =
+            std::get<UnicodeStringView_T>(sv.view_);
+
+        return actual_view.ends_with(actual_sv_data);
+      },
+      this->view_
+  );
+}
+
+bool UnicodeStringView_Api::ends_with(const value_type& c) const noexcept {
+  return std::visit(
+      [&c](const auto& actual_str_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_str_view)
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        const UnicodeChar_T& actual_c =
+            reinterpret_cast<const UnicodeChar_T&>(c);
+
+        return actual_str_view.ends_with(actual_c);
+      },
+      this->view_
+  );
+}
+
+bool UnicodeStringView_Api::ends_with(const value_type* s) const {
+  return std::visit(
+      [s](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_reference_t<
+            decltype(actual_view)
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_view.ends_with(actual_s);
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type UnicodeStringView_Api::find(
+    UnicodeStringView_Api v,
+    size_type pos
+) const noexcept {
+  return std::visit(
+      [&v, pos](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        UnicodeStringView_T& actual_v =
+            std::get<UnicodeStringView_T>(v.view_);
+
+        return actual_view.find(actual_v, pos);
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type UnicodeStringView_Api::find(
+    value_type& ch,
+    size_type pos
+) const noexcept {
+  return std::visit(
+      [&ch, pos](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        UnicodeChar_T& actual_ch =
+            reinterpret_cast<UnicodeChar_T&>(ch);
+
+        return actual_view.find(actual_ch, pos);
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type UnicodeStringView_Api::find(
+    const value_type* s,
+    size_type pos,
+    size_type count
+) const {
+  return std::visit(
+      [s, pos, count](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
+
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_view.find(actual_s, pos, count);
+      },
+      this->view_
+  );
+}
+
+UnicodeStringView_Api::size_type UnicodeStringView_Api::find(
+    const value_type* s,
     size_type pos
 ) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-  auto* actual_dest = reinterpret_cast<UnicodeChar_1_00*>(dest);
+  return std::visit(
+      [s, pos](const auto& actual_view) {
+        using UnicodeStringView_T = std::remove_const_t<
+            std::remove_reference_t<decltype(actual_view)>
+        >;
+        using UnicodeChar_T = typename UnicodeStringView_T::value_type;
 
-  return actual_this->copy(actual_dest, count, pos);
+        const UnicodeChar_T* actual_s =
+            reinterpret_cast<const UnicodeChar_T*>(s);
+
+        return actual_view.find(actual_s, pos);
+      },
+      this->view_
+  );
 }
 
-void UnicodeStringView_API::Draw(int position_x, int position_y) const {
+void UnicodeStringView_Api::Draw(int position_x, int position_y) const {
   DrawTextOptions options;
   options.position_x_behavior = DrawPositionXBehavior::kLeft;
   options.text_color = TextColor::kWhite;
@@ -224,7 +617,7 @@ void UnicodeStringView_API::Draw(int position_x, int position_y) const {
   this->Draw(position_x, position_y, options);
 }
 
-void UnicodeStringView_API::Draw(
+void UnicodeStringView_Api::Draw(
     int position_x,
     int position_y,
     const DrawTextOptions& options
@@ -286,58 +679,20 @@ void UnicodeStringView_API::Draw(
   );
 }
 
-bool UnicodeStringView_API::empty() const noexcept {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return actual_this->empty();
+bool operator==(
+    UnicodeStringView_Api lhs,
+    UnicodeStringView_Api rhs
+) noexcept {
+  return lhs.compare(rhs) == 0;
 }
 
-UnicodeStringView_API::const_reference UnicodeStringView_API::front() const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
+std::strong_ordering operator<=>(
+    UnicodeStringView_Api lhs,
+    UnicodeStringView_Api rhs
+) noexcept {
+  int compare_result = lhs.compare(rhs);
 
-  return reinterpret_cast<const_reference>(actual_this->front());
-}
-
-UnicodeStringView_API UnicodeStringView_API::substr() const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return UnicodeStringView_API(std::move(actual_this->substr()));
-}
-
-UnicodeStringView_API UnicodeStringView_API::substr(size_type pos) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return UnicodeStringView_API(std::move(actual_this->substr(pos)));
-}
-
-UnicodeStringView_API UnicodeStringView_API::substr(
-    size_type pos,
-    size_type count
-) const {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return UnicodeStringView_API(std::move(actual_this->substr(pos, count)));
-}
-
-UnicodeStringView_API::const_pointer
-UnicodeStringView_API::data() const noexcept {
-  auto& actual_this = std::get<unique_ptr_1_00>(this->view_);
-
-  return reinterpret_cast<const_pointer>(actual_this->data());
-}
-
-UnicodeStringView_API::size_type
-UnicodeStringView_API::length() const noexcept {
-  auto& actual = std::get<unique_ptr_1_00>(this->view_);
-
-  return actual->length();
-}
-
-UnicodeStringView_API::size_type
-UnicodeStringView_API::size() const noexcept {
-  auto& actual = std::get<unique_ptr_1_00>(this->view_);
-
-  return actual->size();
+  return compare_result <=> 0;
 }
 
 } // namespace d2

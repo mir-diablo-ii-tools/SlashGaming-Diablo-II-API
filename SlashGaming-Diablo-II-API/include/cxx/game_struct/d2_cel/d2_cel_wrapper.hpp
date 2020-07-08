@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_WRAPPER_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "d2_cel_struct.hpp"
 #include "d2_cel_view.hpp"
 
@@ -56,7 +59,7 @@ namespace d2 {
 class DLLEXPORT Cel_Wrapper {
  public:
   Cel_Wrapper() = delete;
-  Cel_Wrapper(Cel* ptr) noexcept;
+  Cel_Wrapper(Cel* cel) noexcept;
 
   Cel_Wrapper(const Cel_Wrapper& other) noexcept;
   Cel_Wrapper(Cel_Wrapper&& other) noexcept;
@@ -66,23 +69,32 @@ class DLLEXPORT Cel_Wrapper {
   Cel_Wrapper& operator=(const Cel_Wrapper& other) noexcept;
   Cel_Wrapper& operator=(Cel_Wrapper&& other) noexcept;
 
+  Cel_View operator[](std::size_t index) const noexcept;
+  Cel_Wrapper operator[](std::size_t index) noexcept;
+
   operator Cel_View() const noexcept;
 
   Cel* Get() noexcept;
   const Cel* Get() const noexcept;
 
   int GetHeight() const noexcept;
-  int GetOffsetX() const noexcept;
-  int GetOffsetY() const noexcept;
-  int GetWidth() const noexcept;
+  void SetHeight(int height) noexcept;
 
-  void SetHeight(int value) noexcept;
-  void SetOffsetX(int value) noexcept;
-  void SetOffsetY(int value) noexcept;
-  void SetWidth(int value) noexcept;
+  int GetOffsetX() const noexcept;
+  void SetOffsetX(int offset_x) noexcept;
+
+  int GetOffsetY() const noexcept;
+  void SetOffsetY(int offset_y) noexcept;
+
+  int GetWidth() const noexcept;
+  void SetWidth(int width) noexcept;
 
  private:
-  Cel* ptr_;
+  using WrapperVariant = std::variant<Cel_1_00*>;
+
+  WrapperVariant cel_;
+
+  static WrapperVariant CreateVariant(Cel* cel);
 };
 
 } // namespace d2

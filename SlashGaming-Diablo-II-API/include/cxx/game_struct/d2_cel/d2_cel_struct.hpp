@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,63 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_STRUCT_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_STRUCT_HPP_
 
+#include <cstddef>
+#include <cstdint>
+#include <type_traits>
+#include <variant>
+
+#include "../../game_undefined.hpp"
+
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
+/**
+ * Generic struct declaration
+ */
+
 struct Cel;
 
-struct Cel_1_00;
+/**
+ * Version-specific struct definitions
+ */
+
+#pragma pack(push, 1)
+
+// TODO (Mir Drualga): Figure out the size.
+/* sizeof: 0x?? */ struct Cel_1_00 {
+  /* 0x00 */ mapi::UndefinedByte unknown_0x00[0x04 - 0x00];
+  /* 0x04 */ std::int32_t width;
+  /* 0x08 */ std::int32_t height;
+  /* 0x0C */ std::int32_t offset_x;
+  /* 0x10 */ std::int32_t offset_y;
+};
+
+static_assert(std::is_standard_layout_v<Cel_1_00>);
+static_assert(std::is_trivial_v<Cel_1_00>);
+static_assert(sizeof(Cel_1_00) >= 0x14);
+static_assert(offsetof(Cel_1_00, width) == 0x04);
+static_assert(offsetof(Cel_1_00, height) == 0x08);
+static_assert(offsetof(Cel_1_00, offset_x) == 0x0C);
+static_assert(offsetof(Cel_1_00, offset_y) == 0x10);
+
+#pragma pack(pop)
+
+/**
+ * STL DLL interface
+ */
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    Cel_1_00
+>;
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    Cel_1_00*
+>;
+
+DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
+    const Cel_1_00*
+>;
 
 } // namespace d2
 

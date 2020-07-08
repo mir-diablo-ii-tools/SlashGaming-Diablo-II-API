@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -51,8 +51,8 @@
 #include "game_struct/d2_cel_context.hpp"
 #include "game_struct/d2_cel_file.hpp"
 #include "game_struct/d2_equipment_layout.hpp"
-#include "game_struct/d2_inventory_record.hpp"
 #include "game_struct/d2_grid_layout.hpp"
+#include "game_struct/d2_inventory_record.hpp"
 #include "game_struct/d2_mpq_archive.hpp"
 #include "game_struct/d2_mpq_archive_handle.hpp"
 #include "game_struct/d2_positional_rectangle.hpp"

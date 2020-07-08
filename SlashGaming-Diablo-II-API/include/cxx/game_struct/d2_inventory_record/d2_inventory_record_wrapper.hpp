@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,7 +47,14 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_WRAPPER_HPP_
 
 #include <cstddef>
+#include <variant>
 
+#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
+#include "../d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
+#include "../d2_grid_layout/d2_grid_layout_view.hpp"
+#include "../d2_grid_layout/d2_grid_layout_wrapper.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "d2_inventory_record_struct.hpp"
 #include "d2_inventory_record_view.hpp"
 
@@ -58,7 +65,7 @@ namespace d2 {
 class DLLEXPORT InventoryRecord_Wrapper {
  public:
   InventoryRecord_Wrapper() = delete;
-  InventoryRecord_Wrapper(InventoryRecord* ptr) noexcept;
+  InventoryRecord_Wrapper(InventoryRecord* inventory_record) noexcept;
 
   InventoryRecord_Wrapper(const InventoryRecord_Wrapper& other) noexcept;
   InventoryRecord_Wrapper(InventoryRecord_Wrapper&& other) noexcept;
@@ -77,25 +84,26 @@ class DLLEXPORT InventoryRecord_Wrapper {
 
   operator InventoryRecord_View() const noexcept;
 
-  void Copy(InventoryRecord_View src) noexcept;
-
-  EquipmentLayout* GetEquipmentSlot(std::size_t index) noexcept;
-  const EquipmentLayout* GetEquipmentSlot(std::size_t index) const noexcept;
+  void Assign(InventoryRecord_View src) noexcept;
 
   InventoryRecord* Get() noexcept;
   const InventoryRecord* Get() const noexcept;
 
-  PositionalRectangle* GetPosition() noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  PositionalRectangle_Wrapper GetPosition() noexcept;
 
-  GridLayout* GetGridLayout() noexcept;
-  const GridLayout* GetGridLayout() const noexcept;
+  GridLayout_View GetGridLayout() const noexcept;
+  GridLayout_Wrapper GetGridLayout() noexcept;
 
-  EquipmentLayout* GetEquipmentSlots() noexcept;
-  const EquipmentLayout* GetEquipmentSlots() const noexcept;
+  EquipmentLayout_View GetEquipmentSlots() const noexcept;
+  EquipmentLayout_Wrapper GetEquipmentSlots() noexcept;
 
  private:
-  InventoryRecord* ptr_;
+  using WrapperVariant = std::variant<InventoryRecord_1_00*>;
+
+  WrapperVariant inventory_record_;
+
+  static WrapperVariant CreateVariant(InventoryRecord* inventory_record);
 };
 
 } // namespace d2

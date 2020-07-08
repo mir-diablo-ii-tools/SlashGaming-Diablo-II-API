@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_WRAPPER_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "d2_positional_rectangle_struct.hpp"
 #include "d2_positional_rectangle_view.hpp"
 
@@ -56,9 +59,13 @@ namespace d2 {
 class DLLEXPORT PositionalRectangle_Wrapper {
  public:
   PositionalRectangle_Wrapper() = delete;
-  PositionalRectangle_Wrapper(PositionalRectangle* ptr) noexcept;
+  PositionalRectangle_Wrapper(
+      PositionalRectangle* positional_rectangle
+  ) noexcept;
 
-  PositionalRectangle_Wrapper(const PositionalRectangle_Wrapper& other) noexcept;
+  PositionalRectangle_Wrapper(
+      const PositionalRectangle_Wrapper& other
+  ) noexcept;
   PositionalRectangle_Wrapper(PositionalRectangle_Wrapper&& other) noexcept;
 
   ~PositionalRectangle_Wrapper() noexcept;
@@ -70,27 +77,36 @@ class DLLEXPORT PositionalRectangle_Wrapper {
       PositionalRectangle_Wrapper&& other
   ) noexcept;
 
+  PositionalRectangle_View operator[](std::size_t index) const noexcept;
+  PositionalRectangle_Wrapper operator[](std::size_t index) noexcept;
+
   operator PositionalRectangle_View() const noexcept;
 
   PositionalRectangle* Get() noexcept;
   const PositionalRectangle* Get() const noexcept;
 
-  void Copy(PositionalRectangle_View src) noexcept;
+  void Assign(PositionalRectangle_View src) noexcept;
 
   int GetLeft() const noexcept;
-  void SetLeft(int value) noexcept;
+  void SetLeft(int left) noexcept;
 
   int GetRight() const noexcept;
-  void SetRight(int value) noexcept;
+  void SetRight(int right) noexcept;
 
   int GetTop() const noexcept;
-  void SetTop(int value) noexcept;
+  void SetTop(int top) noexcept;
 
   int GetBottom() const noexcept;
-  void SetBottom(int value) noexcept;
+  void SetBottom(int bottom) noexcept;
 
  private:
-  PositionalRectangle* ptr_;
+  using WrapperVariant = std::variant<
+      PositionalRectangle_1_00*
+  >;
+
+  WrapperVariant positional_rectangle_;
+
+  static WrapperVariant CreateVariant(PositionalRectangle* positional_rectangle);
 };
 
 } // namespace d2

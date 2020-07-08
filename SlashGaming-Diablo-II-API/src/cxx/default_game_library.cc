@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,68 +45,54 @@
 
 #include "../../include/cxx/default_game_library.hpp"
 
-#include <windows.h>
-#include <cstdint>
-#include <cstdlib>
-#include <algorithm>
-#include <filesystem>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
 #include <fmt/format.h>
+#include "backend/error_handling.hpp"
 #include "../../include/cxx/game_version.hpp"
 #include "../wide_macro.h"
 
 namespace mapi {
 namespace {
 
-using PathsByDefaultLibrariesMap = std::unordered_map<
+static const std::unordered_map<
     DefaultLibrary,
     std::filesystem::path
->;
-
-const PathsByDefaultLibrariesMap&
-GetPathsByDefaultLibraryMap() {
-  static const PathsByDefaultLibrariesMap
-  paths_by_default_libraries = {
-      { DefaultLibrary::kBNClient, "BNClient.dll" },
-      { DefaultLibrary::kD2Client, "D2Client.dll" },
-      { DefaultLibrary::kD2CMP, "D2CMP.dll" },
-      { DefaultLibrary::kD2Common, "D2Common.dll" },
-      { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
-      { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
-      { DefaultLibrary::kD2Game, "D2Game.dll" },
-      { DefaultLibrary::kD2GDI, "D2GDI.dll" },
-      { DefaultLibrary::kD2GFX, "D2GFX.dll" },
-      { DefaultLibrary::kD2Glide, "D2Glide.dll" },
-      { DefaultLibrary::kD2Lang, "D2Lang.dll" },
-      { DefaultLibrary::kD2Launch, "D2Launch.dll" },
-      { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
-      { DefaultLibrary::kD2Multi, "D2Multi.dll" },
-      { DefaultLibrary::kD2Net, "D2Net.dll" },
-      { DefaultLibrary::kD2Server, "D2Server.dll" },
-      { DefaultLibrary::kD2Sound, "D2Sound.dll" },
-      { DefaultLibrary::kD2Win, "D2Win.dll" },
-      { DefaultLibrary::kFog, "Fog.dll" },
-      { DefaultLibrary::kStorm, "Storm.dll" }
-  };
-
-  return paths_by_default_libraries;
-}
+> paths_by_default_libraries = {
+    { DefaultLibrary::kBNClient, "BNClient.dll" },
+    { DefaultLibrary::kD2Client, "D2Client.dll" },
+    { DefaultLibrary::kD2CMP, "D2CMP.dll" },
+    { DefaultLibrary::kD2Common, "D2Common.dll" },
+    { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
+    { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
+    { DefaultLibrary::kD2Game, "D2Game.dll" },
+    { DefaultLibrary::kD2GDI, "D2GDI.dll" },
+    { DefaultLibrary::kD2GFX, "D2GFX.dll" },
+    { DefaultLibrary::kD2Glide, "D2Glide.dll" },
+    { DefaultLibrary::kD2Lang, "D2Lang.dll" },
+    { DefaultLibrary::kD2Launch, "D2Launch.dll" },
+    { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
+    { DefaultLibrary::kD2Multi, "D2Multi.dll" },
+    { DefaultLibrary::kD2Net, "D2Net.dll" },
+    { DefaultLibrary::kD2Server, "D2Server.dll" },
+    { DefaultLibrary::kD2Sound, "D2Sound.dll" },
+    { DefaultLibrary::kD2Win, "D2Win.dll" },
+    { DefaultLibrary::kFog, "Fog.dll" },
+    { DefaultLibrary::kStorm, "Storm.dll" },
+};
 
 } // namespace
 
-const std::filesystem::path&
-GetGameExecutablePath() {
+const std::filesystem::path& GetGameExecutablePath() {
   static std::filesystem::path kGameExecutable = "Game.exe";
 
   return kGameExecutable;
 }
 
-const std::filesystem::path&
-GetDefaultLibraryPathWithRedirect(
+const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
     DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
@@ -115,29 +101,22 @@ GetDefaultLibraryPathWithRedirect(
   }
 
   try {
-    return GetPathsByDefaultLibraryMap().at(library);
+    return paths_by_default_libraries.at(library);
   } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
-        L"Could not determine the game library path from the library ID: {}.";
+    constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
+        L"the game library path from the library ID: {}.";
 
-    std::wstring full_message = fmt::format(
+    std::wstring message = fmt::format(
         kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
         static_cast<int>(library)
     );
 
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
+    ExitOnGeneralFailure(
+        message,
         L"Failed to Determine Game Library Path",
-        MB_OK | MB_ICONERROR
+        __FILEW__,
+        __LINE__
     );
-
-    std::exit(0);
   }
 }
 

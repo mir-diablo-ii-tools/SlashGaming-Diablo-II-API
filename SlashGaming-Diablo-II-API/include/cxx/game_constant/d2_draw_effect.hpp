@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,17 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_DRAW_EFFECT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_DRAW_EFFECT_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
-#include "d2_constant.hpp"
+#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
+
+/**
+ * Generic enum definitions
+ */
 
 enum class DrawEffect {
   kOneFourthOpaque,
@@ -65,15 +69,33 @@ enum class DrawEffect {
   kUnknown07
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    DrawEffect id
-);
+/**
+ * Version-specific enum definitions
+ */
 
-extern template DLLEXPORT
-DrawEffect ToAPIValue(
-    int value
-);
+enum class DrawEffect_1_00 : std::int32_t {
+  kOneFourthOpaque,
+  kHalfOpaque,
+  kThreeFourthsOpaque,
+  kUnknown03,
+  kUnknown04,
+  kNone,
+  kUnknown06,
+  kUnknown07
+};
+
+/**
+ * Function declarations
+ */
+
+DLLEXPORT int ToGameValue(DrawEffect api_value);
+
+DLLEXPORT DrawEffect_1_00 ToGameValue_1_00(DrawEffect api_value);
+
+extern template
+DLLEXPORT DrawEffect ToApiValue<DrawEffect>(int game_value);
+
+DLLEXPORT DrawEffect ToApiValue_1_00(DrawEffect_1_00 game_value);
 
 } // namespace d2
 

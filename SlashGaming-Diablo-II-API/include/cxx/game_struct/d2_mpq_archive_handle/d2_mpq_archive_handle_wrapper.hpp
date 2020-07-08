@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,7 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_HANDLE_D2_MPQ_ARCHIVE_HANDLE_WRAPPER_HPP_
 
-#include "../d2_mpq_archive/d2_mpq_archive_struct.hpp"
+#include <cstddef>
+#include <variant>
+
+#include "../d2_mpq_archive/d2_mpq_archive_view.hpp"
+#include "../d2_mpq_archive/d2_mpq_archive_wrapper.hpp"
 #include "d2_mpq_archive_handle_struct.hpp"
 #include "d2_mpq_archive_handle_view.hpp"
 
@@ -54,38 +58,46 @@
 
 namespace d2 {
 
-class DLLEXPORT MPQArchiveHandle_Wrapper {
+class DLLEXPORT MpqArchiveHandle_Wrapper {
  public:
-  MPQArchiveHandle_Wrapper() = delete;
-  MPQArchiveHandle_Wrapper(MPQArchiveHandle* ptr) noexcept;
+  MpqArchiveHandle_Wrapper() = delete;
+  MpqArchiveHandle_Wrapper(MpqArchiveHandle* mpq_archive_handle) noexcept;
 
-  MPQArchiveHandle_Wrapper(const MPQArchiveHandle_Wrapper& other) noexcept;
-  MPQArchiveHandle_Wrapper(MPQArchiveHandle_Wrapper&& other) noexcept;
+  MpqArchiveHandle_Wrapper(const MpqArchiveHandle_Wrapper& other) noexcept;
+  MpqArchiveHandle_Wrapper(MpqArchiveHandle_Wrapper&& other) noexcept;
 
-  ~MPQArchiveHandle_Wrapper() noexcept;
+  ~MpqArchiveHandle_Wrapper() noexcept;
 
-  MPQArchiveHandle_Wrapper& operator=(
-      const MPQArchiveHandle_Wrapper& other
-  ) noexcept;
-  MPQArchiveHandle_Wrapper& operator=(
-      MPQArchiveHandle_Wrapper&& other
+  MpqArchiveHandle_Wrapper& operator=(
+      const MpqArchiveHandle_Wrapper& other
   ) noexcept;
 
-  operator MPQArchiveHandle_View() const noexcept;
+  MpqArchiveHandle_Wrapper& operator=(
+      MpqArchiveHandle_Wrapper&& other
+  ) noexcept;
 
-  MPQArchiveHandle* Get() noexcept;
-  const MPQArchiveHandle* Get() const noexcept;
+  MpqArchiveHandle_View operator[](std::size_t index) const noexcept;
+  MpqArchiveHandle_Wrapper operator[](std::size_t index) noexcept;
 
-  MPQArchive* GetMPQArchive() noexcept;
-  const MPQArchive* GetMPQArchive() const noexcept;
+  operator MpqArchiveHandle_View() const noexcept;
 
-  void SetMPQArchive(MPQArchive* mpq_archive) noexcept;
+  MpqArchiveHandle* Get() noexcept;
+  const MpqArchiveHandle* Get() const noexcept;
 
-  char* GetMPQArchivePath() noexcept;
-  const char* GetMPQArchivePath() const noexcept;
+  MpqArchive_View GetMpqArchive() const noexcept;
+  MpqArchive_Wrapper GetMpqArchive() noexcept;
+
+  void SetMpqArchive(MpqArchive_Wrapper mpq_archive) noexcept;
+
+  char* GetMpqArchivePath() noexcept;
+  const char* GetMpqArchivePath() const noexcept;
 
  private:
-  MPQArchiveHandle* ptr_;
+  using WrapperVariant = std::variant<MpqArchiveHandle_1_00*>;
+
+  WrapperVariant mpq_archive_handle_;
+
+  static WrapperVariant CreateVariant(MpqArchiveHandle* mpq_archive_handle);
 };
 
 } // namespace d2

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,15 +46,43 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_TEXT_FONT_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
-#include "d2_constant.hpp"
+#include "d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
 
+/**
+ * Generic enum definitions
+ */
+
 enum class TextFont {
+  kDiabloMenu_24,
+  kDiabloMenu_30,
+  kDiabloMenu_42,
+
+  kExocet_8,
+  kExocet_16,
+
+  kExocetBlack_9,
+  kExocetBlack_10,
+
+  kFormal_6,
+  kFormal_8,
+  kFormal_10,
+  kFormal_11,
+  kFormal_12,
+
+  kFormalWide_11,
+};
+
+/**
+ * Version-specific enum definitions
+ */
+
+enum class TextFont_1_00 : std::int32_t {
   kFormal_8,
   kExocet_16,
   kDiabloMenu_30,
@@ -73,15 +101,18 @@ enum class TextFont {
   kFormal_11 = 13
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    TextFont id
-);
+/**
+ * Function declarations
+ */
+
+DLLEXPORT int ToGameValue(TextFont api_value);
+
+DLLEXPORT TextFont_1_00 ToGameValue_1_00(TextFont api_value);
 
 extern template DLLEXPORT
-TextFont ToAPIValue(
-    int value
-);
+TextFont ToApiValue<TextFont>(int game_value);
+
+DLLEXPORT TextFont ToApiValue_1_00(TextFont_1_00 game_value);
 
 } // namespace d2
 

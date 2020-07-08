@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,17 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_wrapper.hpp"
 
-#include <algorithm>
-
-#include "d2_belt_record_impl.hpp"
-#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
-
 namespace d2 {
 
-BeltRecord_Wrapper::BeltRecord_Wrapper(
-    BeltRecord* ptr
-) noexcept :
-    ptr_(ptr) {
+BeltRecord_Wrapper::BeltRecord_Wrapper(BeltRecord* belt_record) noexcept :
+    belt_record_(CreateVariant(belt_record)) {
 }
 
 BeltRecord_Wrapper::BeltRecord_Wrapper(
@@ -103,57 +96,64 @@ BeltRecord* BeltRecord_Wrapper::Get() noexcept {
 }
 
 const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
-  return this->ptr_;
-}
-
-void BeltRecord_Wrapper::Copy(BeltRecord_View src) noexcept {
-  std::copy_n(
-      reinterpret_cast<const BeltRecord_1_00*>(src.Get()),
-      1,
-      reinterpret_cast<BeltRecord_1_00*>(this->Get())
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return reinterpret_cast<const BeltRecord*>(actual_belt_record);
+      },
+      this->belt_record_
   );
 }
 
-PositionalRectangle* BeltRecord_Wrapper::GetSlotPosition(
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
+void BeltRecord_Wrapper::Assign(BeltRecord_View src) noexcept {
+  std::visit(
+      [&src](auto& actual_dest) {
+        using Dest_T = decltype(actual_dest);
+        using ActualSrc_T = const std::remove_pointer_t<
+            std::remove_reference_t<Dest_T>
+        >*;
 
-  return const_cast<PositionalRectangle*>(
-      const_this->GetSlotPosition(index)
+        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+        *actual_dest = *actual_src;
+      },
+      this->belt_record_
   );
 }
 
-const PositionalRectangle* BeltRecord_Wrapper::GetSlotPosition(
-    std::size_t index
-) const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetSlotPosition(index);
-}
-
-std::uint_least8_t BeltRecord_Wrapper::GetNumSlots() const noexcept {
+unsigned char BeltRecord_Wrapper::GetNumSlots() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetNumSlots();
 }
 
-void BeltRecord_Wrapper::SetNumSlots(std::uint_least8_t value) noexcept {
-  auto* actual_ptr = reinterpret_cast<BeltRecord_1_00*>(this->Get());
-
-  actual_ptr->num_slots = value;
+void BeltRecord_Wrapper::SetNumSlots(unsigned char num_slots) noexcept {
+  std::visit(
+      [num_slots](auto& actual_positional_rectangle) {
+        actual_positional_rectangle->num_slots = num_slots;
+      },
+      this->belt_record_
+  );
 }
 
-PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->GetSlotPositions());
-}
-
-const PositionalRectangle* BeltRecord_Wrapper::GetSlotPositions() const noexcept {
+PositionalRectangle_View
+BeltRecord_Wrapper::GetSlotPositions() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetSlotPositions();
+}
+
+PositionalRectangle_Wrapper BeltRecord_Wrapper::GetSlotPositions() noexcept {
+  const auto* const_this = this;
+
+  return const_cast<PositionalRectangle*>(
+      const_this->GetSlotPositions().Get()
+  );
+}
+
+BeltRecord_Wrapper::WrapperVariant BeltRecord_Wrapper::CreateVariant(
+    BeltRecord* belt_record
+) {
+  return reinterpret_cast<BeltRecord_1_00*>(belt_record);
 }
 
 } // namespace d2

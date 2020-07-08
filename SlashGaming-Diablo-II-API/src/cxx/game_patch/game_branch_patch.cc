@@ -1,0 +1,122 @@
+/**
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
+ *
+ * This file is part of SlashGaming Diablo II Modding API for C++.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Additional permissions under GNU Affero General Public License version 3
+ *  section 7
+ *
+ *  If you modify this Program, or any covered work, by linking or combining
+ *  it with Diablo II (or a modified version of that game and its
+ *  libraries), containing parts covered by the terms of Blizzard End User
+ *  License Agreement, the licensors of this Program grant you additional
+ *  permission to convey the resulting work. This additional permission is
+ *  also extended to any combination of expansions, mods, and remasters of
+ *  the game.
+ *
+ *  If you modify this Program, or any covered work, by linking or combining
+ *  it with any Graphics Device Interface (GDI), DirectDraw, Direct3D,
+ *  Glide, OpenGL, or Rave wrapper (or modified versions of those
+ *  libraries), containing parts not covered by a compatible license, the
+ *  licensors of this Program grant you additional permission to convey the
+ *  resulting work.
+ *
+ *  If you modify this Program, or any covered work, by linking or combining
+ *  it with any library (or a modified version of that library) that links
+ *  to Diablo II (or a modified version of that game and its libraries),
+ *  containing parts not covered by a compatible license, the licensors of
+ *  this Program grant you additional permission to convey the resulting
+ *  work.
+ */
+
+#include "../../../include/cxx/game_patch.hpp"
+
+#include <fmt/format.h>
+#include "../../wide_macro.h"
+#include "../backend/architecture_opcode.hpp"
+#include "../backend/error_handling.hpp"
+
+namespace mapi {
+
+GamePatch GamePatch::MakeGameBranchPatch(
+    const GameAddress& game_address,
+    BranchType branch_type,
+    void (*func_ptr)(),
+    std::size_t patch_size
+) {
+  return GamePatch::MakeGameBranchPatch(
+      GameAddress(game_address),
+      branch_type,
+      func_ptr,
+      patch_size
+  );
+}
+
+GamePatch GamePatch::MakeGameBranchPatch(
+    GameAddress&& game_address,
+    BranchType branch_type,
+    void (*func_ptr)(),
+    std::size_t patch_size
+) {
+  // Fill the buffer with NOPs.
+  std::vector<std::uint8_t> branch_patch_buffer(
+      patch_size,
+      static_cast<std::uint8_t>(OpCode::kNop)
+  );
+
+  // Check that the patch size is large enough to allow the insertion of the
+  // branch call.
+  if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
+    constexpr std::wstring_view kErrorFormatMessage =
+          L"The patch size specified at address {:X} is too small to perform a "
+          L"branch patch.";
+
+    std::wstring full_message = fmt::format(
+        kErrorFormatMessage,
+        game_address.raw_address()
+    );
+
+    ExitOnGeneralFailure(
+        full_message,
+        L"Failed to Patch Game",
+        __FILEW__,
+        __LINE__
+    );
+  }
+
+  // Set the first byte in the buffer to the branch operation opcode byte.
+  OpCode branch_opcode_value = ToOpcode(branch_type);
+  branch_patch_buffer.at(0) = static_cast<std::uint8_t>(branch_opcode_value);
+
+  // Set the next bytes to the address of the inserted function.
+  std::intptr_t func_buffer = reinterpret_cast<std::intptr_t>(func_ptr)
+      - game_address.raw_address()
+      - sizeof(std::int8_t)
+      - sizeof(func_ptr);
+
+  for (std::size_t i = 0; i < sizeof(func_buffer); i += 1) {
+    branch_patch_buffer.at(i + 1) =
+        (func_buffer >> (i * (sizeof(branch_patch_buffer.at(0)) * 8))) & 0xFF;
+  }
+
+  return GamePatch(
+      std::move(game_address),
+      std::move(branch_patch_buffer)
+  );
+}
+
+} // namespace mapi

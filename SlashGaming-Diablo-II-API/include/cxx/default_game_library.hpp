@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -64,15 +64,13 @@ enum class DefaultLibrary {
 /**
  * Returns the executable used to run the game.
  */
-DLLEXPORT const std::filesystem::path&
-GetGameExecutablePath();
+DLLEXPORT const std::filesystem::path& GetGameExecutablePath();
 
 /**
  * Returns the path of the specified default library or an alternative path if
  * an implementation-defined condition is satisfied.
  */
-DLLEXPORT const std::filesystem::path&
-GetDefaultLibraryPathWithRedirect(
+DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
     DefaultLibrary library
 );
 

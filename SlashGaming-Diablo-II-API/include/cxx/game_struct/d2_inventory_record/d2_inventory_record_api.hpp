@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,39 +47,41 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_API_HPP_
 
 #include <cstdint>
-#include <memory>
 #include <variant>
 
+#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
+#include "../d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
+#include "../d2_grid_layout/d2_grid_layout_view.hpp"
+#include "../d2_grid_layout/d2_grid_layout_wrapper.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "d2_inventory_record_struct.hpp"
 #include "d2_inventory_record_view.hpp"
 #include "d2_inventory_record_wrapper.hpp"
-#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
-#include "../d2_grid_layout/d2_grid_layout_view.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT InventoryRecord_API {
+class DLLEXPORT InventoryRecord_Api {
  public:
-  InventoryRecord_API() = delete;
-  InventoryRecord_API(
+  InventoryRecord_Api() = delete;
+  InventoryRecord_Api(
       PositionalRectangle_View position,
       GridLayout_View grid_layout,
-      const EquipmentLayout* equipment_slots
+      EquipmentLayout_View equipment_slots
   );
 
-  InventoryRecord_API(const InventoryRecord_API& other);
-  InventoryRecord_API(InventoryRecord_API&& other) noexcept;
+  InventoryRecord_Api(const InventoryRecord_Api& other);
+  InventoryRecord_Api(InventoryRecord_Api&& other) noexcept;
 
-  ~InventoryRecord_API();
+  ~InventoryRecord_Api();
 
-  InventoryRecord_API& operator=(
-      const InventoryRecord_API& other
+  InventoryRecord_Api& operator=(
+      const InventoryRecord_Api& other
   );
-  InventoryRecord_API& operator=(
-      InventoryRecord_API&& other
+  InventoryRecord_Api& operator=(
+      InventoryRecord_Api&& other
   ) noexcept;
 
   operator InventoryRecord_View() const noexcept;
@@ -88,22 +90,25 @@ class DLLEXPORT InventoryRecord_API {
   InventoryRecord* Get() noexcept;
   const InventoryRecord* Get() const noexcept;
 
-  PositionalRectangle* GetPosition() noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  PositionalRectangle_Wrapper GetPosition() noexcept;
 
-  GridLayout* GetGridLayout() noexcept;
-  const GridLayout* GetGridLayout() const noexcept;
+  GridLayout_View GetGridLayout() const noexcept;
+  GridLayout_Wrapper GetGridLayout() noexcept;
 
-  EquipmentLayout* GetEquipmentSlots() noexcept;
-  const EquipmentLayout* GetEquipmentSlots() const noexcept;
-
-  EquipmentLayout* GetEquipmentSlot(std::size_t index) noexcept;
-  const EquipmentLayout* GetEquipmentSlot(std::size_t index) const noexcept;
+  EquipmentLayout_View GetEquipmentSlots() const noexcept;
+  EquipmentLayout_Wrapper GetEquipmentSlots() noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<InventoryRecord_1_00>
-  > inventory_record_;
+  using ApiVariant = std::variant<InventoryRecord_1_00>;
+
+  ApiVariant inventory_record_;
+
+  static ApiVariant CreateVariant(
+      const PositionalRectangle* position,
+      const GridLayout* grid_layout,
+      const EquipmentLayout* equipment_slots
+  );
 };
 
 } // namespace d2

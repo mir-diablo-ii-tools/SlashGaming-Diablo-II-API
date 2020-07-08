@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,53 +45,43 @@
 
 #include "../../../../include/cxx/game_struct/d2_mpq_archive/d2_mpq_archive_api.hpp"
 
-#include "d2_mpq_archive_impl.hpp"
-
 namespace d2 {
-namespace {
 
-using unique_ptr_1_00 = std::unique_ptr<MPQArchive_1_00[]>;
+MpqArchive_Api::MpqArchive_Api(MpqArchive_Api&& other) noexcept = default;
 
-using MPQArchiveVariant = std::variant<
-    unique_ptr_1_00
->;
+MpqArchive_Api::~MpqArchive_Api() = default;
 
-} // namespace
+/* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
+MpqArchive_Api& MpqArchive_Api::operator=(
+    const MpqArchive_Api& other
+) = default;
+*/
 
-// TODO: Implement MPQArchive initialization.
-MPQArchive_API::MPQArchive_API(const MPQArchive_API& other) {
-}
-
-MPQArchive_API::MPQArchive_API(MPQArchive_API&& other) noexcept = default;
-
-MPQArchive_API::~MPQArchive_API() = default;
-
-MPQArchive_API& MPQArchive_API::operator=(const MPQArchive_API& other) {
-  return *this;
-}
-
-MPQArchive_API& MPQArchive_API::operator=(
-    MPQArchive_API&& other
+MpqArchive_Api& MpqArchive_Api::operator=(
+    MpqArchive_Api&& other
 ) noexcept = default;
 
-MPQArchive_API::operator MPQArchive_View() const noexcept {
-  return MPQArchive_View(this->Get());
+MpqArchive_Api::operator MpqArchive_View() const noexcept {
+  return MpqArchive_View(this->Get());
 }
 
-MPQArchive_API::operator MPQArchive_Wrapper() noexcept {
-  return MPQArchive_Wrapper(this->Get());
+MpqArchive_Api::operator MpqArchive_Wrapper() noexcept {
+  return MpqArchive_Wrapper(this->Get());
 }
 
-MPQArchive* MPQArchive_API::Get() noexcept {
+MpqArchive* MpqArchive_Api::Get() noexcept {
   const auto* const_this = this;
 
-  return const_cast<MPQArchive*>(const_this->Get());
+  return const_cast<MpqArchive*>(const_this->Get());
 }
 
-const MPQArchive* MPQArchive_API::Get() const noexcept {
-  const auto& actual_ptr = std::get<unique_ptr_1_00>(this->mpq_archive_);
-
-  return reinterpret_cast<const MPQArchive*>(actual_ptr.get());
+const MpqArchive* MpqArchive_Api::Get() const noexcept {
+  return std::visit(
+      [](const auto& actual_mpq_archive) {
+        return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive);
+      },
+      this->mpq_archive_
+  );
 }
 
 } // namespace d2

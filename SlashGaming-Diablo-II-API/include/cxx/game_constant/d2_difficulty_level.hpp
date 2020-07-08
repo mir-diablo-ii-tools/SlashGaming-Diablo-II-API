@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,13 +46,17 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_DIFFICULTY_LEVEL_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
-#include "d2_constant.hpp"
+#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
+
+/**
+ * Generic enum definitions
+ */
 
 enum class DifficultyLevel {
   kNormal,
@@ -60,15 +64,28 @@ enum class DifficultyLevel {
   kHell
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    DifficultyLevel id
-);
+/**
+ * Version-specific enum definitions
+ */
+
+enum class DifficultyLevel_1_00 : std::uint32_t {
+  kNormal,
+  kNightmare,
+  kHell
+};
+
+/**
+ * Function declarations
+ */
+
+DLLEXPORT int ToGameValue(DifficultyLevel api_value);
+
+DLLEXPORT DifficultyLevel_1_00 ToGameValue_1_00(DifficultyLevel api_value);
 
 extern template DLLEXPORT
-DifficultyLevel ToAPIValue(
-    int value
-);
+DifficultyLevel ToApiValue<DifficultyLevel>(int game_value);
+
+DLLEXPORT DifficultyLevel ToApiValue_1_00(DifficultyLevel_1_00 game_value);
 
 } // namespace d2
 

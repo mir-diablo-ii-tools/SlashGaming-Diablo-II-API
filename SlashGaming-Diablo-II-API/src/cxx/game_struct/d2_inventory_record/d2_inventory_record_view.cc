@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,11 @@
 
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_view.hpp"
 
-#include "d2_inventory_record_impl.hpp"
-
 namespace d2 {
 
 InventoryRecord_View::InventoryRecord_View(
-    const InventoryRecord* ptr
-) noexcept :
-    ptr_(ptr) {
+    const InventoryRecord* inventory_record
+) noexcept : inventory_record_(CreateVariant(inventory_record)) {
 }
 
 InventoryRecord_View::InventoryRecord_View(
@@ -76,50 +73,65 @@ InventoryRecord_View& InventoryRecord_View::operator=(
 InventoryRecord_View InventoryRecord_View::operator[](
     std::size_t index
 ) const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const InventoryRecord*>(&actual_ptr[index]);
+  return std::visit(
+      [index](const auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(
+            &actual_inventory_record[index]
+        );
+      },
+      this->inventory_record_
+  );
 }
 
 const InventoryRecord* InventoryRecord_View::Get() const noexcept {
-  return this->ptr_;
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(
+            actual_inventory_record
+        );
+      },
+      this->inventory_record_
+  );
 }
 
-const PositionalRectangle*
-InventoryRecord_View::GetPosition() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+PositionalRectangle_View InventoryRecord_View::GetPosition() const noexcept {
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_inventory_record->position
+        );
+      },
+      this->inventory_record_
+  );
 }
 
-const GridLayout* InventoryRecord_View::GetGridLayout() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const GridLayout*>(&actual_ptr->grid_layout);
+GridLayout_View InventoryRecord_View::GetGridLayout() const noexcept {
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const GridLayout*>(
+            &actual_inventory_record->grid_layout
+        );
+      },
+      this->inventory_record_
+  );
 }
 
-const EquipmentLayout*
+EquipmentLayout_View
 InventoryRecord_View::GetEquipmentSlots() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const EquipmentLayout*>(
-      &actual_ptr->equipment_slots
+  return std::visit(
+      [](const auto& actual_inventory_record) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            actual_inventory_record->equipment_slots
+        );
+      },
+      this->inventory_record_
   );
 }
 
-const EquipmentLayout* InventoryRecord_View::GetEquipmentSlot(
-    std::size_t index
-) const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const InventoryRecord_1_00*>(this->Get());
-
-  return reinterpret_cast<const EquipmentLayout*>(
-      &actual_ptr->equipment_slots[index]
-  );
+InventoryRecord_View::ViewVariant InventoryRecord_View::CreateVariant(
+    const InventoryRecord* inventory_record
+) {
+  return reinterpret_cast<const InventoryRecord_1_00*>(inventory_record);
 }
 
 } // namespace d2

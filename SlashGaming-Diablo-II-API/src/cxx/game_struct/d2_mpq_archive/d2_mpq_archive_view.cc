@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,28 +47,48 @@
 
 namespace d2 {
 
-MPQArchive_View::MPQArchive_View(const MPQArchive* ptr) noexcept :
-    ptr_(ptr) {
+MpqArchive_View::MpqArchive_View(const MpqArchive* mpq_archive) noexcept :
+    mpq_archive_(CreateVariant(mpq_archive)) {
 }
 
-MPQArchive_View::MPQArchive_View(
-    const MPQArchive_View& other
+MpqArchive_View::MpqArchive_View(
+    const MpqArchive_View& other
 ) noexcept = default;
 
-MPQArchive_View::MPQArchive_View(MPQArchive_View&& other) noexcept = default;
+MpqArchive_View::MpqArchive_View(MpqArchive_View&& other) noexcept = default;
 
-MPQArchive_View::~MPQArchive_View() noexcept = default;
+MpqArchive_View::~MpqArchive_View() noexcept = default;
 
-MPQArchive_View& MPQArchive_View::operator=(
-    const MPQArchive_View& other
+MpqArchive_View& MpqArchive_View::operator=(
+    const MpqArchive_View& other
 ) noexcept = default;
 
-MPQArchive_View& MPQArchive_View::operator=(
-    MPQArchive_View&& other
+MpqArchive_View& MpqArchive_View::operator=(
+    MpqArchive_View&& other
 ) noexcept = default;
 
-const MPQArchive* MPQArchive_View::Get() const noexcept {
-  return this->ptr_;
+/* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
+MpqArchive_View MpqArchive_View::operator[](std::size_t index) const noexcept {
+  const auto* actual_mpq_archive =
+      reinterpret_cast<const MpqArchive_1_00*>(this->Get());
+
+  return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive[index]);
+}
+*/
+
+const MpqArchive* MpqArchive_View::Get() const noexcept {
+  return std::visit(
+      [](const auto& actual_mpq_archive) {
+        return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
+      },
+      this->mpq_archive_
+  );
+}
+
+MpqArchive_View::ViewVariant MpqArchive_View::CreateVariant(
+    const MpqArchive* mpq_archive
+) {
+  return reinterpret_cast<const MpqArchive_1_00*>(mpq_archive);
 }
 
 } // namespace d2

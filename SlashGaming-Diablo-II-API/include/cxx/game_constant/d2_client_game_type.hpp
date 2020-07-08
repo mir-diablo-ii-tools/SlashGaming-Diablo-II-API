@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,14 +46,18 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_CLIENT_GAME_TYPE_HPP_
 
-#include <cstddef>
+#include <cstdint>
 
 #include "../../d2api_version.h"
-#include "d2_constant.hpp"
+#include "d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
 namespace d2 {
+
+/**
+ * Generic enum definitions
+ */
 
 enum class ClientGameType {
   kSinglePlayer,
@@ -72,15 +76,42 @@ enum class ClientGameType {
 #endif
 };
 
-extern template DLLEXPORT
-int ToGameValue(
-    ClientGameType id
-);
+/**
+ * Version-specific enum definitions
+ */
 
-extern template DLLEXPORT
-ClientGameType ToAPIValue(
-    int value
-);
+enum class ClientGameType_1_00 : std::int32_t {
+  kSinglePlayer,
+  kBattleNetJoin = 3,
+  kOpenBattleNetHostOrLanHost = 6,
+  kOpenBattleNetJoinOrLanJoin,
+};
+
+enum class ClientGameType_1_07 : std::int32_t {
+  kSinglePlayer,
+  kBattleNetJoin = 3,
+  kOpenBattleNetHost = 6,
+  kOpenBattleNetJoin,
+  kLanHost,
+  kLanJoin
+};
+
+/**
+ * Function declarations
+ */
+
+DLLEXPORT int ToGameValue(ClientGameType api_value);
+
+DLLEXPORT ClientGameType_1_00 ToGameValue_1_00(ClientGameType api_value);
+
+DLLEXPORT ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value);
+
+extern template
+DLLEXPORT ClientGameType ToApiValue<ClientGameType>(int game_value);
+
+DLLEXPORT ClientGameType ToApiValue_1_00(ClientGameType_1_00 game_value);
+
+DLLEXPORT ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value);
 
 } // namespace d2
 

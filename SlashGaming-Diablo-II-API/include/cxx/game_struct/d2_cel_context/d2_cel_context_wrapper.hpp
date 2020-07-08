@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,11 +46,15 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_WRAPPER_HPP_
 
-#include "../d2_cel.hpp"
+#include <cstddef>
+#include <type_traits>
+
+#include "../../helper/d2_draw_options.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_view.hpp"
+#include "../d2_cel_file/d2_cel_file_wrapper.hpp"
 #include "d2_cel_context_struct.hpp"
 #include "d2_cel_context_view.hpp"
-#include "../d2_cel_file.hpp"
-#include "../../helper/d2_draw_options.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -59,7 +63,7 @@ namespace d2 {
 class DLLEXPORT CelContext_Wrapper {
  public:
   CelContext_Wrapper() = delete;
-  CelContext_Wrapper(CelContext* ptr) noexcept;
+  CelContext_Wrapper(CelContext* cel_context) noexcept;
 
   CelContext_Wrapper(const CelContext_Wrapper& other) noexcept;
   CelContext_Wrapper(CelContext_Wrapper&& other) noexcept;
@@ -69,10 +73,15 @@ class DLLEXPORT CelContext_Wrapper {
   CelContext_Wrapper& operator=(const CelContext_Wrapper& other) noexcept;
   CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
 
+  CelContext_View operator[](std::size_t index) const noexcept;
+  CelContext_Wrapper operator[](std::size_t index) noexcept;
+
   operator CelContext_View() const noexcept;
 
   CelContext* Get() noexcept;
   const CelContext* Get() const noexcept;
+
+  void Assign(CelContext_View src);
 
   bool DrawFrame(int position_x, int position_y);
 
@@ -84,15 +93,26 @@ class DLLEXPORT CelContext_Wrapper {
 
   Cel* GetCel();
 
-  CelFile* GetCelFile() noexcept;
-  const CelFile* GetCelFile() const noexcept;
+  CelFile_View GetCelFile() const noexcept;
+  CelFile_Wrapper GetCelFile() noexcept;
+  void SetCelFile(CelFile_Wrapper cel_file) noexcept;
 
-  void SetCelFile(CelFile* cel_file) noexcept;
+  unsigned int GetDirection() const noexcept;
   void SetDirection(unsigned int direction) noexcept;
+
+  unsigned int GetFrame() const noexcept;
   void SetFrame(unsigned int frame) noexcept;
 
  private:
-  CelContext* ptr_;
+  using WrapperVariant = std::variant<
+      CelContext_1_00*,
+      CelContext_1_12A*,
+      CelContext_1_13C*
+  >;
+
+  WrapperVariant cel_context_;
+
+  static WrapperVariant CreateVariant(CelContext* cel_context);
 };
 
 } // namespace d2

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -68,30 +68,23 @@ enum class GameVersion {
  * Returns a view to the UTF-8 encoded string associated with the specified
  * game version.
  */
-DLLEXPORT std::string_view
-GetGameVersionName(
-    GameVersion game_version
-);
+DLLEXPORT std::u8string_view GetGameVersionName(GameVersion game_version);
 
 /**
  * Returns the identifier of the running game version.
  */
-DLLEXPORT GameVersion
-GetRunningGameVersionId();
+DLLEXPORT GameVersion GetRunningGameVersionId();
 
 /**
  * Returns a view to the UTF-8 encoded string associated with the running game
  * version.
  */
-DLLEXPORT std::string_view
-GetRunningGameVersionName();
+DLLEXPORT std::u8string_view GetRunningGameVersionName();
 
 /**
  * Returns whether the specified game version is at least 1.14.
  */
-DLLEXPORT bool IsGameVersionAtLeast1_14(
-    GameVersion game_version
-);
+DLLEXPORT bool IsGameVersionAtLeast1_14(GameVersion game_version);
 
 /**
  * Returns whether the running game version is at least 1.14.

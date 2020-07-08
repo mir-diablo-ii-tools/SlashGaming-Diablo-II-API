@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,29 +46,39 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_VIEW_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "d2_mpq_archive_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT MPQArchive_View {
+class DLLEXPORT MpqArchive_View {
  public:
-  MPQArchive_View() = delete;
-  MPQArchive_View(const MPQArchive* ptr) noexcept;
+  MpqArchive_View() = delete;
+  MpqArchive_View(const MpqArchive* mpq_archive) noexcept;
 
-  MPQArchive_View(const MPQArchive_View& other) noexcept;
-  MPQArchive_View(MPQArchive_View&& other) noexcept;
+  MpqArchive_View(const MpqArchive_View& other) noexcept;
+  MpqArchive_View(MpqArchive_View&& other) noexcept;
 
-  ~MPQArchive_View() noexcept;
+  ~MpqArchive_View() noexcept;
 
-  MPQArchive_View& operator=(const MPQArchive_View& other) noexcept;
-  MPQArchive_View& operator=(MPQArchive_View&& other) noexcept;
+  MpqArchive_View& operator=(const MpqArchive_View& other) noexcept;
+  MpqArchive_View& operator=(MpqArchive_View&& other) noexcept;
 
-  const MPQArchive* Get() const noexcept;
+  // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
+  MpqArchive_View operator[](std::size_t index) const noexcept = delete;
+
+  const MpqArchive* Get() const noexcept;
 
  private:
-  const MPQArchive* ptr_;
+  using ViewVariant = std::variant<const MpqArchive_1_00*>;
+
+  ViewVariant mpq_archive_;
+
+  static ViewVariant CreateVariant(const MpqArchive* mpq_archive);
 };
 
 } // namespace d2

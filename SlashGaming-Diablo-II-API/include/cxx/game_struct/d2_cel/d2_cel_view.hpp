@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_D2_CEL_VIEW_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "d2_cel_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -55,7 +58,7 @@ namespace d2 {
 class DLLEXPORT Cel_View {
  public:
   Cel_View() = delete;
-  Cel_View(const Cel* ptr) noexcept;
+  Cel_View(const Cel* cel) noexcept;
 
   Cel_View(const Cel_View& other) noexcept;
   Cel_View(Cel_View&& other) noexcept;
@@ -65,6 +68,8 @@ class DLLEXPORT Cel_View {
   Cel_View& operator=(const Cel_View& other) noexcept;
   Cel_View& operator=(Cel_View&& other) noexcept;
 
+  Cel_View operator[](std::size_t index) const noexcept;
+
   const Cel* Get() const noexcept;
 
   int GetHeight() const noexcept;
@@ -73,7 +78,11 @@ class DLLEXPORT Cel_View {
   int GetWidth() const noexcept;
 
  private:
-  const Cel* ptr_;
+  using ViewVariant = std::variant<const Cel_1_00*>;
+
+  ViewVariant cel_;
+
+  static ViewVariant CreateVariant(const Cel* cel);
 };
 
 } // namespace d2

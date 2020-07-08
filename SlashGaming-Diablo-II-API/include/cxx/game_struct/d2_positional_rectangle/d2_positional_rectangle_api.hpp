@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,54 +46,65 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_API_HPP_
 
-#include <memory>
 #include <variant>
 
 #include "d2_positional_rectangle_struct.hpp"
 #include "d2_positional_rectangle_view.hpp"
+#include "d2_positional_rectangle_wrapper.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT PositionalRectangle_API {
+class DLLEXPORT PositionalRectangle_Api {
  public:
-  PositionalRectangle_API() = delete;
-  PositionalRectangle_API(
+  PositionalRectangle_Api();
+
+  PositionalRectangle_Api(
       int left,
       int right,
       int top,
       int bottom
   );
 
-  PositionalRectangle_API(const PositionalRectangle_API& other);
-  PositionalRectangle_API(PositionalRectangle_API&& other) noexcept;
+  PositionalRectangle_Api(const PositionalRectangle_Api& other);
+  PositionalRectangle_Api(PositionalRectangle_Api&& other) noexcept;
 
-  ~PositionalRectangle_API();
+  ~PositionalRectangle_Api();
 
-  PositionalRectangle_API& operator=(
-      const PositionalRectangle_API& other
+  PositionalRectangle_Api& operator=(
+      const PositionalRectangle_Api& other
   );
-  PositionalRectangle_API& operator=(
-      PositionalRectangle_API&& other
+  PositionalRectangle_Api& operator=(
+      PositionalRectangle_Api&& other
   ) noexcept;
 
   operator PositionalRectangle_View() const noexcept;
+  operator PositionalRectangle_Wrapper() noexcept;
 
   PositionalRectangle* Get() noexcept;
   const PositionalRectangle* Get() const noexcept;
 
-  void Copy(PositionalRectangle_View src) noexcept;
+  void Assign(PositionalRectangle_View src) noexcept;
 
   int GetLeft() const noexcept;
+  void SetLeft(int left) noexcept;
+
   int GetRight() const noexcept;
+  void SetRight(int right) noexcept;
+
   int GetTop() const noexcept;
+  void SetTop(int top) noexcept;
+
   int GetBottom() const noexcept;
+  void SetBottom(int bottom) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<PositionalRectangle_1_00>
-  > positional_rectangle_;
+  using ApiVariant = std::variant<PositionalRectangle_1_00>;
+
+  ApiVariant positional_rectangle_;
+
+  static ApiVariant CreateVariant(int left, int right, int top, int bottom);
 };
 
 } // namespace d2

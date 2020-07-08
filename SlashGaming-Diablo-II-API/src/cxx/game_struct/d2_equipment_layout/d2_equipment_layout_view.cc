@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,14 +45,11 @@
 
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_view.hpp"
 
-#include "d2_equipment_layout_impl.hpp"
-
 namespace d2 {
 
 EquipmentLayout_View::EquipmentLayout_View(
-    const EquipmentLayout* ptr
-) noexcept :
-    ptr_(ptr) {
+    const EquipmentLayout* equipment_layout
+) noexcept : equipment_layout_(CreateVariant(equipment_layout)) {
 }
 
 EquipmentLayout_View::EquipmentLayout_View(
@@ -73,29 +70,63 @@ EquipmentLayout_View& EquipmentLayout_View::operator=(
     EquipmentLayout_View&& other
 ) noexcept = default;
 
+EquipmentLayout_View EquipmentLayout_View::operator[](
+    std::size_t index
+) const noexcept {
+  return std::visit(
+      [index](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            &actual_equipment_layout[index]
+        );
+      },
+      this->equipment_layout_
+  );
+}
+
 const EquipmentLayout* EquipmentLayout_View::Get() const noexcept {
-  return this->ptr_;
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const EquipmentLayout*>(
+            actual_equipment_layout
+        );
+      },
+      this->equipment_layout_
+  );
 }
 
-const PositionalRectangle* EquipmentLayout_View::GetPosition() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
-
-  return reinterpret_cast<const PositionalRectangle*>(&actual_ptr->position);
+PositionalRectangle_View EquipmentLayout_View::GetPosition() const noexcept {
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_equipment_layout->position
+        );
+      },
+      this->equipment_layout_
+  );
 }
 
-std::uint_least8_t EquipmentLayout_View::GetWidth() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
-
-  return actual_ptr->width;
+unsigned char EquipmentLayout_View::GetWidth() const noexcept {
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return actual_equipment_layout->width;
+      },
+      this->equipment_layout_
+  );
 }
 
-std::uint_least8_t EquipmentLayout_View::GetHeight() const noexcept {
-  const auto* actual_ptr =
-      reinterpret_cast<const EquipmentLayout_1_00*>(this->Get());
+unsigned char EquipmentLayout_View::GetHeight() const noexcept {
+  return std::visit(
+      [](const auto& actual_equipment_layout) {
+        return actual_equipment_layout->height;
+      },
+      this->equipment_layout_
+  );
+}
 
-  return actual_ptr->height;
+EquipmentLayout_View::ViewVariant EquipmentLayout_View::CreateVariant(
+    const EquipmentLayout* equipment_layout
+) {
+  return reinterpret_cast<const EquipmentLayout_1_00*>(equipment_layout);
 }
 
 } // namespace d2

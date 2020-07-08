@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,154 +45,140 @@
 
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_api.hpp"
 
-#include "d2_positional_rectangle_impl.hpp"
-#include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
 
-using unique_ptr_1_00 = std::unique_ptr<PositionalRectangle_1_00>;
+PositionalRectangle_Api::PositionalRectangle_Api() :
+    PositionalRectangle_Api(0, 0, 0, 0) {
+}
 
-using PositionalRectangleVariant = std::variant<
-    unique_ptr_1_00
->;
-
-PositionalRectangleVariant CreateVariant(
+PositionalRectangle_Api::PositionalRectangle_Api(
     int left,
     int right,
     int top,
     int bottom
-) {
-  PositionalRectangle* positional_rectangle = CreatePositionalRectangle(
-      left,
-      right,
-      top,
-      bottom
-  );
-
-  return unique_ptr_1_00(
-      reinterpret_cast<PositionalRectangle_1_00*>(positional_rectangle)
-  );
+) : positional_rectangle_(CreateVariant(left, right, top, bottom)) {
 }
 
-} // namespace
+PositionalRectangle_Api::PositionalRectangle_Api(
+    const PositionalRectangle_Api& other
+) = default;
 
-PositionalRectangle_API::PositionalRectangle_API(
-    int left,
-    int right,
-    int top,
-    int bottom
-) : positional_rectangle_(
-        CreateVariant(left, right, top, bottom)
-    ) {
-}
-
-PositionalRectangle_API::PositionalRectangle_API(
-    const PositionalRectangle_API& other
-) : PositionalRectangle_API(
-        other.GetLeft(),
-        other.GetRight(),
-        other.GetTop(),
-        other.GetBottom()
-    ) {
-}
-
-PositionalRectangle_API::PositionalRectangle_API(
-    PositionalRectangle_API&& other
+PositionalRectangle_Api::PositionalRectangle_Api(
+    PositionalRectangle_Api&& other
 ) noexcept = default;
 
-PositionalRectangle_API::~PositionalRectangle_API() = default;
+PositionalRectangle_Api::~PositionalRectangle_Api() = default;
 
-PositionalRectangle_API& PositionalRectangle_API::operator=(
-    const PositionalRectangle_API& other
-) {
-  *this = PositionalRectangle_API(
-      other.GetLeft(),
-      other.GetRight(),
-      other.GetTop(),
-      other.GetBottom()
-  );
+PositionalRectangle_Api& PositionalRectangle_Api::operator=(
+    const PositionalRectangle_Api& other
+) = default;
 
-  return *this;
-}
-
-PositionalRectangle_API& PositionalRectangle_API::operator=(
-    PositionalRectangle_API&& other
+PositionalRectangle_Api& PositionalRectangle_Api::operator=(
+    PositionalRectangle_Api&& other
 ) noexcept = default;
 
-PositionalRectangle_API::operator PositionalRectangle_View() const noexcept {
+PositionalRectangle_Api::operator PositionalRectangle_View() const noexcept {
   return PositionalRectangle_View(this->Get());
 }
 
-PositionalRectangle* PositionalRectangle_API::Get() noexcept {
+PositionalRectangle_Api::operator PositionalRectangle_Wrapper() noexcept {
+  return PositionalRectangle_Wrapper(this->Get());
+}
+
+PositionalRectangle* PositionalRectangle_Api::Get() noexcept {
   const auto* const_this = this;
 
   return const_cast<PositionalRectangle*>(const_this->Get());
 }
 
-const PositionalRectangle* PositionalRectangle_API::Get() const noexcept {
-  auto& actual_positional_rectangle =
-      std::get<unique_ptr_1_00>(this->positional_rectangle_);
-
-  return reinterpret_cast<const PositionalRectangle*>(actual_positional_rectangle.get());
+const PositionalRectangle* PositionalRectangle_Api::Get() const noexcept {
+  return std::visit(
+      [](const auto& actual_positional_rectangle) {
+        return reinterpret_cast<const PositionalRectangle*>(
+            &actual_positional_rectangle
+        );
+      },
+      this->positional_rectangle_
+  );
 }
 
-void PositionalRectangle_API::Copy(PositionalRectangle_View src) noexcept {
+void PositionalRectangle_Api::Assign(PositionalRectangle_View src) noexcept {
   PositionalRectangle_Wrapper wrapper(this->Get());
 
-  wrapper.Copy(src);
+  wrapper.Assign(src);
 }
 
-int PositionalRectangle_API::GetLeft() const noexcept {
+int PositionalRectangle_Api::GetLeft() const noexcept {
   PositionalRectangle_View view(this->Get());
 
   return view.GetLeft();
 }
 
-int PositionalRectangle_API::GetRight() const noexcept {
+void PositionalRectangle_Api::SetLeft(int left) noexcept {
+  PositionalRectangle_Wrapper wrapper(this->Get());
+
+  return wrapper.SetLeft(left);
+}
+
+int PositionalRectangle_Api::GetRight() const noexcept {
   PositionalRectangle_View view(this->Get());
 
   return view.GetRight();
 }
 
-int PositionalRectangle_API::GetTop() const noexcept {
+void PositionalRectangle_Api::SetRight(int right) noexcept {
+  PositionalRectangle_Wrapper wrapper(this->Get());
+
+  return wrapper.SetRight(right);
+}
+
+int PositionalRectangle_Api::GetTop() const noexcept {
   PositionalRectangle_View view(this->Get());
 
   return view.GetTop();
 }
 
-int PositionalRectangle_API::GetBottom() const noexcept {
+void PositionalRectangle_Api::SetTop(int top) noexcept {
+  PositionalRectangle_Wrapper wrapper(this->Get());
+
+  return wrapper.SetTop(top);
+}
+
+int PositionalRectangle_Api::GetBottom() const noexcept {
   PositionalRectangle_View view(this->Get());
 
   return view.GetBottom();
 }
 
-PositionalRectangle* CreatePositionalRectangle(
+void PositionalRectangle_Api::SetBottom(int bottom) noexcept {
+  PositionalRectangle_Wrapper wrapper(this->Get());
+
+  return wrapper.SetBottom(bottom);
+}
+
+PositionalRectangle_Api::ApiVariant PositionalRectangle_Api::CreateVariant(
     int left,
     int right,
     int top,
     int bottom
 ) {
-  PositionalRectangle* positional_rectangle;
+  ApiVariant positional_rectangle;
 
-  positional_rectangle = reinterpret_cast<PositionalRectangle*>(
-      new PositionalRectangle_1_00()
+  positional_rectangle = PositionalRectangle_1_00();
+
+  std::visit(
+      [left, right, top, bottom](auto& actual_positional_rectangle) {
+        actual_positional_rectangle.left = left;
+        actual_positional_rectangle.right = right;
+        actual_positional_rectangle.top = top;
+        actual_positional_rectangle.bottom = bottom;
+      },
+      positional_rectangle
   );
 
-  PositionalRectangle_Wrapper wrapper(positional_rectangle);
-  wrapper.SetLeft(left);
-  wrapper.SetRight(right);
-  wrapper.SetTop(top);
-  wrapper.SetBottom(bottom);
-
-  return wrapper.Get();
-}
-
-void DestroyPositionalRectangle(PositionalRectangle* positional_rectangle) {
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
-
-  delete positional_rectangle;
+  return positional_rectangle;
 }
 
 } // namespace d2

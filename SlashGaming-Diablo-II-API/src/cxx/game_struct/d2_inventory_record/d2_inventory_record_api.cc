@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,190 +45,153 @@
 
 #include "../../../../include/cxx/game_struct/d2_inventory_record/d2_inventory_record_api.hpp"
 
-#include "d2_inventory_record_impl.hpp"
+#include <algorithm>
+#include <type_traits>
+
 #include "../../../../include/cxx/game_struct/d2_equipment_layout/d2_equipment_layout_wrapper.hpp"
 #include "../../../../include/cxx/game_struct/d2_grid_layout/d2_grid_layout_wrapper.hpp"
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
 
-using unique_ptr_1_00 = std::unique_ptr<InventoryRecord_1_00>;
-
-using InventoryRecordVariant = std::variant<
-    unique_ptr_1_00
->;
-
-InventoryRecordVariant CreateVariant(
+InventoryRecord_Api::InventoryRecord_Api(
     PositionalRectangle_View position,
     GridLayout_View grid_layout,
-    const EquipmentLayout* equipment_slots
-) {
-  InventoryRecord* inventory_record = CreateInventoryRecord(
-      position.Get(),
-      grid_layout.Get(),
-      equipment_slots
-  );
-
-  return unique_ptr_1_00(
-      reinterpret_cast<InventoryRecord_1_00*>(inventory_record)
-  );
-}
-
-} // namespace
-
-InventoryRecord_API::InventoryRecord_API(
-    PositionalRectangle_View position,
-    GridLayout_View grid_layout,
-    const EquipmentLayout* equipment_slots
+    EquipmentLayout_View equipment_slots
 ) : inventory_record_(
-        CreateVariant(position, grid_layout, equipment_slots)
+        CreateVariant(position.Get(), grid_layout.Get(), equipment_slots.Get())
     ) {
 }
 
-InventoryRecord_API::InventoryRecord_API(
-    const InventoryRecord_API& other
-) : InventoryRecord_API(
-        other.GetPosition(),
-        other.GetGridLayout(),
-        other.GetEquipmentSlots()
-    ) {
-}
+InventoryRecord_Api::InventoryRecord_Api(
+    const InventoryRecord_Api& other
+) = default;
 
-InventoryRecord_API::InventoryRecord_API(
-    InventoryRecord_API&& other
+InventoryRecord_Api::InventoryRecord_Api(
+    InventoryRecord_Api&& other
 ) noexcept = default;
 
-InventoryRecord_API::~InventoryRecord_API() = default;
+InventoryRecord_Api::~InventoryRecord_Api() = default;
 
-InventoryRecord_API& InventoryRecord_API::operator=(
-    const InventoryRecord_API& other
-) {
-  *this = InventoryRecord_API(
-      other.GetPosition(),
-      other.GetGridLayout(),
-      other.GetEquipmentSlots()
-  );
+InventoryRecord_Api& InventoryRecord_Api::operator=(
+    const InventoryRecord_Api& other
+) = default;
 
-  return *this;
-}
-
-InventoryRecord_API& InventoryRecord_API::operator=(
-    InventoryRecord_API&& other
+InventoryRecord_Api& InventoryRecord_Api::operator=(
+    InventoryRecord_Api&& other
 ) noexcept = default;
 
-InventoryRecord_API::operator InventoryRecord_View() const noexcept {
+InventoryRecord_Api::operator InventoryRecord_View() const noexcept {
   return InventoryRecord_View(this->Get());
 }
 
-InventoryRecord_API::operator InventoryRecord_Wrapper() noexcept {
+InventoryRecord_Api::operator InventoryRecord_Wrapper() noexcept {
   return InventoryRecord_Wrapper(this->Get());
 }
 
-InventoryRecord* InventoryRecord_API::Get() noexcept {
+InventoryRecord* InventoryRecord_Api::Get() noexcept {
   const auto* const_this = this;
 
   return const_cast<InventoryRecord*>(const_this->Get());
 }
 
-const InventoryRecord* InventoryRecord_API::Get() const noexcept {
-  auto& actual_inventory_record =
-      std::get<unique_ptr_1_00>(this->inventory_record_);
-
-  return reinterpret_cast<const InventoryRecord*>(actual_inventory_record.get());
+const InventoryRecord* InventoryRecord_Api::Get() const noexcept {
+  return std::visit(
+      [](auto& actual_inventory_record) {
+        return reinterpret_cast<const InventoryRecord*>(
+            &actual_inventory_record
+        );
+      },
+      this->inventory_record_
+  );
 }
 
-PositionalRectangle* InventoryRecord_API::GetPosition() noexcept {
-  InventoryRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.GetPosition();
-}
-
-const PositionalRectangle* InventoryRecord_API::GetPosition() const noexcept {
+PositionalRectangle_View InventoryRecord_Api::GetPosition() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetPosition();
 }
 
-GridLayout* InventoryRecord_API::GetGridLayout() noexcept {
+PositionalRectangle_Wrapper InventoryRecord_Api::GetPosition() noexcept {
   InventoryRecord_Wrapper wrapper(this->Get());
 
-  return wrapper.GetGridLayout();
+  return wrapper.GetPosition();
 }
 
-const GridLayout* InventoryRecord_API::GetGridLayout() const noexcept {
+GridLayout_View InventoryRecord_Api::GetGridLayout() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetGridLayout();
 }
 
-EquipmentLayout* InventoryRecord_API::GetEquipmentSlots() noexcept {
+GridLayout_Wrapper InventoryRecord_Api::GetGridLayout() noexcept {
   InventoryRecord_Wrapper wrapper(this->Get());
 
-  return wrapper.GetEquipmentSlots();
+  return wrapper.GetGridLayout();
 }
 
-const EquipmentLayout*
-InventoryRecord_API::GetEquipmentSlots() const noexcept {
+EquipmentLayout_View
+InventoryRecord_Api::GetEquipmentSlots() const noexcept {
   InventoryRecord_View view(this->Get());
 
   return view.GetEquipmentSlots();
 }
 
-EquipmentLayout* InventoryRecord_API::GetEquipmentSlot(
-    std::size_t index
-) noexcept {
+EquipmentLayout_Wrapper InventoryRecord_Api::GetEquipmentSlots() noexcept {
   InventoryRecord_Wrapper wrapper(this->Get());
 
-  return wrapper.GetEquipmentSlot(index);
+  return wrapper.GetEquipmentSlots();
 }
 
-const EquipmentLayout* InventoryRecord_API::GetEquipmentSlot(
-    std::size_t index
-) const noexcept {
-  InventoryRecord_View view(this->Get());
-
-  return view.GetEquipmentSlot(index);
-}
-
-InventoryRecord* CreateInventoryRecord(
+InventoryRecord_Api::ApiVariant InventoryRecord_Api::CreateVariant(
     const PositionalRectangle* position,
     const GridLayout* grid_layout,
     const EquipmentLayout* equipment_slots
 ) {
-  InventoryRecord* inventory_record;
-  std::size_t num_equipment_slots;
+  ApiVariant inventory_record;
 
-  inventory_record = reinterpret_cast<InventoryRecord*>(new InventoryRecord_1_00());
-  num_equipment_slots = sizeof(InventoryRecord_1_00::equipment_slots)
-      / sizeof(InventoryRecord_1_00::equipment_slots[0]);
+  inventory_record = InventoryRecord_1_00();
 
-  // Set all the values of the struct.
-  InventoryRecord_Wrapper wrapper(inventory_record);
+  std::visit(
+      [=](auto& actual_inventory_record) {
+        using InventoryRecord_T = std::remove_reference_t<
+            decltype(actual_inventory_record)
+        >;
+        using PositionalRectangle_T = std::remove_pointer_t<
+            decltype(InventoryRecord_T::position)
+        >;
+        using GridLayout_T = std::remove_pointer_t<
+            decltype(InventoryRecord_T::grid_layout)
+        >;
+        using EquipmentLayout_T = std::remove_extent_t<
+            decltype(InventoryRecord_T::equipment_slots)
+        >;
+        using EquipmentSlots_A = decltype(InventoryRecord_T::equipment_slots);
 
-  PositionalRectangle_Wrapper position_wrapper(wrapper.GetPosition());
-  position_wrapper.Copy(position);
+        constexpr std::size_t kNumEquipmentSlots =
+            std::extent_v<EquipmentSlots_A>;
 
-  GridLayout_Wrapper grid_layout_wrapper(wrapper.GetGridLayout());
-  grid_layout_wrapper.Copy(grid_layout);
+        const PositionalRectangle_T* actual_src_positional_rectangle =
+            reinterpret_cast<const PositionalRectangle_T*>(position);
+        const GridLayout_T* actual_src_grid_layout =
+            reinterpret_cast<const GridLayout_T*>(grid_layout);
+        const EquipmentLayout_T* actual_src_equipment_slots =
+            reinterpret_cast<const EquipmentLayout_T*>(equipment_slots);
 
-  std::copy_n(
-      reinterpret_cast<const EquipmentLayout_1_00*>(equipment_slots),
-      num_equipment_slots,
-      reinterpret_cast<EquipmentLayout_1_00*>(wrapper.GetEquipmentSlots())
+        actual_inventory_record.position = *actual_src_positional_rectangle;
+        actual_inventory_record.grid_layout = *actual_src_grid_layout;
+
+        std::copy_n(
+            actual_src_equipment_slots,
+            kNumEquipmentSlots,
+            actual_inventory_record.equipment_slots
+        );
+      },
+      inventory_record
   );
 
   return inventory_record;
-}
-
-void DestroyInventoryRecord(InventoryRecord* inventory_record) {
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
-
-  auto* actual_inventory_record =
-      reinterpret_cast<InventoryRecord_1_00*>(inventory_record);
-
-  delete actual_inventory_record;
 }
 
 } // namespace d2

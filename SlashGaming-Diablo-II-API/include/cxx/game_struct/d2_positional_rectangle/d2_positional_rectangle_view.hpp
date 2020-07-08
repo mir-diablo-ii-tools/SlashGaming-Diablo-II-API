@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,6 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_POSITIONAL_RECTANGLE_D2_POSITIONAL_RECTANGLE_VIEW_HPP_
 
+#include <cstddef>
+#include <variant>
+
 #include "d2_positional_rectangle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
@@ -55,7 +58,10 @@ namespace d2 {
 class DLLEXPORT PositionalRectangle_View {
  public:
   PositionalRectangle_View() = delete;
-  PositionalRectangle_View(const PositionalRectangle* ptr) noexcept;
+
+  PositionalRectangle_View(
+      const PositionalRectangle* positional_rectangle
+  ) noexcept;
 
   PositionalRectangle_View(const PositionalRectangle_View& other) noexcept;
   PositionalRectangle_View(PositionalRectangle_View&& other) noexcept;
@@ -69,6 +75,8 @@ class DLLEXPORT PositionalRectangle_View {
       PositionalRectangle_View&& other
   ) noexcept;
 
+  PositionalRectangle_View operator[](std::size_t index) const noexcept;
+
   const PositionalRectangle* Get() const noexcept;
 
   int GetLeft() const noexcept;
@@ -77,7 +85,15 @@ class DLLEXPORT PositionalRectangle_View {
   int GetBottom() const noexcept;
 
  private:
-  const PositionalRectangle* ptr_;
+  using ViewVariant = std::variant<
+      const PositionalRectangle_1_00*
+  >;
+
+  ViewVariant positional_rectangle_;
+
+  static ViewVariant CreateVariant(
+      const PositionalRectangle* positional_rectangle
+  );
 };
 
 } // namespace d2

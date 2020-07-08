@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -51,10 +51,12 @@
 #include <string>
 #include <string_view>
 
-#include <nowide/convert.hpp>
 #include <fmt/format.h>
 #include "../../include/cxx/default_game_library.hpp"
-#include "game_library.hpp"
+#include "../wide_macro.h"
+#include "backend/encoding.hpp"
+#include "backend/error_handling.hpp"
+#include "backend/game_library.hpp"
 
 namespace mapi {
 
@@ -66,127 +68,6 @@ GameAddress::GameAddress(
 
 std::intptr_t GameAddress::raw_address() const noexcept {
   return raw_address_;
-}
-
-GameAddress GameAddress::FromDecoratedName(
-    DefaultLibrary default_library,
-    std::string_view decorated_name
-) {
-  const std::filesystem::path& default_library_path =
-      GetDefaultLibraryPathWithRedirect(default_library);
-
-  return FromDecoratedName(default_library_path, decorated_name);
-}
-
-GameAddress GameAddress::FromDecoratedName(
-    const std::filesystem::path& library_path,
-    std::string_view decorated_name
-) {
-  const GameLibrary& game_library = GetGameLibrary(library_path);
-
-  FARPROC raw_address = GetProcAddress(
-      reinterpret_cast<HMODULE>(game_library.base_address()),
-      decorated_name.data()
-  );
-
-  if (raw_address == nullptr) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
-        L"The data or function with the name {} could not be found.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
-        nowide::widen(decorated_name.data())
-    );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"Failed to Locate Address",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
-  }
-
-  return GameAddress(
-      reinterpret_cast<std::intptr_t>(raw_address)
-  );
-}
-
-GameAddress GameAddress::FromOffset(
-    DefaultLibrary default_library,
-    std::intptr_t offset
-) {
-  const std::filesystem::path& game_library_path =
-      GetDefaultLibraryPathWithRedirect(default_library);
-
-  return FromOffset(game_library_path, offset);
-}
-
-GameAddress GameAddress::FromOffset(
-    const std::filesystem::path& library_path,
-    std::intptr_t offset
-) {
-  const GameLibrary& game_library = GetGameLibrary(library_path);
-  
-  return GameAddress(game_library.base_address() + offset);
-}
-
-GameAddress GameAddress::FromOrdinal(
-    DefaultLibrary default_library,
-    std::int16_t ordinal
-) {
-  const std::filesystem::path& game_library_path =
-      GetDefaultLibraryPathWithRedirect(default_library);
-
-  return FromOrdinal(game_library_path, ordinal);
-}
-
-GameAddress GameAddress::FromOrdinal(
-    const std::filesystem::path& library_path,
-    std::int16_t ordinal
-) {
-  const GameLibrary& game_library = GetGameLibrary(library_path);
-
-  FARPROC func_address = GetProcAddress(
-      reinterpret_cast<HMODULE>(game_library.base_address()),
-      reinterpret_cast<const CHAR*>(ordinal)
-  );
-
-  if (func_address == nullptr) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"File: {} \n"
-        L"Line: {} \n"
-        L"\n"
-        L"The data or function with the ordinal {} from {} could not be "
-        L"found.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        __FILEW__,
-        __LINE__,
-        ordinal,
-        game_library.library_path().wstring()
-    );
-
-    MessageBoxW(
-        nullptr,
-        full_message.data(),
-        L"Failed to Locate Address",
-        MB_OK | MB_ICONERROR
-    );
-
-    std::exit(0);
-  }
-
-  return GameAddress(
-      reinterpret_cast<std::intptr_t>(func_address)
-  );
 }
 
 } // namespace mapi

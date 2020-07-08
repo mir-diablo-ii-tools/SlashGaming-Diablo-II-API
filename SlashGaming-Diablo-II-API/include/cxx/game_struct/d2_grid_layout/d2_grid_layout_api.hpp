@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,42 +46,37 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_GRID_LAYOUT_D2_GRID_LAYOUT_API_HPP_
 
-#include <cstdint>
-#include <memory>
 #include <variant>
 
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 #include "d2_grid_layout_struct.hpp"
 #include "d2_grid_layout_view.hpp"
 #include "d2_grid_layout_wrapper.hpp"
-
-#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-class DLLEXPORT GridLayout_API {
+class DLLEXPORT GridLayout_Api {
  public:
-  GridLayout_API() = delete;
-  GridLayout_API(
-      std::int_least8_t num_columns,
-      std::int_least8_t num_rows,
+  GridLayout_Api() = delete;
+  GridLayout_Api(
+      unsigned char num_columns,
+      unsigned char num_rows,
       PositionalRectangle_View position,
-      std::int_least8_t width,
-      std::int_least8_t height
+      unsigned char width,
+      unsigned char height
   );
 
-  GridLayout_API(const GridLayout_API& other);
-  GridLayout_API(GridLayout_API&& other) noexcept;
+  GridLayout_Api(const GridLayout_Api& other);
+  GridLayout_Api(GridLayout_Api&& other) noexcept;
 
-  ~GridLayout_API();
+  ~GridLayout_Api();
 
-  GridLayout_API& operator=(
-      const GridLayout_API& other
-  );
-  GridLayout_API& operator=(
-      GridLayout_API&& other
-  ) noexcept;
+  GridLayout_Api& operator=(const GridLayout_Api& other);
+  GridLayout_Api& operator=(GridLayout_Api&& other) noexcept;
 
   operator GridLayout_View() const noexcept;
   operator GridLayout_Wrapper() noexcept;
@@ -89,27 +84,35 @@ class DLLEXPORT GridLayout_API {
   GridLayout* Get() noexcept;
   const GridLayout* Get() const noexcept;
 
-  void Copy(GridLayout_View src) noexcept;
+  void Assign(GridLayout_View src) noexcept;
 
-  std::uint_least8_t GetNumColumns() const noexcept;
-  void SetNumColumns(std::uint_least8_t value) noexcept;
+  unsigned char GetNumColumns() const noexcept;
+  void SetNumColumns(unsigned char num_columns) noexcept;
 
-  std::uint_least8_t GetNumRows() const noexcept;
-  void SetNumRows(std::uint_least8_t value) noexcept;
+  unsigned char GetNumRows() const noexcept;
+  void SetNumRows(unsigned char num_rows) noexcept;
 
-  PositionalRectangle* GetPosition() noexcept;
-  const PositionalRectangle* GetPosition() const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  PositionalRectangle_Wrapper GetPosition() noexcept;
 
-  std::uint_least8_t GetWidth() const noexcept;
-  void SetWidth(std::uint_least8_t value) noexcept;
+  unsigned char GetWidth() const noexcept;
+  void SetWidth(unsigned char width) noexcept;
 
-  std::uint_least8_t GetHeight() const noexcept;
-  void SetHeight(std::uint_least8_t value) noexcept;
+  unsigned char GetHeight() const noexcept;
+  void SetHeight(unsigned char height) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<GridLayout_1_00>
-  > grid_layout_;
+  using ApiVariant = std::variant<GridLayout_1_00>;
+
+  ApiVariant grid_layout_;
+
+  static ApiVariant CreateVariant(
+      unsigned char num_columns,
+      unsigned char num_rows,
+      const PositionalRectangle* position,
+      unsigned char width,
+      unsigned char height
+  );
 };
 
 } // namespace d2

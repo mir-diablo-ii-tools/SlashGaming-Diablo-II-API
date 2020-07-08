@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,9 +46,9 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_MPQ_ARCHIVE_D2_MPQ_ARCHIVE_API_HPP_
 
-#include <memory>
 #include <variant>
 
+#include "../../game_undefined.hpp"
 #include "d2_mpq_archive_struct.hpp"
 #include "d2_mpq_archive_view.hpp"
 #include "d2_mpq_archive_wrapper.hpp"
@@ -57,28 +57,32 @@
 
 namespace d2 {
 
-class DLLEXPORT MPQArchive_API {
+class DLLEXPORT MpqArchive_Api {
  public:
-  MPQArchive_API() = delete;
+  MpqArchive_Api() = delete;
 
-  MPQArchive_API(const MPQArchive_API& other);
-  MPQArchive_API(MPQArchive_API&& other) noexcept;
+  // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
+  MpqArchive_Api(const MpqArchive_Api& other) = delete;
+  MpqArchive_Api(MpqArchive_Api&& other) noexcept;
 
-  ~MPQArchive_API();
+  ~MpqArchive_Api();
 
-  MPQArchive_API& operator=(const MPQArchive_API& other);
-  MPQArchive_API& operator=(MPQArchive_API&& other) noexcept;
+  // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
+  MpqArchive_Api& operator=(const MpqArchive_Api& other) = delete;
+  MpqArchive_Api& operator=(MpqArchive_Api&& other) noexcept;
 
-  operator MPQArchive_View() const noexcept;
-  operator MPQArchive_Wrapper() noexcept;
+  operator MpqArchive_View() const noexcept;
+  operator MpqArchive_Wrapper() noexcept;
 
-  MPQArchive* Get() noexcept;
-  const MPQArchive* Get() const noexcept;
+  MpqArchive* Get() noexcept;
+  const MpqArchive* Get() const noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<MPQArchive_1_00[]>
-  > mpq_archive_;
+  // TODO (Mir Drualga): Change to std::variant<MpqArchive_1_00> when
+  // MpqArchive_1_00 is implemented.
+  using ApiVariant = std::variant<mapi::Undefined*>;
+
+  ApiVariant mpq_archive_;
 };
 
 } // namespace d2

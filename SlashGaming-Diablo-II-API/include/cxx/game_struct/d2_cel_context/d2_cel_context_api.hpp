@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,46 +46,44 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_API_HPP_
 
-#include <memory>
 #include <variant>
 
-#include "../d2_cel.hpp"
-#include "d2_cel_context_wrapper.hpp"
-#include "../d2_cel_file.hpp"
-#include "../../game_constant/d2_draw_effect.hpp"
 #include "../../../../include/cxx/helper/d2_draw_options.hpp"
+#include "../d2_cel/d2_cel_struct.hpp"
+#include "../d2_cel_file/d2_cel_file_view.hpp"
+#include "../d2_cel_file/d2_cel_file_wrapper.hpp"
+#include "d2_cel_context_struct.hpp"
+#include "d2_cel_context_view.hpp"
+#include "d2_cel_context_wrapper.hpp"
 
 #include "../../../dllexport_define.inc"
 
 namespace d2 {
 
-struct CelContext;
-struct CelContext_1_00;
-struct CelContext_1_12A;
-struct CelContext_1_13C;
-
-class DLLEXPORT CelContext_API {
+class DLLEXPORT CelContext_Api {
  public:
-  CelContext_API() = delete;
-  CelContext_API(
-      CelFile* cel_file,
+  CelContext_Api() = delete;
+  CelContext_Api(
+      CelFile_Wrapper cel_file,
       unsigned int direction,
       unsigned int frame
   );
 
-  CelContext_API(const CelContext_API& other);
-  CelContext_API(CelContext_API&& other) noexcept;
+  CelContext_Api(const CelContext_Api& other);
+  CelContext_Api(CelContext_Api&& other) noexcept;
 
-  ~CelContext_API();
+  ~CelContext_Api();
 
-  CelContext_API& operator=(const CelContext_API& other);
-  CelContext_API& operator=(CelContext_API&& other) noexcept;
+  CelContext_Api& operator=(const CelContext_Api& other);
+  CelContext_Api& operator=(CelContext_Api&& other) noexcept;
 
   operator CelContext_View() const noexcept;
   operator CelContext_Wrapper() noexcept;
 
   CelContext* Get() noexcept;
   const CelContext* Get() const noexcept;
+
+  void Assign(CelContext_View src);
 
   bool DrawFrame(int position_x, int position_y);
 
@@ -97,21 +95,30 @@ class DLLEXPORT CelContext_API {
 
   Cel* GetCel();
 
-  CelFile* GetCelFile() noexcept;
-  const CelFile* GetCelFile() const noexcept;
-  unsigned int GetDirection() const noexcept;
-  unsigned int GetFrame() const noexcept;
+  CelFile_View GetCelFile() const noexcept;
+  CelFile_Wrapper GetCelFile() noexcept;
+  void SetCelFile(CelFile_Wrapper cel_file) noexcept;
 
-  void SetCelFile(CelFile* cel_file) noexcept;
+  unsigned int GetDirection() const noexcept;
   void SetDirection(unsigned int direction) noexcept;
+
+  unsigned int GetFrame() const noexcept;
   void SetFrame(unsigned int frame) noexcept;
 
  private:
-  std::variant<
-      std::unique_ptr<CelContext_1_00[]>,
-      std::unique_ptr<CelContext_1_12A[]>,
-      std::unique_ptr<CelContext_1_13C[]>
-  > cel_context_;
+  using ApiVariant = std::variant<
+      CelContext_1_00,
+      CelContext_1_12A,
+      CelContext_1_13C
+  >;
+
+  ApiVariant cel_context_;
+
+  static ApiVariant CreateVariant(
+      CelFile* cel_file,
+      unsigned int direction,
+      unsigned int frame
+  );
 };
 
 } // namespace d2

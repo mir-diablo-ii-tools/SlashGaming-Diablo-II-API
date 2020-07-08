@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,21 +49,72 @@
 
 #include "../../../include/cxx/game_constant/d2_text_color.hpp"
 
-#include <cstddef>
-
-#include "../../../include/cxx/game_constant/d2_constant.hpp"
-#include "d2_constant_impl.hpp"
+#include <unordered_map>
 
 namespace d2 {
+namespace {
 
-template int
-ToGameValue(
-    TextColor id
-);
+static const std::unordered_map<TextColor, TextColor_1_00> kTo1_00 = {
+    { TextColor::kWhite, TextColor_1_00::kWhite },
+    { TextColor::kRed, TextColor_1_00::kRed },
+    { TextColor::kGreen, TextColor_1_00::kGreen },
+    { TextColor::kBlue, TextColor_1_00::kBlue },
+    { TextColor::kGold, TextColor_1_00::kGold },
+    { TextColor::kDarkGrey, TextColor_1_00::kDarkGrey },
+    { TextColor::kBlack, TextColor_1_00::kBlack },
+    { TextColor::kTan, TextColor_1_00::kTan },
+    { TextColor::kOrange, TextColor_1_00::kOrange },
+    { TextColor::kYellow, TextColor_1_00::kYellow },
+    { TextColor::kDarkerGreen, TextColor_1_00::kDarkerGreen },
+    { TextColor::kPurple, TextColor_1_00::kPurple },
+    { TextColor::kDarkGreen, TextColor_1_00::kDarkGreen },
+    { TextColor::kMetallic, TextColor_1_00::kMetallic },
+    { TextColor::kLightGrey, TextColor_1_00::kLightGrey },
+    { TextColor::kCorrupt, TextColor_1_00::kCorrupt },
+    { TextColor::kBrightWhite, TextColor_1_00::kBrightWhite },
+    { TextColor::kDarkRed, TextColor_1_00::kDarkRed },
+    { TextColor::kBrown, TextColor_1_00::kBrown },
+};
 
-template TextColor
-ToAPIValue(
-    int value
-);
+static const std::unordered_map<TextColor_1_00, TextColor> kFrom1_00 = {
+    { TextColor_1_00::kWhite, TextColor::kWhite },
+    { TextColor_1_00::kRed, TextColor::kRed },
+    { TextColor_1_00::kGreen, TextColor::kGreen },
+    { TextColor_1_00::kBlue, TextColor::kBlue },
+    { TextColor_1_00::kGold, TextColor::kGold },
+    { TextColor_1_00::kDarkGrey, TextColor::kDarkGrey },
+    { TextColor_1_00::kBlack, TextColor::kBlack },
+    { TextColor_1_00::kTan, TextColor::kTan },
+    { TextColor_1_00::kOrange, TextColor::kOrange },
+    { TextColor_1_00::kYellow, TextColor::kYellow },
+    { TextColor_1_00::kDarkerGreen, TextColor::kDarkerGreen },
+    { TextColor_1_00::kPurple, TextColor::kPurple },
+    { TextColor_1_00::kDarkGreen, TextColor::kDarkGreen },
+    { TextColor_1_00::kMetallic, TextColor::kMetallic },
+    { TextColor_1_00::kLightGrey, TextColor::kLightGrey },
+    { TextColor_1_00::kCorrupt, TextColor::kCorrupt },
+    { TextColor_1_00::kBrightWhite, TextColor::kBrightWhite },
+    { TextColor_1_00::kDarkRed, TextColor::kDarkRed },
+    { TextColor_1_00::kBrown, TextColor::kBrown },
+};
+
+}
+
+int ToGameValue(TextColor api_value) {
+  return static_cast<int>(ToGameValue_1_00(api_value));
+}
+
+TextColor_1_00 ToGameValue_1_00(TextColor api_value) {
+  return kTo1_00.at(api_value);
+}
+
+template <>
+TextColor ToApiValue<TextColor>(int game_value) {
+  return ToApiValue_1_00(static_cast<TextColor_1_00>(game_value));
+}
+
+TextColor ToApiValue_1_00(TextColor_1_00 game_value) {
+  return kFrom1_00.at(game_value);
+}
 
 } // namespace d2

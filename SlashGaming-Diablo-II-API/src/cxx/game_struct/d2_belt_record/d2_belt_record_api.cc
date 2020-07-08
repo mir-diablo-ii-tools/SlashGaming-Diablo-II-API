@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,184 +45,133 @@
 
 #include "../../../../include/cxx/game_struct/d2_belt_record/d2_belt_record_api.hpp"
 
-#include "d2_belt_record_impl.hpp"
+#include <algorithm>
+#include <type_traits>
+
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
 
-using unique_ptr_1_00 = std::unique_ptr<BeltRecord_1_00>;
-
-using BeltRecordVariant = std::variant<
-    unique_ptr_1_00
->;
-
-BeltRecordVariant CreateVariant(
+BeltRecord_Api::BeltRecord_Api(
     mapi::Undefined* reserved_00__set_to_nullptr,
-    std::int_least8_t num_slots,
+    unsigned char num_slots,
     const PositionalRectangle* slot_positions
-) {
-  BeltRecord* belt_record = CreateBeltRecord(
-      nullptr,
-      num_slots,
-      slot_positions
-  );
-
-  return unique_ptr_1_00(
-      reinterpret_cast<BeltRecord_1_00*>(belt_record)
-  );
+) : belt_record_(CreateVariant(
+        reserved_00__set_to_nullptr,
+        num_slots,
+        slot_positions
+    )) {
 }
 
-} // namespace
+BeltRecord_Api::BeltRecord_Api(
+    const BeltRecord_Api& other
+) = default;
 
-BeltRecord_API::BeltRecord_API(
-    mapi::Undefined* reserved_00__set_to_nullptr,
-    std::uint_least8_t num_slots,
-    const PositionalRectangle* slot_positions
-) : belt_record_(
-        CreateVariant(
-            reserved_00__set_to_nullptr,
-            num_slots,
-            slot_positions
-        )
-    ) {
-}
+BeltRecord_Api::BeltRecord_Api(BeltRecord_Api&& other) noexcept = default;
 
-BeltRecord_API::BeltRecord_API(
-    const BeltRecord_API& other
-) : BeltRecord_API(
-        nullptr,
-        other.GetNumSlots(),
-        other.GetSlotPositions()
-    ) {
-}
+BeltRecord_Api::~BeltRecord_Api() = default;
 
-BeltRecord_API::BeltRecord_API(
-    BeltRecord_API&& other
+BeltRecord_Api& BeltRecord_Api::operator=(
+    const BeltRecord_Api& other
+) = default;
+
+BeltRecord_Api& BeltRecord_Api::operator=(
+    BeltRecord_Api&& other
 ) noexcept = default;
 
-BeltRecord_API::~BeltRecord_API() = default;
-
-BeltRecord_API& BeltRecord_API::operator=(
-    const BeltRecord_API& other
-) {
-  *this = BeltRecord_API(
-      nullptr,
-      other.GetNumSlots(),
-      other.GetSlotPositions()
-  );
-
-  return *this;
-}
-
-BeltRecord_API& BeltRecord_API::operator=(
-    BeltRecord_API&& other
-) noexcept = default;
-
-BeltRecord_API::operator BeltRecord_View() const noexcept {
+BeltRecord_Api::operator BeltRecord_View() const noexcept {
   return BeltRecord_View(this->Get());
 }
 
-BeltRecord_API::operator BeltRecord_Wrapper() noexcept {
+BeltRecord_Api::operator BeltRecord_Wrapper() noexcept {
   return BeltRecord_Wrapper(this->Get());
 }
 
-BeltRecord* BeltRecord_API::Get() noexcept {
+BeltRecord* BeltRecord_Api::Get() noexcept {
   const auto* const_this = this;
 
   return const_cast<BeltRecord*>(const_this->Get());
 }
 
-const BeltRecord* BeltRecord_API::Get() const noexcept {
-  auto& actual_belt_record =
-      std::get<unique_ptr_1_00>(this->belt_record_);
-
-  return reinterpret_cast<const BeltRecord*>(actual_belt_record.get());
+const BeltRecord* BeltRecord_Api::Get() const noexcept {
+  return std::visit(
+      [](const auto& actual_belt_record) {
+        return reinterpret_cast<const BeltRecord*>(&actual_belt_record);
+      },
+      this->belt_record_
+  );
 }
 
-void BeltRecord_API::Copy(BeltRecord_View src) noexcept {
+void BeltRecord_Api::Assign(BeltRecord_View src) noexcept {
   BeltRecord_Wrapper wrapper(this->Get());
 
-  wrapper.Copy(src);
+  wrapper.Assign(src);
 }
 
-PositionalRectangle* BeltRecord_API::GetSlotPosition(
-    std::size_t index
-) noexcept {
-  BeltRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.GetSlotPosition(index);
-}
-
-const PositionalRectangle* BeltRecord_API::GetSlotPosition(
-    std::size_t index
-) const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetSlotPosition(index);
-}
-
-std::uint_least8_t BeltRecord_API::GetNumSlots() const noexcept {
+unsigned char BeltRecord_Api::GetNumSlots() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetNumSlots();
 }
 
-void BeltRecord_API::SetNumSlots(std::int_least8_t value) noexcept {
+void BeltRecord_Api::SetNumSlots(unsigned char num_slots) noexcept {
   BeltRecord_Wrapper wrapper(this->Get());
 
-  return wrapper.SetNumSlots(value);
+  return wrapper.SetNumSlots(num_slots);
 }
 
-PositionalRectangle* BeltRecord_API::GetSlotPositions() noexcept {
-  BeltRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.GetSlotPositions();
-}
-
-const PositionalRectangle* BeltRecord_API::GetSlotPositions() const noexcept {
+PositionalRectangle_View BeltRecord_Api::GetSlotPositions() const noexcept {
   BeltRecord_View view(this->Get());
 
   return view.GetSlotPositions();
 }
 
-BeltRecord* CreateBeltRecord(
-    mapi::Undefined* reserved_00__set_to_nullptr,
-    std::uint_least8_t num_slots,
-    const PositionalRectangle* slot_positions
+PositionalRectangle_Wrapper BeltRecord_Api::GetSlotPositions() noexcept {
+  BeltRecord_Wrapper wrapper(this->Get());
+
+  return wrapper.GetSlotPositions();
+}
+
+BeltRecord_Api::ApiVariant BeltRecord_Api::CreateVariant(
+      mapi::Undefined* reserved_00__set_to_nullptr,
+      unsigned char num_slots,
+      const PositionalRectangle* slot_positions
 ) {
-  BeltRecord* belt_record;
-  std::size_t total_num_slots_positions;
+  ApiVariant belt_record;
 
-  auto* actual_belt_record = new BeltRecord_1_00();
-  actual_belt_record->unknown_0x00 = nullptr;
+  belt_record = BeltRecord_1_00();
 
-  belt_record = reinterpret_cast<BeltRecord*>(actual_belt_record);
-  total_num_slots_positions = sizeof(BeltRecord_1_00::slot_positions)
-      / sizeof(BeltRecord_1_00::slot_positions[0]);
+  std::visit(
+      [=](auto& actual_belt_record) {
+        using BeltRecord_T = std::remove_reference_t<
+            decltype(actual_belt_record)
+        >;
+        using PositionalRectangle_T =
+            std::remove_extent_t<decltype(BeltRecord_T::slot_positions)>;
+        using SlotPositions_A = decltype(BeltRecord_T::slot_positions);
 
-  // Set all the values of the struct.
-  BeltRecord_Wrapper wrapper(belt_record);
+        constexpr std::size_t kNumSlotPositions =
+            std::extent_v<SlotPositions_A>;
 
-  wrapper.SetNumSlots(num_slots);
+        const PositionalRectangle_T* actual_src_slot_positions =
+            reinterpret_cast<const PositionalRectangle_T*>(
+                slot_positions
+            );
 
-  std::copy_n(
-      reinterpret_cast<const BeltRecord_1_00*>(slot_positions),
-      total_num_slots_positions,
-      reinterpret_cast<BeltRecord_1_00*>(wrapper.GetSlotPositions())
+        actual_belt_record.unknown_0x00 = reserved_00__set_to_nullptr;
+        actual_belt_record.num_slots = num_slots;
+
+        std::copy_n(
+            actual_src_slot_positions,
+            kNumSlotPositions,
+            actual_belt_record.slot_positions
+        );
+      },
+      belt_record
   );
 
   return belt_record;
-}
-
-void DestroyBeltRecord(BeltRecord* belt_record) {
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
-
-  auto* actual_belt_record =
-      reinterpret_cast<BeltRecord_1_00*>(belt_record);
-
-  delete actual_belt_record;
 }
 
 } // namespace d2

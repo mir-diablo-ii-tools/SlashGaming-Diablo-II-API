@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,8 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_CONTEXT_D2_CEL_CONTEXT_VIEW_HPP_
 
+#include <cstddef>
+#include <variant>
+
+#include "../d2_cel_file/d2_cel_file_view.hpp"
 #include "d2_cel_context_struct.hpp"
-#include "../d2_cel_file.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -56,7 +59,7 @@ namespace d2 {
 class DLLEXPORT CelContext_View {
  public:
   CelContext_View() = delete;
-  CelContext_View(const CelContext* ptr) noexcept;
+  CelContext_View(const CelContext* cel_context) noexcept;
 
   CelContext_View(const CelContext_View& other) noexcept;
   CelContext_View(CelContext_View&& other) noexcept;
@@ -66,14 +69,24 @@ class DLLEXPORT CelContext_View {
   CelContext_View& operator=(const CelContext_View& other) noexcept;
   CelContext_View& operator=(CelContext_View&& other) noexcept;
 
+  CelContext_View operator[](std::size_t index) const noexcept;
+
   const CelContext* Get() const noexcept;
 
-  const CelFile* GetCelFile() const noexcept;
+  CelFile_View GetCelFile() const noexcept;
   unsigned int GetDirection() const noexcept;
   unsigned int GetFrame() const noexcept;
 
  private:
-  const CelContext* ptr_;
+  using ViewVariant = std::variant<
+      const CelContext_1_00*,
+      const CelContext_1_12A*,
+      const CelContext_1_13C*
+  >;
+
+  ViewVariant cel_context_;
+
+  static ViewVariant CreateVariant(const CelContext* cel_context);
 };
 
 } // namespace d2

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -47,11 +47,12 @@
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_INVENTORY_RECORD_D2_INVENTORY_RECORD_VIEW_HPP_
 
 #include <cstddef>
+#include <variant>
 
+#include "../d2_equipment_layout/d2_equipment_layout_view.hpp"
+#include "../d2_grid_layout/d2_grid_layout_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 #include "d2_inventory_record_struct.hpp"
-#include "../d2_equipment_layout/d2_equipment_layout_struct.hpp"
-#include "../d2_grid_layout/d2_grid_layout_struct.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -60,7 +61,7 @@ namespace d2 {
 class DLLEXPORT InventoryRecord_View {
  public:
   InventoryRecord_View() = delete;
-  InventoryRecord_View(const InventoryRecord* ptr) noexcept;
+  InventoryRecord_View(const InventoryRecord* inventory_record) noexcept;
 
   InventoryRecord_View(const InventoryRecord_View& other) noexcept;
   InventoryRecord_View(InventoryRecord_View&& other) noexcept;
@@ -78,14 +79,16 @@ class DLLEXPORT InventoryRecord_View {
 
   const InventoryRecord* Get() const noexcept;
 
-  const PositionalRectangle* GetPosition() const noexcept;
-  const GridLayout* GetGridLayout() const noexcept;
-  const EquipmentLayout* GetEquipmentSlots() const noexcept;
-
-  const EquipmentLayout* GetEquipmentSlot(std::size_t index) const noexcept;
+  PositionalRectangle_View GetPosition() const noexcept;
+  GridLayout_View GetGridLayout() const noexcept;
+  EquipmentLayout_View GetEquipmentSlots() const noexcept;
 
  private:
-  const InventoryRecord* ptr_;
+  using ViewVariant = std::variant<const InventoryRecord_1_00*>;
+
+  ViewVariant inventory_record_;
+
+  static ViewVariant CreateVariant(const InventoryRecord* inventory_record);
 };
 
 } // namespace d2

@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,13 +45,10 @@
 
 #include "../../../../include/cxx/game_struct/d2_cel/d2_cel_view.hpp"
 
-#include "d2_cel_impl.hpp"
-#include "../../../../include/cxx/game_version.hpp"
-
 namespace d2 {
 
-Cel_View::Cel_View(const Cel* ptr) noexcept :
-    ptr_(ptr) {
+Cel_View::Cel_View(const Cel* cel) noexcept :
+    cel_(CreateVariant(cel)) {
 }
 
 Cel_View::Cel_View(const Cel_View& other) noexcept = default;
@@ -64,32 +61,64 @@ Cel_View& Cel_View::operator=(const Cel_View& other) noexcept = default;
 
 Cel_View& Cel_View::operator=(Cel_View&& other) noexcept = default;
 
+Cel_View Cel_View::operator[](std::size_t index) const noexcept {
+  return std::visit(
+      [index](const auto& actual_cel) {
+        return reinterpret_cast<const Cel*>(
+            &actual_cel[index]
+        );
+      },
+      this->cel_
+  );
+}
+
 const Cel* Cel_View::Get() const noexcept {
-  return this->ptr_;
+  return std::visit(
+      [](const auto& actual_cel) {
+        return reinterpret_cast<const Cel*>(actual_cel);
+      },
+      this->cel_
+  );
 }
 
 int Cel_View::GetHeight() const noexcept {
-  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
-
-  return actual_cel->height;
+  return std::visit(
+      [](const auto& actual_cel) {
+        return actual_cel->height;
+      },
+      this->cel_
+  );
 }
 
 int Cel_View::GetOffsetX() const noexcept {
-  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
-
-  return actual_cel->offset_x;
+  return std::visit(
+      [](const auto& actual_cel) {
+        return actual_cel->offset_x;
+      },
+      this->cel_
+  );
 }
 
 int Cel_View::GetOffsetY() const noexcept {
-  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
-
-  return actual_cel->offset_y;
+  return std::visit(
+      [](const auto& actual_cel) {
+        return actual_cel->offset_y;
+      },
+      this->cel_
+  );
 }
 
 int Cel_View::GetWidth() const noexcept {
-  auto* actual_cel = reinterpret_cast<const Cel_1_00*>(this->Get());
+  return std::visit(
+      [](const auto& actual_cel) {
+        return actual_cel->width;
+      },
+      this->cel_
+  );
+}
 
-  return actual_cel->width;
+Cel_View::ViewVariant Cel_View::CreateVariant(const Cel* cel) {
+  return reinterpret_cast<const Cel_1_00*>(cel);
 }
 
 } // namespace d2

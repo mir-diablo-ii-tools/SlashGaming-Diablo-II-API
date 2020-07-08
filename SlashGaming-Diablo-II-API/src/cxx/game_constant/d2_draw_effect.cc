@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -49,21 +49,50 @@
 
 #include "../../../include/cxx/game_constant/d2_draw_effect.hpp"
 
-#include <cstddef>
-
-#include "../../../include/cxx/game_constant/d2_constant.hpp"
-#include "d2_constant_impl.hpp"
+#include <unordered_map>
 
 namespace d2 {
+namespace {
 
-template int
-ToGameValue(
-    DrawEffect id
-);
+static const std::unordered_map<DrawEffect, DrawEffect_1_00> kTo1_00 = {
+    { DrawEffect::kOneFourthOpaque, DrawEffect_1_00::kOneFourthOpaque },
+    { DrawEffect::kHalfOpaque, DrawEffect_1_00::kHalfOpaque },
+    { DrawEffect::kThreeFourthsOpaque, DrawEffect_1_00::kThreeFourthsOpaque },
+    { DrawEffect::kUnknown03, DrawEffect_1_00::kUnknown03 },
+    { DrawEffect::kUnknown04, DrawEffect_1_00::kUnknown04 },
+    { DrawEffect::kNone, DrawEffect_1_00::kNone },
+    { DrawEffect::kUnknown06, DrawEffect_1_00::kUnknown06 },
+    { DrawEffect::kUnknown07, DrawEffect_1_00::kUnknown07 },
+};
 
-template DrawEffect
-ToAPIValue(
-    int value
-);
+static const std::unordered_map<DrawEffect_1_00, DrawEffect> kFrom1_00 = {
+    { DrawEffect_1_00::kOneFourthOpaque, DrawEffect::kOneFourthOpaque },
+    { DrawEffect_1_00::kHalfOpaque, DrawEffect::kHalfOpaque },
+    { DrawEffect_1_00::kThreeFourthsOpaque, DrawEffect::kThreeFourthsOpaque },
+    { DrawEffect_1_00::kUnknown03, DrawEffect::kUnknown03 },
+    { DrawEffect_1_00::kUnknown04, DrawEffect::kUnknown04 },
+    { DrawEffect_1_00::kNone, DrawEffect::kNone },
+    { DrawEffect_1_00::kUnknown06, DrawEffect::kUnknown06 },
+    { DrawEffect_1_00::kUnknown07, DrawEffect::kUnknown07 },
+};
+
+} // namespace
+
+int ToGameValue(DrawEffect api_value) {
+  return static_cast<int>(ToGameValue_1_00(api_value));
+}
+
+DrawEffect_1_00 ToGameValue_1_00(DrawEffect api_value) {
+  return kTo1_00.at(api_value);
+}
+
+template <>
+DrawEffect ToApiValue<DrawEffect>(int game_value) {
+  return ToApiValue_1_00(static_cast<DrawEffect_1_00>(game_value));
+}
+
+DrawEffect ToApiValue_1_00(DrawEffect_1_00 game_value) {
+  return kFrom1_00.at(game_value);
+}
 
 } // namespace d2

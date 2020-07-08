@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,11 +46,11 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_VIEW_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_VIEW_HPP_
 
-#include <cstdint>
 #include <cstddef>
+#include <variant>
 
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
 #include "d2_belt_record_struct.hpp"
-#include "../d2_positional_rectangle/d2_positional_rectangle_struct.hpp"
 
 #include "../../../dllexport_define.inc"
 
@@ -59,33 +59,29 @@ namespace d2 {
 class DLLEXPORT BeltRecord_View {
  public:
   BeltRecord_View() = delete;
-  BeltRecord_View(const BeltRecord* ptr) noexcept;
+  BeltRecord_View(const BeltRecord* belt_record) noexcept;
 
   BeltRecord_View(const BeltRecord_View& other) noexcept;
   BeltRecord_View(BeltRecord_View&& other) noexcept;
 
   ~BeltRecord_View() noexcept;
 
-  BeltRecord_View& operator=(
-      const BeltRecord_View& other
-  ) noexcept;
-  BeltRecord_View& operator=(
-      BeltRecord_View&& other
-  ) noexcept;
+  BeltRecord_View& operator=(const BeltRecord_View& other) noexcept;
+  BeltRecord_View& operator=(BeltRecord_View&& other) noexcept;
 
   BeltRecord_View operator[](std::size_t index) const noexcept;
 
   const BeltRecord* Get() const noexcept;
 
-  const PositionalRectangle* GetSlotPosition(
-      std::size_t index
-  ) const noexcept;
-
-  std::uint_least8_t GetNumSlots() const noexcept;
-  const PositionalRectangle* GetSlotPositions() const noexcept;
+  unsigned char GetNumSlots() const noexcept;
+  PositionalRectangle_View GetSlotPositions() const noexcept;
 
  private:
-  const BeltRecord* ptr_;
+  using ViewVariant = std::variant<const BeltRecord_1_00*>;
+
+  ViewVariant belt_record_;
+
+  static ViewVariant CreateVariant(const BeltRecord* belt_record);
 };
 
 } // namespace d2

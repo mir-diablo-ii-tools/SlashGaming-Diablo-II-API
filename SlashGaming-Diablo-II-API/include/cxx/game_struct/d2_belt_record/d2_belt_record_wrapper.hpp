@@ -1,8 +1,8 @@
 /**
- * SlashGaming Diablo II Modding API
- * Copyright (C) 2018-2019  Mir Drualga
+ * SlashGaming Diablo II Modding API for C++
+ * Copyright (C) 2018-2020  Mir Drualga
  *
- * This file is part of SlashGaming Diablo II Modding API.
+ * This file is part of SlashGaming Diablo II Modding API for C++.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -46,8 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_WRAPPER_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_BELT_RECORD_D2_BELT_RECORD_WRAPPER_HPP_
 
-#include <cstdint>
+#include <cstddef>
 
+#include "../d2_positional_rectangle/d2_positional_rectangle_view.hpp"
+#include "../d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 #include "d2_belt_record_struct.hpp"
 #include "d2_belt_record_view.hpp"
 
@@ -58,7 +60,7 @@ namespace d2 {
 class DLLEXPORT BeltRecord_Wrapper {
  public:
   BeltRecord_Wrapper() = delete;
-  BeltRecord_Wrapper(BeltRecord* ptr) noexcept;
+  BeltRecord_Wrapper(BeltRecord* belt_record) noexcept;
 
   BeltRecord_Wrapper(const BeltRecord_Wrapper& other) noexcept;
   BeltRecord_Wrapper(BeltRecord_Wrapper&& other) noexcept;
@@ -76,21 +78,20 @@ class DLLEXPORT BeltRecord_Wrapper {
   BeltRecord* Get() noexcept;
   const BeltRecord* Get() const noexcept;
 
-  void Copy(BeltRecord_View src) noexcept;
+  void Assign(BeltRecord_View src) noexcept;
 
-  PositionalRectangle* GetSlotPosition(std::size_t index) noexcept;
-  const PositionalRectangle* GetSlotPosition(
-      std::size_t index
-  ) const noexcept;
+  unsigned char GetNumSlots() const noexcept;
+  void SetNumSlots(unsigned char num_slots) noexcept;
 
-  std::uint_least8_t GetNumSlots() const noexcept;
-  void SetNumSlots(std::uint_least8_t value) noexcept;
-
-  PositionalRectangle* GetSlotPositions() noexcept;
-  const PositionalRectangle* GetSlotPositions() const noexcept;
+  PositionalRectangle_View GetSlotPositions() const noexcept;
+  PositionalRectangle_Wrapper GetSlotPositions() noexcept;
 
  private:
-  BeltRecord* ptr_;
+  using WrapperVariant = std::variant<BeltRecord_1_00*>;
+
+  WrapperVariant belt_record_;
+
+  static WrapperVariant CreateVariant(BeltRecord* belt_record);
 };
 
 } // namespace d2
