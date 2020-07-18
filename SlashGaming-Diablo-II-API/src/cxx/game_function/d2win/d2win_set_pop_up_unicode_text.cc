@@ -93,6 +93,7 @@ void SetPopUpUnicodeText_1_00(
 ) {
   mapi::CallFastcallFunction(
       GetGameAddress().raw_address(),
+      text,
       position_x,
       position_y,
       text_color,
