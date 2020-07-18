@@ -77,7 +77,7 @@ const UnicodeChar* GetStringByIndex(
 const UnicodeChar_1_00* GetStringByIndex_1_00(
     std::uint32_t id
 ) {
-  return reinterpret_cast<UnicodeChar_1_00*>(
+  return reinterpret_cast<const UnicodeChar_1_00*>(
       mapi::CallFastcallFunction(
           GetGameAddress().raw_address(),
           id
