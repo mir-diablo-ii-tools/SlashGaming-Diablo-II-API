@@ -114,7 +114,7 @@ GameAddress LoadGameAddress(
 }
 
 GameAddress LoadGameAddress(
-    std::filesystem::path library_path,
+    const std::filesystem::path& library_path,
     std::string_view address_name
 ) {
   try {

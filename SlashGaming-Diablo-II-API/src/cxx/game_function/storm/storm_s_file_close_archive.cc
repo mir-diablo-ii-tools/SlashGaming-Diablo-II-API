@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_function/storm/storm_s_file_close_archive.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
 #include "../../backend/game_function/stdcall_function.hpp"
@@ -58,7 +59,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "Storm.dll",
+      ::mapi::DefaultLibrary::kStorm,
       "SFileCloseArchive"
   );
 

@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_function/d2lang/d2lang_unicode_unicode_to_utf8.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
@@ -59,7 +60,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Lang.dll",
+      ::mapi::DefaultLibrary::kD2Lang,
       "Unicode_UnicodeToUtf8"
   );
 

@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_function/d2win/d2win_unload_cel_file.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
 #include "../../backend/game_function/fastcall_function.hpp"
@@ -58,7 +59,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Win.dll",
+      ::mapi::DefaultLibrary::kD2Win,
       "UnloadCelFile"
   );
 

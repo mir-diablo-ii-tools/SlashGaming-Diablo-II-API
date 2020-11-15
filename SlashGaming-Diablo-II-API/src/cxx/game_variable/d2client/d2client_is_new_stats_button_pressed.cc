@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_variable/d2client/d2client_is_new_stats_button_pressed.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../backend/game_address_table.hpp"
 
 namespace d2::d2client {
@@ -56,7 +57,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Client.dll",
+      ::mapi::DefaultLibrary::kD2Client,
       "IsNewStatsButtonPressed"
   );
 
