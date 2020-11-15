@@ -43,23 +43,39 @@
  *  work.
  */
 
-#include "game_offset_locator.hpp"
+#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
 
-#include "../../../../include/cxx/game_address.hpp"
+#include <filesystem>
+#include <string>
+
+#include "game_address_locator.hpp"
 
 namespace mapi {
 
-GameOffsetLocator::GameOffsetLocator(
-    std::filesystem::path library_path,
-    std::ptrdiff_t offset
-) : library_path_(std::move(library_path)),
-    offset_(offset) {
-}
+class GameDecoratedNameLocator : public IGameAddressLocator {
+ public:
+  GameDecoratedNameLocator() = delete;
 
-GameOffsetLocator::~GameOffsetLocator() = default;
+  GameDecoratedNameLocator(
+      DefaultLibrary library_id,
+      std::string decorated_name
+  );
 
-GameAddress GameOffsetLocator::LocateGameAddress() {
-  return GameAddress::FromOffset(this->library_path_, this->offset_);
-}
+  GameDecoratedNameLocator(
+      std::filesystem::path library_path,
+      std::string decorated_name
+  );
+
+  ~GameDecoratedNameLocator() override;
+
+  GameAddress LocateGameAddress() override;
+
+ private:
+  std::filesystem::path library_path_;
+  std::string decorated_name_;
+};
 
 } // namespace mapi
+
+#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_

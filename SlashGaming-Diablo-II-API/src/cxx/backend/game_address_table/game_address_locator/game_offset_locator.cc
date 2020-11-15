@@ -43,19 +43,30 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_ADDRESS_TABLE_READER_HPP_
-#define SGD2MAPI_CXX_GAME_ADDRESS_TABLE_READER_HPP_
-
-#include <filesystem>
-
-#include "game_address_table_impl.hpp"
+#include "game_offset_locator.hpp"
 
 namespace mapi {
 
-GameAddressTable ReadTsvTableFile(
-    const std::filesystem::path& file_path
-);
+GameOffsetLocator::GameOffsetLocator(
+    DefaultLibrary library_id,
+    std::ptrdiff_t offset
+) : GameOffsetLocator(
+        GetDefaultLibraryPathWithRedirect(library_id),
+        offset
+    ) {
+}
+
+GameOffsetLocator::GameOffsetLocator(
+    std::filesystem::path library_path,
+    std::ptrdiff_t offset
+) : library_path_(std::move(library_path)),
+    offset_(offset) {
+}
+
+GameOffsetLocator::~GameOffsetLocator() = default;
+
+GameAddress GameOffsetLocator::LocateGameAddress() {
+  return GameAddress::FromOffset(this->library_path_, this->offset_);
+}
 
 } // namespace mapi
-
-#endif // SGD2MAPI_CXX_GAME_ADDRESS_TABLE_READER_HPP_

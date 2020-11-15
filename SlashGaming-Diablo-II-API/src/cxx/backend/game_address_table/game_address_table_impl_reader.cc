@@ -43,23 +43,36 @@
  *  work.
  */
 
-#include "game_ordinal_locator.hpp"
+#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
 
-#include "../../../../include/cxx/game_address.hpp"
+#include "game_address_table_impl.hpp"
+
+#include "../../../../include/cxx/game_version.hpp"
+#include "../config.hpp"
+#include "game_address_table_reader.hpp"
 
 namespace mapi {
+namespace {
 
-GameOrdinalLocator::GameOrdinalLocator(
-    std::filesystem::path library_path,
-    std::int16_t ordinal
-) : library_path_(std::move(library_path)),
-    ordinal_(ordinal) {
+static std::filesystem::path GetTableFilePath() {
+  const std::filesystem::path& address_table_directory =
+      GetAddressTableDirectoryPath();
+  std::u8string_view running_game_version_name =
+      d2::GetRunningGameVersionName();
+
+  std::filesystem::path table_file_path(address_table_directory);
+  table_file_path /= running_game_version_name;
+  table_file_path += u8".txt";
+
+  return table_file_path;
 }
 
-GameOrdinalLocator::~GameOrdinalLocator() = default;
+} // namespace
 
-GameAddress GameOrdinalLocator::LocateGameAddress() {
-  return GameAddress::FromOrdinal(this->library_path_, this->ordinal_);
+GameAddressTable LoadGameAddressTable() {
+  return ReadTsvTableFile(GetTableFilePath());
 }
 
 } // namespace mapi
+
+#endif // SGMAPI_READ_ADDRESS_FROM_TXT_TABLE

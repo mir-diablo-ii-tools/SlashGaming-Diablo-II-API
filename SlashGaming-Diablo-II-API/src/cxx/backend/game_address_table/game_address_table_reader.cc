@@ -56,15 +56,15 @@
 #include <string_view>
 
 #include <fmt/format.h>
+#include "../../../wide_macro.h"
 #include "../../include/cxx/game_version.hpp"
-#include "../../wide_macro.h"
-#include "encoding.hpp"
-#include "error_handling.hpp"
+#include "../encoding.hpp"
+#include "../error_handling.hpp"
+#include "../game_library.hpp"
 #include "game_address_locator/game_address_locator.hpp"
 #include "game_address_locator/game_decorated_name_locator.hpp"
 #include "game_address_locator/game_offset_locator.hpp"
 #include "game_address_locator/game_ordinal_locator.hpp"
-#include "game_library.hpp"
 
 namespace mapi {
 namespace {

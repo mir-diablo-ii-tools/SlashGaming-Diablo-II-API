@@ -54,7 +54,7 @@
 #include "../../wide_macro.h"
 #include "encoding.hpp"
 #include "error_handling.hpp"
-#include "game_address_table_impl.hpp"
+#include "game_address_table/game_address_table_impl.hpp"
 
 namespace mapi {
 namespace {
@@ -88,17 +88,38 @@ namespace {
   );
 }
 
+const GameAddressTable& GetGameAddressTable() {
+  static GameAddressTable game_address_table = LoadGameAddressTable();
+
+  return game_address_table;
+}
+
 } // namespace
+
+GameAddress LoadGameAddress(
+    DefaultLibrary library_id,
+    std::string_view address_name
+) {
+  const std::filesystem::path& library_path =
+      GetDefaultLibraryPathWithoutRedirect(library_id);
+
+  try {
+    const std::unique_ptr<IGameAddressLocator>& locator =
+        GetGameAddressTable().at(library_path).at(address_name);
+
+    return locator->LocateGameAddress();
+  } catch (const std::out_of_range& e) {
+    ExitOnAddressNotDefined(library_path, address_name, __FILEW__, __LINE__);
+  }
+}
 
 GameAddress LoadGameAddress(
     std::filesystem::path library_path,
     std::string_view address_name
 ) {
-  static GameAddressTable game_address_table = LoadGameAddressTable();
-
   try {
     const std::unique_ptr<IGameAddressLocator>& locator =
-        game_address_table.at(library_path).at(address_name);
+        GetGameAddressTable().at(library_path).at(address_name);
 
     return locator->LocateGameAddress();
   } catch (const std::out_of_range& e) {

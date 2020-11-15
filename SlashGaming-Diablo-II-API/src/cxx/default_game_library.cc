@@ -92,14 +92,9 @@ const std::filesystem::path& GetGameExecutablePath() {
   return kGameExecutable;
 }
 
-const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
+const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
     DefaultLibrary library
 ) {
-  // Redirect if the game version is 1.14 or higher.
-  if (d2::IsRunningGameVersionAtLeast1_14()) {
-    return GetGameExecutablePath();
-  }
-
   try {
     return paths_by_default_libraries.at(library);
   } catch (const std::out_of_range& e) {
@@ -118,6 +113,17 @@ const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
         __LINE__
     );
   }
+}
+
+const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
+    DefaultLibrary library
+) {
+  // Redirect if the game version is 1.14 or higher.
+  if (d2::IsRunningGameVersionAtLeast1_14()) {
+    return GetGameExecutablePath();
+  }
+
+  GetDefaultLibraryPathWithoutRedirect(library);
 }
 
 } // namespace mapi

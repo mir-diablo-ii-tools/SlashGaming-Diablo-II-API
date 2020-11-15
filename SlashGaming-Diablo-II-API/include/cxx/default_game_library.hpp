@@ -67,6 +67,13 @@ enum class DefaultLibrary {
 DLLEXPORT const std::filesystem::path& GetGameExecutablePath();
 
 /**
+ * Returns the path of the specified default library.
+ */
+DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
+    DefaultLibrary library
+);
+
+/**
  * Returns the path of the specified default library or an alternative path if
  * an implementation-defined condition is satisfied.
  */

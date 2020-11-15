@@ -47,9 +47,16 @@
 
 #include <utility>
 
-#include "../../../../include/cxx/game_address.hpp"
-
 namespace mapi {
+
+GameDecoratedNameLocator::GameDecoratedNameLocator(
+    DefaultLibrary library_id,
+    std::string decorated_name
+) : GameDecoratedNameLocator(
+        GetDefaultLibraryPathWithRedirect(library_id),
+        std::move(decorated_name)
+    ) {
+}
 
 GameDecoratedNameLocator::GameDecoratedNameLocator(
     std::filesystem::path library_path,
