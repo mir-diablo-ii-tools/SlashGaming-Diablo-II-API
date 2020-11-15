@@ -87,6 +87,8 @@ GameLibrary::~GameLibrary() {
   if (module_handle != nullptr) {
     FreeLibrary(module_handle);
   }
+
+  this->base_address_ = reinterpret_cast<std::intptr_t>(nullptr);
 }
 
 GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {

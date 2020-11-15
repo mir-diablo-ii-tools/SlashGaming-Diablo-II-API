@@ -97,7 +97,7 @@ class GameLibrary {
   std::filesystem::path file_path_;
   std::intptr_t base_address_;
 
-  std::intptr_t LoadGameLibraryBaseAddress(
+  static std::intptr_t LoadGameLibraryBaseAddress(
       const std::filesystem::path& library_path
   );
 };
