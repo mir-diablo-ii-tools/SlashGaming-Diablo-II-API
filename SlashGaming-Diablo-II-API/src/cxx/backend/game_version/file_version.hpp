@@ -43,57 +43,66 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_VERSION_HPP_
-#define SGD2MAPI_CXX_GAME_VERSION_HPP_
+#ifndef SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_
 
-#include <string_view>
+#include <windows.h>
+#include <compare>
+#include <filesystem>
 
-#include "../dllexport_define.inc"
+namespace mapi {
 
-namespace d2 {
+class FileVersion {
+ public:
+  using VersionType = std::tuple<DWORD, DWORD, DWORD, DWORD>;
 
-/**
- * The Diablo II game versions supported and recognized.
- */
-enum class GameVersion {
-  kBeta1_02, kBeta1_02StressTest,
+  FileVersion(
+      const std::filesystem::path& file_path
+  );
 
-  k1_00, k1_01, k1_02, k1_03, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
-  k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09D, k1_10Beta, k1_10SBeta,
-  k1_10, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
+  FileVersion(
+      std::filesystem::path&& file_path
+  );
 
-  kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
-  kClassic1_14D, kLod1_14D,
+  FileVersion(
+      const std::filesystem::path& file_path,
+      const VersionType& version
+  );
+
+  FileVersion(
+      std::filesystem::path&& file_path,
+      VersionType&& version
+  );
+
+  FileVersion(const FileVersion& file_version);
+  FileVersion(FileVersion&& file_version) noexcept;
+
+  ~FileVersion();
+
+  FileVersion& operator=(const FileVersion& file_version);
+  FileVersion& operator=(FileVersion&& file_version) noexcept;
+
+  friend bool operator==(
+      const FileVersion& lhs,
+      const FileVersion& rhs
+  ) = default;
+
+  friend std::strong_ordering operator<=>(
+      const FileVersion& lhs,
+      const FileVersion& rhs
+  ) = default;
+
+  const VersionType& version() const noexcept;
+
+ private:
+  std::filesystem::path file_path_;
+  VersionType version_;
+
+  static VersionType ReadFileVersion(
+      const std::filesystem::path& file_path
+  );
 };
 
-/**
- * Returns a view to the UTF-8 encoded string associated with the specified
- * game version.
- */
-DLLEXPORT std::u8string_view GetGameVersionName(GameVersion game_version);
+} // namespace mapi
 
-/**
- * Returns the identifier of the running game version.
- */
-DLLEXPORT GameVersion GetRunningGameVersionId();
-
-/**
- * Returns a view to the UTF-8 encoded string associated with the running game
- * version.
- */
-DLLEXPORT std::u8string_view GetRunningGameVersionName();
-
-/**
- * Returns whether the specified game version is at least 1.14.
- */
-DLLEXPORT bool IsGameVersionAtLeast1_14(GameVersion game_version);
-
-/**
- * Returns whether the running game version is at least 1.14.
- */
-DLLEXPORT bool IsRunningGameVersionAtLeast1_14();
-
-} // namespace d2
-
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_VERSION_HPP_
+#endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_

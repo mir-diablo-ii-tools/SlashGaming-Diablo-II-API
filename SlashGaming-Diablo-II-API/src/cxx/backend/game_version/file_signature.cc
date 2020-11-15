@@ -43,57 +43,91 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_VERSION_HPP_
-#define SGD2MAPI_CXX_GAME_VERSION_HPP_
+#include "file_signature.hpp"
 
-#include <string_view>
+#include <fstream>
+#include <utility>
 
-#include "../dllexport_define.inc"
+namespace mapi {
 
-namespace d2 {
+FileSignature::FileSignature(
+    const std::filesystem::path& file_path,
+    std::ptrdiff_t offset,
+    const std::vector<std::uint8_t>& signature
+) : FileSignature(
+        std::filesystem::path(file_path),
+        offset,
+        std::vector(signature)
+    ) {
+}
 
-/**
- * The Diablo II game versions supported and recognized.
- */
-enum class GameVersion {
-  kBeta1_02, kBeta1_02StressTest,
+FileSignature::FileSignature(
+    std::filesystem::path&& file_path,
+    std::ptrdiff_t offset,
+    std::vector<std::uint8_t>&& signature
+) noexcept
+  : file_path_(std::move(file_path)),
+    offset_(offset),
+    signature_(std::move(signature)) {
+}
 
-  k1_00, k1_01, k1_02, k1_03, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
-  k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09D, k1_10Beta, k1_10SBeta,
-  k1_10, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,
+FileSignature::FileSignature(
+    const std::filesystem::path& file_path,
+    std::ptrdiff_t offset,
+    std::size_t count
+) : FileSignature(
+        std::filesystem::path(file_path),
+        offset,
+        count
+    ) {
+}
 
-  kClassic1_14A, kLod1_14A, kClassic1_14B, kLod1_14B, kClassic1_14C, kLod1_14C,
-  kClassic1_14D, kLod1_14D,
-};
+FileSignature::FileSignature(
+    std::filesystem::path&& file_path,
+    std::ptrdiff_t offset,
+    std::size_t count
+) : file_path_(std::move(file_path)),
+    offset_(offset) {
+  std::ifstream file_stream(
+      this->file_path_,
+      std::ios_base::in | std::ios_base::binary
+  );
 
-/**
- * Returns a view to the UTF-8 encoded string associated with the specified
- * game version.
- */
-DLLEXPORT std::u8string_view GetGameVersionName(GameVersion game_version);
+  file_stream.seekg(this->offset_);
 
-/**
- * Returns the identifier of the running game version.
- */
-DLLEXPORT GameVersion GetRunningGameVersionId();
+  std::vector<char> raw_signature(count);
+  file_stream.read(raw_signature.data(), count);
 
-/**
- * Returns a view to the UTF-8 encoded string associated with the running game
- * version.
- */
-DLLEXPORT std::u8string_view GetRunningGameVersionName();
+  this->signature_ = std::vector<std::uint8_t>(
+      raw_signature.cbegin(),
+      raw_signature.cend()
+  );
+}
 
-/**
- * Returns whether the specified game version is at least 1.14.
- */
-DLLEXPORT bool IsGameVersionAtLeast1_14(GameVersion game_version);
+FileSignature::FileSignature(
+    const FileSignature& file_signature
+) = default;
 
-/**
- * Returns whether the running game version is at least 1.14.
- */
-DLLEXPORT bool IsRunningGameVersionAtLeast1_14();
+FileSignature::FileSignature(
+    FileSignature&& file_signature
+) noexcept = default;
 
-} // namespace d2
+FileSignature::~FileSignature() = default;
 
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_VERSION_HPP_
+FileSignature& FileSignature::operator=(
+    const FileSignature& file_signature
+) = default;
+
+FileSignature& FileSignature::operator=(
+    FileSignature&& file_signature
+) noexcept = default;
+
+FileSignature FileSignature::ReadActual() const {
+  return FileSignature(
+      this->file_path_,
+      this->offset_,
+      this->signature_.size()
+  );
+}
+
+} // namespace mapi
