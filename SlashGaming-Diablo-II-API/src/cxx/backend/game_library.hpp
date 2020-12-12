@@ -92,10 +92,10 @@ class GameLibrary {
   const std::filesystem::path& file_path() const noexcept;
 
  private:
-  static std::map<std::filesystem::path, GameLibrary> libraries_by_paths;
-
   std::filesystem::path file_path_;
   std::intptr_t base_address_;
+
+  static std::map<std::filesystem::path, GameLibrary>& GetLibrariesByPaths();
 
   static std::intptr_t LoadGameLibraryBaseAddress(
       const std::filesystem::path& library_path

@@ -59,8 +59,6 @@
 
 namespace mapi {
 
-std::map<std::filesystem::path, GameLibrary> GameLibrary::libraries_by_paths;
-
 GameLibrary::GameLibrary(
   const std::filesystem::path& file_path
 )
@@ -107,15 +105,15 @@ GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {
 const GameLibrary& GameLibrary::GetGameLibrary(
     const std::filesystem::path& file_path
 ) {
-  if (!libraries_by_paths.contains(file_path)) {
-    libraries_by_paths.insert_or_assign(
+  if (!GetLibrariesByPaths().contains(file_path)) {
+    GetLibrariesByPaths().insert_or_assign(
         file_path,
         GameLibrary(file_path)
     );
   }
 
   try {
-    return libraries_by_paths.at(file_path);
+    return GetLibrariesByPaths().at(file_path);
   } catch (const std::out_of_range& e) {
     std::wstring full_message = fmt::format(
         L"Could not determine the game library from the file path: {}.",
@@ -137,6 +135,13 @@ std::intptr_t GameLibrary::base_address() const noexcept {
 
 const std::filesystem::path& GameLibrary::file_path() const noexcept {
   return file_path_;
+}
+
+std::map<std::filesystem::path, GameLibrary>&
+GameLibrary::GetLibrariesByPaths() {
+  static std::map<std::filesystem::path, GameLibrary> libraries_by_paths;
+
+  return libraries_by_paths;
 }
 
 std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(
