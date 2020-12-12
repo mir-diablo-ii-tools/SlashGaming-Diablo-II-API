@@ -49,6 +49,7 @@
 #include <windows.h>
 #include <compare>
 #include <filesystem>
+#include <typeindex>
 
 namespace mapi {
 
@@ -104,5 +105,14 @@ class FileVersion {
 };
 
 } // namespace mapi
+
+namespace std {
+
+template <>
+struct std::hash<mapi::FileVersion> {
+  std::size_t operator()(const mapi::FileVersion& file_version) const;
+};
+
+} // namespace std
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_

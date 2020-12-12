@@ -157,7 +157,7 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   // come from dwFileVersionMS, last two come from dwFileVersionLS
   return VersionType(
       (version_info->dwFileVersionMS >> 16) & 0xFFFF,
-      (version_info->dwFileVersionLS >> 0) & 0xFFFF,
+      (version_info->dwFileVersionMS >> 0) & 0xFFFF,
       (version_info->dwFileVersionLS >> 16) & 0xFFFF,
       (version_info->dwFileVersionLS >> 0) & 0xFFFF
   );
@@ -168,3 +168,18 @@ const FileVersion::VersionType& FileVersion::version() const noexcept {
 }
 
 } // namespace mapi
+
+std::size_t std::hash<mapi::FileVersion>::operator()(
+    const mapi::FileVersion& file_version
+) const {
+  std::hash<DWORD> dword_hasher;
+
+  std::tuple actual_version = file_version.version();
+
+  DWORD sum = std::get<0>(actual_version);
+  sum += std::get<1>(actual_version) * sizeof(CHAR_BIT);
+  sum += std::get<2>(actual_version) * sizeof(CHAR_BIT * 2);
+  sum += std::get<3>(actual_version) * sizeof(CHAR_BIT * 3);
+
+  return dword_hasher(sum);
+}

@@ -58,31 +58,38 @@
 namespace mapi {
 namespace {
 
-static const std::unordered_map<
+const std::unordered_map<
     DefaultLibrary,
     std::filesystem::path
-> paths_by_default_libraries = {
-    { DefaultLibrary::kBNClient, "BNClient.dll" },
-    { DefaultLibrary::kD2Client, "D2Client.dll" },
-    { DefaultLibrary::kD2CMP, "D2CMP.dll" },
-    { DefaultLibrary::kD2Common, "D2Common.dll" },
-    { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
-    { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
-    { DefaultLibrary::kD2Game, "D2Game.dll" },
-    { DefaultLibrary::kD2GDI, "D2GDI.dll" },
-    { DefaultLibrary::kD2GFX, "D2GFX.dll" },
-    { DefaultLibrary::kD2Glide, "D2Glide.dll" },
-    { DefaultLibrary::kD2Lang, "D2Lang.dll" },
-    { DefaultLibrary::kD2Launch, "D2Launch.dll" },
-    { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
-    { DefaultLibrary::kD2Multi, "D2Multi.dll" },
-    { DefaultLibrary::kD2Net, "D2Net.dll" },
-    { DefaultLibrary::kD2Server, "D2Server.dll" },
-    { DefaultLibrary::kD2Sound, "D2Sound.dll" },
-    { DefaultLibrary::kD2Win, "D2Win.dll" },
-    { DefaultLibrary::kFog, "Fog.dll" },
-    { DefaultLibrary::kStorm, "Storm.dll" },
-};
+>& GetPathsByDefaultLibraries() {
+  static const std::unordered_map<
+      DefaultLibrary,
+      std::filesystem::path
+  > kPathsByDefaultLibraries = {
+      { DefaultLibrary::kBNClient, "BNClient.dll" },
+      { DefaultLibrary::kD2Client, "D2Client.dll" },
+      { DefaultLibrary::kD2CMP, "D2CMP.dll" },
+      { DefaultLibrary::kD2Common, "D2Common.dll" },
+      { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
+      { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
+      { DefaultLibrary::kD2Game, "D2Game.dll" },
+      { DefaultLibrary::kD2GDI, "D2GDI.dll" },
+      { DefaultLibrary::kD2GFX, "D2GFX.dll" },
+      { DefaultLibrary::kD2Glide, "D2Glide.dll" },
+      { DefaultLibrary::kD2Lang, "D2Lang.dll" },
+      { DefaultLibrary::kD2Launch, "D2Launch.dll" },
+      { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
+      { DefaultLibrary::kD2Multi, "D2Multi.dll" },
+      { DefaultLibrary::kD2Net, "D2Net.dll" },
+      { DefaultLibrary::kD2Server, "D2Server.dll" },
+      { DefaultLibrary::kD2Sound, "D2Sound.dll" },
+      { DefaultLibrary::kD2Win, "D2Win.dll" },
+      { DefaultLibrary::kFog, "Fog.dll" },
+      { DefaultLibrary::kStorm, "Storm.dll" },
+  };
+
+  return kPathsByDefaultLibraries;
+}
 
 } // namespace
 
@@ -96,7 +103,7 @@ const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
     DefaultLibrary library
 ) {
   try {
-    return paths_by_default_libraries.at(library);
+    return GetPathsByDefaultLibraries().at(library);
   } catch (const std::out_of_range& e) {
     constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
         L"the game library path from the library ID: {}.";
@@ -123,7 +130,7 @@ const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
     return GetGameExecutablePath();
   }
 
-  GetDefaultLibraryPathWithoutRedirect(library);
+  return GetDefaultLibraryPathWithoutRedirect(library);
 }
 
 } // namespace mapi
