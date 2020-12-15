@@ -43,19 +43,25 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_HPP_
-#define SGD2MAPI_SGD2MAPI_HPP_
+#ifndef SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_
+#define SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_
 
-#include "d2api_version.h"
-#include "cxx/default_game_library.hpp"
-#include "cxx/game_address.hpp"
-#include "cxx/game_bool.hpp"
-#include "cxx/game_constant.hpp"
-#include "cxx/game_function.hpp"
-#include "cxx/game_patch.hpp"
-#include "cxx/game_struct.hpp"
-#include "cxx/game_variable.hpp"
-#include "cxx/game_version.hpp"
-#include "cxx/helper.hpp"
+#include "../game_constant/d2_video_mode.hpp"
+#include <string>
 
-#endif // SGD2MAPI_SGD2MAPI_HPP_
+#include "../../dllexport_define.inc"
+
+namespace d2 {
+
+/**
+ * Determine the video mode from the command line args, then from the
+ * registry.
+ */
+DLLEXPORT VideoMode DetermineVideoMode();
+
+DLLEXPORT VideoMode_1_00 DetermineVideoMode_1_00();
+
+} // namespace d2
+
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_
