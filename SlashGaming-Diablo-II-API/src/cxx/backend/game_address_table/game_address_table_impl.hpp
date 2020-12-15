@@ -49,6 +49,7 @@
 #include <filesystem>
 #include <map>
 #include <memory>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
@@ -62,7 +63,7 @@ using GameAddressTable = std::map<
 
     // Address Name -> Address Locator
     std::unordered_map<
-        std::string_view,
+        std::string,
         std::unique_ptr<IGameAddressLocator>
     >
 >;

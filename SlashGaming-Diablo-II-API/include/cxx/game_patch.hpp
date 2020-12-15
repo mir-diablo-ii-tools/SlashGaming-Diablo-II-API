@@ -63,6 +63,20 @@ namespace mapi {
  */
 class DLLEXPORT GamePatch {
  public:
+  GamePatch(const GamePatch& game_patch) = delete;
+
+  GamePatch(GamePatch&& game_patch) noexcept;
+
+  /**
+   * Destructs this game patch. Does not remove the effects of the
+   * patch.
+   */
+  virtual ~GamePatch();
+
+  GamePatch& operator=(const GamePatch& game_patch) = delete;
+
+  GamePatch& operator=(GamePatch&& game_patch) noexcept;
+
   /**
    * Applies the patch by replacing the values at its target address with the
    * values stored in its buffer. Does nothing if the patch is applied.

@@ -105,7 +105,7 @@ GameAddress LoadGameAddress(
 
   try {
     const std::unique_ptr<IGameAddressLocator>& locator =
-        GetGameAddressTable().at(library_path).at(address_name);
+        GetGameAddressTable().at(library_path).at(address_name.data());
 
     return locator->LocateGameAddress();
   } catch (const std::out_of_range& e) {
@@ -119,7 +119,7 @@ GameAddress LoadGameAddress(
 ) {
   try {
     const std::unique_ptr<IGameAddressLocator>& locator =
-        GetGameAddressTable().at(library_path).at(address_name);
+        GetGameAddressTable().at(library_path).at(address_name.data());
 
     return locator->LocateGameAddress();
   } catch (const std::out_of_range& e) {

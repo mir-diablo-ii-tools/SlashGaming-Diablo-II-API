@@ -114,6 +114,12 @@ GamePatch::GamePatch(
     ) {
 }
 
+GamePatch::GamePatch(GamePatch&& game_patch) noexcept = default;
+
+GamePatch::~GamePatch() = default;
+
+GamePatch& GamePatch::operator=(GamePatch&& game_patch) noexcept = default;
+
 void GamePatch::Apply() {
   if (this->is_patch_applied()) {
     return;
