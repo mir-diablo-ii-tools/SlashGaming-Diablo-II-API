@@ -83,9 +83,6 @@ std::unique_ptr<IGameAddressLocator> ResolveLocator(
     std::string_view locator_type,
     std::string_view locator_value
 ) {
-  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
-  std::intptr_t game_library_base_address = game_library.base_address();
-
   if (locator_type == kLocatorTypeOffset) {
     int offset = std::stoi(locator_value.data(), 0, 16);
 
