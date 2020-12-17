@@ -127,7 +127,7 @@ void GamePatch::Apply() {
 
   std::intptr_t raw_address = this->game_address().raw_address();
 
-  // Restore the old state of the destination.
+  // Apply the patched state to the destination.
   BOOL write_success = WriteProcessMemory(
       GetCurrentProcess(),
       (void*) raw_address,
