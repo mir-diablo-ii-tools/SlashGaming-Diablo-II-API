@@ -350,7 +350,7 @@ static const std::unordered_map<
                       0xF0,
                       { 0x25, 0x47, 0x52, 0x39 }
                   ),
-                  GameVersion::k1_02
+                  GameVersion::k1_01
               },
           }
       },
