@@ -63,12 +63,14 @@ enum class ClientGameType {
   kSinglePlayer,
   kBattleNetJoin,
 
-#if D2API_VERSION == D2API_VERSION_1_00 || D2API_VERSION == D2API_VERSION_ALL
+#if D2API_VERSION == D2API_VERSION_ALL \
+    || D2API_VERSION < D2API_VERSION_1_07
   kOpenBattleNetHostOrLanHost = 2,
   kOpenBattleNetJoinOrLanJoin,
 #endif
 
-#if D2API_VERSION == D2API_VERSION_1_09D || D2API_VERSION == D2API_VERSION_ALL
+#if D2API_VERSION == D2API_VERSION_ALL \
+    || D2API_VERSION >= D2API_VERSION_1_07
   kOpenBattleNetHost = 4,
   kOpenBattleNetJoin,
   kLanHost,
@@ -102,7 +104,9 @@ enum class ClientGameType_1_07 : std::int32_t {
 
 DLLEXPORT int ToGameValue(ClientGameType api_value);
 
-DLLEXPORT ClientGameType_1_00 ToGameValue_1_00(ClientGameType api_value);
+DLLEXPORT ClientGameType_1_00 ToGameValue_1_00(
+    ClientGameType api_value
+);
 
 DLLEXPORT ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value);
 

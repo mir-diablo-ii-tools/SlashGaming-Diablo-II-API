@@ -45,46 +45,11 @@
 
 #include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
 
-#include <unordered_map>
+#include <cassert>
 
 #include "../../../include/cxx/game_version.hpp"
 
 namespace d2 {
-namespace {
-
-static const std::unordered_map<ClientGameType, ClientGameType_1_00> kTo1_00 = {
-    { ClientGameType::kSinglePlayer, ClientGameType_1_00::kSinglePlayer },
-    { ClientGameType::kBattleNetJoin, ClientGameType_1_00::kBattleNetJoin },
-    { ClientGameType::kOpenBattleNetHostOrLanHost, ClientGameType_1_00::kOpenBattleNetHostOrLanHost },
-    { ClientGameType::kOpenBattleNetJoinOrLanJoin, ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin },
-};
-
-static const std::unordered_map<ClientGameType_1_00, ClientGameType> kFrom1_00 = {
-    { ClientGameType_1_00::kSinglePlayer, ClientGameType::kSinglePlayer },
-    { ClientGameType_1_00::kBattleNetJoin, ClientGameType::kBattleNetJoin },
-    { ClientGameType_1_00::kOpenBattleNetHostOrLanHost, ClientGameType::kOpenBattleNetHostOrLanHost },
-    { ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin, ClientGameType::kOpenBattleNetJoinOrLanJoin },
-};
-
-static const std::unordered_map<ClientGameType, ClientGameType_1_07> kTo1_07 = {
-    { ClientGameType::kSinglePlayer, ClientGameType_1_07::kSinglePlayer },
-    { ClientGameType::kBattleNetJoin, ClientGameType_1_07::kBattleNetJoin },
-    { ClientGameType::kOpenBattleNetHost, ClientGameType_1_07::kOpenBattleNetHost },
-    { ClientGameType::kOpenBattleNetJoin, ClientGameType_1_07::kOpenBattleNetJoin },
-    { ClientGameType::kLanHost, ClientGameType_1_07::kLanHost },
-    { ClientGameType::kLanJoin, ClientGameType_1_07::kLanJoin },
-};
-
-static const std::unordered_map<ClientGameType_1_07, ClientGameType> kFrom1_07 = {
-    { ClientGameType_1_07::kSinglePlayer, ClientGameType::kSinglePlayer },
-    { ClientGameType_1_07::kBattleNetJoin, ClientGameType::kBattleNetJoin },
-    { ClientGameType_1_07::kOpenBattleNetHost, ClientGameType::kOpenBattleNetHost },
-    { ClientGameType_1_07::kOpenBattleNetJoin, ClientGameType::kOpenBattleNetJoin },
-    { ClientGameType_1_07::kLanHost, ClientGameType::kLanHost },
-    { ClientGameType_1_07::kLanJoin, ClientGameType::kLanJoin },
-};
-
-} // namespace
 
 int ToGameValue(ClientGameType api_value) {
   GameVersion running_game_version = GetRunningGameVersionId();
@@ -96,12 +61,64 @@ int ToGameValue(ClientGameType api_value) {
   }
 }
 
-ClientGameType_1_00 ToGameValue_1_00(ClientGameType api_value) {
-  return kTo1_00.at(api_value);
+ClientGameType_1_00 ToGameValue_1_00(
+    ClientGameType api_value
+) {
+  switch (api_value) {
+    case ClientGameType::kSinglePlayer: {
+      return ClientGameType_1_00::kSinglePlayer;
+    }
+
+    case ClientGameType::kBattleNetJoin: {
+      return ClientGameType_1_00::kBattleNetJoin;
+    }
+
+    case ClientGameType::kOpenBattleNetHostOrLanHost: {
+      return ClientGameType_1_00::kOpenBattleNetHostOrLanHost;
+    }
+
+    case ClientGameType::kOpenBattleNetJoinOrLanJoin: {
+      return ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<ClientGameType_1_00>(-1);
+    }
+  }
 }
 
 ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
-  return kTo1_07.at(api_value);
+  switch (api_value) {
+    case ClientGameType::kSinglePlayer: {
+      return ClientGameType_1_07::kSinglePlayer;
+    }
+
+    case ClientGameType::kBattleNetJoin: {
+      return ClientGameType_1_07::kBattleNetJoin;
+    }
+
+    case ClientGameType::kOpenBattleNetHost: {
+      return ClientGameType_1_07::kOpenBattleNetHost;
+    }
+
+    case ClientGameType::kOpenBattleNetJoin: {
+      return ClientGameType_1_07::kOpenBattleNetJoin;
+    }
+
+    case ClientGameType::kLanHost: {
+      return ClientGameType_1_07::kLanHost;
+    }
+
+    case ClientGameType::kLanJoin: {
+      return ClientGameType_1_07::kLanJoin;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<ClientGameType_1_07>(-1);
+    }
+  }
 }
 
 template <>
@@ -116,11 +133,61 @@ ClientGameType ToApiValue<ClientGameType>(int game_value) {
 }
 
 ClientGameType ToApiValue_1_00(ClientGameType_1_00 game_value) {
-  return kFrom1_00.at(game_value);
+  switch (game_value) {
+    case ClientGameType_1_00::kSinglePlayer: {
+      return ClientGameType::kSinglePlayer;
+    }
+
+    case ClientGameType_1_00::kBattleNetJoin: {
+      return ClientGameType::kBattleNetJoin;
+    }
+
+    case ClientGameType_1_00::kOpenBattleNetHostOrLanHost: {
+      return ClientGameType::kOpenBattleNetHostOrLanHost;
+    }
+
+    case ClientGameType_1_00::kOpenBattleNetJoinOrLanJoin: {
+      return ClientGameType::kOpenBattleNetJoinOrLanJoin;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<ClientGameType>(-1);
+    }
+  }
 }
 
 ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value) {
-  return kFrom1_07.at(game_value);
+  switch (game_value) {
+    case ClientGameType_1_07::kSinglePlayer: {
+      return ClientGameType::kSinglePlayer;
+    }
+
+    case ClientGameType_1_07::kBattleNetJoin: {
+      return ClientGameType::kBattleNetJoin;
+    }
+
+    case ClientGameType_1_07::kOpenBattleNetHost: {
+      return ClientGameType::kOpenBattleNetHost;
+    }
+
+    case ClientGameType_1_07::kOpenBattleNetJoin: {
+      return ClientGameType::kOpenBattleNetJoin;
+    }
+
+    case ClientGameType_1_07::kLanHost: {
+      return ClientGameType::kLanHost;
+    }
+
+    case ClientGameType_1_07::kLanJoin: {
+      return ClientGameType::kLanJoin;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<ClientGameType>(-1);
+    }
+  }
 }
 
 } // namespace d2

@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
 #define SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_
 
-#include <cstddef>
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -58,5 +56,4 @@ DLLEXPORT ConstantType ToApiValue(int value);
 } // namespace d2
 
 #include "../../dllexport_undefine.inc"
-
 #endif // SGD2MAPI_CXX_GAME_CONSTANT_D2_CONSTANT_HPP_

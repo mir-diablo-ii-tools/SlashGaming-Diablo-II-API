@@ -55,21 +55,28 @@
 namespace d2 {
 namespace {
 
-static const std::unordered_map<
-    DWORD,
-    VideoMode_1_00
->& GetVideoModeByRegValue1_00() {
-  static const std::unordered_map<
-      DWORD,
-      VideoMode_1_00
-  > kVideoModeByRegValue1_00 = {
-      { 0, VideoMode_1_00::kDirectDraw },
-      { 1, VideoMode_1_00::kDirect3D },
-      { 3, VideoMode_1_00::kGlide },
-      { 4, VideoMode_1_00::kGDI },
-  };
+static VideoMode_1_00 GetVideoModeFromRegValue_1_00(DWORD reg_value) {
+  switch (reg_value) {
+    case 0: {
+      return VideoMode_1_00::kDirectDraw;
+    }
 
-  return kVideoModeByRegValue1_00;
+    case 1: {
+      return VideoMode_1_00::kDirect3D;
+    }
+
+    case 3: {
+      return VideoMode_1_00::kGlide;
+    }
+
+    case 4: {
+      return VideoMode_1_00::kGdi;
+    }
+
+    default: {
+      return VideoMode_1_00::kDirectDraw;
+    }
+  }
 }
 
 static VideoMode_1_00 GetCommandLineVideoMode() {
@@ -100,9 +107,9 @@ static VideoMode_1_00 GetCommandLineVideoMode() {
     } else if (video_mode != VideoMode_1_00::kGlide) {
 
       if (current_arg == L"-w") {
-        video_mode = VideoMode_1_00::kGDI;
+        video_mode = VideoMode_1_00::kGdi;
 
-      } else if (video_mode != VideoMode_1_00::kGDI) {
+      } else if (video_mode != VideoMode_1_00::kGdi) {
 
         if (current_arg == L"-d3d") {
           video_mode = VideoMode_1_00::kDirect3D;
@@ -157,11 +164,7 @@ static VideoMode_1_00 GetRegistryVideoMode() {
 
   RegCloseKey(query_key_result);
 
-  if (!GetVideoModeByRegValue1_00().contains(render_value)) {
-    return VideoMode_1_00::kDirectDraw;
-  }
-
-  return GetVideoModeByRegValue1_00().at(render_value);
+  return GetVideoModeFromRegValue_1_00(render_value);
 }
 
 } // namespace

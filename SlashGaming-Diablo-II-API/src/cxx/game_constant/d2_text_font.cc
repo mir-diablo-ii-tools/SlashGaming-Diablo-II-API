@@ -49,63 +49,76 @@
 
 #include "../../../include/cxx/game_constant/d2_text_font.hpp"
 
+#include <cassert>
 #include <cstdint>
-#include <unordered_map>
 
 #include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
 namespace d2 {
-namespace {
-
-static const std::unordered_map<TextFont, TextFont_1_00> kTo1_00 = {
-    { TextFont::kDiabloMenu_24, TextFont_1_00::kDiabloMenu_24 },
-    { TextFont::kDiabloMenu_30, TextFont_1_00::kDiabloMenu_30 },
-    { TextFont::kDiabloMenu_42, TextFont_1_00::kDiabloMenu_42 },
-
-    { TextFont::kExocet_8, TextFont_1_00::kExocet_8 },
-    { TextFont::kExocet_16, TextFont_1_00::kExocet_16 },
-
-    { TextFont::kExocetBlack_9, TextFont_1_00::kExocetBlack_9 },
-    { TextFont::kExocetBlack_10, TextFont_1_00::kExocetBlack_10 },
-
-    { TextFont::kFormal_6, TextFont_1_00::kFormal_6 },
-    { TextFont::kFormal_8, TextFont_1_00::kFormal_8 },
-    { TextFont::kFormal_10, TextFont_1_00::kFormal_10 },
-    { TextFont::kFormal_11, TextFont_1_00::kFormal_11 },
-    { TextFont::kFormal_12, TextFont_1_00::kFormal_12 },
-
-    { TextFont::kFormalWide_11, TextFont_1_00::kFormalWide_11 },
-};
-
-static const std::unordered_map<TextFont_1_00, TextFont> kFrom1_00 = {
-    { TextFont_1_00::kDiabloMenu_24, TextFont::kDiabloMenu_24 },
-    { TextFont_1_00::kDiabloMenu_30, TextFont::kDiabloMenu_30 },
-    { TextFont_1_00::kDiabloMenu_42, TextFont::kDiabloMenu_42 },
-
-    { TextFont_1_00::kExocet_8, TextFont::kExocet_8 },
-    { TextFont_1_00::kExocet_16, TextFont::kExocet_16 },
-
-    { TextFont_1_00::kExocetBlack_9, TextFont::kExocetBlack_9 },
-    { TextFont_1_00::kExocetBlack_10, TextFont::kExocetBlack_10 },
-
-    { TextFont_1_00::kFormal_6, TextFont::kFormal_6 },
-    { static_cast<TextFont_1_00>(12), TextFont::kFormal_6 },
-    { TextFont_1_00::kFormal_8, TextFont::kFormal_8 },
-    { TextFont_1_00::kFormal_10, TextFont::kFormal_10 },
-    { TextFont_1_00::kFormal_11, TextFont::kFormal_11 },
-    { TextFont_1_00::kFormal_12, TextFont::kFormal_12 },
-
-    { TextFont_1_00::kFormalWide_11, TextFont::kFormalWide_11 },
-};
-
-} // namespace
 
 int ToGameValue(TextFont api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
 }
 
 TextFont_1_00 ToGameValue_1_00(TextFont api_value) {
-  return kTo1_00.at(api_value);
+  switch (api_value) {
+    case TextFont::kDiabloMenu_24: {
+      return TextFont_1_00::kDiabloMenu_24;
+    }
+
+    case TextFont::kDiabloMenu_30: {
+      return TextFont_1_00::kDiabloMenu_30;
+    }
+
+    case TextFont::kDiabloMenu_42: {
+      return TextFont_1_00::kDiabloMenu_42;
+    }
+
+    case TextFont::kExocet_8: {
+      return TextFont_1_00::kExocet_8;
+    }
+
+    case TextFont::kExocet_16: {
+      return TextFont_1_00::kExocet_16;
+    }
+
+    case TextFont::kExocetBlack_9: {
+      return TextFont_1_00::kExocetBlack_9;
+    }
+
+    case TextFont::kExocetBlack_10: {
+      return TextFont_1_00::kExocetBlack_10;
+    }
+
+    case TextFont::kFormal_6: {
+      return TextFont_1_00::kFormal_6;
+    }
+
+    case TextFont::kFormal_8: {
+      return TextFont_1_00::kFormal_8;
+    }
+
+    case TextFont::kFormal_10: {
+      return TextFont_1_00::kFormal_10;
+    }
+
+    case TextFont::kFormal_11: {
+      return TextFont_1_00::kFormal_11;
+    }
+
+    case TextFont::kFormal_12: {
+      return TextFont_1_00::kFormal_12;
+    }
+
+    case TextFont::kFormalWide_11: {
+      return TextFont_1_00::kFormalWide_11;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<TextFont_1_00>(-1);
+    }
+  }
 }
 
 template <>
@@ -114,7 +127,68 @@ TextFont ToApiValue<TextFont>(int game_value) {
 }
 
 TextFont ToApiValue_1_00(TextFont_1_00 game_value) {
-  return kFrom1_00.at(game_value);
+  switch (game_value) {
+    case TextFont_1_00::kDiabloMenu_24: {
+      return TextFont::kDiabloMenu_24;
+    }
+
+    case TextFont_1_00::kDiabloMenu_30: {
+      return TextFont::kDiabloMenu_30;
+    }
+
+    case TextFont_1_00::kDiabloMenu_42: {
+      return TextFont::kDiabloMenu_42;
+    }
+
+    case TextFont_1_00::kExocet_8: {
+      return TextFont::kExocet_8;
+    }
+
+    case TextFont_1_00::kExocet_16: {
+      return TextFont::kExocet_16;
+    }
+
+    case TextFont_1_00::kExocetBlack_9: {
+      return TextFont::kExocetBlack_9;
+    }
+
+    case TextFont_1_00::kExocetBlack_10: {
+      return TextFont::kExocetBlack_10;
+    }
+
+    case TextFont_1_00::kFormal_6: {
+      return TextFont::kFormal_6;
+    }
+
+    case static_cast<TextFont_1_00>(12): {
+      return TextFont::kFormal_6;
+    }
+
+    case TextFont_1_00::kFormal_8: {
+      return TextFont::kFormal_8;
+    }
+
+    case TextFont_1_00::kFormal_10: {
+      return TextFont::kFormal_10;
+    }
+
+    case TextFont_1_00::kFormal_11: {
+      return TextFont::kFormal_11;
+    }
+
+    case TextFont_1_00::kFormal_12: {
+      return TextFont::kFormal_12;
+    }
+
+    case TextFont_1_00::kFormalWide_11: {
+      return TextFont::kFormalWide_11;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<TextFont>(-1);
+    }
+  }
 }
 
 } // namespace d2
