@@ -45,32 +45,31 @@
 
 #include "architecture_opcode.hpp"
 
-#include <stdexcept>
-#include <unordered_map>
-
 #include "../../include/cxx/game_branch_type.hpp"
 #include "../backend/error_handling.hpp"
 
 namespace mapi {
-namespace {
-
-static const std::unordered_map<BranchType, OpCode> kOpCodesByBranchTypes = {
-    { BranchType::kCall, OpCode::kCall },
-    { BranchType::kJump, OpCode::kJump }
-};
-
-} // namespace
 
 OpCode ToOpcode(BranchType branch_type) {
-  try {
-    return kOpCodesByBranchTypes.at(branch_type);
-  } catch (std::out_of_range& e) {
-    ExitOnGeneralFailure(
-        L"Unknown branch type specified.",
-        L"Unknown Branch Type",
-        __FILEW__,
-        __LINE__
-    );
+  switch (branch_type) {
+    case BranchType::kCall: {
+      return OpCode::kCall;
+    }
+
+    case BranchType::kJump: {
+      return OpCode::kJump;
+    }
+
+    default: {
+      ExitOnGeneralFailure(
+          L"Unknown branch type specified.",
+          L"Unknown Branch Type",
+          __FILEW__,
+          __LINE__
+      );
+
+      return static_cast<OpCode>(-1);
+    }
   }
 }
 

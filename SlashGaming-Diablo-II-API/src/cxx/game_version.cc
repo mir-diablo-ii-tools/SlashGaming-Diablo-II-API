@@ -266,50 +266,6 @@ static const std::unordered_map<
 }
 
 static const std::unordered_map<
-    GameVersion, std::u8string_view
->& GetGameVersionNamesByGameVersionIds() {
-  static const std::unordered_map<
-      GameVersion, std::u8string_view
-  > kGameVersionNamesByGameVersionIds = {
-    { GameVersion::k1_00, u8"1.00" },
-    { GameVersion::k1_01, u8"1.01" },
-    { GameVersion::k1_02, u8"1.02" },
-    { GameVersion::k1_03, u8"1.03" },
-    // 1.04B and 1.04C use the same DLLs.
-    { GameVersion::k1_04B_C, u8"1.04B/C" },
-    { GameVersion::k1_05, u8"1.05" },
-    { GameVersion::k1_05B, u8"1.05B" },
-    { GameVersion::k1_06, u8"1.06" },
-    { GameVersion::k1_06B, u8"1.06B" },
-    { GameVersion::k1_07Beta, u8"1.07 Beta" },
-    { GameVersion::k1_07, u8"1.07" },
-    { GameVersion::k1_08, u8"1.08" },
-    { GameVersion::k1_09, u8"1.09" },
-    { GameVersion::k1_09B, u8"1.09B" },
-    { GameVersion::k1_09D, u8"1.09D" },
-    { GameVersion::k1_10Beta, u8"1.10 Beta" },
-    { GameVersion::k1_10SBeta, u8"1.10S Beta" },
-    { GameVersion::k1_10, u8"1.10" },
-    { GameVersion::k1_11, u8"1.11" },
-    { GameVersion::k1_11B, u8"1.11B" },
-    { GameVersion::k1_12A, u8"1.12A" },
-    { GameVersion::k1_13ABeta, u8"1.13A Beta" },
-    { GameVersion::k1_13C, u8"1.13C" },
-    { GameVersion::k1_13D, u8"1.13D" },
-    { GameVersion::kClassic1_14A, u8"Classic 1.14A" },
-    { GameVersion::kLod1_14A, u8"LoD 1.14A" },
-    { GameVersion::kClassic1_14B, u8"Classic 1.14B" },
-    { GameVersion::kLod1_14B, u8"LoD 1.14B" },
-    { GameVersion::kClassic1_14C, u8"Classic 1.14C" },
-    { GameVersion::kLod1_14C, u8"LoD 1.14C" },
-    { GameVersion::kClassic1_14D, u8"Classic 1.14D" },
-    { GameVersion::kLod1_14D, u8"LoD 1.14D" },
-};
-
-  return kGameVersionNamesByGameVersionIds;
-}
-
-static const std::unordered_map<
     GameVersion,
     std::map<mapi::FileSignature, GameVersion>
 >& GetFileSignaturesByGameVersions() {
@@ -559,24 +515,153 @@ static GameVersion DetermineRunningGameVersion() {
 } // namespace
 
 std::u8string_view GetGameVersionName(GameVersion game_version) {
-  try {
-    return GetGameVersionNamesByGameVersionIds().at(game_version);
-  } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"Could not determine the game version name from the game version ID: "
-        L"{}.";
+  switch (game_version) {
+    case GameVersion::k1_00: {
+      return u8"1.00";
+    }
 
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        static_cast<int>(game_version)
-    );
+    case GameVersion::k1_01: {
+      return u8"1.01";
+    }
 
-    mapi::ExitOnGeneralFailure(
-        full_message,
-        L"Failed to Determine Game Version ID",
-        __FILEW__,
-        __LINE__
-    );
+    case GameVersion::k1_02: {
+      return u8"1.02";
+    }
+
+    case GameVersion::k1_03: {
+      return u8"1.03";
+    }
+
+    // 1.04B and 1.04C use the same DLLs.
+    case GameVersion::k1_04B_C: {
+      return u8"1.04B/C";
+    }
+
+    case GameVersion::k1_05: {
+      return u8"1.05";
+    }
+
+    case GameVersion::k1_05B: {
+      return u8"1.05B";
+    }
+
+    case GameVersion::k1_06: {
+      return u8"1.06";
+    }
+
+    case GameVersion::k1_06B: {
+      return u8"1.06B";
+    }
+
+    case GameVersion::k1_07Beta: {
+      return u8"1.07 Beta";
+    }
+
+    case GameVersion::k1_07: {
+      return u8"1.07";
+    }
+
+    case GameVersion::k1_08: {
+      return u8"1.08";
+    }
+
+    case GameVersion::k1_09: {
+      return u8"1.09";
+    }
+
+    case GameVersion::k1_09B: {
+      return u8"1.09B";
+    }
+
+    case GameVersion::k1_09D: {
+      return u8"1.09D";
+    }
+
+    case GameVersion::k1_10Beta: {
+      return u8"1.10 Beta";
+    }
+
+    case GameVersion::k1_10SBeta: {
+      return u8"1.10S Beta";
+    }
+
+    case GameVersion::k1_10: {
+      return u8"1.10";
+    }
+
+    case GameVersion::k1_11: {
+      return u8"1.11";
+    }
+
+    case GameVersion::k1_11B: {
+      return u8"1.11B";
+    }
+
+    case GameVersion::k1_12A: {
+      return u8"1.12A";
+    }
+
+    case GameVersion::k1_13ABeta: {
+      return u8"1.13A Beta";
+    }
+
+    case GameVersion::k1_13C: {
+      return u8"1.13C";
+    }
+
+    case GameVersion::k1_13D: {
+      return u8"1.13D";
+    }
+
+    case GameVersion::kClassic1_14A: {
+      return u8"Classic 1.14A";
+    }
+
+    case GameVersion::kLod1_14A: {
+      return u8"LoD 1.14A";
+    }
+
+    case GameVersion::kClassic1_14B: {
+      return u8"Classic 1.14B";
+    }
+
+    case GameVersion::kLod1_14B: {
+      return u8"LoD 1.14B";
+    }
+
+    case GameVersion::kClassic1_14C: {
+      return u8"Classic 1.14C";
+    }
+
+    case GameVersion::kLod1_14C: {
+      return u8"LoD 1.14C";
+    }
+
+    case GameVersion::kClassic1_14D: {
+      return u8"Classic 1.14D";
+    }
+
+    case GameVersion::kLod1_14D: {
+      return u8"LoD 1.14D";
+    }
+
+    default: {
+      constexpr std::wstring_view kErrorFormatMessage =
+          L"Could not determine the game version name from the game "
+              L"version ID: {}.";
+
+      std::wstring full_message = fmt::format(
+          kErrorFormatMessage,
+          static_cast<int>(game_version)
+      );
+
+      mapi::ExitOnGeneralFailure(
+          full_message,
+          L"Failed to Determine Game Version ID",
+          __FILEW__,
+          __LINE__
+      );
+    }
   }
 }
 
