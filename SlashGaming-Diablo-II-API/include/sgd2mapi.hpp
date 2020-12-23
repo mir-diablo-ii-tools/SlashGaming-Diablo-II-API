@@ -51,6 +51,7 @@
 #include "cxx/game_address.hpp"
 #include "cxx/game_bool.hpp"
 #include "cxx/game_constant.hpp"
+#include "cxx/game_executable.hpp"
 #include "cxx/game_function.hpp"
 #include "cxx/game_patch.hpp"
 #include "cxx/game_struct.hpp"

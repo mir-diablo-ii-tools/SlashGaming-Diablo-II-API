@@ -56,6 +56,7 @@
 
 #include <fmt/format.h>
 #include "../../include/cxx/game_address.hpp"
+#include "../../include/cxx/game_executable.hpp"
 #include "../wide_macro.h"
 #include "backend/encoding.hpp"
 #include "backend/error_handling.hpp"

@@ -52,6 +52,7 @@
 
 #include <fmt/format.h>
 #include "backend/error_handling.hpp"
+#include "../../include/cxx/game_executable.hpp"
 #include "../../include/cxx/game_version.hpp"
 #include "../wide_macro.h"
 
@@ -92,12 +93,6 @@ const std::unordered_map<
 }
 
 } // namespace
-
-const std::filesystem::path& GetGameExecutablePath() {
-  static std::filesystem::path kGameExecutable = "Game.exe";
-
-  return kGameExecutable;
-}
 
 const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
     DefaultLibrary library

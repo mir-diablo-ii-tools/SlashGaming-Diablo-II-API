@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
-#define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+#ifndef SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+#define SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
 
 #include <filesystem>
 
@@ -53,30 +53,11 @@
 namespace mapi {
 
 /**
- * The default libraries that are used by Diablo II.
+ * Returns the executable used to run the game.
  */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
-
-/**
- * Returns the path of the specified default library.
- */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
-    DefaultLibrary library
-);
-
-/**
- * Returns the path of the specified default library or an alternative path if
- * an implementation-defined condition is satisfied.
- */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
-    DefaultLibrary library
-);
+DLLEXPORT const std::filesystem::path& GetGameExecutablePath();
 
 } // namespace mapi
 
 #include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+#endif // SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_

@@ -43,40 +43,38 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
-#define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
+#include "../../include/cxx/game_executable.hpp"
 
-#include <filesystem>
+#include <windows.h>
 
-#include "../dllexport_define.inc"
+#include <memory>
 
 namespace mapi {
+namespace {
 
-/**
- * The default libraries that are used by Diablo II.
- */
-enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
-  kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
-  kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
-};
+static std::filesystem::path InitGameExecutablePath() {
+  DWORD path_len;
+  size_t capacity;
+  size_t new_capacity = MAX_PATH;
+  std::unique_ptr<wchar_t[]> path_buffer;
 
-/**
- * Returns the path of the specified default library.
- */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
-    DefaultLibrary library
-);
+  do {
+    capacity = new_capacity;
+    path_buffer = std::make_unique<wchar_t[]>(capacity);
+    path_len = GetModuleFileNameW(nullptr, path_buffer.get(), capacity);
 
-/**
- * Returns the path of the specified default library or an alternative path if
- * an implementation-defined condition is satisfied.
- */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
-    DefaultLibrary library
-);
+    new_capacity *= 2;
+  } while (path_len >= capacity - 1);
+
+  return path_buffer.get();
+}
+
+} // namespace
+
+const std::filesystem::path& GetGameExecutablePath() {
+  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
+
+  return kGameExecutablePath;
+}
 
 } // namespace mapi
-
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
