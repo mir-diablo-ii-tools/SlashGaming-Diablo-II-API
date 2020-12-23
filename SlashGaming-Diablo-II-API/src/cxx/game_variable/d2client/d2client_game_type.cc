@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_variable/d2client/d2client_game_type.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "../../backend/game_address_table.hpp"
 
@@ -57,7 +58,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Client.dll",
+      ::mapi::DefaultLibrary::kD2Client,
       "GameType"
   );
 

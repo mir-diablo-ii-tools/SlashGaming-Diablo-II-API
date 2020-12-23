@@ -135,7 +135,8 @@ class DLLEXPORT CelFile_Api {
       bool is_dcc_else_dc6
   );
 
-  CelFile* Get() noexcept;
+  /* Underscore Suffix to resolve overload issue. */
+  CelFile* Get_() noexcept;
 };
 
 } // namespace d2

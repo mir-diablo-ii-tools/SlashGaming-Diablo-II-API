@@ -43,20 +43,40 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
-#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
+#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_LOCATOR_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_LOCATOR_HPP_
 
-#include "../../../../include/cxx/game_address.hpp"
+#include <cstdint>
+#include <filesystem>
+
+#include "../../../../../include/cxx/default_game_library.hpp"
+#include "game_address_locator.hpp"
 
 namespace mapi {
 
-class IGameAddressLocator {
+class GameOrdinalLocator : public IGameAddressLocator {
  public:
-  virtual ~IGameAddressLocator() = default;
+  GameOrdinalLocator() = delete;
 
-  virtual GameAddress LocateGameAddress() = 0;
+  GameOrdinalLocator(
+      DefaultLibrary library_id,
+      std::int16_t ordinal
+  );
+
+  GameOrdinalLocator(
+      std::filesystem::path library_path,
+      std::int16_t ordinal
+  );
+
+  ~GameOrdinalLocator() override;
+
+  GameAddress LocateGameAddress() override;
+
+ private:
+  std::filesystem::path library_path_;
+  std::int16_t ordinal_;
 };
 
 } // namespace mapi
 
-#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
+#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_LOCATOR_HPP_

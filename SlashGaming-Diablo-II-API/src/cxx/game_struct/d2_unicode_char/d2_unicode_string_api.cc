@@ -1085,7 +1085,7 @@ UnicodeString_Api UnicodeString_Api::FromUtf8String(
     std::u8string_view src
 ) {
   std::unique_ptr actual_temp_dest = 
-      std::make_unique<UnicodeChar_1_00[]>(src.length());
+      std::make_unique<UnicodeChar_1_00[]>(src.length() + 1);
   UnicodeChar* converted_temp_dest =
       reinterpret_cast<UnicodeChar*>(actual_temp_dest.get());
 
@@ -1099,7 +1099,10 @@ UnicodeString_Api UnicodeString_Api::FromUtf8String(
 }
 
 std::u8string UnicodeString_Api::ToUtf8String() const {
-  std::unique_ptr dest = std::make_unique<char8_t[]>(this->length() * 4);
+  std::unique_ptr dest = std::make_unique<char8_t[]>(
+      (this->length() * 4) + 1
+  );
+
   d2lang::Unicode_UnicodeToUtf8(
       dest.get(),
       this->data(),

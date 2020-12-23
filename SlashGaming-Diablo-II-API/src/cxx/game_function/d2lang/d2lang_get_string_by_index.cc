@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_function/d2lang/d2lang_get_string_by_index.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
@@ -59,7 +60,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Lang.dll",
+      ::mapi::DefaultLibrary::kD2Lang,
       "GetStringByIndex"
   );
 
@@ -77,7 +78,7 @@ const UnicodeChar* GetStringByIndex(
 const UnicodeChar_1_00* GetStringByIndex_1_00(
     std::uint32_t id
 ) {
-  return reinterpret_cast<UnicodeChar_1_00*>(
+  return reinterpret_cast<const UnicodeChar_1_00*>(
       mapi::CallFastcallFunction(
           GetGameAddress().raw_address(),
           id

@@ -114,6 +114,12 @@ GamePatch::GamePatch(
     ) {
 }
 
+GamePatch::GamePatch(GamePatch&& game_patch) noexcept = default;
+
+GamePatch::~GamePatch() = default;
+
+GamePatch& GamePatch::operator=(GamePatch&& game_patch) noexcept = default;
+
 void GamePatch::Apply() {
   if (this->is_patch_applied()) {
     return;
@@ -121,7 +127,7 @@ void GamePatch::Apply() {
 
   std::intptr_t raw_address = this->game_address().raw_address();
 
-  // Restore the old state of the destination.
+  // Apply the patched state to the destination.
   BOOL write_success = WriteProcessMemory(
       GetCurrentProcess(),
       (void*) raw_address,

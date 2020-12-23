@@ -49,63 +49,97 @@
 
 #include "../../../include/cxx/game_constant/d2_text_color.hpp"
 
-#include <unordered_map>
+#include <cassert>
 
 namespace d2 {
-namespace {
-
-static const std::unordered_map<TextColor, TextColor_1_00> kTo1_00 = {
-    { TextColor::kWhite, TextColor_1_00::kWhite },
-    { TextColor::kRed, TextColor_1_00::kRed },
-    { TextColor::kGreen, TextColor_1_00::kGreen },
-    { TextColor::kBlue, TextColor_1_00::kBlue },
-    { TextColor::kGold, TextColor_1_00::kGold },
-    { TextColor::kDarkGrey, TextColor_1_00::kDarkGrey },
-    { TextColor::kBlack, TextColor_1_00::kBlack },
-    { TextColor::kTan, TextColor_1_00::kTan },
-    { TextColor::kOrange, TextColor_1_00::kOrange },
-    { TextColor::kYellow, TextColor_1_00::kYellow },
-    { TextColor::kDarkerGreen, TextColor_1_00::kDarkerGreen },
-    { TextColor::kPurple, TextColor_1_00::kPurple },
-    { TextColor::kDarkGreen, TextColor_1_00::kDarkGreen },
-    { TextColor::kMetallic, TextColor_1_00::kMetallic },
-    { TextColor::kLightGrey, TextColor_1_00::kLightGrey },
-    { TextColor::kCorrupt, TextColor_1_00::kCorrupt },
-    { TextColor::kBrightWhite, TextColor_1_00::kBrightWhite },
-    { TextColor::kDarkRed, TextColor_1_00::kDarkRed },
-    { TextColor::kBrown, TextColor_1_00::kBrown },
-};
-
-static const std::unordered_map<TextColor_1_00, TextColor> kFrom1_00 = {
-    { TextColor_1_00::kWhite, TextColor::kWhite },
-    { TextColor_1_00::kRed, TextColor::kRed },
-    { TextColor_1_00::kGreen, TextColor::kGreen },
-    { TextColor_1_00::kBlue, TextColor::kBlue },
-    { TextColor_1_00::kGold, TextColor::kGold },
-    { TextColor_1_00::kDarkGrey, TextColor::kDarkGrey },
-    { TextColor_1_00::kBlack, TextColor::kBlack },
-    { TextColor_1_00::kTan, TextColor::kTan },
-    { TextColor_1_00::kOrange, TextColor::kOrange },
-    { TextColor_1_00::kYellow, TextColor::kYellow },
-    { TextColor_1_00::kDarkerGreen, TextColor::kDarkerGreen },
-    { TextColor_1_00::kPurple, TextColor::kPurple },
-    { TextColor_1_00::kDarkGreen, TextColor::kDarkGreen },
-    { TextColor_1_00::kMetallic, TextColor::kMetallic },
-    { TextColor_1_00::kLightGrey, TextColor::kLightGrey },
-    { TextColor_1_00::kCorrupt, TextColor::kCorrupt },
-    { TextColor_1_00::kBrightWhite, TextColor::kBrightWhite },
-    { TextColor_1_00::kDarkRed, TextColor::kDarkRed },
-    { TextColor_1_00::kBrown, TextColor::kBrown },
-};
-
-}
 
 int ToGameValue(TextColor api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
 }
 
 TextColor_1_00 ToGameValue_1_00(TextColor api_value) {
-  return kTo1_00.at(api_value);
+  switch (api_value) {
+    case TextColor::kWhite: {
+      return TextColor_1_00::kWhite;
+    }
+
+    case TextColor::kRed: {
+      return TextColor_1_00::kRed;
+    }
+
+    case TextColor::kGreen: {
+      return TextColor_1_00::kGreen;
+    }
+
+    case TextColor::kBlue: {
+      return TextColor_1_00::kBlue;
+    }
+
+    case TextColor::kGold: {
+      return TextColor_1_00::kGold;
+    }
+
+    case TextColor::kDarkGrey: {
+      return TextColor_1_00::kDarkGrey;
+    }
+
+    case TextColor::kBlack: {
+      return TextColor_1_00::kBlack;
+    }
+
+    case TextColor::kTan: {
+      return TextColor_1_00::kTan;
+    }
+
+    case TextColor::kOrange: {
+      return TextColor_1_00::kOrange;
+    }
+
+    case TextColor::kYellow: {
+      return TextColor_1_00::kYellow;
+    }
+
+    case TextColor::kDarkerGreen: {
+      return TextColor_1_00::kDarkerGreen;
+    }
+
+    case TextColor::kPurple: {
+      return TextColor_1_00::kPurple;
+    }
+
+    case TextColor::kDarkGreen: {
+      return TextColor_1_00::kDarkGreen;
+    }
+
+    case TextColor::kMetallic: {
+      return TextColor_1_00::kMetallic;
+    }
+
+    case TextColor::kLightGrey: {
+      return TextColor_1_00::kLightGrey;
+    }
+
+    case TextColor::kCorrupt: {
+      return TextColor_1_00::kCorrupt;
+    }
+
+    case TextColor::kBrightWhite: {
+      return TextColor_1_00::kBrightWhite;
+    }
+
+    case TextColor::kDarkRed: {
+      return TextColor_1_00::kDarkRed;
+    }
+
+    case TextColor::kBrown: {
+      return TextColor_1_00::kBrown;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<TextColor_1_00>(-1);
+    }
+  }
 }
 
 template <>
@@ -114,7 +148,83 @@ TextColor ToApiValue<TextColor>(int game_value) {
 }
 
 TextColor ToApiValue_1_00(TextColor_1_00 game_value) {
-  return kFrom1_00.at(game_value);
+  switch (game_value) {
+    case TextColor_1_00::kWhite: {
+      return TextColor::kWhite;
+    }
+
+    case TextColor_1_00::kRed: {
+      return TextColor::kRed;
+    }
+
+    case TextColor_1_00::kGreen: {
+      return TextColor::kGreen;
+    }
+
+    case TextColor_1_00::kBlue: {
+      return TextColor::kBlue;
+    }
+
+    case TextColor_1_00::kGold: {
+      return TextColor::kGold;
+    }
+
+    case TextColor_1_00::kDarkGrey: {
+      return TextColor::kDarkGrey;
+    }
+
+    case TextColor_1_00::kBlack: {
+      return TextColor::kBlack;
+    }
+
+    case TextColor_1_00::kTan: {
+      return TextColor::kTan;
+    }
+
+    case TextColor_1_00::kOrange: {
+      return TextColor::kOrange;
+    }
+
+    case TextColor_1_00::kYellow: {
+      return TextColor::kYellow;
+    }
+
+    case TextColor_1_00::kDarkerGreen: {
+      return TextColor::kDarkerGreen;
+    }
+
+    case TextColor_1_00::kPurple: {
+      return TextColor::kPurple;
+    }
+
+    case TextColor_1_00::kDarkGreen: {
+      return TextColor::kDarkGreen;
+    }
+
+    case TextColor_1_00::kMetallic: {
+      return TextColor::kMetallic;
+    }
+
+    case TextColor_1_00::kLightGrey: {
+      return TextColor::kLightGrey;
+    }
+
+    case TextColor_1_00::kCorrupt: {
+      return TextColor::kCorrupt;
+    }
+
+    case TextColor_1_00::kBrightWhite: {
+      return TextColor::kBrightWhite;
+    }
+
+    case TextColor_1_00::kDarkRed: {
+      return TextColor::kDarkRed;
+    }
+
+    case TextColor_1_00::kBrown: {
+      return TextColor::kBrown;
+    }
+  }
 }
 
 } // namespace d2

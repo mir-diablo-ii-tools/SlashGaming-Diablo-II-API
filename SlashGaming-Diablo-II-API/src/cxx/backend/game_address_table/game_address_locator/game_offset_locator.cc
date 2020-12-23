@@ -43,25 +43,30 @@
  *  work.
  */
 
-#include "game_decorated_name_locator.hpp"
-
-#include <utility>
-
-#include "../../../../include/cxx/game_address.hpp"
+#include "game_offset_locator.hpp"
 
 namespace mapi {
 
-GameDecoratedNameLocator::GameDecoratedNameLocator(
-    std::filesystem::path library_path,
-    std::string decorated_name
-) : library_path_(std::move(library_path)),
-    decorated_name_(std::move(decorated_name)) {
+GameOffsetLocator::GameOffsetLocator(
+    DefaultLibrary library_id,
+    std::ptrdiff_t offset
+) : GameOffsetLocator(
+        GetDefaultLibraryPathWithRedirect(library_id),
+        offset
+    ) {
 }
 
-GameDecoratedNameLocator::~GameDecoratedNameLocator() = default;
+GameOffsetLocator::GameOffsetLocator(
+    std::filesystem::path library_path,
+    std::ptrdiff_t offset
+) : library_path_(std::move(library_path)),
+    offset_(offset) {
+}
 
-GameAddress GameDecoratedNameLocator::LocateGameAddress() {
-  return GameAddress::FromDecoratedName(this->library_path_, this->decorated_name_);
+GameOffsetLocator::~GameOffsetLocator() = default;
+
+GameAddress GameOffsetLocator::LocateGameAddress() {
+  return GameAddress::FromOffset(this->library_path_, this->offset_);
 }
 
 } // namespace mapi

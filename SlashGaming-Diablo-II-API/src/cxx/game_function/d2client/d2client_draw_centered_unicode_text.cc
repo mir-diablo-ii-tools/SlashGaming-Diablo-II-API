@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_function/d2client/d2client_draw_centered_unicode_text.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 #include "../../../asm_x86_macro.h"
 #include "../../backend/game_address_table.hpp"
@@ -92,7 +93,7 @@ DrawCenteredUnicodeText_1_12A_Shim(
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Client.dll",
+      ::mapi::DefaultLibrary::kD2Client,
       "DrawCenteredUnicodeText"
   );
 

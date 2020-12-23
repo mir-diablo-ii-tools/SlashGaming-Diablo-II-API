@@ -49,41 +49,53 @@
 
 #include "../../../include/cxx/game_constant/d2_draw_effect.hpp"
 
-#include <unordered_map>
+#include <cassert>
 
 namespace d2 {
-namespace {
-
-static const std::unordered_map<DrawEffect, DrawEffect_1_00> kTo1_00 = {
-    { DrawEffect::kOneFourthOpaque, DrawEffect_1_00::kOneFourthOpaque },
-    { DrawEffect::kHalfOpaque, DrawEffect_1_00::kHalfOpaque },
-    { DrawEffect::kThreeFourthsOpaque, DrawEffect_1_00::kThreeFourthsOpaque },
-    { DrawEffect::kUnknown03, DrawEffect_1_00::kUnknown03 },
-    { DrawEffect::kUnknown04, DrawEffect_1_00::kUnknown04 },
-    { DrawEffect::kNone, DrawEffect_1_00::kNone },
-    { DrawEffect::kUnknown06, DrawEffect_1_00::kUnknown06 },
-    { DrawEffect::kUnknown07, DrawEffect_1_00::kUnknown07 },
-};
-
-static const std::unordered_map<DrawEffect_1_00, DrawEffect> kFrom1_00 = {
-    { DrawEffect_1_00::kOneFourthOpaque, DrawEffect::kOneFourthOpaque },
-    { DrawEffect_1_00::kHalfOpaque, DrawEffect::kHalfOpaque },
-    { DrawEffect_1_00::kThreeFourthsOpaque, DrawEffect::kThreeFourthsOpaque },
-    { DrawEffect_1_00::kUnknown03, DrawEffect::kUnknown03 },
-    { DrawEffect_1_00::kUnknown04, DrawEffect::kUnknown04 },
-    { DrawEffect_1_00::kNone, DrawEffect::kNone },
-    { DrawEffect_1_00::kUnknown06, DrawEffect::kUnknown06 },
-    { DrawEffect_1_00::kUnknown07, DrawEffect::kUnknown07 },
-};
-
-} // namespace
 
 int ToGameValue(DrawEffect api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
 }
 
 DrawEffect_1_00 ToGameValue_1_00(DrawEffect api_value) {
-  return kTo1_00.at(api_value);
+  switch (api_value) {
+    case DrawEffect::kOneFourthOpaque: {
+      return DrawEffect_1_00::kOneFourthOpaque;
+    }
+
+    case DrawEffect::kHalfOpaque: {
+      return DrawEffect_1_00::kHalfOpaque;
+    }
+
+    case DrawEffect::kThreeFourthsOpaque: {
+      return DrawEffect_1_00::kThreeFourthsOpaque;
+    }
+
+    case DrawEffect::kUnknown03: {
+      return DrawEffect_1_00::kUnknown03;
+    }
+
+    case DrawEffect::kUnknown04: {
+      return DrawEffect_1_00::kUnknown04;
+    }
+
+    case DrawEffect::kNone: {
+      return DrawEffect_1_00::kNone;
+    }
+
+    case DrawEffect::kUnknown06: {
+      return DrawEffect_1_00::kUnknown06;
+    }
+
+    case DrawEffect::kUnknown07: {
+      return DrawEffect_1_00::kUnknown07;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<DrawEffect_1_00>(-1);
+    }
+  }
 }
 
 template <>
@@ -92,7 +104,44 @@ DrawEffect ToApiValue<DrawEffect>(int game_value) {
 }
 
 DrawEffect ToApiValue_1_00(DrawEffect_1_00 game_value) {
-  return kFrom1_00.at(game_value);
+  switch (game_value) {
+    case DrawEffect_1_00::kOneFourthOpaque: {
+      return DrawEffect::kOneFourthOpaque;
+    }
+
+    case DrawEffect_1_00::kHalfOpaque: {
+      return DrawEffect::kHalfOpaque;
+    }
+
+    case DrawEffect_1_00::kThreeFourthsOpaque: {
+      return DrawEffect::kThreeFourthsOpaque;
+    }
+
+    case DrawEffect_1_00::kUnknown03: {
+      return DrawEffect::kUnknown03;
+    }
+
+    case DrawEffect_1_00::kUnknown04: {
+      return DrawEffect::kUnknown04;
+    }
+
+    case DrawEffect_1_00::kNone: {
+      return DrawEffect::kNone;
+    }
+
+    case DrawEffect_1_00::kUnknown06: {
+      return DrawEffect::kUnknown06;
+    }
+
+    case DrawEffect_1_00::kUnknown07: {
+      return DrawEffect::kUnknown07;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<DrawEffect>(-1);
+    }
+  }
 }
 
 } // namespace d2

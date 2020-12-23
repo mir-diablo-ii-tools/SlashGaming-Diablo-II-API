@@ -51,6 +51,7 @@
 
 #include <cstdint>
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../backend/game_address_table.hpp"
 
 namespace d2::d2common {
@@ -58,7 +59,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2Common.dll",
+      ::mapi::DefaultLibrary::kD2Common,
       "GlobalBeltsTxt"
   );
 

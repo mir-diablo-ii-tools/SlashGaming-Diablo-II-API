@@ -43,32 +43,32 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_IMPL_HPP_
-#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_IMPL_HPP_
+#include "game_decorated_name_locator.hpp"
 
-#include <filesystem>
-#include <map>
-#include <memory>
-#include <string_view>
-#include <unordered_map>
-
-#include "game_address_locator/game_address_locator.hpp"
+#include <utility>
 
 namespace mapi {
 
-using GameAddressTable = std::map<
-    // Library path
-    std::filesystem::path,
+GameDecoratedNameLocator::GameDecoratedNameLocator(
+    DefaultLibrary library_id,
+    std::string decorated_name
+) : GameDecoratedNameLocator(
+        GetDefaultLibraryPathWithRedirect(library_id),
+        std::move(decorated_name)
+    ) {
+}
 
-    // Address Name -> Address Locator
-    std::unordered_map<
-        std::string_view,
-        std::unique_ptr<IGameAddressLocator>
-    >
->;
+GameDecoratedNameLocator::GameDecoratedNameLocator(
+    std::filesystem::path library_path,
+    std::string decorated_name
+) : library_path_(std::move(library_path)),
+    decorated_name_(std::move(decorated_name)) {
+}
 
-GameAddressTable LoadGameAddressTable();
+GameDecoratedNameLocator::~GameDecoratedNameLocator() = default;
+
+GameAddress GameDecoratedNameLocator::LocateGameAddress() {
+  return GameAddress::FromDecoratedName(this->library_path_, this->decorated_name_);
+}
 
 } // namespace mapi
-
-#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_IMPL_HPP_

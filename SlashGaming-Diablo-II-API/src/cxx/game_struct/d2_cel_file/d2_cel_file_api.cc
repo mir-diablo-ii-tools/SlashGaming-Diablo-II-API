@@ -88,7 +88,7 @@ CelFile_Api::operator CelFile_View() const noexcept {
   return CelFile_View(this->Get());
 }
 
-CelFile* CelFile_Api::Get() noexcept {
+CelFile* CelFile_Api::Get_() noexcept {
   const auto* const_this = this;
 
   return const_cast<CelFile*>(const_this->Get());
@@ -108,7 +108,7 @@ void CelFile_Api::Close() {
     return;
   }
 
-  d2win::UnloadCelFile(this->Get());
+  d2win::UnloadCelFile(this->Get_());
   this->cel_file_ = nullptr;
   this->is_open_ = false;
 }
@@ -119,7 +119,7 @@ bool CelFile_Api::DrawFrame(
     unsigned int direction,
     unsigned int frame
 ) {
-  CelFile_Wrapper wrapper(this->Get());
+  CelFile_Wrapper wrapper(this->Get_());
 
   return wrapper.DrawFrame(
       position_x,
@@ -136,7 +136,7 @@ bool CelFile_Api::DrawFrame(
     unsigned int frame,
     const DrawCelFileFrameOptions& frame_options
 ) {
-  CelFile_Wrapper wrapper(this->Get());
+  CelFile_Wrapper wrapper(this->Get_());
 
   return wrapper.DrawFrame(
       position_x,
@@ -153,7 +153,7 @@ bool CelFile_Api::DrawAllFrames(
     unsigned int columns,
     unsigned int rows
 ) {
-  CelFile_Wrapper wrapper(this->Get());
+  CelFile_Wrapper wrapper(this->Get_());
 
   return wrapper.DrawAllFrames(
       position_x,
@@ -170,7 +170,7 @@ bool CelFile_Api::DrawAllFrames(
     unsigned int rows,
     const DrawAllCelFileFramesOptions& all_frames_options
 ) {
-  CelFile_Wrapper wrapper(this->Get());
+  CelFile_Wrapper wrapper(this->Get_());
 
   return wrapper.DrawAllFrames(
       position_x,
@@ -182,7 +182,7 @@ bool CelFile_Api::DrawAllFrames(
 }
 
 Cel_View CelFile_Api::GetCel(unsigned int direction, unsigned int frame) {
-  CelFile_Wrapper wrapper(this->Get());
+  CelFile_Wrapper wrapper(this->Get_());
 
   return wrapper.GetCel(direction, frame);
 }
@@ -202,7 +202,7 @@ void CelFile_Api::Open(
       is_dcc_else_dc6
   );
 
-  this->is_open_ = (this->Get() != nullptr);
+  this->is_open_ = (this->Get_() != nullptr);
 }
 
 unsigned int CelFile_Api::GetVersion() const noexcept {

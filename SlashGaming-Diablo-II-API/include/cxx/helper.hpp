@@ -43,23 +43,11 @@
  *  work.
  */
 
-#include "game_ordinal_locator.hpp"
+#ifndef SGD2MAPI_CXX_HELPER_HPP_
+#define SGD2MAPI_CXX_HELPER_HPP_
 
-#include "../../../../include/cxx/game_address.hpp"
+#include "helper/d2_determine_video_mode.hpp"
+#include "helper/d2_draw_options.hpp"
+#include "helper/rgba_32bit_color.hpp"
 
-namespace mapi {
-
-GameOrdinalLocator::GameOrdinalLocator(
-    std::filesystem::path library_path,
-    std::int16_t ordinal
-) : library_path_(std::move(library_path)),
-    ordinal_(ordinal) {
-}
-
-GameOrdinalLocator::~GameOrdinalLocator() = default;
-
-GameAddress GameOrdinalLocator::LocateGameAddress() {
-  return GameAddress::FromOrdinal(this->library_path_, this->ordinal_);
-}
-
-} // namespace mapi
+#endif // SGD2MAPI_CXX_HELPER_HPP_

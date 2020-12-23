@@ -43,36 +43,25 @@
  *  work.
  */
 
-#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
+#ifndef SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_
+#define SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_
 
-#include "game_address_table_impl.hpp"
+#include "../game_constant/d2_video_mode.hpp"
+#include <string>
 
-#include "../../../include/cxx/game_version.hpp"
-#include "config.hpp"
-#include "game_address_table_reader.hpp"
+#include "../../dllexport_define.inc"
 
-namespace mapi {
-namespace {
+namespace d2 {
 
-static std::filesystem::path GetTableFilePath() {
-  const std::filesystem::path& address_table_directory =
-      GetAddressTableDirectoryPath();
-  std::u8string_view running_game_version_name =
-      d2::GetRunningGameVersionName();
+/**
+ * Determine the video mode from the command line args, then from the
+ * registry.
+ */
+DLLEXPORT VideoMode DetermineVideoMode();
 
-  std::filesystem::path table_file_path(address_table_directory);
-  table_file_path /= running_game_version_name;
-  table_file_path += u8".txt";
+DLLEXPORT VideoMode_1_00 DetermineVideoMode_1_00();
 
-  return table_file_path;
-}
+} // namespace d2
 
-} // namespace
-
-GameAddressTable LoadGameAddressTable() {
-  return ReadTsvTableFile(GetTableFilePath());
-}
-
-} // namespace mapi
-
-#endif // SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
+#include "../../dllexport_undefine.inc"
+#endif // SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_

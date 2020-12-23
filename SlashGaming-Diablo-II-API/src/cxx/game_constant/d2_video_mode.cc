@@ -49,42 +49,52 @@
 
 #include "../../../include/cxx/game_constant/d2_video_mode.hpp"
 
+#include <cassert>
 #include <cstdint>
-#include <unordered_map>
 
 #include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
 namespace d2 {
-namespace {
-
-static const std::unordered_map<VideoMode, VideoMode_1_00> kTo1_00 = {
-    { VideoMode::kGDI, VideoMode_1_00::kGDI },
-    { VideoMode::kSoftware, VideoMode_1_00::kSoftware },
-    { VideoMode::kDirectDraw, VideoMode_1_00::kDirectDraw },
-    { VideoMode::kGlide, VideoMode_1_00::kGlide },
-    { VideoMode::kOpenGL, VideoMode_1_00::kOpenGL },
-    { VideoMode::kDirect3D, VideoMode_1_00::kDirect3D },
-    { VideoMode::kRave, VideoMode_1_00::kRave },
-};
-
-static const std::unordered_map<VideoMode_1_00, VideoMode> kFrom1_00 = {
-    { VideoMode_1_00::kGDI, VideoMode::kGDI },
-    { VideoMode_1_00::kSoftware, VideoMode::kSoftware },
-    { VideoMode_1_00::kDirectDraw, VideoMode::kDirectDraw },
-    { VideoMode_1_00::kGlide, VideoMode::kGlide },
-    { VideoMode_1_00::kOpenGL, VideoMode::kOpenGL },
-    { VideoMode_1_00::kDirect3D, VideoMode::kDirect3D },
-    { VideoMode_1_00::kRave, VideoMode::kRave },
-};
-
-} // namespace
 
 int ToGameValue(VideoMode api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
 }
 
 VideoMode_1_00 ToGameValue_1_00(VideoMode api_value) {
-  return kTo1_00.at(api_value);
+  switch (api_value) {
+    case VideoMode::kGdi: {
+      return VideoMode_1_00::kGdi;
+    }
+
+    case VideoMode::kSoftware: {
+      return VideoMode_1_00::kSoftware;
+    }
+
+    case VideoMode::kDirectDraw: {
+      return VideoMode_1_00::kDirectDraw;
+    }
+
+    case VideoMode::kGlide: {
+      return VideoMode_1_00::kGlide;
+    }
+
+    case VideoMode::kOpenGl: {
+      return VideoMode_1_00::kOpenGl;
+    }
+
+    case VideoMode::kDirect3D: {
+      return VideoMode_1_00::kDirect3D;
+    }
+
+    case VideoMode::kRave: {
+      return VideoMode_1_00::kRave;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<VideoMode_1_00>(-1);
+    }
+  }
 }
 
 template <>
@@ -93,7 +103,40 @@ VideoMode ToApiValue<VideoMode>(int game_value) {
 }
 
 VideoMode ToApiValue_1_00(VideoMode_1_00 game_value) {
-  return kFrom1_00.at(game_value);
+  switch (game_value) {
+    case VideoMode_1_00::kGdi: {
+      return VideoMode::kGdi;
+    }
+
+    case VideoMode_1_00::kSoftware: {
+      return VideoMode::kSoftware;
+    }
+
+    case VideoMode_1_00::kDirectDraw: {
+      return VideoMode::kDirectDraw;
+    }
+
+    case VideoMode_1_00::kGlide: {
+      return VideoMode::kGlide;
+    }
+
+    case VideoMode_1_00::kOpenGl: {
+      return VideoMode::kOpenGl;
+    }
+
+    case VideoMode_1_00::kDirect3D: {
+      return VideoMode::kDirect3D;
+    }
+
+    case VideoMode_1_00::kRave: {
+      return VideoMode::kRave;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<VideoMode>(-1);
+    }
+  }
 }
 
 } // namespace d2

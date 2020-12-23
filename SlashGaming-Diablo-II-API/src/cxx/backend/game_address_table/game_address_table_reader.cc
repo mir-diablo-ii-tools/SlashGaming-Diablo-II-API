@@ -56,15 +56,15 @@
 #include <string_view>
 
 #include <fmt/format.h>
+#include "../../../wide_macro.h"
 #include "../../include/cxx/game_version.hpp"
-#include "../../wide_macro.h"
-#include "encoding.hpp"
-#include "error_handling.hpp"
+#include "../encoding.hpp"
+#include "../error_handling.hpp"
+#include "../game_library.hpp"
 #include "game_address_locator/game_address_locator.hpp"
 #include "game_address_locator/game_decorated_name_locator.hpp"
 #include "game_address_locator/game_offset_locator.hpp"
 #include "game_address_locator/game_ordinal_locator.hpp"
-#include "game_library.hpp"
 
 namespace mapi {
 namespace {
@@ -83,9 +83,6 @@ std::unique_ptr<IGameAddressLocator> ResolveLocator(
     std::string_view locator_type,
     std::string_view locator_value
 ) {
-  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
-  std::intptr_t game_library_base_address = game_library.base_address();
-
   if (locator_type == kLocatorTypeOffset) {
     int offset = std::stoi(locator_value.data(), 0, 16);
 

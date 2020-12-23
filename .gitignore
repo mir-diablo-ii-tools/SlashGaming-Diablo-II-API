@@ -28,9 +28,13 @@ Makefile
 *.vcxproj.filters
 *.vcxproj.user
 
+*.exp
+*.iobj
+*.ipdb
 *.vcxproj
 *.filters
 *.pdb
+*.res
 *.sdf
 *.sln
 *.suo

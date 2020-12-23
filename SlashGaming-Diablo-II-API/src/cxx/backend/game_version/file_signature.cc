@@ -43,23 +43,91 @@
  *  work.
  */
 
-#include "game_offset_locator.hpp"
+#include "file_signature.hpp"
 
-#include "../../../../include/cxx/game_address.hpp"
+#include <fstream>
+#include <utility>
 
 namespace mapi {
 
-GameOffsetLocator::GameOffsetLocator(
-    std::filesystem::path library_path,
-    std::ptrdiff_t offset
-) : library_path_(std::move(library_path)),
-    offset_(offset) {
+FileSignature::FileSignature(
+    const std::filesystem::path& file_path,
+    std::ptrdiff_t offset,
+    const std::vector<std::uint8_t>& signature
+) : FileSignature(
+        std::filesystem::path(file_path),
+        offset,
+        std::vector(signature)
+    ) {
 }
 
-GameOffsetLocator::~GameOffsetLocator() = default;
+FileSignature::FileSignature(
+    std::filesystem::path&& file_path,
+    std::ptrdiff_t offset,
+    std::vector<std::uint8_t>&& signature
+) noexcept
+  : file_path_(std::move(file_path)),
+    offset_(offset),
+    signature_(std::move(signature)) {
+}
 
-GameAddress GameOffsetLocator::LocateGameAddress() {
-  return GameAddress::FromOffset(this->library_path_, this->offset_);
+FileSignature::FileSignature(
+    const std::filesystem::path& file_path,
+    std::ptrdiff_t offset,
+    std::size_t count
+) : FileSignature(
+        std::filesystem::path(file_path),
+        offset,
+        count
+    ) {
+}
+
+FileSignature::FileSignature(
+    std::filesystem::path&& file_path,
+    std::ptrdiff_t offset,
+    std::size_t count
+) : file_path_(std::move(file_path)),
+    offset_(offset) {
+  std::ifstream file_stream(
+      this->file_path_,
+      std::ios_base::in | std::ios_base::binary
+  );
+
+  file_stream.seekg(this->offset_);
+
+  std::vector<char> raw_signature(count);
+  file_stream.read(raw_signature.data(), count);
+
+  this->signature_ = std::vector<std::uint8_t>(
+      raw_signature.cbegin(),
+      raw_signature.cend()
+  );
+}
+
+FileSignature::FileSignature(
+    const FileSignature& file_signature
+) = default;
+
+FileSignature::FileSignature(
+    FileSignature&& file_signature
+) noexcept = default;
+
+FileSignature::~FileSignature() = default;
+
+FileSignature& FileSignature::operator=(
+    const FileSignature& file_signature
+) = default;
+
+FileSignature& FileSignature::operator=(
+    FileSignature&& file_signature
+) noexcept = default;
+
+FileSignature FileSignature::ReadActual() const {
+  return FileSignature(
+      this->file_path_,
+      this->offset_,
+      this->signature_.size()
+  );
 }
 
 } // namespace mapi

@@ -56,6 +56,8 @@ namespace d2 {
  * The Diablo II game versions supported and recognized.
  */
 enum class GameVersion {
+  kBeta1_02, kBeta1_02StressTest,
+
   k1_00, k1_01, k1_02, k1_03, k1_04B_C, k1_05, k1_05B, k1_06, k1_06B,
   k1_07Beta, k1_07, k1_08, k1_09, k1_09B, k1_09D, k1_10Beta, k1_10SBeta,
   k1_10, k1_11, k1_11B, k1_12A, k1_13ABeta, k1_13C, k1_13D,

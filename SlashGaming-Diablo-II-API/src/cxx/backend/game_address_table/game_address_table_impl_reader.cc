@@ -43,34 +43,36 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
-#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
+#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
 
-#include <filesystem>
-#include <string>
+#include "game_address_table_impl.hpp"
 
-#include "game_address_locator.hpp"
+#include "../../../../include/cxx/game_version.hpp"
+#include "../config.hpp"
+#include "game_address_table_reader.hpp"
 
 namespace mapi {
+namespace {
 
-class GameDecoratedNameLocator : public IGameAddressLocator {
- public:
-  GameDecoratedNameLocator() = delete;
+static std::filesystem::path GetTableFilePath() {
+  const std::filesystem::path& address_table_directory =
+      GetAddressTableDirectoryPath();
+  std::u8string_view running_game_version_name =
+      d2::GetRunningGameVersionName();
 
-  GameDecoratedNameLocator(
-      std::filesystem::path library_path,
-      std::string decorated_name
-  );
+  std::filesystem::path table_file_path(address_table_directory);
+  table_file_path /= running_game_version_name;
+  table_file_path += u8".txt";
 
-  ~GameDecoratedNameLocator() override;
+  return table_file_path;
+}
 
-  GameAddress LocateGameAddress() override;
+} // namespace
 
- private:
-  std::filesystem::path library_path_;
-  std::string decorated_name_;
-};
+GameAddressTable LoadGameAddressTable() {
+  return ReadTsvTableFile(GetTableFilePath());
+}
 
 } // namespace mapi
 
-#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
+#endif // SGMAPI_READ_ADDRESS_FROM_TXT_TABLE

@@ -43,34 +43,76 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_OFFSET_LOCATOR_HPP_
-#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_OFFSET_LOCATOR_HPP_
+#ifndef SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_
 
-#include <cstddef>
+#include <windows.h>
+#include <compare>
 #include <filesystem>
-
-#include "game_address_locator.hpp"
+#include <typeindex>
 
 namespace mapi {
 
-class GameOffsetLocator : public IGameAddressLocator {
+class FileVersion {
  public:
-  GameOffsetLocator() = delete;
+  using VersionType = std::tuple<DWORD, DWORD, DWORD, DWORD>;
 
-  GameOffsetLocator(
-      std::filesystem::path library_path,
-      std::ptrdiff_t offset
+  FileVersion(
+      const std::filesystem::path& file_path
   );
 
-  ~GameOffsetLocator() override;
+  FileVersion(
+      std::filesystem::path&& file_path
+  );
 
-  GameAddress LocateGameAddress() override;
+  FileVersion(
+      const std::filesystem::path& file_path,
+      const VersionType& version
+  );
+
+  FileVersion(
+      std::filesystem::path&& file_path,
+      VersionType&& version
+  );
+
+  FileVersion(const FileVersion& file_version);
+  FileVersion(FileVersion&& file_version) noexcept;
+
+  ~FileVersion();
+
+  FileVersion& operator=(const FileVersion& file_version);
+  FileVersion& operator=(FileVersion&& file_version) noexcept;
+
+  friend bool operator==(
+      const FileVersion& lhs,
+      const FileVersion& rhs
+  ) = default;
+
+  friend std::strong_ordering operator<=>(
+      const FileVersion& lhs,
+      const FileVersion& rhs
+  ) = default;
+
+  const VersionType& version() const noexcept;
 
  private:
-  std::filesystem::path library_path_;
-  std::ptrdiff_t offset_;
+  std::filesystem::path file_path_;
+  VersionType version_;
+
+  static VersionType ReadFileVersion(
+      const std::filesystem::path& file_path
+  );
 };
 
 } // namespace mapi
 
-#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_LOCATOR_GAME_OFFSET_LOCATOR_HPP_
+namespace std {
+
+template <>
+struct std::hash<mapi::FileVersion> {
+  std::size_t operator()(const mapi::FileVersion& file_version) const;
+};
+
+} // namespace std
+
+#endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_

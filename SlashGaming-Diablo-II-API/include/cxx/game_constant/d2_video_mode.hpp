@@ -59,11 +59,11 @@ namespace d2 {
  */
 
 enum class VideoMode {
-  kGDI,
+  kGdi,
   kSoftware,
   kDirectDraw,
   kGlide,
-  kOpenGL,
+  kOpenGl,
   kDirect3D,
   kRave,
 };
@@ -73,11 +73,11 @@ enum class VideoMode {
  */
 
 enum class VideoMode_1_00 : std::int32_t {
-  kGDI = 1,
+  kGdi = 1,
   kSoftware,
   kDirectDraw,
   kGlide,
-  kOpenGL,
+  kOpenGl,
   kDirect3D,
   kRave
 };

@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_variable/bnclient/bnclient_gateway_ip_v4_address.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../backend/game_address_table.hpp"
 
 namespace d2::bnclient {
@@ -56,7 +57,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "BNClient.dll",
+      ::mapi::DefaultLibrary::kBNClient,
       "GatewayIpV4Address"
   );
 

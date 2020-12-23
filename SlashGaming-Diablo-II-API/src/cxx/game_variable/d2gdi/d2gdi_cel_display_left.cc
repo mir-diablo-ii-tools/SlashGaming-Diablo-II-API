@@ -49,6 +49,7 @@
 
 #include "../../../../include/cxx/game_variable/d2gdi/d2gdi_cel_display_left.hpp"
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "../../backend/game_address_table.hpp"
 
 namespace d2::d2gdi {
@@ -56,7 +57,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      "D2GDI.dll",
+      ::mapi::DefaultLibrary::kD2GDI,
       "CelDisplayLeft"
   );
 

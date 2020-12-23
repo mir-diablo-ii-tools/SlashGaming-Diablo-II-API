@@ -43,8 +43,8 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_ADDRESS_TABLE_HPP_
-#define SGD2MAPI_CXX_GAME_ADDRESS_TABLE_HPP_
+#ifndef SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_
+#define SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_
 
 #include <filesystem>
 #include <string_view>
@@ -54,10 +54,15 @@
 namespace mapi {
 
 GameAddress LoadGameAddress(
-    std::filesystem::path library_path,
+    DefaultLibrary library_id,
+    std::string_view address_name
+);
+
+GameAddress LoadGameAddress(
+    const std::filesystem::path& library_path,
     std::string_view address_name
 );
 
 } // namespace mapi
 
-#endif // SGD2MAPI_CXX_GAME_ADDRESS_TABLE_HPP_
+#endif // SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_

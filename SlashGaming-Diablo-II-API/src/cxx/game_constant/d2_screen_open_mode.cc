@@ -49,33 +49,37 @@
 
 #include "../../../include/cxx/game_constant/d2_screen_open_mode.hpp"
 
-#include <unordered_map>
+#include <cassert>
 
 namespace d2 {
-namespace {
-
-static const std::unordered_map<ScreenOpenMode, ScreenOpenMode_1_07> kTo1_07 = {
-    { ScreenOpenMode::kNone, ScreenOpenMode_1_07::kNone },
-    { ScreenOpenMode::kRight, ScreenOpenMode_1_07::kRight },
-    { ScreenOpenMode::kLeft, ScreenOpenMode_1_07::kLeft },
-    { ScreenOpenMode::kBoth, ScreenOpenMode_1_07::kBoth },
-};
-
-static const std::unordered_map<ScreenOpenMode_1_07, ScreenOpenMode> kFrom1_07 = {
-    { ScreenOpenMode_1_07::kNone, ScreenOpenMode::kNone },
-    { ScreenOpenMode_1_07::kRight, ScreenOpenMode::kRight },
-    { ScreenOpenMode_1_07::kLeft, ScreenOpenMode::kLeft },
-    { ScreenOpenMode_1_07::kBoth, ScreenOpenMode::kBoth },
-};
-
-} // namespace
 
 int ToGameValue(ScreenOpenMode api_value) {
   return static_cast<int>(ToGameValue_1_07(api_value));
 }
 
 ScreenOpenMode_1_07 ToGameValue_1_07(ScreenOpenMode api_value) {
-  return kTo1_07.at(api_value);
+  switch (api_value) {
+    case ScreenOpenMode::kNone: {
+      return ScreenOpenMode_1_07::kNone;
+    }
+
+    case ScreenOpenMode::kRight: {
+      return ScreenOpenMode_1_07::kRight;
+    }
+
+    case ScreenOpenMode::kLeft: {
+      return ScreenOpenMode_1_07::kLeft;
+    }
+
+    case ScreenOpenMode::kBoth: {
+      return ScreenOpenMode_1_07::kBoth;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<ScreenOpenMode_1_07>(-1);
+    }
+  }
 }
 
 template <>
@@ -84,7 +88,28 @@ ScreenOpenMode ToApiValue<ScreenOpenMode>(int game_value) {
 }
 
 ScreenOpenMode ToApiValue_1_07(ScreenOpenMode_1_07 game_value) {
-  return kFrom1_07.at(game_value);
+  switch (game_value) {
+    case ScreenOpenMode_1_07::kNone: {
+      return ScreenOpenMode::kNone;
+    }
+
+    case ScreenOpenMode_1_07::kRight: {
+      return ScreenOpenMode::kRight;
+    }
+
+    case ScreenOpenMode_1_07::kLeft: {
+      return ScreenOpenMode::kLeft;
+    }
+
+    case ScreenOpenMode_1_07::kBoth: {
+      return ScreenOpenMode::kBoth;
+    }
+
+    default: {
+      assert(false);
+      return static_cast<ScreenOpenMode>(-1);
+    }
+  }
 }
 
 } // namespace d2
