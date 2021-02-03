@@ -45,7 +45,7 @@
 
 #include "architecture_opcode.hpp"
 
-#include "../../include/cxx/game_branch_type.hpp"
+#include "../../../include/cxx/game_branch_type.hpp"
 #include "../backend/error_handling.hpp"
 
 namespace mapi {

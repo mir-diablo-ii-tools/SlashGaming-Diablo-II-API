@@ -48,7 +48,7 @@
 
 #include <cstdint>
 
-#include "../../include/cxx/game_branch_type.hpp"
+#include "../../../include/cxx/game_branch_type.hpp"
 
 namespace mapi {
 

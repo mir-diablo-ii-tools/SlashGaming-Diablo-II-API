@@ -56,8 +56,8 @@
 #include <string_view>
 
 #include <fmt/format.h>
+#include "../../../../include/cxx/game_version.hpp"
 #include "../../../wide_macro.h"
-#include "../../include/cxx/game_version.hpp"
 #include "../encoding.hpp"
 #include "../error_handling.hpp"
 #include "../game_library.hpp"
