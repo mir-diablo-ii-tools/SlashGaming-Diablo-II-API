@@ -49,7 +49,7 @@
 #include <filesystem>
 #include <string_view>
 
-#include "../../include/cxx/game_address.hpp"
+#include "../../../include/cxx/game_address.hpp"
 
 namespace mapi {
 
