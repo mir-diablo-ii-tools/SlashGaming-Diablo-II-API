@@ -122,7 +122,7 @@ const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
 ) {
   // Redirect if the game version is 1.14 or higher.
   if (d2::IsRunningGameVersionAtLeast1_14()) {
-    return GetGameExecutablePath();
+    return game_executable::GetPath();
   }
 
   return GetDefaultLibraryPathWithoutRedirect(library);

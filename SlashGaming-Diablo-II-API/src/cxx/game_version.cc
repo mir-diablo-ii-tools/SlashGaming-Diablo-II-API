@@ -76,21 +76,21 @@ static const std::unordered_map<
       // DLLs.
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 0, 1 }
           ),
           GameVersion::k1_01
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 2, 0 }
           ),
           GameVersion::k1_02
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 3, 0 }
           ),
           GameVersion::k1_03
@@ -98,28 +98,28 @@ static const std::unordered_map<
       // 1.04B and 1.04C use the same DLLs.
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 4, 1 }
           ),
           GameVersion::k1_04B_C
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 4, 2 }
           ),
           GameVersion::k1_04B_C
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 5, 0 }
           ),
           GameVersion::k1_05
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 5, 1 }
           ),
           GameVersion::k1_05B
@@ -128,7 +128,7 @@ static const std::unordered_map<
       // DLLs.
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 6, 0 }
           ),
           GameVersion::k1_06
@@ -137,126 +137,126 @@ static const std::unordered_map<
       // different DLLs.
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 7, 0 }
           ),
           GameVersion::k1_07
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 8, 28 }
           ),
           GameVersion::k1_08
       },
       {
           mapi::FileVersion(
-                mapi::GetGameExecutablePath(),
+                mapi::game_executable::GetPath(),
               { 1, 0, 9, 19 }
           ),
           GameVersion::k1_09
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 9, 20 }
           ),
           GameVersion::k1_09B
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 9, 22 }
           ),
           GameVersion::k1_09D
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 10, 9 }
           ),
           GameVersion::k1_10Beta
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 10, 10 }
           ),
           GameVersion::k1_10SBeta
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 10, 39 }
           ),
           GameVersion::k1_10
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 11, 45 }
           ),
           GameVersion::k1_11
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 11, 46 }
           ),
           GameVersion::k1_11B
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 12, 49 }
           ),
           GameVersion::k1_12A
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 13, 55 }
           ),
           GameVersion::k1_13ABeta
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 13, 60 }
           ),
           GameVersion::k1_13C
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 10, 64 }
           ),
           GameVersion::k1_13D
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 14, 64 }
           ),
           GameVersion::kLod1_14A
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 14, 68 }
           ),
           GameVersion::kLod1_14B
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 14, 70 }
           ),
           GameVersion::kLod1_14C
       },
       {
           mapi::FileVersion(
-              mapi::GetGameExecutablePath(),
+              mapi::game_executable::GetPath(),
               { 1, 0, 14, 71 }
           ),
           GameVersion::kLod1_14D
@@ -358,7 +358,7 @@ static const std::unordered_map<
           {
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x120,
                       { 0x38, 0x81, 0xD4, 0x56 }
                   ),
@@ -366,7 +366,7 @@ static const std::unordered_map<
               },
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x120,
                       { 0x34, 0x81, 0xD4, 0x56 }
                   ),
@@ -379,7 +379,7 @@ static const std::unordered_map<
           {
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x110,
                       { 0xAE, 0x78, 0xFC, 0x56 }
                   ),
@@ -387,7 +387,7 @@ static const std::unordered_map<
               },
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x110,
                       { 0xA8, 0x78, 0xFC, 0x56 }
                   ),
@@ -400,7 +400,7 @@ static const std::unordered_map<
           {
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x110,
                       { 0x52, 0xDF, 0x2C, 0x57 }
                   ),
@@ -408,7 +408,7 @@ static const std::unordered_map<
               },
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x110,
                       { 0x4D, 0xDF, 0x2C, 0x57 }
                   ),
@@ -421,7 +421,7 @@ static const std::unordered_map<
           {
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x140,
                       { 0x00, 0x50, 0x0A, 0x00 }
                   ),
@@ -429,7 +429,7 @@ static const std::unordered_map<
               },
               {
                   mapi::FileSignature(
-                      mapi::GetGameExecutablePath(),
+                      mapi::game_executable::GetPath(),
                       0x140,
                       { 0x00, 0x60, 0x0A, 0x00 }
                   ),
@@ -498,7 +498,7 @@ static GameVersion DetermineGameVersionByGameData(
 }
 
 static GameVersion DetermineRunningGameVersion() {
-  mapi::FileVersion file_version(mapi::GetGameExecutablePath());
+  mapi::FileVersion file_version(mapi::game_executable::GetPath());
 
   // Perform first stage game version detection using the executable file
   // name.

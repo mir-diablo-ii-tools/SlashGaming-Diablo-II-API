@@ -50,14 +50,14 @@
 
 #include "../dllexport_define.inc"
 
-namespace mapi {
+namespace mapi::game_executable {
 
 /**
  * Returns the executable used to run the game.
  */
-DLLEXPORT const std::filesystem::path& GetGameExecutablePath();
+DLLEXPORT const std::filesystem::path& GetPath();
 
-} // namespace mapi
+} // namespace mapi::game_executable
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
