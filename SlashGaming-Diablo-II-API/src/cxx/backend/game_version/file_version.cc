@@ -45,50 +45,89 @@
 
 #include "file_version.hpp"
 
+#include <algorithm>
+#include <array>
+#include <utility>
+
+#include <fmt/format.h>
 #include "../error_handling.hpp"
 
 namespace mapi {
+namespace {
 
-FileVersion::FileVersion(
-    const std::filesystem::path& file_path
-) : FileVersion(std::filesystem::path(file_path)) {
-}
+using FileVersionTableEntry = std::pair<FileVersion, d2::GameVersion>;
 
-FileVersion::FileVersion(
-    std::filesystem::path&& file_path
-) : file_path_(std::move(file_path)),
-    version_(FileVersion::ReadFileVersion(file_path_)) {
-}
+struct FileVersionTableEntryCompareKey {
+  constexpr bool operator()(
+      const FileVersionTableEntry& entry1,
+      const FileVersionTableEntry& entry2
+  ) const noexcept {
+    return entry1.first < entry2.first;
+  }
 
-FileVersion::FileVersion(
-    const std::filesystem::path& file_path,
-    const VersionType& version
-) : FileVersion(
-        std::filesystem::path(file_path),
-        VersionType(version)
-    ) {
-}
+  constexpr bool operator()(
+      const FileVersionTableEntry& entry,
+      const FileVersion& file_version
+  ) const noexcept {
+    return entry.first < file_version;
+  }
 
-FileVersion::FileVersion(
-    std::filesystem::path&& file_path,
-    VersionType&& version
-) : file_path_(std::move(file_path)),
-    version_(std::move(version)) {
-}
+  constexpr bool operator()(
+      const FileVersion& file_version,
+      const FileVersionTableEntry& entry
+  ) const noexcept {
+    return file_version < entry.first;
+  }
+};
 
-FileVersion::FileVersion(const FileVersion& file_version) = default;
+static constexpr const std::array<FileVersionTableEntry, 26> kFileVersionSortedTable = {{
+    { FileVersion(1, 0, 0, 1), d2::GameVersion::k1_01 },
+    { FileVersion(1, 0, 2, 0), d2::GameVersion::k1_02 },
+    { FileVersion(1, 0, 3, 0), d2::GameVersion::k1_03 },
 
-FileVersion::FileVersion(FileVersion&& file_version) noexcept = default;
+    // 1.04B and 1.04C use the same DLLs.
+    { FileVersion(1, 0, 4, 1), d2::GameVersion::k1_04B_C },
+    { FileVersion(1, 0, 4, 2), d2::GameVersion::k1_04B_C },
+    { FileVersion(1, 0, 5, 0), d2::GameVersion::k1_05 },
+    { FileVersion(1, 0, 5, 1), d2::GameVersion::k1_05B },
 
-FileVersion::~FileVersion() = default;
+    // 1.06 & 1.06B have the same version #, but use completely
+    // different DLLs.
+    { FileVersion(1, 0, 6, 0), d2::GameVersion::k1_06B },
 
-FileVersion& FileVersion::operator=(
-    const FileVersion& file_version
-) = default;
+    // 1.07 Beta & 1.07 have the same version #, but use completely
+    // different DLLs.
+    { FileVersion(1, 0, 7, 0), d2::GameVersion::k1_07 },
+    { FileVersion(1, 0, 8, 28), d2::GameVersion::k1_08 },
+    { FileVersion(1, 0, 9, 19), d2::GameVersion::k1_09 },
+    { FileVersion(1, 0, 9, 20), d2::GameVersion::k1_09B },
+    { FileVersion(1, 0, 9, 22), d2::GameVersion::k1_09D },
+    { FileVersion(1, 0, 10, 9), d2::GameVersion::k1_10Beta },
+    { FileVersion(1, 0, 10, 10), d2::GameVersion::k1_10SBeta },
+    { FileVersion(1, 0, 10, 39), d2::GameVersion::k1_10 },
+    { FileVersion(1, 0, 11, 45), d2::GameVersion::k1_11 },
+    { FileVersion(1, 0, 11, 46), d2::GameVersion::k1_11B },
+    { FileVersion(1, 0, 12, 49), d2::GameVersion::k1_12A },
+    { FileVersion(1, 0, 13, 55), d2::GameVersion::k1_13ABeta },
+    { FileVersion(1, 0, 13, 60), d2::GameVersion::k1_13C },
+    { FileVersion(1, 0, 13, 64), d2::GameVersion::k1_13D },
 
-FileVersion& FileVersion::operator=(
-    FileVersion&& file_version
-) noexcept = default;
+    { FileVersion(1, 0, 14, 64), d2::GameVersion::kLod1_14A },
+    { FileVersion(1, 0, 14, 68), d2::GameVersion::kLod1_14B },
+    { FileVersion(1, 0, 14, 70), d2::GameVersion::kLod1_14C },
+    { FileVersion(1, 0, 14, 71), d2::GameVersion::kLod1_14D },
+}};
+
+// If this assertion compiles but produces a linter error, ignore it.
+static_assert(
+    std::is_sorted(
+        kFileVersionSortedTable.cbegin(),
+        kFileVersionSortedTable.cend(),
+        FileVersionTableEntryCompareKey()
+    )
+);
+
+} // namespace
 
 FileVersion::VersionType FileVersion::ReadFileVersion(
     const std::filesystem::path& file_path
@@ -163,23 +202,45 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 }
 
-const FileVersion::VersionType& FileVersion::version() const noexcept {
-  return this->version_;
+d2::GameVersion FileVersion::GetGameVersion(
+    const FileVersion& file_version
+) {
+  std::pair search_range = std::equal_range(
+      kFileVersionSortedTable.cbegin(),
+      kFileVersionSortedTable.cend(),
+      file_version,
+      FileVersionTableEntryCompareKey()
+  );
+
+  if (search_range.first != kFileVersionSortedTable.cend()) {
+    return search_range.first->second;
+  }
+
+  // Element could not be found.
+  std::wstring version_string = fmt::format(
+      L"{}.{}.{}.{}",
+      std::get<0>(file_version.version()),
+      std::get<1>(file_version.version()),
+      std::get<2>(file_version.version()),
+      std::get<3>(file_version.version()),
+      __FILEW__,
+      __LINE__
+  );
+
+  constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
+      L"the game version from the file version: \"{}\"";
+
+  std::wstring full_message = fmt::format(
+      kErrorFormatMessage,
+      version_string
+  );
+
+  mapi::ExitOnGeneralFailure(
+      full_message,
+      L"Failed to Determine Game Version",
+      __FILEW__,
+      __LINE__
+  );
 }
 
 } // namespace mapi
-
-std::size_t std::hash<mapi::FileVersion>::operator()(
-    const mapi::FileVersion& file_version
-) const {
-  std::hash<DWORD> dword_hasher;
-
-  std::tuple actual_version = file_version.version();
-
-  DWORD sum = std::get<0>(actual_version);
-  sum += std::get<1>(actual_version) * sizeof(CHAR_BIT);
-  sum += std::get<2>(actual_version) * sizeof(CHAR_BIT * 2);
-  sum += std::get<3>(actual_version) * sizeof(CHAR_BIT * 3);
-
-  return dword_hasher(sum);
-}

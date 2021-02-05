@@ -67,206 +67,6 @@ namespace d2 {
 namespace {
 
 static const std::unordered_map<
-    mapi::FileVersion, GameVersion
->& GetGameVersionsByFileVersions() {
-  static const std::unordered_map<
-      mapi::FileVersion, GameVersion
-  > kGameVersionsByFileVersions = {
-      // 1.00 & 1.01 have the same version #, but use completely different
-      // DLLs.
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 0, 1 }
-          ),
-          GameVersion::k1_01
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 2, 0 }
-          ),
-          GameVersion::k1_02
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 3, 0 }
-          ),
-          GameVersion::k1_03
-      },
-      // 1.04B and 1.04C use the same DLLs.
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 4, 1 }
-          ),
-          GameVersion::k1_04B_C
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 4, 2 }
-          ),
-          GameVersion::k1_04B_C
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 5, 0 }
-          ),
-          GameVersion::k1_05
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 5, 1 }
-          ),
-          GameVersion::k1_05B
-      },
-      // 1.06 & 1.06B have the same version #, but use completely different
-      // DLLs.
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 6, 0 }
-          ),
-          GameVersion::k1_06
-      },
-      // 1.07 Beta & 1.07 have the same version #, but use completely
-      // different DLLs.
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 7, 0 }
-          ),
-          GameVersion::k1_07
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 8, 28 }
-          ),
-          GameVersion::k1_08
-      },
-      {
-          mapi::FileVersion(
-                mapi::game_executable::GetPath(),
-              { 1, 0, 9, 19 }
-          ),
-          GameVersion::k1_09
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 9, 20 }
-          ),
-          GameVersion::k1_09B
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 9, 22 }
-          ),
-          GameVersion::k1_09D
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 10, 9 }
-          ),
-          GameVersion::k1_10Beta
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 10, 10 }
-          ),
-          GameVersion::k1_10SBeta
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 10, 39 }
-          ),
-          GameVersion::k1_10
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 11, 45 }
-          ),
-          GameVersion::k1_11
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 11, 46 }
-          ),
-          GameVersion::k1_11B
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 12, 49 }
-          ),
-          GameVersion::k1_12A
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 13, 55 }
-          ),
-          GameVersion::k1_13ABeta
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 13, 60 }
-          ),
-          GameVersion::k1_13C
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 10, 64 }
-          ),
-          GameVersion::k1_13D
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 14, 64 }
-          ),
-          GameVersion::kLod1_14A
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 14, 68 }
-          ),
-          GameVersion::kLod1_14B
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 14, 70 }
-          ),
-          GameVersion::kLod1_14C
-      },
-      {
-          mapi::FileVersion(
-              mapi::game_executable::GetPath(),
-              { 1, 0, 14, 71 }
-          ),
-          GameVersion::kLod1_14D
-      },
-  };
-
-  return kGameVersionsByFileVersions;
-}
-
-static const std::unordered_map<
     GameVersion,
     std::map<mapi::FileSignature, GameVersion>
 >& GetFileSignaturesByGameVersions() {
@@ -442,39 +242,6 @@ static const std::unordered_map<
   return kFileSignaturesByGameVersions;
 }
 
-static GameVersion DetermineGameVersionByFileVersion(
-    const mapi::FileVersion& file_version
-) {
-  try {
-    return GetGameVersionsByFileVersions().at(file_version);
-  } catch(const std::out_of_range& e) {
-    std::wstring version_string = fmt::format(
-        L"{}.{}.{}.{}",
-        std::get<0>(file_version.version()),
-        std::get<1>(file_version.version()),
-        std::get<2>(file_version.version()),
-        std::get<3>(file_version.version()),
-        __FILEW__,
-        __LINE__
-    );
-
-    constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
-        L"the game version from the file version: \"{}\"";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        version_string
-    );
-
-    mapi::ExitOnGeneralFailure(
-        full_message,
-        L"Failed to Determine Game Version",
-        __FILEW__,
-        __LINE__
-    );
-  }
-}
-
 static GameVersion DetermineGameVersionByGameData(
     GameVersion game_version
 ) {
@@ -498,13 +265,13 @@ static GameVersion DetermineGameVersionByGameData(
 }
 
 static GameVersion DetermineRunningGameVersion() {
-  mapi::FileVersion file_version(mapi::game_executable::GetPath());
+  mapi::FileVersion file_version = mapi::FileVersion::ReadFileVersion(
+      mapi::game_executable::GetPath()
+  );
 
   // Perform first stage game version detection using the executable file
   // name.
-  GameVersion game_version = DetermineGameVersionByFileVersion(
-      file_version
-  );
+  GameVersion game_version = mapi::FileVersion::GetGameVersion(file_version);
 
   // Perform second stage game version detection by checking the bytes of game
   // libraries.

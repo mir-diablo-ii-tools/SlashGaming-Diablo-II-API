@@ -47,9 +47,11 @@
 #define SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_
 
 #include <windows.h>
+
 #include <compare>
 #include <filesystem>
-#include <typeindex>
+
+#include "../../../../include/cxx/game_version.hpp"
 
 namespace mapi {
 
@@ -57,62 +59,76 @@ class FileVersion {
  public:
   using VersionType = std::tuple<DWORD, DWORD, DWORD, DWORD>;
 
-  FileVersion(
-      const std::filesystem::path& file_path
-  );
+  FileVersion() = delete;
 
-  FileVersion(
-      std::filesystem::path&& file_path
-  );
-
-  FileVersion(
-      const std::filesystem::path& file_path,
+  constexpr FileVersion(
       const VersionType& version
-  );
+  ) noexcept
+      : version_(version) {
+  }
 
-  FileVersion(
-      std::filesystem::path&& file_path,
+  constexpr FileVersion(
       VersionType&& version
-  );
+  ) noexcept
+      : version_(std::move(version)) {
+  }
 
-  FileVersion(const FileVersion& file_version);
-  FileVersion(FileVersion&& file_version) noexcept;
+  constexpr FileVersion(
+      DWORD major_version_left,
+      DWORD major_version_right,
+      DWORD minor_version_left,
+      DWORD minor_version_right
+  ) noexcept
+      : version_(
+            VersionType(
+                major_version_left,
+                major_version_right,
+                minor_version_left,
+                minor_version_right
+            )
+        ) {
+  }
 
-  ~FileVersion();
+  constexpr FileVersion(const FileVersion& file_version) noexcept = default;
 
-  FileVersion& operator=(const FileVersion& file_version);
-  FileVersion& operator=(FileVersion&& file_version) noexcept;
+  constexpr FileVersion(FileVersion&& file_version) noexcept = default;
 
-  friend bool operator==(
+  ~FileVersion() noexcept = default;
+
+  constexpr FileVersion& operator=(
+      const FileVersion& file_version
+  ) noexcept = default;
+
+  constexpr FileVersion& operator=(
+      FileVersion&& file_version
+  ) noexcept = default;
+
+  constexpr friend bool operator==(
       const FileVersion& lhs,
       const FileVersion& rhs
   ) = default;
 
-  friend std::strong_ordering operator<=>(
+  constexpr friend std::strong_ordering operator<=>(
       const FileVersion& lhs,
       const FileVersion& rhs
   ) = default;
-
-  const VersionType& version() const noexcept;
-
- private:
-  std::filesystem::path file_path_;
-  VersionType version_;
 
   static VersionType ReadFileVersion(
       const std::filesystem::path& file_path
   );
+
+  static d2::GameVersion GetGameVersion(
+      const FileVersion& file_version
+  );
+
+  constexpr const VersionType& version() const noexcept {
+    return this->version_;
+  }
+
+ private:
+  VersionType version_;
 };
 
 } // namespace mapi
-
-namespace std {
-
-template <>
-struct std::hash<mapi::FileVersion> {
-  std::size_t operator()(const mapi::FileVersion& file_version) const;
-};
-
-} // namespace std
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_
