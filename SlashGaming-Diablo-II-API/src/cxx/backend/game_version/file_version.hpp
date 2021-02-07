@@ -117,7 +117,7 @@ class FileVersion {
       const std::filesystem::path& file_path
   );
 
-  static d2::GameVersion GetGameVersion(
+  static d2::GameVersion GuessGameVersion(
       const FileVersion& file_version
   );
 

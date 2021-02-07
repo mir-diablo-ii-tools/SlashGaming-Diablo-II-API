@@ -202,7 +202,7 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 }
 
-d2::GameVersion FileVersion::GetGameVersion(
+d2::GameVersion FileVersion::GuessGameVersion(
     const FileVersion& file_version
 ) {
   std::pair search_range = std::equal_range(
