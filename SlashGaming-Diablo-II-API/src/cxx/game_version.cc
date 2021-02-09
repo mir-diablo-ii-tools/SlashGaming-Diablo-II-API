@@ -48,221 +48,18 @@
 #include <windows.h>
 #include <cstdint>
 #include <filesystem>
-#include <map>
 #include <string>
 #include <string_view>
-#include <unordered_map>
-#include <unordered_set>
 
 #include <fmt/format.h>
-#include "../../include/cxx/game_address.hpp"
 #include "../../include/cxx/game_executable.hpp"
 #include "../wide_macro.h"
-#include "backend/encoding.hpp"
 #include "backend/error_handling.hpp"
 #include "backend/game_version/file_signature.hpp"
 #include "backend/game_version/file_version.hpp"
 
 namespace d2 {
 namespace {
-
-static const std::unordered_map<
-    GameVersion,
-    std::map<mapi::FileSignature, GameVersion>
->& GetFileSignaturesByGameVersions() {
-  static const std::unordered_map<
-      GameVersion,
-      std::map<mapi::FileSignature, GameVersion>
-  > kFileSignaturesByGameVersions = {
-      {
-          GameVersion::k1_01,
-          {
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0x79, 0xBD, 0x20, 0x39 }
-                  ),
-                  GameVersion::kBeta1_02
-              },
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0xB7, 0x70, 0xD0, 0x38 }
-                  ),
-                  GameVersion::kBeta1_02StressTest
-              },
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0xBC, 0xC7, 0x2E, 0x39 }
-                  ),
-                  GameVersion::k1_00
-              },
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0x25, 0x47, 0x52, 0x39 }
-                  ),
-                  GameVersion::k1_01
-              },
-          }
-      },
-      {
-          GameVersion::k1_06B,
-          {
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0x43, 0x0C, 0xD6, 0x3A }
-                  ),
-                  GameVersion::k1_06
-              },
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0xC1, 0x7B, 0xE0, 0x3A }
-                  ),
-                  GameVersion::k1_06B
-              },
-          }
-      },
-      {
-          GameVersion::k1_07,
-          {
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0x32, 0xA6, 0xDC, 0x3A }
-                  ),
-                  GameVersion::k1_07Beta
-              },
-              {
-                  mapi::FileSignature(
-                      L"storm.dll",
-                      0xF0,
-                      { 0xB5, 0x92, 0xF5, 0x3A }
-                  ),
-                  GameVersion::k1_07
-              },
-          }
-      },
-      {
-          GameVersion::kLod1_14A,
-          {
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x120,
-                      { 0x38, 0x81, 0xD4, 0x56 }
-                  ),
-                  GameVersion::kClassic1_14A
-              },
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x120,
-                      { 0x34, 0x81, 0xD4, 0x56 }
-                  ),
-                  GameVersion::kLod1_14A
-              },
-          }
-      },
-      {
-          GameVersion::kLod1_14B,
-          {
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x110,
-                      { 0xAE, 0x78, 0xFC, 0x56 }
-                  ),
-                  GameVersion::kClassic1_14B
-              },
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x110,
-                      { 0xA8, 0x78, 0xFC, 0x56 }
-                  ),
-                  GameVersion::kLod1_14B
-              },
-          }
-      },
-      {
-          GameVersion::kLod1_14C,
-          {
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x110,
-                      { 0x52, 0xDF, 0x2C, 0x57 }
-                  ),
-                  GameVersion::kClassic1_14C
-              },
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x110,
-                      { 0x4D, 0xDF, 0x2C, 0x57 }
-                  ),
-                  GameVersion::kLod1_14C
-              },
-          }
-      },
-      {
-          GameVersion::kLod1_14D,
-          {
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x140,
-                      { 0x00, 0x50, 0x0A, 0x00 }
-                  ),
-                  GameVersion::kClassic1_14D
-              },
-              {
-                  mapi::FileSignature(
-                      mapi::game_executable::GetPath(),
-                      0x140,
-                      { 0x00, 0x60, 0x0A, 0x00 }
-                  ),
-                  GameVersion::kLod1_14D
-              },
-          }
-      },
-  };
-
-  return kFileSignaturesByGameVersions;
-}
-
-static GameVersion DetermineGameVersionByGameData(
-    GameVersion game_version
-) {
-  if (!GetFileSignaturesByGameVersions().contains(game_version)) {
-    return game_version;
-  }
-
-  const std::map<
-      mapi::FileSignature,
-      GameVersion
-  >& file_signature_map = GetFileSignaturesByGameVersions().at(game_version);
-
-  mapi::FileSignature actual_file_signature =
-      file_signature_map.cbegin()->first.ReadActual();
-
-  if (!file_signature_map.contains(actual_file_signature)) {
-    return game_version;
-  }
-
-  return file_signature_map.at(actual_file_signature);
-}
 
 static GameVersion DetermineRunningGameVersion() {
   // Perform first stage game version detection using the executable file
@@ -273,7 +70,9 @@ static GameVersion DetermineRunningGameVersion() {
 
   // Perform second stage game version detection by checking the bytes of game
   // libraries.
-  game_version = DetermineGameVersionByGameData(game_version);
+  GameVersion game_version = mapi::internal::FileSignature::GetGameVersion(
+      guess_game_version
+  );
 
   return game_version;
 }
