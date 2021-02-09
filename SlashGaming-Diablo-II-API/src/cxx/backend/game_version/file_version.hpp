@@ -53,7 +53,7 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi {
+namespace mapi::internal {
 
 class FileVersion {
  public:
@@ -61,13 +61,13 @@ class FileVersion {
 
   FileVersion() = delete;
 
-  constexpr FileVersion(
+  explicit constexpr FileVersion(
       const VersionType& version
   ) noexcept
       : version_(version) {
   }
 
-  constexpr FileVersion(
+  explicit constexpr FileVersion(
       VersionType&& version
   ) noexcept
       : version_(std::move(version)) {
@@ -113,12 +113,8 @@ class FileVersion {
       const FileVersion& rhs
   ) = default;
 
-  static VersionType ReadFileVersion(
-      const std::filesystem::path& file_path
-  );
-
   static d2::GameVersion GuessGameVersion(
-      const FileVersion& file_version
+      std::wstring_view raw_path
   );
 
   constexpr const VersionType& version() const noexcept {
@@ -127,8 +123,16 @@ class FileVersion {
 
  private:
   VersionType version_;
+
+  static FileVersion ReadFileVersion(
+      std::wstring_view raw_path
+  );
+
+  static d2::GameVersion SearchTable(
+      const FileVersion& file_version
+  );
 };
 
-} // namespace mapi
+} // namespace mapi::internal
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_

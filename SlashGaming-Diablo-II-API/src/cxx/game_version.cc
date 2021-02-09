@@ -265,13 +265,11 @@ static GameVersion DetermineGameVersionByGameData(
 }
 
 static GameVersion DetermineRunningGameVersion() {
-  mapi::FileVersion file_version = mapi::FileVersion::ReadFileVersion(
-      mapi::game_executable::GetPath()
-  );
-
   // Perform first stage game version detection using the executable file
   // name.
-  GameVersion game_version = mapi::FileVersion::GuessGameVersion(file_version);
+  GameVersion guess_game_version = mapi::internal::FileVersion::GuessGameVersion(
+      mapi::game_executable::GetPath().c_str()
+  );
 
   // Perform second stage game version detection by checking the bytes of game
   // libraries.

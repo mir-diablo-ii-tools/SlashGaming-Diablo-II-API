@@ -52,7 +52,7 @@
 #include <fmt/format.h>
 #include "../error_handling.hpp"
 
-namespace mapi {
+namespace mapi::internal {
 namespace {
 
 using FileVersionTableEntry = std::pair<FileVersion, d2::GameVersion>;
@@ -80,7 +80,10 @@ struct FileVersionTableEntryCompareKey {
   }
 };
 
-static constexpr const std::array<FileVersionTableEntry, 26> kFileVersionSortedTable = {{
+static constexpr const std::array<
+    FileVersionTableEntry,
+    26
+> kFileVersionSortedTable = {{
     { FileVersion(1, 0, 0, 1), d2::GameVersion::k1_01 },
     { FileVersion(1, 0, 2, 0), d2::GameVersion::k1_02 },
     { FileVersion(1, 0, 3, 0), d2::GameVersion::k1_03 },
@@ -129,12 +132,20 @@ static_assert(
 
 } // namespace
 
-FileVersion::VersionType FileVersion::ReadFileVersion(
-    const std::filesystem::path& file_path
+d2::GameVersion FileVersion::GuessGameVersion(
+    std::wstring_view raw_path
+) {
+  FileVersion file_version = ReadFileVersion(raw_path);
+
+  return SearchTable(file_version);
+}
+
+FileVersion FileVersion::ReadFileVersion(
+    std::wstring_view raw_path
 ) {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.
-  const wchar_t* file_path_text_cstr = file_path.c_str();
+  const wchar_t* file_path_text_cstr = raw_path.data();
 
   // Check version size.
   DWORD ignored;
@@ -194,7 +205,7 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   // Doesn't matter if you are on 32 bit or 64 bit,
   // DWORD is always 32 bits, so first two revision numbers
   // come from dwFileVersionMS, last two come from dwFileVersionLS
-  return VersionType(
+  return FileVersion(
       (version_info->dwFileVersionMS >> 16) & 0xFFFF,
       (version_info->dwFileVersionMS >> 0) & 0xFFFF,
       (version_info->dwFileVersionLS >> 16) & 0xFFFF,
@@ -202,7 +213,7 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 }
 
-d2::GameVersion FileVersion::GuessGameVersion(
+d2::GameVersion FileVersion::SearchTable(
     const FileVersion& file_version
 ) {
   std::pair search_range = std::equal_range(
@@ -222,9 +233,7 @@ d2::GameVersion FileVersion::GuessGameVersion(
       std::get<0>(file_version.version()),
       std::get<1>(file_version.version()),
       std::get<2>(file_version.version()),
-      std::get<3>(file_version.version()),
-      __FILEW__,
-      __LINE__
+      std::get<3>(file_version.version())
   );
 
   constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
@@ -243,4 +252,4 @@ d2::GameVersion FileVersion::GuessGameVersion(
   );
 }
 
-} // namespace mapi
+} // namespace mapi::internal
