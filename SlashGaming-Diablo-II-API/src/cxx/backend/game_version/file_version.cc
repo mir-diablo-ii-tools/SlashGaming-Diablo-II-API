@@ -49,8 +49,8 @@
 #include <array>
 #include <utility>
 
-#include <fmt/format.h>
-#include "../error_handling.hpp"
+#include <mdc/error/exit_on_error.h>
+#include <mdc/wchar_t/filew.h>
 
 namespace mapi::internal {
 namespace {
@@ -155,12 +155,14 @@ FileVersion FileVersion::ReadFileVersion(
   );
 
   if (file_version_info_size == 0) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"GetFileVersionInfoSizeW",
-        GetLastError(),
+    Mdc_Error_ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"GetFileVersionInfoSizeW",
+        GetLastError()
     );
+
+    return FileVersion(0, 0, 0, 0);
   }
 
   // Get the file version info.
@@ -173,12 +175,14 @@ FileVersion FileVersion::ReadFileVersion(
   );
 
   if (!is_get_file_version_info_success) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"GetFileVersionInfoW",
-        GetLastError(),
+    Mdc_Error_ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"GetFileVersionInfoW",
+        GetLastError()
     );
+
+    return FileVersion(0, 0, 0, 0);
   }
 
   // Gather all of the information into the specified buffer, then check
@@ -194,12 +198,14 @@ FileVersion FileVersion::ReadFileVersion(
   );
 
   if (!is_ver_query_value_success) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"VerQueryValueW",
-        GetLastError(),
+    Mdc_Error_ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"VerQueryValueW",
+        GetLastError()
     );
+
+    return FileVersion(0, 0, 0, 0);
   }
 
   // Doesn't matter if you are on 32 bit or 64 bit,
@@ -223,33 +229,23 @@ d2::GameVersion FileVersion::SearchTable(
       FileVersionTableEntryCompareKey()
   );
 
-  if (search_range.first != kFileVersionSortedTable.cend()) {
-    return search_range.first->second;
+  if (search_range.first == kFileVersionSortedTable.cend()) {
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"Could not map the file version %d.%d.%d.%d to a known game"
+            L"version.",
+        __FILEW__,
+        __LINE__,
+        std::get<0>(file_version.version()),
+        std::get<1>(file_version.version()),
+        std::get<2>(file_version.version()),
+        std::get<3>(file_version.version())
+    );
+
+    return static_cast<d2::GameVersion>(-1);
   }
 
-  // Element could not be found.
-  std::wstring version_string = fmt::format(
-      L"{}.{}.{}.{}",
-      std::get<0>(file_version.version()),
-      std::get<1>(file_version.version()),
-      std::get<2>(file_version.version()),
-      std::get<3>(file_version.version())
-  );
-
-  constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
-      L"the game version from the file version: \"{}\"";
-
-  std::wstring full_message = fmt::format(
-      kErrorFormatMessage,
-      version_string
-  );
-
-  mapi::ExitOnGeneralFailure(
-      full_message,
-      L"Failed to Determine Game Version",
-      __FILEW__,
-      __LINE__
-  );
+  return search_range.first->second;
 }
 
 } // namespace mapi::internal
