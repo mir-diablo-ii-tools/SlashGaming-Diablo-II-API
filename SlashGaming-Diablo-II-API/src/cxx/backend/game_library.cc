@@ -46,16 +46,10 @@
 #include "game_library.hpp"
 
 #include <windows.h>
-#include <cstdint>
-#include <filesystem>
-#include <map>
-#include <stdexcept>
-#include <string>
-#include <string_view>
+#include <cassert>
 
-#include <fmt/format.h>
-#include "error_handling.hpp"
-#include "../../wide_macro.h"
+#include <mdc/error/exit_on_error.h>
+#include <mdc/wchar_t/filew.h>
 
 namespace mapi {
 
@@ -105,28 +99,13 @@ GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {
 const GameLibrary& GameLibrary::GetGameLibrary(
     const std::filesystem::path& file_path
 ) {
-  if (!GetLibrariesByPaths().contains(file_path)) {
-    GetLibrariesByPaths().insert_or_assign(
-        file_path,
-        GameLibrary(file_path)
-    );
-  }
+  GetLibrariesByPaths().insert(
+      std::pair(file_path, GameLibrary(file_path))
+  );
 
-  try {
-    return GetLibrariesByPaths().at(file_path);
-  } catch (const std::out_of_range& e) {
-    std::wstring full_message = fmt::format(
-        L"Could not determine the game library from the file path: {}.",
-        file_path.wstring().data()
-    );
+  assert(GetLibrariesByPaths().contains(file_path));
 
-    ExitOnGeneralFailure(
-        full_message,
-        L"Failed to Determine Game Library",
-        __FILEW__,
-        __LINE__
-    );
-  }
+  return GetLibrariesByPaths().at(file_path);
 }
 
 std::intptr_t GameLibrary::base_address() const noexcept {
@@ -151,12 +130,14 @@ std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(
   HMODULE base_address = LoadLibraryW(file_path_text_wide.data());
 
   if (base_address == nullptr) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"LoadLibraryW",
-        GetLastError(),
+    Mdc_Error_ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"LoadLibraryW",
+        GetLastError()
     );
+
+    return 0;
   }
 
   return reinterpret_cast<std::intptr_t>(base_address);
