@@ -55,11 +55,10 @@
 #include <string>
 #include <string_view>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.h>
+#include <mdc/wchar_t/wide_decoding.h>
+#include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_version.hpp"
-#include "../../../wide_macro.h"
-#include "../encoding.hpp"
-#include "../error_handling.hpp"
 #include "../game_library.hpp"
 #include "game_address_locator/game_address_locator.hpp"
 #include "game_address_locator/game_decorated_name_locator.hpp"
@@ -106,46 +105,41 @@ std::unique_ptr<IGameAddressLocator> ResolveLocator(
   }
 
   // Should never occur!
-  constexpr std::wstring_view kErrorFormatMessage =
+  auto address_name_wide = std::make_unique<wchar_t[]>(
+      Mdc_Wide_DecodeUtf8Length(address_name.data()) + 1
+  );
+
+  Mdc_Wide_DecodeUtf8(address_name_wide.get(), address_name.data());
+
+  auto locator_type_wide = std::make_unique<wchar_t[]>(
+      Mdc_Wide_DecodeUtf8Length(locator_type.data()) + 1
+  );
+
+  Mdc_Wide_DecodeUtf8(locator_type_wide.get(), locator_type.data());
+
+  auto locator_value_wide = std::make_unique<wchar_t[]>(
+      Mdc_Wide_DecodeUtf8Length(locator_value.data()) + 1
+  );
+
+  Mdc_Wide_DecodeUtf8(locator_value_wide.get(), locator_value.data());
+
+  Mdc_Error_ExitOnGeneralError(
+      L"Error",
       L"Unknown locator type specified. \n"
-      L"\n"
-      L"Library Path: {} \n"
-      L"Address Name: {} \n"
-      L"Locator Type: {} \n"
-      L"Locator Value: {}";
-
-  std::wstring address_name_wide = ConvertMultiByteUtf8ToWide(
-      address_name,
+          L"\n"
+          L"Library Path: %ls \n"
+          L"Address Name: %ls \n"
+          L"Locator Type: %ls \n"
+          L"Locator Value: %ls",
       __FILEW__,
-      __LINE__
+      __LINE__,
+      library_path.c_str(),
+      address_name_wide.get(),
+      locator_type_wide.get(),
+      locator_value_wide.get()
   );
 
-  std::wstring locator_type_wide = ConvertMultiByteUtf8ToWide(
-      locator_type,
-      __FILEW__,
-      __LINE__
-  );
-
-  std::wstring locator_value_wide = ConvertMultiByteUtf8ToWide(
-      locator_value,
-      __FILEW__,
-      __LINE__
-  );
-
-  std::wstring full_message = fmt::format(
-      kErrorFormatMessage,
-      library_path.wstring(),
-      address_name_wide,
-      locator_type_wide,
-      locator_value_wide
-  );
-
-  ExitOnGeneralFailure(
-      full_message,
-      L"Unknown Locator Type",
-      __FILEW__,
-      __LINE__
-  );
+  return nullptr;
 }
 
 } // namespace
@@ -160,39 +154,29 @@ GameAddressTable ReadTsvTableFile(
 
   // Open the file and check for it to be valid.
   if (!std::filesystem::exists(table_file_path)) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"The file {} does not exist.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        table_file_path.wstring()
-    );
-
-    ExitOnGeneralFailure(
-        full_message,
-        L"Could Not Locate Address Table",
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"The file %ls does not exist.",
         __FILEW__,
-        __LINE__
+        __LINE__,
+        table_file_path.c_str()
     );
+
+    return GameAddressTable();
   }
 
   std::ifstream address_table_file_stream(table_file_path);
 
   if (!address_table_file_stream) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"The address table in {} could not be opened.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        table_file_path.wstring()
-    );
-
-    ExitOnGeneralFailure(
-        full_message,
-        L"Could Not Open Address Table",
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"The address table in %ls could not be opened.",
         __FILEW__,
-        __LINE__
+        __LINE__,
+        table_file_path.c_str()
     );
+
+    return GameAddressTable();
   }
 
   // Discard the header line, because it's for humans.
