@@ -45,10 +45,9 @@
 
 #include "../../../include/cxx/game_patch.hpp"
 
-#include <fmt/format.h>
-#include "../../wide_macro.h"
+#include <mdc/error/exit_on_error.h>
+#include <mdc/wchar_t/filew.h>
 #include "../backend/architecture_opcode.hpp"
-#include "../backend/error_handling.hpp"
 
 namespace mapi {
 
@@ -80,21 +79,16 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 
   // Check that the patch size is large enough to allow the insertion of the
   // branch call.
-  if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
-    constexpr std::wstring_view kErrorFormatMessage =
-          L"The patch size specified at address {:X} is too small to perform a "
-          L"branch patch.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        game_address.raw_address()
-    );
-
-    ExitOnGeneralFailure(
-        full_message,
-        L"Failed to Patch Game",
+  if (patch_size < kBranchPatchMinSize) {
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"The specified back branch patch at 0x%X requires a minimum "
+            L"size of %u bytes. The size specified is %u.",
         __FILEW__,
-        __LINE__
+        __LINE__,
+        game_address.raw_address(),
+        kBranchPatchMinSize,
+        patch_size
     );
   }
 

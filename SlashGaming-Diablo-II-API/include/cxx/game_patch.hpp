@@ -63,6 +63,9 @@ namespace mapi {
  */
 class DLLEXPORT GamePatch {
  public:
+  static constexpr const std::size_t kBranchPatchMinSize =
+      sizeof(void(*)()) + sizeof(std::uint8_t);
+
   GamePatch(const GamePatch& game_patch) = delete;
 
   GamePatch(GamePatch&& game_patch) noexcept;
