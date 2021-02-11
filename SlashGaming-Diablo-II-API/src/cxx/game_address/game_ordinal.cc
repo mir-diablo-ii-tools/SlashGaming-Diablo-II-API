@@ -47,8 +47,8 @@
 
 #include <windows.h>
 
-#include <fmt/format.h>
-#include "../backend/error_handling.hpp"
+#include <mdc/error/exit_on_error.h>
+#include <mdc/wchar_t/filew.h>
 #include "../backend/game_library.hpp"
 
 namespace mapi {
@@ -75,26 +75,19 @@ GameAddress GameAddress::FromOrdinal(
   );
 
   if (func_address == nullptr) {
-    DWORD last_error = GetLastError();
-
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"The data or function with the ordinal {} from {} could not be "
-        L"found.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        ordinal,
-        game_library.file_path().wstring()
-    );
-
-    ExitOnWindowsFunctionGeneralFailureWithLastError(
-        full_message,
-        L"Failed to Locate Address",
-        L"GetProcAddress",
-        last_error,
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"%ls failed with error code 0x%X. Could not locate "
+            L"exported ordinal %hd from the path %ls.",
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"GetProcAddress",
+        GetLastError(),
+        ordinal,
+        library_path.c_str()
     );
+
+    return GameAddress(0);
   }
 
   return GameAddress(reinterpret_cast<std::intptr_t>(func_address));
