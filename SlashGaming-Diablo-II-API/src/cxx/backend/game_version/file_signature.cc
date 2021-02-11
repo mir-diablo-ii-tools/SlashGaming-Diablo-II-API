@@ -49,9 +49,9 @@
 #include <fstream>
 #include <utility>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.h>
+#include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_executable.hpp"
-#include "../error_handling.hpp"
 
 namespace mapi::internal {
 namespace {
@@ -397,14 +397,10 @@ FileSignatureLocation GetSignatureLocation(
     }
 
     default: {
-      ExitOnGeneralFailure(
-          fmt::format(
-              L"Failed to get signature location for game version: {}.",
-              static_cast<int>(file_version_guess_game_version)
-          ),
-          L"Error",
+      Mdc_Error_ExitOnConstantMappingError(
           __FILEW__,
-          __LINE__
+          __LINE__,
+          static_cast<int>(file_version_guess_game_version)
       );
 
       return FileSignatureLocation(nullptr, 0);
@@ -456,17 +452,18 @@ d2::GameVersion FileSignature::SearchTable(
       FileSignatureTableEntryCompareKey()
   );
 
-  if (search_range.first != kFileSignatureSortedTable.cend()) {
-    return search_range.first->second;
+  if (search_range.first == kFileSignatureSortedTable.cend()) {
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"Could not determine the game version from the file signature.",
+        __FILEW__,
+        __LINE__
+    );
+
+    return static_cast<d2::GameVersion>(-1);
   }
 
-  // Element could not be found.
-  mapi::ExitOnGeneralFailure(
-      L"Could not determine the game version from the file signature.",
-      L"Error",
-      __FILEW__,
-      __LINE__
-  );
+  return search_range.first->second;
 }
 
 } // namespace mapi::internal
