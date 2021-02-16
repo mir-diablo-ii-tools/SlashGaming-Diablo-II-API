@@ -48,12 +48,11 @@
 #include <windows.h>
 #include <vector>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_function/d2gfx/d2gfx_draw_cel_context.hpp"
 #include "../../../../include/cxx/game_struct/d2_cel/d2_cel_view.hpp"
 #include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_api.hpp"
-#include "../../../wide_macro.h"
-#include "../../backend/error_handling.hpp"
 
 namespace d2 {
 
@@ -219,21 +218,15 @@ bool CelFile_Wrapper::DrawAllFrames(
     }
 
     default: {
-      constexpr std::wstring_view kErrorFormatMessage =
-          L"Invalid value for DrawPositionXBehavior: "
-          L"{}.";
-
-      std::wstring full_message = fmt::format(
-          kErrorFormatMessage,
+      ::mdc::error::ExitOnGeneralError(
+          L"Error",
+          L"Invalid value for DrawPositionXBehavior: %d.",
+          __FILEW__,
+          __LINE__,
           static_cast<int>(all_frames_options.position_x_behavior)
       );
 
-      mapi::ExitOnGeneralFailure(
-          full_message,
-          L"Invalid Value",
-          __FILEW__,
-          __LINE__
-      );
+      return false;
     }
   }
 
@@ -254,21 +247,15 @@ bool CelFile_Wrapper::DrawAllFrames(
     }
 
     default: {
-      constexpr std::wstring_view kErrorFormatMessage =
-          L"Invalid value for DrawPositionYBehavior: "
-          L"{}.";
-
-      std::wstring full_message = fmt::format(
-          kErrorFormatMessage,
-          static_cast<int>(all_frames_options.position_y_behavior)
-      );
-
-      mapi::ExitOnGeneralFailure(
-          full_message,
-          L"Invalid Value",
+      ::mdc::error::ExitOnGeneralError(
+          L"Error",
+          L"Invalid value for DrawPositionYBehavior: %d.",
           __FILEW__,
-          __LINE__
+          __LINE__,
+          static_cast<int>(all_frames_options.position_x_behavior)
       );
+
+      return false;
     }
   }
 
