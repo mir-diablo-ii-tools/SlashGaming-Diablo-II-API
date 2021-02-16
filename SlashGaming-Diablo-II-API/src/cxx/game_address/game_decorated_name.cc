@@ -47,59 +47,68 @@
 
 #include <windows.h>
 
-#include <fmt/format.h>
-#include "../backend/encoding.hpp"
-#include "../backend/error_handling.hpp"
+#include <array>
+
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
+#include <mdc/wchar_t/wide_decoding.hpp>
 #include "../backend/game_library.hpp"
 
 namespace mapi {
 
 GameAddress GameAddress::FromDecoratedName(
     DefaultLibrary default_library,
-    std::string_view decorated_name
+    std::string_view exported_name
 ) {
   const std::filesystem::path& default_library_path =
       GetDefaultLibraryPathWithRedirect(default_library);
 
-  return FromDecoratedName(default_library_path, decorated_name);
+  return FromDecoratedName(default_library_path, exported_name);
 }
 
 GameAddress GameAddress::FromDecoratedName(
     const std::filesystem::path& library_path,
-    std::string_view decorated_name
+    std::string_view exported_name
 ) {
+  static constexpr std::size_t kExportedNameWideCapacity = 1024;
+
+  static std::array<wchar_t, kExportedNameWideCapacity> exported_name_wide;
+
   const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
 
   FARPROC raw_address = GetProcAddress(
       reinterpret_cast<HMODULE>(game_library.base_address()),
-      decorated_name.data()
+      exported_name.data()
   );
 
   if (raw_address == nullptr) {
-    DWORD last_error = GetLastError();
+    std::size_t exported_name_wide_length = ::mdc::wide::DecodeAsciiLength(
+        exported_name.data()
+    );
 
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"The data or function with the name {} could not be found.";
+    const wchar_t* exported_name_wide_ptr;
 
-    std::wstring wide_decorated_name = ConvertMultiByteUtf8ToWide(
-        decorated_name,
+    if (exported_name_wide_length >= kExportedNameWideCapacity) {
+      exported_name_wide_ptr = L"**Name is longer than character limit**";
+    } else {
+      exported_name_wide_ptr = ::mdc::wide::DecodeAscii(
+          exported_name_wide.data(),
+          exported_name.data()
+      );
+    }
+
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"%ls failed with error code 0x%X. Could not locate exported "
+            L"name %ls.",
         __FILEW__,
-        __LINE__
-    );
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        wide_decorated_name
-    );
-
-    ExitOnWindowsFunctionGeneralFailureWithLastError(
-        full_message,
-        L"Failed to Locate Address",
+        __LINE__,
         L"GetProcAddress",
-        last_error,
-        __FILEW__,
-        __LINE__
+        GetLastError(),
+        exported_name_wide_ptr
     );
+
+    return GameAddress(0);
   }
 
   return GameAddress(reinterpret_cast<std::intptr_t>(raw_address));
