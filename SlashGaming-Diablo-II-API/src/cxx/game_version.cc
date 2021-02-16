@@ -51,10 +51,9 @@
 #include <string>
 #include <string_view>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
-#include "../wide_macro.h"
-#include "backend/error_handling.hpp"
 #include "backend/game_version/file_signature.hpp"
 #include "backend/game_version/file_version.hpp"
 
@@ -211,21 +210,13 @@ std::u8string_view GetGameVersionName(GameVersion game_version) {
     }
 
     default: {
-      constexpr std::wstring_view kErrorFormatMessage =
-          L"Could not determine the game version name from the game "
-              L"version ID: {}.";
-
-      std::wstring full_message = fmt::format(
-          kErrorFormatMessage,
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
           static_cast<int>(game_version)
       );
 
-      mapi::ExitOnGeneralFailure(
-          full_message,
-          L"Failed to Determine Game Version ID",
-          __FILEW__,
-          __LINE__
-      );
+      return u8"";
     }
   }
 }
