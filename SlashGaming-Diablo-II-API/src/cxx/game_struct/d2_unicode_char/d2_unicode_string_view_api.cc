@@ -48,7 +48,8 @@
 #include <windows.h>
 #include <stdexcept>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_function/d2lang_function.hpp"
 #include "../../../../include/cxx/game_function/d2win_function.hpp"
 #include "../../../../include/cxx/game_version.hpp"
@@ -645,28 +646,15 @@ void UnicodeStringView_Api::Draw(
     }
 
     default: {
-      constexpr std::wstring_view kErrorFormatMessage =
-          L"File: {} \n"
-          L"Line: {} \n"
-          L"\n"
-          L"Invalid value for DrawPositionXBehavior: "
-          L"{}.";
-
-      std::wstring full_message = fmt::format(
-          kErrorFormatMessage,
+      ::mdc::error::ExitOnGeneralError(
+          L"Error",
+          L"Invalid value for DrawPositionXBehavior: %d.",
           __FILEW__,
           __LINE__,
           static_cast<int>(options.position_x_behavior)
       );
 
-      MessageBoxW(
-          nullptr,
-          full_message.data(),
-          L"Invalid Value",
-          MB_OK | MB_ICONERROR
-      );
-
-      std::exit(0);
+      return;
     }
   }
 
