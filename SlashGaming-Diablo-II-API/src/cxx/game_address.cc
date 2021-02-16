@@ -45,18 +45,7 @@
 
 #include "../../include/cxx/game_address.hpp"
 
-#include <windows.h>
 #include <cstdint>
-#include <filesystem>
-#include <string>
-#include <string_view>
-
-#include <fmt/format.h>
-#include "../../include/cxx/default_game_library.hpp"
-#include "../wide_macro.h"
-#include "backend/encoding.hpp"
-#include "backend/error_handling.hpp"
-#include "backend/game_library.hpp"
 
 namespace mapi {
 
