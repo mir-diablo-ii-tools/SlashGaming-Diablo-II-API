@@ -45,10 +45,8 @@
 
 #include "../../include/cxx/default_game_library.hpp"
 
-#include <stdexcept>
-#include <string>
-#include <string_view>
-#include <unordered_map>
+#include <algorithm>
+#include <array>
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
@@ -58,47 +56,70 @@
 namespace mapi {
 namespace {
 
-const std::unordered_map<
+using DefaultLibraryPathTableEntry = ::std::pair<
     DefaultLibrary,
     std::filesystem::path
->& GetPathsByDefaultLibraries() {
-  static const std::unordered_map<
-      DefaultLibrary,
-      std::filesystem::path
-  > kPathsByDefaultLibraries = {
-      { DefaultLibrary::kBNClient, "BNClient.dll" },
-      { DefaultLibrary::kD2Client, "D2Client.dll" },
-      { DefaultLibrary::kD2CMP, "D2CMP.dll" },
-      { DefaultLibrary::kD2Common, "D2Common.dll" },
-      { DefaultLibrary::kD2DDraw, "D2DDraw.dll" },
-      { DefaultLibrary::kD2Direct3D, "D2Direct3D.dll" },
-      { DefaultLibrary::kD2Game, "D2Game.dll" },
-      { DefaultLibrary::kD2GDI, "D2GDI.dll" },
-      { DefaultLibrary::kD2GFX, "D2GFX.dll" },
-      { DefaultLibrary::kD2Glide, "D2Glide.dll" },
-      { DefaultLibrary::kD2Lang, "D2Lang.dll" },
-      { DefaultLibrary::kD2Launch, "D2Launch.dll" },
-      { DefaultLibrary::kD2MCPClient, "D2MCPClient.dll" },
-      { DefaultLibrary::kD2Multi, "D2Multi.dll" },
-      { DefaultLibrary::kD2Net, "D2Net.dll" },
-      { DefaultLibrary::kD2Server, "D2Server.dll" },
-      { DefaultLibrary::kD2Sound, "D2Sound.dll" },
-      { DefaultLibrary::kD2Win, "D2Win.dll" },
-      { DefaultLibrary::kFog, "Fog.dll" },
-      { DefaultLibrary::kStorm, "Storm.dll" },
-  };
+>;
 
-  return kPathsByDefaultLibraries;
-}
+struct DefaultLibraryPathTableEntryCompareKey {
+  constexpr bool operator()(
+      const DefaultLibraryPathTableEntry& entry1,
+      const DefaultLibraryPathTableEntry& entry2
+  ) const noexcept {
+    return entry1.first < entry2.first;
+  }
 
-} // namespace
+  constexpr bool operator()(
+      DefaultLibrary library,
+      const DefaultLibraryPathTableEntry& entry
+  ) const noexcept {
+    return library < entry.first;
+  }
 
-const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
-    DefaultLibrary library
-) {
-  try {
-    return GetPathsByDefaultLibraries().at(library);
-  } catch (const std::out_of_range& e) {
+  constexpr bool operator()(
+      const DefaultLibraryPathTableEntry& entry,
+      DefaultLibrary library
+  ) const noexcept {
+    return entry.first < library;
+  }
+};
+
+static const std::filesystem::path&
+SearchDefaultLibraryPath(DefaultLibrary library) {
+  static const std::array<
+      DefaultLibraryPathTableEntry,
+      20
+  > kDefaultLibraryPathTable = {{
+      { DefaultLibrary::kBNClient, L"BNClient.dll" },
+      { DefaultLibrary::kD2Client, L"D2Client.dll" },
+      { DefaultLibrary::kD2CMP, L"D2CMP.dll" },
+      { DefaultLibrary::kD2Common, L"D2Common.dll" },
+      { DefaultLibrary::kD2DDraw, L"D2DDraw.dll" },
+      { DefaultLibrary::kD2Direct3D, L"D2Direct3D.dll" },
+      { DefaultLibrary::kD2Game, L"D2Game.dll" },
+      { DefaultLibrary::kD2GDI, L"D2GDI.dll" },
+      { DefaultLibrary::kD2GFX, L"D2GFX.dll" },
+      { DefaultLibrary::kD2Glide, L"D2Glide.dll" },
+      { DefaultLibrary::kD2Lang, L"D2Lang.dll" },
+      { DefaultLibrary::kD2Launch, L"D2Launch.dll" },
+      { DefaultLibrary::kD2MCPClient, L"D2MCPClient.dll" },
+      { DefaultLibrary::kD2Multi, L"D2Multi.dll" },
+      { DefaultLibrary::kD2Net, L"D2Net.dll" },
+      { DefaultLibrary::kD2Server, L"D2Server.dll" },
+      { DefaultLibrary::kD2Sound, L"D2Sound.dll" },
+      { DefaultLibrary::kD2Win, L"D2Win.dll" },
+      { DefaultLibrary::kFog, L"Fog.dll" },
+      { DefaultLibrary::kStorm, L"Storm.dll" },
+  }};
+
+  ::std::pair search_range = ::std::equal_range(
+      kDefaultLibraryPathTable.cbegin(),
+      kDefaultLibraryPathTable.cend(),
+      library,
+      DefaultLibraryPathTableEntryCompareKey()
+  );
+
+  if (search_range.first == kDefaultLibraryPathTable.cend()) {
     ::mdc::error::ExitOnConstantMappingError(
         __FILEW__,
         __LINE__,
@@ -107,6 +128,16 @@ const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
 
     return "";
   }
+
+  return search_range.first->second;
+}
+
+} // namespace
+
+const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
+    DefaultLibrary library
+) {
+  return SearchDefaultLibraryPath(library);
 }
 
 const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
