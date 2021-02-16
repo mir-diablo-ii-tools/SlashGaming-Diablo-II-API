@@ -53,9 +53,9 @@
 #include <string>
 #include <string_view>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include <mjsoni/rapid_json_config_reader.hpp>
-#include "error_handling.hpp"
 
 namespace mapi {
 namespace {
@@ -274,37 +274,23 @@ mjsoni::RapidJsonConfigReader ReadConfig(
 
   bool is_read = config_reader.Read();
   if (!is_read) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"Failed to read config in: {}";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        config_file_path.wstring().data()
-    );
-
-    ExitOnGeneralFailure(
-        full_message.data(),
-        L"Failed to Read Config",
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"Failed to read config in %ls.",
         __FILEW__,
-        __LINE__
+        __LINE__,
+        config_file_path.c_str()
     );
   }
 
   bool is_missing_entry_added = AddMissingConfigEntries(config_reader);
   if (!is_missing_entry_added) {
-    constexpr std::wstring_view kErrorFormatMessage =
-        L"Failed add missing entries to the config in: {}";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        config_file_path.wstring().data()
-    );
-
-    ExitOnGeneralFailure(
-        full_message.data(),
-        L"Failed to Add Missing Entries to Config",
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"Failed add missing entries to the config in %ls.",
         __FILEW__,
-        __LINE__
+        __LINE__,
+        config_file_path.c_str()
     );
   }
 
