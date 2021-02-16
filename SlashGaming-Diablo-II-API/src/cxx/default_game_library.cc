@@ -50,11 +50,10 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <fmt/format.h>
-#include "backend/error_handling.hpp"
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
 #include "../../include/cxx/game_version.hpp"
-#include "../wide_macro.h"
 
 namespace mapi {
 namespace {
@@ -100,20 +99,13 @@ const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
   try {
     return GetPathsByDefaultLibraries().at(library);
   } catch (const std::out_of_range& e) {
-    constexpr std::wstring_view kErrorFormatMessage = L"Could not determine "
-        L"the game library path from the library ID: {}.";
-
-    std::wstring message = fmt::format(
-        kErrorFormatMessage,
+    ::mdc::error::ExitOnConstantMappingError(
+        __FILEW__,
+        __LINE__,
         static_cast<int>(library)
     );
 
-    ExitOnGeneralFailure(
-        message,
-        L"Failed to Determine Game Library Path",
-        __FILEW__,
-        __LINE__
-    );
+    return "";
   }
 }
 
