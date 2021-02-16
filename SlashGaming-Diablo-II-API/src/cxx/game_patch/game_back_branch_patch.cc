@@ -45,7 +45,7 @@
 
 #include "../../../include/cxx/game_patch.hpp"
 
-#include <mdc/error/exit_on_error.h>
+#include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../backend/architecture_opcode.hpp"
 
@@ -80,7 +80,7 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
   // Check that the patch size is large enough to allow the insertion of the
   // branch call.
   if (patch_size < kBranchPatchMinSize) {
-    Mdc_Error_ExitOnGeneralError(
+    ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"The specified back branch patch at 0x%X requires a minimum "
             L"size of %u bytes. The size specified is %u.",
@@ -89,6 +89,11 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
         game_address.raw_address(),
         kBranchPatchMinSize,
         patch_size
+    );
+
+    return GamePatch(
+        GameAddress::FromOffset(L"", 0),
+        {}
     );
   }
 
