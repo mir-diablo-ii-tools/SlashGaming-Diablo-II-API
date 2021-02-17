@@ -49,7 +49,7 @@
 #include <array>
 #include <utility>
 
-#include <mdc/error/exit_on_error.h>
+#include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 
 namespace mapi::internal {
@@ -155,7 +155,7 @@ FileVersion FileVersion::ReadFileVersion(
   );
 
   if (file_version_info_size == 0) {
-    Mdc_Error_ExitOnWindowsFunctionError(
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
         __LINE__,
         L"GetFileVersionInfoSizeW",
@@ -175,7 +175,7 @@ FileVersion FileVersion::ReadFileVersion(
   );
 
   if (!is_get_file_version_info_success) {
-    Mdc_Error_ExitOnWindowsFunctionError(
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
         __LINE__,
         L"GetFileVersionInfoW",
@@ -198,7 +198,7 @@ FileVersion FileVersion::ReadFileVersion(
   );
 
   if (!is_ver_query_value_success) {
-    Mdc_Error_ExitOnWindowsFunctionError(
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
         __LINE__,
         L"VerQueryValueW",
@@ -230,7 +230,7 @@ d2::GameVersion FileVersion::SearchTable(
   );
 
   if (search_range.first == kFileVersionSortedTable.cend()) {
-    Mdc_Error_ExitOnGeneralError(
+    ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"Could not map the file version %d.%d.%d.%d to a known game"
             L"version.",

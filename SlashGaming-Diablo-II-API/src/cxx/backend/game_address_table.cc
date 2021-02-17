@@ -50,9 +50,9 @@
 #include <string>
 #include <string_view>
 
-#include <mdc/error/exit_on_error.h>
+#include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
-#include <mdc/wchar_t/wide_decoding.h>
+#include <mdc/wchar_t/wide_decoding.hpp>
 #include "game_address_table/game_address_table_impl.hpp"
 
 namespace mapi {
@@ -67,18 +67,16 @@ namespace {
   constexpr std::wstring_view kErrorFormatMessage =
         L"Address not defined for library: {}, address name: {}.";
 
-  auto address_name_wide = std::make_unique<wchar_t[]>(
-      Mdc_Wide_DecodeUtf8Length(address_name.data()) + 1
+  ::std::wstring address_name_wide = ::mdc::wide::DecodeUtf8(
+      address_name.data()
   );
 
-  Mdc_Wide_DecodeUtf8(address_name_wide.get(), address_name.data());
-
-  Mdc_Error_ExitOnGeneralError(
+  ::mdc::error::ExitOnGeneralError(
       L"Error",
       L"Could not locate address named \"%ls\" for library with path %ls.",
       source_code_file_path.data(),
       source_code_line,
-      address_name_wide.get(),
+      address_name_wide.data(),
       library_path.c_str()
   );
 }

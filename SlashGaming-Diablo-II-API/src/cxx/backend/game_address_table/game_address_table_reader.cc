@@ -55,8 +55,8 @@
 #include <string>
 #include <string_view>
 
-#include <mdc/error/exit_on_error.h>
-#include <mdc/wchar_t/wide_decoding.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/wide_decoding.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_version.hpp"
 #include "../game_library.hpp"
@@ -105,25 +105,19 @@ std::unique_ptr<IGameAddressLocator> ResolveLocator(
   }
 
   // Should never occur!
-  auto address_name_wide = std::make_unique<wchar_t[]>(
-      Mdc_Wide_DecodeUtf8Length(address_name.data()) + 1
+  ::std::wstring address_name_wide = ::mdc::wide::DecodeUtf8(
+      address_name.data()
   );
 
-  Mdc_Wide_DecodeUtf8(address_name_wide.get(), address_name.data());
-
-  auto locator_type_wide = std::make_unique<wchar_t[]>(
-      Mdc_Wide_DecodeUtf8Length(locator_type.data()) + 1
+  ::std::wstring locator_type_wide = ::mdc::wide::DecodeUtf8(
+      locator_type.data()
   );
 
-  Mdc_Wide_DecodeUtf8(locator_type_wide.get(), locator_type.data());
-
-  auto locator_value_wide = std::make_unique<wchar_t[]>(
-      Mdc_Wide_DecodeUtf8Length(locator_value.data()) + 1
+  ::std::wstring locator_value_wide = ::mdc::wide::DecodeUtf8(
+      locator_value.data()
   );
 
-  Mdc_Wide_DecodeUtf8(locator_value_wide.get(), locator_value.data());
-
-  Mdc_Error_ExitOnGeneralError(
+  ::mdc::error::ExitOnGeneralError(
       L"Error",
       L"Unknown locator type specified. \n"
           L"\n"
@@ -134,9 +128,9 @@ std::unique_ptr<IGameAddressLocator> ResolveLocator(
       __FILEW__,
       __LINE__,
       library_path.c_str(),
-      address_name_wide.get(),
-      locator_type_wide.get(),
-      locator_value_wide.get()
+      address_name_wide.data(),
+      locator_type_wide.data(),
+      locator_value_wide.data()
   );
 
   return nullptr;
@@ -168,7 +162,7 @@ GameAddressTable ReadTsvTableFile(
   std::ifstream address_table_file_stream(table_file_path);
 
   if (!address_table_file_stream) {
-    Mdc_Error_ExitOnGeneralError(
+    ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"The address table in %ls could not be opened.",
         __FILEW__,

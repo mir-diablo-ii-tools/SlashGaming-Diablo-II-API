@@ -49,7 +49,7 @@
 #include <fstream>
 #include <utility>
 
-#include <mdc/error/exit_on_error.h>
+#include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_executable.hpp"
 
@@ -397,7 +397,7 @@ FileSignatureLocation GetSignatureLocation(
     }
 
     default: {
-      Mdc_Error_ExitOnConstantMappingError(
+      ::mdc::error::ExitOnConstantMappingError(
           __FILEW__,
           __LINE__,
           static_cast<int>(file_version_guess_game_version)
@@ -453,7 +453,7 @@ d2::GameVersion FileSignature::SearchTable(
   );
 
   if (search_range.first == kFileSignatureSortedTable.cend()) {
-    Mdc_Error_ExitOnGeneralError(
+    ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"Could not determine the game version from the file signature.",
         __FILEW__,

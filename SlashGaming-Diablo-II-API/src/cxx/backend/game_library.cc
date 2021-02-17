@@ -48,7 +48,7 @@
 #include <windows.h>
 #include <cassert>
 
-#include <mdc/error/exit_on_error.h>
+#include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 
 namespace mapi {
@@ -130,7 +130,7 @@ std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(
   HMODULE base_address = LoadLibraryW(file_path_text_wide.data());
 
   if (base_address == nullptr) {
-    Mdc_Error_ExitOnWindowsFunctionError(
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
         __LINE__,
         L"LoadLibraryW",

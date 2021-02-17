@@ -155,7 +155,7 @@ GameAddress GameAddress::FromOrdinal(
   );
 
   if (func_address == nullptr) {
-    Mdc_Error_ExitOnGeneralError(
+    ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"%ls failed with error code 0x%X. Could not locate "
             L"exported ordinal %hd from the path %ls.",
