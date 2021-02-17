@@ -45,8 +45,132 @@
 
 #include "../../include/cxx/game_address.hpp"
 
+#include <windows.h>
 #include <cstdint>
+#include <array>
+
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
+#include <mdc/wchar_t/wide_decoding.hpp>
+#include "backend/game_library.hpp"
 
 namespace mapi {
+
+GameAddress GameAddress::FromDecoratedName(
+    DefaultLibrary default_library,
+    std::string_view exported_name
+) {
+  const std::filesystem::path& default_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
+
+  return FromDecoratedName(default_library_path, exported_name);
+}
+
+GameAddress GameAddress::FromDecoratedName(
+    const std::filesystem::path& library_path,
+    std::string_view exported_name
+) {
+  static constexpr std::size_t kExportedNameWideCapacity = 1024;
+
+  static std::array<wchar_t, kExportedNameWideCapacity> exported_name_wide;
+
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  FARPROC raw_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      exported_name.data()
+  );
+
+  if (raw_address == nullptr) {
+    std::size_t exported_name_wide_length = ::mdc::wide::DecodeAsciiLength(
+        exported_name.data()
+    );
+
+    const wchar_t* exported_name_wide_ptr;
+
+    if (exported_name_wide_length >= kExportedNameWideCapacity) {
+      exported_name_wide_ptr = L"**Name is longer than character limit**";
+    } else {
+      exported_name_wide_ptr = ::mdc::wide::DecodeAscii(
+          exported_name_wide.data(),
+          exported_name.data()
+      );
+    }
+
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"%ls failed with error code 0x%X. Could not locate exported "
+            L"name %ls.",
+        __FILEW__,
+        __LINE__,
+        L"GetProcAddress",
+        GetLastError(),
+        exported_name_wide_ptr
+    );
+
+    return GameAddress(0);
+  }
+
+  return GameAddress(reinterpret_cast<std::intptr_t>(raw_address));
+}
+
+GameAddress GameAddress::FromOffset(
+    DefaultLibrary default_library,
+    std::ptrdiff_t offset
+) {
+  const std::filesystem::path& game_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
+
+  return FromOffset(game_library_path, offset);
+}
+
+GameAddress GameAddress::FromOffset(
+    const std::filesystem::path& library_path,
+    std::ptrdiff_t offset
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  return GameAddress(game_library.base_address() + offset);
+}
+
+GameAddress GameAddress::FromOrdinal(
+    DefaultLibrary default_library,
+    std::int16_t ordinal
+) {
+  const std::filesystem::path& game_library_path =
+      GetDefaultLibraryPathWithRedirect(default_library);
+
+  return FromOrdinal(game_library_path, ordinal);
+}
+
+GameAddress GameAddress::FromOrdinal(
+    const std::filesystem::path& library_path,
+    std::int16_t ordinal
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  FARPROC func_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      reinterpret_cast<const char*>(ordinal)
+  );
+
+  if (func_address == nullptr) {
+    Mdc_Error_ExitOnGeneralError(
+        L"Error",
+        L"%ls failed with error code 0x%X. Could not locate "
+            L"exported ordinal %hd from the path %ls.",
+        __FILEW__,
+        __LINE__,
+        L"GetProcAddress",
+        GetLastError(),
+        ordinal,
+        library_path.c_str()
+    );
+
+    return GameAddress(0);
+  }
+
+  return GameAddress(reinterpret_cast<std::intptr_t>(func_address));
+}
 
 } // namespace mapi
