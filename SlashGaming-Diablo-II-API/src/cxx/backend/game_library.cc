@@ -54,14 +54,7 @@
 namespace mapi {
 
 GameLibrary::GameLibrary(
-  const std::filesystem::path& file_path
-)
-    : file_path_(file_path),
-      base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
-}
-
-GameLibrary::GameLibrary(
-    std::filesystem::path&& file_path
+  std::filesystem::path file_path
 )
     : file_path_(std::move(file_path)),
       base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
@@ -77,7 +70,16 @@ GameLibrary::~GameLibrary() {
   HMODULE module_handle = reinterpret_cast<HMODULE>(this->base_address());
 
   if (module_handle != nullptr) {
-    FreeLibrary(module_handle);
+    BOOL is_free_library_success = FreeLibrary(module_handle);
+
+    if (!is_free_library_success) {
+      ::mdc::error::ExitOnWindowsFunctionError(
+          __FILEW__,
+          __LINE__,
+          L"FreeLibrary",
+          GetLastError()
+      );
+    }
   }
 
   this->base_address_ = reinterpret_cast<std::intptr_t>(nullptr);
@@ -99,21 +101,15 @@ GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {
 const GameLibrary& GameLibrary::GetGameLibrary(
     const std::filesystem::path& file_path
 ) {
-  GetLibrariesByPaths().insert(
-      std::pair(file_path, GameLibrary(file_path))
-  );
+  if (!GetLibrariesByPaths().contains(file_path)) {
+    GetLibrariesByPaths().insert(
+        std::pair(file_path, GameLibrary(file_path))
+    );
+  }
 
   assert(GetLibrariesByPaths().contains(file_path));
 
   return GetLibrariesByPaths().at(file_path);
-}
-
-std::intptr_t GameLibrary::base_address() const noexcept {
-  return base_address_;
-}
-
-const std::filesystem::path& GameLibrary::file_path() const noexcept {
-  return file_path_;
 }
 
 std::map<std::filesystem::path, GameLibrary>&
@@ -126,8 +122,7 @@ GameLibrary::GetLibrariesByPaths() {
 std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(
     const std::filesystem::path& file_path
 ) {
-  std::wstring file_path_text_wide = file_path.wstring();
-  HMODULE base_address = LoadLibraryW(file_path_text_wide.data());
+  HMODULE base_address = LoadLibraryW(file_path.c_str());
 
   if (base_address == nullptr) {
     ::mdc::error::ExitOnWindowsFunctionError(
