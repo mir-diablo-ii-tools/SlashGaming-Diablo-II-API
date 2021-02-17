@@ -62,7 +62,9 @@ namespace mapi {
  */
 class DLLEXPORT GameAddress {
  public:
-  std::intptr_t raw_address() const noexcept;
+  constexpr std::intptr_t raw_address() const noexcept {
+    return this->raw_address_;
+  }
 
   /**
    * Returns a game address that uses a string encoded in 7-bit ASCII to
@@ -119,7 +121,9 @@ class DLLEXPORT GameAddress {
   );
 
  private:
-  explicit GameAddress(std::intptr_t raw_address) noexcept;
+  constexpr explicit GameAddress(std::intptr_t raw_address) noexcept
+      : raw_address_(raw_address) {
+  }
 
   std::intptr_t raw_address_;
 };

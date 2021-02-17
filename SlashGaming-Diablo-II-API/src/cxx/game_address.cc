@@ -49,14 +49,4 @@
 
 namespace mapi {
 
-GameAddress::GameAddress(
-    std::intptr_t raw_address
-) noexcept
-    : raw_address_(raw_address) {
-}
-
-std::intptr_t GameAddress::raw_address() const noexcept {
-  return raw_address_;
-}
-
 } // namespace mapi
