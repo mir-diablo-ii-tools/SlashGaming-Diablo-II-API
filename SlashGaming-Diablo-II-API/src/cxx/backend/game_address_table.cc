@@ -67,7 +67,7 @@ static const GameAddressTable& GetGameAddressTable() {
 } // namespace
 
 GameAddress LoadGameAddress(
-    DefaultLibrary library,
+    d2::DefaultLibrary library,
     std::string_view address_name
 ) {
   const GameAddressTable& game_address_table = GetGameAddressTable();
@@ -111,7 +111,7 @@ GameAddress LoadGameAddress(
         static_cast<int>(library)
     );
 
-    return GameAddress::FromOffset(static_cast<DefaultLibrary>(-1), 0);
+    return GameAddress::FromOffset(static_cast<d2::DefaultLibrary>(-1), 0);
   }
 
   return search_range.first->second.LocateGameAddress();

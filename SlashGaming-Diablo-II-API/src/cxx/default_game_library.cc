@@ -53,7 +53,7 @@
 #include "../../include/cxx/game_executable.hpp"
 #include "../../include/cxx/game_version.hpp"
 
-namespace mapi {
+namespace d2 {
 namespace {
 
 using DefaultLibraryPathTableEntry = ::std::pair<
@@ -145,10 +145,10 @@ const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
 ) {
   // Redirect if the game version is 1.14 or higher.
   if (d2::IsRunningGameVersionAtLeast1_14()) {
-    return game_executable::GetPath();
+    return ::mapi::game_executable::GetPath();
   }
 
   return GetDefaultLibraryPathWithoutRedirect(library);
 }
 
-} // namespace mapi
+} // namespace d2

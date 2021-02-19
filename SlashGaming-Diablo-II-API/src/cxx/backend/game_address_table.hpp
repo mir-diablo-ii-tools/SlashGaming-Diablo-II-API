@@ -49,12 +49,13 @@
 #include <filesystem>
 #include <string_view>
 
+#include "../../../include/cxx/default_game_library.hpp"
 #include "../../../include/cxx/game_address.hpp"
 
 namespace mapi {
 
 GameAddress LoadGameAddress(
-    DefaultLibrary library_id,
+    ::d2::DefaultLibrary library,
     std::string_view address_name
 );
 

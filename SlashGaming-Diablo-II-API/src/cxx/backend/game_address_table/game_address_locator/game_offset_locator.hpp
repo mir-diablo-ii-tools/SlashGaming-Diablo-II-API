@@ -58,7 +58,7 @@ class GameOffsetLocator {
   GameOffsetLocator() = delete;
 
   constexpr GameOffsetLocator(
-      DefaultLibrary library,
+      ::d2::DefaultLibrary library,
       ::std::ptrdiff_t offset
   ) noexcept
       : library_(library),
@@ -67,7 +67,7 @@ class GameOffsetLocator {
 
   GameAddress LocateGameAddress() const noexcept;
 
-  constexpr ::mapi::DefaultLibrary library() const noexcept {
+  constexpr ::d2::DefaultLibrary library() const noexcept {
     return this->library_;
   }
 
@@ -76,7 +76,7 @@ class GameOffsetLocator {
   }
 
  private:
-  DefaultLibrary library_;
+  ::d2::DefaultLibrary library_;
   ::std::ptrdiff_t offset_;
 };
 

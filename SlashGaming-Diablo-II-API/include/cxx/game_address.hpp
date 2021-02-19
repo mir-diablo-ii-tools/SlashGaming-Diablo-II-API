@@ -71,7 +71,7 @@ class DLLEXPORT GameAddress {
    * specify a location in game memory.
    */
   static GameAddress FromDecoratedName(
-      DefaultLibrary default_library,
+      ::d2::DefaultLibrary library,
       std::string_view decorated_name
   );
 
@@ -89,7 +89,7 @@ class DLLEXPORT GameAddress {
    * game memory.
    */
   static GameAddress FromOffset(
-      DefaultLibrary default_library,
+      ::d2::DefaultLibrary library,
       std::ptrdiff_t offset
   );
 
@@ -107,7 +107,7 @@ class DLLEXPORT GameAddress {
    * in game memory.
    */
   static GameAddress FromOrdinal(
-      DefaultLibrary default_library,
+      ::d2::DefaultLibrary library,
       std::int16_t ordinal
   );
 

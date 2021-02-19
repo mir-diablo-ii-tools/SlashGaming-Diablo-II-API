@@ -57,11 +57,11 @@
 namespace mapi {
 
 GameAddress GameAddress::FromDecoratedName(
-    DefaultLibrary default_library,
+    d2::DefaultLibrary library,
     std::string_view exported_name
 ) {
   const std::filesystem::path& default_library_path =
-      GetDefaultLibraryPathWithRedirect(default_library);
+      GetDefaultLibraryPathWithRedirect(library);
 
   return FromDecoratedName(default_library_path, exported_name);
 }
@@ -115,11 +115,11 @@ GameAddress GameAddress::FromDecoratedName(
 }
 
 GameAddress GameAddress::FromOffset(
-    DefaultLibrary default_library,
+    d2::DefaultLibrary library,
     std::ptrdiff_t offset
 ) {
   const std::filesystem::path& game_library_path =
-      GetDefaultLibraryPathWithRedirect(default_library);
+      GetDefaultLibraryPathWithRedirect(library);
 
   return FromOffset(game_library_path, offset);
 }
@@ -134,11 +134,11 @@ GameAddress GameAddress::FromOffset(
 }
 
 GameAddress GameAddress::FromOrdinal(
-    DefaultLibrary default_library,
+    d2::DefaultLibrary library,
     std::int16_t ordinal
 ) {
   const std::filesystem::path& game_library_path =
-      GetDefaultLibraryPathWithRedirect(default_library);
+      GetDefaultLibraryPathWithRedirect(library);
 
   return FromOrdinal(game_library_path, ordinal);
 }

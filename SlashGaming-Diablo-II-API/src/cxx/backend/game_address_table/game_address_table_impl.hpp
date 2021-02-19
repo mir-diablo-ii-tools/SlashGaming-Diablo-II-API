@@ -57,7 +57,7 @@
 namespace mapi {
 
 using GameAddressTableEntry = ::std::pair<
-    ::std::tuple<DefaultLibrary, ::std::string_view>,
+    ::std::tuple<::d2::DefaultLibrary, ::std::string_view>,
     GameAddressLocator
 >;
 
@@ -70,7 +70,7 @@ struct GameAddressTableEntryCompareKey {
   }
 
   constexpr bool operator()(
-      const ::std::tuple<DefaultLibrary, ::std::string_view>& key,
+      const ::std::tuple<::d2::DefaultLibrary, ::std::string_view>& key,
       const GameAddressTableEntry& entry
   ) const noexcept {
     return key < entry.first;
@@ -78,7 +78,7 @@ struct GameAddressTableEntryCompareKey {
 
   constexpr bool operator()(
       const GameAddressTableEntry& entry,
-      const ::std::tuple<DefaultLibrary, ::std::string_view>& key
+      const ::std::tuple<::d2::DefaultLibrary, ::std::string_view>& key
   ) const noexcept {
     return entry.first < key;
   }

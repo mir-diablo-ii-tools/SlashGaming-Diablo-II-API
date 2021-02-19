@@ -57,7 +57,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kD2GFX,
+      ::d2::DefaultLibrary::kD2GFX,
       "ResolutionMode"
   );
 

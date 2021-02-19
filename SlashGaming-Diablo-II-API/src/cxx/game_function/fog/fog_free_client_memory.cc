@@ -61,7 +61,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kFog,
+      ::d2::DefaultLibrary::kFog,
       "FreeClientMemory"
   );
 

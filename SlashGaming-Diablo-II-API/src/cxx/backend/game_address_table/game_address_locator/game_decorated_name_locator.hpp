@@ -58,7 +58,7 @@ class GameDecoratedNameLocator {
   GameDecoratedNameLocator() = delete;
 
   constexpr GameDecoratedNameLocator(
-      DefaultLibrary library,
+      ::d2::DefaultLibrary library,
       ::std::string_view exported_name
   ) noexcept
       : library_(library),
@@ -67,7 +67,7 @@ class GameDecoratedNameLocator {
 
   GameAddress LocateGameAddress() const noexcept;
 
-  constexpr ::mapi::DefaultLibrary library() const noexcept {
+  constexpr ::d2::DefaultLibrary library() const noexcept {
     return this->library_;
   }
 
@@ -76,7 +76,7 @@ class GameDecoratedNameLocator {
   }
 
  private:
-  DefaultLibrary library_;
+  ::d2::DefaultLibrary library_;
   ::std::string_view exported_name_;
 };
 

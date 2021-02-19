@@ -403,7 +403,7 @@ FileSignatureLocation GetSignatureLocation(
           static_cast<int>(file_version_guess_game_version)
       );
 
-      return FileSignatureLocation(nullptr, 0);
+      return FileSignatureLocation(L"", 0);
     }
   }
 }

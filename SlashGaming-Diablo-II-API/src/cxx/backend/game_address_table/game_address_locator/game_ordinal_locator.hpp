@@ -58,7 +58,7 @@ class GameOrdinalLocator {
   GameOrdinalLocator() = delete;
 
   constexpr GameOrdinalLocator(
-      DefaultLibrary library,
+      ::d2::DefaultLibrary library,
       ::std::int16_t ordinal
   ) noexcept
       : library_(library),
@@ -67,7 +67,7 @@ class GameOrdinalLocator {
 
   GameAddress LocateGameAddress() const noexcept;
 
-  constexpr ::mapi::DefaultLibrary library() const noexcept {
+  constexpr ::d2::DefaultLibrary library() const noexcept {
     return this->library_;
   }
 
@@ -76,7 +76,7 @@ class GameOrdinalLocator {
   }
 
  private:
-  DefaultLibrary library_;
+  ::d2::DefaultLibrary library_;
   ::std::int16_t ordinal_;
 };
 
