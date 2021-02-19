@@ -56,60 +56,31 @@
 
 namespace mapi {
 
-struct GameAddressTableEntry {
-  constexpr GameAddressTableEntry(
-      DefaultLibrary library,
-      ::std::string_view address_name,
-      GameAddressLocator address_locator
-  ) noexcept
-      : library(library),
-        address_name(address_name),
-        address_locator(std::move(address_locator)) {
-  }
-
-  DefaultLibrary library;
-  ::std::string_view address_name;
-  GameAddressLocator address_locator;
-};
+using GameAddressTableEntry = ::std::pair<
+    ::std::tuple<DefaultLibrary, ::std::string_view>,
+    GameAddressLocator
+>;
 
 struct GameAddressTableEntryCompareKey {
   constexpr bool operator()(
       const GameAddressTableEntry& entry1,
       const GameAddressTableEntry& entry2
   ) const noexcept {
-    if (entry1.library < entry2.library) {
-      return true;
-    } else if (entry1.library > entry2.library) {
-      return false;
-    }
-
-    return entry1.address_name < entry2.address_name;
+    return entry1.first < entry2.first;
   }
 
   constexpr bool operator()(
       const ::std::tuple<DefaultLibrary, ::std::string_view>& key,
       const GameAddressTableEntry& entry
   ) const noexcept {
-    if (::std::get<0>(key) < entry.library) {
-      return true;
-    } else if (::std::get<0>(key) > entry.library) {
-      return false;
-    }
-
-    return ::std::get<1>(key) < entry.address_name;
+    return key < entry.first;
   }
 
   constexpr bool operator()(
       const GameAddressTableEntry& entry,
       const ::std::tuple<DefaultLibrary, ::std::string_view>& key
   ) const noexcept {
-    if (entry.library < ::std::get<0>(key)) {
-      return true;
-    } else if (entry.library > ::std::get<0>(key)) {
-      return false;
-    }
-
-    return entry.address_name < ::std::get<1>(key);
+    return entry.first < key;
   }
 };
 

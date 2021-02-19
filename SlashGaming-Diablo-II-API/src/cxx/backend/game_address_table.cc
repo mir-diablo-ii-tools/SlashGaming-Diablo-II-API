@@ -114,7 +114,7 @@ GameAddress LoadGameAddress(
     return GameAddress::FromOffset(static_cast<DefaultLibrary>(-1), 0);
   }
 
-  return search_range.first->address_locator.LocateGameAddress();
+  return search_range.first->second.LocateGameAddress();
 }
 
 } // namespace mapi
