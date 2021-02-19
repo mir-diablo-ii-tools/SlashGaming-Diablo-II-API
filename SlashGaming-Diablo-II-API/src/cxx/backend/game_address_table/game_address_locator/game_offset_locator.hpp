@@ -47,33 +47,37 @@
 #define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_OFFSET_LOCATOR_HPP_
 
 #include <cstddef>
-#include <filesystem>
 
-#include "game_address_locator.hpp"
+#include "../../../../../include/cxx/game_address.hpp"
+#include "../../../../../include/cxx/default_game_library.hpp"
 
 namespace mapi {
 
-class GameOffsetLocator : public IGameAddressLocator {
+class GameOffsetLocator {
  public:
   GameOffsetLocator() = delete;
 
-  GameOffsetLocator(
-      DefaultLibrary library_id,
-      std::ptrdiff_t offset
-  );
+  constexpr GameOffsetLocator(
+      DefaultLibrary library,
+      ::std::ptrdiff_t offset
+  ) noexcept
+      : library_(library),
+        offset_(offset) {
+  }
 
-  GameOffsetLocator(
-      std::filesystem::path library_path,
-      std::ptrdiff_t offset
-  );
+  GameAddress LocateGameAddress() const noexcept;
 
-  ~GameOffsetLocator() override;
+  constexpr ::mapi::DefaultLibrary library() const noexcept {
+    return this->library_;
+  }
 
-  GameAddress LocateGameAddress() override;
+  constexpr ::std::ptrdiff_t offset() const noexcept {
+    return this->offset_;
+  }
 
  private:
-  std::filesystem::path library_path_;
-  std::ptrdiff_t offset_;
+  DefaultLibrary library_;
+  ::std::ptrdiff_t offset_;
 };
 
 } // namespace mapi

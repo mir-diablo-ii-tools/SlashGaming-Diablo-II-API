@@ -46,34 +46,38 @@
 #ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
 #define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_DECORATED_NAME_LOCATOR_HPP_
 
-#include <filesystem>
-#include <string>
+#include <string_view>
 
-#include "game_address_locator.hpp"
+#include "../../../../../include/cxx/game_address.hpp"
+#include "../../../../../include/cxx/default_game_library.hpp"
 
 namespace mapi {
 
-class GameDecoratedNameLocator : public IGameAddressLocator {
+class GameDecoratedNameLocator {
  public:
   GameDecoratedNameLocator() = delete;
 
-  GameDecoratedNameLocator(
-      DefaultLibrary library_id,
-      std::string decorated_name
-  );
+  constexpr GameDecoratedNameLocator(
+      DefaultLibrary library,
+      ::std::string_view exported_name
+  ) noexcept
+      : library_(library),
+        exported_name_(exported_name) {
+  }
 
-  GameDecoratedNameLocator(
-      std::filesystem::path library_path,
-      std::string decorated_name
-  );
+  GameAddress LocateGameAddress() const noexcept;
 
-  ~GameDecoratedNameLocator() override;
+  constexpr ::mapi::DefaultLibrary library() const noexcept {
+    return this->library_;
+  }
 
-  GameAddress LocateGameAddress() override;
+  constexpr ::std::string_view exported_name() const noexcept {
+    return this->exported_name_;
+  }
 
  private:
-  std::filesystem::path library_path_;
-  std::string decorated_name_;
+  DefaultLibrary library_;
+  ::std::string_view exported_name_;
 };
 
 } // namespace mapi

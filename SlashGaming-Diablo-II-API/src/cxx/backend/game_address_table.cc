@@ -45,8 +45,8 @@
 
 #include "game_address_table.hpp"
 
-#include <filesystem>
-#include <stdexcept>
+#include <algorithm>
+#include <array>
 #include <string>
 #include <string_view>
 
@@ -58,30 +58,7 @@
 namespace mapi {
 namespace {
 
-[[noreturn]] void ExitOnAddressNotDefined(
-    const std::filesystem::path& library_path,
-    std::string_view address_name,
-    std::wstring_view source_code_file_path,
-    int source_code_line
-) {
-  constexpr std::wstring_view kErrorFormatMessage =
-        L"Address not defined for library: {}, address name: {}.";
-
-  ::std::wstring address_name_wide = ::mdc::wide::DecodeUtf8(
-      address_name.data()
-  );
-
-  ::mdc::error::ExitOnGeneralError(
-      L"Error",
-      L"Could not locate address named \"%ls\" for library with path %ls.",
-      source_code_file_path.data(),
-      source_code_line,
-      address_name_wide.data(),
-      library_path.c_str()
-  );
-}
-
-const GameAddressTable& GetGameAddressTable() {
+static const GameAddressTable& GetGameAddressTable() {
   static GameAddressTable game_address_table = LoadGameAddressTable();
 
   return game_address_table;
@@ -90,34 +67,54 @@ const GameAddressTable& GetGameAddressTable() {
 } // namespace
 
 GameAddress LoadGameAddress(
-    DefaultLibrary library_id,
+    DefaultLibrary library,
     std::string_view address_name
 ) {
-  const std::filesystem::path& library_path =
-      GetDefaultLibraryPathWithoutRedirect(library_id);
+  const GameAddressTable& game_address_table = GetGameAddressTable();
 
-  try {
-    const std::unique_ptr<IGameAddressLocator>& locator =
-        GetGameAddressTable().at(library_path).at(address_name.data());
+  const GameAddressTableEntry* table = game_address_table.first;
+  std::size_t table_count = game_address_table.second;
 
-    return locator->LocateGameAddress();
-  } catch (const std::out_of_range& e) {
-    ExitOnAddressNotDefined(library_path, address_name, __FILEW__, __LINE__);
+  ::std::pair search_range = ::std::equal_range(
+      table,
+      &table[table_count],
+      ::std::tuple(library, address_name),
+      GameAddressTableEntryCompareKey()
+  );
+
+  if (search_range.first == &table[table_count]) {
+    static constexpr std::size_t kAddressNameWideCapacity = 1024;
+
+    static ::std::array<wchar_t, kAddressNameWideCapacity> address_name_wide;
+
+    std::size_t address_name_wide_length = ::mdc::wide::DecodeAsciiLength(
+        address_name.data()
+    );
+
+    const wchar_t* address_name_wide_ptr;
+
+    if (address_name_wide_length >= kAddressNameWideCapacity) {
+      address_name_wide_ptr = L"**Name is longer than character limit**";
+    } else {
+      address_name_wide_ptr = ::mdc::wide::DecodeAscii(
+          address_name_wide.data(),
+          address_name.data()
+      );
+    }
+
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"Could not locate address named \"%ls\" for library with value %d.",
+        __FILEW__,
+        __LINE__,
+        address_name_wide_ptr,
+        static_cast<int>(library)
+    );
+
+    return GameAddress::FromOffset(static_cast<DefaultLibrary>(-1), 0);
   }
-}
 
-GameAddress LoadGameAddress(
-    const std::filesystem::path& library_path,
-    std::string_view address_name
-) {
-  try {
-    const std::unique_ptr<IGameAddressLocator>& locator =
-        GetGameAddressTable().at(library_path).at(address_name.data());
-
-    return locator->LocateGameAddress();
-  } catch (const std::out_of_range& e) {
-    ExitOnAddressNotDefined(library_path, address_name, __FILEW__, __LINE__);
-  }
+  return search_range.first->address_locator.LocateGameAddress();
 }
 
 } // namespace mapi

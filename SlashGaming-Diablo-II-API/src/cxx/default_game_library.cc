@@ -91,8 +91,8 @@ SearchDefaultLibraryPath(DefaultLibrary library) {
       20
   > kDefaultLibraryPathTable = {{
       { DefaultLibrary::kBNClient, L"BNClient.dll" },
-      { DefaultLibrary::kD2Client, L"D2Client.dll" },
       { DefaultLibrary::kD2CMP, L"D2CMP.dll" },
+      { DefaultLibrary::kD2Client, L"D2Client.dll" },
       { DefaultLibrary::kD2Common, L"D2Common.dll" },
       { DefaultLibrary::kD2DDraw, L"D2DDraw.dll" },
       { DefaultLibrary::kD2Direct3D, L"D2Direct3D.dll" },

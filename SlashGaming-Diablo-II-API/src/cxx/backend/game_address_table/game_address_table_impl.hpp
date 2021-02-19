@@ -46,26 +46,76 @@
 #ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_TABLE_IMPL_HPP_
 #define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_TABLE_IMPL_HPP_
 
-#include <filesystem>
-#include <map>
-#include <memory>
-#include <string>
 #include <string_view>
-#include <unordered_map>
+#include <utility>
+#include <variant>
+#include <tuple>
 
+#include "../../../../include/cxx/default_game_library.hpp"
 #include "game_address_locator/game_address_locator.hpp"
 
 namespace mapi {
 
-using GameAddressTable = std::map<
-    // Library path
-    std::filesystem::path,
+struct GameAddressTableEntry {
+  constexpr GameAddressTableEntry(
+      DefaultLibrary library,
+      ::std::string_view address_name,
+      GameAddressLocator address_locator
+  ) noexcept
+      : library(library),
+        address_name(address_name),
+        address_locator(std::move(address_locator)) {
+  }
 
-    // Address Name -> Address Locator
-    std::unordered_map<
-        std::string,
-        std::unique_ptr<IGameAddressLocator>
-    >
+  DefaultLibrary library;
+  ::std::string_view address_name;
+  GameAddressLocator address_locator;
+};
+
+struct GameAddressTableEntryCompareKey {
+  constexpr bool operator()(
+      const GameAddressTableEntry& entry1,
+      const GameAddressTableEntry& entry2
+  ) const noexcept {
+    if (entry1.library < entry2.library) {
+      return true;
+    } else if (entry1.library > entry2.library) {
+      return false;
+    }
+
+    return entry1.address_name < entry2.address_name;
+  }
+
+  constexpr bool operator()(
+      const ::std::tuple<DefaultLibrary, ::std::string_view>& key,
+      const GameAddressTableEntry& entry
+  ) const noexcept {
+    if (::std::get<0>(key) < entry.library) {
+      return true;
+    } else if (::std::get<0>(key) > entry.library) {
+      return false;
+    }
+
+    return ::std::get<1>(key) < entry.address_name;
+  }
+
+  constexpr bool operator()(
+      const GameAddressTableEntry& entry,
+      const ::std::tuple<DefaultLibrary, ::std::string_view>& key
+  ) const noexcept {
+    if (entry.library < ::std::get<0>(key)) {
+      return true;
+    } else if (entry.library > ::std::get<0>(key)) {
+      return false;
+    }
+
+    return entry.address_name < ::std::get<1>(key);
+  }
+};
+
+using GameAddressTable = ::std::pair<
+    const GameAddressTableEntry*,
+    std::size_t
 >;
 
 GameAddressTable LoadGameAddressTable();

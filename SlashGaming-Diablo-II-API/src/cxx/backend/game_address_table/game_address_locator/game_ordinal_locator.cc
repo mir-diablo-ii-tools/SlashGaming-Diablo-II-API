@@ -47,26 +47,8 @@
 
 namespace mapi {
 
-GameOrdinalLocator::GameOrdinalLocator(
-    DefaultLibrary library_id,
-    std::int16_t ordinal
-) : GameOrdinalLocator(
-        GetDefaultLibraryPathWithRedirect(library_id),
-        ordinal
-    ) {
-}
-
-GameOrdinalLocator::GameOrdinalLocator(
-    std::filesystem::path library_path,
-    std::int16_t ordinal
-) : library_path_(std::move(library_path)),
-    ordinal_(ordinal) {
-}
-
-GameOrdinalLocator::~GameOrdinalLocator() = default;
-
-GameAddress GameOrdinalLocator::LocateGameAddress() {
-  return GameAddress::FromOrdinal(this->library_path_, this->ordinal_);
+GameAddress GameOrdinalLocator::LocateGameAddress() const noexcept {
+  return GameAddress::FromOrdinal(this->library(), this->ordinal());
 }
 
 } // namespace mapi

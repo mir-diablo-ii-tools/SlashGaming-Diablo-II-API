@@ -58,11 +58,6 @@ GameAddress LoadGameAddress(
     std::string_view address_name
 );
 
-GameAddress LoadGameAddress(
-    const std::filesystem::path& library_path,
-    std::string_view address_name
-);
-
 } // namespace mapi
 
 #endif // SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_

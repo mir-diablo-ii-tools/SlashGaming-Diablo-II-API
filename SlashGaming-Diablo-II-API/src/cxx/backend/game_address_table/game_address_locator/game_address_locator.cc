@@ -43,19 +43,15 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_TABLE_READER_HPP_
-#define SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_TABLE_READER_HPP_
-
-#include <filesystem>
-
-#include "game_address_table_impl.hpp"
+#include "game_address_locator.hpp"
 
 namespace mapi {
 
-GameAddressTable ReadTsvTableFile(
-    const std::filesystem::path& file_path
-);
+GameAddress GameAddressLocator::LocateGameAddress() const noexcept {
+  return std::visit([](const auto& actual_locator) {
+    return actual_locator.LocateGameAddress();
+  },
+  this->locator_);
+}
 
 } // namespace mapi
-
-#endif // SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_TABLE_READER_HPP_

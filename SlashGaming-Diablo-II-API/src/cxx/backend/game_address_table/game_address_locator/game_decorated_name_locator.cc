@@ -45,30 +45,13 @@
 
 #include "game_decorated_name_locator.hpp"
 
-#include <utility>
-
 namespace mapi {
 
-GameDecoratedNameLocator::GameDecoratedNameLocator(
-    DefaultLibrary library_id,
-    std::string decorated_name
-) : GameDecoratedNameLocator(
-        GetDefaultLibraryPathWithRedirect(library_id),
-        std::move(decorated_name)
-    ) {
-}
-
-GameDecoratedNameLocator::GameDecoratedNameLocator(
-    std::filesystem::path library_path,
-    std::string decorated_name
-) : library_path_(std::move(library_path)),
-    decorated_name_(std::move(decorated_name)) {
-}
-
-GameDecoratedNameLocator::~GameDecoratedNameLocator() = default;
-
-GameAddress GameDecoratedNameLocator::LocateGameAddress() {
-  return GameAddress::FromDecoratedName(this->library_path_, this->decorated_name_);
+GameAddress GameDecoratedNameLocator::LocateGameAddress() const noexcept {
+  return GameAddress::FromDecoratedName(
+      this->library(),
+      this->exported_name()
+  );
 }
 
 } // namespace mapi

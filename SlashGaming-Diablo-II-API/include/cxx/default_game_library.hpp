@@ -56,7 +56,7 @@ namespace mapi {
  * The default libraries that are used by Diablo II.
  */
 enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+  kBNClient, kD2CMP, kD2Client, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
   kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
   kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
 };
