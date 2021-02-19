@@ -61,7 +61,7 @@ GameAddress GameAddress::FromDecoratedName(
     std::string_view exported_name
 ) {
   const std::filesystem::path& default_library_path =
-      GetDefaultLibraryPathWithRedirect(library);
+      ::d2::default_library::GetPathWithRedirect(library);
 
   return FromDecoratedName(default_library_path, exported_name);
 }
@@ -119,7 +119,7 @@ GameAddress GameAddress::FromOffset(
     std::ptrdiff_t offset
 ) {
   const std::filesystem::path& game_library_path =
-      GetDefaultLibraryPathWithRedirect(library);
+      ::d2::default_library::GetPathWithRedirect(library);
 
   return FromOffset(game_library_path, offset);
 }
@@ -138,7 +138,7 @@ GameAddress GameAddress::FromOrdinal(
     std::int16_t ordinal
 ) {
   const std::filesystem::path& game_library_path =
-      GetDefaultLibraryPathWithRedirect(library);
+      ::d2::default_library::GetPathWithRedirect(library);
 
   return FromOrdinal(game_library_path, ordinal);
 }

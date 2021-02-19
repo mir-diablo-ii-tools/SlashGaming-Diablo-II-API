@@ -47,13 +47,14 @@
 
 #include <algorithm>
 #include <array>
+#include <utility>
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
 #include "../../include/cxx/game_version.hpp"
 
-namespace d2 {
+namespace d2::default_library {
 namespace {
 
 using DefaultLibraryPathTableEntry = ::std::pair<
@@ -134,13 +135,13 @@ SearchDefaultLibraryPath(DefaultLibrary library) {
 
 } // namespace
 
-const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
+const std::filesystem::path& GetPathWithoutRedirect(
     DefaultLibrary library
 ) {
   return SearchDefaultLibraryPath(library);
 }
 
-const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
+const std::filesystem::path& GetPathWithRedirect(
     DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
@@ -148,7 +149,7 @@ const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
     return ::mapi::game_executable::GetPath();
   }
 
-  return GetDefaultLibraryPathWithoutRedirect(library);
+  return GetPathWithoutRedirect(library);
 }
 
-} // namespace d2
+} // namespace d2::default_library

@@ -61,10 +61,12 @@ enum class DefaultLibrary {
   kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
 };
 
+namespace default_library {
+
 /**
  * Returns the path of the specified default library.
  */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
+DLLEXPORT const std::filesystem::path& GetPathWithoutRedirect(
     DefaultLibrary library
 );
 
@@ -72,9 +74,11 @@ DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
  * Returns the path of the specified default library or an alternative path if
  * an implementation-defined condition is satisfied.
  */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
+DLLEXPORT const std::filesystem::path& GetPathWithRedirect(
     DefaultLibrary library
 );
+
+} // namespace default_library
 
 } // namespace d2
 
