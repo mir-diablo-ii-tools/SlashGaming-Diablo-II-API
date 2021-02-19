@@ -74,7 +74,7 @@ void GetGlobalInventoryGridLayout(
     unsigned int inventory_arrange_mode,
     GridLayout* out_grid_layout
 ) {
-  GameVersion running_game_version = d2::GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     GetGlobalInventoryGridLayout_1_00(

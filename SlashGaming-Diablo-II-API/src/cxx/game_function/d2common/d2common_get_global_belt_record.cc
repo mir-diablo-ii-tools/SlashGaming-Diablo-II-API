@@ -74,7 +74,7 @@ void GetGlobalBeltRecord(
     unsigned int inventory_arrange_mode,
     BeltRecord* out_belt_record
 ) {
-  GameVersion running_game_version = d2::GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     GetGlobalBeltRecord_1_00(

@@ -68,7 +68,7 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 ClientGameType GetGameType() {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     return ToApiValue_1_00(GetGameType_1_00());
@@ -90,7 +90,7 @@ ClientGameType_1_07 GetGameType_1_07() {
 }
 
 void SetGameType(ClientGameType game_type) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     SetGameType_1_00(ToGameValue_1_00(game_type));

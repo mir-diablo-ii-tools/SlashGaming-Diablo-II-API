@@ -198,7 +198,7 @@ MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
       priority
   );
 
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   return reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle);
 }

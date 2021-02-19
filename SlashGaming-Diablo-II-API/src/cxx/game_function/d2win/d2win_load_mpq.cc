@@ -106,7 +106,7 @@ MpqArchiveHandle* LoadMpq(
     void* (*on_fail_callback)(void),
     int priority
 ) {
-  d2::GameVersion running_game_version = d2::GetRunningGameVersionId();
+  d2::GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= d2::GameVersion::k1_02) {
     return reinterpret_cast<MpqArchiveHandle*>(

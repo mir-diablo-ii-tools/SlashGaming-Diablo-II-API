@@ -77,7 +77,7 @@ bool DrawCelContext(
     DrawEffect draw_effect,
     mapi::Undefined* unknown_06__set_to_nullptr
 ) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10) {
     return static_cast<bool>(

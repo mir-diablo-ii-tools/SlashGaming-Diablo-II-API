@@ -75,7 +75,7 @@ void GetGlobalEquipmentSlotLayout(
     EquipmentLayout* out_equipment_slot_layout,
     unsigned int equipment_slot_index
 ) {
-  GameVersion running_game_version = d2::GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     GetGlobalEquipmentSlotLayout_1_00(

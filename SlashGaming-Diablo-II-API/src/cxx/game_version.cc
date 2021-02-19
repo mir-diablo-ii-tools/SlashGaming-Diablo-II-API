@@ -57,7 +57,7 @@
 #include "backend/game_version/file_signature.hpp"
 #include "backend/game_version/file_version.hpp"
 
-namespace d2 {
+namespace d2::game_version {
 namespace {
 
 static GameVersion DetermineRunningGameVersion() {
@@ -78,7 +78,7 @@ static GameVersion DetermineRunningGameVersion() {
 
 } // namespace
 
-std::u8string_view GetGameVersionName(GameVersion game_version) {
+std::u8string_view GetName(GameVersion game_version) {
   switch (game_version) {
     case GameVersion::k1_00: {
       return u8"1.00";
@@ -221,26 +221,26 @@ std::u8string_view GetGameVersionName(GameVersion game_version) {
   }
 }
 
-GameVersion GetRunningGameVersionId() {
+GameVersion GetRunning() {
   static GameVersion running_game_version_id = DetermineRunningGameVersion();
 
   return running_game_version_id;
 }
 
-std::u8string_view GetRunningGameVersionName() {
-  static std::u8string_view running_game_version_name = GetGameVersionName(
-      GetRunningGameVersionId()
+std::u8string_view GetRunningName() {
+  static std::u8string_view running_game_version_name = GetName(
+      ::d2::game_version::GetRunning()
   );
   return running_game_version_name;
 }
 
-bool IsGameVersionAtLeast1_14(GameVersion game_version) {
+bool IsAtLeast1_14(GameVersion game_version) {
   return !(game_version >= GameVersion::kBeta1_02
       && game_version <= GameVersion::k1_13D);
 }
 
-bool IsRunningGameVersionAtLeast1_14() {
-  return IsGameVersionAtLeast1_14(GetRunningGameVersionId());
+bool IsRunningAtLeast1_14() {
+  return IsAtLeast1_14(::d2::game_version::GetRunning());
 }
 
-} // namespace d2
+} // namespace d2::game_version

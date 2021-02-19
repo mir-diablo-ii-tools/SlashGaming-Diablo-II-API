@@ -52,7 +52,7 @@
 namespace d2 {
 
 int ToGameValue(ClientGameType api_value) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version < GameVersion::k1_09D) {
     return static_cast<int>(ToGameValue_1_00(api_value));
@@ -123,7 +123,7 @@ ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
 
 template <>
 ClientGameType ToApiValue<ClientGameType>(int game_value) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version < GameVersion::k1_06B) {
     return ToApiValue_1_00(static_cast<ClientGameType_1_00>(game_value));

@@ -79,7 +79,7 @@ void UnloadMpq(
 }
 
 void UnloadMpq_1_00(MpqArchiveHandle_1_00* mpq_archive_handle) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10
       || running_game_version >= GameVersion::kClassic1_14A) {

@@ -260,7 +260,7 @@ void CelContext_Wrapper::SetFrame(unsigned int frame) noexcept {
 CelContext_Wrapper::WrapperVariant CelContext_Wrapper::CreateVariant(
     CelContext* cel_context
 ) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10) {
     return reinterpret_cast<CelContext_1_00*>(cel_context);

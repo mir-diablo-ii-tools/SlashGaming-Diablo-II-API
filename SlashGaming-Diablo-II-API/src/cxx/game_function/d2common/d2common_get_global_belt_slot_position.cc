@@ -75,7 +75,7 @@ void GetGlobalBeltSlotPosition(
     PositionalRectangle* out_belt_slot,
     unsigned int belt_slot_index
 ) {
-  GameVersion running_game_version = d2::GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     GetGlobalBeltSlotPosition_1_00(

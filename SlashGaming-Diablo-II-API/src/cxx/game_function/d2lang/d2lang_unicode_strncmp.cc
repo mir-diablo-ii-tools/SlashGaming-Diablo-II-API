@@ -113,7 +113,7 @@ int Unicode_strncmp(
     const UnicodeChar* str2,
     std::size_t count
 ) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_09D) {
     return Unicode_strncmp_1_00_Impl(

@@ -414,7 +414,7 @@ static_assert(
 } // namespace
 
 GameAddressTable LoadGameAddressTable() {
-  switch (d2::GetRunningGameVersionId()) {
+  switch (::d2::game_version::GetRunning()) {
     case d2::GameVersion::k1_00: {
       return ::std::pair(
           kGameAddressTable_1_00.data(),

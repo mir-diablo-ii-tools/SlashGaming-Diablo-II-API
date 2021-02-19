@@ -170,7 +170,7 @@ CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
 ) {
   ApiVariant cel_context;
 
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= d2::GameVersion::k1_10) {
     cel_context = CelContext_1_00();

@@ -124,7 +124,7 @@ unsigned int CelContext_View::GetFrame() const noexcept {
 CelContext_View::ViewVariant CelContext_View::CreateVariant(
     const CelContext* cel_context
 ) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10) {
     return reinterpret_cast<const CelContext_1_00*>(cel_context);
