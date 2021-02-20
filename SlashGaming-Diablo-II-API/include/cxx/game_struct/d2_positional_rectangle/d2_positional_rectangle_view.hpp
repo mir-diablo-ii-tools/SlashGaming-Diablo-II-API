@@ -57,11 +57,21 @@ namespace d2 {
 
 class DLLEXPORT PositionalRectangle_View {
  public:
+  using ViewVariant = std::variant<
+      const PositionalRectangle_1_00*
+  >;
+
   PositionalRectangle_View() = delete;
 
   PositionalRectangle_View(
       const PositionalRectangle* positional_rectangle
   ) noexcept;
+
+  explicit constexpr PositionalRectangle_View(
+      ViewVariant positional_rectangle
+  ) noexcept
+      : positional_rectangle_(::std::move(positional_rectangle)) {
+  }
 
   constexpr PositionalRectangle_View(
       const PositionalRectangle_View& other
@@ -81,10 +91,12 @@ class DLLEXPORT PositionalRectangle_View {
       PositionalRectangle_View&& other
   ) noexcept = default;
 
-  PositionalRectangle_View operator[](std::size_t index) const noexcept {
+  constexpr PositionalRectangle_View operator[](
+      std::size_t index
+  ) const noexcept {
     return std::visit(
         [index](const auto& actual_positional_rectangle) {
-          return reinterpret_cast<const PositionalRectangle*>(
+          return PositionalRectangle_View(
               &actual_positional_rectangle[index]
           );
         },
@@ -140,10 +152,6 @@ class DLLEXPORT PositionalRectangle_View {
   }
 
  private:
-  using ViewVariant = std::variant<
-      const PositionalRectangle_1_00*
-  >;
-
   ViewVariant positional_rectangle_;
 
   static ViewVariant CreateVariant(

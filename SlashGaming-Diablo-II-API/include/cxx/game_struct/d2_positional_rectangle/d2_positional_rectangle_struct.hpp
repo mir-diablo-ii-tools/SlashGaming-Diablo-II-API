@@ -84,22 +84,6 @@ static_assert(offsetof(PositionalRectangle_1_00, bottom) == 0x0C);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    PositionalRectangle_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    PositionalRectangle_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const PositionalRectangle_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

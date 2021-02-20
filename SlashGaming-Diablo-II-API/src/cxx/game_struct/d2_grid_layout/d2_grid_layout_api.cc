@@ -193,7 +193,7 @@ GridLayout_Api::ApiVariant GridLayout_Api::CreateVariant(
                 &actual_grid_layout.position
             )
         );
-        position_wrapper.Assign(position);
+        position_wrapper.AssignMembers(position);
 
         actual_grid_layout.width = width;
         actual_grid_layout.height = height;
