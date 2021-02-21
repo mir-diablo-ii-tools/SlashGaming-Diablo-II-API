@@ -117,55 +117,55 @@ class DLLEXPORT PositionalRectangle_Api {
   }
 
   constexpr void AssignMembers(PositionalRectangle_View src) noexcept {
-    PositionalRectangle_Wrapper wrapper(this->Get());
+    PositionalRectangle_Wrapper wrapper(*this);
 
     wrapper.AssignMembers(src);
   }
 
   constexpr int GetLeft() const noexcept {
-    PositionalRectangle_View view(this->Get());
+    PositionalRectangle_View view(*this);
 
     return view.GetLeft();
   }
 
   constexpr void SetLeft(int left) noexcept {
-    PositionalRectangle_Wrapper wrapper(this->Get());
+    PositionalRectangle_Wrapper wrapper(*this);
 
     return wrapper.SetLeft(left);
   }
 
   constexpr int GetRight() const noexcept {
-    PositionalRectangle_View view(this->Get());
+    PositionalRectangle_View view(*this);
 
     return view.GetRight();
   }
 
   constexpr void SetRight(int right) noexcept {
-    PositionalRectangle_Wrapper wrapper(this->Get());
+    PositionalRectangle_Wrapper wrapper(*this);
 
     return wrapper.SetRight(right);
   }
 
   constexpr int GetTop() const noexcept {
-    PositionalRectangle_View view(this->Get());
+    PositionalRectangle_View view(*this);
 
     return view.GetTop();
   }
 
   constexpr void SetTop(int top) noexcept {
-    PositionalRectangle_Wrapper wrapper(this->Get());
+    PositionalRectangle_Wrapper wrapper(*this);
 
     return wrapper.SetTop(top);
   }
 
   constexpr int GetBottom() const noexcept {
-    PositionalRectangle_View view(this->Get());
+    PositionalRectangle_View view(*this);
 
     return view.GetBottom();
   }
 
   constexpr void SetBottom(int bottom) noexcept {
-    PositionalRectangle_Wrapper wrapper(this->Get());
+    PositionalRectangle_Wrapper wrapper(*this);
 
     return wrapper.SetBottom(bottom);
   }
