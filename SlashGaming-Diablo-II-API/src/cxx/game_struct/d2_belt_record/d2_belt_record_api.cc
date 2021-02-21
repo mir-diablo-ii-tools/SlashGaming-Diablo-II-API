@@ -80,59 +80,6 @@ BeltRecord_Api& BeltRecord_Api::operator=(
     BeltRecord_Api&& other
 ) noexcept = default;
 
-BeltRecord_Api::operator BeltRecord_View() const noexcept {
-  return BeltRecord_View(this->Get());
-}
-
-BeltRecord_Api::operator BeltRecord_Wrapper() noexcept {
-  return BeltRecord_Wrapper(this->Get());
-}
-
-BeltRecord* BeltRecord_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<BeltRecord*>(const_this->Get());
-}
-
-const BeltRecord* BeltRecord_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_belt_record) {
-        return reinterpret_cast<const BeltRecord*>(&actual_belt_record);
-      },
-      this->belt_record_
-  );
-}
-
-void BeltRecord_Api::Assign(BeltRecord_View src) noexcept {
-  BeltRecord_Wrapper wrapper(this->Get());
-
-  wrapper.Assign(src);
-}
-
-unsigned char BeltRecord_Api::GetNumSlots() const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetNumSlots();
-}
-
-void BeltRecord_Api::SetNumSlots(unsigned char num_slots) noexcept {
-  BeltRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.SetNumSlots(num_slots);
-}
-
-PositionalRectangle_View BeltRecord_Api::GetSlotPositions() const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetSlotPositions();
-}
-
-PositionalRectangle_Wrapper BeltRecord_Api::GetSlotPositions() noexcept {
-  BeltRecord_Wrapper wrapper(this->Get());
-
-  return wrapper.GetSlotPositions();
-}
-
 BeltRecord_Api::ApiVariant BeltRecord_Api::CreateVariant(
       mapi::Undefined* reserved_00__set_to_nullptr,
       unsigned char num_slots,
@@ -143,7 +90,7 @@ BeltRecord_Api::ApiVariant BeltRecord_Api::CreateVariant(
   belt_record = BeltRecord_1_00();
 
   std::visit(
-      [=](auto& actual_belt_record) {
+      [&](auto& actual_belt_record) {
         using BeltRecord_T = std::remove_reference_t<
             decltype(actual_belt_record)
         >;

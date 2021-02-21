@@ -51,66 +51,6 @@ BeltRecord_View::BeltRecord_View(const BeltRecord* belt_record) noexcept :
     belt_record_(CreateVariant(belt_record)) {
 }
 
-BeltRecord_View::BeltRecord_View(
-    const BeltRecord_View& other
-) noexcept = default;
-
-BeltRecord_View::BeltRecord_View(
-    BeltRecord_View&& other
-) noexcept = default;
-
-BeltRecord_View::~BeltRecord_View() noexcept = default;
-
-BeltRecord_View& BeltRecord_View::operator=(
-    const BeltRecord_View& other
-) noexcept = default;
-
-BeltRecord_View& BeltRecord_View::operator=(
-    BeltRecord_View&& other
-) noexcept = default;
-
-BeltRecord_View BeltRecord_View::operator[](
-    std::size_t index
-) const noexcept {
-  return std::visit(
-      [index](const auto& actual_belt_record) {
-        return reinterpret_cast<const BeltRecord*>(
-            &actual_belt_record[index]
-        );
-      },
-      this->belt_record_
-  );
-}
-
-const BeltRecord* BeltRecord_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_belt_record) {
-        return reinterpret_cast<const BeltRecord*>(actual_belt_record);
-      },
-      this->belt_record_
-  );
-}
-
-unsigned char BeltRecord_View::GetNumSlots() const noexcept {
-  return std::visit(
-      [](const auto& actual_belt_record) {
-        return actual_belt_record->num_slots;
-      },
-      this->belt_record_
-  );
-}
-
-PositionalRectangle_View BeltRecord_View::GetSlotPositions() const noexcept {
-  return std::visit(
-      [](const auto& actual_belt_record) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            actual_belt_record->slot_positions
-        );
-      },
-      this->belt_record_
-  );
-}
-
 BeltRecord_View::ViewVariant BeltRecord_View::CreateVariant(
     const BeltRecord* belt_record
 ) {

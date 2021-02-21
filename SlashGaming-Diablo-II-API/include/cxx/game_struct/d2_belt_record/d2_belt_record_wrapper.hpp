@@ -59,36 +59,128 @@ namespace d2 {
 
 class DLLEXPORT BeltRecord_Wrapper {
  public:
-  BeltRecord_Wrapper() = delete;
-  BeltRecord_Wrapper(BeltRecord* belt_record) noexcept;
-
-  BeltRecord_Wrapper(const BeltRecord_Wrapper& other) noexcept;
-  BeltRecord_Wrapper(BeltRecord_Wrapper&& other) noexcept;
-
-  ~BeltRecord_Wrapper() noexcept;
-
-  BeltRecord_Wrapper& operator=(const BeltRecord_Wrapper& other) noexcept;
-  BeltRecord_Wrapper& operator=(BeltRecord_Wrapper&& other) noexcept;
-
-  BeltRecord_View operator[](std::size_t index) const noexcept;
-  BeltRecord_Wrapper operator[](std::size_t index) noexcept;
-
-  operator BeltRecord_View() const noexcept;
-
-  BeltRecord* Get() noexcept;
-  const BeltRecord* Get() const noexcept;
-
-  void Assign(BeltRecord_View src) noexcept;
-
-  unsigned char GetNumSlots() const noexcept;
-  void SetNumSlots(unsigned char num_slots) noexcept;
-
-  PositionalRectangle_View GetSlotPositions() const noexcept;
-  PositionalRectangle_Wrapper GetSlotPositions() noexcept;
-
- private:
   using WrapperVariant = std::variant<BeltRecord_1_00*>;
 
+  BeltRecord_Wrapper() = delete;
+
+  BeltRecord_Wrapper(BeltRecord* belt_record) noexcept;
+
+  constexpr BeltRecord_Wrapper(WrapperVariant belt_record) noexcept
+      : belt_record_(::std::move(belt_record)) {
+  }
+
+  constexpr BeltRecord_Wrapper(
+      const BeltRecord_Wrapper& other
+  ) noexcept = default;
+
+  constexpr BeltRecord_Wrapper(
+      BeltRecord_Wrapper&& other
+  ) noexcept = default;
+
+  ~BeltRecord_Wrapper() noexcept = default;
+
+  constexpr BeltRecord_Wrapper& operator=(
+      const BeltRecord_Wrapper& other
+  ) noexcept = default;
+
+  constexpr BeltRecord_Wrapper& operator=(
+      BeltRecord_Wrapper&& other
+  ) noexcept = default;
+
+  constexpr BeltRecord_View operator[](
+      std::size_t index
+  ) const noexcept {
+    BeltRecord_View view(*this);
+
+    return view[index];
+  }
+
+  constexpr BeltRecord_Wrapper operator[](
+      std::size_t index
+  ) noexcept {
+    return std::visit(
+        [index](const auto& actual_belt_record) {
+          return BeltRecord_Wrapper(
+              &actual_belt_record[index]
+          );
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr operator BeltRecord_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_belt_record) {
+          return BeltRecord_View(actual_belt_record);
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr BeltRecord* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<BeltRecord*>(const_this->Get());
+  }
+
+  constexpr const BeltRecord* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_belt_record) {
+          return reinterpret_cast<const BeltRecord*>(actual_belt_record);
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr void AssignMembers(BeltRecord_View src) noexcept {
+    std::visit(
+        [&src](auto& actual_dest) {
+          using Dest_T = decltype(actual_dest);
+          using ActualSrc_T = const std::remove_pointer_t<
+              std::remove_reference_t<Dest_T>
+          >*;
+
+          const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+          *actual_dest = *actual_src;
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr unsigned char GetNumSlots() const noexcept {
+    BeltRecord_View view(*this);
+
+    return view.GetNumSlots();
+  }
+
+  constexpr void SetNumSlots(unsigned char num_slots) noexcept {
+    std::visit(
+        [num_slots](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->num_slots = num_slots;
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetSlotPositions() const noexcept {
+    BeltRecord_View view(this->Get());
+
+    return view.GetSlotPositions();
+  }
+
+  constexpr PositionalRectangle_Wrapper GetSlotPositions() noexcept {
+    return ::std::visit(
+        [](auto& actual_belt_record) {
+          return PositionalRectangle_Wrapper(
+              actual_belt_record->slot_positions
+          );
+        },
+        this->belt_record_
+    );
+  }
+
+ private:
   WrapperVariant belt_record_;
 
   static WrapperVariant CreateVariant(BeltRecord* belt_record);

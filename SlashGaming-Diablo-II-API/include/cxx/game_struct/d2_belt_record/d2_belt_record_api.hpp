@@ -62,7 +62,10 @@ namespace d2 {
 
 class DLLEXPORT BeltRecord_Api {
  public:
+  using ApiVariant = std::variant<BeltRecord_1_00>;
+
   BeltRecord_Api() = delete;
+
   BeltRecord_Api(
       mapi::Undefined* reserved_00__set_to_nullptr,
       unsigned char num_slots,
@@ -77,23 +80,70 @@ class DLLEXPORT BeltRecord_Api {
   BeltRecord_Api& operator=(const BeltRecord_Api& other);
   BeltRecord_Api& operator=(BeltRecord_Api&& other) noexcept;
 
-  operator BeltRecord_View() const noexcept;
-  operator BeltRecord_Wrapper() noexcept;
+  constexpr operator BeltRecord_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_belt_record) {
+          return BeltRecord_View(&actual_belt_record);
+        },
+        this->belt_record_
+    );
+  }
 
-  BeltRecord* Get() noexcept;
-  const BeltRecord* Get() const noexcept;
+  constexpr operator BeltRecord_Wrapper() noexcept {
+    return ::std::visit(
+        [](auto& actual_belt_record) {
+          return BeltRecord_Wrapper(&actual_belt_record);
+        },
+        this->belt_record_
+    );
+  }
 
-  void Assign(BeltRecord_View src) noexcept;
+  constexpr BeltRecord* Get() noexcept {
+    const auto* const_this = this;
 
-  unsigned char GetNumSlots() const noexcept;
-  void SetNumSlots(unsigned char num_slots) noexcept;
+    return const_cast<BeltRecord*>(const_this->Get());
+  }
 
-  PositionalRectangle_View GetSlotPositions() const noexcept;
-  PositionalRectangle_Wrapper GetSlotPositions() noexcept;
+  constexpr const BeltRecord* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_belt_record) {
+          return reinterpret_cast<const BeltRecord*>(&actual_belt_record);
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr void AssignMembers(BeltRecord_View src) noexcept {
+    BeltRecord_Wrapper wrapper(*this);
+
+    wrapper.AssignMembers(src);
+  }
+
+  constexpr unsigned char GetNumSlots() const noexcept {
+    BeltRecord_View view(*this);
+
+    return view.GetNumSlots();
+  }
+
+  constexpr void SetNumSlots(unsigned char num_slots) noexcept {
+    BeltRecord_Wrapper wrapper(*this);
+
+    return wrapper.SetNumSlots(num_slots);
+  }
+
+  constexpr PositionalRectangle_View GetSlotPositions() const noexcept {
+    BeltRecord_View view(*this);
+
+    return view.GetSlotPositions();
+  }
+
+  constexpr PositionalRectangle_Wrapper GetSlotPositions() noexcept {
+    BeltRecord_Wrapper wrapper(*this);
+
+    return wrapper.GetSlotPositions();
+  }
 
  private:
-  using ApiVariant = std::variant<BeltRecord_1_00>;
-
   ApiVariant belt_record_;
 
   static ApiVariant CreateVariant(

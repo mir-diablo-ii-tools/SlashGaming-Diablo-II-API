@@ -85,22 +85,6 @@ static_assert(offsetof(BeltRecord_1_00, slot_positions) == 0x08);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    BeltRecord_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    BeltRecord_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const BeltRecord_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

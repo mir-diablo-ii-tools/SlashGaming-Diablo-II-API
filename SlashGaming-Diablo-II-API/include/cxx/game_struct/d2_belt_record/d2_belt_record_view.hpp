@@ -58,27 +58,77 @@ namespace d2 {
 
 class DLLEXPORT BeltRecord_View {
  public:
-  BeltRecord_View() = delete;
-  BeltRecord_View(const BeltRecord* belt_record) noexcept;
-
-  BeltRecord_View(const BeltRecord_View& other) noexcept;
-  BeltRecord_View(BeltRecord_View&& other) noexcept;
-
-  ~BeltRecord_View() noexcept;
-
-  BeltRecord_View& operator=(const BeltRecord_View& other) noexcept;
-  BeltRecord_View& operator=(BeltRecord_View&& other) noexcept;
-
-  BeltRecord_View operator[](std::size_t index) const noexcept;
-
-  const BeltRecord* Get() const noexcept;
-
-  unsigned char GetNumSlots() const noexcept;
-  PositionalRectangle_View GetSlotPositions() const noexcept;
-
- private:
   using ViewVariant = std::variant<const BeltRecord_1_00*>;
 
+  BeltRecord_View() = delete;
+
+  BeltRecord_View(const BeltRecord* belt_record) noexcept;
+
+  constexpr explicit BeltRecord_View(ViewVariant belt_record) noexcept
+      : belt_record_(::std::move(belt_record)) {
+  }
+
+  constexpr BeltRecord_View(
+      const BeltRecord_View& other
+  ) noexcept = default;
+
+  constexpr BeltRecord_View(
+      BeltRecord_View&& other
+  ) noexcept = default;
+
+  ~BeltRecord_View() noexcept = default;
+
+  constexpr BeltRecord_View& operator=(
+      const BeltRecord_View& other
+  ) noexcept = default;
+
+  constexpr BeltRecord_View& operator=(
+      BeltRecord_View&& other
+  ) noexcept = default;
+
+  constexpr BeltRecord_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return std::visit(
+        [index](const auto& actual_belt_record) {
+          return BeltRecord_View(
+              &actual_belt_record[index]
+          );
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr const BeltRecord* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_belt_record) {
+          return reinterpret_cast<const BeltRecord*>(actual_belt_record);
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr unsigned char GetNumSlots() const noexcept {
+    return std::visit(
+        [](const auto& actual_belt_record) {
+          return actual_belt_record->num_slots;
+        },
+        this->belt_record_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetSlotPositions() const noexcept {
+    return std::visit(
+        [](const auto& actual_belt_record) {
+          return PositionalRectangle_View(
+              actual_belt_record->slot_positions
+          );
+        },
+        this->belt_record_
+    );
+  }
+
+ private:
   ViewVariant belt_record_;
 
   static ViewVariant CreateVariant(const BeltRecord* belt_record);
