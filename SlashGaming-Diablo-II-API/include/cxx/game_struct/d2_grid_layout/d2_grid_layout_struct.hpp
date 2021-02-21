@@ -90,22 +90,6 @@ static_assert(offsetof(GridLayout_1_00, height) == 0x15);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    GridLayout_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    GridLayout_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const GridLayout_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

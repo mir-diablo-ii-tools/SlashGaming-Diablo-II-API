@@ -49,22 +49,6 @@
 
 namespace d2 {
 
-#if !defined(SUPPRESS_SRC_TEMPL_INST)
-
-template class std::variant<
-    GridLayout_1_00
->;
-
-template class std::variant<
-    GridLayout_1_00*
->;
-
-template class std::variant<
-    const GridLayout_1_00*
->;
-
-#endif // !defined(SUPPRESS_SRC_TEMPL_INST)
-
 } // namespace d2
 
 #include "../../../../include/dllexport_undefine.inc"
