@@ -85,22 +85,6 @@ static_assert(offsetof(InventoryRecord_1_00, equipment_slots) == 0x28);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    InventoryRecord_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    InventoryRecord_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const InventoryRecord_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

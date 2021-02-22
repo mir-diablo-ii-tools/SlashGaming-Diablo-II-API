@@ -65,43 +65,112 @@ namespace d2 {
 
 class DLLEXPORT InventoryRecord_Api {
  public:
+  using ApiVariant = std::variant<InventoryRecord_1_00>;
+
   InventoryRecord_Api() = delete;
+
   InventoryRecord_Api(
       PositionalRectangle_View position,
       GridLayout_View grid_layout,
       EquipmentLayout_View equipment_slots
   );
 
-  InventoryRecord_Api(const InventoryRecord_Api& other);
-  InventoryRecord_Api(InventoryRecord_Api&& other) noexcept;
-
-  ~InventoryRecord_Api();
-
-  InventoryRecord_Api& operator=(
+  constexpr InventoryRecord_Api(
       const InventoryRecord_Api& other
-  );
-  InventoryRecord_Api& operator=(
+  ) = default;
+
+  constexpr InventoryRecord_Api(
       InventoryRecord_Api&& other
-  ) noexcept;
+  ) noexcept = default;
 
-  operator InventoryRecord_View() const noexcept;
-  operator InventoryRecord_Wrapper() noexcept;
+  ~InventoryRecord_Api() = default;
 
-  InventoryRecord* Get() noexcept;
-  const InventoryRecord* Get() const noexcept;
+  constexpr InventoryRecord_Api& operator=(
+      const InventoryRecord_Api& other
+  ) = default;
 
-  PositionalRectangle_View GetPosition() const noexcept;
-  PositionalRectangle_Wrapper GetPosition() noexcept;
+  constexpr InventoryRecord_Api& operator=(
+      InventoryRecord_Api&& other
+  ) noexcept = default;
 
-  GridLayout_View GetGridLayout() const noexcept;
-  GridLayout_Wrapper GetGridLayout() noexcept;
+  constexpr operator InventoryRecord_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_inventory_record) {
+          return InventoryRecord_View(&actual_inventory_record);
+        },
+        this->inventory_record_
+    );
+  }
 
-  EquipmentLayout_View GetEquipmentSlots() const noexcept;
-  EquipmentLayout_Wrapper GetEquipmentSlots() noexcept;
+  constexpr operator InventoryRecord_Wrapper() noexcept {
+    return ::std::visit(
+        [](auto& actual_inventory_record) {
+          return InventoryRecord_Wrapper(&actual_inventory_record);
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr InventoryRecord* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<InventoryRecord*>(const_this->Get());
+  }
+
+  constexpr void AssignMembers(InventoryRecord_View src) noexcept {
+    InventoryRecord_Wrapper wrapper(*this);
+
+    wrapper.AssignMembers(src);
+  }
+
+  constexpr const InventoryRecord* Get() const noexcept {
+    return std::visit(
+        [](auto& actual_inventory_record) {
+          return reinterpret_cast<const InventoryRecord*>(
+              &actual_inventory_record
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view.GetPosition();
+  }
+
+  constexpr PositionalRectangle_Wrapper GetPosition() noexcept {
+    InventoryRecord_Wrapper wrapper(*this);
+
+    return wrapper.GetPosition();
+  }
+
+  constexpr GridLayout_View GetGridLayout() const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view.GetGridLayout();
+  }
+
+  constexpr GridLayout_Wrapper GetGridLayout() noexcept {
+    InventoryRecord_Wrapper wrapper(*this);
+
+    return wrapper.GetGridLayout();
+  }
+
+  constexpr EquipmentLayout_View GetEquipmentSlots() const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view.GetEquipmentSlots();
+  }
+
+  constexpr EquipmentLayout_Wrapper GetEquipmentSlots() noexcept {
+    InventoryRecord_Wrapper wrapper(*this);
+
+    return wrapper.GetEquipmentSlots();
+  }
 
  private:
-  using ApiVariant = std::variant<InventoryRecord_1_00>;
-
   ApiVariant inventory_record_;
 
   static ApiVariant CreateVariant(
