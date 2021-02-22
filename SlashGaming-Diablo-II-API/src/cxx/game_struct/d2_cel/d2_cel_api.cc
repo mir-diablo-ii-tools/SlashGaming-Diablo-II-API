@@ -47,92 +47,22 @@
 
 namespace d2 {
 
-Cel_Api::Cel_Api(const Cel_Api& other) {
-  // TODO (Mir Drualga): Implement this function when a viable constructor is
-  // available.
+Cel_Api::Cel_Api(Cel_Api&& other) noexcept
+    : cel_(::std::move(other.cel_)) {
+  other.cel_ = nullptr;
 }
-
-Cel_Api::Cel_Api(Cel_Api&& other) noexcept = default;
 
 Cel_Api::~Cel_Api() = default;
 
-Cel_Api& Cel_Api::operator=(const Cel_Api& other) {
-  *this = Cel_Api(other);
+Cel_Api& Cel_Api::operator=(Cel_Api&& other) noexcept {
+  if (this == &other) {
+    return *this;
+  }
+
+  this->cel_ = ::std::move(other.cel_);
+  other.cel_ = nullptr;
 
   return *this;
-}
-
-Cel_Api& Cel_Api::operator=(Cel_Api&& other) noexcept = default;
-
-Cel_Api::operator Cel_View() const noexcept {
-  return Cel_View(this->Get());
-}
-
-Cel_Api::operator Cel_Wrapper() noexcept {
-  return Cel_Wrapper(this->Get());
-}
-
-Cel* Cel_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<Cel*>(const_this->Get());
-}
-
-const Cel* Cel_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive) {
-        return reinterpret_cast<const Cel*>(actual_mpq_archive);
-      },
-      this->cel_
-  );
-}
-
-int Cel_Api::GetHeight() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetHeight();
-}
-
-void Cel_Api::SetHeight(int height) noexcept {
-  Cel_Wrapper wrapper(this->Get());
-
-  wrapper.SetHeight(height);
-}
-
-int Cel_Api::GetOffsetX() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetOffsetX();
-}
-
-void Cel_Api::SetOffsetX(int offset_x) noexcept {
-  Cel_Wrapper wrapper(this->Get());
-
-  wrapper.SetOffsetX(offset_x);
-}
-
-int Cel_Api::GetOffsetY() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetOffsetY();
-}
-
-void Cel_Api::SetOffsetY(int offset_y) noexcept {
-  Cel_Wrapper wrapper(this->Get());
-
-  wrapper.SetOffsetY(offset_y);
-}
-
-int Cel_Api::GetWidth() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetWidth();
-}
-
-void Cel_Api::SetWidth(int width) noexcept {
-  Cel_Wrapper wrapper(this->Get());
-
-  wrapper.SetWidth(width);
 }
 
 } // namespace d2

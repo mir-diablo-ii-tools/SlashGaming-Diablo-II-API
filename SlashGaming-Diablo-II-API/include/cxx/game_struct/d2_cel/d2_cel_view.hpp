@@ -57,29 +57,91 @@ namespace d2 {
 
 class DLLEXPORT Cel_View {
  public:
-  Cel_View() = delete;
-  Cel_View(const Cel* cel) noexcept;
-
-  Cel_View(const Cel_View& other) noexcept;
-  Cel_View(Cel_View&& other) noexcept;
-
-  ~Cel_View() noexcept;
-
-  Cel_View& operator=(const Cel_View& other) noexcept;
-  Cel_View& operator=(Cel_View&& other) noexcept;
-
-  Cel_View operator[](std::size_t index) const noexcept;
-
-  const Cel* Get() const noexcept;
-
-  int GetHeight() const noexcept;
-  int GetOffsetX() const noexcept;
-  int GetOffsetY() const noexcept;
-  int GetWidth() const noexcept;
-
- private:
   using ViewVariant = std::variant<const Cel_1_00*>;
 
+  Cel_View() = delete;
+
+  Cel_View(const Cel* cel) noexcept;
+
+  constexpr explicit Cel_View(ViewVariant cel) noexcept
+      : cel_(::std::move(cel)) {
+  }
+
+  constexpr Cel_View(
+      const Cel_View& other
+  ) noexcept = default;
+
+  constexpr Cel_View(
+      Cel_View&& other
+  ) noexcept = default;
+
+  ~Cel_View() noexcept = default;
+
+  constexpr Cel_View& operator=(
+      const Cel_View& other
+  ) noexcept = default;
+
+  constexpr Cel_View& operator=(
+      Cel_View&& other
+  ) noexcept = default;
+
+  constexpr Cel_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return std::visit(
+        [index](const auto& actual_cel) {
+          return Cel_View(&actual_cel[index]);
+        },
+        this->cel_
+    );
+  }
+
+  constexpr const Cel* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel) {
+          return reinterpret_cast<const Cel*>(actual_cel);
+        },
+        this->cel_
+    );
+  }
+
+  constexpr int GetHeight() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel) {
+          return actual_cel->height;
+        },
+        this->cel_
+    );
+  }
+
+  constexpr int GetOffsetX() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel) {
+          return actual_cel->offset_x;
+        },
+        this->cel_
+    );
+  }
+
+  constexpr int GetOffsetY() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel) {
+          return actual_cel->offset_y;
+        },
+        this->cel_
+    );
+  }
+
+  constexpr int GetWidth() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel) {
+          return actual_cel->width;
+        },
+        this->cel_
+    );
+  }
+
+ private:
   ViewVariant cel_;
 
   static ViewVariant CreateVariant(const Cel* cel);

@@ -88,22 +88,6 @@ static_assert(offsetof(Cel_1_00, offset_y) == 0x10);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    Cel_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    Cel_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const Cel_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"
