@@ -85,22 +85,6 @@ static_assert(offsetof(EquipmentLayout_1_00, height) == 0x11);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const EquipmentLayout_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    EquipmentLayout_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    EquipmentLayout_1_00
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

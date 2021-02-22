@@ -60,41 +60,112 @@ namespace d2 {
 
 class DLLEXPORT EquipmentLayout_Api {
  public:
+  using ApiVariant = std::variant<EquipmentLayout_1_00>;
+
   EquipmentLayout_Api() = delete;
+
   EquipmentLayout_Api(
       PositionalRectangle_View position,
       unsigned char width,
       unsigned char height
   );
 
-  EquipmentLayout_Api(const EquipmentLayout_Api& other);
-  EquipmentLayout_Api(EquipmentLayout_Api&& other) noexcept;
+  constexpr EquipmentLayout_Api(
+      const EquipmentLayout_Api& other
+  ) = default;
 
-  ~EquipmentLayout_Api();
+  constexpr EquipmentLayout_Api(
+      EquipmentLayout_Api&& other
+  ) noexcept = default;
 
-  EquipmentLayout_Api& operator=(const EquipmentLayout_Api& other);
-  EquipmentLayout_Api& operator=(EquipmentLayout_Api&& other) noexcept;
+  ~EquipmentLayout_Api() = default;
 
-  operator EquipmentLayout_View() const noexcept;
-  operator EquipmentLayout_Wrapper() noexcept;
+  constexpr EquipmentLayout_Api& operator=(
+      const EquipmentLayout_Api& other
+  ) = default;
 
-  EquipmentLayout* Get() noexcept;
-  const EquipmentLayout* Get() const noexcept;
+  constexpr EquipmentLayout_Api& operator=(
+      EquipmentLayout_Api&& other
+  ) noexcept = default;
 
-  void Assign(EquipmentLayout_View src) noexcept;
+  constexpr operator EquipmentLayout_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_equipment_layout) {
+          return EquipmentLayout_View(&actual_equipment_layout);
+        },
+        this->equipment_layout_
+    );
+  }
 
-  PositionalRectangle_View GetPosition() const noexcept;
-  PositionalRectangle_Wrapper GetPosition() noexcept;
+  constexpr operator EquipmentLayout_Wrapper() noexcept {
+    return ::std::visit(
+        [](auto& actual_equipment_layout) {
+          return EquipmentLayout_Wrapper(&actual_equipment_layout);
+        },
+        this->equipment_layout_
+    );
+  }
 
-  unsigned char GetWidth() const noexcept;
-  void SetWidth(unsigned char width) noexcept;
+  constexpr EquipmentLayout* Get() noexcept {
+    const auto* const_this = this;
 
-  unsigned char GetHeight() const noexcept;
-  void SetHeight(unsigned char height) noexcept;
+    return const_cast<EquipmentLayout*>(const_this->Get());
+  }
+
+  constexpr const EquipmentLayout* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_equipment_layout) {
+          return reinterpret_cast<const EquipmentLayout*>(
+              &actual_equipment_layout
+          );
+        },
+        this->equipment_layout_
+    );
+  }
+
+  constexpr void AssignMembers(EquipmentLayout_View src) noexcept {
+    EquipmentLayout_Wrapper wrapper(*this);
+
+    wrapper.AssignMembers(src);
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    EquipmentLayout_View view(*this);
+
+    return view.GetPosition();
+  }
+
+  constexpr PositionalRectangle_Wrapper GetPosition() noexcept {
+    EquipmentLayout_Wrapper wrapper(*this);
+
+    return wrapper.GetPosition();
+  }
+
+  constexpr unsigned char GetWidth() const noexcept {
+    EquipmentLayout_View view(*this);
+
+    return view.GetWidth();
+  }
+
+  constexpr void SetWidth(unsigned char width) noexcept {
+    EquipmentLayout_Wrapper wrapper(*this);
+
+    wrapper.SetWidth(width);
+  }
+
+  constexpr unsigned char GetHeight() const noexcept {
+    EquipmentLayout_View view(*this);
+
+    return view.GetHeight();
+  }
+
+  constexpr void SetHeight(unsigned char height) noexcept {
+    EquipmentLayout_Wrapper wrapper(*this);
+
+    wrapper.SetHeight(height);
+  }
 
  private:
-  using ApiVariant = std::variant<EquipmentLayout_1_00>;
-
   ApiVariant equipment_layout_;
 
   static ApiVariant CreateVariant(
