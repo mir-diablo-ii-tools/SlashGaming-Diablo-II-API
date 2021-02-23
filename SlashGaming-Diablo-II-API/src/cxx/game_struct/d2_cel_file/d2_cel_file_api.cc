@@ -205,24 +205,6 @@ void CelFile_Api::Open(
   this->is_open_ = (this->Get_() != nullptr);
 }
 
-unsigned int CelFile_Api::GetVersion() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetVersion();
-}
-
-unsigned int CelFile_Api::GetNumDirections() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumDirections();
-}
-
-unsigned int CelFile_Api::GetNumFrames() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumFrames();
-}
-
 CelFile_Api::ApiVariant CelFile_Api::CreateVariant(
     std::string_view cel_file_path,
     bool is_dcc_else_dc6

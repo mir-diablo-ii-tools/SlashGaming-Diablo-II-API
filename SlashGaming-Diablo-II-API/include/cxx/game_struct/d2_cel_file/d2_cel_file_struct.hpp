@@ -91,22 +91,6 @@ static_assert(offsetof(CelFile_1_00, num_frames) == 0x14);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    CelFile_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    CelFile_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const CelFile_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

@@ -61,57 +61,6 @@ CelFile_Wrapper::CelFile_Wrapper(
 ) noexcept : cel_file_(CreateVariant(cel_file)) {
 }
 
-CelFile_Wrapper::CelFile_Wrapper(
-    const CelFile_Wrapper& other
-) noexcept = default;
-
-CelFile_Wrapper::CelFile_Wrapper(
-    CelFile_Wrapper&& other
-) noexcept = default;
-
-CelFile_Wrapper::~CelFile_Wrapper() noexcept = default;
-
-CelFile_Wrapper& CelFile_Wrapper::operator=(
-    const CelFile_Wrapper& other
-) noexcept = default;
-
-CelFile_Wrapper& CelFile_Wrapper::operator=(
-    CelFile_Wrapper&& other
-) noexcept = default;
-
-CelFile_Wrapper::operator CelFile_View() const noexcept {
-  return CelFile_View(this->Get());
-}
-
-CelFile_View CelFile_Wrapper::operator[](std::size_t index) const noexcept {
-  CelFile_View view(this->Get());
-
-  return view[index];
-}
-
-CelFile_Wrapper CelFile_Wrapper::operator[](std::size_t index) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<CelFile*>((*const_this)[index].Get());
-}
-
-CelFile* CelFile_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<CelFile*>(const_this->Get());
-}
-
-const CelFile* CelFile_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_file) {
-        return reinterpret_cast<const CelFile*>(
-            actual_cel_file
-        );
-      },
-      this->cel_file_
-  );
-}
-
 bool CelFile_Wrapper::DrawFrame(
     int position_x,
     int position_y,
@@ -293,55 +242,13 @@ bool CelFile_Wrapper::DrawAllFrames(
   return is_all_success;
 }
 
-Cel_Wrapper CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
+Cel_Wrapper CelFile_Wrapper::GetCel(
+    unsigned int direction,
+    unsigned int frame
+) {
   CelContext_Api cel_context(this->Get(), direction, frame);
 
   return cel_context.GetCel();
-}
-
-unsigned int CelFile_Wrapper::GetVersion() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetVersion();
-}
-
-void CelFile_Wrapper::SetVersion(unsigned int version) noexcept {
-  std::visit(
-      [version](auto& actual_cel_file) {
-        actual_cel_file->version = version;
-      },
-      this->cel_file_
-  );
-}
-
-unsigned int CelFile_Wrapper::GetNumDirections() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumDirections();
-}
-
-void CelFile_Wrapper::SetNumDirections(unsigned int num_directions) noexcept {
-  std::visit(
-      [num_directions](auto& actual_cel_file) {
-        actual_cel_file->num_directions = num_directions;
-      },
-      this->cel_file_
-  );
-}
-
-unsigned int CelFile_Wrapper::GetNumFrames() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumFrames();
-}
-
-void CelFile_Wrapper::SetNumFrames(unsigned int num_frames) noexcept {
-  std::visit(
-      [num_frames](auto& actual_cel_file) {
-        actual_cel_file->num_frames = num_frames;
-      },
-      this->cel_file_
-  );
 }
 
 CelFile_Wrapper::WrapperVariant CelFile_Wrapper::CreateVariant(
