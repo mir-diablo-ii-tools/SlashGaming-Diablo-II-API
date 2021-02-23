@@ -102,8 +102,10 @@ class DLLEXPORT EquipmentLayout_Wrapper {
       std::size_t index
   ) noexcept {
     return ::std::visit(
-        [](const auto& actual_equipment_layout) {
-          return EquipmentLayout_Wrapper(actual_equipment_layout);
+        [index](const auto& actual_equipment_layout) {
+          return EquipmentLayout_Wrapper(
+              &actual_equipment_layout[index]
+          );
         },
         this->equipment_layout_
     );

@@ -94,8 +94,8 @@ class DLLEXPORT InventoryRecord_View {
       std::size_t index
   ) const noexcept {
     return ::std::visit(
-        [](const auto& actual_inventory_record) {
-          return InventoryRecord_View(actual_inventory_record);
+        [index](const auto& actual_inventory_record) {
+          return InventoryRecord_View(&actual_inventory_record[index]);
         },
         this->inventory_record_
     );
