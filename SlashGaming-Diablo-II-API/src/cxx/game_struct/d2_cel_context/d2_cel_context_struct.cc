@@ -49,28 +49,6 @@
 
 namespace d2 {
 
-#if !defined(SUPPRESS_SRC_TEMPL_INST)
-
-template class std::variant<
-    CelContext_1_00,
-    CelContext_1_12A,
-    CelContext_1_13C
->;
-
-template class std::variant<
-    CelContext_1_00*,
-    CelContext_1_12A*,
-    CelContext_1_13C*
->;
-
-template class std::variant<
-    const CelContext_1_00*,
-    const CelContext_1_12A*,
-    const CelContext_1_13C*
->;
-
-#endif // !defined(SUPPRESS_SRC_TEMPL_INST)
-
 } // namespace d2
 
 #include "../../../../include/dllexport_undefine.inc"
