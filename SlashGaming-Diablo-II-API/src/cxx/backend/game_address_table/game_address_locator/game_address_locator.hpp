@@ -58,7 +58,7 @@ namespace mapi {
 class GameAddressLocator {
  public:
   using LocatorVariantType = ::std::variant<
-      GameDecoratedNameLocator,
+      GameExportedNameLocator,
       GameOffsetLocator,
       GameOrdinalLocator
   >;
@@ -71,7 +71,7 @@ class GameAddressLocator {
 
  private:
   ::std::variant<
-      GameDecoratedNameLocator,
+      GameExportedNameLocator,
       GameOffsetLocator,
       GameOrdinalLocator
   > locator_;

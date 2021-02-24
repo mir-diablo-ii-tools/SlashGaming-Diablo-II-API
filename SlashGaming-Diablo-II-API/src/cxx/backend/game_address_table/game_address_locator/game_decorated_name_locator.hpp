@@ -53,11 +53,11 @@
 
 namespace mapi {
 
-class GameDecoratedNameLocator {
+class GameExportedNameLocator {
  public:
-  GameDecoratedNameLocator() = delete;
+  GameExportedNameLocator() = delete;
 
-  constexpr GameDecoratedNameLocator(
+  constexpr GameExportedNameLocator(
       ::d2::DefaultLibrary library,
       ::std::string_view exported_name
   ) noexcept

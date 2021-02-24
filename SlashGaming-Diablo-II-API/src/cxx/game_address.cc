@@ -56,19 +56,19 @@
 
 namespace mapi {
 
-GameAddress GameAddress::FromDecoratedName(
-    d2::DefaultLibrary library,
-    std::string_view exported_name
+GameAddress GameAddress::FromExportedName(
+    ::d2::DefaultLibrary library,
+    ::std::string_view exported_name
 ) {
-  const std::filesystem::path& default_library_path =
+  const ::std::filesystem::path& default_library_path =
       ::d2::default_library::GetPathWithRedirect(library);
 
-  return FromDecoratedName(default_library_path, exported_name);
+  return FromExportedName(default_library_path, exported_name);
 }
 
-GameAddress GameAddress::FromDecoratedName(
-    const std::filesystem::path& library_path,
-    std::string_view exported_name
+GameAddress GameAddress::FromExportedName(
+    const ::std::filesystem::path& library_path,
+    ::std::string_view exported_name
 ) {
   static constexpr std::size_t kExportedNameWideCapacity = 1024;
 

@@ -47,8 +47,8 @@
 
 namespace mapi {
 
-GameAddress GameDecoratedNameLocator::LocateGameAddress() const noexcept {
-  return GameAddress::FromDecoratedName(
+GameAddress GameExportedNameLocator::LocateGameAddress() const noexcept {
+  return GameAddress::FromExportedName(
       this->library(),
       this->exported_name()
   );

@@ -70,18 +70,18 @@ class DLLEXPORT GameAddress {
    * Returns a game address that uses a string encoded in 7-bit ASCII to
    * specify a location in game memory.
    */
-  static GameAddress FromDecoratedName(
+  static GameAddress FromExportedName(
       ::d2::DefaultLibrary library,
-      std::string_view decorated_name
+      ::std::string_view exported_name
   );
 
   /**
    * Returns a game address that uses a string encoded in 7-bit ASCII to
    * specify a location in game memory.
    */
-  static GameAddress FromDecoratedName(
-      const std::filesystem::path& library_path,
-      std::string_view decorated_name
+  static GameAddress FromExportedName(
+      const ::std::filesystem::path& library_path,
+      ::std::string_view exported_name
   );
 
   /**
