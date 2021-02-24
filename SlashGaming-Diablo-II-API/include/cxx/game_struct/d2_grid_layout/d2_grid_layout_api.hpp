@@ -125,7 +125,7 @@ class DLLEXPORT GridLayout_Api {
     );
   }
 
-  constexpr void Assign(GridLayout_View src) noexcept {
+  constexpr void AssignMembers(GridLayout_View src) noexcept {
     GridLayout_Wrapper wrapper(*this);
 
     wrapper.AssignMembers(src);
