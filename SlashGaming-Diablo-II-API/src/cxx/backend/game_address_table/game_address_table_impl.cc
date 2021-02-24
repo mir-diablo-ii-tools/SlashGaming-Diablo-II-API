@@ -51,7 +51,7 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 #include "game_address_locator/game_address_locator.hpp"
-#include "game_address_locator/game_decorated_name_locator.hpp"
+#include "game_address_locator/game_exported_name_locator.hpp"
 #include "game_address_locator/game_offset_locator.hpp"
 #include "game_address_locator/game_ordinal_locator.hpp"
 #include "game_address_table_define.hpp"

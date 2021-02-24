@@ -49,7 +49,7 @@
 #include <variant>
 
 #include "../../../../../include/cxx/game_address.hpp"
-#include "game_decorated_name_locator.hpp"
+#include "game_exported_name_locator.hpp"
 #include "game_offset_locator.hpp"
 #include "game_ordinal_locator.hpp"
 

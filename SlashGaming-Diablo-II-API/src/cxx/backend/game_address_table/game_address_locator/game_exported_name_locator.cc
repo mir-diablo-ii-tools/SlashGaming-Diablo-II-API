@@ -43,7 +43,7 @@
  *  work.
  */
 
-#include "game_decorated_name_locator.hpp"
+#include "game_exported_name_locator.hpp"
 
 namespace mapi {
 
