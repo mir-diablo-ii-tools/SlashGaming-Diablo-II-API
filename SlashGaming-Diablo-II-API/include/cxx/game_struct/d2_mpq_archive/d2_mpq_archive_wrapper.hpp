@@ -58,30 +58,66 @@ namespace d2 {
 
 class DLLEXPORT MpqArchive_Wrapper {
  public:
+  using WrapperVariant = std::variant<MpqArchive_1_00*>;
+
   MpqArchive_Wrapper() = delete;
+
   MpqArchive_Wrapper(MpqArchive* mpq_archive) noexcept;
 
-  MpqArchive_Wrapper(const MpqArchive_Wrapper& other) noexcept;
-  MpqArchive_Wrapper(MpqArchive_Wrapper&& other) noexcept;
+  constexpr explicit MpqArchive_Wrapper(
+      WrapperVariant mpq_archive
+  ) noexcept
+      : mpq_archive_(::std::move(mpq_archive)) {
+  }
 
-  ~MpqArchive_Wrapper() noexcept;
+  constexpr MpqArchive_Wrapper(
+      const MpqArchive_Wrapper& other
+  ) noexcept = default;
 
-  MpqArchive_Wrapper& operator=(const MpqArchive_Wrapper& other) noexcept;
-  MpqArchive_Wrapper& operator=(MpqArchive_Wrapper&& other) noexcept;
+  constexpr MpqArchive_Wrapper(
+      MpqArchive_Wrapper&& other
+  ) noexcept = default;
+
+  ~MpqArchive_Wrapper() noexcept = default;
+
+  constexpr MpqArchive_Wrapper& operator=(
+      const MpqArchive_Wrapper& other
+  ) noexcept = default;
+
+  constexpr MpqArchive_Wrapper& operator=(
+      MpqArchive_Wrapper&& other
+  ) noexcept = default;
 
   // TODO (Mir Drualga): Undelete these operator[] when
   // MpqArchive_1_00 is implemented.
   MpqArchive_View operator[](std::size_t index) const noexcept = delete;
   MpqArchive_Wrapper operator[](std::size_t index) noexcept = delete;
 
-  operator MpqArchive_View() const noexcept;
+  constexpr operator MpqArchive_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_mpq_archive) {
+          return MpqArchive_View(actual_mpq_archive);
+        },
+        this->mpq_archive_
+    );
+  }
 
-  MpqArchive* Get() noexcept;
-  const MpqArchive* Get() const noexcept;
+  constexpr MpqArchive* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<MpqArchive*>(const_this->Get());
+  }
+
+  constexpr const MpqArchive* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_mpq_archive) {
+          return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
+        },
+        this->mpq_archive_
+    );
+  }
 
  private:
-  using WrapperVariant = std::variant<MpqArchive_1_00*>;
-
   WrapperVariant mpq_archive_;
 
   static WrapperVariant CreateVariant(MpqArchive* mpq_archive);

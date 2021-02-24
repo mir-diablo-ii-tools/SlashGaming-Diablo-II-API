@@ -53,24 +53,6 @@ MpqArchive_Wrapper::MpqArchive_Wrapper(MpqArchive* mpq_archive) noexcept :
     mpq_archive_(CreateVariant(mpq_archive)) {
 }
 
-MpqArchive_Wrapper::MpqArchive_Wrapper(
-    const MpqArchive_Wrapper& other
-) noexcept = default;
-
-MpqArchive_Wrapper::MpqArchive_Wrapper(
-    MpqArchive_Wrapper&& other
-) noexcept = default;
-
-MpqArchive_Wrapper::~MpqArchive_Wrapper() noexcept = default;
-
-MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
-    const MpqArchive_Wrapper& other
-) noexcept = default;
-
-MpqArchive_Wrapper& MpqArchive_Wrapper::operator=(
-    MpqArchive_Wrapper&& other
-) noexcept = default;
-
 /* TODO (Mir Drualga): Uncomment when MpqArchive_1_00 is implemented.
 MpqArchive_View MpqArchive_Wrapper::operator[](
     std::size_t index
@@ -89,25 +71,6 @@ MpqArchive_Wrapper MpqArchive_Wrapper::operator[](
   return const_cast<MpqArchive*>((*const_this)[index].Get());
 }
 */
-
-MpqArchive_Wrapper::operator MpqArchive_View() const noexcept {
-  return MpqArchive_View(this->Get());
-}
-
-MpqArchive* MpqArchive_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<MpqArchive*>(const_this->Get());
-}
-
-const MpqArchive* MpqArchive_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive) {
-        return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
-      },
-      this->mpq_archive_
-  );
-}
 
 MpqArchive_Wrapper::WrapperVariant MpqArchive_Wrapper::CreateVariant(
     MpqArchive* mpq_archive

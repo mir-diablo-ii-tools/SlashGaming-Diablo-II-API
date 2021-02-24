@@ -64,18 +64,6 @@ struct MpqArchive;
 
 struct MpqArchive_1_00;
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    MpqArchive_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const MpqArchive_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

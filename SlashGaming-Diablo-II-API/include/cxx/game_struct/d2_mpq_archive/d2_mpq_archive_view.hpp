@@ -57,25 +57,47 @@ namespace d2 {
 
 class DLLEXPORT MpqArchive_View {
  public:
+  using ViewVariant = std::variant<const MpqArchive_1_00*>;
+
   MpqArchive_View() = delete;
+
   MpqArchive_View(const MpqArchive* mpq_archive) noexcept;
 
-  MpqArchive_View(const MpqArchive_View& other) noexcept;
-  MpqArchive_View(MpqArchive_View&& other) noexcept;
+  constexpr explicit MpqArchive_View(ViewVariant mpq_archive) noexcept
+      : mpq_archive_(::std::move(mpq_archive)) {
+  }
 
-  ~MpqArchive_View() noexcept;
+  constexpr MpqArchive_View(
+      const MpqArchive_View& other
+  ) noexcept = default;
 
-  MpqArchive_View& operator=(const MpqArchive_View& other) noexcept;
-  MpqArchive_View& operator=(MpqArchive_View&& other) noexcept;
+  constexpr MpqArchive_View(
+      MpqArchive_View&& other
+  ) noexcept = default;
+
+  ~MpqArchive_View() noexcept = default;
+
+  constexpr MpqArchive_View& operator=(
+      const MpqArchive_View& other
+  ) noexcept = default;
+
+  constexpr MpqArchive_View& operator=(
+      MpqArchive_View&& other
+  ) noexcept = default;
 
   // TODO (Mir Drualga): Undelete when MpqArchive_1_00 is implemented.
   MpqArchive_View operator[](std::size_t index) const noexcept = delete;
 
-  const MpqArchive* Get() const noexcept;
+  constexpr const MpqArchive* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_mpq_archive) {
+          return reinterpret_cast<const MpqArchive*>(actual_mpq_archive);
+        },
+        this->mpq_archive_
+    );
+  }
 
  private:
-  using ViewVariant = std::variant<const MpqArchive_1_00*>;
-
   ViewVariant mpq_archive_;
 
   static ViewVariant CreateVariant(const MpqArchive* mpq_archive);
