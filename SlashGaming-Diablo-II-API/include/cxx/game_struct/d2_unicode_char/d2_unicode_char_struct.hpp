@@ -93,22 +93,6 @@ constexpr std::strong_ordering operator<=>(
   return ch1.ch <=> ch2.ch;
 }
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    UnicodeChar_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    UnicodeChar_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const UnicodeChar_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

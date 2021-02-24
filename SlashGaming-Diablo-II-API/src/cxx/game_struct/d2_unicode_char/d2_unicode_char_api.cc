@@ -67,32 +67,6 @@ UnicodeChar_Api::UnicodeChar_Api(const UnicodeChar& uch) :
     }()) {
 }
 
-UnicodeChar_Api::UnicodeChar_Api(const UnicodeChar_Api& other) = default;
-
-UnicodeChar_Api::UnicodeChar_Api(UnicodeChar_Api&& other) noexcept = default;
-
-UnicodeChar_Api::~UnicodeChar_Api() = default;
-
-UnicodeChar_Api& UnicodeChar_Api::operator=(
-    const UnicodeChar_Api& other
-) = default;
-
-UnicodeChar_Api& UnicodeChar_Api::operator=(
-    UnicodeChar_Api&& other
-) noexcept = default;
-
-UnicodeChar_Api::operator UnicodeChar_View() const noexcept {
-  UnicodeChar_View view(this->Get());
-
-  return view;
-}
-
-UnicodeChar_Api::operator UnicodeChar_Wrapper() noexcept {
-  UnicodeChar_Wrapper wrapper(this->Get());
-
-  return wrapper;
-}
-
 UnicodeChar_Api UnicodeChar_Api::FromUtf8Char(
     std::u8string_view ch
 ) noexcept {
@@ -101,27 +75,6 @@ UnicodeChar_Api UnicodeChar_Api::FromUtf8Char(
   uch.SetUtf8Char(ch);
 
   return uch;
-}
-
-UnicodeChar* UnicodeChar_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<UnicodeChar*>(const_this->Get());
-}
-
-const UnicodeChar* UnicodeChar_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_uch) {
-        return reinterpret_cast<const UnicodeChar*>(&actual_uch);
-      },
-      this->uch_
-  );
-}
-
-void UnicodeChar_Api::Assign(UnicodeChar_View src) noexcept {
-  UnicodeChar_Wrapper wrapper(this->Get());
-
-  wrapper.Assign(src);
 }
 
 UnicodeChar_Api UnicodeChar_Api::ToLower() const {
@@ -172,16 +125,10 @@ UnicodeChar_Api UnicodeChar_Api::ToUpper() const {
   return reinterpret_cast<UnicodeChar&>(actual_to_upper_uch);
 }
 
-std::u8string UnicodeChar_Api::ToUtf8Char() const {
+::std::u8string UnicodeChar_Api::ToUtf8Char() const {
   UnicodeChar_View view(this->Get());
 
   return view.ToUtf8Char();
-}
-
-int UnicodeChar_Api::GetChar() const noexcept {
-  UnicodeChar_View view(this->Get());
-
-  return view.GetChar();
 }
 
 void UnicodeChar_Api::SetAsciiChar(char ch) noexcept {

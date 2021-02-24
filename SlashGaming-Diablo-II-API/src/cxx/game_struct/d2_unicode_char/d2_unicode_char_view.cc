@@ -59,44 +59,8 @@ UnicodeChar_View::UnicodeChar_View(const UnicodeChar* uch) noexcept :
     uch_(CreateVariant(uch)) {
 }
 
-UnicodeChar_View::UnicodeChar_View(
-    const UnicodeChar_View& other
-) noexcept = default;
-
-UnicodeChar_View::UnicodeChar_View(
-    UnicodeChar_View&& other
-) noexcept = default;
-
-UnicodeChar_View::~UnicodeChar_View() noexcept = default;
-
-UnicodeChar_View& UnicodeChar_View::operator=(
-    const UnicodeChar_View& other
-) noexcept = default;
-
-UnicodeChar_View& UnicodeChar_View::operator=(
-    UnicodeChar_View&& other
-) noexcept = default;
-
-const UnicodeChar* UnicodeChar_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_uch) {
-        return reinterpret_cast<const UnicodeChar*>(actual_uch);
-      },
-      this->uch_
-  );
-}
-
-int UnicodeChar_View::GetChar() const noexcept {
-  return std::visit(
-      [](const auto& actual_uch) {
-        return actual_uch->ch;
-      },
-      this->uch_
-  );
-}
-
-std::u8string UnicodeChar_View::ToUtf8Char() const {
-  return std::visit(
+::std::u8string UnicodeChar_View::ToUtf8Char() const {
+  return ::std::visit(
       [](const auto& actual_uch) {
         using UnicodeChar_T = std::remove_pointer_t<
             std::remove_reference_t<decltype(actual_uch)>
