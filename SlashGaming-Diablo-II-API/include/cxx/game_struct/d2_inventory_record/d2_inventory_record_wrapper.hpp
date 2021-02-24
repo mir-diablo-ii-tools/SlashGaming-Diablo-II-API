@@ -192,7 +192,7 @@ class DLLEXPORT InventoryRecord_Wrapper {
   }
 
   constexpr EquipmentLayout_View GetEquipmentSlots() const noexcept {
-    InventoryRecord_View view(this->Get());
+    InventoryRecord_View view(*this);
 
     return view.GetEquipmentSlots();
   }
