@@ -52,68 +52,6 @@ MpqArchiveHandle_View::MpqArchiveHandle_View(
 ) noexcept : mpq_archive_handle_(CreateVariant(mpq_archive_handle)) {
 }
 
-MpqArchiveHandle_View::MpqArchiveHandle_View(
-    const MpqArchiveHandle_View& other
-) noexcept = default;
-
-MpqArchiveHandle_View::MpqArchiveHandle_View(
-    MpqArchiveHandle_View&& other
-) noexcept = default;
-
-MpqArchiveHandle_View::~MpqArchiveHandle_View() noexcept = default;
-
-MpqArchiveHandle_View& MpqArchiveHandle_View::operator=(
-    const MpqArchiveHandle_View& other
-) noexcept = default;
-
-MpqArchiveHandle_View& MpqArchiveHandle_View::operator=(
-    MpqArchiveHandle_View&& other
-) noexcept = default;
-
-MpqArchiveHandle_View MpqArchiveHandle_View::operator[](
-    std::size_t index
-) const noexcept {
-  return std::visit(
-      [index](const auto& actual_mpq_archive_handle) {
-        return reinterpret_cast<const MpqArchiveHandle*>(
-            &actual_mpq_archive_handle[index]
-        );
-      },
-      this->mpq_archive_handle_
-  );
-}
-
-const MpqArchiveHandle* MpqArchiveHandle_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return reinterpret_cast<const MpqArchiveHandle*>(
-            actual_positional_rectangle
-        );
-      },
-      this->mpq_archive_handle_
-  );
-}
-
-MpqArchive_View MpqArchiveHandle_View::GetMpqArchive() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive_handle) {
-        return reinterpret_cast<const MpqArchive*>(
-            actual_mpq_archive_handle->mpq_archive
-        );
-      },
-      this->mpq_archive_handle_
-  );
-}
-
-const char* MpqArchiveHandle_View::GetMpqArchivePath() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive_handle) {
-        return actual_mpq_archive_handle->mpq_archive_path;
-      },
-      this->mpq_archive_handle_
-  );
-}
-
 MpqArchiveHandle_View::ViewVariant MpqArchiveHandle_View::CreateVariant(
     const MpqArchiveHandle* mpq_archive_handle
 ) {

@@ -82,22 +82,6 @@ static_assert(offsetof(MpqArchiveHandle_1_00, mpq_archive_path) == 0x04);
 
 #pragma pack(pop)
 
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    MpqArchiveHandle_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    MpqArchiveHandle_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const MpqArchiveHandle_1_00*
->;
-
 } // namespace d2
 
 #include "../../../dllexport_undefine.inc"

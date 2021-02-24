@@ -107,25 +107,10 @@ MpqArchiveHandle_Api& MpqArchiveHandle_Api::operator=(
   return *this;
 }
 
-MpqArchiveHandle_Api::operator MpqArchiveHandle_View() const noexcept {
-  return MpqArchiveHandle_View(this->Get());
-}
-
-MpqArchiveHandle* MpqArchiveHandle_Api::Get() noexcept {
+MpqArchiveHandle* MpqArchiveHandle_Api::Get_() noexcept {
   const auto* const_this = this;
 
   return const_cast<MpqArchiveHandle*>(const_this->Get());
-}
-
-const MpqArchiveHandle* MpqArchiveHandle_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive_handle) {
-        return reinterpret_cast<const MpqArchiveHandle*>(
-            actual_mpq_archive_handle
-        );
-      },
-      this->mpq_archive_handle_
-  );
 }
 
 void MpqArchiveHandle_Api::Close() {
@@ -133,7 +118,7 @@ void MpqArchiveHandle_Api::Close() {
     return;
   }
 
-  d2win::UnloadMpq(this->Get());
+  d2win::UnloadMpq(this->Get_());
   this->mpq_archive_handle_ = nullptr;
   this->is_open_ = false;
 }
@@ -171,18 +156,6 @@ void MpqArchiveHandle_Api::Open(
   );
 
   this->is_open_ = (this->Get() != nullptr);
-}
-
-MpqArchive_View MpqArchiveHandle_Api::GetMpqArchive() const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view.GetMpqArchive();
-}
-
-const char* MpqArchiveHandle_Api::GetMpqArchivePath() const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view.GetMpqArchivePath();
 }
 
 MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
