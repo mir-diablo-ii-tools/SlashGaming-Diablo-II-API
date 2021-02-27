@@ -120,7 +120,8 @@ SearchDefaultLibraryPath(DefaultLibrary library) {
       DefaultLibraryPathTableEntryCompareKey()
   );
 
-  if (search_range.first == kDefaultLibraryPathTable.cend()) {
+  if (search_range.first == kDefaultLibraryPathTable.cend()
+      || search_range.first == search_range.second) {
     ::mdc::error::ExitOnConstantMappingError(
         __FILEW__,
         __LINE__,

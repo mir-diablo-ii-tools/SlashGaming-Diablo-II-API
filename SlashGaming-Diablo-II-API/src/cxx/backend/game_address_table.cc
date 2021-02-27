@@ -82,7 +82,8 @@ GameAddress LoadGameAddress(
       GameAddressTableEntryCompareKey()
   );
 
-  if (search_range.first == &table[table_count]) {
+  if (search_range.first == &table[table_count]
+      || search_range.first == search_range.second) {
     static constexpr std::size_t kAddressNameWideCapacity = 1024;
 
     static ::std::array<wchar_t, kAddressNameWideCapacity> address_name_wide;

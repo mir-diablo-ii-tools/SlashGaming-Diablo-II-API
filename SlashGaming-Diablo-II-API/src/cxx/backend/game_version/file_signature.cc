@@ -452,7 +452,8 @@ d2::GameVersion FileSignature::SearchTable(
       FileSignatureTableEntryCompareKey()
   );
 
-  if (search_range.first == kFileSignatureSortedTable.cend()) {
+  if (search_range.first == kFileSignatureSortedTable.cend()
+      || search_range.first == search_range.second) {
     ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"Could not determine the game version from the file signature.",
