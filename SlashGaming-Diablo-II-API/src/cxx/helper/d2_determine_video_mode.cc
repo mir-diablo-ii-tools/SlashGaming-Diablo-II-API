@@ -149,9 +149,9 @@ static VideoMode_1_00 GetRegistryVideoMode() {
       return VideoMode_1_00::kDirectDraw;
     }
   }
-  
+
   DWORD render_value;
-  DWORD render_value_size;
+  DWORD render_value_size = REG_DWORD;
 
   LSTATUS reg_query_value_status = RegQueryValueExW(
       query_key_result,
