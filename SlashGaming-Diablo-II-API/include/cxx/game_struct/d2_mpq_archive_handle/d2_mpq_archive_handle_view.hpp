@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,30 +58,85 @@ namespace d2 {
 
 class DLLEXPORT MpqArchiveHandle_View {
  public:
+  using ViewVariant = std::variant<
+      const MpqArchiveHandle_1_00*
+  >;
+
   MpqArchiveHandle_View() = delete;
-  MpqArchiveHandle_View(const MpqArchiveHandle* mpq_archive_handle) noexcept;
 
-  MpqArchiveHandle_View(const MpqArchiveHandle_View& other) noexcept;
-  MpqArchiveHandle_View(MpqArchiveHandle_View&& other) noexcept;
-
-  ~MpqArchiveHandle_View() noexcept;
-
-  MpqArchiveHandle_View& operator=(
-      const MpqArchiveHandle_View& other
+  MpqArchiveHandle_View(
+      const MpqArchiveHandle* mpq_archive_handle
   ) noexcept;
 
-  MpqArchiveHandle_View& operator=(MpqArchiveHandle_View&& other) noexcept;
+  constexpr explicit MpqArchiveHandle_View(
+      ViewVariant mpq_archive_handle
+  ) noexcept
+      : mpq_archive_handle_(::std::move(mpq_archive_handle)) {
+  }
 
-  MpqArchiveHandle_View operator[](std::size_t index) const noexcept;
+  constexpr MpqArchiveHandle_View(
+      const MpqArchiveHandle_View& other
+  ) noexcept = default;
 
-  const MpqArchiveHandle* Get() const noexcept;
+  constexpr MpqArchiveHandle_View(
+      MpqArchiveHandle_View&& other
+  ) noexcept = default;
 
-  MpqArchive_View GetMpqArchive() const noexcept;
-  const char* GetMpqArchivePath() const noexcept;
+  ~MpqArchiveHandle_View() noexcept = default;
+
+  constexpr MpqArchiveHandle_View& operator=(
+      const MpqArchiveHandle_View& other
+  ) noexcept = default;
+
+  constexpr MpqArchiveHandle_View& operator=(
+      MpqArchiveHandle_View&& other
+  ) noexcept = default;
+
+  constexpr MpqArchiveHandle_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return std::visit(
+        [index](const auto& actual_mpq_archive_handle) {
+          return MpqArchiveHandle_View(
+              &actual_mpq_archive_handle[index]
+          );
+        },
+        this->mpq_archive_handle_
+    );
+  }
+
+  constexpr const MpqArchiveHandle* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return reinterpret_cast<const MpqArchiveHandle*>(
+              actual_positional_rectangle
+          );
+        },
+        this->mpq_archive_handle_
+    );
+  }
+
+  constexpr MpqArchive_View GetMpqArchive() const noexcept {
+    return std::visit(
+        [](const auto& actual_mpq_archive_handle) {
+          return MpqArchive_View(
+              actual_mpq_archive_handle->mpq_archive
+          );
+        },
+        this->mpq_archive_handle_
+    );
+  }
+
+  constexpr const char* GetMpqArchivePath() const noexcept {
+    return std::visit(
+        [](const auto& actual_mpq_archive_handle) {
+          return actual_mpq_archive_handle->mpq_archive_path;
+        },
+        this->mpq_archive_handle_
+    );
+  }
 
  private:
-  using ViewVariant = std::variant<const MpqArchiveHandle_1_00*>;
-
   ViewVariant mpq_archive_handle_;
 
   static ViewVariant CreateVariant(

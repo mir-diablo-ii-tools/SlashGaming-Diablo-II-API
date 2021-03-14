@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -43,36 +43,43 @@
  *  work.
  */
 
-#ifdef SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
+#ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_EXPORTED_NAME_LOCATOR_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_EXPORTED_NAME_LOCATOR_HPP_
 
-#include "game_address_table_impl.hpp"
+#include <string_view>
 
-#include "../../../../include/cxx/game_version.hpp"
-#include "../config.hpp"
-#include "game_address_table_reader.hpp"
+#include "../../../../../include/cxx/game_address.hpp"
+#include "../../../../../include/cxx/default_game_library.hpp"
 
 namespace mapi {
-namespace {
 
-static std::filesystem::path GetTableFilePath() {
-  const std::filesystem::path& address_table_directory =
-      GetAddressTableDirectoryPath();
-  std::u8string_view running_game_version_name =
-      d2::GetRunningGameVersionName();
+class GameExportedNameLocator {
+ public:
+  GameExportedNameLocator() = delete;
 
-  std::filesystem::path table_file_path(address_table_directory);
-  table_file_path /= running_game_version_name;
-  table_file_path += u8".txt";
+  constexpr GameExportedNameLocator(
+      ::d2::DefaultLibrary library,
+      ::std::string_view exported_name
+  ) noexcept
+      : library_(library),
+        exported_name_(exported_name) {
+  }
 
-  return table_file_path;
-}
+  GameAddress LocateGameAddress() const noexcept;
 
-} // namespace
+  constexpr ::d2::DefaultLibrary library() const noexcept {
+    return this->library_;
+  }
 
-GameAddressTable LoadGameAddressTable() {
-  return ReadTsvTableFile(GetTableFilePath());
-}
+  constexpr ::std::string_view exported_name() const noexcept {
+    return this->exported_name_;
+  }
+
+ private:
+  ::d2::DefaultLibrary library_;
+  ::std::string_view exported_name_;
+};
 
 } // namespace mapi
 
-#endif // SGMAPI_READ_ADDRESS_FROM_TXT_TABLE
+#endif // SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_EXPORTED_NAME_LOCATOR_HPP_

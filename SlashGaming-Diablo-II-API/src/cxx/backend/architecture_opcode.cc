@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -45,8 +45,9 @@
 
 #include "architecture_opcode.hpp"
 
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../../include/cxx/game_branch_type.hpp"
-#include "../backend/error_handling.hpp"
 
 namespace mapi {
 
@@ -61,11 +62,10 @@ OpCode ToOpcode(BranchType branch_type) {
     }
 
     default: {
-      ExitOnGeneralFailure(
-          L"Unknown branch type specified.",
-          L"Unknown Branch Type",
+      ::mdc::error::ExitOnConstantMappingError(
           __FILEW__,
-          __LINE__
+          __LINE__,
+          static_cast<int>(branch_type)
       );
 
       return static_cast<OpCode>(-1);

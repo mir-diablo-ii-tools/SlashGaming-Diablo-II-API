@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -64,43 +64,151 @@ namespace d2 {
 
 class DLLEXPORT InventoryRecord_Wrapper {
  public:
-  InventoryRecord_Wrapper() = delete;
-  InventoryRecord_Wrapper(InventoryRecord* inventory_record) noexcept;
-
-  InventoryRecord_Wrapper(const InventoryRecord_Wrapper& other) noexcept;
-  InventoryRecord_Wrapper(InventoryRecord_Wrapper&& other) noexcept;
-
-  ~InventoryRecord_Wrapper() noexcept;
-
-  InventoryRecord_Wrapper& operator=(
-      const InventoryRecord_Wrapper& other
-  ) noexcept;
-  InventoryRecord_Wrapper& operator=(
-      InventoryRecord_Wrapper&& other
-  ) noexcept;
-
-  InventoryRecord_View operator[](std::size_t index) const noexcept;
-  InventoryRecord_Wrapper operator[](std::size_t index) noexcept;
-
-  operator InventoryRecord_View() const noexcept;
-
-  void Assign(InventoryRecord_View src) noexcept;
-
-  InventoryRecord* Get() noexcept;
-  const InventoryRecord* Get() const noexcept;
-
-  PositionalRectangle_View GetPosition() const noexcept;
-  PositionalRectangle_Wrapper GetPosition() noexcept;
-
-  GridLayout_View GetGridLayout() const noexcept;
-  GridLayout_Wrapper GetGridLayout() noexcept;
-
-  EquipmentLayout_View GetEquipmentSlots() const noexcept;
-  EquipmentLayout_Wrapper GetEquipmentSlots() noexcept;
-
- private:
   using WrapperVariant = std::variant<InventoryRecord_1_00*>;
 
+  InventoryRecord_Wrapper() = delete;
+
+  InventoryRecord_Wrapper(InventoryRecord* inventory_record) noexcept;
+
+  constexpr explicit InventoryRecord_Wrapper(
+      WrapperVariant inventory_record
+  ) noexcept
+      : inventory_record_(::std::move(inventory_record)) {
+  }
+
+  constexpr InventoryRecord_Wrapper(
+      const InventoryRecord_Wrapper& other
+  ) noexcept = default;
+
+  constexpr InventoryRecord_Wrapper(
+      InventoryRecord_Wrapper&& other
+  ) noexcept = default;
+
+  ~InventoryRecord_Wrapper() noexcept = default;
+
+  constexpr InventoryRecord_Wrapper& operator=(
+      const InventoryRecord_Wrapper& other
+  ) noexcept = default;
+
+  constexpr InventoryRecord_Wrapper& operator=(
+      InventoryRecord_Wrapper&& other
+  ) noexcept = default;
+
+  constexpr InventoryRecord_View operator[](
+      std::size_t index
+  ) const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view[index];
+  }
+
+  constexpr InventoryRecord_Wrapper operator[](
+      std::size_t index
+  ) noexcept {
+    return ::std::visit(
+        [index](auto& actual_inventory_record) {
+          return InventoryRecord_Wrapper(
+              &actual_inventory_record[index]
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr operator InventoryRecord_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_inventory_record) {
+          return InventoryRecord_View(actual_inventory_record);
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr void AssignMembers(InventoryRecord_View src) noexcept {
+    std::visit(
+        [&src](auto& actual_dest) {
+          using Dest_T = decltype(actual_dest);
+          using ActualSrc_T = const std::remove_pointer_t<
+              std::remove_reference_t<Dest_T>
+          >*;
+
+          const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+          *actual_dest = *actual_src;
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr InventoryRecord* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<InventoryRecord*>(const_this->Get());
+  }
+
+  constexpr const InventoryRecord* Get() const noexcept {
+    return std::visit(
+        [](auto& actual_inventory_record) {
+          return reinterpret_cast<const InventoryRecord*>(
+              actual_inventory_record
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view.GetPosition();
+  }
+
+  constexpr PositionalRectangle_Wrapper GetPosition() noexcept {
+    return ::std::visit(
+        [](auto& actual_inventory_record) {
+          return PositionalRectangle_Wrapper(
+              &actual_inventory_record->position
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr GridLayout_View GetGridLayout() const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view.GetGridLayout();
+  }
+
+  constexpr GridLayout_Wrapper GetGridLayout() noexcept {
+    return ::std::visit(
+        [](auto& actual_inventory_record) {
+          return GridLayout_Wrapper(
+              &actual_inventory_record->grid_layout
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr EquipmentLayout_View GetEquipmentSlots() const noexcept {
+    InventoryRecord_View view(*this);
+
+    return view.GetEquipmentSlots();
+  }
+
+  constexpr EquipmentLayout_Wrapper GetEquipmentSlots() noexcept {
+    return ::std::visit(
+        [](auto& actual_inventory_record) {
+          return EquipmentLayout_Wrapper(
+              actual_inventory_record->equipment_slots
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+ private:
   WrapperVariant inventory_record_;
 
   static WrapperVariant CreateVariant(InventoryRecord* inventory_record);

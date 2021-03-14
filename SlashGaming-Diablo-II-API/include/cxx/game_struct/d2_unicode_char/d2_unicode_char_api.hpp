@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -61,35 +61,82 @@ namespace d2 {
 class DLLEXPORT UnicodeChar_Api {
  public:
   UnicodeChar_Api();
+
   UnicodeChar_Api(const UnicodeChar& uch);
 
-  UnicodeChar_Api(const UnicodeChar_Api& other);
-  UnicodeChar_Api(UnicodeChar_Api&& other) noexcept;
+  constexpr UnicodeChar_Api(
+      const UnicodeChar_Api& other
+  ) = default;
 
-  ~UnicodeChar_Api();
+  constexpr UnicodeChar_Api(
+      UnicodeChar_Api&& other
+  ) noexcept = default;
 
-  UnicodeChar_Api& operator=(const UnicodeChar_Api& other);
-  UnicodeChar_Api& operator=(UnicodeChar_Api&& other) noexcept;
+  ~UnicodeChar_Api() = default;
 
-  operator UnicodeChar_View() const noexcept;
-  operator UnicodeChar_Wrapper() noexcept;
+  constexpr UnicodeChar_Api& operator=(
+      const UnicodeChar_Api& other
+  ) = default;
+
+  constexpr UnicodeChar_Api& operator=(
+      UnicodeChar_Api&& other
+  ) noexcept = default;
+
+  constexpr operator UnicodeChar_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_uch) {
+          return UnicodeChar_View(&actual_uch);
+        },
+        this->uch_
+    );
+  }
+
+  constexpr operator UnicodeChar_Wrapper() noexcept {
+    return ::std::visit(
+        [](auto& actual_uch) {
+          return UnicodeChar_Wrapper(&actual_uch);
+        },
+        this->uch_
+    );
+  }
 
   static UnicodeChar_Api FromUtf8Char(std::u8string_view ch) noexcept;
 
-  UnicodeChar* Get() noexcept;
-  const UnicodeChar* Get() const noexcept;
+  constexpr UnicodeChar* Get() noexcept {
+    const auto* const_this = this;
 
-  void Assign(UnicodeChar_View src) noexcept;
+    return const_cast<UnicodeChar*>(const_this->Get());
+  }
+
+  constexpr const UnicodeChar* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_uch) {
+          return reinterpret_cast<const UnicodeChar*>(&actual_uch);
+        },
+        this->uch_
+    );
+  }
+
+  constexpr void AssignMembers(UnicodeChar_View src) noexcept {
+    UnicodeChar_Wrapper wrapper(*this);
+
+    wrapper.AssignMembers(src);
+  }
 
   UnicodeChar_Api ToLower() const;
 
   UnicodeChar_Api ToUpper() const;
 
-  std::u8string ToUtf8Char() const;
+  ::std::u8string ToUtf8Char() const;
 
-  int GetChar() const noexcept;
+  constexpr int GetChar() const noexcept {
+    UnicodeChar_View view(*this);
+
+    return view.GetChar();
+  }
 
   void SetAsciiChar(char ch) noexcept;
+
   void SetUtf8Char(std::u8string_view ch) noexcept;
 
  private:

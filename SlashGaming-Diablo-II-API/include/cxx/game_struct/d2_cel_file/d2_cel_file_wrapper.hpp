@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -60,24 +60,80 @@ namespace d2 {
 
 class DLLEXPORT CelFile_Wrapper {
  public:
+  using WrapperVariant = std::variant<CelFile_1_00*>;
+
   CelFile_Wrapper() = delete;
+
   CelFile_Wrapper(CelFile* cel_file) noexcept;
 
-  CelFile_Wrapper(const CelFile_Wrapper& other) noexcept;
-  CelFile_Wrapper(CelFile_Wrapper&& other) noexcept;
+  constexpr explicit CelFile_Wrapper(WrapperVariant cel_file) noexcept
+      : cel_file_(::std::move(cel_file)) {
+  }
 
-  ~CelFile_Wrapper() noexcept;
+  constexpr CelFile_Wrapper(
+      const CelFile_Wrapper& other
+  ) noexcept = default;
 
-  CelFile_Wrapper& operator=(const CelFile_Wrapper& other) noexcept;
-  CelFile_Wrapper& operator=(CelFile_Wrapper&& other) noexcept;
+  constexpr CelFile_Wrapper(
+      CelFile_Wrapper&& other
+  ) noexcept = default;
 
-  CelFile_View operator[](std::size_t index) const noexcept;
-  CelFile_Wrapper operator[](std::size_t index) noexcept;
+  ~CelFile_Wrapper() noexcept = default;
 
-  operator CelFile_View() const noexcept;
+  constexpr CelFile_Wrapper& operator=(
+      const CelFile_Wrapper& other
+  ) noexcept = default;
 
-  CelFile* Get() noexcept;
-  const CelFile* Get() const noexcept;
+  constexpr CelFile_Wrapper& operator=(
+      CelFile_Wrapper&& other
+  ) noexcept = default;
+
+  constexpr CelFile_View operator[](
+      std::size_t index
+  ) const noexcept {
+    CelFile_View view(this->Get());
+
+    return view[index];
+  }
+
+  constexpr CelFile_Wrapper operator[](
+      std::size_t index
+  ) noexcept {
+    return ::std::visit(
+        [index](auto& actual_cel_file) {
+          return CelFile_Wrapper(
+              &actual_cel_file[index]
+          );
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr operator CelFile_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_cel_file) {
+          return CelFile_View(actual_cel_file);
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr CelFile* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<CelFile*>(const_this->Get());
+  }
+
+  constexpr const CelFile* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_file) {
+          return reinterpret_cast<const CelFile*>(
+              actual_cel_file
+          );
+        },
+        this->cel_file_
+    );
+  }
 
   bool DrawFrame(
       int position_x,
@@ -111,18 +167,52 @@ class DLLEXPORT CelFile_Wrapper {
 
   Cel_Wrapper GetCel(unsigned int direction, unsigned int frame);
 
-  unsigned int GetVersion() const noexcept;
-  void SetVersion(unsigned int version) noexcept;
+  constexpr unsigned int GetVersion() const noexcept {
+    CelFile_View view(*this);
 
-  unsigned int GetNumDirections() const noexcept;
-  void SetNumDirections(unsigned int num_directions) noexcept;
+    return view.GetVersion();
+  }
 
-  unsigned int GetNumFrames() const noexcept;
-  void SetNumFrames(unsigned int num_frames) noexcept;
+  constexpr void SetVersion(unsigned int version) noexcept {
+    std::visit(
+        [version](auto& actual_cel_file) {
+          actual_cel_file->version = version;
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr unsigned int GetNumDirections() const noexcept {
+    CelFile_View view(*this);
+
+    return view.GetNumDirections();
+  }
+
+  constexpr void SetNumDirections(unsigned int num_directions) noexcept {
+    std::visit(
+        [num_directions](auto& actual_cel_file) {
+          actual_cel_file->num_directions = num_directions;
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr unsigned int GetNumFrames() const noexcept {
+    CelFile_View view(*this);
+
+    return view.GetNumFrames();
+  }
+
+  constexpr void SetNumFrames(unsigned int num_frames) noexcept {
+    std::visit(
+        [num_frames](auto& actual_cel_file) {
+          actual_cel_file->num_frames = num_frames;
+        },
+        this->cel_file_
+    );
+  }
 
  private:
-  using WrapperVariant = std::variant<CelFile_1_00*>;
-
   WrapperVariant cel_file_;
 
   static WrapperVariant CreateVariant(CelFile* cel_file);

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -61,8 +61,8 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kD2Win,
-      "UnloadCelFile"
+      ::d2::DefaultLibrary::kD2Win,
+      "UnloadMpq"
   );
 
   return game_address;
@@ -79,7 +79,7 @@ void UnloadMpq(
 }
 
 void UnloadMpq_1_00(MpqArchiveHandle_1_00* mpq_archive_handle) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10
       || running_game_version >= GameVersion::kClassic1_14A) {

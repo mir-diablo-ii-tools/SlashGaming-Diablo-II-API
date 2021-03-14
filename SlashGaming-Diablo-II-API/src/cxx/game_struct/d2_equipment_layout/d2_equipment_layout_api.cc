@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -55,91 +55,6 @@ EquipmentLayout_Api::EquipmentLayout_Api(
     unsigned char width,
     unsigned char height
 ) : equipment_layout_(CreateVariant(position.Get(), width, height)) {
-}
-
-EquipmentLayout_Api::EquipmentLayout_Api(
-    const EquipmentLayout_Api& other
-) = default;
-
-EquipmentLayout_Api::EquipmentLayout_Api(
-    EquipmentLayout_Api&& other
-) noexcept = default;
-
-EquipmentLayout_Api::~EquipmentLayout_Api() = default;
-
-EquipmentLayout_Api& EquipmentLayout_Api::operator=(
-    const EquipmentLayout_Api& other
-) = default;
-
-EquipmentLayout_Api& EquipmentLayout_Api::operator=(
-    EquipmentLayout_Api&& other
-) noexcept = default;
-
-EquipmentLayout_Api::operator EquipmentLayout_View() const noexcept {
-  return EquipmentLayout_View(this->Get());
-}
-
-EquipmentLayout_Api::operator EquipmentLayout_Wrapper() noexcept {
-  return EquipmentLayout_Wrapper(this->Get());
-}
-
-EquipmentLayout* EquipmentLayout_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<EquipmentLayout*>(const_this->Get());
-}
-
-const EquipmentLayout* EquipmentLayout_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_equipment_layout) {
-        return reinterpret_cast<const EquipmentLayout*>(
-            &actual_equipment_layout
-        );
-      },
-      this->equipment_layout_
-  );
-}
-
-void EquipmentLayout_Api::Assign(EquipmentLayout_View src) noexcept {
-  EquipmentLayout_Wrapper wrapper(this->Get());
-
-  wrapper.Assign(src);
-}
-
-PositionalRectangle_View EquipmentLayout_Api::GetPosition() const noexcept {
-  EquipmentLayout_View view(this->Get());
-
-  return view.GetPosition();
-}
-
-PositionalRectangle_Wrapper EquipmentLayout_Api::GetPosition() noexcept {
-  EquipmentLayout_Wrapper wrapper(this->Get());
-
-  return wrapper.GetPosition();
-}
-
-unsigned char EquipmentLayout_Api::GetWidth() const noexcept {
-  EquipmentLayout_View view(this->Get());
-
-  return view.GetWidth();
-}
-
-void EquipmentLayout_Api::SetWidth(unsigned char width) noexcept {
-  EquipmentLayout_Wrapper wrapper(this->Get());
-
-  wrapper.SetWidth(width);
-}
-
-unsigned char EquipmentLayout_Api::GetHeight() const noexcept {
-  EquipmentLayout_View view(this->Get());
-
-  return view.GetHeight();
-}
-
-void EquipmentLayout_Api::SetHeight(unsigned char height) noexcept {
-  EquipmentLayout_Wrapper wrapper(this->Get());
-
-  wrapper.SetHeight(height);
 }
 
 EquipmentLayout_Api::ApiVariant EquipmentLayout_Api::CreateVariant(

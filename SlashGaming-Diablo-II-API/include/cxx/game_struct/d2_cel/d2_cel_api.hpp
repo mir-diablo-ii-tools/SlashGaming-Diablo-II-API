@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,37 +58,102 @@ namespace d2 {
 
 class DLLEXPORT Cel_Api {
  public:
+  using ApiVariant = std::variant<Cel_1_00*>;
+
   Cel_Api() = delete;
 
-  Cel_Api(const Cel_Api& other);
+  Cel_Api(const Cel_Api& other) = delete;
+
   Cel_Api(Cel_Api&& other) noexcept;
 
   ~Cel_Api();
 
-  Cel_Api& operator=(const Cel_Api& other);
+  Cel_Api& operator=(const Cel_Api& other) = delete;
+
   Cel_Api& operator=(Cel_Api&& other) noexcept;
 
-  operator Cel_View() const noexcept;
-  operator Cel_Wrapper() noexcept;
+  constexpr operator Cel_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_cel) {
+          return Cel_View(actual_cel);
+        },
+        this->cel_
+    );
+  }
 
-  Cel* Get() noexcept;
-  const Cel* Get() const noexcept;
+  constexpr operator Cel_Wrapper() noexcept {
+    return ::std::visit(
+        [](auto& actual_cel) {
+          return Cel_Wrapper(actual_cel);
+        },
+        this->cel_
+    );
+  }
 
-  int GetHeight() const noexcept;
-  void SetHeight(int height) noexcept;
+  constexpr Cel* Get() noexcept {
+    const auto* const_this = this;
 
-  int GetOffsetX() const noexcept;
-  void SetOffsetX(int offset_x) noexcept;
+    return const_cast<Cel*>(const_this->Get());
+  }
 
-  int GetOffsetY() const noexcept;
-  void SetOffsetY(int offset_y) noexcept;
+  constexpr const Cel* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_mpq_archive) {
+          return reinterpret_cast<const Cel*>(actual_mpq_archive);
+        },
+        this->cel_
+    );
+  }
 
-  int GetWidth() const noexcept;
-  void SetWidth(int width) noexcept;
+  constexpr int GetHeight() const noexcept {
+    Cel_View view(*this);
+
+    return view.GetHeight();
+  }
+
+  constexpr void SetHeight(int height) noexcept {
+    Cel_Wrapper wrapper(*this);
+
+    wrapper.SetHeight(height);
+  }
+
+  constexpr int GetOffsetX() const noexcept {
+    Cel_View view(*this);
+
+    return view.GetOffsetX();
+  }
+
+  constexpr void SetOffsetX(int offset_x) noexcept {
+    Cel_Wrapper wrapper(*this);
+
+    wrapper.SetOffsetX(offset_x);
+  }
+
+  constexpr int GetOffsetY() const noexcept {
+    Cel_View view(*this);
+
+    return view.GetOffsetY();
+  }
+
+  constexpr void SetOffsetY(int offset_y) noexcept {
+    Cel_Wrapper wrapper(*this);
+
+    wrapper.SetOffsetY(offset_y);
+  }
+
+  constexpr int GetWidth() const noexcept {
+    Cel_View view(*this);
+
+    return view.GetWidth();
+  }
+
+  constexpr void SetWidth(int width) noexcept {
+    Cel_Wrapper wrapper(*this);
+
+    wrapper.SetWidth(width);
+  }
 
  private:
-  using ApiVariant = std::variant<Cel_1_00*>;
-
   ApiVariant cel_;
 };
 

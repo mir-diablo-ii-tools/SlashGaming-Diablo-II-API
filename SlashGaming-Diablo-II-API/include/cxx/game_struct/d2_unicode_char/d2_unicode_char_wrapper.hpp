@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -59,35 +59,91 @@ namespace d2 {
 
 class DLLEXPORT UnicodeChar_Wrapper {
  public:
+  using WrapperVariant = ::std::variant<
+      UnicodeChar_1_00*
+  >;
+
   UnicodeChar_Wrapper() = delete;
 
   UnicodeChar_Wrapper(UnicodeChar* uch) noexcept;
 
-  UnicodeChar_Wrapper(const UnicodeChar_Wrapper& other) noexcept;
-  UnicodeChar_Wrapper(UnicodeChar_Wrapper&& other) noexcept;
+  constexpr explicit UnicodeChar_Wrapper(
+      WrapperVariant uch
+  ) noexcept
+      : uch_(::std::move(uch)) {
+  }
 
-  ~UnicodeChar_Wrapper() noexcept;
+  constexpr UnicodeChar_Wrapper(
+      const UnicodeChar_Wrapper& other
+  ) noexcept = default;
 
-  UnicodeChar_Wrapper& operator=(const UnicodeChar_Wrapper& other) noexcept;
-  UnicodeChar_Wrapper& operator=(UnicodeChar_Wrapper&& other) noexcept;
+  constexpr UnicodeChar_Wrapper(
+      UnicodeChar_Wrapper&& other
+  ) noexcept = default;
 
-  operator UnicodeChar_View() const noexcept;
+  ~UnicodeChar_Wrapper() noexcept = default;
 
-  UnicodeChar* Get() noexcept;
-  const UnicodeChar* Get() const noexcept;
+  constexpr UnicodeChar_Wrapper& operator=(
+      const UnicodeChar_Wrapper& other
+  ) noexcept = default;
 
-  void Assign(UnicodeChar_View src);
+  constexpr UnicodeChar_Wrapper& operator=(
+      UnicodeChar_Wrapper&& other
+  ) noexcept = default;
 
-  std::u8string ToUtf8Char() const;
+  constexpr operator UnicodeChar_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_uch) {
+          return UnicodeChar_View(actual_uch);
+        },
+        this->uch_
+    );
+  }
 
-  int GetChar() const noexcept;
+  constexpr UnicodeChar* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<UnicodeChar*>(const_this->Get());
+  }
+
+  constexpr const UnicodeChar* Get() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_uch) {
+          return reinterpret_cast<const UnicodeChar*>(actual_uch);
+        },
+        this->uch_
+    );
+  }
+
+  constexpr void AssignMembers(UnicodeChar_View src) {
+    ::std::visit(
+        [&src](auto& actual_dest) {
+          using Dest_T = decltype(actual_dest);
+          using ActualSrc_T = const std::remove_pointer_t<
+              std::remove_reference_t<Dest_T>
+          >*;
+
+          const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+          *actual_dest = *actual_src;
+        },
+        this->uch_
+    );
+  }
+
+  ::std::u8string ToUtf8Char() const;
+
+  constexpr int GetChar() const noexcept {
+    UnicodeChar_View view(*this);
+
+    return view.GetChar();
+  }
 
   void SetAsciiChar(char ch) noexcept;
-  void SetUtf8Char(std::u8string_view ch);
+
+  void SetUtf8Char(::std::u8string_view ch);
 
  private:
-  using WrapperVariant = std::variant<UnicodeChar_1_00*>;
-
   WrapperVariant uch_;
 
   static WrapperVariant CreateVariant(UnicodeChar* uch);

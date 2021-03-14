@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -50,21 +50,23 @@
 
 #include "../dllexport_define.inc"
 
-namespace mapi {
+namespace d2 {
 
 /**
  * The default libraries that are used by Diablo II.
  */
 enum class DefaultLibrary {
-  kBNClient, kD2Client, kD2CMP, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
+  kBNClient, kD2CMP, kD2Client, kD2Common, kD2DDraw, kD2Direct3D, kD2Game,
   kD2GDI, kD2GFX, kD2Glide, kD2Lang, kD2Launch, kD2MCPClient, kD2Multi,
   kD2Net, kD2Server, kD2Sound, kD2Win, kFog, kStorm,
 };
 
+namespace default_library {
+
 /**
  * Returns the path of the specified default library.
  */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
+DLLEXPORT const std::filesystem::path& GetPathWithoutRedirect(
     DefaultLibrary library
 );
 
@@ -72,11 +74,13 @@ DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithoutRedirect(
  * Returns the path of the specified default library or an alternative path if
  * an implementation-defined condition is satisfied.
  */
-DLLEXPORT const std::filesystem::path& GetDefaultLibraryPathWithRedirect(
+DLLEXPORT const std::filesystem::path& GetPathWithRedirect(
     DefaultLibrary library
 );
 
-} // namespace mapi
+} // namespace default_library
+
+} // namespace d2
 
 #include "../dllexport_undefine.inc"
 #endif // SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -62,7 +62,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kD2CMP,
+      ::d2::DefaultLibrary::kD2CMP,
       "GetCelFromCelContext"
   );
 
@@ -72,7 +72,7 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 Cel* GetCelFromCelContext(CelContext* cel_context) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10) {
     auto* actual_cel_context = reinterpret_cast<CelContext_1_00*>(

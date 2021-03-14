@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -45,57 +45,107 @@
 
 #include "file_version.hpp"
 
-#include "../error_handling.hpp"
+#include <algorithm>
+#include <array>
+#include <utility>
 
-namespace mapi {
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 
-FileVersion::FileVersion(
-    const std::filesystem::path& file_path
-) : FileVersion(std::filesystem::path(file_path)) {
+namespace mapi::internal {
+namespace {
+
+using FileVersionTableEntry = std::pair<FileVersion, d2::GameVersion>;
+
+struct FileVersionTableEntryCompareKey {
+  constexpr bool operator()(
+      const FileVersionTableEntry& entry1,
+      const FileVersionTableEntry& entry2
+  ) const noexcept {
+    return entry1.first < entry2.first;
+  }
+
+  constexpr bool operator()(
+      const FileVersionTableEntry& entry,
+      const FileVersion& file_version
+  ) const noexcept {
+    return entry.first < file_version;
+  }
+
+  constexpr bool operator()(
+      const FileVersion& file_version,
+      const FileVersionTableEntry& entry
+  ) const noexcept {
+    return file_version < entry.first;
+  }
+};
+
+static constexpr const std::array<
+    FileVersionTableEntry,
+    26
+> kFileVersionSortedTable = {{
+    { FileVersion(1, 0, 0, 1), d2::GameVersion::k1_01 },
+    { FileVersion(1, 0, 2, 0), d2::GameVersion::k1_02 },
+    { FileVersion(1, 0, 3, 0), d2::GameVersion::k1_03 },
+
+    // 1.04B and 1.04C use the same DLLs.
+    { FileVersion(1, 0, 4, 1), d2::GameVersion::k1_04B_C },
+    { FileVersion(1, 0, 4, 2), d2::GameVersion::k1_04B_C },
+    { FileVersion(1, 0, 5, 0), d2::GameVersion::k1_05 },
+    { FileVersion(1, 0, 5, 1), d2::GameVersion::k1_05B },
+
+    // 1.06 & 1.06B have the same version #, but use completely
+    // different DLLs.
+    { FileVersion(1, 0, 6, 0), d2::GameVersion::k1_06B },
+
+    // 1.07 Beta & 1.07 have the same version #, but use completely
+    // different DLLs.
+    { FileVersion(1, 0, 7, 0), d2::GameVersion::k1_07 },
+    { FileVersion(1, 0, 8, 28), d2::GameVersion::k1_08 },
+    { FileVersion(1, 0, 9, 19), d2::GameVersion::k1_09 },
+    { FileVersion(1, 0, 9, 20), d2::GameVersion::k1_09B },
+    { FileVersion(1, 0, 9, 22), d2::GameVersion::k1_09D },
+    { FileVersion(1, 0, 10, 9), d2::GameVersion::k1_10Beta },
+    { FileVersion(1, 0, 10, 10), d2::GameVersion::k1_10SBeta },
+    { FileVersion(1, 0, 10, 39), d2::GameVersion::k1_10 },
+    { FileVersion(1, 0, 11, 45), d2::GameVersion::k1_11 },
+    { FileVersion(1, 0, 11, 46), d2::GameVersion::k1_11B },
+    { FileVersion(1, 0, 12, 49), d2::GameVersion::k1_12A },
+    { FileVersion(1, 0, 13, 55), d2::GameVersion::k1_13ABeta },
+    { FileVersion(1, 0, 13, 60), d2::GameVersion::k1_13C },
+    { FileVersion(1, 0, 13, 64), d2::GameVersion::k1_13D },
+
+    { FileVersion(1, 0, 14, 64), d2::GameVersion::kLod1_14A },
+    { FileVersion(1, 0, 14, 68), d2::GameVersion::kLod1_14B },
+    { FileVersion(1, 0, 14, 70), d2::GameVersion::kLod1_14C },
+    { FileVersion(1, 0, 14, 71), d2::GameVersion::kLod1_14D },
+}};
+
+// If this assertion compiles but produces a linter error, ignore it.
+static_assert(
+    std::is_sorted(
+        kFileVersionSortedTable.cbegin(),
+        kFileVersionSortedTable.cend(),
+        FileVersionTableEntryCompareKey()
+    )
+);
+
+} // namespace
+
+d2::GameVersion FileVersion::GuessGameVersion(
+    std::wstring_view raw_path
+) {
+  FileVersion file_version = ReadFileVersion(raw_path);
+
+  return SearchTable(file_version);
 }
 
-FileVersion::FileVersion(
-    std::filesystem::path&& file_path
-) : file_path_(std::move(file_path)),
-    version_(FileVersion::ReadFileVersion(file_path_)) {
-}
-
-FileVersion::FileVersion(
-    const std::filesystem::path& file_path,
-    const VersionType& version
-) : FileVersion(
-        std::filesystem::path(file_path),
-        VersionType(version)
-    ) {
-}
-
-FileVersion::FileVersion(
-    std::filesystem::path&& file_path,
-    VersionType&& version
-) : file_path_(std::move(file_path)),
-    version_(std::move(version)) {
-}
-
-FileVersion::FileVersion(const FileVersion& file_version) = default;
-
-FileVersion::FileVersion(FileVersion&& file_version) noexcept = default;
-
-FileVersion::~FileVersion() = default;
-
-FileVersion& FileVersion::operator=(
-    const FileVersion& file_version
-) = default;
-
-FileVersion& FileVersion::operator=(
-    FileVersion&& file_version
-) noexcept = default;
-
-FileVersion::VersionType FileVersion::ReadFileVersion(
-    const std::filesystem::path& file_path
+FileVersion FileVersion::ReadFileVersion(
+    std::wstring_view raw_path
 ) {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.
-  const wchar_t* file_path_text_cstr = file_path.c_str();
+  const wchar_t* file_path_text_cstr = raw_path.data();
 
   // Check version size.
   DWORD ignored;
@@ -105,12 +155,14 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 
   if (file_version_info_size == 0) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"GetFileVersionInfoSizeW",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"GetFileVersionInfoSizeW",
+        GetLastError()
     );
+
+    return FileVersion(0, 0, 0, 0);
   }
 
   // Get the file version info.
@@ -123,12 +175,14 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 
   if (!is_get_file_version_info_success) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"GetFileVersionInfoW",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"GetFileVersionInfoW",
+        GetLastError()
     );
+
+    return FileVersion(0, 0, 0, 0);
   }
 
   // Gather all of the information into the specified buffer, then check
@@ -144,18 +198,20 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 
   if (!is_ver_query_value_success) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"VerQueryValueW",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"VerQueryValueW",
+        GetLastError()
     );
+
+    return FileVersion(0, 0, 0, 0);
   }
 
   // Doesn't matter if you are on 32 bit or 64 bit,
   // DWORD is always 32 bits, so first two revision numbers
   // come from dwFileVersionMS, last two come from dwFileVersionLS
-  return VersionType(
+  return FileVersion(
       (version_info->dwFileVersionMS >> 16) & 0xFFFF,
       (version_info->dwFileVersionMS >> 0) & 0xFFFF,
       (version_info->dwFileVersionLS >> 16) & 0xFFFF,
@@ -163,23 +219,34 @@ FileVersion::VersionType FileVersion::ReadFileVersion(
   );
 }
 
-const FileVersion::VersionType& FileVersion::version() const noexcept {
-  return this->version_;
+d2::GameVersion FileVersion::SearchTable(
+    const FileVersion& file_version
+) {
+  std::pair search_range = std::equal_range(
+      kFileVersionSortedTable.cbegin(),
+      kFileVersionSortedTable.cend(),
+      file_version,
+      FileVersionTableEntryCompareKey()
+  );
+
+  if (search_range.first == kFileVersionSortedTable.cend()
+      || search_range.first == search_range.second) {
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"Could not map the file version %d.%d.%d.%d to a known game"
+            L"version.",
+        __FILEW__,
+        __LINE__,
+        std::get<0>(file_version.version()),
+        std::get<1>(file_version.version()),
+        std::get<2>(file_version.version()),
+        std::get<3>(file_version.version())
+    );
+
+    return static_cast<d2::GameVersion>(-1);
+  }
+
+  return search_range.first->second;
 }
 
-} // namespace mapi
-
-std::size_t std::hash<mapi::FileVersion>::operator()(
-    const mapi::FileVersion& file_version
-) const {
-  std::hash<DWORD> dword_hasher;
-
-  std::tuple actual_version = file_version.version();
-
-  DWORD sum = std::get<0>(actual_version);
-  sum += std::get<1>(actual_version) * sizeof(CHAR_BIT);
-  sum += std::get<2>(actual_version) * sizeof(CHAR_BIT * 2);
-  sum += std::get<3>(actual_version) * sizeof(CHAR_BIT * 3);
-
-  return dword_hasher(sum);
-}
+} // namespace mapi::internal

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -67,21 +67,6 @@ MpqArchive_Api::operator MpqArchive_View() const noexcept {
 
 MpqArchive_Api::operator MpqArchive_Wrapper() noexcept {
   return MpqArchive_Wrapper(this->Get());
-}
-
-MpqArchive* MpqArchive_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<MpqArchive*>(const_this->Get());
-}
-
-const MpqArchive* MpqArchive_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive) {
-        return reinterpret_cast<const MpqArchive*>(&actual_mpq_archive);
-      },
-      this->mpq_archive_
-  );
 }
 
 } // namespace d2

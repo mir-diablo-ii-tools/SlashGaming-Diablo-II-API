@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,27 +58,59 @@ namespace d2 {
 
 class DLLEXPORT UnicodeChar_View {
  public:
+  using ViewVariant = ::std::variant<
+      const UnicodeChar_1_00*
+  >;
+
   UnicodeChar_View() = delete;
 
   UnicodeChar_View(const UnicodeChar* uch) noexcept;
 
-  UnicodeChar_View(const UnicodeChar_View& other) noexcept;
-  UnicodeChar_View(UnicodeChar_View&& other) noexcept;
+  constexpr explicit UnicodeChar_View(
+      ViewVariant uch
+  ) noexcept
+      : uch_(::std::move(uch)) {
+  }
 
-  ~UnicodeChar_View() noexcept;
+  constexpr UnicodeChar_View(
+      const UnicodeChar_View& other
+  ) noexcept = default;
 
-  UnicodeChar_View& operator=(const UnicodeChar_View& other) noexcept;
-  UnicodeChar_View& operator=(UnicodeChar_View&& other) noexcept;
+  constexpr UnicodeChar_View(
+      UnicodeChar_View&& other
+  ) noexcept = default;
 
-  const UnicodeChar* Get() const noexcept;
+  ~UnicodeChar_View() noexcept = default;
 
-  int GetChar() const noexcept;
+  constexpr UnicodeChar_View& operator=(
+      const UnicodeChar_View& other
+  ) noexcept = default;
 
-  std::u8string ToUtf8Char() const;
+  constexpr UnicodeChar_View& operator=(
+      UnicodeChar_View&& other
+  ) noexcept = default;
+
+  constexpr const UnicodeChar* Get() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_uch) {
+          return reinterpret_cast<const UnicodeChar*>(actual_uch);
+        },
+        this->uch_
+    );
+  }
+
+  constexpr int GetChar() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_uch) {
+          return actual_uch->ch;
+        },
+        this->uch_
+    );
+  }
+
+  ::std::u8string ToUtf8Char() const;
 
  private:
-  using ViewVariant = std::variant<const UnicodeChar_1_00*>;
-
   ViewVariant uch_;
 
   static ViewVariant CreateVariant(const UnicodeChar* uch);

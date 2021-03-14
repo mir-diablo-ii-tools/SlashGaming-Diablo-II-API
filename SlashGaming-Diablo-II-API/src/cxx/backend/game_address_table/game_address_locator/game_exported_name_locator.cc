@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -43,32 +43,15 @@
  *  work.
  */
 
-#include "game_decorated_name_locator.hpp"
-
-#include <utility>
+#include "game_exported_name_locator.hpp"
 
 namespace mapi {
 
-GameDecoratedNameLocator::GameDecoratedNameLocator(
-    DefaultLibrary library_id,
-    std::string decorated_name
-) : GameDecoratedNameLocator(
-        GetDefaultLibraryPathWithRedirect(library_id),
-        std::move(decorated_name)
-    ) {
-}
-
-GameDecoratedNameLocator::GameDecoratedNameLocator(
-    std::filesystem::path library_path,
-    std::string decorated_name
-) : library_path_(std::move(library_path)),
-    decorated_name_(std::move(decorated_name)) {
-}
-
-GameDecoratedNameLocator::~GameDecoratedNameLocator() = default;
-
-GameAddress GameDecoratedNameLocator::LocateGameAddress() {
-  return GameAddress::FromDecoratedName(this->library_path_, this->decorated_name_);
+GameAddress GameExportedNameLocator::LocateGameAddress() const noexcept {
+  return GameAddress::FromExportedName(
+      this->library(),
+      this->exported_name()
+  );
 }
 
 } // namespace mapi

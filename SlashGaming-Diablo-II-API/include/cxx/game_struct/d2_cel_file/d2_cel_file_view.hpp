@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -57,28 +57,84 @@ namespace d2 {
 
 class DLLEXPORT CelFile_View {
  public:
-  CelFile_View() = delete;
-  CelFile_View(const CelFile* cel_file) noexcept;
-
-  CelFile_View(const CelFile_View& other) noexcept;
-  CelFile_View(CelFile_View&& other) noexcept;
-
-  ~CelFile_View() noexcept;
-
-  CelFile_View& operator=(const CelFile_View& other) noexcept;
-  CelFile_View& operator=(CelFile_View&& other) noexcept;
-
-  CelFile_View operator[](std::size_t index) const noexcept;
-
-  const CelFile* Get() const noexcept;
-
-  unsigned int GetVersion() const noexcept;
-  unsigned int GetNumDirections() const noexcept;
-  unsigned int GetNumFrames() const noexcept;
-
- private:
   using ViewVariant = std::variant<const CelFile_1_00*>;
 
+  CelFile_View() = delete;
+
+  CelFile_View(const CelFile* cel_file) noexcept;
+
+  constexpr explicit CelFile_View(ViewVariant cel_file) noexcept
+      : cel_file_(::std::move(cel_file)) {
+  }
+
+  constexpr CelFile_View(
+      const CelFile_View& other
+  ) noexcept = default;
+
+  constexpr CelFile_View(
+      CelFile_View&& other
+  ) noexcept = default;
+
+  ~CelFile_View() noexcept = default;
+
+  constexpr CelFile_View& operator=(
+      const CelFile_View& other
+  ) noexcept = default;
+
+  constexpr CelFile_View& operator=(
+      CelFile_View&& other
+  ) noexcept = default;
+
+  constexpr CelFile_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return ::std::visit(
+        [index](const auto& actual_cel_file) {
+          return CelFile_View(
+              &actual_cel_file[index]
+          );
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr const CelFile* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_file) {
+          return reinterpret_cast<const CelFile*>(actual_cel_file);
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr unsigned int GetVersion() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_file) {
+          return actual_cel_file->version;
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr unsigned int GetNumDirections() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_file) {
+          return actual_cel_file->num_directions;
+        },
+        this->cel_file_
+    );
+  }
+
+  constexpr unsigned int GetNumFrames() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_file) {
+          return actual_cel_file->num_frames;
+        },
+        this->cel_file_
+    );
+  }
+
+ private:
   ViewVariant cel_file_;
 
   static ViewVariant CreateVariant(const CelFile* cel_file);

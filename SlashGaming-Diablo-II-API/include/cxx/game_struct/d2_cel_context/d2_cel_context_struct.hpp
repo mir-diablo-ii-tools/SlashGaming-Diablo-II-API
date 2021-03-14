@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -109,28 +109,6 @@ static_assert(offsetof(CelContext_1_13C, frame) == 0x00);
 static_assert(offsetof(CelContext_1_13C, direction) == 0x40);
 
 #pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    CelContext_1_00,
-    CelContext_1_12A,
-    CelContext_1_13C
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    CelContext_1_00*,
-    CelContext_1_12A*,
-    CelContext_1_13C*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const CelContext_1_00*,
-    const CelContext_1_12A*,
-    const CelContext_1_13C*
->;
 
 } // namespace d2
 

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -68,6 +68,7 @@ class DLLEXPORT PositionalRectangle_Api {
   );
 
   PositionalRectangle_Api(const PositionalRectangle_Api& other);
+
   PositionalRectangle_Api(PositionalRectangle_Api&& other) noexcept;
 
   ~PositionalRectangle_Api();
@@ -75,29 +76,99 @@ class DLLEXPORT PositionalRectangle_Api {
   PositionalRectangle_Api& operator=(
       const PositionalRectangle_Api& other
   );
+
   PositionalRectangle_Api& operator=(
       PositionalRectangle_Api&& other
   ) noexcept;
 
-  operator PositionalRectangle_View() const noexcept;
-  operator PositionalRectangle_Wrapper() noexcept;
+  constexpr operator PositionalRectangle_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return PositionalRectangle_View(&actual_positional_rectangle);
+        },
+        this->positional_rectangle_
+    );
+  }
 
-  PositionalRectangle* Get() noexcept;
-  const PositionalRectangle* Get() const noexcept;
+  constexpr operator PositionalRectangle_Wrapper() noexcept {
+    return ::std::visit(
+        [](auto& actual_positional_rectangle) {
+          return PositionalRectangle_Wrapper(&actual_positional_rectangle);
+        },
+        this->positional_rectangle_
+    );
+  }
 
-  void Assign(PositionalRectangle_View src) noexcept;
+  constexpr PositionalRectangle* Get() noexcept {
+    const auto* const_this = this;
 
-  int GetLeft() const noexcept;
-  void SetLeft(int left) noexcept;
+    return const_cast<PositionalRectangle*>(const_this->Get());
+  }
 
-  int GetRight() const noexcept;
-  void SetRight(int right) noexcept;
+  constexpr const PositionalRectangle* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return reinterpret_cast<const PositionalRectangle*>(
+              &actual_positional_rectangle
+          );
+        },
+        this->positional_rectangle_
+    );
+  }
 
-  int GetTop() const noexcept;
-  void SetTop(int top) noexcept;
+  constexpr void AssignMembers(PositionalRectangle_View src) noexcept {
+    PositionalRectangle_Wrapper wrapper(*this);
 
-  int GetBottom() const noexcept;
-  void SetBottom(int bottom) noexcept;
+    wrapper.AssignMembers(src);
+  }
+
+  constexpr int GetLeft() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetLeft();
+  }
+
+  constexpr void SetLeft(int left) noexcept {
+    PositionalRectangle_Wrapper wrapper(*this);
+
+    return wrapper.SetLeft(left);
+  }
+
+  constexpr int GetRight() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetRight();
+  }
+
+  constexpr void SetRight(int right) noexcept {
+    PositionalRectangle_Wrapper wrapper(*this);
+
+    return wrapper.SetRight(right);
+  }
+
+  constexpr int GetTop() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetTop();
+  }
+
+  constexpr void SetTop(int top) noexcept {
+    PositionalRectangle_Wrapper wrapper(*this);
+
+    return wrapper.SetTop(top);
+  }
+
+  constexpr int GetBottom() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetBottom();
+  }
+
+  constexpr void SetBottom(int bottom) noexcept {
+    PositionalRectangle_Wrapper wrapper(*this);
+
+    return wrapper.SetBottom(bottom);
+  }
 
  private:
   using ApiVariant = std::variant<PositionalRectangle_1_00>;

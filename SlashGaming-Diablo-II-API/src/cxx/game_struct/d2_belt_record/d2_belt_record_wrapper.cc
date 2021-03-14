@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -49,105 +49,6 @@ namespace d2 {
 
 BeltRecord_Wrapper::BeltRecord_Wrapper(BeltRecord* belt_record) noexcept :
     belt_record_(CreateVariant(belt_record)) {
-}
-
-BeltRecord_Wrapper::BeltRecord_Wrapper(
-    const BeltRecord_Wrapper& other
-) noexcept = default;
-
-BeltRecord_Wrapper::BeltRecord_Wrapper(
-    BeltRecord_Wrapper&& other
-) noexcept = default;
-
-BeltRecord_Wrapper::~BeltRecord_Wrapper() noexcept = default;
-
-BeltRecord_Wrapper& BeltRecord_Wrapper::operator=(
-    const BeltRecord_Wrapper& other
-) noexcept = default;
-
-BeltRecord_Wrapper& BeltRecord_Wrapper::operator=(
-    BeltRecord_Wrapper&& other
-) noexcept = default;
-
-BeltRecord_View BeltRecord_Wrapper::operator[](
-    std::size_t index
-) const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view[index];
-}
-
-BeltRecord_Wrapper BeltRecord_Wrapper::operator[](
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<BeltRecord*>((*const_this)[index].Get());
-}
-
-BeltRecord_Wrapper::operator BeltRecord_View() const noexcept {
-  return BeltRecord_View(this->Get());
-}
-
-BeltRecord* BeltRecord_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<BeltRecord*>(const_this->Get());
-}
-
-const BeltRecord* BeltRecord_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_belt_record) {
-        return reinterpret_cast<const BeltRecord*>(actual_belt_record);
-      },
-      this->belt_record_
-  );
-}
-
-void BeltRecord_Wrapper::Assign(BeltRecord_View src) noexcept {
-  std::visit(
-      [&src](auto& actual_dest) {
-        using Dest_T = decltype(actual_dest);
-        using ActualSrc_T = const std::remove_pointer_t<
-            std::remove_reference_t<Dest_T>
-        >*;
-
-        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
-
-        *actual_dest = *actual_src;
-      },
-      this->belt_record_
-  );
-}
-
-unsigned char BeltRecord_Wrapper::GetNumSlots() const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetNumSlots();
-}
-
-void BeltRecord_Wrapper::SetNumSlots(unsigned char num_slots) noexcept {
-  std::visit(
-      [num_slots](auto& actual_positional_rectangle) {
-        actual_positional_rectangle->num_slots = num_slots;
-      },
-      this->belt_record_
-  );
-}
-
-PositionalRectangle_View
-BeltRecord_Wrapper::GetSlotPositions() const noexcept {
-  BeltRecord_View view(this->Get());
-
-  return view.GetSlotPositions();
-}
-
-PositionalRectangle_Wrapper BeltRecord_Wrapper::GetSlotPositions() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(
-      const_this->GetSlotPositions().Get()
-  );
 }
 
 BeltRecord_Wrapper::WrapperVariant BeltRecord_Wrapper::CreateVariant(

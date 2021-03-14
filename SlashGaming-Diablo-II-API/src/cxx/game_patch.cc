@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -51,10 +51,10 @@
 #include <utility>
 #include <vector>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_address.hpp"
 #include "backend/architecture_opcode.hpp"
-#include "backend/error_handling.hpp"
 
 namespace mapi {
 
@@ -137,12 +137,14 @@ void GamePatch::Apply() {
   );
 
   if (!write_success) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"WriteProcessMemory",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"WriteProcessMemory",
+        GetLastError()
     );
+
+    return;
   }
 
   this->is_patch_applied_ = true;
@@ -165,12 +167,14 @@ void GamePatch::Remove() {
   );
 
   if (!write_success) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"WriteProcessMemory",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"WriteProcessMemory",
+        GetLastError()
     );
+
+    return;
   }
 
   this->is_patch_applied_ = false;

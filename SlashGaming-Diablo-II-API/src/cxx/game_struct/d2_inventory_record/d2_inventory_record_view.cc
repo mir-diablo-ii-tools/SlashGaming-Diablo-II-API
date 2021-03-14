@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -50,82 +50,6 @@ namespace d2 {
 InventoryRecord_View::InventoryRecord_View(
     const InventoryRecord* inventory_record
 ) noexcept : inventory_record_(CreateVariant(inventory_record)) {
-}
-
-InventoryRecord_View::InventoryRecord_View(
-    const InventoryRecord_View& other
-) noexcept = default;
-
-InventoryRecord_View::InventoryRecord_View(
-    InventoryRecord_View&& other
-) noexcept = default;
-
-InventoryRecord_View::~InventoryRecord_View() noexcept = default;
-
-InventoryRecord_View& InventoryRecord_View::operator=(
-    const InventoryRecord_View& other
-) noexcept = default;
-
-InventoryRecord_View& InventoryRecord_View::operator=(
-    InventoryRecord_View&& other
-) noexcept = default;
-
-InventoryRecord_View InventoryRecord_View::operator[](
-    std::size_t index
-) const noexcept {
-  return std::visit(
-      [index](const auto& actual_inventory_record) {
-        return reinterpret_cast<const InventoryRecord*>(
-            &actual_inventory_record[index]
-        );
-      },
-      this->inventory_record_
-  );
-}
-
-const InventoryRecord* InventoryRecord_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_inventory_record) {
-        return reinterpret_cast<const InventoryRecord*>(
-            actual_inventory_record
-        );
-      },
-      this->inventory_record_
-  );
-}
-
-PositionalRectangle_View InventoryRecord_View::GetPosition() const noexcept {
-  return std::visit(
-      [](const auto& actual_inventory_record) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            &actual_inventory_record->position
-        );
-      },
-      this->inventory_record_
-  );
-}
-
-GridLayout_View InventoryRecord_View::GetGridLayout() const noexcept {
-  return std::visit(
-      [](const auto& actual_inventory_record) {
-        return reinterpret_cast<const GridLayout*>(
-            &actual_inventory_record->grid_layout
-        );
-      },
-      this->inventory_record_
-  );
-}
-
-EquipmentLayout_View
-InventoryRecord_View::GetEquipmentSlots() const noexcept {
-  return std::visit(
-      [](const auto& actual_inventory_record) {
-        return reinterpret_cast<const EquipmentLayout*>(
-            actual_inventory_record->equipment_slots
-        );
-      },
-      this->inventory_record_
-  );
 }
 
 InventoryRecord_View::ViewVariant InventoryRecord_View::CreateVariant(

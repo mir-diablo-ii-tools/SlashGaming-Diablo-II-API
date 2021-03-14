@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -48,22 +48,6 @@
 #include "../../../../include/dllexport_define.inc"
 
 namespace d2 {
-
-#if !defined(SUPPRESS_SRC_TEMPL_INST)
-
-template class std::variant<
-    Cel_1_00
->;
-
-template class std::variant<
-    Cel_1_00*
->;
-
-template class std::variant<
-    const Cel_1_00*
->;
-
-#endif // !defined(SUPPRESS_SRC_TEMPL_INST)
 
 } // namespace d2
 

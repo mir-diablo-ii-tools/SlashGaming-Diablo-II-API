@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -51,84 +51,6 @@ PositionalRectangle_View::PositionalRectangle_View(
     const PositionalRectangle* positional_rectangle
 ) noexcept :
     positional_rectangle_(CreateVariant(positional_rectangle)) {
-}
-
-PositionalRectangle_View::PositionalRectangle_View(
-    const PositionalRectangle_View& other
-) noexcept = default;
-
-PositionalRectangle_View::PositionalRectangle_View(
-    PositionalRectangle_View&& other
-) noexcept = default;
-
-PositionalRectangle_View::~PositionalRectangle_View() noexcept = default;
-
-PositionalRectangle_View& PositionalRectangle_View::operator=(
-    const PositionalRectangle_View& other
-) noexcept = default;
-
-PositionalRectangle_View& PositionalRectangle_View::operator=(
-    PositionalRectangle_View&& other
-) noexcept = default;
-
-PositionalRectangle_View PositionalRectangle_View::operator[](
-    std::size_t index
-) const noexcept {
-  return std::visit(
-      [index](const auto& actual_positional_rectangle) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            &actual_positional_rectangle[index]
-        );
-      },
-      this->positional_rectangle_
-  );
-}
-
-const PositionalRectangle* PositionalRectangle_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            actual_positional_rectangle
-        );
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_View::GetLeft() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return actual_positional_rectangle->left;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_View::GetRight() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return actual_positional_rectangle->right;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_View::GetTop() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return actual_positional_rectangle->top;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_View::GetBottom() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return actual_positional_rectangle->bottom;
-      },
-      this->positional_rectangle_
-  );
 }
 
 PositionalRectangle_View::ViewVariant

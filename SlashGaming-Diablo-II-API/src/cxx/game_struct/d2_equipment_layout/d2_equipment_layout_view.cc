@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -50,77 +50,6 @@ namespace d2 {
 EquipmentLayout_View::EquipmentLayout_View(
     const EquipmentLayout* equipment_layout
 ) noexcept : equipment_layout_(CreateVariant(equipment_layout)) {
-}
-
-EquipmentLayout_View::EquipmentLayout_View(
-    const EquipmentLayout_View& other
-) noexcept = default;
-
-EquipmentLayout_View::EquipmentLayout_View(
-    EquipmentLayout_View&& other
-) noexcept = default;
-
-EquipmentLayout_View::~EquipmentLayout_View() noexcept = default;
-
-EquipmentLayout_View& EquipmentLayout_View::operator=(
-    const EquipmentLayout_View& other
-) noexcept = default;
-
-EquipmentLayout_View& EquipmentLayout_View::operator=(
-    EquipmentLayout_View&& other
-) noexcept = default;
-
-EquipmentLayout_View EquipmentLayout_View::operator[](
-    std::size_t index
-) const noexcept {
-  return std::visit(
-      [index](const auto& actual_equipment_layout) {
-        return reinterpret_cast<const EquipmentLayout*>(
-            &actual_equipment_layout[index]
-        );
-      },
-      this->equipment_layout_
-  );
-}
-
-const EquipmentLayout* EquipmentLayout_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_equipment_layout) {
-        return reinterpret_cast<const EquipmentLayout*>(
-            actual_equipment_layout
-        );
-      },
-      this->equipment_layout_
-  );
-}
-
-PositionalRectangle_View EquipmentLayout_View::GetPosition() const noexcept {
-  return std::visit(
-      [](const auto& actual_equipment_layout) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            &actual_equipment_layout->position
-        );
-      },
-      this->equipment_layout_
-  );
-}
-
-unsigned char EquipmentLayout_View::GetWidth() const noexcept {
-  return std::visit(
-      [](const auto& actual_equipment_layout) {
-        return actual_equipment_layout->width;
-      },
-      this->equipment_layout_
-  );
-}
-
-unsigned char EquipmentLayout_View::GetHeight() const noexcept {
-  return std::visit(
-      [](const auto& actual_equipment_layout) {
-        return actual_equipment_layout->height;
-      },
-      this->equipment_layout_
-  );
 }
 
 EquipmentLayout_View::ViewVariant EquipmentLayout_View::CreateVariant(

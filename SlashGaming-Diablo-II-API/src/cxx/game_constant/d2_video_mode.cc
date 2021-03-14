@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -49,9 +49,10 @@
 
 #include "../../../include/cxx/game_constant/d2_video_mode.hpp"
 
-#include <cassert>
 #include <cstdint>
 
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
 namespace d2 {
@@ -91,7 +92,12 @@ VideoMode_1_00 ToGameValue_1_00(VideoMode api_value) {
     }
 
     default: {
-      assert(false);
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(api_value)
+      );
+
       return static_cast<VideoMode_1_00>(-1);
     }
   }
@@ -133,7 +139,12 @@ VideoMode ToApiValue_1_00(VideoMode_1_00 game_value) {
     }
 
     default: {
-      assert(false);
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(game_value)
+      );
+
       return static_cast<VideoMode>(-1);
     }
   }

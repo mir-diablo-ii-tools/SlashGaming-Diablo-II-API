@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -81,9 +81,27 @@ class DLLEXPORT MpqArchiveHandle_Api {
   MpqArchiveHandle_Api& operator=(const MpqArchiveHandle_Api& other) = delete;
   MpqArchiveHandle_Api& operator=(MpqArchiveHandle_Api&& other) noexcept;
 
-  operator MpqArchiveHandle_View() const noexcept;
+  constexpr operator MpqArchiveHandle_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_mpq_archive_handle) {
+          return MpqArchiveHandle_View(
+              actual_mpq_archive_handle
+          );
+        },
+        this->mpq_archive_handle_
+    );
+  }
 
-  const MpqArchiveHandle* Get() const noexcept;
+  constexpr const MpqArchiveHandle* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_mpq_archive_handle) {
+          return reinterpret_cast<const MpqArchiveHandle*>(
+              actual_mpq_archive_handle
+          );
+        },
+        this->mpq_archive_handle_
+    );
+  }
 
   void Close();
 
@@ -101,8 +119,17 @@ class DLLEXPORT MpqArchiveHandle_Api {
       int priority
   );
 
-  MpqArchive_View GetMpqArchive() const noexcept;
-  const char* GetMpqArchivePath() const noexcept;
+  constexpr MpqArchive_View GetMpqArchive() const noexcept {
+    MpqArchiveHandle_View view(*this);
+
+    return view.GetMpqArchive();
+  }
+
+  constexpr const char* GetMpqArchivePath() const noexcept {
+    MpqArchiveHandle_View view(*this);
+
+    return view.GetMpqArchivePath();
+  }
 
  private:
   using ApiVariant = std::variant<MpqArchiveHandle_1_00*>;
@@ -118,7 +145,7 @@ class DLLEXPORT MpqArchiveHandle_Api {
       int priority
   );
 
-  MpqArchiveHandle* Get() noexcept;
+  MpqArchiveHandle* Get_() noexcept;
 };
 
 } // namespace d2

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -48,9 +48,9 @@
 #include <windows.h>
 
 #include <string_view>
-#include <unordered_map>
 
-#include "../backend/error_handling.hpp"
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 
 namespace d2 {
 namespace {
@@ -88,11 +88,11 @@ static VideoMode_1_00 GetCommandLineVideoMode() {
   wchar_t** argv = CommandLineToArgvW(command_line, &argc);
 
   if (argv == nullptr) {
-    mapi::ExitOnWindowsFunctionFailureWithLastError(
-        L"CommandLineToArgvW",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"CommandLineToArgvW",
+        GetLastError()
     );
 
     return static_cast<VideoMode_1_00>(-1);
@@ -149,9 +149,9 @@ static VideoMode_1_00 GetRegistryVideoMode() {
       return VideoMode_1_00::kDirectDraw;
     }
   }
-  
+
   DWORD render_value;
-  DWORD render_value_size;
+  DWORD render_value_size = REG_DWORD;
 
   LSTATUS reg_query_value_status = RegQueryValueExW(
       query_key_result,

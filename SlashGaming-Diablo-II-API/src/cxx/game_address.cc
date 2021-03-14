@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -47,27 +47,130 @@
 
 #include <windows.h>
 #include <cstdint>
-#include <filesystem>
-#include <string>
-#include <string_view>
+#include <array>
 
-#include <fmt/format.h>
-#include "../../include/cxx/default_game_library.hpp"
-#include "../wide_macro.h"
-#include "backend/encoding.hpp"
-#include "backend/error_handling.hpp"
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
+#include <mdc/wchar_t/wide_decoding.hpp>
 #include "backend/game_library.hpp"
 
 namespace mapi {
 
-GameAddress::GameAddress(
-    std::intptr_t raw_address
-) noexcept
-    : raw_address_(raw_address) {
+GameAddress GameAddress::FromExportedName(
+    ::d2::DefaultLibrary library,
+    ::std::string_view exported_name
+) {
+  const ::std::filesystem::path& default_library_path =
+      ::d2::default_library::GetPathWithRedirect(library);
+
+  return FromExportedName(default_library_path, exported_name);
 }
 
-std::intptr_t GameAddress::raw_address() const noexcept {
-  return raw_address_;
+GameAddress GameAddress::FromExportedName(
+    const ::std::filesystem::path& library_path,
+    ::std::string_view exported_name
+) {
+  static constexpr std::size_t kExportedNameWideCapacity = 1024;
+
+  static std::array<wchar_t, kExportedNameWideCapacity> exported_name_wide;
+
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  FARPROC raw_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      exported_name.data()
+  );
+
+  if (raw_address == nullptr) {
+    std::size_t exported_name_wide_length = ::mdc::wide::DecodeAsciiLength(
+        exported_name.data()
+    );
+
+    const wchar_t* exported_name_wide_ptr;
+
+    if (exported_name_wide_length >= kExportedNameWideCapacity) {
+      exported_name_wide_ptr = L"**Name is longer than character limit**";
+    } else {
+      exported_name_wide_ptr = ::mdc::wide::DecodeAscii(
+          exported_name_wide.data(),
+          exported_name.data()
+      );
+    }
+
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"%ls failed with error code 0x%X. Could not locate exported "
+            L"name %ls.",
+        __FILEW__,
+        __LINE__,
+        L"GetProcAddress",
+        GetLastError(),
+        exported_name_wide_ptr
+    );
+
+    return GameAddress(0);
+  }
+
+  return GameAddress(reinterpret_cast<std::intptr_t>(raw_address));
+}
+
+GameAddress GameAddress::FromOffset(
+    d2::DefaultLibrary library,
+    std::ptrdiff_t offset
+) {
+  const std::filesystem::path& game_library_path =
+      ::d2::default_library::GetPathWithRedirect(library);
+
+  return FromOffset(game_library_path, offset);
+}
+
+GameAddress GameAddress::FromOffset(
+    const std::filesystem::path& library_path,
+    std::ptrdiff_t offset
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  return GameAddress(game_library.base_address() + offset);
+}
+
+GameAddress GameAddress::FromOrdinal(
+    d2::DefaultLibrary library,
+    std::int16_t ordinal
+) {
+  const std::filesystem::path& game_library_path =
+      ::d2::default_library::GetPathWithRedirect(library);
+
+  return FromOrdinal(game_library_path, ordinal);
+}
+
+GameAddress GameAddress::FromOrdinal(
+    const std::filesystem::path& library_path,
+    std::int16_t ordinal
+) {
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+
+  FARPROC func_address = GetProcAddress(
+      reinterpret_cast<HMODULE>(game_library.base_address()),
+      reinterpret_cast<const char*>(ordinal)
+  );
+
+  if (func_address == nullptr) {
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"%ls failed with error code 0x%X. Could not locate "
+            L"exported ordinal %hd from the path %ls.",
+        __FILEW__,
+        __LINE__,
+        L"GetProcAddress",
+        GetLastError(),
+        ordinal,
+        library_path.c_str()
+    );
+
+    return GameAddress(0);
+  }
+
+  return GameAddress(reinterpret_cast<std::intptr_t>(func_address));
 }
 
 } // namespace mapi

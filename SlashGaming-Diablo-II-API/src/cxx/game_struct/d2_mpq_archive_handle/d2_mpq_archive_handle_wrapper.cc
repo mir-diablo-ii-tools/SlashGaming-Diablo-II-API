@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -50,104 +50,6 @@ namespace d2 {
 MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
     MpqArchiveHandle* mpq_archive_handle
 ) noexcept : mpq_archive_handle_(CreateVariant(mpq_archive_handle)) {
-}
-
-MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
-    const MpqArchiveHandle_Wrapper& other
-) noexcept = default;
-
-MpqArchiveHandle_Wrapper::MpqArchiveHandle_Wrapper(
-    MpqArchiveHandle_Wrapper&& other
-) noexcept = default;
-
-MpqArchiveHandle_Wrapper::~MpqArchiveHandle_Wrapper() noexcept = default;
-
-MpqArchiveHandle_Wrapper& MpqArchiveHandle_Wrapper::operator=(
-    const MpqArchiveHandle_Wrapper& other
-) noexcept = default;
-
-MpqArchiveHandle_Wrapper& MpqArchiveHandle_Wrapper::operator=(
-    MpqArchiveHandle_Wrapper&& other
-) noexcept = default;
-
-MpqArchiveHandle_View MpqArchiveHandle_Wrapper::operator[](
-    std::size_t index
-) const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view[index];
-}
-
-MpqArchiveHandle_Wrapper MpqArchiveHandle_Wrapper::operator[](
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<MpqArchiveHandle*>((*const_this)[index].Get());
-}
-
-MpqArchiveHandle_Wrapper::operator MpqArchiveHandle_View() const noexcept {
-  return MpqArchiveHandle_View(this->Get());
-}
-
-MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<MpqArchiveHandle*>(const_this->Get());
-}
-
-const MpqArchiveHandle* MpqArchiveHandle_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](auto& actual_mpq_archive_handle) {
-        return reinterpret_cast<const MpqArchiveHandle*>(
-            actual_mpq_archive_handle
-        );
-      },
-      this->mpq_archive_handle_
-  );
-}
-
-MpqArchive_View MpqArchiveHandle_Wrapper::GetMpqArchive() const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view.GetMpqArchive();
-}
-
-MpqArchive_Wrapper MpqArchiveHandle_Wrapper::GetMpqArchive() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<MpqArchive*>(const_this->GetMpqArchive().Get());
-}
-
-void MpqArchiveHandle_Wrapper::SetMpqArchive(
-    MpqArchive_Wrapper mpq_archive
-) noexcept {
-  std::visit(
-      [&mpq_archive](auto& actual_mpq_archive_handle) {
-        using MpqArchiveHandle_T = std::remove_pointer_t<
-            std::remove_reference_t<decltype(actual_mpq_archive_handle)>
-        >;
-        using MpqArchive_T = std::remove_pointer_t<
-            decltype(MpqArchiveHandle_T::mpq_archive)
-        >;
-
-        actual_mpq_archive_handle->mpq_archive =
-            reinterpret_cast<MpqArchive_T*>(mpq_archive.Get());
-      },
-      this->mpq_archive_handle_
-  );
-}
-
-char* MpqArchiveHandle_Wrapper::GetMpqArchivePath() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<char*>(const_this->GetMpqArchivePath());
-}
-
-const char* MpqArchiveHandle_Wrapper::GetMpqArchivePath() const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view.GetMpqArchivePath();
 }
 
 MpqArchiveHandle_Wrapper::WrapperVariant

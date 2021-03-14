@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -60,45 +60,171 @@ namespace d2 {
 
 class DLLEXPORT GridLayout_Wrapper {
  public:
-  GridLayout_Wrapper() = delete;
-  GridLayout_Wrapper(GridLayout* grid_layout) noexcept;
-
-  GridLayout_Wrapper(const GridLayout_Wrapper& other) noexcept;
-  GridLayout_Wrapper(GridLayout_Wrapper&& other) noexcept;
-
-  ~GridLayout_Wrapper() noexcept;
-
-  GridLayout_Wrapper& operator=(const GridLayout_Wrapper& other) noexcept;
-  GridLayout_Wrapper& operator=(GridLayout_Wrapper&& other) noexcept;
-
-  GridLayout_View operator[](std::size_t index) const noexcept;
-  GridLayout_Wrapper operator[](std::size_t index) noexcept;
-
-  operator GridLayout_View() const noexcept;
-
-  GridLayout* Get() noexcept;
-  const GridLayout* Get() const noexcept;
-
-  void Assign(GridLayout_View src) noexcept;
-
-  unsigned char GetNumColumns() const noexcept;
-  void SetNumColumns(unsigned char num_columns) noexcept;
-
-  unsigned char GetNumRows() const noexcept;
-  void SetNumRows(unsigned char num_rows) noexcept;
-
-  PositionalRectangle_View GetPosition() const noexcept;
-  PositionalRectangle_Wrapper GetPosition() noexcept;
-
-  unsigned char GetWidth() const noexcept;
-  void SetWidth(unsigned char width) noexcept;
-
-  unsigned char GetHeight() const noexcept;
-  void SetHeight(unsigned char height) noexcept;
-
- private:
   using WrapperVariant = std::variant<GridLayout_1_00*>;
 
+  GridLayout_Wrapper() = delete;
+
+  GridLayout_Wrapper(GridLayout* grid_layout) noexcept;
+
+  constexpr GridLayout_Wrapper(WrapperVariant grid_layout) noexcept
+      : grid_layout_(::std::move(grid_layout)) {
+  }
+
+  constexpr GridLayout_Wrapper(
+      const GridLayout_Wrapper& other
+  ) noexcept = default;
+
+  constexpr GridLayout_Wrapper(
+      GridLayout_Wrapper&& other
+  ) noexcept = default;
+
+  ~GridLayout_Wrapper() noexcept = default;
+
+  constexpr GridLayout_Wrapper& operator=(
+      const GridLayout_Wrapper& other
+  ) noexcept = default;
+
+  constexpr GridLayout_Wrapper& operator=(
+      GridLayout_Wrapper&& other
+  ) noexcept = default;
+
+  constexpr GridLayout_View operator[](
+      std::size_t index
+  ) const noexcept {
+    GridLayout_View view(*this);
+
+    return view[index];
+  }
+
+  constexpr GridLayout_Wrapper operator[](
+      std::size_t index
+  ) noexcept {
+    return ::std::visit(
+        [index](auto& actual_grid_layout) {
+          return GridLayout_Wrapper(&actual_grid_layout[index]);
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr operator GridLayout_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_grid_layout) {
+          return GridLayout_View(actual_grid_layout);
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr GridLayout* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<GridLayout*>(const_this->Get());
+  }
+
+  constexpr const GridLayout* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return reinterpret_cast<const GridLayout*>(actual_grid_layout);
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr void AssignMembers(GridLayout_View src) noexcept {
+    std::visit(
+        [&src](auto& actual_dest) {
+          using Dest_T = decltype(actual_dest);
+          using ActualSrc_T = const std::remove_pointer_t<
+              std::remove_reference_t<Dest_T>
+          >*;
+
+          const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+          *actual_dest = *actual_src;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetNumColumns() const noexcept {
+    GridLayout_View view(*this);
+
+    return view.GetNumColumns();
+  }
+
+  constexpr void SetNumColumns(unsigned char num_columns) noexcept {
+    std::visit(
+        [num_columns](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->num_columns = num_columns;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetNumRows() const noexcept {
+    GridLayout_View view(*this);
+
+    return view.GetNumRows();
+  }
+
+  constexpr void SetNumRows(unsigned char num_rows) noexcept {
+    std::visit(
+        [num_rows](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->num_rows = num_rows;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    GridLayout_View view(*this);
+
+    return view.GetPosition();
+  }
+
+  constexpr PositionalRectangle_Wrapper GetPosition() noexcept {
+    return ::std::visit(
+        [](auto& actual_grid_layout) {
+          return PositionalRectangle_Wrapper(
+              &actual_grid_layout->position
+          );
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetWidth() const noexcept {
+    GridLayout_View view(*this);
+
+    return view.GetWidth();
+  }
+
+  constexpr void SetWidth(unsigned char width) noexcept {
+    std::visit(
+        [width](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->width = width;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetHeight() const noexcept {
+    GridLayout_View view(*this);
+
+    return view.GetHeight();
+  }
+
+  constexpr void SetHeight(unsigned char height) noexcept {
+    std::visit(
+        [height](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->height = height;
+        },
+        this->grid_layout_
+    );
+  }
+
+ private:
   WrapperVariant grid_layout_;
 
   static WrapperVariant CreateVariant(GridLayout* grid_layout);

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -61,9 +61,12 @@ namespace d2 {
 
 class DLLEXPORT CelFile_Api {
  public:
+  using ApiVariant = std::variant<CelFile_1_00*>;
+
   CelFile_Api();
+
   CelFile_Api(
-      std::string_view cel_file_path,
+      ::std::string_view cel_file_path,
       bool is_dcc_else_dc6
   );
 
@@ -120,13 +123,25 @@ class DLLEXPORT CelFile_Api {
     bool is_dcc_else_dc6
   );
 
-  unsigned int GetVersion() const noexcept;
-  unsigned int GetNumDirections() const noexcept;
-  unsigned int GetNumFrames() const noexcept;
+  constexpr unsigned int GetVersion() const noexcept {
+    CelFile_View view(*this);
+
+    return view.GetVersion();
+  }
+
+  constexpr unsigned int GetNumDirections() const noexcept {
+    CelFile_View view(*this);
+
+    return view.GetNumDirections();
+  }
+
+  constexpr unsigned int GetNumFrames() const noexcept {
+    CelFile_View view(*this);
+
+    return view.GetNumFrames();
+  }
 
  private:
-  using ApiVariant = std::variant<CelFile_1_00*>;
-
   ApiVariant cel_file_;
   bool is_open_;
 

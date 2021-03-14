@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -63,6 +63,9 @@ namespace mapi {
  */
 class DLLEXPORT GamePatch {
  public:
+  static constexpr const std::size_t kBranchPatchMinSize =
+      sizeof(void(*)()) + sizeof(std::uint8_t);
+
   GamePatch(const GamePatch& game_patch) = delete;
 
   GamePatch(GamePatch&& game_patch) noexcept;

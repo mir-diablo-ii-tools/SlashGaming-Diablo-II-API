@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -45,147 +45,14 @@
 
 #include "../../../../include/cxx/game_struct/d2_positional_rectangle/d2_positional_rectangle_wrapper.hpp"
 
+#include "../../../../include/cxx/game_version.hpp"
+
 namespace d2 {
 
 PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
     PositionalRectangle* positional_rectangle
 ) noexcept :
     positional_rectangle_(CreateVariant(positional_rectangle)) {
-}
-
-PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
-    const PositionalRectangle_Wrapper& other
-) noexcept = default;
-
-PositionalRectangle_Wrapper::PositionalRectangle_Wrapper(
-    PositionalRectangle_Wrapper&& other
-) noexcept = default;
-
-PositionalRectangle_Wrapper::
-~PositionalRectangle_Wrapper() noexcept = default;
-
-PositionalRectangle_Wrapper& PositionalRectangle_Wrapper::operator=(
-    const PositionalRectangle_Wrapper& other
-) noexcept = default;
-
-PositionalRectangle_Wrapper& PositionalRectangle_Wrapper::operator=(
-    PositionalRectangle_Wrapper&& other
-) noexcept = default;
-
-PositionalRectangle_View PositionalRectangle_Wrapper::operator[](
-    std::size_t index
-) const noexcept {
-  PositionalRectangle_View view(this->Get());
-
-  return view[index];
-}
-
-PositionalRectangle_Wrapper PositionalRectangle_Wrapper::operator[](
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>((*const_this)[index].Get());
-}
-
-PositionalRectangle_Wrapper::operator
-PositionalRectangle_View() const noexcept {
-  return this->Get();
-}
-
-PositionalRectangle* PositionalRectangle_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<PositionalRectangle*>(const_this->Get());
-}
-
-const PositionalRectangle* PositionalRectangle_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_positional_rectangle) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            actual_positional_rectangle
-        );
-      },
-      this->positional_rectangle_
-  );
-}
-
-void PositionalRectangle_Wrapper::Assign(
-    PositionalRectangle_View src
-) noexcept {
-  std::visit(
-      [&src](auto& actual_dest) {
-        using Dest_T = decltype(actual_dest);
-        using ActualSrc_T = const std::remove_pointer_t<
-            std::remove_reference_t<Dest_T>
-        >*;
-
-        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
-
-        *actual_dest = *actual_src;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_Wrapper::GetLeft() const noexcept {
-  PositionalRectangle_View view(this->Get());
-
-  return view.GetLeft();
-}
-
-void PositionalRectangle_Wrapper::SetLeft(int left) noexcept {
-  std::visit(
-      [left](auto& actual_positional_rectangle) {
-        actual_positional_rectangle->left = left;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_Wrapper::GetRight() const noexcept {
-  PositionalRectangle_View view(this->Get());
-
-  return view.GetRight();
-}
-
-void PositionalRectangle_Wrapper::SetRight(int right) noexcept {
-  std::visit(
-      [right](auto& actual_positional_rectangle) {
-        actual_positional_rectangle->right = right;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_Wrapper::GetTop() const noexcept {
-  PositionalRectangle_View view(this->Get());
-
-  return view.GetTop();
-}
-
-void PositionalRectangle_Wrapper::SetTop(int top) noexcept {
-  std::visit(
-      [top](auto& actual_positional_rectangle) {
-        actual_positional_rectangle->top = top;
-      },
-      this->positional_rectangle_
-  );
-}
-
-int PositionalRectangle_Wrapper::GetBottom() const noexcept {
-  PositionalRectangle_View view(this->Get());
-
-  return view.GetBottom();
-}
-
-void PositionalRectangle_Wrapper::SetBottom(int bottom) noexcept {
-  std::visit(
-      [bottom](auto& actual_positional_rectangle) {
-        actual_positional_rectangle->bottom = bottom;
-      },
-      this->positional_rectangle_
-  );
 }
 
 PositionalRectangle_Wrapper::WrapperVariant

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -48,64 +48,119 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <array>
 #include <compare>
 #include <filesystem>
-#include <vector>
 
-namespace mapi {
+#include "../../../../include/cxx/game_version.hpp"
+
+namespace mapi::internal {
+
+struct FileSignatureLocation {
+  constexpr FileSignatureLocation(
+      std::wstring_view raw_path,
+      std::ptrdiff_t offset
+  ) : raw_path(raw_path),
+      offset(offset) {
+  }
+
+  std::wstring_view raw_path;
+  std::ptrdiff_t offset;
+};
 
 class FileSignature {
  public:
-  FileSignature(
-      const std::filesystem::path& file_path,
-      std::ptrdiff_t offset,
-      const std::vector<std::uint8_t>& signature
-  );
+  static constexpr std::size_t kSignatureSize = 64;
 
-  FileSignature(
-      std::filesystem::path&& file_path,
-      std::ptrdiff_t offset,
-      std::vector<std::uint8_t>&& signature
-  ) noexcept;
+  using SignatureType = std::array<std::uint8_t, kSignatureSize>;
 
-  FileSignature(
-      const std::filesystem::path& file_path,
-      std::ptrdiff_t offset,
-      std::size_t count
-  );
+  FileSignature() = delete;
 
-  FileSignature(
-      std::filesystem::path&& file_path,
-      std::ptrdiff_t offset,
-      std::size_t count
-  );
+  explicit constexpr FileSignature(
+      SignatureType& signature
+  ) : signature_(signature) {
+  }
 
-  FileSignature(const FileSignature& file_signature);
-  FileSignature(FileSignature&& file_signature) noexcept;
+  explicit constexpr FileSignature(
+      SignatureType&& signature
+  ) : signature_(std::move(signature)) {
+  }
 
-  ~FileSignature();
+  constexpr FileSignature(
+      const FileSignature& file_signature
+  ) noexcept = default;
 
-  FileSignature& operator=(const FileSignature& file_signature);
-  FileSignature& operator=(FileSignature&& file_signature) noexcept;
+  constexpr FileSignature(
+      FileSignature&& file_signature
+  ) noexcept = default;
 
-  friend bool operator==(
+  ~FileSignature() noexcept = default;
+
+  constexpr FileSignature& operator=(
+      const FileSignature& file_signature
+  ) noexcept = default;
+
+  constexpr FileSignature& operator=(
+      FileSignature&& file_signature
+  ) noexcept = default;
+
+  constexpr friend bool operator==(
       const FileSignature& lhs,
       const FileSignature& rhs
   ) = default;
 
-  friend std::strong_ordering operator<=>(
+  constexpr friend std::strong_ordering operator<=>(
       const FileSignature& lhs,
       const FileSignature& rhs
   ) = default;
 
-  FileSignature ReadActual() const;
+  static d2::GameVersion GetGameVersion(
+      d2::GameVersion file_version_guess_game_version
+  );
+
+  constexpr SignatureType signature() const noexcept {
+    return this->signature_;
+  }
 
  private:
-  std::filesystem::path file_path_;
-  std::ptrdiff_t offset_;
-  std::vector<std::uint8_t> signature_;
+  SignatureType signature_;
+
+  static FileSignature ReadFileSignature(
+      const FileSignatureLocation& location
+  );
+
+  static d2::GameVersion SearchTable(
+      const FileSignature& file_signature
+  );
+
+  static constexpr bool HasFileSignatureCheck(d2::GameVersion game_version) {
+    switch (game_version) {
+      case d2::GameVersion::kBeta1_02:
+      case d2::GameVersion::kBeta1_02StressTest:
+      case d2::GameVersion::k1_00:
+      case d2::GameVersion::k1_01:
+      case d2::GameVersion::k1_06:
+      case d2::GameVersion::k1_06B:
+      case d2::GameVersion::k1_07Beta:
+      case d2::GameVersion::k1_07:
+      case d2::GameVersion::kClassic1_14A:
+      case d2::GameVersion::kLod1_14A:
+      case d2::GameVersion::kClassic1_14B:
+      case d2::GameVersion::kLod1_14B:
+      case d2::GameVersion::kClassic1_14C:
+      case d2::GameVersion::kLod1_14C:
+      case d2::GameVersion::kClassic1_14D:
+      case d2::GameVersion::kLod1_14D: {
+        return true;
+      }
+
+      default: {
+        return false;
+      }
+    }
+  }
 };
 
-} // namespace mapi
+} // namespace mapi::internal
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_SIGNATURE_HPP_

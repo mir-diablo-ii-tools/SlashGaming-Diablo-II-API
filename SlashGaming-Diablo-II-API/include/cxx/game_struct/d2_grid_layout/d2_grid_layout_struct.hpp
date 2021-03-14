@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -89,22 +89,6 @@ static_assert(offsetof(GridLayout_1_00, width) == 0x14);
 static_assert(offsetof(GridLayout_1_00, height) == 0x15);
 
 #pragma pack(pop)
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    GridLayout_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    GridLayout_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const GridLayout_1_00*
->;
 
 } // namespace d2
 

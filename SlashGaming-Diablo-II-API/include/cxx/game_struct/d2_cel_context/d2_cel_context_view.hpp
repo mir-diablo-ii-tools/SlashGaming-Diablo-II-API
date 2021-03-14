@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,32 +58,90 @@ namespace d2 {
 
 class DLLEXPORT CelContext_View {
  public:
-  CelContext_View() = delete;
-  CelContext_View(const CelContext* cel_context) noexcept;
-
-  CelContext_View(const CelContext_View& other) noexcept;
-  CelContext_View(CelContext_View&& other) noexcept;
-
-  ~CelContext_View() noexcept;
-
-  CelContext_View& operator=(const CelContext_View& other) noexcept;
-  CelContext_View& operator=(CelContext_View&& other) noexcept;
-
-  CelContext_View operator[](std::size_t index) const noexcept;
-
-  const CelContext* Get() const noexcept;
-
-  CelFile_View GetCelFile() const noexcept;
-  unsigned int GetDirection() const noexcept;
-  unsigned int GetFrame() const noexcept;
-
- private:
-  using ViewVariant = std::variant<
+  using ViewVariant = ::std::variant<
       const CelContext_1_00*,
       const CelContext_1_12A*,
       const CelContext_1_13C*
   >;
 
+  CelContext_View() = delete;
+
+  CelContext_View(const CelContext* cel_context) noexcept;
+
+  constexpr explicit CelContext_View(ViewVariant cel_context) noexcept
+      : cel_context_(::std::move(cel_context_)) {
+  }
+
+  constexpr CelContext_View(
+      const CelContext_View& other
+  ) noexcept = default;
+
+  constexpr CelContext_View(
+      CelContext_View&& other
+  ) noexcept = default;
+
+  ~CelContext_View() noexcept = default;
+
+  constexpr CelContext_View& operator=(
+      const CelContext_View& other
+  ) noexcept = default;
+
+  constexpr CelContext_View& operator=(
+      CelContext_View&& other
+  ) noexcept = default;
+
+  constexpr CelContext_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return std::visit(
+        [index](const auto& actual_cel_context) {
+          return CelContext_View(
+              &actual_cel_context[index]
+          );
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr const CelContext* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_context) {
+          return reinterpret_cast<const CelContext*>(actual_cel_context);
+        },
+        this->cel_context_
+    );
+  };
+
+  constexpr CelFile_View GetCelFile() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_context) {
+          return CelFile_View(
+              actual_cel_context->cel_file
+          );
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr unsigned int GetDirection() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_context) {
+          return actual_cel_context->direction;
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr unsigned int GetFrame() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_context) {
+          return actual_cel_context->frame;
+        },
+        this->cel_context_
+    );
+  }
+
+ private:
   ViewVariant cel_context_;
 
   static ViewVariant CreateVariant(const CelContext* cel_context);

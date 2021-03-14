@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -62,26 +62,102 @@ namespace d2 {
 
 class DLLEXPORT CelContext_Wrapper {
  public:
+  using WrapperVariant = std::variant<
+      CelContext_1_00*,
+      CelContext_1_12A*,
+      CelContext_1_13C*
+  >;
+
   CelContext_Wrapper() = delete;
+
   CelContext_Wrapper(CelContext* cel_context) noexcept;
 
-  CelContext_Wrapper(const CelContext_Wrapper& other) noexcept;
-  CelContext_Wrapper(CelContext_Wrapper&& other) noexcept;
+  constexpr explicit CelContext_Wrapper(
+      WrapperVariant cel_context
+  ) noexcept
+      : cel_context_(::std::move(cel_context)) {
+  }
 
-  ~CelContext_Wrapper() noexcept;
+  constexpr CelContext_Wrapper(
+      const CelContext_Wrapper& other
+  ) noexcept = default;
 
-  CelContext_Wrapper& operator=(const CelContext_Wrapper& other) noexcept;
-  CelContext_Wrapper& operator=(CelContext_Wrapper&& other) noexcept;
+  constexpr CelContext_Wrapper(
+      CelContext_Wrapper&& other
+  ) noexcept = default;
 
-  CelContext_View operator[](std::size_t index) const noexcept;
-  CelContext_Wrapper operator[](std::size_t index) noexcept;
+  ~CelContext_Wrapper() noexcept = default;
 
-  operator CelContext_View() const noexcept;
+  constexpr CelContext_Wrapper& operator=(
+      const CelContext_Wrapper& other
+  ) noexcept = default;
 
-  CelContext* Get() noexcept;
-  const CelContext* Get() const noexcept;
+  constexpr CelContext_Wrapper& operator=(
+      CelContext_Wrapper&& other
+  ) noexcept = default;
 
-  void Assign(CelContext_View src);
+  constexpr CelContext_View operator[](
+      std::size_t index
+  ) const noexcept {
+    CelContext_View view(*this);
+
+    return view[index];
+  }
+
+  constexpr CelContext_Wrapper operator[](
+      std::size_t index
+  ) noexcept {
+    return ::std::visit(
+        [index](auto& actual_cel_context) {
+          return CelContext_Wrapper(
+              &actual_cel_context[index]
+          );
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr operator CelContext_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_cel_context) {
+          return CelContext_View(actual_cel_context);
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr CelContext* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<CelContext*>(const_this->Get());
+  }
+
+  constexpr const CelContext* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_cel_context) {
+          return reinterpret_cast<const CelContext*>(
+              actual_cel_context
+          );
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr void AssignMembers(CelContext_View src) {
+    std::visit(
+        [&src](auto& actual_dest) {
+          using Dest_T = decltype(actual_dest);
+          using ActualSrc_T = const std::remove_pointer_t<
+              std::remove_reference_t<Dest_T>
+          >*;
+
+          const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+          *actual_dest = *actual_src;
+        },
+        this->cel_context_
+    );
+  }
 
   bool DrawFrame(int position_x, int position_y);
 
@@ -93,23 +169,69 @@ class DLLEXPORT CelContext_Wrapper {
 
   Cel* GetCel();
 
-  CelFile_View GetCelFile() const noexcept;
-  CelFile_Wrapper GetCelFile() noexcept;
-  void SetCelFile(CelFile_Wrapper cel_file) noexcept;
+  constexpr CelFile_Wrapper GetCelFile() noexcept {
+    return ::std::visit(
+        [](auto& actual_cel_context) {
+          return CelFile_Wrapper(actual_cel_context->cel_file);
+        },
+        this->cel_context_
+    );
+  }
 
-  unsigned int GetDirection() const noexcept;
-  void SetDirection(unsigned int direction) noexcept;
+  constexpr CelFile_View GetCelFile() const noexcept {
+    CelContext_View view(*this);
 
-  unsigned int GetFrame() const noexcept;
-  void SetFrame(unsigned int frame) noexcept;
+    return view.GetCelFile();
+  }
+
+  constexpr void SetCelFile(CelFile_Wrapper cel_file) noexcept {
+    std::visit(
+        [&cel_file](auto& actual_cel_context) {
+          using CelContext_T = std::remove_pointer_t<
+              std::remove_reference_t<decltype(actual_cel_context)>
+          >;
+          using CelFile_T = std::remove_pointer_t<
+              decltype(CelContext_T::cel_file)
+          >;
+
+          actual_cel_context->cel_file =
+              reinterpret_cast<CelFile_T*>(cel_file.Get());
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr unsigned int GetDirection() const noexcept {
+    CelContext_View view(*this);
+
+    return view.GetDirection();
+  }
+
+  constexpr void SetDirection(unsigned int direction) noexcept {
+    std::visit(
+        [direction](auto& actual_cel_context) {
+          actual_cel_context->direction = direction;
+        },
+        this->cel_context_
+    );
+  }
+
+  constexpr unsigned int GetFrame() const noexcept {
+    CelContext_View view(*this);
+
+    return view.GetFrame();
+  }
+
+  constexpr void SetFrame(unsigned int frame) noexcept {
+    std::visit(
+        [frame](auto& actual_cel_context) {
+          actual_cel_context->direction = frame;
+        },
+        this->cel_context_
+    );
+  }
 
  private:
-  using WrapperVariant = std::variant<
-      CelContext_1_00*,
-      CelContext_1_12A*,
-      CelContext_1_13C*
-  >;
-
   WrapperVariant cel_context_;
 
   static WrapperVariant CreateVariant(CelContext* cel_context);

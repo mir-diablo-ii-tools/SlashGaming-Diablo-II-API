@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -60,32 +60,92 @@ namespace d2 {
 
 class DLLEXPORT InventoryRecord_View {
  public:
-  InventoryRecord_View() = delete;
-  InventoryRecord_View(const InventoryRecord* inventory_record) noexcept;
-
-  InventoryRecord_View(const InventoryRecord_View& other) noexcept;
-  InventoryRecord_View(InventoryRecord_View&& other) noexcept;
-
-  ~InventoryRecord_View() noexcept;
-
-  InventoryRecord_View& operator=(
-      const InventoryRecord_View& other
-  ) noexcept;
-  InventoryRecord_View& operator=(
-      InventoryRecord_View&& other
-  ) noexcept;
-
-  InventoryRecord_View operator[](std::size_t index) const noexcept;
-
-  const InventoryRecord* Get() const noexcept;
-
-  PositionalRectangle_View GetPosition() const noexcept;
-  GridLayout_View GetGridLayout() const noexcept;
-  EquipmentLayout_View GetEquipmentSlots() const noexcept;
-
- private:
   using ViewVariant = std::variant<const InventoryRecord_1_00*>;
 
+  InventoryRecord_View() = delete;
+
+  InventoryRecord_View(const InventoryRecord* inventory_record) noexcept;
+
+  constexpr explicit InventoryRecord_View(
+      ViewVariant inventory_record
+  ) noexcept
+      : inventory_record_(::std::move(inventory_record)) {
+  }
+
+  constexpr InventoryRecord_View(
+      const InventoryRecord_View& other
+  ) noexcept = default;
+
+  constexpr InventoryRecord_View(
+      InventoryRecord_View&& other
+  ) noexcept = default;
+
+  ~InventoryRecord_View() noexcept = default;
+
+  constexpr InventoryRecord_View& operator=(
+      const InventoryRecord_View& other
+  ) noexcept = default;
+
+  constexpr InventoryRecord_View& operator=(
+      InventoryRecord_View&& other
+  ) noexcept = default;
+
+  constexpr InventoryRecord_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return ::std::visit(
+        [index](const auto& actual_inventory_record) {
+          return InventoryRecord_View(&actual_inventory_record[index]);
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr const InventoryRecord* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_inventory_record) {
+          return reinterpret_cast<const InventoryRecord*>(
+              actual_inventory_record
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    return std::visit(
+        [](const auto& actual_inventory_record) {
+          return PositionalRectangle_View(
+              &actual_inventory_record->position
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr GridLayout_View GetGridLayout() const noexcept {
+    return std::visit(
+        [](const auto& actual_inventory_record) {
+          return GridLayout_View(
+              &actual_inventory_record->grid_layout
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+  constexpr EquipmentLayout_View GetEquipmentSlots() const noexcept {
+    return std::visit(
+        [](const auto& actual_inventory_record) {
+          return EquipmentLayout_View(
+              actual_inventory_record->equipment_slots
+          );
+        },
+        this->inventory_record_
+    );
+  }
+
+ private:
   ViewVariant inventory_record_;
 
   static ViewVariant CreateVariant(const InventoryRecord* inventory_record);

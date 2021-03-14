@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -60,18 +60,13 @@ class GameLibrary {
   /**
    * Creates a new instance of a GameLibrary using the library path.
    */
-  explicit GameLibrary(const std::filesystem::path& file_path);
-
-  /**
-   * Creates a new instance of a GameLibrary using the library path.
-   */
-  explicit GameLibrary(std::filesystem::path&& file_path);
+  explicit GameLibrary(std::filesystem::path file_path);
 
   GameLibrary(const GameLibrary& rhs) = delete;
 
   GameLibrary(GameLibrary&& rhs) noexcept;
 
-  virtual ~GameLibrary();
+  ~GameLibrary();
 
   GameLibrary& operator=(const GameLibrary& rhs) = delete;
 
@@ -84,12 +79,16 @@ class GameLibrary {
   /**
    * Returns the base address value of this GameLibrary.
    */
-  std::intptr_t base_address() const noexcept;
+  constexpr std::intptr_t base_address() const noexcept {
+    return this->base_address_;
+  }
 
   /**
    * Returns the library path of this GameLibrary.
    */
-  const std::filesystem::path& file_path() const noexcept;
+  constexpr const std::filesystem::path& file_path() const noexcept {
+    return this->file_path_;
+  }
 
  private:
   std::filesystem::path file_path_;

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -57,38 +57,101 @@ namespace d2 {
 
 class DLLEXPORT PositionalRectangle_View {
  public:
+  using ViewVariant = std::variant<
+      const PositionalRectangle_1_00*
+  >;
+
   PositionalRectangle_View() = delete;
 
   PositionalRectangle_View(
       const PositionalRectangle* positional_rectangle
   ) noexcept;
 
-  PositionalRectangle_View(const PositionalRectangle_View& other) noexcept;
-  PositionalRectangle_View(PositionalRectangle_View&& other) noexcept;
+  explicit constexpr PositionalRectangle_View(
+      ViewVariant positional_rectangle
+  ) noexcept
+      : positional_rectangle_(::std::move(positional_rectangle)) {
+  }
 
-  ~PositionalRectangle_View() noexcept;
-
-  PositionalRectangle_View& operator=(
+  constexpr PositionalRectangle_View(
       const PositionalRectangle_View& other
-  ) noexcept;
-  PositionalRectangle_View& operator=(
+  ) noexcept = default;
+
+  constexpr PositionalRectangle_View(
       PositionalRectangle_View&& other
-  ) noexcept;
+  ) noexcept = default;
 
-  PositionalRectangle_View operator[](std::size_t index) const noexcept;
+  ~PositionalRectangle_View() noexcept = default;
 
-  const PositionalRectangle* Get() const noexcept;
+  constexpr PositionalRectangle_View& operator=(
+      const PositionalRectangle_View& other
+  ) noexcept = default;
 
-  int GetLeft() const noexcept;
-  int GetRight() const noexcept;
-  int GetTop() const noexcept;
-  int GetBottom() const noexcept;
+  constexpr PositionalRectangle_View& operator=(
+      PositionalRectangle_View&& other
+  ) noexcept = default;
+
+  constexpr PositionalRectangle_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return std::visit(
+        [index](const auto& actual_positional_rectangle) {
+          return PositionalRectangle_View(
+              &actual_positional_rectangle[index]
+          );
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr const PositionalRectangle* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return reinterpret_cast<const PositionalRectangle*>(
+              actual_positional_rectangle
+          );
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetLeft() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return actual_positional_rectangle->left;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetRight() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return actual_positional_rectangle->right;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetTop() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return actual_positional_rectangle->top;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetBottom() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return actual_positional_rectangle->bottom;
+        },
+        this->positional_rectangle_
+    );
+  }
 
  private:
-  using ViewVariant = std::variant<
-      const PositionalRectangle_1_00*
-  >;
-
   ViewVariant positional_rectangle_;
 
   static ViewVariant CreateVariant(

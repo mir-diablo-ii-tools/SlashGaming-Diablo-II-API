@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,7 +58,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kD2Client,
+      ::d2::DefaultLibrary::kD2Client,
       "GameType"
   );
 
@@ -68,7 +68,7 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 ClientGameType GetGameType() {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     return ToApiValue_1_00(GetGameType_1_00());
@@ -90,7 +90,7 @@ ClientGameType_1_07 GetGameType_1_07() {
 }
 
 void SetGameType(ClientGameType game_type) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     SetGameType_1_00(ToGameValue_1_00(game_type));

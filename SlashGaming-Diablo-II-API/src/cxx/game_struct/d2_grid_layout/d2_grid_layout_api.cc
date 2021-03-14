@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -65,113 +65,6 @@ GridLayout_Api::GridLayout_Api(
     )) {
 }
 
-GridLayout_Api::GridLayout_Api(
-    const GridLayout_Api& other
-) = default;
-
-GridLayout_Api::GridLayout_Api(GridLayout_Api&& other) noexcept = default;
-
-GridLayout_Api::~GridLayout_Api() = default;
-
-GridLayout_Api& GridLayout_Api::operator=(
-    const GridLayout_Api& other
-) = default;
-
-GridLayout_Api& GridLayout_Api::operator=(
-    GridLayout_Api&& other
-) noexcept = default;
-
-GridLayout_Api::operator GridLayout_View() const noexcept {
-  return GridLayout_View(this->Get());
-}
-
-GridLayout_Api::operator GridLayout_Wrapper() noexcept {
-  return GridLayout_Wrapper(this->Get());
-}
-
-GridLayout* GridLayout_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<GridLayout*>(const_this->Get());
-}
-
-const GridLayout* GridLayout_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return reinterpret_cast<const GridLayout*>(
-            &actual_grid_layout
-        );
-      },
-      this->grid_layout_
-  );
-}
-
-void GridLayout_Api::Assign(GridLayout_View src) noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  wrapper.Assign(src);
-}
-
-unsigned char GridLayout_Api::GetNumColumns() const noexcept {
-  GridLayout_View view(this->Get());
-
-  return view.GetNumColumns();
-}
-
-void GridLayout_Api::SetNumColumns(unsigned char num_columns) noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  wrapper.SetNumColumns(num_columns);
-}
-
-unsigned char GridLayout_Api::GetNumRows() const noexcept {
-  GridLayout_View view(this->Get());
-
-  return view.GetNumRows();
-}
-
-void GridLayout_Api::SetNumRows(unsigned char num_rows) noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  wrapper.SetNumRows(num_rows);
-}
-
-PositionalRectangle_View GridLayout_Api::GetPosition() const noexcept {
-  GridLayout_View view(this->Get());
-
-  return view.GetPosition();
-}
-
-PositionalRectangle_Wrapper GridLayout_Api::GetPosition() noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  return wrapper.GetPosition();
-}
-
-unsigned char GridLayout_Api::GetWidth() const noexcept {
-  GridLayout_View view(this->Get());
-
-  return view.GetWidth();
-}
-
-void GridLayout_Api::SetWidth(unsigned char width) noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  wrapper.SetWidth(width);
-}
-
-unsigned char GridLayout_Api::GetHeight() const noexcept {
-  GridLayout_View view(this->Get());
-
-  return view.GetHeight();
-}
-
-void GridLayout_Api::SetHeight(unsigned char height) noexcept {
-  GridLayout_Wrapper wrapper(this->Get());
-
-  wrapper.SetHeight(height);
-}
-
 GridLayout_Api::ApiVariant GridLayout_Api::CreateVariant(
     unsigned char num_columns,
     unsigned char num_rows,
@@ -193,7 +86,7 @@ GridLayout_Api::ApiVariant GridLayout_Api::CreateVariant(
                 &actual_grid_layout.position
             )
         );
-        position_wrapper.Assign(position);
+        position_wrapper.AssignMembers(position);
 
         actual_grid_layout.width = width;
         actual_grid_layout.height = height;

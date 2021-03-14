@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -49,93 +49,6 @@ namespace d2 {
 
 GridLayout_View::GridLayout_View(const GridLayout* grid_layout) noexcept :
     grid_layout_(CreateVariant(grid_layout)) {
-}
-
-GridLayout_View::GridLayout_View(
-    const GridLayout_View& other
-) noexcept = default;
-
-GridLayout_View::GridLayout_View(
-    GridLayout_View&& other
-) noexcept = default;
-
-GridLayout_View::~GridLayout_View() noexcept = default;
-
-GridLayout_View& GridLayout_View::operator=(
-    const GridLayout_View& other
-) noexcept = default;
-
-GridLayout_View& GridLayout_View::operator=(
-    GridLayout_View&& other
-) noexcept = default;
-
-GridLayout_View GridLayout_View::operator[](
-    std::size_t index
-) const noexcept {
-  return std::visit(
-      [index](const auto& actual_grid_layout) {
-        return reinterpret_cast<const GridLayout*>(
-            &actual_grid_layout[index]
-        );
-      },
-      this->grid_layout_
-  );
-}
-
-const GridLayout* GridLayout_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return reinterpret_cast<const GridLayout*>(actual_grid_layout);
-      },
-      this->grid_layout_
-  );
-}
-
-unsigned char GridLayout_View::GetNumColumns() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return actual_grid_layout->num_columns;
-      },
-      this->grid_layout_
-  );
-}
-
-unsigned char GridLayout_View::GetNumRows() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return actual_grid_layout->num_rows;
-      },
-      this->grid_layout_
-  );
-}
-
-PositionalRectangle_View GridLayout_View::GetPosition() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return reinterpret_cast<const PositionalRectangle*>(
-            &actual_grid_layout->position
-        );
-      },
-      this->grid_layout_
-  );
-}
-
-unsigned char GridLayout_View::GetWidth() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return actual_grid_layout->width;
-      },
-      this->grid_layout_
-  );
-}
-
-unsigned char GridLayout_View::GetHeight() const noexcept {
-  return std::visit(
-      [](const auto& actual_grid_layout) {
-        return actual_grid_layout->height;
-      },
-      this->grid_layout_
-  );
 }
 
 GridLayout_View::ViewVariant GridLayout_View::CreateVariant(

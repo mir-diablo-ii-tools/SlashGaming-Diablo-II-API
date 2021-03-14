@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -93,7 +93,7 @@ DrawCenteredUnicodeText_1_12A_Shim(
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kD2Client,
+      ::d2::DefaultLibrary::kD2Client,
       "DrawCenteredUnicodeText"
   );
 
@@ -111,7 +111,7 @@ void DrawCenteredUnicodeText(
 ) {
   int text_color_game_value = ToGameValue(text_color);
 
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10
       || running_game_version >= GameVersion::kClassic1_14A) {

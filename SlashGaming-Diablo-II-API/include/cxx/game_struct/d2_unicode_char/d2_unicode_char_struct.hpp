@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -92,22 +92,6 @@ constexpr std::strong_ordering operator<=>(
 ) {
   return ch1.ch <=> ch2.ch;
 }
-
-/**
- * STL DLL interface
- */
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    UnicodeChar_1_00
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    UnicodeChar_1_00*
->;
-
-DLL_TEMPL_EXTERN template class DLLEXPORT std::variant<
-    const UnicodeChar_1_00*
->;
 
 } // namespace d2
 

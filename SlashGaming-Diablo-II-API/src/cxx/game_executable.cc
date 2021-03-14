@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -49,7 +49,7 @@
 
 #include <memory>
 
-namespace mapi {
+namespace mapi::game_executable {
 namespace {
 
 static std::filesystem::path InitGameExecutablePath() {
@@ -71,10 +71,10 @@ static std::filesystem::path InitGameExecutablePath() {
 
 } // namespace
 
-const std::filesystem::path& GetGameExecutablePath() {
+const std::filesystem::path& GetPath() {
   static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
 
   return kGameExecutablePath;
 }
 
-} // namespace mapi
+} // namespace mapi::game_executable

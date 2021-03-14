@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -43,19 +43,15 @@
  *  work.
  */
 
-#ifndef SGMAPI_WIDE_MACRO_H_
-#define SGMAPI_WIDE_MACRO_H_
+#include "game_address_locator.hpp"
 
-#ifndef MAPI_CAT
-#define MAPI_CAT(a, b) a##b
-#endif /* MAPI_CAT */
+namespace mapi {
 
-#ifndef MAPI_WIDE_LIT
-#define MAPI_WIDE_LIT(s) MAPI_CAT(a, b)
-#endif /* MAPI_WIDE_LIT */
+GameAddress GameAddressLocator::LocateGameAddress() const noexcept {
+  return std::visit([](const auto& actual_locator) {
+    return actual_locator.LocateGameAddress();
+  },
+  this->locator_);
+}
 
-#ifndef __FILEW__
-#define __FILEW__ MAPI_WIDE_LIT(__FILE__)
-#endif /* __FILEW__ */
-
-#endif /* SGMAPI_WIDE_MACRO_H_ */
+} // namespace mapi

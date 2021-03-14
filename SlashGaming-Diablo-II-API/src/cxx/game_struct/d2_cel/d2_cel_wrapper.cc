@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -49,115 +49,6 @@ namespace d2 {
 
 Cel_Wrapper::Cel_Wrapper(Cel* cel) noexcept :
     cel_(CreateVariant(cel)) {
-}
-
-Cel_Wrapper::Cel_Wrapper(const Cel_Wrapper& other) noexcept = default;
-
-Cel_Wrapper::Cel_Wrapper(Cel_Wrapper&& other) noexcept = default;
-
-Cel_Wrapper::~Cel_Wrapper() noexcept = default;
-
-Cel_Wrapper& Cel_Wrapper::operator=(
-    const Cel_Wrapper& other
-) noexcept = default;
-
-Cel_Wrapper& Cel_Wrapper::operator=(
-    Cel_Wrapper&& other
-) noexcept = default;
-
-Cel_View Cel_Wrapper::operator[](
-    std::size_t index
-) const noexcept {
-  Cel_View view(this->Get());
-
-  return view[index];
-}
-
-Cel_Wrapper Cel_Wrapper::operator[](
-    std::size_t index
-) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<Cel*>((*const_this)[index].Get());
-}
-
-Cel_Wrapper::operator Cel_View() const noexcept {
-  return Cel_View(this->Get());
-}
-
-Cel* Cel_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<Cel*>(const_this->Get());
-}
-
-const Cel* Cel_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel) {
-        return reinterpret_cast<const Cel*>(actual_cel);
-      },
-      this->cel_
-  );
-}
-
-int Cel_Wrapper::GetHeight() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetHeight();
-}
-
-void Cel_Wrapper::SetHeight(int height) noexcept {
-  std::visit(
-      [height](auto& actual_cel) {
-        actual_cel->height = height;
-      },
-      this->cel_
-  );
-}
-
-int Cel_Wrapper::GetOffsetX() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetOffsetX();
-}
-
-void Cel_Wrapper::SetOffsetX(int offset_x) noexcept {
-  std::visit(
-      [offset_x](auto& actual_cel) {
-        actual_cel->offset_x = offset_x;
-      },
-      this->cel_
-  );
-}
-
-int Cel_Wrapper::GetOffsetY() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetOffsetY();
-}
-
-void Cel_Wrapper::SetOffsetY(int offset_y) noexcept {
-  std::visit(
-      [offset_y](auto& actual_cel) {
-        actual_cel->offset_y = offset_y;
-      },
-      this->cel_
-  );
-}
-
-int Cel_Wrapper::GetWidth() const noexcept {
-  Cel_View view(this->Get());
-
-  return view.GetWidth();
-}
-
-void Cel_Wrapper::SetWidth(int width) noexcept {
-  std::visit(
-      [width](auto& actual_cel) {
-        actual_cel->width = width;
-      },
-      this->cel_
-  );
 }
 
 Cel_Wrapper::WrapperVariant Cel_Wrapper::CreateVariant(Cel* cel) {

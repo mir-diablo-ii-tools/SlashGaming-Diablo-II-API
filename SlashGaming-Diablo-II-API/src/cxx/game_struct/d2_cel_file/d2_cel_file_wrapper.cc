@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -48,69 +48,17 @@
 #include <windows.h>
 #include <vector>
 
-#include <fmt/format.h>
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_function/d2gfx/d2gfx_draw_cel_context.hpp"
 #include "../../../../include/cxx/game_struct/d2_cel/d2_cel_view.hpp"
 #include "../../../../include/cxx/game_struct/d2_cel_context/d2_cel_context_api.hpp"
-#include "../../../wide_macro.h"
-#include "../../backend/error_handling.hpp"
 
 namespace d2 {
 
 CelFile_Wrapper::CelFile_Wrapper(
     CelFile* cel_file
 ) noexcept : cel_file_(CreateVariant(cel_file)) {
-}
-
-CelFile_Wrapper::CelFile_Wrapper(
-    const CelFile_Wrapper& other
-) noexcept = default;
-
-CelFile_Wrapper::CelFile_Wrapper(
-    CelFile_Wrapper&& other
-) noexcept = default;
-
-CelFile_Wrapper::~CelFile_Wrapper() noexcept = default;
-
-CelFile_Wrapper& CelFile_Wrapper::operator=(
-    const CelFile_Wrapper& other
-) noexcept = default;
-
-CelFile_Wrapper& CelFile_Wrapper::operator=(
-    CelFile_Wrapper&& other
-) noexcept = default;
-
-CelFile_Wrapper::operator CelFile_View() const noexcept {
-  return CelFile_View(this->Get());
-}
-
-CelFile_View CelFile_Wrapper::operator[](std::size_t index) const noexcept {
-  CelFile_View view(this->Get());
-
-  return view[index];
-}
-
-CelFile_Wrapper CelFile_Wrapper::operator[](std::size_t index) noexcept {
-  const auto* const_this = this;
-
-  return const_cast<CelFile*>((*const_this)[index].Get());
-}
-
-CelFile* CelFile_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<CelFile*>(const_this->Get());
-}
-
-const CelFile* CelFile_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_file) {
-        return reinterpret_cast<const CelFile*>(
-            actual_cel_file
-        );
-      },
-      this->cel_file_
-  );
 }
 
 bool CelFile_Wrapper::DrawFrame(
@@ -219,21 +167,15 @@ bool CelFile_Wrapper::DrawAllFrames(
     }
 
     default: {
-      constexpr std::wstring_view kErrorFormatMessage =
-          L"Invalid value for DrawPositionXBehavior: "
-          L"{}.";
-
-      std::wstring full_message = fmt::format(
-          kErrorFormatMessage,
+      ::mdc::error::ExitOnGeneralError(
+          L"Error",
+          L"Invalid value for DrawPositionXBehavior: %d.",
+          __FILEW__,
+          __LINE__,
           static_cast<int>(all_frames_options.position_x_behavior)
       );
 
-      mapi::ExitOnGeneralFailure(
-          full_message,
-          L"Invalid Value",
-          __FILEW__,
-          __LINE__
-      );
+      return false;
     }
   }
 
@@ -254,21 +196,15 @@ bool CelFile_Wrapper::DrawAllFrames(
     }
 
     default: {
-      constexpr std::wstring_view kErrorFormatMessage =
-          L"Invalid value for DrawPositionYBehavior: "
-          L"{}.";
-
-      std::wstring full_message = fmt::format(
-          kErrorFormatMessage,
-          static_cast<int>(all_frames_options.position_y_behavior)
-      );
-
-      mapi::ExitOnGeneralFailure(
-          full_message,
-          L"Invalid Value",
+      ::mdc::error::ExitOnGeneralError(
+          L"Error",
+          L"Invalid value for DrawPositionYBehavior: %d.",
           __FILEW__,
-          __LINE__
+          __LINE__,
+          static_cast<int>(all_frames_options.position_x_behavior)
       );
+
+      return false;
     }
   }
 
@@ -306,55 +242,13 @@ bool CelFile_Wrapper::DrawAllFrames(
   return is_all_success;
 }
 
-Cel_Wrapper CelFile_Wrapper::GetCel(unsigned int direction, unsigned int frame) {
+Cel_Wrapper CelFile_Wrapper::GetCel(
+    unsigned int direction,
+    unsigned int frame
+) {
   CelContext_Api cel_context(this->Get(), direction, frame);
 
   return cel_context.GetCel();
-}
-
-unsigned int CelFile_Wrapper::GetVersion() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetVersion();
-}
-
-void CelFile_Wrapper::SetVersion(unsigned int version) noexcept {
-  std::visit(
-      [version](auto& actual_cel_file) {
-        actual_cel_file->version = version;
-      },
-      this->cel_file_
-  );
-}
-
-unsigned int CelFile_Wrapper::GetNumDirections() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumDirections();
-}
-
-void CelFile_Wrapper::SetNumDirections(unsigned int num_directions) noexcept {
-  std::visit(
-      [num_directions](auto& actual_cel_file) {
-        actual_cel_file->num_directions = num_directions;
-      },
-      this->cel_file_
-  );
-}
-
-unsigned int CelFile_Wrapper::GetNumFrames() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumFrames();
-}
-
-void CelFile_Wrapper::SetNumFrames(unsigned int num_frames) noexcept {
-  std::visit(
-      [num_frames](auto& actual_cel_file) {
-        actual_cel_file->num_frames = num_frames;
-      },
-      this->cel_file_
-  );
 }
 
 CelFile_Wrapper::WrapperVariant CelFile_Wrapper::CreateVariant(

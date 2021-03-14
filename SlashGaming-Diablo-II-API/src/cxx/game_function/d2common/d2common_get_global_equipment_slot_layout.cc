@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -60,7 +60,7 @@ namespace {
 
 static const mapi::GameAddress& GetGameAddress() {
   static const mapi::GameAddress game_address = mapi::LoadGameAddress(
-      ::mapi::DefaultLibrary::kD2Common,
+      ::d2::DefaultLibrary::kD2Common,
       "GetGlobalEquipmentSlotLayout"
   );
 
@@ -75,7 +75,7 @@ void GetGlobalEquipmentSlotLayout(
     EquipmentLayout* out_equipment_slot_layout,
     unsigned int equipment_slot_index
 ) {
-  GameVersion running_game_version = d2::GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_06B) {
     GetGlobalEquipmentSlotLayout_1_00(

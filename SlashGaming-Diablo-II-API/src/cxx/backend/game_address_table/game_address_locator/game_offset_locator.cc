@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -47,26 +47,8 @@
 
 namespace mapi {
 
-GameOffsetLocator::GameOffsetLocator(
-    DefaultLibrary library_id,
-    std::ptrdiff_t offset
-) : GameOffsetLocator(
-        GetDefaultLibraryPathWithRedirect(library_id),
-        offset
-    ) {
-}
-
-GameOffsetLocator::GameOffsetLocator(
-    std::filesystem::path library_path,
-    std::ptrdiff_t offset
-) : library_path_(std::move(library_path)),
-    offset_(offset) {
-}
-
-GameOffsetLocator::~GameOffsetLocator() = default;
-
-GameAddress GameOffsetLocator::LocateGameAddress() {
-  return GameAddress::FromOffset(this->library_path_, this->offset_);
+GameAddress GameOffsetLocator::LocateGameAddress() const noexcept {
+  return GameAddress::FromOffset(this->library(), this->offset());
 }
 
 } // namespace mapi

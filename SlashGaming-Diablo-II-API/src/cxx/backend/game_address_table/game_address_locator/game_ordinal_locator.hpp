@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -47,34 +47,37 @@
 #define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_ORDINAL_LOCATOR_HPP_
 
 #include <cstdint>
-#include <filesystem>
 
+#include "../../../../../include/cxx/game_address.hpp"
 #include "../../../../../include/cxx/default_game_library.hpp"
-#include "game_address_locator.hpp"
 
 namespace mapi {
 
-class GameOrdinalLocator : public IGameAddressLocator {
+class GameOrdinalLocator {
  public:
   GameOrdinalLocator() = delete;
 
-  GameOrdinalLocator(
-      DefaultLibrary library_id,
-      std::int16_t ordinal
-  );
+  constexpr GameOrdinalLocator(
+      ::d2::DefaultLibrary library,
+      ::std::int16_t ordinal
+  ) noexcept
+      : library_(library),
+        ordinal_(ordinal) {
+  }
 
-  GameOrdinalLocator(
-      std::filesystem::path library_path,
-      std::int16_t ordinal
-  );
+  GameAddress LocateGameAddress() const noexcept;
 
-  ~GameOrdinalLocator() override;
+  constexpr ::d2::DefaultLibrary library() const noexcept {
+    return this->library_;
+  }
 
-  GameAddress LocateGameAddress() override;
+  constexpr ::std::int16_t ordinal() const noexcept {
+    return this->ordinal_;
+  }
 
  private:
-  std::filesystem::path library_path_;
-  std::int16_t ordinal_;
+  ::d2::DefaultLibrary library_;
+  ::std::int16_t ordinal_;
 };
 
 } // namespace mapi

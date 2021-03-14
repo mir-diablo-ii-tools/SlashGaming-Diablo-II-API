@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -107,25 +107,10 @@ MpqArchiveHandle_Api& MpqArchiveHandle_Api::operator=(
   return *this;
 }
 
-MpqArchiveHandle_Api::operator MpqArchiveHandle_View() const noexcept {
-  return MpqArchiveHandle_View(this->Get());
-}
-
-MpqArchiveHandle* MpqArchiveHandle_Api::Get() noexcept {
+MpqArchiveHandle* MpqArchiveHandle_Api::Get_() noexcept {
   const auto* const_this = this;
 
   return const_cast<MpqArchiveHandle*>(const_this->Get());
-}
-
-const MpqArchiveHandle* MpqArchiveHandle_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_mpq_archive_handle) {
-        return reinterpret_cast<const MpqArchiveHandle*>(
-            actual_mpq_archive_handle
-        );
-      },
-      this->mpq_archive_handle_
-  );
 }
 
 void MpqArchiveHandle_Api::Close() {
@@ -133,7 +118,7 @@ void MpqArchiveHandle_Api::Close() {
     return;
   }
 
-  d2win::UnloadMpq(this->Get());
+  d2win::UnloadMpq(this->Get_());
   this->mpq_archive_handle_ = nullptr;
   this->is_open_ = false;
 }
@@ -173,18 +158,6 @@ void MpqArchiveHandle_Api::Open(
   this->is_open_ = (this->Get() != nullptr);
 }
 
-MpqArchive_View MpqArchiveHandle_Api::GetMpqArchive() const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view.GetMpqArchive();
-}
-
-const char* MpqArchiveHandle_Api::GetMpqArchivePath() const noexcept {
-  MpqArchiveHandle_View view(this->Get());
-
-  return view.GetMpqArchivePath();
-}
-
 MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
     std::string_view mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
@@ -198,7 +171,7 @@ MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
       priority
   );
 
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   return reinterpret_cast<MpqArchiveHandle_1_00*>(mpq_archive_handle);
 }

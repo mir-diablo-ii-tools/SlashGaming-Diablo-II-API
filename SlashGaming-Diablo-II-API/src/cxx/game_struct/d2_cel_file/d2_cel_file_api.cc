@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -203,24 +203,6 @@ void CelFile_Api::Open(
   );
 
   this->is_open_ = (this->Get_() != nullptr);
-}
-
-unsigned int CelFile_Api::GetVersion() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetVersion();
-}
-
-unsigned int CelFile_Api::GetNumDirections() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumDirections();
-}
-
-unsigned int CelFile_Api::GetNumFrames() const noexcept {
-  CelFile_View view(this->Get());
-
-  return view.GetNumFrames();
 }
 
 CelFile_Api::ApiVariant CelFile_Api::CreateVariant(

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -46,28 +46,15 @@
 #include "game_library.hpp"
 
 #include <windows.h>
-#include <cstdint>
-#include <filesystem>
-#include <map>
-#include <stdexcept>
-#include <string>
-#include <string_view>
+#include <cassert>
 
-#include <fmt/format.h>
-#include "error_handling.hpp"
-#include "../../wide_macro.h"
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 
 namespace mapi {
 
 GameLibrary::GameLibrary(
-  const std::filesystem::path& file_path
-)
-    : file_path_(file_path),
-      base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
-}
-
-GameLibrary::GameLibrary(
-    std::filesystem::path&& file_path
+  std::filesystem::path file_path
 )
     : file_path_(std::move(file_path)),
       base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
@@ -83,7 +70,16 @@ GameLibrary::~GameLibrary() {
   HMODULE module_handle = reinterpret_cast<HMODULE>(this->base_address());
 
   if (module_handle != nullptr) {
-    FreeLibrary(module_handle);
+    BOOL is_free_library_success = FreeLibrary(module_handle);
+
+    if (!is_free_library_success) {
+      ::mdc::error::ExitOnWindowsFunctionError(
+          __FILEW__,
+          __LINE__,
+          L"FreeLibrary",
+          GetLastError()
+      );
+    }
   }
 
   this->base_address_ = reinterpret_cast<std::intptr_t>(nullptr);
@@ -106,35 +102,14 @@ const GameLibrary& GameLibrary::GetGameLibrary(
     const std::filesystem::path& file_path
 ) {
   if (!GetLibrariesByPaths().contains(file_path)) {
-    GetLibrariesByPaths().insert_or_assign(
-        file_path,
-        GameLibrary(file_path)
+    GetLibrariesByPaths().insert(
+        std::pair(file_path, GameLibrary(file_path))
     );
   }
 
-  try {
-    return GetLibrariesByPaths().at(file_path);
-  } catch (const std::out_of_range& e) {
-    std::wstring full_message = fmt::format(
-        L"Could not determine the game library from the file path: {}.",
-        file_path.wstring().data()
-    );
+  assert(GetLibrariesByPaths().contains(file_path));
 
-    ExitOnGeneralFailure(
-        full_message,
-        L"Failed to Determine Game Library",
-        __FILEW__,
-        __LINE__
-    );
-  }
-}
-
-std::intptr_t GameLibrary::base_address() const noexcept {
-  return base_address_;
-}
-
-const std::filesystem::path& GameLibrary::file_path() const noexcept {
-  return file_path_;
+  return GetLibrariesByPaths().at(file_path);
 }
 
 std::map<std::filesystem::path, GameLibrary>&
@@ -147,16 +122,17 @@ GameLibrary::GetLibrariesByPaths() {
 std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(
     const std::filesystem::path& file_path
 ) {
-  std::wstring file_path_text_wide = file_path.wstring();
-  HMODULE base_address = LoadLibraryW(file_path_text_wide.data());
+  HMODULE base_address = LoadLibraryW(file_path.c_str());
 
   if (base_address == nullptr) {
-    ExitOnWindowsFunctionFailureWithLastError(
-        L"LoadLibraryW",
-        GetLastError(),
+    ::mdc::error::ExitOnWindowsFunctionError(
         __FILEW__,
-        __LINE__
+        __LINE__,
+        L"LoadLibraryW",
+        GetLastError()
     );
+
+    return 0;
   }
 
   return reinterpret_cast<std::intptr_t>(base_address);

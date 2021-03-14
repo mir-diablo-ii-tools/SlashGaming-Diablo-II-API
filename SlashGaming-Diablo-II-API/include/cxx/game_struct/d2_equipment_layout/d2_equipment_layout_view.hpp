@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,28 +58,90 @@ namespace d2 {
 
 class DLLEXPORT EquipmentLayout_View {
  public:
-  EquipmentLayout_View() = delete;
-  EquipmentLayout_View(const EquipmentLayout* equipment_layout) noexcept;
-
-  EquipmentLayout_View(const EquipmentLayout_View& other) noexcept;
-  EquipmentLayout_View(EquipmentLayout_View&& other) noexcept;
-
-  ~EquipmentLayout_View() noexcept;
-
-  EquipmentLayout_View& operator=(const EquipmentLayout_View& other) noexcept;
-  EquipmentLayout_View& operator=(EquipmentLayout_View&& other) noexcept;
-
-  EquipmentLayout_View operator[](std::size_t index) const noexcept;
-
-  const EquipmentLayout* Get() const noexcept;
-
-  PositionalRectangle_View GetPosition() const noexcept;
-  unsigned char GetWidth() const noexcept;
-  unsigned char GetHeight() const noexcept;
-
- private:
   using ViewVariant = std::variant<const EquipmentLayout_1_00*>;
 
+  EquipmentLayout_View() = delete;
+
+  EquipmentLayout_View(const EquipmentLayout* equipment_layout) noexcept;
+
+  constexpr explicit EquipmentLayout_View(
+      ViewVariant equipment_layout
+  ) noexcept
+      : equipment_layout_(::std::move(equipment_layout)) {
+  }
+
+  constexpr EquipmentLayout_View(
+      const EquipmentLayout_View& other
+  ) noexcept = default;
+
+  constexpr EquipmentLayout_View(
+      EquipmentLayout_View&& other
+  ) noexcept = default;
+
+  ~EquipmentLayout_View() noexcept = default;
+
+  constexpr EquipmentLayout_View& operator=(
+      const EquipmentLayout_View& other
+  ) noexcept = default;
+
+  constexpr EquipmentLayout_View& operator=(
+      EquipmentLayout_View&& other
+  ) noexcept = default;
+
+  constexpr EquipmentLayout_View operator[](
+      std::size_t index
+  ) const noexcept {
+    return std::visit(
+        [index](const auto& actual_equipment_layout) {
+          return EquipmentLayout_View(
+              &actual_equipment_layout[index]
+          );
+        },
+        this->equipment_layout_
+    );
+  }
+
+  constexpr const EquipmentLayout* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_equipment_layout) {
+          return reinterpret_cast<const EquipmentLayout*>(
+              actual_equipment_layout
+          );
+        },
+        this->equipment_layout_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    return std::visit(
+        [](const auto& actual_equipment_layout) {
+          return PositionalRectangle_View(
+              &actual_equipment_layout->position
+          );
+        },
+        this->equipment_layout_
+    );
+  }
+
+  constexpr unsigned char GetWidth() const noexcept {
+    return std::visit(
+        [](const auto& actual_equipment_layout) {
+          return actual_equipment_layout->width;
+        },
+        this->equipment_layout_
+    );
+  }
+
+  constexpr unsigned char GetHeight() const noexcept {
+    return std::visit(
+        [](const auto& actual_equipment_layout) {
+          return actual_equipment_layout->height;
+        },
+        this->equipment_layout_
+    );
+  }
+
+ private:
   ViewVariant equipment_layout_;
 
   static ViewVariant CreateVariant(const EquipmentLayout* equipment_layout);

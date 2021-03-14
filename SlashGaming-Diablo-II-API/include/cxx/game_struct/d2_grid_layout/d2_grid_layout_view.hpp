@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,30 +58,98 @@ namespace d2 {
 
 class DLLEXPORT GridLayout_View {
  public:
-  GridLayout_View() = delete;
-  GridLayout_View(const GridLayout* grid_layout) noexcept;
-
-  GridLayout_View(const GridLayout_View& other) noexcept;
-  GridLayout_View(GridLayout_View&& other) noexcept;
-
-  ~GridLayout_View() noexcept;
-
-  GridLayout_View& operator=(const GridLayout_View& other) noexcept;
-  GridLayout_View& operator=(GridLayout_View&& other) noexcept;
-
-  GridLayout_View operator[](std::size_t index) const noexcept;
-
-  const GridLayout* Get() const noexcept;
-
-  unsigned char GetNumColumns() const noexcept;
-  unsigned char GetNumRows() const noexcept;
-  PositionalRectangle_View GetPosition() const noexcept;
-  unsigned char GetWidth() const noexcept;
-  unsigned char GetHeight() const noexcept;
-
- private:
   using ViewVariant = std::variant<const GridLayout_1_00*>;
 
+  GridLayout_View() = delete;
+
+  GridLayout_View(const GridLayout* grid_layout) noexcept;
+
+  constexpr explicit GridLayout_View(ViewVariant grid_layout) noexcept
+      : grid_layout_(::std::move(grid_layout)) {
+  }
+
+  constexpr GridLayout_View(
+      const GridLayout_View& other
+  ) noexcept = default;
+
+  constexpr GridLayout_View(
+      GridLayout_View&& other
+  ) noexcept = default;
+
+  ~GridLayout_View() noexcept = default;
+
+  constexpr GridLayout_View& operator=(
+      const GridLayout_View& other
+  ) noexcept = default;
+
+  constexpr GridLayout_View& operator=(
+      GridLayout_View&& other
+  ) noexcept = default;
+
+  constexpr GridLayout_View operator[](std::size_t index) const noexcept {
+    return std::visit(
+        [index](const auto& actual_grid_layout) {
+          return GridLayout_View(&actual_grid_layout[index]);
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr const GridLayout* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return reinterpret_cast<const GridLayout*>(actual_grid_layout);
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetNumColumns() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return actual_grid_layout->num_columns;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetNumRows() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return actual_grid_layout->num_rows;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr PositionalRectangle_View GetPosition() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return PositionalRectangle_View(&actual_grid_layout->position);
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetWidth() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return actual_grid_layout->width;
+        },
+        this->grid_layout_
+    );
+  }
+
+  constexpr unsigned char GetHeight() const noexcept {
+    return std::visit(
+        [](const auto& actual_grid_layout) {
+          return actual_grid_layout->height;
+        },
+        this->grid_layout_
+    );
+  }
+
+ private:
   ViewVariant grid_layout_;
 
   static ViewVariant CreateVariant(const GridLayout* grid_layout);

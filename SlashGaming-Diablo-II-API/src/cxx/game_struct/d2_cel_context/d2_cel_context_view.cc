@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -54,77 +54,10 @@ CelContext_View::CelContext_View(
 ) noexcept : cel_context_(CreateVariant(cel_context)) {
 }
 
-CelContext_View::CelContext_View(
-    const CelContext_View& other
-) noexcept = default;
-
-CelContext_View::CelContext_View(
-    CelContext_View&& other
-) noexcept = default;
-
-CelContext_View::~CelContext_View() noexcept = default;
-
-CelContext_View& CelContext_View::operator=(
-    const CelContext_View& other
-) noexcept = default;
-
-CelContext_View& CelContext_View::operator=(
-    CelContext_View&& other
-) noexcept = default;
-
-CelContext_View CelContext_View::operator[](std::size_t index) const noexcept {
-  return std::visit(
-      [index](const auto& actual_cel_context) {
-        return reinterpret_cast<const CelContext*>(
-            &actual_cel_context[index]
-        );
-      },
-      this->cel_context_
-  );
-}
-
-const CelContext* CelContext_View::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_context) {
-        return reinterpret_cast<const CelContext*>(actual_cel_context);
-      },
-      this->cel_context_
-  );
-}
-
-CelFile_View CelContext_View::GetCelFile() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_context) {
-        return reinterpret_cast<const CelFile*>(
-            actual_cel_context->cel_file
-        );
-      },
-      this->cel_context_
-  );
-}
-
-unsigned int CelContext_View::GetDirection() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_context) {
-        return actual_cel_context->direction;
-      },
-      this->cel_context_
-  );
-}
-
-unsigned int CelContext_View::GetFrame() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_context) {
-        return actual_cel_context->frame;
-      },
-      this->cel_context_
-  );
-}
-
 CelContext_View::ViewVariant CelContext_View::CreateVariant(
     const CelContext* cel_context
 ) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= GameVersion::k1_10) {
     return reinterpret_cast<const CelContext_1_00*>(cel_context);

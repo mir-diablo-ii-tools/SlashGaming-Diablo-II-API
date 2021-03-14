@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -62,72 +62,10 @@ UnicodeChar_Wrapper::UnicodeChar_Wrapper(
 ) noexcept : uch_(CreateVariant(uch)) {
 }
 
-UnicodeChar_Wrapper::UnicodeChar_Wrapper(
-    const UnicodeChar_Wrapper& other
-) noexcept = default;
-
-UnicodeChar_Wrapper::UnicodeChar_Wrapper(
-    UnicodeChar_Wrapper&& other
-) noexcept = default;
-
-UnicodeChar_Wrapper::~UnicodeChar_Wrapper() noexcept = default;
-
-UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
-    const UnicodeChar_Wrapper& other
-) noexcept = default;
-
-UnicodeChar_Wrapper& UnicodeChar_Wrapper::operator=(
-    UnicodeChar_Wrapper&& other
-) noexcept = default;
-
-UnicodeChar_Wrapper::operator UnicodeChar_View() const noexcept {
-  return UnicodeChar_View(this->Get());
-}
-
-UnicodeChar* UnicodeChar_Wrapper::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<UnicodeChar*>(const_this->Get());
-}
-
-const UnicodeChar* UnicodeChar_Wrapper::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_uch) {
-        return reinterpret_cast<const UnicodeChar*>(actual_uch);
-      },
-      this->uch_
-  );
-}
-
-void UnicodeChar_Wrapper::Assign(UnicodeChar_View src) {
-  std::visit(
-      [&src](auto& actual_dest) {
-        using Dest_T = decltype(actual_dest);
-        using ActualSrc_T = const std::remove_pointer_t<
-            std::remove_reference_t<Dest_T>
-        >*;
-
-        const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
-
-        *actual_dest = *actual_src;
-      },
-      this->uch_
-  );
-}
-
-std::u8string UnicodeChar_Wrapper::ToUtf8Char() const {
-  UnicodeChar_View view(this->Get());
+::std::u8string UnicodeChar_Wrapper::ToUtf8Char() const {
+  UnicodeChar_View view(*this);
 
   return view.ToUtf8Char();
-}
-
-int UnicodeChar_Wrapper::GetChar() const noexcept {
-  return std::visit(
-      [](const auto& actual_uch) {
-        return actual_uch->ch;
-      },
-      this->uch_
-  );
 }
 
 void UnicodeChar_Wrapper::SetAsciiChar(char ch) noexcept {
@@ -154,7 +92,7 @@ void UnicodeChar_Wrapper::SetAsciiChar(char ch) noexcept {
   );
 }
 
-void UnicodeChar_Wrapper::SetUtf8Char(std::u8string_view ch) {
+void UnicodeChar_Wrapper::SetUtf8Char(::std::u8string_view ch) {
   std::visit(
       [&ch](auto& actual_uch) {
         using UnicodeChar_T = std::remove_pointer_t<

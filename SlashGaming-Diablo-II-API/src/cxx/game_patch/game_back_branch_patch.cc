@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -45,10 +45,9 @@
 
 #include "../../../include/cxx/game_patch.hpp"
 
-#include <fmt/format.h>
-#include "../../wide_macro.h"
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../backend/architecture_opcode.hpp"
-#include "../backend/error_handling.hpp"
 
 namespace mapi {
 
@@ -80,21 +79,21 @@ GamePatch GamePatch::MakeGameBackBranchPatch(
 
   // Check that the patch size is large enough to allow the insertion of the
   // branch call.
-  if (patch_size < sizeof(func_ptr) + sizeof(std::uint8_t)) {
-    constexpr std::wstring_view kErrorFormatMessage =
-          L"The patch size specified at address {:X} is too small to perform a "
-          L"branch patch.";
-
-    std::wstring full_message = fmt::format(
-        kErrorFormatMessage,
-        game_address.raw_address()
+  if (patch_size < kBranchPatchMinSize) {
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"The specified back branch patch at 0x%X requires a minimum "
+            L"size of %u bytes. The size specified is %u.",
+        __FILEW__,
+        __LINE__,
+        game_address.raw_address(),
+        kBranchPatchMinSize,
+        patch_size
     );
 
-    ExitOnGeneralFailure(
-        full_message,
-        L"Failed to Patch Game",
-        __FILEW__,
-        __LINE__
+    return GamePatch(
+        GameAddress::FromOffset(L"", 0),
+        {}
     );
   }
 

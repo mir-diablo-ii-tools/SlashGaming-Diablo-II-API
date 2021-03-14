@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -49,17 +49,13 @@
 #include <filesystem>
 #include <string_view>
 
+#include "../../../include/cxx/default_game_library.hpp"
 #include "../../../include/cxx/game_address.hpp"
 
 namespace mapi {
 
 GameAddress LoadGameAddress(
-    DefaultLibrary library_id,
-    std::string_view address_name
-);
-
-GameAddress LoadGameAddress(
-    const std::filesystem::path& library_path,
+    ::d2::DefaultLibrary library,
     std::string_view address_name
 );
 

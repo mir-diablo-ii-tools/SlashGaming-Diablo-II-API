@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -62,24 +62,26 @@ namespace mapi {
  */
 class DLLEXPORT GameAddress {
  public:
-  std::intptr_t raw_address() const noexcept;
+  constexpr std::intptr_t raw_address() const noexcept {
+    return this->raw_address_;
+  }
 
   /**
    * Returns a game address that uses a string encoded in 7-bit ASCII to
    * specify a location in game memory.
    */
-  static GameAddress FromDecoratedName(
-      DefaultLibrary default_library,
-      std::string_view decorated_name
+  static GameAddress FromExportedName(
+      ::d2::DefaultLibrary library,
+      ::std::string_view exported_name
   );
 
   /**
    * Returns a game address that uses a string encoded in 7-bit ASCII to
    * specify a location in game memory.
    */
-  static GameAddress FromDecoratedName(
-      const std::filesystem::path& library_path,
-      std::string_view decorated_name
+  static GameAddress FromExportedName(
+      const ::std::filesystem::path& library_path,
+      ::std::string_view exported_name
   );
 
   /**
@@ -87,7 +89,7 @@ class DLLEXPORT GameAddress {
    * game memory.
    */
   static GameAddress FromOffset(
-      DefaultLibrary default_library,
+      ::d2::DefaultLibrary library,
       std::ptrdiff_t offset
   );
 
@@ -105,7 +107,7 @@ class DLLEXPORT GameAddress {
    * in game memory.
    */
   static GameAddress FromOrdinal(
-      DefaultLibrary default_library,
+      ::d2::DefaultLibrary library,
       std::int16_t ordinal
   );
 
@@ -119,7 +121,9 @@ class DLLEXPORT GameAddress {
   );
 
  private:
-  explicit GameAddress(std::intptr_t raw_address) noexcept;
+  constexpr explicit GameAddress(std::intptr_t raw_address) noexcept
+      : raw_address_(raw_address) {
+  }
 
   std::intptr_t raw_address_;
 };

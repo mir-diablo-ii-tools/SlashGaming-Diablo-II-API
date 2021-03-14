@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -56,49 +56,6 @@ CelContext_Api::CelContext_Api(
 ) : cel_context_(CreateVariant(cel_file.Get(), direction, frame)) {
 }
 
-CelContext_Api::CelContext_Api(const CelContext_Api& other) = default;
-
-CelContext_Api::CelContext_Api(CelContext_Api&& other) noexcept = default;
-
-CelContext_Api::~CelContext_Api() = default;
-
-CelContext_Api& CelContext_Api::operator=(
-    const CelContext_Api& other
-) = default;
-
-CelContext_Api& CelContext_Api::operator=(
-    CelContext_Api&& other
-) noexcept = default;
-
-CelContext_Api::operator CelContext_View() const noexcept {
-  return CelContext_View(this->Get());
-}
-
-CelContext_Api::operator CelContext_Wrapper() noexcept {
-  return CelContext_Wrapper(this->Get());
-}
-
-CelContext* CelContext_Api::Get() noexcept {
-  const auto* const_this = this;
-
-  return const_cast<CelContext*>(const_this->Get());
-}
-
-const CelContext* CelContext_Api::Get() const noexcept {
-  return std::visit(
-      [](const auto& actual_cel_context) {
-        return reinterpret_cast<const CelContext*>(&actual_cel_context);
-      },
-      this->cel_context_
-  );
-}
-
-void CelContext_Api::Assign(CelContext_View src) {
-  CelContext_Wrapper dest_wrapper(this->Get());
-
-  dest_wrapper.Assign(src);
-}
-
 bool CelContext_Api::DrawFrame(int position_x, int position_y) {
   CelContext_Wrapper wrapper(this->Get());
 
@@ -121,48 +78,6 @@ Cel* CelContext_Api::GetCel() {
   return wrapper.GetCel();
 }
 
-CelFile_View CelContext_Api::GetCelFile() const noexcept {
-  CelContext_View view(this->Get());
-
-  return view.GetCelFile();
-}
-
-CelFile_Wrapper CelContext_Api::GetCelFile() noexcept {
-  CelContext_Wrapper wrapper(this->Get());
-
-  return wrapper.GetCelFile();
-}
-
-void CelContext_Api::SetCelFile(CelFile_Wrapper cel_file) noexcept {
-  CelContext_Wrapper wrapper(this->Get());
-
-  wrapper.SetCelFile(cel_file);
-}
-
-unsigned int CelContext_Api::GetDirection() const noexcept {
-  CelContext_View view(this->Get());
-
-  return view.GetDirection();
-}
-
-void CelContext_Api::SetDirection(unsigned int direction) noexcept {
-  CelContext_Wrapper wrapper(this->Get());
-
-  wrapper.SetDirection(direction);
-}
-
-unsigned int CelContext_Api::GetFrame() const noexcept {
-  CelContext_View view(this->Get());
-
-  return view.GetFrame();
-}
-
-void CelContext_Api::SetFrame(unsigned int frame) noexcept {
-  CelContext_Wrapper wrapper(this->Get());
-
-  wrapper.SetFrame(frame);
-}
-
 CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
     CelFile* cel_file,
     unsigned int direction,
@@ -170,7 +85,7 @@ CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
 ) {
   ApiVariant cel_context;
 
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version <= d2::GameVersion::k1_10) {
     cel_context = CelContext_1_00();
@@ -189,6 +104,7 @@ CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
             decltype(CelContext_T::cel_file)
         >;
 
+        actual_cel_context = {};
         actual_cel_context.cel_file =
             reinterpret_cast<CelFile_T*>(cel_file);
         actual_cel_context.direction = direction;

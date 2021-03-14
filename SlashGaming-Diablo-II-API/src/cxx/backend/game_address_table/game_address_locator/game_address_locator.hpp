@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -46,15 +46,35 @@
 #ifndef SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
 #define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_LOCATOR_GAME_ADDRESS_LOCATOR_INTERFACE_HPP_
 
+#include <variant>
+
 #include "../../../../../include/cxx/game_address.hpp"
+#include "game_exported_name_locator.hpp"
+#include "game_offset_locator.hpp"
+#include "game_ordinal_locator.hpp"
 
 namespace mapi {
 
-class IGameAddressLocator {
+class GameAddressLocator {
  public:
-  virtual ~IGameAddressLocator() = default;
+  using LocatorVariantType = ::std::variant<
+      GameExportedNameLocator,
+      GameOffsetLocator,
+      GameOrdinalLocator
+  >;
 
-  virtual GameAddress LocateGameAddress() = 0;
+  constexpr GameAddressLocator(LocatorVariantType locator) noexcept
+      : locator_(std::move(locator)) {
+  }
+
+  GameAddress LocateGameAddress() const noexcept;
+
+ private:
+  ::std::variant<
+      GameExportedNameLocator,
+      GameOffsetLocator,
+      GameOrdinalLocator
+  > locator_;
 };
 
 } // namespace mapi

@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -45,14 +45,14 @@
 
 #include "../../../include/cxx/game_constant/d2_client_game_type.hpp"
 
-#include <cassert>
-
+#include <mdc/error/exit_on_error.hpp>
+#include <mdc/wchar_t/filew.h>
 #include "../../../include/cxx/game_version.hpp"
 
 namespace d2 {
 
 int ToGameValue(ClientGameType api_value) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version < GameVersion::k1_09D) {
     return static_cast<int>(ToGameValue_1_00(api_value));
@@ -82,7 +82,12 @@ ClientGameType_1_00 ToGameValue_1_00(
     }
 
     default: {
-      assert(false);
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(api_value)
+      );
+
       return static_cast<ClientGameType_1_00>(-1);
     }
   }
@@ -115,7 +120,12 @@ ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
     }
 
     default: {
-      assert(false);
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(api_value)
+      );
+
       return static_cast<ClientGameType_1_07>(-1);
     }
   }
@@ -123,7 +133,7 @@ ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
 
 template <>
 ClientGameType ToApiValue<ClientGameType>(int game_value) {
-  GameVersion running_game_version = GetRunningGameVersionId();
+  GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version < GameVersion::k1_06B) {
     return ToApiValue_1_00(static_cast<ClientGameType_1_00>(game_value));
@@ -151,7 +161,12 @@ ClientGameType ToApiValue_1_00(ClientGameType_1_00 game_value) {
     }
 
     default: {
-      assert(false);
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(game_value)
+      );
+
       return static_cast<ClientGameType>(-1);
     }
   }
@@ -184,7 +199,12 @@ ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value) {
     }
 
     default: {
-      assert(false);
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(game_value)
+      );
+
       return static_cast<ClientGameType>(-1);
     }
   }

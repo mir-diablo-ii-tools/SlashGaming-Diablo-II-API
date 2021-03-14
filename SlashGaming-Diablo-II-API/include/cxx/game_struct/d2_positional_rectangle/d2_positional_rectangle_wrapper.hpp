@@ -1,6 +1,6 @@
 /**
  * SlashGaming Diablo II Modding API for C++
- * Copyright (C) 2018-2020  Mir Drualga
+ * Copyright (C) 2018-2021  Mir Drualga
  *
  * This file is part of SlashGaming Diablo II Modding API for C++.
  *
@@ -58,52 +58,164 @@ namespace d2 {
 
 class DLLEXPORT PositionalRectangle_Wrapper {
  public:
-  PositionalRectangle_Wrapper() = delete;
-  PositionalRectangle_Wrapper(
-      PositionalRectangle* positional_rectangle
-  ) noexcept;
-
-  PositionalRectangle_Wrapper(
-      const PositionalRectangle_Wrapper& other
-  ) noexcept;
-  PositionalRectangle_Wrapper(PositionalRectangle_Wrapper&& other) noexcept;
-
-  ~PositionalRectangle_Wrapper() noexcept;
-
-  PositionalRectangle_Wrapper& operator=(
-      const PositionalRectangle_Wrapper& other
-  ) noexcept;
-  PositionalRectangle_Wrapper& operator=(
-      PositionalRectangle_Wrapper&& other
-  ) noexcept;
-
-  PositionalRectangle_View operator[](std::size_t index) const noexcept;
-  PositionalRectangle_Wrapper operator[](std::size_t index) noexcept;
-
-  operator PositionalRectangle_View() const noexcept;
-
-  PositionalRectangle* Get() noexcept;
-  const PositionalRectangle* Get() const noexcept;
-
-  void Assign(PositionalRectangle_View src) noexcept;
-
-  int GetLeft() const noexcept;
-  void SetLeft(int left) noexcept;
-
-  int GetRight() const noexcept;
-  void SetRight(int right) noexcept;
-
-  int GetTop() const noexcept;
-  void SetTop(int top) noexcept;
-
-  int GetBottom() const noexcept;
-  void SetBottom(int bottom) noexcept;
-
- private:
   using WrapperVariant = std::variant<
       PositionalRectangle_1_00*
   >;
 
+  PositionalRectangle_Wrapper() = delete;
+
+  PositionalRectangle_Wrapper(
+      PositionalRectangle* positional_rectangle
+  ) noexcept;
+
+  explicit constexpr PositionalRectangle_Wrapper(
+      WrapperVariant positional_rectangle
+  ) noexcept
+      : positional_rectangle_(::std::move(positional_rectangle)) {
+  }
+
+  constexpr PositionalRectangle_Wrapper(
+      const PositionalRectangle_Wrapper& other
+  ) noexcept = default;
+
+  constexpr PositionalRectangle_Wrapper(
+      PositionalRectangle_Wrapper&& other
+  ) noexcept = default;
+
+  ~PositionalRectangle_Wrapper() noexcept = default;
+
+  constexpr PositionalRectangle_Wrapper& operator=(
+      const PositionalRectangle_Wrapper& other
+  ) noexcept = default;
+
+  constexpr PositionalRectangle_Wrapper& operator=(
+      PositionalRectangle_Wrapper&& other
+  ) noexcept = default;
+
+  constexpr PositionalRectangle_View operator[](
+      std::size_t index
+  ) const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view[index];
+  }
+
+  constexpr PositionalRectangle_Wrapper operator[](
+      std::size_t index
+  ) noexcept {
+    return std::visit(
+        [index](const auto& actual_positional_rectangle) {
+          return PositionalRectangle_Wrapper(
+              &actual_positional_rectangle[index]
+          );
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr operator PositionalRectangle_View() const noexcept {
+    return ::std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return PositionalRectangle_View(actual_positional_rectangle);
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr PositionalRectangle* Get() noexcept {
+    const auto* const_this = this;
+
+    return const_cast<PositionalRectangle*>(const_this->Get());
+  }
+
+  constexpr const PositionalRectangle* Get() const noexcept {
+    return std::visit(
+        [](const auto& actual_positional_rectangle) {
+          return reinterpret_cast<const PositionalRectangle*>(
+              actual_positional_rectangle
+          );
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr void AssignMembers(PositionalRectangle_View src) noexcept {
+    std::visit(
+        [&src](auto& actual_dest) {
+          using Dest_T = decltype(actual_dest);
+          using ActualSrc_T = const std::remove_pointer_t<
+              std::remove_reference_t<Dest_T>
+          >*;
+
+          const auto* actual_src = reinterpret_cast<ActualSrc_T>(src.Get());
+
+          *actual_dest = *actual_src;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetLeft() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetLeft();
+  }
+
+  constexpr void SetLeft(int left) noexcept {
+    std::visit(
+        [left](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->left = left;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetRight() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetRight();
+  }
+
+  constexpr void SetRight(int right) noexcept {
+    std::visit(
+        [right](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->right = right;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetTop() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetTop();
+  }
+
+  constexpr void SetTop(int top) noexcept {
+    std::visit(
+        [top](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->top = top;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+  constexpr int GetBottom() const noexcept {
+    PositionalRectangle_View view(*this);
+
+    return view.GetBottom();
+  }
+
+  constexpr void SetBottom(int bottom) noexcept {
+    std::visit(
+        [bottom](auto& actual_positional_rectangle) {
+          actual_positional_rectangle->bottom = bottom;
+        },
+        this->positional_rectangle_
+    );
+  }
+
+ private:
   WrapperVariant positional_rectangle_;
 
   static WrapperVariant CreateVariant(PositionalRectangle* positional_rectangle);
