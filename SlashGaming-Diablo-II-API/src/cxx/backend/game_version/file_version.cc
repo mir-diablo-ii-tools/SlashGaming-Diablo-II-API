@@ -115,10 +115,10 @@ static constexpr const std::array<
     { FileVersion(1, 0, 13, 60), d2::GameVersion::k1_13C },
     { FileVersion(1, 0, 13, 64), d2::GameVersion::k1_13D },
 
-    { FileVersion(1, 0, 14, 64), d2::GameVersion::kLod1_14A },
-    { FileVersion(1, 0, 14, 68), d2::GameVersion::kLod1_14B },
-    { FileVersion(1, 0, 14, 70), d2::GameVersion::kLod1_14C },
-    { FileVersion(1, 0, 14, 71), d2::GameVersion::kLod1_14D },
+    { FileVersion(1, 14, 0, 64), d2::GameVersion::kLod1_14A },
+    { FileVersion(1, 14, 1, 68), d2::GameVersion::kLod1_14B },
+    { FileVersion(1, 14, 2, 70), d2::GameVersion::kLod1_14C },
+    { FileVersion(1, 14, 3, 71), d2::GameVersion::kLod1_14D },
 }};
 
 // If this assertion compiles but produces a linter error, ignore it.
