@@ -53,7 +53,7 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::internal {
+namespace mapi::intern {
 
 class FileVersion {
  public:
@@ -133,6 +133,6 @@ class FileVersion {
   );
 };
 
-} // namespace mapi::internal
+} // namespace mapi::intern
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_VERSION_HPP_

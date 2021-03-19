@@ -63,13 +63,14 @@ namespace {
 static GameVersion DetermineRunningGameVersion() {
   // Perform first stage game version detection using the executable file
   // name.
-  GameVersion guess_game_version = mapi::internal::FileVersion::GuessGameVersion(
-      mapi::game_executable::GetPath().c_str()
-  );
+  GameVersion guess_game_version =
+      mapi::intern::FileVersion::GuessGameVersion(
+          mapi::game_executable::GetPath().c_str()
+      );
 
   // Perform second stage game version detection by checking the bytes of game
   // libraries.
-  GameVersion game_version = mapi::internal::FileSignature::GetGameVersion(
+  GameVersion game_version = mapi::intern::FileSignature::GetGameVersion(
       guess_game_version
   );
 

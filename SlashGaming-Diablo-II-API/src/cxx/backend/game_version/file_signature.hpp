@@ -54,7 +54,7 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::internal {
+namespace mapi::intern {
 
 class FileSignature {
  public:
@@ -155,6 +155,6 @@ class FileSignature {
   }
 };
 
-} // namespace mapi::internal
+} // namespace mapi::intern
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_SIGNATURE_HPP_

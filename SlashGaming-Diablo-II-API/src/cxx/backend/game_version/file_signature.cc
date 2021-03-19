@@ -53,7 +53,7 @@
 #include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_executable.hpp"
 
-namespace mapi::internal {
+namespace mapi::intern {
 namespace {
 
 using FileSignatureTableEntry = std::pair<FileSignature, d2::GameVersion>;
@@ -508,4 +508,4 @@ d2::GameVersion FileSignature::SearchTable(
   }
 }
 
-} // namespace mapi::internal
+} // namespace mapi::intern

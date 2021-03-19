@@ -52,7 +52,7 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 
-namespace mapi::internal {
+namespace mapi::intern {
 namespace {
 
 using FileVersionTableEntry = std::pair<FileVersion, d2::GameVersion>;
@@ -249,4 +249,4 @@ d2::GameVersion FileVersion::SearchTable(
   return search_range.first->second;
 }
 
-} // namespace mapi::internal
+} // namespace mapi::intern
