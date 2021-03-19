@@ -56,18 +56,6 @@
 
 namespace mapi::internal {
 
-struct FileSignatureLocation {
-  constexpr FileSignatureLocation(
-      std::wstring_view raw_path,
-      std::ptrdiff_t offset
-  ) : raw_path(raw_path),
-      offset(offset) {
-  }
-
-  std::wstring_view raw_path;
-  std::ptrdiff_t offset;
-};
-
 class FileSignature {
  public:
   static constexpr std::size_t kSignatureSize = 64;
@@ -125,8 +113,12 @@ class FileSignature {
  private:
   SignatureType signature_;
 
+  static ::std::wstring_view GetSignaturePath(
+      ::d2::GameVersion file_version_guess_game_version
+  );
+
   static FileSignature ReadFileSignature(
-      const FileSignatureLocation& location
+      ::std::wstring_view raw_path
   );
 
   static d2::GameVersion SearchTable(

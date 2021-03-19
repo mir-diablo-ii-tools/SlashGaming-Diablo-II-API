@@ -352,62 +352,6 @@ static_assert(
     )
 );
 
-FileSignatureLocation GetSignatureLocation(
-    d2::GameVersion file_version_guess_game_version
-) {
-  switch (file_version_guess_game_version) {
-    case d2::GameVersion::kBeta1_02:
-    case d2::GameVersion::kBeta1_02StressTest:
-    case d2::GameVersion::k1_00:
-    case d2::GameVersion::k1_01:
-    case d2::GameVersion::k1_06:
-    case d2::GameVersion::k1_06B: {
-      return FileSignatureLocation(L"Storm.dll", 0xE8);
-    }
-
-    case d2::GameVersion::k1_07Beta:
-    case d2::GameVersion::k1_07: {
-      return FileSignatureLocation(L"Storm.dll", 0xE0);
-    }
-
-    case d2::GameVersion::kClassic1_14A:
-    case d2::GameVersion::kLod1_14A: {
-      return FileSignatureLocation(
-          game_executable::GetPath().c_str(),
-          0x118
-      );
-    }
-
-    case d2::GameVersion::kClassic1_14B:
-    case d2::GameVersion::kLod1_14B:
-    case d2::GameVersion::kClassic1_14C:
-    case d2::GameVersion::kLod1_14C: {
-      return FileSignatureLocation(
-          game_executable::GetPath().c_str(),
-          0x108
-      );
-    }
-
-    case d2::GameVersion::kClassic1_14D:
-    case d2::GameVersion::kLod1_14D: {
-      return FileSignatureLocation(
-          game_executable::GetPath().c_str(),
-          0x120
-      );
-    }
-
-    default: {
-      ::mdc::error::ExitOnConstantMappingError(
-          __FILEW__,
-          __LINE__,
-          static_cast<int>(file_version_guess_game_version)
-      );
-
-      return FileSignatureLocation(L"", 0);
-    }
-  }
-}
-
 } // namespace
 
 d2::GameVersion FileSignature::GetGameVersion(
@@ -417,24 +361,33 @@ d2::GameVersion FileSignature::GetGameVersion(
     return file_version_guess_game_version;
   }
 
-  FileSignatureLocation location = GetSignatureLocation(
+  ::std::wstring_view raw_path = GetSignaturePath(
       file_version_guess_game_version
   );
 
-  FileSignature signature = ReadFileSignature(location);
+  FileSignature signature = ReadFileSignature(raw_path);
 
   return SearchTable(signature);
 }
 
 FileSignature FileSignature::ReadFileSignature(
-    const FileSignatureLocation& location
+    ::std::wstring_view raw_path
 ) {
-  std::basic_ifstream<SignatureType::value_type> file_stream(
-      location.raw_path,
+  // Grab the pointer to the PE header
+  std::basic_ifstream<std::intptr_t> pe_pointer_locator_file_stream(
+      raw_path,
       std::ios_base::in | std::ios_base::binary
   );
 
-  file_stream.seekg(location.offset);
+  pe_pointer_locator_file_stream.seekg(0x3C);
+  ::std::intptr_t pe_header_pointer = pe_pointer_locator_file_stream.get();
+
+  std::basic_ifstream<SignatureType::value_type> file_stream(
+      raw_path,
+      std::ios_base::in | std::ios_base::binary
+  );
+
+  file_stream.seekg(pe_header_pointer);
 
   SignatureType raw_signature;
   file_stream.read(raw_signature.data(), kSignatureSize);
@@ -465,6 +418,53 @@ d2::GameVersion FileSignature::SearchTable(
   }
 
   return search_range.first->second;
+}
+
+::std::wstring_view FileSignature::GetSignaturePath(
+    d2::GameVersion file_version_guess_game_version
+) {
+  switch (file_version_guess_game_version) {
+    case d2::GameVersion::kBeta1_02:
+    case d2::GameVersion::kBeta1_02StressTest:
+    case d2::GameVersion::k1_00:
+    case d2::GameVersion::k1_01:
+    case d2::GameVersion::k1_06:
+    case d2::GameVersion::k1_06B: {
+      return L"Storm.dll";
+    }
+
+    case d2::GameVersion::k1_07Beta:
+    case d2::GameVersion::k1_07: {
+      return L"Storm.dll";
+    }
+
+    case d2::GameVersion::kClassic1_14A:
+    case d2::GameVersion::kLod1_14A: {
+      return game_executable::GetPath().c_str();
+    }
+
+    case d2::GameVersion::kClassic1_14B:
+    case d2::GameVersion::kLod1_14B:
+    case d2::GameVersion::kClassic1_14C:
+    case d2::GameVersion::kLod1_14C: {
+      return game_executable::GetPath().c_str();
+    }
+
+    case d2::GameVersion::kClassic1_14D:
+    case d2::GameVersion::kLod1_14D: {
+      return game_executable::GetPath().c_str();
+    }
+
+    default: {
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(file_version_guess_game_version)
+      );
+
+      return L"";
+    }
+  }
 }
 
 } // namespace mapi::internal
