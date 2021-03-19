@@ -81,6 +81,35 @@ struct FileSignatureTableEntryCompareKey {
   }
 };
 
+static constexpr const ::std::array<
+    FileSignature,
+    1
+> kD2SESignatureSortedSet = {{
+    {
+        FileSignature{{
+            0x50, 0x45, 0x00, 0x00, 0x4C, 0x01, 0x05, 0x00,
+            0x5F, 0xDC, 0xB5, 0x4D, 0x00, 0x00, 0x00, 0x00,
+            
+            0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x0F, 0x01,
+            0x0B, 0x01, 0x02, 0x32, 0x00, 0x08, 0x01, 0x00,
+            
+            0x00, 0x8A, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x40, 0x3C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00,
+            
+            0x00, 0x20, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00,
+            0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
+        }}
+    }
+}};
+
+// If this assertion compiles but produces a linter error, ignore it.
+static_assert(
+    std::is_sorted(
+        kD2SESignatureSortedSet.cbegin(),
+        kD2SESignatureSortedSet.cend()
+    )
+);
+
 static constexpr const std::array<
     FileSignatureTableEntry,
     16
@@ -353,6 +382,18 @@ static_assert(
 );
 
 } // namespace
+
+bool FileSignature::IsD2SE() {
+  FileSignature game_executable_file_signature = ReadFileSignature(
+      game_executable::GetPath().c_str()
+  );
+
+  return ::std::binary_search(
+      kD2SESignatureSortedSet.cbegin(),
+      kD2SESignatureSortedSet.cend(),
+      game_executable_file_signature
+  );
+}
 
 d2::GameVersion FileSignature::GetGameVersion(
     d2::GameVersion file_version_guess_game_version

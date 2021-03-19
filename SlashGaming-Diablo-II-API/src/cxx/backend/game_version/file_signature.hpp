@@ -102,6 +102,8 @@ class FileSignature {
       const FileSignature& rhs
   ) = default;
 
+  static bool IsD2SE();
+
   static d2::GameVersion GetGameVersion(
       d2::GameVersion file_version_guess_game_version
   );
