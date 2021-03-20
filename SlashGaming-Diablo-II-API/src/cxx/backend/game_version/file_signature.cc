@@ -383,7 +383,7 @@ static_assert(
 
 } // namespace
 
-bool FileSignature::IsD2SE() {
+bool FileSignature::IsD2SE(::std::wstring_view raw_path) {
   FileSignature game_executable_file_signature = ReadFileSignature(
       game_executable::GetPath().c_str()
   );
@@ -414,18 +414,18 @@ d2::GameVersion FileSignature::GetGameVersion(
 FileSignature FileSignature::ReadFileSignature(
     ::std::wstring_view raw_path
 ) {
-  // Grab the pointer to the PE header
-  std::basic_ifstream<std::intptr_t> pe_pointer_locator_file_stream(
+  std::basic_ifstream<SignatureType::value_type> file_stream(
       raw_path,
       std::ios_base::in | std::ios_base::binary
   );
 
-  pe_pointer_locator_file_stream.seekg(0x3C);
-  ::std::intptr_t pe_header_pointer = pe_pointer_locator_file_stream.get();
+  // Grab the pointer to the PE header
+  file_stream.seekg(0x3C);
 
-  std::basic_ifstream<SignatureType::value_type> file_stream(
-      raw_path,
-      std::ios_base::in | std::ios_base::binary
+  ::std::intptr_t pe_header_pointer;
+  file_stream.read(
+      reinterpret_cast<::std::uint8_t*>(&pe_header_pointer),
+      sizeof(pe_header_pointer)
   );
 
   file_stream.seekg(pe_header_pointer);
