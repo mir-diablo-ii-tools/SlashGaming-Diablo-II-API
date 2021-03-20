@@ -47,7 +47,6 @@
 #define SGD2MAPI_CXX_HELPER_D2_DETERMINE_VIDEO_MODE_HPP_
 
 #include "../game_constant/d2_video_mode.hpp"
-#include <string>
 
 #include "../../dllexport_define.inc"
 
