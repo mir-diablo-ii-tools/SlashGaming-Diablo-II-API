@@ -54,6 +54,7 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
+#include "backend/game_version/d2se_ini.hpp"
 #include "backend/game_version/file_signature.hpp"
 #include "backend/game_version/file_version.hpp"
 
@@ -61,14 +62,21 @@ namespace d2::game_version {
 namespace {
 
 static GameVersion DetermineRunningGameVersion() {
-  // Perform first stage game version detection using the executable file
-  // name.
+  ::std::wstring_view executable_raw_path =
+      mapi::game_executable::GetPath().c_str();
+
+  // Check if running on D2SE. If so, use D2SE_SETUP.ini entries.
+  if (mapi::intern::FileSignature::IsD2SE(executable_raw_path)) {
+    return mapi::intern::D2SEIni::GetGameVersion();
+  }
+
+  // Guess the game version from the executable's file version.
   GameVersion guess_game_version =
       mapi::intern::FileVersion::GuessGameVersion(
-          mapi::game_executable::GetPath().c_str()
+          executable_raw_path
       );
 
-  // Perform second stage game version detection by checking the bytes of game
+  // Validate the game version guess by checking the bytes of game
   // libraries.
   GameVersion game_version = mapi::intern::FileSignature::GetGameVersion(
       guess_game_version
