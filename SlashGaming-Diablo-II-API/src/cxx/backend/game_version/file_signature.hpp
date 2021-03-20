@@ -54,7 +54,7 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::internal {
+namespace mapi::intern {
 
 class FileSignature {
  public:
@@ -101,6 +101,8 @@ class FileSignature {
       const FileSignature& lhs,
       const FileSignature& rhs
   ) = default;
+
+  static bool IsD2SE(::std::wstring_view raw_path);
 
   static d2::GameVersion GetGameVersion(
       d2::GameVersion file_version_guess_game_version
@@ -153,6 +155,6 @@ class FileSignature {
   }
 };
 
-} // namespace mapi::internal
+} // namespace mapi::intern
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_SIGNATURE_HPP_

@@ -53,7 +53,7 @@
 #include <mdc/wchar_t/filew.h>
 #include "../../../../include/cxx/game_executable.hpp"
 
-namespace mapi::internal {
+namespace mapi::intern {
 namespace {
 
 using FileSignatureTableEntry = std::pair<FileSignature, d2::GameVersion>;
@@ -80,6 +80,35 @@ struct FileSignatureTableEntryCompareKey {
     return file_signature < entry.first;
   }
 };
+
+static constexpr const ::std::array<
+    FileSignature,
+    1
+> kD2SESignatureSortedSet = {{
+    {
+        FileSignature{{
+            0x50, 0x45, 0x00, 0x00, 0x4C, 0x01, 0x05, 0x00,
+            0x5F, 0xDC, 0xB5, 0x4D, 0x00, 0x00, 0x00, 0x00,
+            
+            0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x0F, 0x01,
+            0x0B, 0x01, 0x02, 0x32, 0x00, 0x08, 0x01, 0x00,
+            
+            0x00, 0x8A, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x40, 0x3C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00,
+            
+            0x00, 0x20, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00,
+            0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
+        }}
+    }
+}};
+
+// If this assertion compiles but produces a linter error, ignore it.
+static_assert(
+    std::is_sorted(
+        kD2SESignatureSortedSet.cbegin(),
+        kD2SESignatureSortedSet.cend()
+    )
+);
 
 static constexpr const std::array<
     FileSignatureTableEntry,
@@ -354,6 +383,18 @@ static_assert(
 
 } // namespace
 
+bool FileSignature::IsD2SE(::std::wstring_view raw_path) {
+  FileSignature game_executable_file_signature = ReadFileSignature(
+      game_executable::GetPath().c_str()
+  );
+
+  return ::std::binary_search(
+      kD2SESignatureSortedSet.cbegin(),
+      kD2SESignatureSortedSet.cend(),
+      game_executable_file_signature
+  );
+}
+
 d2::GameVersion FileSignature::GetGameVersion(
     d2::GameVersion file_version_guess_game_version
 ) {
@@ -373,18 +414,18 @@ d2::GameVersion FileSignature::GetGameVersion(
 FileSignature FileSignature::ReadFileSignature(
     ::std::wstring_view raw_path
 ) {
-  // Grab the pointer to the PE header
-  std::basic_ifstream<std::intptr_t> pe_pointer_locator_file_stream(
+  std::basic_ifstream<SignatureType::value_type> file_stream(
       raw_path,
       std::ios_base::in | std::ios_base::binary
   );
 
-  pe_pointer_locator_file_stream.seekg(0x3C);
-  ::std::intptr_t pe_header_pointer = pe_pointer_locator_file_stream.get();
+  // Grab the pointer to the PE header
+  file_stream.seekg(0x3C);
 
-  std::basic_ifstream<SignatureType::value_type> file_stream(
-      raw_path,
-      std::ios_base::in | std::ios_base::binary
+  ::std::intptr_t pe_header_pointer;
+  file_stream.read(
+      reinterpret_cast<::std::uint8_t*>(&pe_header_pointer),
+      sizeof(pe_header_pointer)
   );
 
   file_stream.seekg(pe_header_pointer);
@@ -467,4 +508,4 @@ d2::GameVersion FileSignature::SearchTable(
   }
 }
 
-} // namespace mapi::internal
+} // namespace mapi::intern

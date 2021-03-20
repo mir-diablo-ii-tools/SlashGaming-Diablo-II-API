@@ -47,13 +47,21 @@
 
 #include <windows.h>
 
+#include <cstddef>
 #include <string_view>
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
+#include "../../../include/cxx/game_executable.hpp"
+#include "../backend/game_version/file_signature.hpp"
 
 namespace d2 {
 namespace {
+
+static constexpr ::std::wstring_view kD2SEIniFileName = L"./D2SE_SETUP.ini";
+static constexpr ::std::wstring_view kD2SESectionName = L"USERSETTINGS";
+static constexpr ::std::wstring_view kD2SERendererKeyName = L"Renderer";
+static constexpr ::std::wstring_view kD2SEWindowModeKeyName = L"WindowMode";
 
 static VideoMode_1_00 GetVideoModeFromRegValue_1_00(DWORD reg_value) {
   switch (reg_value) {
@@ -167,9 +175,58 @@ static VideoMode_1_00 GetRegistryVideoMode() {
   return GetVideoModeFromRegValue_1_00(render_value);
 }
 
+static VideoMode GetD2SEVideoMode() {
+  int renderer_value = GetPrivateProfileIntW(
+      kD2SESectionName.data(),
+      kD2SERendererKeyName.data(),
+      -1,
+      kD2SEIniFileName.data()
+  );
+
+  switch (renderer_value) {
+    case 0: {
+      int window_mode_value = GetPrivateProfileIntW(
+          kD2SESectionName.data(),
+          kD2SEWindowModeKeyName.data(),
+          -1,
+          kD2SEIniFileName.data()
+      );
+
+      return (window_mode_value == 1)
+          ? ::d2::VideoMode::kGdi
+          : ::d2::VideoMode::kDirectDraw;
+    }
+
+    case 1: {
+      return ::d2::VideoMode::kDirect3D;
+    }
+
+    case 3: {
+      return ::d2::VideoMode::kGlide;
+    }
+
+    default: {
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          renderer_value
+      );
+
+      return static_cast<::d2::VideoMode>(-1);
+    }
+  }
+}
+
 } // namespace
 
 VideoMode DetermineVideoMode() {
+  ::std::wstring_view executable_raw_path =
+      ::mapi::game_executable::GetPath().c_str();
+
+  if (::mapi::intern::FileSignature::IsD2SE(executable_raw_path)) {
+    return GetD2SEVideoMode();
+  }
+
   return ToApiValue_1_00(DetermineVideoMode_1_00());
 }
 
