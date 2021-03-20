@@ -90,45 +90,15 @@ static VideoMode_1_00 GetVideoModeFromRegValue_1_00(DWORD reg_value) {
 static VideoMode_1_00 GetCommandLineVideoMode() {
   VideoMode_1_00 video_mode = VideoMode_1_00::kDirectDraw;
 
-  wchar_t* command_line = GetCommandLineW();
+  ::std::wstring_view command_line = GetCommandLineW();
 
-  int argc;
-  wchar_t** argv = CommandLineToArgvW(command_line, &argc);
-
-  if (argv == nullptr) {
-    ::mdc::error::ExitOnWindowsFunctionError(
-        __FILEW__,
-        __LINE__,
-        L"CommandLineToArgvW",
-        GetLastError()
-    );
-
-    return static_cast<VideoMode_1_00>(-1);
-  }
-
-  for (int i = 0; i < argc; i += 1) {
-    std::wstring_view current_arg = argv[i];
-
-    if (current_arg == L"-3dfx") {
+  if (command_line.find(L"-3dfx") != ::std::wstring_view::npos) {
       video_mode = VideoMode_1_00::kGlide;
-
-    } else if (video_mode != VideoMode_1_00::kGlide) {
-
-      if (current_arg == L"-w") {
+  } else if (command_line.find(L"-w") != ::std::wstring_view::npos) {
         video_mode = VideoMode_1_00::kGdi;
-
-      } else if (video_mode != VideoMode_1_00::kGdi) {
-
-        if (current_arg == L"-d3d") {
+  } else if (command_line.find(L"-d3d") != ::std::wstring_view::npos) {
           video_mode = VideoMode_1_00::kDirect3D;
         }
-
-      }
-
-    }
-  }
-
-  LocalFree(argv);
 
   return video_mode;
 }
