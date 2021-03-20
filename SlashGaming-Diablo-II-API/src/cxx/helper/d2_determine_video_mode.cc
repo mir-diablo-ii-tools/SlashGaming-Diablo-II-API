@@ -93,12 +93,12 @@ static VideoMode_1_00 GetCommandLineVideoMode() {
   ::std::wstring_view command_line = GetCommandLineW();
 
   if (command_line.find(L"-3dfx") != ::std::wstring_view::npos) {
-      video_mode = VideoMode_1_00::kGlide;
+    video_mode = VideoMode_1_00::kGlide;
   } else if (command_line.find(L"-w") != ::std::wstring_view::npos) {
-        video_mode = VideoMode_1_00::kGdi;
+    video_mode = VideoMode_1_00::kGdi;
   } else if (command_line.find(L"-d3d") != ::std::wstring_view::npos) {
-          video_mode = VideoMode_1_00::kDirect3D;
-        }
+    video_mode = VideoMode_1_00::kDirect3D;
+  }
 
   return video_mode;
 }
@@ -129,7 +129,7 @@ static VideoMode_1_00 GetRegistryVideoMode() {
   }
 
   DWORD render_value;
-  DWORD render_value_size = REG_DWORD;
+  DWORD render_value_size = sizeof(render_value);
 
   LSTATUS reg_query_value_status = RegQueryValueExW(
       query_key_result,
