@@ -50,6 +50,7 @@
 #include <filesystem>
 #include <string_view>
 
+#include "../../../../include/cxx/game_constant/d2_video_mode.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace mapi::d2se_ini {
@@ -57,6 +58,8 @@ namespace mapi::d2se_ini {
 constexpr ::std::wstring_view kFileName = L"./D2SE_SETUP.ini";
 
 ::d2::GameVersion GetGameVersion();
+
+::d2::VideoMode GetVideoMode();
 
 } // namespace mapi::d2se_ini
 

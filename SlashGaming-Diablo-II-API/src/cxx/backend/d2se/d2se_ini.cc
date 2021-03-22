@@ -86,4 +86,46 @@ namespace mapi::d2se_ini {
   return d2se::game_version::GetGameVersion(version_c_str.data());
 }
 
+::d2::VideoMode GetVideoMode() {
+  int renderer_value = GetPrivateProfileIntW(
+      L"USERSETTINGS",
+      L"Renderer",
+      -1,
+      kFileName.data()
+  );
+
+  switch (renderer_value) {
+    case 0: {
+      int window_mode_value = GetPrivateProfileIntW(
+          L"USERSETTINGS",
+          L"WindowMode",
+          -1,
+          kFileName.data()
+      );
+
+      return (window_mode_value == 1)
+          ? ::d2::VideoMode::kGdi
+          : ::d2::VideoMode::kDirectDraw;
+    }
+
+    case 1: {
+      return ::d2::VideoMode::kDirect3D;
+    }
+
+    case 3: {
+      return ::d2::VideoMode::kGlide;
+    }
+
+    default: {
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          renderer_value
+      );
+
+      return static_cast<::d2::VideoMode>(-1);
+    }
+  }
+}
+
 } // namespace mapi::d2se_ini
