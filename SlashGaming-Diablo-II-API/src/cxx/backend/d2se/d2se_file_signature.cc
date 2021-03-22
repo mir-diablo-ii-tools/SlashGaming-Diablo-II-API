@@ -43,46 +43,56 @@
  *  work.
  */
 
-#include "../../include/cxx/game_executable.hpp"
+#include "d2se_file_signature.hpp"
 
-#include <windows.h>
+#include <array>
 
-#include <memory>
+#include "../game_file/file_signature.hpp"
 
-#include "backend/d2se/d2se_file_signature.hpp"
-
-namespace mapi::game_executable {
+namespace mapi::d2se::file_signature {
 namespace {
 
-static std::filesystem::path InitGameExecutablePath() {
-  DWORD path_len;
-  size_t capacity;
-  size_t new_capacity = MAX_PATH;
-  std::unique_ptr<wchar_t[]> path_buffer;
+static constexpr const ::std::array<
+    FileSignature,
+    1
+> kD2SESignatureSortedSet = {{
+    {
+        FileSignature{{
+            0x50, 0x45, 0x00, 0x00, 0x4C, 0x01, 0x05, 0x00,
+            0x5F, 0xDC, 0xB5, 0x4D, 0x00, 0x00, 0x00, 0x00,
+            
+            0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x0F, 0x01,
+            0x0B, 0x01, 0x02, 0x32, 0x00, 0x08, 0x01, 0x00,
+            
+            0x00, 0x8A, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x40, 0x3C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00,
+            
+            0x00, 0x20, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00,
+            0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
+        }}
+    }
+}};
 
-  do {
-    capacity = new_capacity;
-    path_buffer = std::make_unique<wchar_t[]>(capacity);
-    path_len = GetModuleFileNameW(nullptr, path_buffer.get(), capacity);
-
-    new_capacity *= 2;
-  } while (path_len >= capacity - 1);
-
-  return path_buffer.get();
-}
+// If this assertion compiles but produces a linter error, ignore it.
+static_assert(
+    ::std::is_sorted(
+        kD2SESignatureSortedSet.cbegin(),
+        kD2SESignatureSortedSet.cend()
+    )
+);
 
 } // namespace
 
-const std::filesystem::path& GetPath() {
-  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
+bool IsFileD2seExecutable(const ::std::filesystem::path& path) {
+  FileSignature game_executable_file_signature = FileSignature::ReadFile(
+      path
+  );
 
-  return kGameExecutablePath;
-}
-
-bool IsD2se() {
-  return d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
+  return ::std::binary_search(
+      kD2SESignatureSortedSet.cbegin(),
+      kD2SESignatureSortedSet.cend(),
+      game_executable_file_signature
   );
 }
 
-} // namespace mapi::game_executable
+} // namespace mapi::d2se::file_signature

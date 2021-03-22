@@ -128,7 +128,7 @@ SearchDefaultLibraryPath(DefaultLibrary library) {
         static_cast<int>(library)
     );
 
-    return "";
+    return kDefaultLibraryPathTable.cend()->second;
   }
 
   return search_range.first->second;

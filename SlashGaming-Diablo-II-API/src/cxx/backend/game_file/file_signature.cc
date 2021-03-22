@@ -43,28 +43,36 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_BACKEND_GAME_VERSION_D2SE_INI_HPP_
-#define SGD2MAPI_CXX_BACKEND_GAME_VERSION_D2SE_INI_HPP_
+#include "file_signature.hpp"
 
-#include <string>
-#include <string_view>
+#include <fstream>
 
-#include "../../../../include/cxx/game_version.hpp"
+namespace mapi {
 
-namespace mapi::intern {
-
-class D2SEIni {
- public:
-  static ::d2::GameVersion GetGameVersion();
-
- private:
-  static ::std::wstring ReadVersionString();
-
-  static ::d2::GameVersion SearchTable(
-      ::std::wstring_view version_str
+FileSignature FileSignature::ReadFile(
+    const ::std::filesystem::path& path
+) {
+  std::basic_ifstream<SignatureType::value_type> file_stream(
+      path,
+      std::ios_base::in | std::ios_base::binary
   );
-};
 
-} // namespace mapi::intern
+  // Grab the pointer to the PE header.
+  file_stream.seekg(0x3C);
 
-#endif // SGD2MAPI_CXX_BACKEND_GAME_VERSION_D2SE_INI_HPP_
+  ::std::intptr_t pe_header_pointer;
+  file_stream.read(
+      reinterpret_cast<::std::uint8_t*>(&pe_header_pointer),
+      sizeof(pe_header_pointer)
+  );
+
+  // Read the PE header.
+  file_stream.seekg(pe_header_pointer);
+
+  FileSignature file_signature;
+  file_stream.read(file_signature.signature_.data(), kSignatureSize);
+
+  return file_signature;
+}
+
+} // namespace mapi

@@ -43,35 +43,28 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_SIGNATURE_HPP_
-#define SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_SIGNATURE_HPP_
+#ifndef SGD2MAPI_CXX_BACKEND_GAME_FILE_FILE_SIGNATURE_HPP_
+#define SGD2MAPI_CXX_BACKEND_GAME_FILE_FILE_SIGNATURE_HPP_
 
 #include <cstddef>
 #include <cstdint>
 #include <array>
 #include <compare>
 #include <filesystem>
+#include <utility>
 
-#include "../../../../include/cxx/game_version.hpp"
-
-namespace mapi::intern {
+namespace mapi {
 
 class FileSignature {
  public:
-  static constexpr std::size_t kSignatureSize = 64;
+  static constexpr ::std::size_t kSignatureSize = 64;
 
-  using SignatureType = std::array<std::uint8_t, kSignatureSize>;
-
-  FileSignature() = delete;
+  using SignatureType = ::std::array<::std::uint8_t, kSignatureSize>;
 
   explicit constexpr FileSignature(
-      SignatureType& signature
-  ) : signature_(signature) {
-  }
-
-  explicit constexpr FileSignature(
-      SignatureType&& signature
-  ) : signature_(std::move(signature)) {
+      SignatureType signature
+  ) noexcept
+      : signature_(::std::move(signature)) {
   }
 
   constexpr FileSignature(
@@ -92,69 +85,32 @@ class FileSignature {
       FileSignature&& file_signature
   ) noexcept = default;
 
-  constexpr friend bool operator==(
-      const FileSignature& lhs,
-      const FileSignature& rhs
-  ) = default;
+  friend constexpr bool operator==(
+      const FileSignature& file_signature1,
+      const FileSignature& file_signature2
+  ) noexcept = default;
 
-  constexpr friend std::strong_ordering operator<=>(
-      const FileSignature& lhs,
-      const FileSignature& rhs
-  ) = default;
+  friend constexpr ::std::strong_ordering operator<=>(
+      const FileSignature& file_signature1,
+      const FileSignature& file_signature2
+  ) noexcept = default;
 
-  static bool IsD2SE(::std::wstring_view raw_path);
-
-  static d2::GameVersion GetGameVersion(
-      d2::GameVersion file_version_guess_game_version
+  static FileSignature ReadFile(
+      const ::std::filesystem::path& path
   );
 
-  constexpr SignatureType signature() const noexcept {
+  constexpr const SignatureType& signature() const noexcept {
     return this->signature_;
   }
 
  private:
   SignatureType signature_;
 
-  static ::std::wstring_view GetSignaturePath(
-      ::d2::GameVersion file_version_guess_game_version
-  );
-
-  static FileSignature ReadFileSignature(
-      ::std::wstring_view raw_path
-  );
-
-  static d2::GameVersion SearchTable(
-      const FileSignature& file_signature
-  );
-
-  static constexpr bool HasFileSignatureCheck(d2::GameVersion game_version) {
-    switch (game_version) {
-      case d2::GameVersion::kBeta1_02:
-      case d2::GameVersion::kBeta1_02StressTest:
-      case d2::GameVersion::k1_00:
-      case d2::GameVersion::k1_01:
-      case d2::GameVersion::k1_06:
-      case d2::GameVersion::k1_06B:
-      case d2::GameVersion::k1_07Beta:
-      case d2::GameVersion::k1_07:
-      case d2::GameVersion::kClassic1_14A:
-      case d2::GameVersion::kLod1_14A:
-      case d2::GameVersion::kClassic1_14B:
-      case d2::GameVersion::kLod1_14B:
-      case d2::GameVersion::kClassic1_14C:
-      case d2::GameVersion::kLod1_14C:
-      case d2::GameVersion::kClassic1_14D:
-      case d2::GameVersion::kLod1_14D: {
-        return true;
-      }
-
-      default: {
-        return false;
-      }
-    }
+  constexpr FileSignature() noexcept
+      : signature_() {
   }
 };
 
-} // namespace mapi::intern
+} // namespace mapi
 
-#endif // SGMAPI_CXX_BACKEND_GAME_VERSION_FILE_SIGNATURE_HPP_
+#endif // SGD2MAPI_CXX_BACKEND_GAME_FILE_FILE_SIGNATURE_HPP_

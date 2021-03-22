@@ -43,46 +43,89 @@
  *  work.
  */
 
-#include "../../include/cxx/game_executable.hpp"
+#include "d2se_ini.hpp"
 
 #include <windows.h>
 
-#include <memory>
+#include <array>
 
-#include "backend/d2se/d2se_file_signature.hpp"
+#include <mdc/wchar_t/filew.h>
+#include <mdc/error/exit_on_error.hpp>
+#include "d2se_game_version.hpp"
 
-namespace mapi::game_executable {
-namespace {
+namespace mapi::d2se_ini {
 
-static std::filesystem::path InitGameExecutablePath() {
-  DWORD path_len;
-  size_t capacity;
-  size_t new_capacity = MAX_PATH;
-  std::unique_ptr<wchar_t[]> path_buffer;
+::d2::GameVersion GetGameVersion() {
+  static constexpr ::std::size_t kVersionStringCapacity =
+      d2se::game_version::kVersionStringCapacity;
 
-  do {
-    capacity = new_capacity;
-    path_buffer = std::make_unique<wchar_t[]>(capacity);
-    path_len = GetModuleFileNameW(nullptr, path_buffer.get(), capacity);
+  ::std::array<wchar_t, kVersionStringCapacity> version_c_str;
 
-    new_capacity *= 2;
-  } while (path_len >= capacity - 1);
-
-  return path_buffer.get();
-}
-
-} // namespace
-
-const std::filesystem::path& GetPath() {
-  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
-
-  return kGameExecutablePath;
-}
-
-bool IsD2se() {
-  return d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
+  // Read the string from the INI file.
+  DWORD get_private_profile_string_result = GetPrivateProfileStringW(
+      L"Protected",
+      L"D2Core",
+      L"",
+      version_c_str.data(),
+      kVersionStringCapacity,
+      kFileName.data()
   );
+
+  if (get_private_profile_string_result == kVersionStringCapacity - 1) {
+    ::mdc::error::ExitOnGeneralError(
+        L"Error",
+        L"D2SE_SETUP.ini Diablo II version string is invalid.",
+        __FILEW__,
+        __LINE__
+    );
+
+    return static_cast<::d2::GameVersion>(-1);
+  }
+
+  // Determine the game version that corresponds to the version string.
+  return d2se::game_version::GetGameVersion(version_c_str.data());
 }
 
-} // namespace mapi::game_executable
+::d2::VideoMode GetVideoMode() {
+  int renderer_value = GetPrivateProfileIntW(
+      L"USERSETTINGS",
+      L"Renderer",
+      -1,
+      kFileName.data()
+  );
+
+  switch (renderer_value) {
+    case 0: {
+      int window_mode_value = GetPrivateProfileIntW(
+          L"USERSETTINGS",
+          L"WindowMode",
+          -1,
+          kFileName.data()
+      );
+
+      return (window_mode_value == 1)
+          ? ::d2::VideoMode::kGdi
+          : ::d2::VideoMode::kDirectDraw;
+    }
+
+    case 1: {
+      return ::d2::VideoMode::kDirect3D;
+    }
+
+    case 3: {
+      return ::d2::VideoMode::kGlide;
+    }
+
+    default: {
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          renderer_value
+      );
+
+      return static_cast<::d2::VideoMode>(-1);
+    }
+  }
+}
+
+} // namespace mapi::d2se_ini

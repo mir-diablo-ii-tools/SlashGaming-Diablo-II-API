@@ -43,17 +43,17 @@
  *  work.
  */
 
-#include "d2se_ini.hpp"
+#include "d2se_game_version.hpp"
 
-#include <windows.h>
-
+#include <cwctype>
 #include <algorithm>
 #include <array>
+#include <utility>
 
 #include <mdc/wchar_t/filew.h>
 #include <mdc/error/exit_on_error.hpp>
 
-namespace mapi::intern {
+namespace mapi::d2se::game_version {
 namespace {
 
 using VersionStringTableEntry = ::std::pair<
@@ -84,10 +84,6 @@ struct VersionStringEntryTableCompareKey {
   }
 };
 
-static constexpr ::std::wstring_view kSectionName = L"Protected";
-static constexpr ::std::wstring_view kKeyName = L"D2Core";
-static constexpr ::std::wstring_view kFileName = L"./D2SE_SETUP.ini";
-
 static constexpr ::std::array<
     VersionStringTableEntry,
     8
@@ -104,17 +100,16 @@ static constexpr ::std::array<
 
 // If this assertion compiles but produces a linter error, ignore it.
 static_assert(
-    std::is_sorted(
+    ::std::is_sorted(
         kVersionStringTable.cbegin(),
         kVersionStringTable.cend(),
         VersionStringEntryTableCompareKey()
     )
 );
 
-// The capacity needs to be increased manually depending on the table's key.
-constexpr ::std::size_t kVersionStringCapacity = 7;
-
 // If this assertion compiles but produces a linter error, ignore it.
+// The capacity needs to be increased manually depending on the
+// table's key.
 static_assert(
     ::std::all_of(
         kVersionStringTable.cbegin(),
@@ -125,47 +120,22 @@ static_assert(
     )
 );
 
-} // namespace
-
-::d2::GameVersion D2SEIni::GetGameVersion() {
-  ::std::wstring version_str = ReadVersionString();
-
-  return SearchTable(version_str);
-}
-
-::std::wstring D2SEIni::ReadVersionString() {
-  ::std::array<wchar_t, kVersionStringCapacity> version_c_str;
-
-  DWORD get_private_profile_string_result = GetPrivateProfileStringW(
-      kSectionName.data(),
-      kKeyName.data(),
-      L"",
-      version_c_str.data(),
-      kVersionStringCapacity,
-      kFileName.data()
-  );
-
-  if (get_private_profile_string_result == kVersionStringCapacity - 1) {
-    ::mdc::error::ExitOnGeneralError(
-        L"Error",
-        L"D2SE.ini Diablo II version string is invalid.",
-        __FILEW__,
-        __LINE__
-    );
-
-    return L"";
-  }
-
-  return version_c_str.data();
-}
-
-::d2::GameVersion D2SEIni::SearchTable(
+static ::d2::GameVersion SearchTable(
     ::std::wstring_view version_str
 ) {
+  ::std::array<wchar_t, kVersionStringCapacity> lower_version_str;
+
+  ::std::transform(
+      version_str.cbegin(),
+      version_str.cend(),
+      lower_version_str.begin(),
+      &::std::towlower
+  );
+
   ::std::pair search_range = ::std::equal_range(
       kVersionStringTable.cbegin(),
       kVersionStringTable.cend(),
-      version_str,
+      lower_version_str.data(),
       VersionStringEntryTableCompareKey()
   );
 
@@ -185,4 +155,10 @@ static_assert(
   return search_range.first->second;
 }
 
-} // namespace mapi::intern
+} // namespace
+
+::d2::GameVersion GetGameVersion(::std::wstring_view version_str) {
+  return SearchTable(version_str);
+}
+
+} // namespace mapi::d2se::game_version

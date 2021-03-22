@@ -43,20 +43,23 @@
  *  work.
  */
 
-#include "file_signature.hpp"
+#include "game_version_file_signature.hpp"
 
 #include <algorithm>
-#include <fstream>
 #include <utility>
 
-#include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
+#include <mdc/error/exit_on_error.hpp>
 #include "../../../../include/cxx/game_executable.hpp"
+#include "../game_file/file_signature.hpp"
 
-namespace mapi::intern {
+namespace mapi::game_version::file_signature {
 namespace {
 
-using FileSignatureTableEntry = std::pair<FileSignature, d2::GameVersion>;
+using FileSignatureTableEntry = ::std::pair<
+    FileSignature,
+    ::d2::GameVersion
+>;
 
 struct FileSignatureTableEntryCompareKey {
   constexpr bool operator()(
@@ -82,35 +85,6 @@ struct FileSignatureTableEntryCompareKey {
 };
 
 static constexpr const ::std::array<
-    FileSignature,
-    1
-> kD2SESignatureSortedSet = {{
-    {
-        FileSignature{{
-            0x50, 0x45, 0x00, 0x00, 0x4C, 0x01, 0x05, 0x00,
-            0x5F, 0xDC, 0xB5, 0x4D, 0x00, 0x00, 0x00, 0x00,
-            
-            0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x0F, 0x01,
-            0x0B, 0x01, 0x02, 0x32, 0x00, 0x08, 0x01, 0x00,
-            
-            0x00, 0x8A, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x40, 0x3C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00,
-            
-            0x00, 0x20, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00,
-            0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
-        }}
-    }
-}};
-
-// If this assertion compiles but produces a linter error, ignore it.
-static_assert(
-    std::is_sorted(
-        kD2SESignatureSortedSet.cbegin(),
-        kD2SESignatureSortedSet.cend()
-    )
-);
-
-static constexpr const std::array<
     FileSignatureTableEntry,
     16
 > kFileSignatureSortedTable = {{
@@ -374,72 +348,17 @@ static constexpr const std::array<
 
 // If this assertion compiles but produces a linter error, ignore it.
 static_assert(
-    std::is_sorted(
+    ::std::is_sorted(
         kFileSignatureSortedTable.cbegin(),
         kFileSignatureSortedTable.cend(),
         FileSignatureTableEntryCompareKey()
     )
 );
 
-} // namespace
-
-bool FileSignature::IsD2SE(::std::wstring_view raw_path) {
-  FileSignature game_executable_file_signature = ReadFileSignature(
-      game_executable::GetPath().c_str()
-  );
-
-  return ::std::binary_search(
-      kD2SESignatureSortedSet.cbegin(),
-      kD2SESignatureSortedSet.cend(),
-      game_executable_file_signature
-  );
-}
-
-d2::GameVersion FileSignature::GetGameVersion(
-    d2::GameVersion file_version_guess_game_version
-) {
-  if (!HasFileSignatureCheck(file_version_guess_game_version)) {
-    return file_version_guess_game_version;
-  }
-
-  ::std::wstring_view raw_path = GetSignaturePath(
-      file_version_guess_game_version
-  );
-
-  FileSignature signature = ReadFileSignature(raw_path);
-
-  return SearchTable(signature);
-}
-
-FileSignature FileSignature::ReadFileSignature(
-    ::std::wstring_view raw_path
-) {
-  std::basic_ifstream<SignatureType::value_type> file_stream(
-      raw_path,
-      std::ios_base::in | std::ios_base::binary
-  );
-
-  // Grab the pointer to the PE header
-  file_stream.seekg(0x3C);
-
-  ::std::intptr_t pe_header_pointer;
-  file_stream.read(
-      reinterpret_cast<::std::uint8_t*>(&pe_header_pointer),
-      sizeof(pe_header_pointer)
-  );
-
-  file_stream.seekg(pe_header_pointer);
-
-  SignatureType raw_signature;
-  file_stream.read(raw_signature.data(), kSignatureSize);
-
-  return FileSignature(std::move(raw_signature));
-}
-
-d2::GameVersion FileSignature::SearchTable(
+static d2::GameVersion SearchTable(
     const FileSignature& file_signature
 ) {
-  std::pair search_range = std::equal_range(
+  ::std::pair search_range = ::std::equal_range(
       kFileSignatureSortedTable.cbegin(),
       kFileSignatureSortedTable.cend(),
       file_signature,
@@ -461,51 +380,18 @@ d2::GameVersion FileSignature::SearchTable(
   return search_range.first->second;
 }
 
-::std::wstring_view FileSignature::GetSignaturePath(
-    d2::GameVersion file_version_guess_game_version
+} // namespace
+
+::d2::GameVersion GetGameVersion(
+    bool is_game_version_at_least_1_14
 ) {
-  switch (file_version_guess_game_version) {
-    case d2::GameVersion::kBeta1_02:
-    case d2::GameVersion::kBeta1_02StressTest:
-    case d2::GameVersion::k1_00:
-    case d2::GameVersion::k1_01:
-    case d2::GameVersion::k1_06:
-    case d2::GameVersion::k1_06B: {
-      return L"Storm.dll";
-    }
+  ::std::filesystem::path path = is_game_version_at_least_1_14
+      ? game_executable::GetPath()
+      : L"Storm.dll";
 
-    case d2::GameVersion::k1_07Beta:
-    case d2::GameVersion::k1_07: {
-      return L"Storm.dll";
-    }
+  FileSignature signature = FileSignature::ReadFile(path);
 
-    case d2::GameVersion::kClassic1_14A:
-    case d2::GameVersion::kLod1_14A: {
-      return game_executable::GetPath().c_str();
-    }
-
-    case d2::GameVersion::kClassic1_14B:
-    case d2::GameVersion::kLod1_14B:
-    case d2::GameVersion::kClassic1_14C:
-    case d2::GameVersion::kLod1_14C: {
-      return game_executable::GetPath().c_str();
-    }
-
-    case d2::GameVersion::kClassic1_14D:
-    case d2::GameVersion::kLod1_14D: {
-      return game_executable::GetPath().c_str();
-    }
-
-    default: {
-      ::mdc::error::ExitOnConstantMappingError(
-          __FILEW__,
-          __LINE__,
-          static_cast<int>(file_version_guess_game_version)
-      );
-
-      return L"";
-    }
-  }
+  return SearchTable(signature);
 }
 
-} // namespace mapi::intern
+} // namespace mapi::game_version::file_signature

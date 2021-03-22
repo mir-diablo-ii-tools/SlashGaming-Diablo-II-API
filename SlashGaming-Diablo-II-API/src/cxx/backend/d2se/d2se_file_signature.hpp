@@ -43,46 +43,15 @@
  *  work.
  */
 
-#include "../../include/cxx/game_executable.hpp"
+#ifndef SGMAPI_CXX_BACKEND_D2SE_D2SE_FILE_SIGNATURE_HPP_
+#define SGMAPI_CXX_BACKEND_D2SE_D2SE_FILE_SIGNATURE_HPP_
 
-#include <windows.h>
+#include <filesystem>
 
-#include <memory>
+namespace mapi::d2se::file_signature {
 
-#include "backend/d2se/d2se_file_signature.hpp"
+bool IsFileD2seExecutable(const ::std::filesystem::path& path);
 
-namespace mapi::game_executable {
-namespace {
+} // namespace mapi::d2se::file_signature
 
-static std::filesystem::path InitGameExecutablePath() {
-  DWORD path_len;
-  size_t capacity;
-  size_t new_capacity = MAX_PATH;
-  std::unique_ptr<wchar_t[]> path_buffer;
-
-  do {
-    capacity = new_capacity;
-    path_buffer = std::make_unique<wchar_t[]>(capacity);
-    path_len = GetModuleFileNameW(nullptr, path_buffer.get(), capacity);
-
-    new_capacity *= 2;
-  } while (path_len >= capacity - 1);
-
-  return path_buffer.get();
-}
-
-} // namespace
-
-const std::filesystem::path& GetPath() {
-  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
-
-  return kGameExecutablePath;
-}
-
-bool IsD2se() {
-  return d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
-  );
-}
-
-} // namespace mapi::game_executable
+#endif // SGMAPI_CXX_BACKEND_D2SE_D2SE_FILE_SIGNATURE_HPP_

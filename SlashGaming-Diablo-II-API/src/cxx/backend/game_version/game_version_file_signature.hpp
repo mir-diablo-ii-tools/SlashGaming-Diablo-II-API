@@ -43,46 +43,46 @@
  *  work.
  */
 
-#include "../../include/cxx/game_executable.hpp"
+#ifndef SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_
 
-#include <windows.h>
+#include "../../../../include/cxx/game_version.hpp"
 
-#include <memory>
+namespace mapi::game_version::file_signature {
 
-#include "backend/d2se/d2se_file_signature.hpp"
+::d2::GameVersion GetGameVersion(
+    bool is_game_version_at_least_1_14
+);
 
-namespace mapi::game_executable {
-namespace {
+constexpr bool HasCheck(
+    ::d2::GameVersion game_version
+) {
+  switch (game_version) {
+    case d2::GameVersion::kBeta1_02:
+    case d2::GameVersion::kBeta1_02StressTest:
+    case d2::GameVersion::k1_00:
+    case d2::GameVersion::k1_01:
+    case d2::GameVersion::k1_06:
+    case d2::GameVersion::k1_06B:
+    case d2::GameVersion::k1_07Beta:
+    case d2::GameVersion::k1_07:
+    case d2::GameVersion::kClassic1_14A:
+    case d2::GameVersion::kLod1_14A:
+    case d2::GameVersion::kClassic1_14B:
+    case d2::GameVersion::kLod1_14B:
+    case d2::GameVersion::kClassic1_14C:
+    case d2::GameVersion::kLod1_14C:
+    case d2::GameVersion::kClassic1_14D:
+    case d2::GameVersion::kLod1_14D: {
+      return true;
+    }
 
-static std::filesystem::path InitGameExecutablePath() {
-  DWORD path_len;
-  size_t capacity;
-  size_t new_capacity = MAX_PATH;
-  std::unique_ptr<wchar_t[]> path_buffer;
-
-  do {
-    capacity = new_capacity;
-    path_buffer = std::make_unique<wchar_t[]>(capacity);
-    path_len = GetModuleFileNameW(nullptr, path_buffer.get(), capacity);
-
-    new_capacity *= 2;
-  } while (path_len >= capacity - 1);
-
-  return path_buffer.get();
+    default: {
+      return false;
+    }
+  }
 }
 
-} // namespace
+} // namespace mapi::game_version::file_signature
 
-const std::filesystem::path& GetPath() {
-  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
-
-  return kGameExecutablePath;
-}
-
-bool IsD2se() {
-  return d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
-  );
-}
-
-} // namespace mapi::game_executable
+#endif // SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_

@@ -43,46 +43,24 @@
  *  work.
  */
 
-#include "../../include/cxx/game_executable.hpp"
+#ifndef SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
+#define SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
 
-#include <windows.h>
+#include <cstddef>
+#include <filesystem>
+#include <string_view>
 
-#include <memory>
+#include "../../../../include/cxx/game_constant/d2_video_mode.hpp"
+#include "../../../../include/cxx/game_version.hpp"
 
-#include "backend/d2se/d2se_file_signature.hpp"
+namespace mapi::d2se_ini {
 
-namespace mapi::game_executable {
-namespace {
+constexpr ::std::wstring_view kFileName = L"./D2SE_SETUP.ini";
 
-static std::filesystem::path InitGameExecutablePath() {
-  DWORD path_len;
-  size_t capacity;
-  size_t new_capacity = MAX_PATH;
-  std::unique_ptr<wchar_t[]> path_buffer;
+::d2::GameVersion GetGameVersion();
 
-  do {
-    capacity = new_capacity;
-    path_buffer = std::make_unique<wchar_t[]>(capacity);
-    path_len = GetModuleFileNameW(nullptr, path_buffer.get(), capacity);
+::d2::VideoMode GetVideoMode();
 
-    new_capacity *= 2;
-  } while (path_len >= capacity - 1);
+} // namespace mapi::d2se_ini
 
-  return path_buffer.get();
-}
-
-} // namespace
-
-const std::filesystem::path& GetPath() {
-  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
-
-  return kGameExecutablePath;
-}
-
-bool IsD2se() {
-  return d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
-  );
-}
-
-} // namespace mapi::game_executable
+#endif // SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
