@@ -54,7 +54,7 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
-#include "backend/game_version/d2se_ini.hpp"
+#include "backend/d2se/d2se_ini.hpp"
 #include "backend/game_version/file_version.hpp"
 #include "backend/game_version/game_version_file_signature.hpp"
 
@@ -67,7 +67,7 @@ static GameVersion DetermineRunningGameVersion() {
 
   // Check if running on D2SE. If so, use D2SE_SETUP.ini entries.
   if (mapi::game_executable::IsD2se()) {
-    return mapi::intern::D2SEIni::GetGameVersion();
+    return mapi::d2se_ini::GetGameVersion();
   }
 
   // Guess the game version from the executable's file version.

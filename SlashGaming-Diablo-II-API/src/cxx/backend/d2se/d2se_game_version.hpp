@@ -43,28 +43,21 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_BACKEND_GAME_VERSION_D2SE_INI_HPP_
-#define SGD2MAPI_CXX_BACKEND_GAME_VERSION_D2SE_INI_HPP_
+#ifndef SGD2MAPI_CXX_BACKEND_D2SE_D2SE_GAME_VERSION_HPP_
+#define SGD2MAPI_CXX_BACKEND_D2SE_D2SE_GAME_VERSION_HPP_
 
-#include <string>
 #include <string_view>
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::intern {
+namespace mapi::d2se::game_version {
 
-class D2SEIni {
- public:
-  static ::d2::GameVersion GetGameVersion();
+constexpr ::std::size_t kVersionStringCapacity = 7;
 
- private:
-  static ::std::wstring ReadVersionString();
+::d2::GameVersion GetGameVersion(
+    ::std::wstring_view version_str
+);
 
-  static ::d2::GameVersion SearchTable(
-      ::std::wstring_view version_str
-  );
-};
+} // namespace mapi::d2se::game_version
 
-} // namespace mapi::intern
-
-#endif // SGD2MAPI_CXX_BACKEND_GAME_VERSION_D2SE_INI_HPP_
+#endif // SGD2MAPI_CXX_BACKEND_D2SE_D2SE_GAME_VERSION_HPP_
