@@ -78,10 +78,15 @@ static GameVersion DetermineRunningGameVersion() {
 
   // Validate the game version guess by checking the bytes of game
   // libraries.
-  GameVersion game_version =
-      mapi::game_version::file_signature::GetGameVersion(
-          IsAtLeast1_14(guess_game_version)
-      );
+  GameVersion game_version;
+
+  if (mapi::game_version::file_signature::HasCheck(guess_game_version)) {
+    game_version = mapi::game_version::file_signature::GetGameVersion(
+        IsAtLeast1_14(guess_game_version)
+    );
+  } else {
+    game_version = guess_game_version;
+  }
 
   return game_version;
 }
