@@ -57,6 +57,11 @@ namespace mapi::game_executable {
  */
 DLLEXPORT const std::filesystem::path& GetPath();
 
+/**
+ * Returns whether the currently running executable is D2SE.
+ */
+DLLEXPORT bool IsD2se();
+
 } // namespace mapi::game_executable
 
 #include "../dllexport_undefine.inc"

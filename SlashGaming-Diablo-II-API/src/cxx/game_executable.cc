@@ -49,6 +49,8 @@
 
 #include <memory>
 
+#include "backend/d2se/d2se_file_signature.hpp"
+
 namespace mapi::game_executable {
 namespace {
 
@@ -75,6 +77,12 @@ const std::filesystem::path& GetPath() {
   static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
 
   return kGameExecutablePath;
+}
+
+bool IsD2se() {
+  return d2se::file_signature::IsFileD2seExecutable(
+      GetPath()
+  );
 }
 
 } // namespace mapi::game_executable

@@ -53,7 +53,6 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../../include/cxx/game_executable.hpp"
-#include "../backend/game_version/file_signature.hpp"
 
 namespace d2 {
 namespace {
@@ -193,7 +192,7 @@ VideoMode DetermineVideoMode() {
   ::std::wstring_view executable_raw_path =
       ::mapi::game_executable::GetPath().c_str();
 
-  if (::mapi::intern::FileSignature::IsD2SE(executable_raw_path)) {
+  if (::mapi::game_executable::IsD2se()) {
     return GetD2SEVideoMode();
   }
 
