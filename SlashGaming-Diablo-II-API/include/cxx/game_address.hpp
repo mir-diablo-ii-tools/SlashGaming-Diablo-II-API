@@ -62,6 +62,10 @@ namespace mapi {
  */
 class DLLEXPORT GameAddress {
  public:
+  constexpr GameAddress() noexcept
+      : GameAddress(0) {
+  }
+
   constexpr std::intptr_t raw_address() const noexcept {
     return this->raw_address_;
   }
