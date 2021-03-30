@@ -58,6 +58,13 @@
 
 namespace mapi {
 
+GamePatch::GamePatch()
+    : game_address_(),
+      is_patch_applied_(false),
+      patch_buffer_(),
+      unpatched_buffer_() {
+}
+
 GamePatch::GamePatch(
     const GameAddress& game_address,
     const std::vector<std::uint8_t>& patch_buffer
