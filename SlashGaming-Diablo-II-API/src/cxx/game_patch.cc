@@ -187,6 +187,13 @@ void GamePatch::Remove() {
   this->is_patch_applied_ = false;
 }
 
+void GamePatch::Swap(GamePatch& game_patch) noexcept {
+  this->game_address_.Swap(game_patch.game_address_);
+  ::std::swap(this->is_patch_applied_, game_patch.is_patch_applied_);
+  this->patch_buffer_.swap(game_patch.patch_buffer_);
+  this->unpatched_buffer_.swap(game_patch.unpatched_buffer_);
+}
+
 const GameAddress& GamePatch::game_address() const noexcept {
   return this->game_address_;
 }

@@ -217,6 +217,8 @@ class DLLEXPORT GamePatch {
       std::size_t patch_size
   );
 
+  void Swap(GamePatch& game_patch) noexcept;
+
  private:
   GamePatch(
       const GameAddress& game_address,
