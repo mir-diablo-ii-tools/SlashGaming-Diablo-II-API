@@ -58,6 +58,13 @@
 
 namespace mapi {
 
+GamePatch::GamePatch()
+    : game_address_(),
+      is_patch_applied_(false),
+      patch_buffer_(),
+      unpatched_buffer_() {
+}
+
 GamePatch::GamePatch(
     const GameAddress& game_address,
     const std::vector<std::uint8_t>& patch_buffer
@@ -178,6 +185,13 @@ void GamePatch::Remove() {
   }
 
   this->is_patch_applied_ = false;
+}
+
+void GamePatch::Swap(GamePatch& game_patch) noexcept {
+  this->game_address_.Swap(game_patch.game_address_);
+  ::std::swap(this->is_patch_applied_, game_patch.is_patch_applied_);
+  this->patch_buffer_.swap(game_patch.patch_buffer_);
+  this->unpatched_buffer_.swap(game_patch.unpatched_buffer_);
 }
 
 const GameAddress& GamePatch::game_address() const noexcept {

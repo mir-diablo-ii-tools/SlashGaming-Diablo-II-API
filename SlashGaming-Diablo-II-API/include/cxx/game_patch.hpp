@@ -66,6 +66,8 @@ class DLLEXPORT GamePatch {
   static constexpr const std::size_t kBranchPatchMinSize =
       sizeof(void(*)()) + sizeof(std::uint8_t);
 
+  GamePatch();
+
   GamePatch(const GamePatch& game_patch) = delete;
 
   GamePatch(GamePatch&& game_patch) noexcept;
@@ -214,6 +216,8 @@ class DLLEXPORT GamePatch {
       GameAddress&& game_address,
       std::size_t patch_size
   );
+
+  void Swap(GamePatch& game_patch) noexcept;
 
  private:
   GamePatch(
