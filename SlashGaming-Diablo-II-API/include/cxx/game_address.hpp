@@ -124,6 +124,10 @@ class DLLEXPORT GameAddress {
       std::int16_t ordinal
   );
 
+  constexpr void Swap(GameAddress& game_address) noexcept {
+    ::std::swap(this->raw_address_, game_address.raw_address_);
+  }
+
  private:
   constexpr explicit GameAddress(std::intptr_t raw_address) noexcept
       : raw_address_(raw_address) {
