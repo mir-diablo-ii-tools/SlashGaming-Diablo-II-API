@@ -80,8 +80,8 @@ Cel* CelContext_Api::GetCel() {
 
 CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
     CelFile* cel_file,
-    unsigned int direction,
-    unsigned int frame
+    unsigned int direction_index,
+    unsigned int frame_index
 ) {
   ApiVariant cel_context;
 
@@ -96,7 +96,7 @@ CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
   }
 
   std::visit(
-      [cel_file, direction, frame](auto& actual_cel_context) {
+      [cel_file, direction_index, frame_index](auto& actual_cel_context) {
         using CelContext_T = std::remove_reference_t<
             decltype(actual_cel_context)
         >;
@@ -107,8 +107,8 @@ CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
         actual_cel_context = {};
         actual_cel_context.cel_file =
             reinterpret_cast<CelFile_T*>(cel_file);
-        actual_cel_context.direction = direction;
-        actual_cel_context.frame = frame;
+        actual_cel_context.direction_index = direction_index;
+        actual_cel_context.frame_index = frame_index;
       },
       cel_context
   );

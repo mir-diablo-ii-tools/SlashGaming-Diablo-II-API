@@ -161,28 +161,28 @@ class DLLEXPORT CelContext_Api {
     wrapper.SetCelFile(cel_file);
   }
 
-  constexpr unsigned int GetDirection() const noexcept {
+  constexpr unsigned int GetDirectionIndex() const noexcept {
     CelContext_View view(*this);
 
-    return view.GetDirection();
+    return view.GetDirectionIndex();
   }
 
-  constexpr void SetDirection(unsigned int direction) noexcept {
+  constexpr void SetDirectionIndex(unsigned int direction_index) noexcept {
     CelContext_Wrapper wrapper(*this);
 
-    wrapper.SetDirection(direction);
+    wrapper.SetDirectionIndex(direction_index);
   }
 
-  constexpr unsigned int GetFrame() const noexcept {
+  constexpr unsigned int GetFrameIndex() const noexcept {
     CelContext_View view(*this);
 
-    return view.GetFrame();
+    return view.GetFrameIndex();
   }
 
-  constexpr void SetFrame(unsigned int frame) noexcept {
+  constexpr void SetFrameIndex(unsigned int frame_index) noexcept {
     CelContext_Wrapper wrapper(*this);
 
-    wrapper.SetFrame(frame);
+    wrapper.SetFrameIndex(frame_index);
   }
 
  private:
@@ -190,8 +190,8 @@ class DLLEXPORT CelContext_Api {
 
   static ApiVariant CreateVariant(
       CelFile* cel_file,
-      unsigned int direction,
-      unsigned int frame
+      unsigned int direction_index,
+      unsigned int frame_index
   );
 };
 
