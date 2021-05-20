@@ -147,20 +147,21 @@ VideoMode DetermineVideoMode() {
       ::mapi::game_executable::GetPath().c_str();
 
   if (::mapi::game_executable::IsD2se()) {
-    return ::mapi::d2se_ini::GetVideoMode();
+    static VideoMode d2se_video_mode = ::mapi::d2se_ini::GetVideoMode();
+    return d2se_video_mode;
   }
 
   return ToApiValue_1_00(DetermineVideoMode_1_00());
 }
 
 VideoMode_1_00 DetermineVideoMode_1_00() {
-  VideoMode_1_00 command_line_video_mode = GetCommandLineVideoMode();
+  static VideoMode_1_00 command_line_video_mode = GetCommandLineVideoMode();
 
   if (command_line_video_mode != VideoMode_1_00::kDirectDraw) {
     return command_line_video_mode;
   }
 
-  VideoMode_1_00 reg_video_mode = GetRegistryVideoMode();
+  static VideoMode_1_00 reg_video_mode = GetRegistryVideoMode();
   return reg_video_mode;
 }
 

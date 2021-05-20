@@ -57,7 +57,7 @@ CelContext_Api::CelContext_Api(
 }
 
 bool CelContext_Api::DrawFrame(int position_x, int position_y) {
-  CelContext_Wrapper wrapper(this->Get());
+  CelContext_Wrapper wrapper(*this);
 
   return wrapper.DrawFrame(position_x, position_y);
 }
@@ -67,13 +67,13 @@ bool CelContext_Api::DrawFrame(
     int position_y,
     const DrawCelFileFrameOptions& frame_options
 ) {
-  CelContext_Wrapper wrapper(this->Get());
+  CelContext_Wrapper wrapper(*this);
 
   return wrapper.DrawFrame(position_x, position_y, frame_options);
 }
 
 Cel* CelContext_Api::GetCel() {
-  CelContext_Wrapper wrapper(this->Get());
+  CelContext_Wrapper wrapper(*this);
 
   return wrapper.GetCel();
 }
@@ -104,7 +104,7 @@ CelContext_Api::ApiVariant CelContext_Api::CreateVariant(
             decltype(CelContext_T::cel_file)
         >;
 
-        actual_cel_context = {};
+        actual_cel_context = { 0 };
         actual_cel_context.cel_file =
             reinterpret_cast<CelFile_T*>(cel_file);
         actual_cel_context.direction_index = direction_index;
