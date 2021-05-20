@@ -123,19 +123,19 @@ class DLLEXPORT CelContext_View {
     );
   }
 
-  constexpr unsigned int GetDirection() const noexcept {
+  constexpr unsigned int GetDirectionIndex() const noexcept {
     return std::visit(
         [](const auto& actual_cel_context) {
-          return actual_cel_context->direction;
+          return actual_cel_context->direction_index;
         },
         this->cel_context_
     );
   }
 
-  constexpr unsigned int GetFrame() const noexcept {
+  constexpr unsigned int GetFrameIndex() const noexcept {
     return std::visit(
         [](const auto& actual_cel_context) {
-          return actual_cel_context->frame;
+          return actual_cel_context->frame_index;
         },
         this->cel_context_
     );

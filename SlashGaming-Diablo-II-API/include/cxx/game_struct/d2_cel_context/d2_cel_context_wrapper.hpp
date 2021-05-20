@@ -201,31 +201,31 @@ class DLLEXPORT CelContext_Wrapper {
     );
   }
 
-  constexpr unsigned int GetDirection() const noexcept {
+  constexpr unsigned int GetDirectionIndex() const noexcept {
     CelContext_View view(*this);
 
-    return view.GetDirection();
+    return view.GetDirectionIndex();
   }
 
-  constexpr void SetDirection(unsigned int direction) noexcept {
+  constexpr void SetDirectionIndex(unsigned int direction_index) noexcept {
     std::visit(
-        [direction](auto& actual_cel_context) {
-          actual_cel_context->direction = direction;
+        [direction_index](auto& actual_cel_context) {
+          actual_cel_context->direction_index = direction_index;
         },
         this->cel_context_
     );
   }
 
-  constexpr unsigned int GetFrame() const noexcept {
+  constexpr unsigned int GetFrameIndex() const noexcept {
     CelContext_View view(*this);
 
-    return view.GetFrame();
+    return view.GetFrameIndex();
   }
 
-  constexpr void SetFrame(unsigned int frame) noexcept {
+  constexpr void SetFrameIndex(unsigned int frame_index) noexcept {
     std::visit(
-        [frame](auto& actual_cel_context) {
-          actual_cel_context->direction = frame;
+        [frame_index](auto& actual_cel_context) {
+          actual_cel_context->direction_index = frame_index;
         },
         this->cel_context_
     );
