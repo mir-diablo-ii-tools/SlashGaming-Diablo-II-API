@@ -43,20 +43,48 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_SET_TEXT_FONT_HPP_
-#define SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_SET_TEXT_FONT_HPP_
+/**
+ * Latest supported version: 1.14D
+ */
 
-#include "../../game_constant/d2_text_font.hpp"
+#include "../../../../include/cxx/game_function/d2win/d2win_set_unicode_text_font.hpp"
 
-#include "../../../dllexport_define.inc"
+#include "../../../../include/cxx/default_game_library.hpp"
+#include "../../../asm_x86_macro.h"
+#include "../../backend/game_address_table.hpp"
+#include "../../backend/game_function/fastcall_function.hpp"
 
 namespace d2::d2win {
+namespace {
 
-DLLEXPORT TextFont SetTextFont(TextFont text_font);
+static const mapi::GameAddress& GetGameAddress() {
+  static const mapi::GameAddress game_address = mapi::LoadGameAddress(
+      ::d2::DefaultLibrary::kD2Win,
+      "SetUnicodeTextFont"
+  );
 
-DLLEXPORT TextFont_1_00 SetTextFont_1_00(TextFont_1_00 text_font);
+  return game_address;
+}
+
+} // namespace
+
+TextFont SetUnicodeTextFont(TextFont text_font) {
+  return ToApiValue_1_00(
+      SetUnicodeTextFont_1_00(
+          ToGameValue_1_00(text_font)
+      )
+  );
+}
+
+TextFont_1_00 SetUnicodeTextFont_1_00(TextFont_1_00 text_font) {
+  int old_text_font = reinterpret_cast<int>(
+      mapi::CallFastcallFunction(
+          GetGameAddress().raw_address(),
+          text_font
+      )
+  );
+
+  return static_cast<TextFont_1_00>(old_text_font);
+}
 
 } // namespace d2::d2win
-
-#include "../../../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_FUNCTION_D2WIN_D2WIN_SET_TEXT_FONT_HPP_
