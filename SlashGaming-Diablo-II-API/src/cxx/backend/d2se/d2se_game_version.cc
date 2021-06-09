@@ -132,6 +132,8 @@ static ::d2::GameVersion SearchTable(
       &::std::towlower
   );
 
+  lower_version_str[version_str.length()] = L'\0';
+
   ::std::pair search_range = ::std::equal_range(
       kVersionStringTable.cbegin(),
       kVersionStringTable.cend(),
