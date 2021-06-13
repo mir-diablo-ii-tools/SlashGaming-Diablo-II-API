@@ -47,6 +47,7 @@
 
 #include <algorithm>
 #include <array>
+#include <memory>
 #include <utility>
 
 #include <mdc/error/exit_on_error.hpp>
