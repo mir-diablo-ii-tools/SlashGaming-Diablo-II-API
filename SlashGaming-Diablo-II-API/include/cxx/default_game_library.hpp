@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 #define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 
-#include <filesystem>
-
 #include "../dllexport_define.inc"
 
 namespace d2 {
@@ -66,17 +64,13 @@ namespace default_library {
 /**
  * Returns the path of the specified default library.
  */
-DLLEXPORT const std::filesystem::path& GetPathWithoutRedirect(
-    DefaultLibrary library
-);
+DLLEXPORT const wchar_t* GetPathWithoutRedirect(DefaultLibrary library);
 
 /**
- * Returns the path of the specified default library or an alternative path if
- * an implementation-defined condition is satisfied.
+ * Returns the path of the specified default library or an alternative
+ * path if an implementation-defined condition is satisfied.
  */
-DLLEXPORT const std::filesystem::path& GetPathWithRedirect(
-    DefaultLibrary library
-);
+DLLEXPORT const wchar_t* GetPathWithRedirect(DefaultLibrary library);
 
 } // namespace default_library
 

@@ -45,112 +45,120 @@
 
 #include "../../include/cxx/default_game_library.hpp"
 
-#include <algorithm>
-#include <array>
-#include <utility>
-
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
 #include "../../include/cxx/game_version.hpp"
 
-namespace d2::default_library {
-namespace {
+namespace d2 {
+namespace default_library {
 
-using DefaultLibraryPathTableEntry = ::std::pair<
-    DefaultLibrary,
-    std::filesystem::path
->;
-
-struct DefaultLibraryPathTableEntryCompareKey {
-  constexpr bool operator()(
-      const DefaultLibraryPathTableEntry& entry1,
-      const DefaultLibraryPathTableEntry& entry2
-  ) const noexcept {
-    return entry1.first < entry2.first;
-  }
-
-  constexpr bool operator()(
-      DefaultLibrary library,
-      const DefaultLibraryPathTableEntry& entry
-  ) const noexcept {
-    return library < entry.first;
-  }
-
-  constexpr bool operator()(
-      const DefaultLibraryPathTableEntry& entry,
-      DefaultLibrary library
-  ) const noexcept {
-    return entry.first < library;
-  }
-};
-
-static const std::filesystem::path&
-SearchDefaultLibraryPath(DefaultLibrary library) {
-  static const std::array<
-      DefaultLibraryPathTableEntry,
-      20
-  > kDefaultLibraryPathTable = {{
-      { DefaultLibrary::kBNClient, L"BNClient.dll" },
-      { DefaultLibrary::kD2CMP, L"D2CMP.dll" },
-      { DefaultLibrary::kD2Client, L"D2Client.dll" },
-      { DefaultLibrary::kD2Common, L"D2Common.dll" },
-      { DefaultLibrary::kD2DDraw, L"D2DDraw.dll" },
-      { DefaultLibrary::kD2Direct3D, L"D2Direct3D.dll" },
-      { DefaultLibrary::kD2Game, L"D2Game.dll" },
-      { DefaultLibrary::kD2GDI, L"D2GDI.dll" },
-      { DefaultLibrary::kD2GFX, L"D2GFX.dll" },
-      { DefaultLibrary::kD2Glide, L"D2Glide.dll" },
-      { DefaultLibrary::kD2Lang, L"D2Lang.dll" },
-      { DefaultLibrary::kD2Launch, L"D2Launch.dll" },
-      { DefaultLibrary::kD2MCPClient, L"D2MCPClient.dll" },
-      { DefaultLibrary::kD2Multi, L"D2Multi.dll" },
-      { DefaultLibrary::kD2Net, L"D2Net.dll" },
-      { DefaultLibrary::kD2Server, L"D2Server.dll" },
-      { DefaultLibrary::kD2Sound, L"D2Sound.dll" },
-      { DefaultLibrary::kD2Win, L"D2Win.dll" },
-      { DefaultLibrary::kFog, L"Fog.dll" },
-      { DefaultLibrary::kStorm, L"Storm.dll" },
-  }};
-
-  ::std::pair search_range = ::std::equal_range(
-      kDefaultLibraryPathTable.cbegin(),
-      kDefaultLibraryPathTable.cend(),
-      library,
-      DefaultLibraryPathTableEntryCompareKey()
-  );
-
-  if (search_range.first == kDefaultLibraryPathTable.cend()
-      || search_range.first == search_range.second) {
-    ::mdc::error::ExitOnConstantMappingError(
-        __FILEW__,
-        __LINE__,
-        static_cast<int>(library)
-    );
-
-    return kDefaultLibraryPathTable.cend()->second;
-  }
-
-  return search_range.first->second;
-}
-
-} // namespace
-
-const std::filesystem::path& GetPathWithoutRedirect(
+const wchar_t* GetPathWithoutRedirect(
     DefaultLibrary library
 ) {
-  return SearchDefaultLibraryPath(library);
+  switch (library) {
+    case DefaultLibrary::kBNClient: {
+      return L"BNClient.dll";
+    }
+
+    case DefaultLibrary::kD2CMP: {
+      return L"D2CMP.dll";
+    }
+
+    case DefaultLibrary::kD2Client: {
+      return L"D2Client.dll";
+    }
+
+    case DefaultLibrary::kD2Common: {
+      return L"D2Common.dll";
+    }
+
+    case DefaultLibrary::kD2DDraw: {
+      return L"D2DDraw.dll";
+    }
+
+    case DefaultLibrary::kD2Direct3D: {
+      return L"D2Direct3D.dll";
+    }
+
+    case DefaultLibrary::kD2Game: {
+      return L"D2Game.dll";
+    }
+
+    case DefaultLibrary::kD2GDI: {
+      return L"D2GDI.dll";
+    }
+
+    case DefaultLibrary::kD2GFX: {
+      return L"D2GFX.dll";
+    }
+
+    case DefaultLibrary::kD2Glide: {
+      return L"D2Glide.dll";
+    }
+
+    case DefaultLibrary::kD2Lang: {
+      return L"D2Lang.dll";
+    }
+
+    case DefaultLibrary::kD2Launch: {
+      return L"D2Launch.dll";
+    }
+
+    case DefaultLibrary::kD2MCPClient: {
+      return L"D2MCPClient.dll";
+    }
+
+    case DefaultLibrary::kD2Multi: {
+      return L"D2Multi.dll";
+    }
+
+    case DefaultLibrary::kD2Net: {
+      return L"D2Net.dll";
+    }
+
+    case DefaultLibrary::kD2Server: {
+      return L"D2Server.dll";
+    }
+
+    case DefaultLibrary::kD2Sound: {
+      return L"D2Sound.dll";
+    }
+
+    case DefaultLibrary::kD2Win: {
+      return L"D2Win.dll";
+    }
+
+    case DefaultLibrary::kFog: {
+      return L"Fog.dll";
+    }
+
+    case DefaultLibrary::kStorm: {
+      return L"Storm.dll";
+    }
+
+    default: {
+      ::mdc::error::ExitOnConstantMappingError(
+          __FILEW__,
+          __LINE__,
+          static_cast<int>(library)
+      );
+
+      return L"";
+    }
+  }
 }
 
-const std::filesystem::path& GetPathWithRedirect(
+const wchar_t* GetPathWithRedirect(
     DefaultLibrary library
 ) {
   // Redirect if the game version is 1.14 or higher.
   if (::d2::game_version::IsRunningAtLeast1_14()) {
-    return ::mapi::game_executable::GetPath();
+    return ::mapi::game_executable::GetPath().c_str();
   }
 
   return GetPathWithoutRedirect(library);
 }
 
-} // namespace d2::default_library
+} // namespace default_library
+} // namespace d2
