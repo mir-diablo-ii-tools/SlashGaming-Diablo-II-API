@@ -81,7 +81,7 @@ const std::filesystem::path& GetPath() {
 
 bool IsD2se() {
   static bool is_d2se = d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
+      GetPath().c_str()
   );
 
   return is_d2se;
