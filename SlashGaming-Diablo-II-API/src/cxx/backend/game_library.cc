@@ -54,14 +54,14 @@
 namespace mapi {
 
 GameLibrary::GameLibrary(
-  std::filesystem::path file_path
+    ::std::wstring path
 )
-    : file_path_(std::move(file_path)),
-      base_address_(this->LoadGameLibraryBaseAddress(this->file_path())) {
+    : path_(std::move(path)),
+      base_address_(this->LoadGameLibraryBaseAddress(this->path().c_str())) {
 }
 
 GameLibrary::GameLibrary(GameLibrary&& rhs) noexcept
-    : file_path_(std::move(rhs.file_path_)),
+    : path_(std::move(rhs.path_)),
       base_address_(std::move(rhs.base_address_)) {
   rhs.base_address_ = reinterpret_cast<std::intptr_t>(nullptr);
 };
@@ -90,7 +90,7 @@ GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {
     return *this;
   }
 
-  this->file_path_ = std::move(rhs.file_path_);
+  this->path_ = std::move(rhs.path_);
   this->base_address_ = std::move(rhs.base_address_);
 
   rhs.base_address_ = reinterpret_cast<std::intptr_t>(nullptr);
@@ -98,31 +98,26 @@ GameLibrary& GameLibrary::operator=(GameLibrary&& rhs) noexcept {
   return *this;
 }
 
-const GameLibrary& GameLibrary::GetGameLibrary(
-    const std::filesystem::path& file_path
-) {
-  if (!GetLibrariesByPaths().contains(file_path)) {
+const GameLibrary& GameLibrary::GetGameLibrary(const ::std::wstring& path) {
+  if (!GetLibrariesByPaths().contains(path)) {
     GetLibrariesByPaths().insert(
-        std::pair(file_path, GameLibrary(file_path))
+        std::pair(path, GameLibrary(path))
     );
   }
 
-  assert(GetLibrariesByPaths().contains(file_path));
+  assert(GetLibrariesByPaths().contains(path));
 
-  return GetLibrariesByPaths().at(file_path);
+  return GetLibrariesByPaths().at(path);
 }
 
-std::map<std::filesystem::path, GameLibrary>&
-GameLibrary::GetLibrariesByPaths() {
-  static std::map<std::filesystem::path, GameLibrary> libraries_by_paths;
+std::map<::std::wstring, GameLibrary>& GameLibrary::GetLibrariesByPaths() {
+  static std::map<::std::wstring, GameLibrary> libraries_by_paths;
 
   return libraries_by_paths;
 }
 
-std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(
-    const std::filesystem::path& file_path
-) {
-  HMODULE base_address = LoadLibraryW(file_path.c_str());
+std::intptr_t GameLibrary::LoadGameLibraryBaseAddress(const wchar_t* path) {
+  HMODULE base_address = LoadLibraryW(path);
 
   if (base_address == nullptr) {
     ::mdc::error::ExitOnWindowsFunctionError(
