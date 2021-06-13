@@ -48,13 +48,14 @@
 #include <windows.h>
 
 #include <memory>
+#include <string>
 
 #include "backend/d2se/d2se_file_signature.hpp"
 
 namespace mapi::game_executable {
 namespace {
 
-static std::filesystem::path InitGameExecutablePath() {
+static ::std::wstring InitGameExecutablePath() {
   DWORD path_len;
   size_t capacity;
   size_t new_capacity = MAX_PATH;
@@ -73,15 +74,15 @@ static std::filesystem::path InitGameExecutablePath() {
 
 } // namespace
 
-const std::filesystem::path& GetPath() {
-  static std::filesystem::path kGameExecutablePath = InitGameExecutablePath();
+const wchar_t* GetPath() {
+  static ::std::wstring kGameExecutablePath = InitGameExecutablePath();
 
-  return kGameExecutablePath;
+  return kGameExecutablePath.c_str();
 }
 
 bool IsD2se() {
   static bool is_d2se = d2se::file_signature::IsFileD2seExecutable(
-      GetPath().c_str()
+      GetPath()
   );
 
   return is_d2se;

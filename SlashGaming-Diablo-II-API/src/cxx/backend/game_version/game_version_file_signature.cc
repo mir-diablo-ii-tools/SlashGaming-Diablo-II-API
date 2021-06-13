@@ -385,11 +385,11 @@ static d2::GameVersion SearchTable(
 ::d2::GameVersion GetGameVersion(
     bool is_game_version_at_least_1_14
 ) {
-  ::std::filesystem::path path = is_game_version_at_least_1_14
+  const wchar_t* path = is_game_version_at_least_1_14
       ? game_executable::GetPath()
       : L"Storm.dll";
 
-  FileSignature signature = FileSignature::ReadFile(path.c_str());
+  FileSignature signature = FileSignature::ReadFile(path);
 
   return SearchTable(signature);
 }

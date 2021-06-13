@@ -144,7 +144,7 @@ static VideoMode_1_00 GetRegistryVideoMode() {
 
 VideoMode DetermineVideoMode() {
   ::std::wstring_view executable_raw_path =
-      ::mapi::game_executable::GetPath().c_str();
+      ::mapi::game_executable::GetPath();
 
   if (::mapi::game_executable::IsD2se()) {
     static VideoMode d2se_video_mode = ::mapi::d2se_ini::GetVideoMode();

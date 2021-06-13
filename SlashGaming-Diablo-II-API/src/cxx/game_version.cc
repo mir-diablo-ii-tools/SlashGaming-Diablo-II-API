@@ -63,7 +63,7 @@ namespace {
 
 static GameVersion DetermineRunningGameVersion() {
   ::std::wstring_view executable_raw_path =
-      mapi::game_executable::GetPath().c_str();
+      mapi::game_executable::GetPath();
 
   // Check if running on D2SE. If so, use D2SE_SETUP.ini entries.
   if (mapi::game_executable::IsD2se()) {

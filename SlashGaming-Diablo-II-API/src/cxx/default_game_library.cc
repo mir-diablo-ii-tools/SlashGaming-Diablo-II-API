@@ -154,7 +154,7 @@ const wchar_t* GetPathWithRedirect(
 ) {
   // Redirect if the game version is 1.14 or higher.
   if (::d2::game_version::IsRunningAtLeast1_14()) {
-    return ::mapi::game_executable::GetPath().c_str();
+    return ::mapi::game_executable::GetPath();
   }
 
   return GetPathWithoutRedirect(library);
