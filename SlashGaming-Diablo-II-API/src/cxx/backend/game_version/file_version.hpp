@@ -49,7 +49,6 @@
 #include <windows.h>
 
 #include <compare>
-#include <filesystem>
 
 #include "../../../../include/cxx/game_version.hpp"
 
