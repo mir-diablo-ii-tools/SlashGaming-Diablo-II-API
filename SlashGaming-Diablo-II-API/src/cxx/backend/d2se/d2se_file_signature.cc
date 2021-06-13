@@ -45,6 +45,7 @@
 
 #include "d2se_file_signature.hpp"
 
+#include <algorithm>
 #include <array>
 
 #include "../game_file/file_signature.hpp"
@@ -83,7 +84,7 @@ static_assert(
 
 } // namespace
 
-bool IsFileD2seExecutable(const ::std::filesystem::path& path) {
+bool IsFileD2seExecutable(const wchar_t* path) {
   FileSignature game_executable_file_signature = FileSignature::ReadFile(
       path
   );

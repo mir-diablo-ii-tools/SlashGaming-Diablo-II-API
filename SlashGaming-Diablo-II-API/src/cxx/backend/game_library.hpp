@@ -47,8 +47,8 @@
 #define SGD2MAPI_CXX_GAME_LIBRARY_HPP_
 
 #include <cstdint>
-#include <filesystem>
 #include <map>
+#include <string>
 
 namespace mapi {
 
@@ -60,7 +60,7 @@ class GameLibrary {
   /**
    * Creates a new instance of a GameLibrary using the library path.
    */
-  explicit GameLibrary(std::filesystem::path file_path);
+  explicit GameLibrary(::std::wstring path);
 
   GameLibrary(const GameLibrary& rhs) = delete;
 
@@ -72,9 +72,7 @@ class GameLibrary {
 
   GameLibrary& operator=(GameLibrary&& rhs) noexcept;
 
-  static const GameLibrary& GetGameLibrary(
-      const std::filesystem::path& file_path
-  );
+  static const GameLibrary& GetGameLibrary(const ::std::wstring& path);
 
   /**
    * Returns the base address value of this GameLibrary.
@@ -86,19 +84,17 @@ class GameLibrary {
   /**
    * Returns the library path of this GameLibrary.
    */
-  constexpr const std::filesystem::path& file_path() const noexcept {
-    return this->file_path_;
+  constexpr const ::std::wstring& path() const noexcept {
+    return this->path_;
   }
 
  private:
-  std::filesystem::path file_path_;
+  ::std::wstring path_;
   std::intptr_t base_address_;
 
-  static std::map<std::filesystem::path, GameLibrary>& GetLibrariesByPaths();
+  static std::map<::std::wstring, GameLibrary>& GetLibrariesByPaths();
 
-  static std::intptr_t LoadGameLibraryBaseAddress(
-      const std::filesystem::path& library_path
-  );
+  static std::intptr_t LoadGameLibraryBaseAddress(const wchar_t* path);
 };
 
 } // namespace mapi

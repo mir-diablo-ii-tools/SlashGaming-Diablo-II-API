@@ -50,7 +50,6 @@
 #include <cstdint>
 #include <array>
 #include <compare>
-#include <filesystem>
 #include <utility>
 
 namespace mapi {
@@ -96,7 +95,7 @@ class FileSignature {
   ) noexcept = default;
 
   static FileSignature ReadFile(
-      const ::std::filesystem::path& path
+      const wchar_t* path
   );
 
   constexpr const SignatureType& signature() const noexcept {

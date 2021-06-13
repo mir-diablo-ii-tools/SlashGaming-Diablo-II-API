@@ -46,7 +46,6 @@
 #ifndef SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_
 #define SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_
 
-#include <filesystem>
 #include <string_view>
 
 #include "../../../include/cxx/default_game_library.hpp"

@@ -48,7 +48,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <filesystem>
 #include <string_view>
 
 #include "default_game_library.hpp"
@@ -76,7 +75,7 @@ class DLLEXPORT GameAddress {
    */
   static GameAddress FromExportedName(
       ::d2::DefaultLibrary library,
-      ::std::string_view exported_name
+      const char* exported_name
   );
 
   /**
@@ -84,7 +83,7 @@ class DLLEXPORT GameAddress {
    * specify a location in game memory.
    */
   static GameAddress FromExportedName(
-      const ::std::filesystem::path& library_path,
+      const wchar_t* path,
       ::std::string_view exported_name
   );
 
@@ -102,7 +101,7 @@ class DLLEXPORT GameAddress {
    * game memory.
    */
   static GameAddress FromOffset(
-      const std::filesystem::path& library_path,
+      const wchar_t* path,
       std::ptrdiff_t offset
   );
 
@@ -120,7 +119,7 @@ class DLLEXPORT GameAddress {
    * in game memory.
    */
   static GameAddress FromOrdinal(
-      const std::filesystem::path& library_path,
+      const wchar_t* path,
       std::int16_t ordinal
   );
 

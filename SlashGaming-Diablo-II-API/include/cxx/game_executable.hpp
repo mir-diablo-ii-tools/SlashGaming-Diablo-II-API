@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
 #define SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
 
-#include <filesystem>
-
 #include "../dllexport_define.inc"
 
 namespace mapi::game_executable {
@@ -55,7 +53,7 @@ namespace mapi::game_executable {
 /**
  * Returns the executable used to run the game.
  */
-DLLEXPORT const std::filesystem::path& GetPath();
+DLLEXPORT const wchar_t* GetPath();
 
 /**
  * Returns whether the currently running executable is D2SE.

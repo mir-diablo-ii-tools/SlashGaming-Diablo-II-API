@@ -47,7 +47,6 @@
 #define SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
 
 #include <cstddef>
-#include <filesystem>
 #include <string_view>
 
 #include "../../../../include/cxx/game_constant/d2_video_mode.hpp"
