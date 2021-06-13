@@ -50,7 +50,7 @@
 namespace mapi {
 
 FileSignature FileSignature::ReadFile(
-    const ::std::filesystem::path& path
+    const wchar_t* path
 ) {
   std::basic_ifstream<SignatureType::value_type> file_stream(
       path,

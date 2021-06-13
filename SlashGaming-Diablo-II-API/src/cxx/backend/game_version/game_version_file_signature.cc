@@ -389,7 +389,7 @@ static d2::GameVersion SearchTable(
       ? game_executable::GetPath()
       : L"Storm.dll";
 
-  FileSignature signature = FileSignature::ReadFile(path);
+  FileSignature signature = FileSignature::ReadFile(path.c_str());
 
   return SearchTable(signature);
 }

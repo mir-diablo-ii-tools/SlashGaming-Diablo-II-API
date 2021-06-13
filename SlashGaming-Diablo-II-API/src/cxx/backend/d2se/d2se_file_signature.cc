@@ -85,7 +85,7 @@ static_assert(
 
 bool IsFileD2seExecutable(const ::std::filesystem::path& path) {
   FileSignature game_executable_file_signature = FileSignature::ReadFile(
-      path
+      path.c_str()
   );
 
   return ::std::binary_search(
