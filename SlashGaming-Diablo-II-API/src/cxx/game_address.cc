@@ -58,23 +58,22 @@ namespace mapi {
 
 GameAddress GameAddress::FromExportedName(
     ::d2::DefaultLibrary library,
-    ::std::string_view exported_name
+    const char* exported_name
 ) {
-  const ::std::filesystem::path& default_library_path =
-      ::d2::default_library::GetPathWithRedirect(library);
+  const wchar_t* path = ::d2::default_library::GetPathWithRedirect(library);
 
-  return FromExportedName(default_library_path, exported_name);
+  return FromExportedName(path, exported_name);
 }
 
 GameAddress GameAddress::FromExportedName(
-    const ::std::filesystem::path& library_path,
+    const wchar_t* path,
     ::std::string_view exported_name
 ) {
   static constexpr std::size_t kExportedNameWideCapacity = 1024;
 
   static std::array<wchar_t, kExportedNameWideCapacity> exported_name_wide;
 
-  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(path);
 
   FARPROC raw_address = GetProcAddress(
       reinterpret_cast<HMODULE>(game_library.base_address()),
@@ -100,12 +99,13 @@ GameAddress GameAddress::FromExportedName(
     ::mdc::error::ExitOnGeneralError(
         L"Error",
         L"%ls failed with error code 0x%X. Could not locate exported "
-            L"name %ls.",
+            L"name %ls from the path %ls.",
         __FILEW__,
         __LINE__,
         L"GetProcAddress",
         GetLastError(),
-        exported_name_wide_ptr
+        exported_name_wide_ptr,
+        path
     );
 
     return GameAddress(0);
@@ -118,17 +118,16 @@ GameAddress GameAddress::FromOffset(
     d2::DefaultLibrary library,
     std::ptrdiff_t offset
 ) {
-  const std::filesystem::path& game_library_path =
-      ::d2::default_library::GetPathWithRedirect(library);
+  const wchar_t* path = ::d2::default_library::GetPathWithRedirect(library);
 
-  return FromOffset(game_library_path, offset);
+  return FromOffset(path, offset);
 }
 
 GameAddress GameAddress::FromOffset(
-    const std::filesystem::path& library_path,
+    const wchar_t* path,
     std::ptrdiff_t offset
 ) {
-  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(path);
 
   return GameAddress(game_library.base_address() + offset);
 }
@@ -137,17 +136,16 @@ GameAddress GameAddress::FromOrdinal(
     d2::DefaultLibrary library,
     std::int16_t ordinal
 ) {
-  const std::filesystem::path& game_library_path =
-      ::d2::default_library::GetPathWithRedirect(library);
+  const wchar_t* path = ::d2::default_library::GetPathWithRedirect(library);
 
-  return FromOrdinal(game_library_path, ordinal);
+  return FromOrdinal(path, ordinal);
 }
 
 GameAddress GameAddress::FromOrdinal(
-    const std::filesystem::path& library_path,
+    const wchar_t* path,
     std::int16_t ordinal
 ) {
-  const GameLibrary& game_library = GameLibrary::GetGameLibrary(library_path);
+  const GameLibrary& game_library = GameLibrary::GetGameLibrary(path);
 
   FARPROC func_address = GetProcAddress(
       reinterpret_cast<HMODULE>(game_library.base_address()),
@@ -164,7 +162,7 @@ GameAddress GameAddress::FromOrdinal(
         L"GetProcAddress",
         GetLastError(),
         ordinal,
-        library_path.c_str()
+        path
     );
 
     return GameAddress(0);
