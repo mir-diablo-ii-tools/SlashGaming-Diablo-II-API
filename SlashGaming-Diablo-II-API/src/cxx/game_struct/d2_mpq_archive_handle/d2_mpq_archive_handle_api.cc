@@ -56,7 +56,7 @@ MpqArchiveHandle_Api::MpqArchiveHandle_Api() :
 }
 
 MpqArchiveHandle_Api::MpqArchiveHandle_Api(
-    std::string_view mpq_archive_path,
+    const char* mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     int priority
 ) : MpqArchiveHandle_Api(
@@ -68,7 +68,7 @@ MpqArchiveHandle_Api::MpqArchiveHandle_Api(
 }
 
 MpqArchiveHandle_Api::MpqArchiveHandle_Api(
-    std::string_view mpq_archive_path,
+    const char* mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
@@ -128,7 +128,7 @@ bool MpqArchiveHandle_Api::IsOpen() const {
 }
 
 void MpqArchiveHandle_Api::Open(
-    std::string_view mpq_archive_path,
+    const char* mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     int priority
 ) {
@@ -141,7 +141,7 @@ void MpqArchiveHandle_Api::Open(
 }
 
 void MpqArchiveHandle_Api::Open(
-    std::string_view mpq_archive_path,
+    const char* mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
@@ -159,13 +159,13 @@ void MpqArchiveHandle_Api::Open(
 }
 
 MpqArchiveHandle_Api::ApiVariant MpqArchiveHandle_Api::CreateVariant(
-    std::string_view mpq_archive_path,
+    const char* mpq_archive_path,
     bool is_set_error_on_drive_query_fail,
     void* (*on_fail_callback)(),
     int priority
 ) {
   MpqArchiveHandle* mpq_archive_handle = d2win::LoadMpq(
-      mpq_archive_path.data(),
+      mpq_archive_path,
       is_set_error_on_drive_query_fail,
       on_fail_callback,
       priority
