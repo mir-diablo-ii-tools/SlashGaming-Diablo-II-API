@@ -48,7 +48,9 @@
 #include <windows.h>
 
 #include <cstddef>
+#include <array>
 #include <string_view>
+#include <utility>
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
@@ -83,19 +85,31 @@ static VideoMode_1_00 GetVideoModeFromRegValue_1_00(DWORD reg_value) {
 }
 
 static VideoMode_1_00 GetCommandLineVideoMode() {
-  VideoMode_1_00 video_mode = VideoMode_1_00::kDirectDraw;
+  struct VideoModeTableEntry {
+    ::std::wstring_view command_line_option;
+    VideoMode_1_00 video_mode;
+  };
+
+  using VideoModeTable = ::std::array<VideoModeTableEntry, 3>;
+
+  // The order of the elements in this array matter! For example,
+  // -3dfx has priority than -d3d.
+  static constexpr const VideoModeTable kVideoModeTable({
+      { L"-3dfx", VideoMode_1_00::kGlide },
+      { L"-w", VideoMode_1_00::kGdi },
+      { L"-d3d", VideoMode_1_00::kDirect3D },
+  });
 
   ::std::wstring_view command_line = GetCommandLineW();
 
-  if (command_line.find(L"-3dfx") != ::std::wstring_view::npos) {
-    video_mode = VideoMode_1_00::kGlide;
-  } else if (command_line.find(L"-w") != ::std::wstring_view::npos) {
-    video_mode = VideoMode_1_00::kGdi;
-  } else if (command_line.find(L"-d3d") != ::std::wstring_view::npos) {
-    video_mode = VideoMode_1_00::kDirect3D;
+  for (const auto& video_mode_table_entry : kVideoModeTable) {
+    if (command_line.find(video_mode_table_entry.command_line_option) != 
+        ::std::wstring_view::npos) {
+      return video_mode_table_entry.video_mode;
+    }
   }
 
-  return video_mode;
+  return VideoMode_1_00::kDirectDraw;
 }
 
 static VideoMode_1_00 GetRegistryVideoMode() {
@@ -143,9 +157,6 @@ static VideoMode_1_00 GetRegistryVideoMode() {
 } // namespace
 
 VideoMode DetermineVideoMode() {
-  ::std::wstring_view executable_raw_path =
-      ::mapi::game_executable::GetPath();
-
   if (::mapi::game_executable::IsD2se()) {
     static VideoMode d2se_video_mode = ::mapi::d2se_ini::GetVideoMode();
     return d2se_video_mode;
