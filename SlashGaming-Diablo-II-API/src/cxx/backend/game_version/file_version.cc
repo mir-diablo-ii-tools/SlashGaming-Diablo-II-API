@@ -133,25 +133,20 @@ static_assert(
 
 } // namespace
 
-d2::GameVersion FileVersion::GuessGameVersion(
-    std::wstring_view raw_path
-) {
-  FileVersion file_version = ReadFileVersion(raw_path);
+d2::GameVersion FileVersion::GuessGameVersion(const wchar_t* path) {
+  FileVersion file_version = ReadFileVersion(path);
 
   return SearchTable(file_version);
 }
 
-FileVersion FileVersion::ReadFileVersion(
-    std::wstring_view raw_path
-) {
+FileVersion FileVersion::ReadFileVersion(const wchar_t* path) {
   // All the code for this function originated from StackOverflow user
   // crashmstr. Some parts were refactored for clarity.
-  const wchar_t* file_path_text_cstr = raw_path.data();
 
   // Check version size.
   DWORD ignored;
   DWORD file_version_info_size = GetFileVersionInfoSizeW(
-      file_path_text_cstr,
+      path,
       &ignored
   );
 
@@ -169,8 +164,8 @@ FileVersion FileVersion::ReadFileVersion(
   // Get the file version info.
   auto file_version_info = std::make_unique<wchar_t[]>(file_version_info_size);
   BOOL is_get_file_version_info_success = GetFileVersionInfoW(
-      file_path_text_cstr,
-      ignored,
+      path,
+      ignored = 0,
       file_version_info_size,
       file_version_info.get()
   );
@@ -220,9 +215,7 @@ FileVersion FileVersion::ReadFileVersion(
   );
 }
 
-d2::GameVersion FileVersion::SearchTable(
-    const FileVersion& file_version
-) {
+d2::GameVersion FileVersion::SearchTable(const FileVersion& file_version) {
   std::pair search_range = std::equal_range(
       kFileVersionSortedTable.cbegin(),
       kFileVersionSortedTable.cend(),

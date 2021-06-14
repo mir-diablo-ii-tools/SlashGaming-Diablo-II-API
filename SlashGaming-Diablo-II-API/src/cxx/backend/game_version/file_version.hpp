@@ -49,6 +49,7 @@
 #include <windows.h>
 
 #include <compare>
+#include <tuple>
 
 #include "../../../../include/cxx/game_version.hpp"
 
@@ -112,9 +113,7 @@ class FileVersion {
       const FileVersion& rhs
   ) = default;
 
-  static d2::GameVersion GuessGameVersion(
-      std::wstring_view raw_path
-  );
+  static d2::GameVersion GuessGameVersion(const wchar_t* raw_path);
 
   constexpr const VersionType& version() const noexcept {
     return this->version_;
@@ -123,13 +122,9 @@ class FileVersion {
  private:
   VersionType version_;
 
-  static FileVersion ReadFileVersion(
-      std::wstring_view raw_path
-  );
+  static FileVersion ReadFileVersion(const wchar_t* path);
 
-  static d2::GameVersion SearchTable(
-      const FileVersion& file_version
-  );
+  static d2::GameVersion SearchTable(const FileVersion& file_version);
 };
 
 } // namespace mapi::intern
