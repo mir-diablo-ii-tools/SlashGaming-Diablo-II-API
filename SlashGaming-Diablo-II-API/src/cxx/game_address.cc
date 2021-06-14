@@ -46,6 +46,7 @@
 #include "../../include/cxx/game_address.hpp"
 
 #include <windows.h>
+
 #include <cstdint>
 #include <array>
 
