@@ -45,10 +45,10 @@
 
 #include "game_address_table.hpp"
 
+#include <cstddef>
 #include <algorithm>
 #include <array>
 #include <string>
-#include <string_view>
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
@@ -57,6 +57,10 @@
 
 namespace mapi {
 namespace {
+
+static constexpr std::size_t kAddressNameWideCapacity = 1024;
+
+static ::std::array<wchar_t, kAddressNameWideCapacity> address_name_wide;
 
 static const GameAddressTable& GetGameAddressTable() {
   static GameAddressTable game_address_table = LoadGameAddressTable();
@@ -67,8 +71,8 @@ static const GameAddressTable& GetGameAddressTable() {
 } // namespace
 
 GameAddress LoadGameAddress(
-    d2::DefaultLibrary library,
-    std::string_view address_name
+    ::d2::DefaultLibrary library,
+    const char* address_name
 ) {
   const GameAddressTable& game_address_table = GetGameAddressTable();
 
@@ -76,20 +80,16 @@ GameAddress LoadGameAddress(
   std::size_t table_count = game_address_table.second;
 
   ::std::pair search_range = ::std::equal_range(
-      table,
+      &table[0],
       &table[table_count],
-      ::std::tuple(library, address_name),
+      ::std::make_tuple(library, address_name),
       GameAddressTableEntryCompareKey()
   );
 
   if (search_range.first == &table[table_count]
       || search_range.first == search_range.second) {
-    static constexpr std::size_t kAddressNameWideCapacity = 1024;
-
-    static ::std::array<wchar_t, kAddressNameWideCapacity> address_name_wide;
-
     std::size_t address_name_wide_length = ::mdc::wide::DecodeAsciiLength(
-        address_name.data()
+        address_name
     );
 
     const wchar_t* address_name_wide_ptr;
@@ -99,7 +99,7 @@ GameAddress LoadGameAddress(
     } else {
       address_name_wide_ptr = ::mdc::wide::DecodeAscii(
           address_name_wide.data(),
-          address_name.data()
+          address_name
       );
     }
 

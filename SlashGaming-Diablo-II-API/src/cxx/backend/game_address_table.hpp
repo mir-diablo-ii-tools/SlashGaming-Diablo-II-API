@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_
 #define SGD2MAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_HPP_
 
-#include <string_view>
-
 #include "../../../include/cxx/default_game_library.hpp"
 #include "../../../include/cxx/game_address.hpp"
 
@@ -55,7 +53,7 @@ namespace mapi {
 
 GameAddress LoadGameAddress(
     ::d2::DefaultLibrary library,
-    std::string_view address_name
+    const char* address_name
 );
 
 } // namespace mapi
