@@ -47,9 +47,9 @@
 #define SGMAPI_CXX_BACKEND_GAME_ADDRESS_TABLE_GAME_ADDRESS_TABLE_IMPL_HPP_
 
 #include <string_view>
+#include <tuple>
 #include <utility>
 #include <variant>
-#include <tuple>
 
 #include "../../../../include/cxx/default_game_library.hpp"
 #include "game_address_locator/game_address_locator.hpp"
