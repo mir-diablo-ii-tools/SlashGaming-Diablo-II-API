@@ -47,8 +47,6 @@
 
 #include <windows.h>
 #include <cstdint>
-#include <string>
-#include <string_view>
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
@@ -61,8 +59,7 @@ namespace d2::game_version {
 namespace {
 
 static GameVersion DetermineRunningGameVersion() {
-  ::std::wstring_view executable_raw_path =
-      mapi::game_executable::GetPath();
+  const wchar_t* game_executable_path = mapi::game_executable::GetPath();
 
   // Check if running on D2SE. If so, use D2SE_SETUP.ini entries.
   if (mapi::game_executable::IsD2se()) {
@@ -72,7 +69,7 @@ static GameVersion DetermineRunningGameVersion() {
   // Guess the game version from the executable's file version.
   GameVersion guess_game_version =
       mapi::intern::FileVersion::GuessGameVersion(
-          executable_raw_path
+          game_executable_path
       );
 
   // Validate the game version guess by checking the bytes of game
@@ -92,7 +89,11 @@ static GameVersion DetermineRunningGameVersion() {
 
 } // namespace
 
-std::u8string_view GetName(GameVersion game_version) {
+const char* GetName(GameVersion game_version) {
+  return reinterpret_cast<const char*>(GetNameUtf8(game_version));
+}
+
+const char8_t* GetNameUtf8(GameVersion game_version) {
   switch (game_version) {
     case GameVersion::k1_00: {
       return u8"1.00";
@@ -241,8 +242,12 @@ GameVersion GetRunning() {
   return running_game_version_id;
 }
 
-std::u8string_view GetRunningName() {
-  static std::u8string_view running_game_version_name = GetName(
+const char* GetRunningName() {
+  return reinterpret_cast<const char*>(GetRunningNameUtf8());
+}
+
+const char8_t* GetRunningNameUtf8() {
+  static const char8_t* running_game_version_name = GetNameUtf8(
       ::d2::game_version::GetRunning()
   );
   return running_game_version_name;
