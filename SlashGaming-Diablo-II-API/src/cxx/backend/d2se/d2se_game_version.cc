@@ -145,9 +145,10 @@ static ::d2::GameVersion SearchTable(
       || search_range.first == search_range.second) {
     ::mdc::error::ExitOnGeneralError(
         L"Error",
-        L"Unknown D2SE.ini Diablo II version string %s.",
+        L"Unknown D2SE.ini Diablo II version string %.*ls.",
         __FILEW__,
         __LINE__,
+        version_str.length(),
         version_str.data()
     );
 
