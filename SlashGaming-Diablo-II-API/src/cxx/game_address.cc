@@ -46,6 +46,7 @@
 #include "../../include/cxx/game_address.hpp"
 
 #include <windows.h>
+
 #include <cstdint>
 #include <array>
 
@@ -67,7 +68,7 @@ GameAddress GameAddress::FromExportedName(
 
 GameAddress GameAddress::FromExportedName(
     const wchar_t* path,
-    ::std::string_view exported_name
+    const char* exported_name
 ) {
   static constexpr std::size_t kExportedNameWideCapacity = 1024;
 
@@ -77,12 +78,12 @@ GameAddress GameAddress::FromExportedName(
 
   FARPROC raw_address = GetProcAddress(
       reinterpret_cast<HMODULE>(game_library.base_address()),
-      exported_name.data()
+      exported_name
   );
 
   if (raw_address == nullptr) {
     std::size_t exported_name_wide_length = ::mdc::wide::DecodeAsciiLength(
-        exported_name.data()
+        exported_name
     );
 
     const wchar_t* exported_name_wide_ptr;
@@ -92,7 +93,7 @@ GameAddress GameAddress::FromExportedName(
     } else {
       exported_name_wide_ptr = ::mdc::wide::DecodeAscii(
           exported_name_wide.data(),
-          exported_name.data()
+          exported_name
       );
     }
 

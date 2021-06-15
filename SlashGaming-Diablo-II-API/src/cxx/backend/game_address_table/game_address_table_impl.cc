@@ -47,7 +47,6 @@
 
 #include <algorithm>
 #include <array>
-#include <string_view>
 
 #include "../../../../include/cxx/game_version.hpp"
 #include "game_address_locator/game_address_locator.hpp"

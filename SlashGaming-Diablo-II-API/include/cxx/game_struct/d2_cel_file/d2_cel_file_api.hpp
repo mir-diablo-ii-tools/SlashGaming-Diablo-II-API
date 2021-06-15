@@ -46,7 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_API_HPP_
 #define SGD2MAPI_CXX_GAME_STRUCT_D2_CEL_FILE_D2_CEL_FILE_API_HPP_
 
-#include <string_view>
 #include <variant>
 
 #include "../../helper/d2_draw_options.hpp"
@@ -66,7 +65,7 @@ class DLLEXPORT CelFile_Api {
   CelFile_Api();
 
   CelFile_Api(
-      ::std::string_view cel_file_path,
+      const char* cel_file_path,
       bool is_dcc_else_dc6
   );
 
@@ -119,7 +118,7 @@ class DLLEXPORT CelFile_Api {
   bool IsOpen() const;
 
   void Open(
-    std::string_view cel_file_path,
+    const char* cel_file_path,
     bool is_dcc_else_dc6
   );
 
@@ -146,7 +145,7 @@ class DLLEXPORT CelFile_Api {
   bool is_open_;
 
   static ApiVariant CreateVariant(
-      std::string_view cel_file_path,
+      const char* cel_file_path,
       bool is_dcc_else_dc6
   );
 

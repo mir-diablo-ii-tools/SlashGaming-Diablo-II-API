@@ -56,7 +56,7 @@ CelFile_Api::CelFile_Api() :
 }
 
 CelFile_Api::CelFile_Api(
-    std::string_view cel_file_path,
+    const char* cel_file_path,
     bool is_dcc_else_dc6
 ) : cel_file_(nullptr),
     is_open_(false) {
@@ -192,7 +192,7 @@ bool CelFile_Api::IsOpen() const {
 }
 
 void CelFile_Api::Open(
-    std::string_view cel_file_path,
+    const char* cel_file_path,
     bool is_dcc_else_dc6
 ) {
   this->Close();
@@ -206,11 +206,11 @@ void CelFile_Api::Open(
 }
 
 CelFile_Api::ApiVariant CelFile_Api::CreateVariant(
-    std::string_view cel_file_path,
+    const char* cel_file_path,
     bool is_dcc_else_dc6
 ) {
   CelFile* cel_file = d2win::LoadCelFile(
-      cel_file_path.data(),
+      cel_file_path,
       is_dcc_else_dc6
   );
 

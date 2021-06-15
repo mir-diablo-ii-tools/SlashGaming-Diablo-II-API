@@ -46,15 +46,12 @@
 #ifndef SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
 #define SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
 
-#include <cstddef>
-#include <string_view>
-
 #include "../../../../include/cxx/game_constant/d2_video_mode.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace mapi::d2se_ini {
 
-constexpr ::std::wstring_view kFileName = L"./D2SE_SETUP.ini";
+constexpr const wchar_t* kFileName = L"./D2SE_SETUP.ini";
 
 ::d2::GameVersion GetGameVersion();
 

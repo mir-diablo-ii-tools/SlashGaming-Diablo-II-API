@@ -68,7 +68,7 @@ namespace mapi::d2se_ini {
       L"",
       version_c_str.data(),
       kVersionStringCapacity,
-      kFileName.data()
+      kFileName
   );
 
   if (get_private_profile_string_result == kVersionStringCapacity - 1) {
@@ -91,7 +91,7 @@ namespace mapi::d2se_ini {
       L"USERSETTINGS",
       L"Renderer",
       -1,
-      kFileName.data()
+      kFileName
   );
 
   switch (renderer_value) {
@@ -100,7 +100,7 @@ namespace mapi::d2se_ini {
           L"USERSETTINGS",
           L"WindowMode",
           -1,
-          kFileName.data()
+          kFileName
       );
 
       return (window_mode_value == 1)

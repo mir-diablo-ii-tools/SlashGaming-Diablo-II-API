@@ -46,8 +46,6 @@
 #ifndef SGD2MAPI_CXX_GAME_VERSION_HPP_
 #define SGD2MAPI_CXX_GAME_VERSION_HPP_
 
-#include <string_view>
-
 #include "../dllexport_define.inc"
 
 namespace d2 {
@@ -69,10 +67,16 @@ enum class GameVersion {
 namespace game_version {
 
 /**
- * Returns a view to the UTF-8 encoded string associated with the specified
- * game version.
+ * Returns the UTF-8 encoded null-terminated string associated with
+ * the specified game version.
  */
-DLLEXPORT std::u8string_view GetName(GameVersion game_version);
+DLLEXPORT const char* GetName(GameVersion game_version);
+
+/**
+ * Returns the UTF-8 encoded null-terminated string associated with
+ * the specified game version.
+ */
+DLLEXPORT const char8_t* GetNameUtf8(GameVersion game_version);
 
 /**
  * Returns the identifier of the running game version.
@@ -80,10 +84,16 @@ DLLEXPORT std::u8string_view GetName(GameVersion game_version);
 DLLEXPORT GameVersion GetRunning();
 
 /**
- * Returns a view to the UTF-8 encoded string associated with the running game
- * version.
+ * Returns the UTF-8 encoded null-terminated string associated with the
+ * running game version.
  */
-DLLEXPORT std::u8string_view GetRunningName();
+DLLEXPORT const char* GetRunningName();
+
+/**
+ * Returns the UTF-8 encoded null-terminated string associated with the
+ * running game version.
+ */
+DLLEXPORT const char8_t* GetRunningNameUtf8();
 
 /**
  * Returns whether the specified game version is at least 1.14.

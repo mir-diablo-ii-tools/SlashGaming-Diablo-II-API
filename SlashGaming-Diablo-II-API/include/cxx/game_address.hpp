@@ -48,7 +48,7 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <string_view>
+#include <utility>
 
 #include "default_game_library.hpp"
 
@@ -84,7 +84,7 @@ class DLLEXPORT GameAddress {
    */
   static GameAddress FromExportedName(
       const wchar_t* path,
-      ::std::string_view exported_name
+      const char* exported_name
   );
 
   /**

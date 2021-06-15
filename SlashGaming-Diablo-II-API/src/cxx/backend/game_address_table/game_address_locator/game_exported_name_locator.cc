@@ -50,7 +50,7 @@ namespace mapi {
 GameAddress GameExportedNameLocator::LocateGameAddress() const noexcept {
   return GameAddress::FromExportedName(
       this->library(),
-      this->exported_name().data()
+      this->exported_name()
   );
 }
 
