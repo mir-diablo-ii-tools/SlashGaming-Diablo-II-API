@@ -50,6 +50,9 @@
 #include <memory>
 #include <string>
 
+#include <mdc/wchar_t/filew.h>
+#include <mdc/error/exit_on_error.hpp>
+#include "../../include/cxx/file/file_version_info.hpp"
 #include "backend/d2se/d2se_file_signature.hpp"
 
 namespace mapi::game_executable {
@@ -72,6 +75,12 @@ static ::std::wstring InitGameExecutablePath() {
   return path_buffer.get();
 }
 
+static const FileVersionInfo& GetGameExecutableFileVersionInfo() {
+  static FileVersionInfo file_version_info(GetPath());
+
+  return file_version_info;
+}
+
 } // namespace
 
 const wchar_t* GetPath() {
@@ -86,6 +95,32 @@ bool IsD2se() {
   );
 
   return is_d2se;
+}
+
+const wchar_t* QueryFileVersionInfoString(
+    const wchar_t* sub_block
+) {
+  const ::mapi::FileVersionInfo& file_version_info =
+      GetGameExecutableFileVersionInfo();
+
+  return file_version_info.QueryFileVersionInfoString(sub_block);
+}
+
+const DWORD* QueryFileVersionInfoVar(
+    const wchar_t* sub_block,
+    ::std::size_t* count
+) {
+  const ::mapi::FileVersionInfo& file_version_info =
+      GetGameExecutableFileVersionInfo();
+
+  return file_version_info.QueryFileVersionInfoVar(sub_block, count);
+}
+
+const VS_FIXEDFILEINFO& QueryFixedFileInfo() {
+  const ::mapi::FileVersionInfo& file_version_info =
+      GetGameExecutableFileVersionInfo();
+
+  return file_version_info.QueryFixedFileInfo();
 }
 
 } // namespace mapi::game_executable

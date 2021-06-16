@@ -46,6 +46,10 @@
 #ifndef SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
 #define SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
 
+#include <windows.h>
+
+#include <cstddef>
+
 #include "../dllexport_define.inc"
 
 namespace mapi::game_executable {
@@ -59,6 +63,17 @@ DLLEXPORT const wchar_t* GetPath();
  * Returns whether the currently running executable is D2SE.
  */
 DLLEXPORT bool IsD2se();
+
+DLLEXPORT const wchar_t* QueryFileVersionInfoString(
+    const wchar_t* sub_block
+);
+
+DLLEXPORT const DWORD* QueryFileVersionInfoVar(
+    const wchar_t* sub_block,
+    ::std::size_t* count
+);
+
+DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfo();
 
 } // namespace mapi::game_executable
 
