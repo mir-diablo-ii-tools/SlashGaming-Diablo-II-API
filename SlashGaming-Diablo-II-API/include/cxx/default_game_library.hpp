@@ -46,6 +46,10 @@
 #ifndef SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 #define SGD2MAPI_CXX_DEFAULT_GAME_LIBRARY_HPP_
 
+#include <cstddef>
+
+#include <windows.h>
+
 #include "../dllexport_define.inc"
 
 namespace d2 {
@@ -71,6 +75,19 @@ DLLEXPORT const wchar_t* GetPathWithoutRedirect(DefaultLibrary library);
  * path if an implementation-defined condition is satisfied.
  */
 DLLEXPORT const wchar_t* GetPathWithRedirect(DefaultLibrary library);
+
+DLLEXPORT const wchar_t* QueryFileVersionInfoString(
+    DefaultLibrary library,
+    const wchar_t* sub_block
+);
+
+DLLEXPORT const DWORD* QueryFileVersionInfoVar(
+    DefaultLibrary library,
+    const wchar_t* sub_block,
+    ::std::size_t* count
+);
+
+DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfo(DefaultLibrary library);
 
 } // namespace default_library
 

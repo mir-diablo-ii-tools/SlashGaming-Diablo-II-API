@@ -45,13 +45,56 @@
 
 #include "../../include/cxx/default_game_library.hpp"
 
+#include <cstddef>
+#include <array>
+
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
+#include "../../include/cxx/file/file_version_info.hpp"
 #include "../../include/cxx/game_executable.hpp"
 #include "../../include/cxx/game_version.hpp"
 
 namespace d2 {
 namespace default_library {
+namespace {
+
+// DefaultLibrary enumerations are sequential, which is required for
+// the array lookup to work. If this assumption is violated (which is
+// unlikely for the foreseeable future), then a different approach
+// will be required.
+
+static constexpr ::std::size_t kFileVersionInfoTableCount =
+    static_cast<::std::size_t>(DefaultLibrary::kStorm) + 1;
+
+using FileVersionInfoTable = ::std::array<
+    ::mapi::FileVersionInfo,
+    kFileVersionInfoTableCount
+>;
+
+using FileVersionInfoInitTable = ::std::array<
+    bool,
+    kFileVersionInfoTableCount
+>;
+
+static FileVersionInfoTable file_version_info_table;
+static FileVersionInfoInitTable file_version_info_init_table({ 0 });
+
+static const ::mapi::FileVersionInfo& GetLibraryFileVersionInfo(
+    DefaultLibrary library
+) {
+  ::std::size_t table_index = static_cast<::std::size_t>(library);
+
+  if (!file_version_info_init_table[table_index]) {
+    const wchar_t* library_path = GetPathWithoutRedirect(library);
+
+    file_version_info_table[table_index].ReadFile(library_path);
+    file_version_info_init_table[table_index] = true;
+  }
+
+  return file_version_info_table[table_index];
+}
+
+} // namespace
 
 const wchar_t* GetPathWithoutRedirect(
     DefaultLibrary library
@@ -158,6 +201,34 @@ const wchar_t* GetPathWithRedirect(
   }
 
   return GetPathWithoutRedirect(library);
+}
+
+const wchar_t* QueryFileVersionInfoString(
+    DefaultLibrary library,
+    const wchar_t* sub_block
+) {
+  const ::mapi::FileVersionInfo& file_version_info =
+      GetLibraryFileVersionInfo(library);
+
+  return file_version_info.QueryFileVersionInfoString(sub_block);
+}
+
+const DWORD* QueryFileVersionInfoVar(
+    DefaultLibrary library,
+    const wchar_t* sub_block,
+    ::std::size_t* count
+) {
+  const ::mapi::FileVersionInfo& file_version_info =
+      GetLibraryFileVersionInfo(library);
+
+  return file_version_info.QueryFileVersionInfoVar(sub_block, count);
+}
+
+const VS_FIXEDFILEINFO& QueryFixedFileInfo(DefaultLibrary library) {
+  const ::mapi::FileVersionInfo& file_version_info =
+      GetLibraryFileVersionInfo(library);
+
+  return file_version_info.QueryFixedFileInfo();
 }
 
 } // namespace default_library
