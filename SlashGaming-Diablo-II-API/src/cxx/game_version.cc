@@ -52,7 +52,7 @@
 #include <mdc/wchar_t/filew.h>
 #include "../../include/cxx/game_executable.hpp"
 #include "backend/d2se/d2se_ini.hpp"
-#include "backend/game_version/file_version.hpp"
+#include "backend/game_version/game_version_file_version.hpp"
 #include "backend/game_version/game_version_file_signature.hpp"
 
 namespace d2::game_version {
@@ -67,10 +67,7 @@ static GameVersion DetermineRunningGameVersion() {
   }
 
   // Guess the game version from the executable's file version.
-  GameVersion guess_game_version =
-      mapi::intern::FileVersion::GuessGameVersion(
-          game_executable_path
-      );
+  GameVersion guess_game_version = intern::GuessGameVersion();
 
   // Validate the game version guess by checking the bytes of game
   // libraries.
