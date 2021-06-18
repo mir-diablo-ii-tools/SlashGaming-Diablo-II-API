@@ -76,18 +76,35 @@ DLLEXPORT const wchar_t* GetPathWithoutRedirect(DefaultLibrary library);
  */
 DLLEXPORT const wchar_t* GetPathWithRedirect(DefaultLibrary library);
 
-DLLEXPORT const wchar_t* QueryFileVersionInfoString(
+DLLEXPORT const wchar_t* QueryFileVersionInfoStringWithRedirect(
     DefaultLibrary library,
     const wchar_t* sub_block
 );
 
-DLLEXPORT const DWORD* QueryFileVersionInfoVar(
+DLLEXPORT const wchar_t* QueryFileVersionInfoStringWithoutRedirect(
+    DefaultLibrary library,
+    const wchar_t* sub_block
+);
+
+DLLEXPORT const DWORD* QueryFileVersionInfoVarWithRedirect(
     DefaultLibrary library,
     const wchar_t* sub_block,
     ::std::size_t* count
 );
 
-DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfo(DefaultLibrary library);
+DLLEXPORT const DWORD* QueryFileVersionInfoVarWithoutRedirect(
+    DefaultLibrary library,
+    const wchar_t* sub_block,
+    ::std::size_t* count
+);
+
+DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfoWithRedirect(
+    DefaultLibrary library
+);
+
+DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfoWithoutRedirect(
+    DefaultLibrary library
+);
 
 } // namespace default_library
 

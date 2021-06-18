@@ -203,7 +203,18 @@ const wchar_t* GetPathWithRedirect(
   return GetPathWithoutRedirect(library);
 }
 
-const wchar_t* QueryFileVersionInfoString(
+const wchar_t* QueryFileVersionInfoStringWithRedirect(
+    DefaultLibrary library,
+    const wchar_t* sub_block
+) {
+  if (game_version::IsRunningAtLeast1_14()) {
+    return ::mapi::game_executable::QueryFileVersionInfoString(sub_block);
+  }
+
+  return QueryFileVersionInfoStringWithoutRedirect(library, sub_block);
+}
+
+const wchar_t* QueryFileVersionInfoStringWithoutRedirect(
     DefaultLibrary library,
     const wchar_t* sub_block
 ) {
@@ -213,7 +224,19 @@ const wchar_t* QueryFileVersionInfoString(
   return file_version_info.QueryFileVersionInfoString(sub_block);
 }
 
-const DWORD* QueryFileVersionInfoVar(
+const DWORD* QueryFileVersionInfoVarWithRedirect(
+    DefaultLibrary library,
+    const wchar_t* sub_block,
+    ::std::size_t* count
+) {
+  if (game_version::IsRunningAtLeast1_14()) {
+    return ::mapi::game_executable::QueryFileVersionInfoVar(sub_block, count);
+  }
+
+  return QueryFileVersionInfoVarWithoutRedirect(library, sub_block, count);
+}
+
+const DWORD* QueryFileVersionInfoVarWithoutRedirect(
     DefaultLibrary library,
     const wchar_t* sub_block,
     ::std::size_t* count
@@ -224,7 +247,19 @@ const DWORD* QueryFileVersionInfoVar(
   return file_version_info.QueryFileVersionInfoVar(sub_block, count);
 }
 
-const VS_FIXEDFILEINFO& QueryFixedFileInfo(DefaultLibrary library) {
+const VS_FIXEDFILEINFO& QueryFixedFileInfoWithRedirect(
+    DefaultLibrary library
+) {
+  if (game_version::IsRunningAtLeast1_14()) {
+    return ::mapi::game_executable::QueryFixedFileInfo();
+  }
+
+  return QueryFixedFileInfoWithoutRedirect(library);
+}
+
+const VS_FIXEDFILEINFO& QueryFixedFileInfoWithoutRedirect(
+    DefaultLibrary library
+) {
   const ::mapi::FileVersionInfo& file_version_info =
       GetLibraryFileVersionInfo(library);
 
