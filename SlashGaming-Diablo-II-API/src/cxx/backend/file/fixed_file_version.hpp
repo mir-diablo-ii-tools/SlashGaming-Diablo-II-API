@@ -48,6 +48,8 @@
 
 #include <windows.h>
 
+#include <climits>
+#include <cstdint>
 #include <compare>
 
 namespace mapi {
@@ -74,6 +76,18 @@ struct FixedFileVersion {
       const FixedFileVersion& fixed_file_version1,
       const FixedFileVersion& fixed_file_version2
   ) noexcept = default;
+
+  constexpr ::std::uint_least64_t ToValue() const noexcept {
+    ::std::uint_least64_t major_high_64 = this->major_high & 0xFFFF;
+    ::std::uint_least64_t major_low_64 = this->major_low & 0xFFFF;
+    ::std::uint_least64_t minor_high_64 = this->minor_high & 0xFFFF;
+    ::std::uint_least64_t minor_low_64 = this->minor_low & 0xFFFF;
+
+    return (major_high_64 << (sizeof(WORD) * CHAR_BIT * 3))
+        | (major_low_64 << (sizeof(WORD) * CHAR_BIT * 2))
+        | (minor_high_64 << (sizeof(WORD) * CHAR_BIT * 1))
+        | minor_low_64;
+  }
 };
 
 } // namespace mapi
