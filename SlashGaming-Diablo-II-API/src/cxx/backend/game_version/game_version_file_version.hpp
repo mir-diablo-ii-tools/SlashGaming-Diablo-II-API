@@ -43,39 +43,15 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
-#define SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+#ifndef SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_VERSION_HPP_
+#define SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_VERSION_HPP_
 
-#include <windows.h>
+#include "../../../../include/cxx/game_version.hpp"
 
-#include <cstddef>
+namespace d2::intern::file_version {
 
-#include "../dllexport_define.inc"
+GameVersion GuessGameVersion();
 
-namespace mapi::game_executable {
+} // namespace d2::intern::file_version
 
-/**
- * Returns the executable used to run the game.
- */
-DLLEXPORT const wchar_t* GetPath();
-
-/**
- * Returns whether the currently running executable is D2SE.
- */
-DLLEXPORT bool IsD2se();
-
-DLLEXPORT const wchar_t* QueryFileVersionInfoString(
-    const wchar_t* sub_block
-);
-
-DLLEXPORT const DWORD* QueryFileVersionInfoVar(
-    const wchar_t* sub_block,
-    ::std::size_t* count
-);
-
-DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfo();
-
-} // namespace mapi::game_executable
-
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+#endif // SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_VERSION_HPP_

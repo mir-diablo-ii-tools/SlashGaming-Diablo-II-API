@@ -43,39 +43,53 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
-#define SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+#ifndef SGD2MAPI_CXX_BACKEND_FILE_FIXED_FILE_VERSION_HPP_
+#define SGD2MAPI_CXX_BACKEND_FILE_FIXED_FILE_VERSION_HPP_
 
 #include <windows.h>
 
-#include <cstddef>
+#include <climits>
+#include <cstdint>
+#include <compare>
 
-#include "../dllexport_define.inc"
+namespace mapi {
 
-namespace mapi::game_executable {
+struct FixedFileVersion {
+  WORD major_high;
+  WORD major_low;
+  WORD minor_high;
+  WORD minor_low;
 
-/**
- * Returns the executable used to run the game.
- */
-DLLEXPORT const wchar_t* GetPath();
+  constexpr FixedFileVersion(
+      WORD major_high,
+      WORD major_low,
+      WORD minor_high,
+      WORD minor_low
+  ) noexcept
+      : major_high(major_high),
+        major_low(major_low),
+        minor_high(minor_high),
+        minor_low(minor_low) {
+  }
 
-/**
- * Returns whether the currently running executable is D2SE.
- */
-DLLEXPORT bool IsD2se();
+  friend constexpr ::std::strong_ordering operator<=>(
+      const FixedFileVersion& fixed_file_version1,
+      const FixedFileVersion& fixed_file_version2
+  ) noexcept = default;
 
-DLLEXPORT const wchar_t* QueryFileVersionInfoString(
-    const wchar_t* sub_block
-);
+  constexpr ::std::uint_least64_t ToValue() const noexcept {
+    ::std::uint_least64_t major_high_64 = this->major_high & 0xFFFF;
+    ::std::uint_least64_t major_low_64 = this->major_low & 0xFFFF;
+    ::std::uint_least64_t minor_high_64 = this->minor_high & 0xFFFF;
+    ::std::uint_least64_t minor_low_64 = this->minor_low & 0xFFFF;
 
-DLLEXPORT const DWORD* QueryFileVersionInfoVar(
-    const wchar_t* sub_block,
-    ::std::size_t* count
-);
+    return (major_high_64 << (sizeof(WORD) * CHAR_BIT * 3))
+        | (major_low_64 << (sizeof(WORD) * CHAR_BIT * 2))
+        | (minor_high_64 << (sizeof(WORD) * CHAR_BIT * 1))
+        | minor_low_64;
+  }
+};
 
-DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfo();
+} // namespace mapi
 
-} // namespace mapi::game_executable
-
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+#endif // SGD2MAPI_CXX_BACKEND_FILE_FIXED_FILE_VERSION_HPP_

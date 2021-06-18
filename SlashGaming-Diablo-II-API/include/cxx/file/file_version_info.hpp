@@ -43,39 +43,52 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
-#define SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+#ifndef SGD2MAPI_CXX_FILE_FILE_VERSION_INFO_HPP_
+#define SGD2MAPI_CXX_FILE_FILE_VERSION_INFO_HPP_
 
 #include <windows.h>
 
 #include <cstddef>
+#include <memory>
 
-#include "../dllexport_define.inc"
+namespace mapi {
 
-namespace mapi::game_executable {
+class FileVersionInfo {
+ public:
+  constexpr FileVersionInfo()
+      : file_version_info_size_(0),
+        file_version_info_(nullptr) {
+  }
 
-/**
- * Returns the executable used to run the game.
- */
-DLLEXPORT const wchar_t* GetPath();
+  explicit FileVersionInfo(const wchar_t* path);
 
-/**
- * Returns whether the currently running executable is D2SE.
- */
-DLLEXPORT bool IsD2se();
+  void ReadFile(const wchar_t* path);
 
-DLLEXPORT const wchar_t* QueryFileVersionInfoString(
-    const wchar_t* sub_block
-);
+  const wchar_t* QueryFileVersionInfoString(
+      const wchar_t* sub_block
+  ) const;
 
-DLLEXPORT const DWORD* QueryFileVersionInfoVar(
-    const wchar_t* sub_block,
-    ::std::size_t* count
-);
+  const DWORD* QueryFileVersionInfoVar(
+      const wchar_t* sub_block,
+      ::std::size_t* count
+  ) const;
 
-DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfo();
+  const VS_FIXEDFILEINFO& QueryFixedFileInfo() const;
 
-} // namespace mapi::game_executable
+ private:
+  ::std::size_t file_version_info_size_;
+  ::std::unique_ptr<unsigned char[]> file_version_info_;
 
-#include "../dllexport_undefine.inc"
-#endif // SGD2MAPI_CXX_GAME_EXECUTABLE_HPP_
+  static ::std::size_t InitFileVersionInfoSize(
+      const wchar_t* path
+  );
+
+  static ::std::unique_ptr<unsigned char[]> InitFileVersionInfo(
+      const wchar_t* path,
+      ::std::size_t file_version_info_size
+  );
+};
+
+} // namespace mapi
+
+#endif // SGD2MAPI_CXX_FILE_FILE_VERSION_INFO_HPP_
