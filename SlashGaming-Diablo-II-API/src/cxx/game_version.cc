@@ -67,7 +67,7 @@ static GameVersion DetermineRunningGameVersion() {
   }
 
   // Guess the game version from the executable's file version.
-  GameVersion guess_game_version = intern::GuessGameVersion();
+  GameVersion guess_game_version = intern::file_version::GuessGameVersion();
 
   // Validate the game version guess by checking the bytes of game
   // libraries.

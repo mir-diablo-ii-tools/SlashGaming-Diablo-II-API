@@ -48,10 +48,10 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace d2::intern {
+namespace d2::intern::file_version {
 
 GameVersion GuessGameVersion();
 
-} // namespace d2::intern
+} // namespace d2::intern::file_version
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_VERSION_HPP_

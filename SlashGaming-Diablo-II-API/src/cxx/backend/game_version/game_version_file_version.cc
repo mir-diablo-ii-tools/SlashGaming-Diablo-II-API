@@ -52,7 +52,7 @@
 #include "../../../../include/cxx/game_executable.hpp"
 #include "../file/fixed_file_version.hpp"
 
-namespace d2::intern {
+namespace d2::intern::file_version {
 namespace {
 
 static GameVersion SearchTable(
@@ -202,4 +202,4 @@ GameVersion GuessGameVersion() {
   return SearchTable(fixed_file_version);
 }
 
-} // namespace d2::intern
+} // namespace d2::intern::file_version
