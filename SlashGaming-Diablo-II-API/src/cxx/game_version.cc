@@ -73,8 +73,8 @@ static GameVersion DetermineRunningGameVersion() {
   // libraries.
   GameVersion game_version;
 
-  if (mapi::game_version::file_signature::HasCheck(guess_game_version)) {
-    game_version = mapi::game_version::file_signature::GetGameVersion(
+  if (intern::file_signature::HasCheck(guess_game_version)) {
+    game_version = intern::file_signature::GuessGameVersion(
         IsAtLeast1_14(guess_game_version)
     );
   } else {

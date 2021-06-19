@@ -48,32 +48,28 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::game_version::file_signature {
+namespace d2::intern::file_signature {
 
-::d2::GameVersion GetGameVersion(
-    bool is_game_version_at_least_1_14
-);
+GameVersion GuessGameVersion(bool is_game_version_at_least_1_14);
 
-constexpr bool HasCheck(
-    ::d2::GameVersion game_version
-) {
+constexpr bool HasCheck(GameVersion game_version) {
   switch (game_version) {
-    case d2::GameVersion::kBeta1_02:
-    case d2::GameVersion::kBeta1_02StressTest:
-    case d2::GameVersion::k1_00:
-    case d2::GameVersion::k1_01:
-    case d2::GameVersion::k1_06:
-    case d2::GameVersion::k1_06B:
-    case d2::GameVersion::k1_07Beta:
-    case d2::GameVersion::k1_07:
-    case d2::GameVersion::kClassic1_14A:
-    case d2::GameVersion::kLod1_14A:
-    case d2::GameVersion::kClassic1_14B:
-    case d2::GameVersion::kLod1_14B:
-    case d2::GameVersion::kClassic1_14C:
-    case d2::GameVersion::kLod1_14C:
-    case d2::GameVersion::kClassic1_14D:
-    case d2::GameVersion::kLod1_14D: {
+    case GameVersion::kBeta1_02:
+    case GameVersion::kBeta1_02StressTest:
+    case GameVersion::k1_00:
+    case GameVersion::k1_01:
+    case GameVersion::k1_06:
+    case GameVersion::k1_06B:
+    case GameVersion::k1_07Beta:
+    case GameVersion::k1_07:
+    case GameVersion::kClassic1_14A:
+    case GameVersion::kLod1_14A:
+    case GameVersion::kClassic1_14B:
+    case GameVersion::kLod1_14B:
+    case GameVersion::kClassic1_14C:
+    case GameVersion::kLod1_14C:
+    case GameVersion::kClassic1_14D:
+    case GameVersion::kLod1_14D: {
       return true;
     }
 
@@ -83,6 +79,6 @@ constexpr bool HasCheck(
   }
 }
 
-} // namespace mapi::game_version::file_signature
+} // namespace d2::intern::file_signature
 
 #endif // SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_
