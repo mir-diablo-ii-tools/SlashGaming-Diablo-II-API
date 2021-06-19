@@ -43,21 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_SGD2MAPI_HPP_
-#define SGD2MAPI_SGD2MAPI_HPP_
+#ifndef SGMAPI_CXX_FILE_HPP_
+#define SGMAPI_CXX_FILE_HPP_
 
-#include "d2api_version.h"
-#include "cxx/default_game_library.hpp"
-#include "cxx/file.hpp"
-#include "cxx/game_address.hpp"
-#include "cxx/game_bool.hpp"
-#include "cxx/game_constant.hpp"
-#include "cxx/game_executable.hpp"
-#include "cxx/game_function.hpp"
-#include "cxx/game_patch.hpp"
-#include "cxx/game_struct.hpp"
-#include "cxx/game_variable.hpp"
-#include "cxx/game_version.hpp"
-#include "cxx/helper.hpp"
+#include "file/file_pe_signature.hpp"
+#include "file/file_version_info.hpp"
 
-#endif // SGD2MAPI_SGD2MAPI_HPP_
+#endif // SGMAPI_CXX_FILE_HPP_
