@@ -90,9 +90,10 @@ const wchar_t* GetPath() {
 }
 
 bool IsD2se() {
-  static bool is_d2se = d2se::file_signature::IsFileD2seExecutable(
-      GetPath()
-  );
+  static bool is_d2se =
+      ::d2::d2se::intern::file_signature::IsFileD2seExecutable(
+          GetPath()
+      );
 
   return is_d2se;
 }

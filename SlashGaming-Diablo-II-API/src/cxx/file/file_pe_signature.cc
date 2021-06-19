@@ -43,42 +43,4 @@
  *  work.
  */
 
-#ifndef SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_
-#define SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_
-
-#include "../../../../include/cxx/game_version.hpp"
-
-namespace d2::intern::file_signature {
-
-GameVersion GuessGameVersion(bool is_game_version_at_least_1_14);
-
-constexpr bool HasCheck(GameVersion game_version) {
-  switch (game_version) {
-    case GameVersion::kBeta1_02:
-    case GameVersion::kBeta1_02StressTest:
-    case GameVersion::k1_00:
-    case GameVersion::k1_01:
-    case GameVersion::k1_06:
-    case GameVersion::k1_06B:
-    case GameVersion::k1_07Beta:
-    case GameVersion::k1_07:
-    case GameVersion::kClassic1_14A:
-    case GameVersion::kLod1_14A:
-    case GameVersion::kClassic1_14B:
-    case GameVersion::kLod1_14B:
-    case GameVersion::kClassic1_14C:
-    case GameVersion::kLod1_14C:
-    case GameVersion::kClassic1_14D:
-    case GameVersion::kLod1_14D: {
-      return true;
-    }
-
-    default: {
-      return false;
-    }
-  }
-}
-
-} // namespace d2::intern::file_signature
-
-#endif // SGMAPI_CXX_BACKEND_GAME_VERSION_GAME_VERSION_FILE_SIGNATURE_HPP_
+#include "../../../include/cxx/file/file_pe_signature.hpp"

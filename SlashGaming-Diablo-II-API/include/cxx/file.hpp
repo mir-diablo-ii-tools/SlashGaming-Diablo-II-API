@@ -43,73 +43,10 @@
  *  work.
  */
 
-#ifndef SGD2MAPI_CXX_BACKEND_GAME_FILE_FILE_SIGNATURE_HPP_
-#define SGD2MAPI_CXX_BACKEND_GAME_FILE_FILE_SIGNATURE_HPP_
+#ifndef SGMAPI_CXX_FILE_HPP_
+#define SGMAPI_CXX_FILE_HPP_
 
-#include <cstddef>
-#include <cstdint>
-#include <array>
-#include <compare>
-#include <utility>
+#include "file/file_pe_signature.hpp"
+#include "file/file_version_info.hpp"
 
-namespace mapi {
-
-class FileSignature {
- public:
-  static constexpr ::std::size_t kSignatureSize = 64;
-
-  using SignatureType = ::std::array<::std::uint8_t, kSignatureSize>;
-
-  explicit constexpr FileSignature(
-      SignatureType signature
-  ) noexcept
-      : signature_(::std::move(signature)) {
-  }
-
-  constexpr FileSignature(
-      const FileSignature& file_signature
-  ) noexcept = default;
-
-  constexpr FileSignature(
-      FileSignature&& file_signature
-  ) noexcept = default;
-
-  ~FileSignature() noexcept = default;
-
-  constexpr FileSignature& operator=(
-      const FileSignature& file_signature
-  ) noexcept = default;
-
-  constexpr FileSignature& operator=(
-      FileSignature&& file_signature
-  ) noexcept = default;
-
-  friend constexpr bool operator==(
-      const FileSignature& file_signature1,
-      const FileSignature& file_signature2
-  ) noexcept = default;
-
-  friend constexpr ::std::strong_ordering operator<=>(
-      const FileSignature& file_signature1,
-      const FileSignature& file_signature2
-  ) noexcept = default;
-
-  static FileSignature ReadFile(
-      const wchar_t* path
-  );
-
-  constexpr const SignatureType& signature() const noexcept {
-    return this->signature_;
-  }
-
- private:
-  SignatureType signature_;
-
-  constexpr FileSignature() noexcept
-      : signature_() {
-  }
-};
-
-} // namespace mapi
-
-#endif // SGD2MAPI_CXX_BACKEND_GAME_FILE_FILE_SIGNATURE_HPP_
+#endif // SGMAPI_CXX_FILE_HPP_

@@ -46,10 +46,10 @@
 #ifndef SGMAPI_CXX_BACKEND_D2SE_D2SE_FILE_SIGNATURE_HPP_
 #define SGMAPI_CXX_BACKEND_D2SE_D2SE_FILE_SIGNATURE_HPP_
 
-namespace mapi::d2se::file_signature {
+namespace d2::d2se::intern::file_signature {
 
 bool IsFileD2seExecutable(const wchar_t* path);
 
-} // namespace mapi::d2se::file_signature
+} // namespace d2::d2se::intern::file_signature
 
 #endif // SGMAPI_CXX_BACKEND_D2SE_D2SE_FILE_SIGNATURE_HPP_

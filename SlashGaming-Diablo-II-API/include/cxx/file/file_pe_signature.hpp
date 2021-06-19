@@ -43,36 +43,69 @@
  *  work.
  */
 
-#include "file_signature.hpp"
+#ifndef SGMAPI_CXX_FILE_FILE_PE_SIGNATURE_HPP_
+#define SGMAPI_CXX_FILE_FILE_PE_SIGNATURE_HPP_
 
+#include <cstddef>
+#include <cstdint>
+
+#include <array>
+#include <compare>
 #include <fstream>
+#include <utility>
+
+#include "../../dllexport_define.inc"
 
 namespace mapi {
 
-FileSignature FileSignature::ReadFile(
-    const wchar_t* path
-) {
-  std::basic_ifstream<SignatureType::value_type> file_stream(
-      path,
-      std::ios_base::in | std::ios_base::binary
-  );
+template <::std::size_t Count>
+class FilePeSignature {
+ public:
+  using SignatureType = ::std::array<::std::uint8_t, Count>;
 
-  // Grab the pointer to the PE header.
-  file_stream.seekg(0x3C);
+  static constexpr ::std::size_t kSignatureCount = Count;
 
-  ::std::intptr_t pe_header_pointer;
-  file_stream.read(
-      reinterpret_cast<::std::uint8_t*>(&pe_header_pointer),
-      sizeof(pe_header_pointer)
-  );
+  static constexpr ::std::size_t kSignatureSize =
+      kSignatureCount * sizeof(SignatureType::value_type);
 
-  // Read the PE header.
-  file_stream.seekg(pe_header_pointer);
+  constexpr FilePeSignature() noexcept
+      : signature_() {
+  }
 
-  FileSignature file_signature;
-  file_stream.read(file_signature.signature_.data(), kSignatureSize);
+  explicit constexpr FilePeSignature(SignatureType signature) noexcept
+      : signature_(::std::move(signature)) {
+  }
 
-  return file_signature;
-}
+  friend constexpr ::std::strong_ordering operator<=>(
+      const FilePeSignature& lhs,
+      const FilePeSignature& rhs
+  ) noexcept = default;
 
-} // namespace mapi
+  void ReadFile(const wchar_t* path) {
+    std::basic_ifstream<SignatureType::value_type> file_stream(
+        path,
+        std::ios_base::in | std::ios_base::binary
+    );
+
+    // Grab the pointer to the PE header.
+    file_stream.seekg(0x3C);
+
+    ::std::intptr_t pe_header_pointer;
+    file_stream.read(
+        reinterpret_cast<::std::uint8_t*>(&pe_header_pointer),
+        sizeof(pe_header_pointer)
+    );
+
+    // Read the PE header.
+    file_stream.seekg(pe_header_pointer);
+    file_stream.read(this->signature_.data(), kSignatureSize);
+  }
+
+ private:
+  SignatureType signature_;
+};
+
+} // namespace
+
+#include "../../dllexport_undefine.inc"
+#endif // SGMAPI_CXX_FILE_FILE_PE_SIGNATURE_HPP_

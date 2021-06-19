@@ -45,55 +45,55 @@
 
 #include "d2se_file_signature.hpp"
 
+#include <cstddef>
 #include <algorithm>
 #include <array>
 
-#include "../game_file/file_signature.hpp"
+#include "../../../../include/cxx/file/file_pe_signature.hpp"
 
-namespace mapi::d2se::file_signature {
+namespace d2::d2se::intern::file_signature {
 namespace {
 
-static constexpr const ::std::array<
-    FileSignature,
-    1
-> kD2SESignatureSortedSet = {{
-    {
-        FileSignature{{
+static constexpr const ::std::size_t kSignatureCount = 64;
+
+using FilePeSignature = ::mapi::FilePeSignature<kSignatureCount>;
+
+static constexpr const ::std::array kD2seExecutablePeSignatureSortedSet =
+    ::std::to_array<FilePeSignature>({
+        FilePeSignature({
             0x50, 0x45, 0x00, 0x00, 0x4C, 0x01, 0x05, 0x00,
             0x5F, 0xDC, 0xB5, 0x4D, 0x00, 0x00, 0x00, 0x00,
-            
+
             0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x0F, 0x01,
             0x0B, 0x01, 0x02, 0x32, 0x00, 0x08, 0x01, 0x00,
-            
+
             0x00, 0x8A, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x40, 0x3C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00,
-            
+
             0x00, 0x20, 0x01, 0x00, 0x00, 0x00, 0x40, 0x00,
             0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
-        }}
-    }
-}};
+        }),
+    });
 
 // If this assertion compiles but produces a linter error, ignore it.
 static_assert(
     ::std::is_sorted(
-        kD2SESignatureSortedSet.cbegin(),
-        kD2SESignatureSortedSet.cend()
+        kD2seExecutablePeSignatureSortedSet.cbegin(),
+        kD2seExecutablePeSignatureSortedSet.cend()
     )
 );
 
 } // namespace
 
 bool IsFileD2seExecutable(const wchar_t* path) {
-  FileSignature game_executable_file_signature = FileSignature::ReadFile(
-      path
-  );
+  FilePeSignature game_executable_file_signature;
+  game_executable_file_signature.ReadFile(path);
 
   return ::std::binary_search(
-      kD2SESignatureSortedSet.cbegin(),
-      kD2SESignatureSortedSet.cend(),
+      kD2seExecutablePeSignatureSortedSet.cbegin(),
+      kD2seExecutablePeSignatureSortedSet.cend(),
       game_executable_file_signature
   );
 }
 
-} // namespace mapi::d2se::file_signature
+} // namespace d2::d2se::intern::file_signature
