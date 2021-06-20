@@ -124,15 +124,36 @@ static_assert(
 static_assert(
     ::std::ranges::all_of(
         kVersionStringTable,
-        [&](const auto& entry) {
+        [](const auto& entry) {
           return entry.first.length() < (kVersionStringCapacity - 1);
         }
     )
 );
 
+static void ExitOnUnknownD2seVersionString(
+    ::std::wstring_view version_str,
+    const wchar_t* file_path,
+    int line
+) {
+  ::mdc::error::ExitOnGeneralError(
+      L"Error",
+      L"Unknown D2SE.ini Diablo II version string %.*ls.",
+      file_path,
+      line,
+      version_str.length(),
+      version_str.data()
+  );
+}
+
 static GameVersion SearchTable(
     ::std::wstring_view version_str
 ) {
+  if (version_str.length() > kVersionStringCapacity - 1) {
+    ExitOnUnknownD2seVersionString(version_str, __FILEW__, __LINE__);
+
+    return static_cast<GameVersion>(-1);
+  }
+
   ::std::array<wchar_t, kVersionStringCapacity> lower_version_str;
 
   ::std::ranges::transform(
@@ -152,14 +173,7 @@ static GameVersion SearchTable(
 
   if (search_range.first == kVersionStringTable.cend()
       || search_range.first == search_range.second) {
-    ::mdc::error::ExitOnGeneralError(
-        L"Error",
-        L"Unknown D2SE.ini Diablo II version string %.*ls.",
-        __FILEW__,
-        __LINE__,
-        version_str.length(),
-        version_str.data()
-    );
+    ExitOnUnknownD2seVersionString(version_str, __FILEW__, __LINE__);
 
     return static_cast<GameVersion>(-1);
   }
