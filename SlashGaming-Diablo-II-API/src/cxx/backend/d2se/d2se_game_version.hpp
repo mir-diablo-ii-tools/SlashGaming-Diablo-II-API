@@ -46,15 +46,16 @@
 #ifndef SGD2MAPI_CXX_BACKEND_D2SE_D2SE_GAME_VERSION_HPP_
 #define SGD2MAPI_CXX_BACKEND_D2SE_D2SE_GAME_VERSION_HPP_
 
+#include <cstddef>
 #include <string_view>
 
 #include "../../../../include/cxx/game_version.hpp"
 
 namespace d2::d2se::intern::game_version {
 
-constexpr ::std::size_t kVersionStringCapacity = 7;
+constexpr const ::std::size_t kVersionStringCapacity = 7;
 
-::d2::GameVersion GetGameVersion(
+GameVersion GuessGameVersion(
     ::std::wstring_view version_str
 );
 

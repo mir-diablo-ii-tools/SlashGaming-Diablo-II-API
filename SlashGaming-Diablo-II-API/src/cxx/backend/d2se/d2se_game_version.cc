@@ -58,7 +58,7 @@ namespace {
 
 using VersionStringTableEntry = ::std::pair<
     ::std::wstring_view,
-    ::d2::GameVersion
+    GameVersion
 >;
 
 struct VersionStringEntryTableCompareKey {
@@ -118,7 +118,7 @@ static_assert(
     )
 );
 
-static ::d2::GameVersion SearchTable(
+static GameVersion SearchTable(
     ::std::wstring_view version_str
 ) {
   ::std::array<wchar_t, kVersionStringCapacity> lower_version_str;
@@ -149,7 +149,7 @@ static ::d2::GameVersion SearchTable(
         version_str.data()
     );
 
-    return static_cast<::d2::GameVersion>(-1);
+    return static_cast<GameVersion>(-1);
   }
 
   return search_range.first->second;
@@ -157,7 +157,7 @@ static ::d2::GameVersion SearchTable(
 
 } // namespace
 
-::d2::GameVersion GetGameVersion(::std::wstring_view version_str) {
+GameVersion GuessGameVersion(::std::wstring_view version_str) {
   return SearchTable(version_str);
 }
 
