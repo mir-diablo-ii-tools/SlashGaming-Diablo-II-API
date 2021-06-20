@@ -86,13 +86,12 @@ static_assert(
 } // namespace
 
 bool IsFileD2seExecutable(const wchar_t* path) {
-  FilePeSignature game_executable_file_signature;
-  game_executable_file_signature.ReadFile(path);
+  FilePeSignature file_signature = FilePeSignature::ReadFile(path);
 
   return ::std::binary_search(
       kD2seExecutablePeSignatureSortedSet.cbegin(),
       kD2seExecutablePeSignatureSortedSet.cend(),
-      game_executable_file_signature
+      file_signature
   );
 }
 

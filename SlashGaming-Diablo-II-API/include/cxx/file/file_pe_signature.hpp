@@ -81,7 +81,7 @@ class FilePeSignature {
       const FilePeSignature& rhs
   ) noexcept = default;
 
-  void ReadFile(const wchar_t* path) {
+  static FilePeSignature ReadFile(const wchar_t* path) {
     std::basic_ifstream<SignatureType::value_type> file_stream(
         path,
         std::ios_base::in | std::ios_base::binary
@@ -98,7 +98,11 @@ class FilePeSignature {
 
     // Read the PE header.
     file_stream.seekg(pe_header_pointer);
-    file_stream.read(this->signature_.data(), kSignatureSize);
+
+    FilePeSignature file_pe_signature;
+    file_stream.read(file_pe_signature.signature_.data(), kSignatureSize);
+
+    return file_pe_signature;
   }
 
  private:
