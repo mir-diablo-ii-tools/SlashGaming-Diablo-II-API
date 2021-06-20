@@ -393,8 +393,7 @@ GameVersion GuessGameVersion(
       ? ::mapi::game_executable::GetPath()
       : L"Storm.dll";
 
-  FilePeSignature signature;
-  signature.ReadFile(path);
+  FilePeSignature signature = FilePeSignature::ReadFile(path);
 
   return SearchTable(signature);
 }

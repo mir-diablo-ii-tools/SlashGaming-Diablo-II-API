@@ -53,15 +53,15 @@
 #include <mdc/wchar_t/filew.h>
 #include <mdc/error/exit_on_error.hpp>
 
-namespace mapi::d2se::game_version {
+namespace d2::d2se::intern::game_version {
 namespace {
 
 using VersionStringTableEntry = ::std::pair<
     ::std::wstring_view,
-    ::d2::GameVersion
+    GameVersion
 >;
 
-struct VersionStringEntryTableCompareKey {
+struct VersionStringTableEntryCompareKey {
   constexpr bool operator()(
       const VersionStringTableEntry& entry1,
       const VersionStringTableEntry& entry2
@@ -84,26 +84,37 @@ struct VersionStringEntryTableCompareKey {
   }
 };
 
-static constexpr ::std::array<
-    VersionStringTableEntry,
-    8
-> kVersionStringTable = {{
-    { L"1.07", ::d2::GameVersion::k1_07 },
-    { L"1.08", ::d2::GameVersion::k1_08 },
-    { L"1.09b", ::d2::GameVersion::k1_09B },
-    { L"1.09d", ::d2::GameVersion::k1_09D },
-    { L"1.10f", ::d2::GameVersion::k1_10 },
-    { L"1.11b", ::d2::GameVersion::k1_11B },
-    { L"1.12a", ::d2::GameVersion::k1_12A },
-    { L"1.13c", ::d2::GameVersion::k1_13C }
-}};
+static constexpr const ::std::array kVersionStringTable =
+    ::std::to_array<VersionStringTableEntry>({
+        { L"1.07", GameVersion::k1_07 },
+        { L"1.08", GameVersion::k1_08 },
+        { L"1.09b", GameVersion::k1_09B },
+        { L"1.09d", GameVersion::k1_09D },
+        { L"1.10f", GameVersion::k1_10 },
+        { L"1.11b", GameVersion::k1_11B },
+        { L"1.12a", GameVersion::k1_12A },
+        { L"1.13c", GameVersion::k1_13C }
+    });
 
-// If this assertion compiles but produces a linter error, ignore it.
+// If these assertions compile but produces a linter error, ignore it.
 static_assert(
-    ::std::is_sorted(
-        kVersionStringTable.cbegin(),
-        kVersionStringTable.cend(),
-        VersionStringEntryTableCompareKey()
+    ::std::ranges::is_sorted(
+        kVersionStringTable,
+        VersionStringTableEntryCompareKey()
+    )
+);
+
+static_assert(
+    ::std::ranges::all_of(
+        kVersionStringTable,
+        [](const auto& key) {
+          return ::std::ranges::none_of(
+              key.first,
+              [](wchar_t wch) {
+                return wch >= L'A' && wch <= L'Z';
+              }
+          );
+        }
     )
 );
 
@@ -111,23 +122,42 @@ static_assert(
 // The capacity needs to be increased manually depending on the
 // table's key.
 static_assert(
-    ::std::all_of(
-        kVersionStringTable.cbegin(),
-        kVersionStringTable.cend(),
-        [&](const auto& entry) {
+    ::std::ranges::all_of(
+        kVersionStringTable,
+        [](const auto& entry) {
           return entry.first.length() < (kVersionStringCapacity - 1);
         }
     )
 );
 
-static ::d2::GameVersion SearchTable(
+static void ExitOnUnknownD2seVersionString(
+    ::std::wstring_view version_str,
+    const wchar_t* file_path,
+    int line
+) {
+  ::mdc::error::ExitOnGeneralError(
+      L"Error",
+      L"Unknown D2SE.ini Diablo II version string %.*ls.",
+      file_path,
+      line,
+      version_str.length(),
+      version_str.data()
+  );
+}
+
+static GameVersion SearchTable(
     ::std::wstring_view version_str
 ) {
+  if (version_str.length() > kVersionStringCapacity - 1) {
+    ExitOnUnknownD2seVersionString(version_str, __FILEW__, __LINE__);
+
+    return static_cast<GameVersion>(-1);
+  }
+
   ::std::array<wchar_t, kVersionStringCapacity> lower_version_str;
 
-  ::std::transform(
-      version_str.cbegin(),
-      version_str.cend(),
+  ::std::ranges::transform(
+      version_str,
       lower_version_str.begin(),
       &::std::towlower
   );
@@ -138,21 +168,14 @@ static ::d2::GameVersion SearchTable(
       kVersionStringTable.cbegin(),
       kVersionStringTable.cend(),
       lower_version_str.data(),
-      VersionStringEntryTableCompareKey()
+      VersionStringTableEntryCompareKey()
   );
 
   if (search_range.first == kVersionStringTable.cend()
       || search_range.first == search_range.second) {
-    ::mdc::error::ExitOnGeneralError(
-        L"Error",
-        L"Unknown D2SE.ini Diablo II version string %.*ls.",
-        __FILEW__,
-        __LINE__,
-        version_str.length(),
-        version_str.data()
-    );
+    ExitOnUnknownD2seVersionString(version_str, __FILEW__, __LINE__);
 
-    return static_cast<::d2::GameVersion>(-1);
+    return static_cast<GameVersion>(-1);
   }
 
   return search_range.first->second;
@@ -160,8 +183,8 @@ static ::d2::GameVersion SearchTable(
 
 } // namespace
 
-::d2::GameVersion GetGameVersion(::std::wstring_view version_str) {
+GameVersion GuessGameVersion(::std::wstring_view version_str) {
   return SearchTable(version_str);
 }
 
-} // namespace mapi::d2se::game_version
+} // namespace d2::d2se::intern::game_version
