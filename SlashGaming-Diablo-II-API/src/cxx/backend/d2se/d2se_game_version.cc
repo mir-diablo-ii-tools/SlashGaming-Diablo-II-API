@@ -100,9 +100,8 @@ static constexpr ::std::array<
 
 // If this assertion compiles but produces a linter error, ignore it.
 static_assert(
-    ::std::is_sorted(
-        kVersionStringTable.cbegin(),
-        kVersionStringTable.cend(),
+    ::std::ranges::is_sorted(
+        kVersionStringTable,
         VersionStringEntryTableCompareKey()
     )
 );
@@ -111,9 +110,8 @@ static_assert(
 // The capacity needs to be increased manually depending on the
 // table's key.
 static_assert(
-    ::std::all_of(
-        kVersionStringTable.cbegin(),
-        kVersionStringTable.cend(),
+    ::std::ranges::all_of(
+        kVersionStringTable,
         [&](const auto& entry) {
           return entry.first.length() < (kVersionStringCapacity - 1);
         }
@@ -125,9 +123,8 @@ static ::d2::GameVersion SearchTable(
 ) {
   ::std::array<wchar_t, kVersionStringCapacity> lower_version_str;
 
-  ::std::transform(
-      version_str.cbegin(),
-      version_str.cend(),
+  ::std::ranges::transform(
+      version_str,
       lower_version_str.begin(),
       &::std::towlower
   );

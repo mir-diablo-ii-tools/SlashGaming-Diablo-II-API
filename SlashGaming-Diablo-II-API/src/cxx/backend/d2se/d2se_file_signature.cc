@@ -77,10 +77,7 @@ static constexpr const ::std::array kD2seExecutablePeSignatureSortedSet =
 
 // If this assertion compiles but produces a linter error, ignore it.
 static_assert(
-    ::std::is_sorted(
-        kD2seExecutablePeSignatureSortedSet.cbegin(),
-        kD2seExecutablePeSignatureSortedSet.cend()
-    )
+    ::std::ranges::is_sorted(kD2seExecutablePeSignatureSortedSet)
 );
 
 } // namespace
@@ -88,9 +85,8 @@ static_assert(
 bool IsFileD2seExecutable(const wchar_t* path) {
   FilePeSignature file_signature = FilePeSignature::ReadFile(path);
 
-  return ::std::binary_search(
-      kD2seExecutablePeSignatureSortedSet.cbegin(),
-      kD2seExecutablePeSignatureSortedSet.cend(),
+  return ::std::ranges::binary_search(
+      kD2seExecutablePeSignatureSortedSet,
       file_signature
   );
 }
