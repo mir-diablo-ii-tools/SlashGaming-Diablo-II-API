@@ -84,19 +84,17 @@ struct VersionStringEntryTableCompareKey {
   }
 };
 
-static constexpr ::std::array<
-    VersionStringTableEntry,
-    8
-> kVersionStringTable = {{
-    { L"1.07", ::d2::GameVersion::k1_07 },
-    { L"1.08", ::d2::GameVersion::k1_08 },
-    { L"1.09b", ::d2::GameVersion::k1_09B },
-    { L"1.09d", ::d2::GameVersion::k1_09D },
-    { L"1.10f", ::d2::GameVersion::k1_10 },
-    { L"1.11b", ::d2::GameVersion::k1_11B },
-    { L"1.12a", ::d2::GameVersion::k1_12A },
-    { L"1.13c", ::d2::GameVersion::k1_13C }
-}};
+static constexpr const ::std::array kVersionStringTable =
+    ::std::to_array<VersionStringTableEntry>({
+        { L"1.07", GameVersion::k1_07 },
+        { L"1.08", GameVersion::k1_08 },
+        { L"1.09b", GameVersion::k1_09B },
+        { L"1.09d", GameVersion::k1_09D },
+        { L"1.10f", GameVersion::k1_10 },
+        { L"1.11b", GameVersion::k1_11B },
+        { L"1.12a", GameVersion::k1_12A },
+        { L"1.13c", GameVersion::k1_13C }
+    });
 
 // If these assertions compile but produces a linter error, ignore it.
 static_assert(
