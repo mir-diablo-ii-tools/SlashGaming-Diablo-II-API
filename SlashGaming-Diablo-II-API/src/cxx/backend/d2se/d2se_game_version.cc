@@ -61,7 +61,7 @@ using VersionStringTableEntry = ::std::pair<
     GameVersion
 >;
 
-struct VersionStringEntryTableCompareKey {
+struct VersionStringTableEntryCompareKey {
   constexpr bool operator()(
       const VersionStringTableEntry& entry1,
       const VersionStringTableEntry& entry2
@@ -100,7 +100,7 @@ static constexpr const ::std::array kVersionStringTable =
 static_assert(
     ::std::ranges::is_sorted(
         kVersionStringTable,
-        VersionStringEntryTableCompareKey()
+        VersionStringTableEntryCompareKey()
     )
 );
 
@@ -168,7 +168,7 @@ static GameVersion SearchTable(
       kVersionStringTable.cbegin(),
       kVersionStringTable.cend(),
       lower_version_str.data(),
-      VersionStringEntryTableCompareKey()
+      VersionStringTableEntryCompareKey()
   );
 
   if (search_range.first == kVersionStringTable.cend()
