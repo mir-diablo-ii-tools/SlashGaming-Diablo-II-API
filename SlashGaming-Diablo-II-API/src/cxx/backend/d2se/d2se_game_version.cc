@@ -98,11 +98,25 @@ static constexpr ::std::array<
     { L"1.13c", ::d2::GameVersion::k1_13C }
 }};
 
-// If this assertion compiles but produces a linter error, ignore it.
+// If these assertions compile but produces a linter error, ignore it.
 static_assert(
     ::std::ranges::is_sorted(
         kVersionStringTable,
         VersionStringEntryTableCompareKey()
+    )
+);
+
+static_assert(
+    ::std::ranges::all_of(
+        kVersionStringTable,
+        [](const auto& key) {
+          return ::std::ranges::none_of(
+              key.first,
+              [](wchar_t wch) {
+                return wch >= L'A' && wch <= L'Z';
+              }
+          );
+        }
     )
 );
 
