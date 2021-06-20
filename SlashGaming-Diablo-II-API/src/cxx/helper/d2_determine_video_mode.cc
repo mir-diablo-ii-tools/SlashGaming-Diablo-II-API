@@ -158,7 +158,7 @@ static VideoMode_1_00 GetRegistryVideoMode() {
 
 VideoMode DetermineVideoMode() {
   if (::mapi::game_executable::IsD2se()) {
-    static VideoMode d2se_video_mode = ::mapi::d2se_ini::GetVideoMode();
+    static VideoMode d2se_video_mode = d2se::intern::d2se_ini::GetVideoMode();
     return d2se_video_mode;
   }
 

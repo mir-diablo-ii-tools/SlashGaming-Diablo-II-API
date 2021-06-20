@@ -53,7 +53,7 @@
 #include <mdc/wchar_t/filew.h>
 #include <mdc/error/exit_on_error.hpp>
 
-namespace mapi::d2se::game_version {
+namespace d2::d2se::intern::game_version {
 namespace {
 
 using VersionStringTableEntry = ::std::pair<
@@ -164,4 +164,4 @@ static ::d2::GameVersion SearchTable(
   return SearchTable(version_str);
 }
 
-} // namespace mapi::d2se::game_version
+} // namespace d2::d2se::intern::game_version

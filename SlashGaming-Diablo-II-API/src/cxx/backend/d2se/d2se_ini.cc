@@ -53,11 +53,11 @@
 #include <mdc/error/exit_on_error.hpp>
 #include "d2se_game_version.hpp"
 
-namespace mapi::d2se_ini {
+namespace d2::d2se::intern::d2se_ini {
 
-::d2::GameVersion GetGameVersion() {
+GameVersion GetGameVersion() {
   static constexpr ::std::size_t kVersionStringCapacity =
-      d2se::game_version::kVersionStringCapacity;
+      game_version::kVersionStringCapacity;
 
   ::std::array<wchar_t, kVersionStringCapacity> version_c_str;
 
@@ -83,7 +83,7 @@ namespace mapi::d2se_ini {
   }
 
   // Determine the game version that corresponds to the version string.
-  return d2se::game_version::GetGameVersion(version_c_str.data());
+  return game_version::GuessGameVersion(version_c_str.data());
 }
 
 ::d2::VideoMode GetVideoMode() {
@@ -128,4 +128,4 @@ namespace mapi::d2se_ini {
   }
 }
 
-} // namespace mapi::d2se_ini
+} // namespace d2::d2se::intern::d2se_ini

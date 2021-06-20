@@ -50,7 +50,7 @@
 
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::d2se::game_version {
+namespace d2::d2se::intern::game_version {
 
 constexpr ::std::size_t kVersionStringCapacity = 7;
 
@@ -58,6 +58,6 @@ constexpr ::std::size_t kVersionStringCapacity = 7;
     ::std::wstring_view version_str
 );
 
-} // namespace mapi::d2se::game_version
+} // namespace d2::d2se::intern::game_version
 
 #endif // SGD2MAPI_CXX_BACKEND_D2SE_D2SE_GAME_VERSION_HPP_

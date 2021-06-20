@@ -63,7 +63,7 @@ static GameVersion DetermineRunningGameVersion() {
 
   // Check if running on D2SE. If so, use D2SE_SETUP.ini entries.
   if (mapi::game_executable::IsD2se()) {
-    return mapi::d2se_ini::GetGameVersion();
+    return d2se::intern::d2se_ini::GetGameVersion();
   }
 
   // Guess the game version from the executable's file version.

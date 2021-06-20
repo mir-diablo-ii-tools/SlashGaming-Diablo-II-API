@@ -49,14 +49,14 @@
 #include "../../../../include/cxx/game_constant/d2_video_mode.hpp"
 #include "../../../../include/cxx/game_version.hpp"
 
-namespace mapi::d2se_ini {
+namespace d2::d2se::intern::d2se_ini {
 
 constexpr const wchar_t* kFileName = L"./D2SE_SETUP.ini";
 
-::d2::GameVersion GetGameVersion();
+GameVersion GetGameVersion();
 
-::d2::VideoMode GetVideoMode();
+VideoMode GetVideoMode();
 
-} // namespace mapi::d2se_ini
+} // namespace d2::d2se::intern::d2se_ini
 
 #endif // SGD2MAPI_CXX_BACKEND_D2SE_D2SE_INI_HPP_
