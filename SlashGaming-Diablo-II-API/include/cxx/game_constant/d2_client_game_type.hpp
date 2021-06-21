@@ -49,7 +49,6 @@
 #include <cstdint>
 
 #include "../../d2api_version.h"
-#include "d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
@@ -102,6 +101,8 @@ enum class ClientGameType_1_07 : std::int32_t {
  * Function declarations
  */
 
+namespace client_game_type {
+
 DLLEXPORT int ToGameValue(ClientGameType api_value);
 
 DLLEXPORT ClientGameType_1_00 ToGameValue_1_00(
@@ -110,12 +111,35 @@ DLLEXPORT ClientGameType_1_00 ToGameValue_1_00(
 
 DLLEXPORT ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value);
 
-extern template
-DLLEXPORT ClientGameType ToApiValue<ClientGameType>(int game_value);
+DLLEXPORT ClientGameType ToApiValue(int game_value);
 
 DLLEXPORT ClientGameType ToApiValue_1_00(ClientGameType_1_00 game_value);
 
 DLLEXPORT ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum ClientGameType;
+
+} // namespace api
+
+namespace v1_00 {
+
+using enum ClientGameType_1_00;
+
+} // namespace v1_00
+
+namespace v1_07 {
+
+using enum ClientGameType_1_07;
+
+} // namespace v1_07
+
+} // namespace client_game_type
 
 } // namespace d2
 

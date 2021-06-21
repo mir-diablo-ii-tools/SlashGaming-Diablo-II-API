@@ -48,8 +48,6 @@
 
 #include <cstdint>
 
-#include "d2_constant_template.hpp"
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -105,14 +103,33 @@ enum class TextFont_1_00 : std::int32_t {
  * Function declarations
  */
 
+namespace text_font {
+
 DLLEXPORT int ToGameValue(TextFont api_value);
 
 DLLEXPORT TextFont_1_00 ToGameValue_1_00(TextFont api_value);
 
-extern template DLLEXPORT
-TextFont ToApiValue<TextFont>(int game_value);
+DLLEXPORT TextFont ToApiValue(int game_value);
 
 DLLEXPORT TextFont ToApiValue_1_00(TextFont_1_00 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum TextFont;
+
+} // namespace api
+
+namespace v1_00 {
+
+using enum TextFont_1_00;
+
+} // namespace v1_00
+
+} // namespace text_font
 
 } // namespace d2
 

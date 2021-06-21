@@ -52,7 +52,7 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 
-namespace d2 {
+namespace d2::text_color {
 
 int ToGameValue(TextColor api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
@@ -148,8 +148,7 @@ TextColor_1_00 ToGameValue_1_00(TextColor api_value) {
   }
 }
 
-template <>
-TextColor ToApiValue<TextColor>(int game_value) {
+TextColor ToApiValue(int game_value) {
   return ToApiValue_1_00(static_cast<TextColor_1_00>(game_value));
 }
 
@@ -243,4 +242,4 @@ TextColor ToApiValue_1_00(TextColor_1_00 game_value) {
   }
 }
 
-} // namespace d2
+} // namespace d2::text_color

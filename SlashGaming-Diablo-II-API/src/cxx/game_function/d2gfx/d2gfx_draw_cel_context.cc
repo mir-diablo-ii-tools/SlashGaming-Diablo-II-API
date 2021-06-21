@@ -86,7 +86,7 @@ bool DrawCelContext(
             position_x,
             position_y,
             bgrt_color,
-            ToGameValue_1_00(draw_effect),
+            draw_effect::ToGameValue_1_00(draw_effect),
             unknown_06__set_to_nullptr
         )
     );
@@ -97,7 +97,7 @@ bool DrawCelContext(
             position_x,
             position_y,
             bgrt_color,
-            ToGameValue_1_00(draw_effect),
+            draw_effect::ToGameValue_1_00(draw_effect),
             unknown_06__set_to_nullptr
         )
     );
@@ -108,7 +108,7 @@ bool DrawCelContext(
             position_x,
             position_y,
             bgrt_color,
-            ToGameValue_1_00(draw_effect),
+            draw_effect::ToGameValue_1_00(draw_effect),
             unknown_06__set_to_nullptr
         )
     );

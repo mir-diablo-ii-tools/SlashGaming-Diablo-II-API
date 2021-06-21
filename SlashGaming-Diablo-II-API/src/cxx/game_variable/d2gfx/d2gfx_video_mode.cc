@@ -67,7 +67,7 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 VideoMode GetVideoMode() {
-  return ToApiValue_1_00(GetVideoMode_1_00());
+  return video_mode::ToApiValue_1_00(GetVideoMode_1_00());
 }
 
 VideoMode_1_00 GetVideoMode_1_00() {
@@ -76,7 +76,7 @@ VideoMode_1_00 GetVideoMode_1_00() {
 }
 
 void SetVideoMode(VideoMode video_mode) {
-  SetVideoMode_1_00(ToGameValue_1_00(video_mode));
+  SetVideoMode_1_00(video_mode::ToGameValue_1_00(video_mode));
 }
 
 void SetVideoMode_1_00(VideoMode_1_00 video_mode) {

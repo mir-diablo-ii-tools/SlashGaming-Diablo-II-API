@@ -162,7 +162,7 @@ VideoMode DetermineVideoMode() {
     return d2se_video_mode;
   }
 
-  return ToApiValue_1_00(DetermineVideoMode_1_00());
+  return video_mode::ToApiValue_1_00(DetermineVideoMode_1_00());
 }
 
 VideoMode_1_00 DetermineVideoMode_1_00() {

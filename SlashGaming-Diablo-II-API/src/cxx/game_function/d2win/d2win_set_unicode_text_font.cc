@@ -69,9 +69,9 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 TextFont SetUnicodeTextFont(TextFont text_font) {
-  return ToApiValue_1_00(
+  return text_font::ToApiValue_1_00(
       SetUnicodeTextFont_1_00(
-          ToGameValue_1_00(text_font)
+          text_font::ToGameValue_1_00(text_font)
       )
   );
 }

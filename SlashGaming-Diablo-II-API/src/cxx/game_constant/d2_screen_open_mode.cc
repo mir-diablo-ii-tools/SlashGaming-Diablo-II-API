@@ -52,7 +52,7 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 
-namespace d2 {
+namespace d2::screen_open_mode {
 
 int ToGameValue(ScreenOpenMode api_value) {
   return static_cast<int>(ToGameValue_1_07(api_value));
@@ -88,8 +88,7 @@ ScreenOpenMode_1_07 ToGameValue_1_07(ScreenOpenMode api_value) {
   }
 }
 
-template <>
-ScreenOpenMode ToApiValue<ScreenOpenMode>(int game_value) {
+ScreenOpenMode ToApiValue(int game_value) {
   return ToApiValue_1_07(static_cast<ScreenOpenMode_1_07>(game_value));
 }
 
@@ -123,4 +122,4 @@ ScreenOpenMode ToApiValue_1_07(ScreenOpenMode_1_07 game_value) {
   }
 }
 
-} // namespace d2
+} // namespace d2::screen_open_mode

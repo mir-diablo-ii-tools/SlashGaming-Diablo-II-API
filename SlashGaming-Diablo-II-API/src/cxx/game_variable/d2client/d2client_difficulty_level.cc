@@ -67,7 +67,7 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 DifficultyLevel GetDifficultyLevel() {
-  return ToApiValue_1_00(GetDifficultyLevel_1_00());
+  return difficulty_level::ToApiValue_1_00(GetDifficultyLevel_1_00());
 }
 
 DifficultyLevel_1_00 GetDifficultyLevel_1_00() {
@@ -77,7 +77,9 @@ DifficultyLevel_1_00 GetDifficultyLevel_1_00() {
 }
 
 void SetDifficultyLevel(DifficultyLevel difficulty_level) {
-  SetDifficultyLevel_1_00(ToGameValue_1_00(difficulty_level));
+  SetDifficultyLevel_1_00(
+      difficulty_level::ToGameValue_1_00(difficulty_level)
+  );
 }
 
 void SetDifficultyLevel_1_00(DifficultyLevel_1_00 difficulty_level) {

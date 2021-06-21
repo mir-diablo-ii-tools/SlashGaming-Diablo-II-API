@@ -48,8 +48,6 @@
 
 #include <cstdint>
 
-#include "d2_constant_template.hpp"
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -114,14 +112,33 @@ enum class TextColor_1_00 : std::int32_t {
  * Function declarations
  */
 
+namespace text_color {
+
 DLLEXPORT int ToGameValue(TextColor api_value);
 
 DLLEXPORT TextColor_1_00 ToGameValue_1_00(TextColor api_value);
 
-extern template DLLEXPORT
-TextColor ToApiValue<TextColor>(int game_value);
+DLLEXPORT TextColor ToApiValue(int game_value);
 
 DLLEXPORT TextColor ToApiValue_1_00(TextColor_1_00 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum TextColor;
+
+} // namespace api
+
+namespace v1_00 {
+
+using enum TextColor_1_00;
+
+} // namespace v1_00
+
+} // namespace text_color
 
 } // namespace d2
 

@@ -53,9 +53,8 @@
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
-#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
-namespace d2 {
+namespace d2::video_mode {
 
 int ToGameValue(VideoMode api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
@@ -103,8 +102,7 @@ VideoMode_1_00 ToGameValue_1_00(VideoMode api_value) {
   }
 }
 
-template <>
-VideoMode ToApiValue<VideoMode>(int game_value) {
+VideoMode ToApiValue(int game_value) {
   return ToApiValue_1_00(static_cast<VideoMode_1_00>(game_value));
 }
 
@@ -150,4 +148,4 @@ VideoMode ToApiValue_1_00(VideoMode_1_00 game_value) {
   }
 }
 
-} // namespace d2
+} // namespace d2::video_mode

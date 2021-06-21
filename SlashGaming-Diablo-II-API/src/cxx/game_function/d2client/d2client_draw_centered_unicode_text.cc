@@ -109,7 +109,7 @@ void DrawCenteredUnicodeText(
     int right,
     TextColor text_color
 ) {
-  int text_color_game_value = ToGameValue(text_color);
+  int text_color_game_value = text_color::ToGameValue(text_color);
 
   GameVersion running_game_version = ::d2::game_version::GetRunning();
 

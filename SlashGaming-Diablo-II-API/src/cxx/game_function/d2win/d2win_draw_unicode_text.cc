@@ -80,7 +80,7 @@ void DrawUnicodeText(
       reinterpret_cast<const UnicodeChar_1_00*>(text),
       position_x,
       position_y,
-      ToGameValue_1_00(text_color),
+      text_color::ToGameValue_1_00(text_color),
       is_indented
   );
 }

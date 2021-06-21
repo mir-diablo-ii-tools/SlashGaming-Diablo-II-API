@@ -48,8 +48,6 @@
 
 #include <cstdint>
 
-#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -78,14 +76,33 @@ enum class DifficultyLevel_1_00 : std::uint32_t {
  * Function declarations
  */
 
+namespace difficulty_level {
+
 DLLEXPORT int ToGameValue(DifficultyLevel api_value);
 
 DLLEXPORT DifficultyLevel_1_00 ToGameValue_1_00(DifficultyLevel api_value);
 
-extern template DLLEXPORT
-DifficultyLevel ToApiValue<DifficultyLevel>(int game_value);
+DLLEXPORT DifficultyLevel ToApiValue(int game_value);
 
 DLLEXPORT DifficultyLevel ToApiValue_1_00(DifficultyLevel_1_00 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum DifficultyLevel;
+
+} // namespace api
+
+namespace v1_00 {
+
+using enum DifficultyLevel_1_00;
+
+} // namespace v1_00
+
+} // namespace difficulty_level
 
 } // namespace d2
 

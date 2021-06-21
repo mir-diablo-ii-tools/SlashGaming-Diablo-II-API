@@ -69,7 +69,7 @@ static const mapi::GameAddress& GetGameAddress() {
 } // namespace
 
 ScreenOpenMode GetScreenOpenMode() {
-  return ToApiValue_1_07(GetScreenOpenMode_1_07());
+  return screen_open_mode::ToApiValue_1_07(GetScreenOpenMode_1_07());
 }
 
 ScreenOpenMode_1_07 GetScreenOpenMode_1_07() {
@@ -78,7 +78,9 @@ ScreenOpenMode_1_07 GetScreenOpenMode_1_07() {
 }
 
 void SetScreenOpenMode(ScreenOpenMode screen_open_mode) {
-  SetScreenOpenMode_1_07(ToGameValue_1_07(screen_open_mode));
+  SetScreenOpenMode_1_07(
+      screen_open_mode::ToGameValue_1_07(screen_open_mode)
+  );
 }
 
 void SetScreenOpenMode_1_07(ScreenOpenMode_1_07 screen_open_mode) {
