@@ -105,6 +105,12 @@ DLLEXPORT bool IsAtLeast1_14(GameVersion game_version);
  */
 DLLEXPORT bool IsRunningAtLeast1_14();
 
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+using enum GameVersion;
+
 } // namespace game_version
 
 } // namespace d2

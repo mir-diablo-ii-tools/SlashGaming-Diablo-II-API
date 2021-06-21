@@ -58,6 +58,16 @@ enum class BranchType {
   kJump,
 };
 
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace branch_type {
+
+using enum BranchType;
+
+} // namespace branch_type
+
 } // namespace mapi
 
 #endif // SGMAPI_CXX_GAME_BRANCH_TYPE_HPP_
