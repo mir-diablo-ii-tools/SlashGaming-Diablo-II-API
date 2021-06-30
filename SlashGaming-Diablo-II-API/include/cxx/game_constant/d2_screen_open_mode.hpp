@@ -49,7 +49,6 @@
 #include <cstdint>
 
 #include "../../d2api_version.h"
-#include "d2_constant_template.hpp"
 
 #include "../../dllexport_define.inc"
 
@@ -81,14 +80,33 @@ enum class ScreenOpenMode_1_07 : std::uint32_t {
  * Function declarations
  */
 
+namespace screen_open_mode {
+
 DLLEXPORT int ToGameValue(ScreenOpenMode api_value);
 
 DLLEXPORT ScreenOpenMode_1_07 ToGameValue_1_07(ScreenOpenMode api_value);
 
-extern template
-DLLEXPORT ScreenOpenMode ToApiValue<ScreenOpenMode>(int game_value);
+DLLEXPORT ScreenOpenMode ToApiValue(int game_value);
 
 DLLEXPORT ScreenOpenMode ToApiValue_1_07(ScreenOpenMode_1_07 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum ScreenOpenMode;
+
+} // namespace api
+
+namespace v1_07 {
+
+using enum ScreenOpenMode_1_07;
+
+} // namespace v1_07
+
+} // namespace screen_open_mode
 
 } // namespace d2
 

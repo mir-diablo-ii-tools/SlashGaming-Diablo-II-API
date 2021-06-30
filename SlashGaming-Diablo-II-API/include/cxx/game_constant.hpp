@@ -47,7 +47,6 @@
 #define SGD2MAPI_CXX_GAME_CONSTANT_HPP_
 
 #include "game_constant/d2_client_game_type.hpp"
-#include "game_constant/d2_constant_template.hpp"
 #include "game_constant/d2_difficulty_level.hpp"
 #include "game_constant/d2_draw_effect.hpp"
 #include "game_constant/d2_text_color.hpp"

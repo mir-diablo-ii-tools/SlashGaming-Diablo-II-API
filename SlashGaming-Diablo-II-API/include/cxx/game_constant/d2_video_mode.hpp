@@ -48,8 +48,6 @@
 
 #include <cstdint>
 
-#include "d2_constant_template.hpp"
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -86,14 +84,33 @@ enum class VideoMode_1_00 : std::int32_t {
  * Function declarations
  */
 
+namespace video_mode {
+
 DLLEXPORT int ToGameValue(VideoMode api_value);
 
 DLLEXPORT VideoMode_1_00 ToGameValue_1_00(VideoMode api_value);
 
-extern template DLLEXPORT
-VideoMode ToApiValue<VideoMode>(int game_value);
+DLLEXPORT VideoMode ToApiValue(int game_value);
 
 DLLEXPORT VideoMode ToApiValue_1_00(VideoMode_1_00 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum VideoMode;
+
+} // namespace api
+
+namespace v1_00 {
+
+using enum VideoMode_1_00;
+
+} // namespace
+
+} // namespace video_mode
 
 } // namespace d2
 

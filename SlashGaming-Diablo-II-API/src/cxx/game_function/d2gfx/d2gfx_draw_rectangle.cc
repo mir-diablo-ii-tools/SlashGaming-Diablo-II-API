@@ -83,7 +83,7 @@ void DrawRectangle(
       right,
       bottom,
       primitive_color_id,
-      ToGameValue_1_00(draw_effect_id)
+      draw_effect::ToGameValue_1_00(draw_effect_id)
   );
 }
 

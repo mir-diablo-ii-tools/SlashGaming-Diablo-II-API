@@ -52,7 +52,7 @@
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
 
-namespace d2 {
+namespace d2::difficulty_level {
 
 int ToGameValue(DifficultyLevel api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
@@ -84,8 +84,7 @@ DifficultyLevel_1_00 ToGameValue_1_00(DifficultyLevel api_value) {
   }
 }
 
-template <>
-DifficultyLevel ToApiValue<DifficultyLevel>(int game_value) {
+DifficultyLevel ToApiValue(int game_value) {
   return ToApiValue_1_00(static_cast<DifficultyLevel_1_00>(game_value));
 }
 
@@ -115,4 +114,4 @@ DifficultyLevel ToApiValue_1_00(DifficultyLevel_1_00 game_value) {
   }
 }
 
-} // namespace d2
+} // namespace d2::difficulty_level

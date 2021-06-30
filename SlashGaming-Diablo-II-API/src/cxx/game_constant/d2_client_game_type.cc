@@ -49,7 +49,7 @@
 #include <mdc/wchar_t/filew.h>
 #include "../../../include/cxx/game_version.hpp"
 
-namespace d2 {
+namespace d2::client_game_type {
 
 int ToGameValue(ClientGameType api_value) {
   GameVersion running_game_version = ::d2::game_version::GetRunning();
@@ -131,8 +131,7 @@ ClientGameType_1_07 ToGameValue_1_07(ClientGameType api_value) {
   }
 }
 
-template <>
-ClientGameType ToApiValue<ClientGameType>(int game_value) {
+ClientGameType ToApiValue(int game_value) {
   GameVersion running_game_version = ::d2::game_version::GetRunning();
 
   if (running_game_version < GameVersion::k1_06B) {
@@ -210,4 +209,4 @@ ClientGameType ToApiValue_1_07(ClientGameType_1_07 game_value) {
   }
 }
 
-} // namespace d2
+} // namespace d2::client_game_type

@@ -53,9 +53,8 @@
 
 #include <mdc/error/exit_on_error.hpp>
 #include <mdc/wchar_t/filew.h>
-#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
 
-namespace d2 {
+namespace d2::text_font {
 
 int ToGameValue(TextFont api_value) {
   return static_cast<int>(ToGameValue_1_00(api_value));
@@ -127,8 +126,7 @@ TextFont_1_00 ToGameValue_1_00(TextFont api_value) {
   }
 }
 
-template <>
-TextFont ToApiValue<TextFont>(int game_value) {
+TextFont ToApiValue(int game_value) {
   return ToApiValue_1_00(static_cast<TextFont_1_00>(game_value));
 }
 
@@ -202,4 +200,4 @@ TextFont ToApiValue_1_00(TextFont_1_00 game_value) {
   }
 }
 
-} // namespace d2
+} // namespace d2::text_font

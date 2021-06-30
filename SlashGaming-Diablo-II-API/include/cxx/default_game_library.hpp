@@ -106,6 +106,12 @@ DLLEXPORT const VS_FIXEDFILEINFO& QueryFixedFileInfoWithoutRedirect(
     DefaultLibrary library
 );
 
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+using enum DefaultLibrary;
+
 } // namespace default_library
 
 } // namespace d2

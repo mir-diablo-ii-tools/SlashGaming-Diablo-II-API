@@ -48,8 +48,6 @@
 
 #include <cstdint>
 
-#include "../../../include/cxx/game_constant/d2_constant_template.hpp"
-
 #include "../../dllexport_define.inc"
 
 namespace d2 {
@@ -88,14 +86,33 @@ enum class DrawEffect_1_00 : std::int32_t {
  * Function declarations
  */
 
+namespace draw_effect {
+
 DLLEXPORT int ToGameValue(DrawEffect api_value);
 
 DLLEXPORT DrawEffect_1_00 ToGameValue_1_00(DrawEffect api_value);
 
-extern template
-DLLEXPORT DrawEffect ToApiValue<DrawEffect>(int game_value);
+DLLEXPORT DrawEffect ToApiValue(int game_value);
 
 DLLEXPORT DrawEffect ToApiValue_1_00(DrawEffect_1_00 game_value);
+
+/**
+ * SGD2MAPI98 Compatability
+ */
+
+namespace api {
+
+using enum DrawEffect;
+
+} // namespace api
+
+namespace v1_00 {
+
+using enum DrawEffect_1_00;
+
+} // namespace v1_00
+
+} // namespace draw_effect
 
 } // namespace d2
 
