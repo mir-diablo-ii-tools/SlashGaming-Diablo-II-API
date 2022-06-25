@@ -243,7 +243,7 @@ set(SOURCE_FILES
 # Output static LIB
 add_library(lib${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
-target_include_directories(lib${PROJECT_NAME} PUBLIC "include")
+target_include_directories(lib${PROJECT_NAME} PUBLIC "${PROJECT_DIR}/include")
 
 target_link_libraries(lib${PROJECT_NAME} PUBLIC libMDCc libMDCcpp98 shlwapi version)
 add_dependencies(lib${PROJECT_NAME} libMDCc libMDCcpp98)
@@ -254,7 +254,7 @@ add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 target_compile_definitions(${PROJECT_NAME} PRIVATE SGD2MAPI_DLLEXPORT)
 target_compile_definitions(${PROJECT_NAME} INTERFACE SGD2MAPI_DLLIMPORT)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "include")
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_DIR}/include")
 
 target_link_libraries(${PROJECT_NAME} PUBLIC libMDCc libMDCcpp98 shlwapi version)
 add_dependencies(${PROJECT_NAME} libMDCc libMDCcpp98)
