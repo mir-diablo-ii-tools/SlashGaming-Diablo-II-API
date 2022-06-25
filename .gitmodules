@@ -1,0 +1,3 @@
+[submodule "external/MirD-Common-C"]
+	path = external/MirD-Common-C
+	url = https://github.com/IAmTrial/MirD-Common-C
