@@ -68,13 +68,13 @@ VS_VERSION_INFO    VERSIONINFO
   {
     BLOCK "040904E4" // Lang=US English, CharSet=Windows Multilingual
     {
-      VALUE "Build",            "2018-12-09\0"
+      VALUE "Build",            "2022-06-25\0"
       VALUE "Comments",         "Provides an API wrapper to Diablo II. Licensed under Affero GPL v3+, with exceptions.\0"
       VALUE "CompanyName",      "SlashGaming\0"
       VALUE "Developer",        "SlashGaming Community\0"
       VALUE "FileDescription",  "SlashGaming Diablo II API\0"
       VALUE "InternalName",     "SlashGaming Diablo II API\0"
-      VALUE "LegalCopyright",   "Copyright (C) 2018-2019  Mir Drualga\0"
+      VALUE "LegalCopyright",   "Copyright (C) 2018-2022  Mir Drualga\0"
       VALUE "LegalTrademarks",  "All rights reserved.\0"
       VALUE "PrivateBuild",     "\0"
       VALUE "ProductName",      "SlashGaming Diablo II API\0"
