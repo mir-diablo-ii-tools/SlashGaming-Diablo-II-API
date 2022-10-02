@@ -240,8 +240,13 @@ set(SOURCE_FILES
     "${PROJECT_DIR}/src/cxx/file/file_pe_signature.cc"
 )
 
+set(PCH_FILES
+    "${PROJECT_DIR}/src/cxx/backend/pch.hpp"
+)
+
 # Output static LIB
 add_library(lib${PROJECT_NAME} STATIC ${SOURCE_FILES})
+target_precompile_headers(lib${PROJECT_NAME} PRIVATE ${PCH_FILES})
 
 target_include_directories(lib${PROJECT_NAME} PUBLIC "${PROJECT_DIR}/include")
 
@@ -250,6 +255,7 @@ add_dependencies(lib${PROJECT_NAME} libMDCc libMDCcpp98)
 
 # Output DLL
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${PCH_FILES})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE SGD2MAPI_DLLEXPORT)
 target_compile_definitions(${PROJECT_NAME} INTERFACE SGD2MAPI_DLLIMPORT)
