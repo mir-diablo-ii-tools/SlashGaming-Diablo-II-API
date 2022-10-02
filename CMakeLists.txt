@@ -262,7 +262,6 @@ target_compile_definitions(${PROJECT_NAME} INTERFACE SGD2MAPI_DLLIMPORT)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_DIR}/include")
 
-
 target_link_libraries(${PROJECT_NAME} PUBLIC libMDCc libMDCcpp98 shlwapi version)
 add_dependencies(${PROJECT_NAME} libMDCc libMDCcpp98)
 
