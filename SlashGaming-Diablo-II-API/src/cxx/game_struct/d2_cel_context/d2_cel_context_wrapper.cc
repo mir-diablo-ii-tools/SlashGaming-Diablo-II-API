@@ -61,6 +61,7 @@ bool CelContext_Wrapper::DrawFrame(int position_x, int position_y) {
   DrawCelFileFrameOptions frame_options;
   frame_options.color = mapi::Rgba32BitColor();
   frame_options.draw_effect = DrawEffect::kNone;
+  frame_options.position_x_behavior = DrawPositionXBehavior::kLeft;
   frame_options.position_y_behavior = DrawPositionYBehavior::kBottom;
 
   return this->DrawFrame(
