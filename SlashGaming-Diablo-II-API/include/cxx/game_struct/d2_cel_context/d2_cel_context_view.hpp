@@ -69,7 +69,7 @@ class DLLEXPORT CelContext_View {
   CelContext_View(const CelContext* cel_context) noexcept;
 
   constexpr explicit CelContext_View(ViewVariant cel_context) noexcept
-      : cel_context_(::std::move(cel_context_)) {
+      : cel_context_(::std::move(cel_context)) {
   }
 
   constexpr CelContext_View(
