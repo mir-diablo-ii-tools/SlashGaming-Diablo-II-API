@@ -225,7 +225,7 @@ class DLLEXPORT CelContext_Wrapper {
   constexpr void SetFrameIndex(unsigned int frame_index) noexcept {
     std::visit(
         [frame_index](auto& actual_cel_context) {
-          actual_cel_context->direction_index = frame_index;
+          actual_cel_context->frame_index = frame_index;
         },
         this->cel_context_
     );
