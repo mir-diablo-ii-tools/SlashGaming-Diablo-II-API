@@ -217,6 +217,14 @@
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2A94C)) \
 ),\
 ::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2ae30)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2ae34)) \
+),\
+::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2A950)) \
 ),\
@@ -586,6 +594,14 @@
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2A98C)) \
 ),\
 ::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2ae70)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2ae74)) \
+),\
+::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x2A990)) \
 ),\
@@ -901,6 +917,14 @@
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "IsWindowedMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1D05C)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d46c)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d470)) \
 ),\
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
@@ -1296,6 +1320,14 @@
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1D20C)) \
 ),\
 ::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d61c)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d620)) \
+),\
+::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1D210)) \
 ),\
@@ -1627,6 +1659,14 @@
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "IsWindowedMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1D268)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d678)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d67c)) \
 ),\
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
@@ -1966,6 +2006,14 @@
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1D450)) \
 ),\
 ::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d634)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d630)) \
+),\
+::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1D454)) \
 ),\
@@ -2291,6 +2339,14 @@
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1125C)) \
 ),\
 ::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1124c)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x11248)) \
+),\
+::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x11260)) \
 ),\
@@ -2602,6 +2658,14 @@
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "IsWindowedMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x14A3C)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d61c)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x1d618)) \
 ),\
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
@@ -2977,6 +3041,14 @@
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3BFD3C)) \
 ),\
 ::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3c0804)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3c0800)) \
+),\
+::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3BFD40)) \
 ),\
@@ -3300,6 +3372,14 @@
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "IsWindowedMode"), \
     ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3C8CB4)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosX"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3c977c)) \
+),\
+::mapi::GameAddressTableEntry( \
+    ::std::tuple(::d2::DefaultLibrary::kD2GFX, "PerspectiveCameraPosY"), \
+    ::mapi::GameAddressLocator(::mapi::GameOffsetLocator(::d2::DefaultLibrary::kD2GFX, 0x3c9778)) \
 ),\
 ::mapi::GameAddressTableEntry( \
     ::std::tuple(::d2::DefaultLibrary::kD2GFX, "ResolutionMode"), \
