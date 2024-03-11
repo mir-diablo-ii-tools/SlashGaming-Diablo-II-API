@@ -212,6 +212,8 @@ set(SOURCE_FILES
     "${PROJECT_DIR}/src/cxx/game_variable/d2gdi/d2gdi_cel_display_left.cc"
     "${PROJECT_DIR}/src/cxx/game_variable/d2gdi/d2gdi_cel_display_right.cc"
     "${PROJECT_DIR}/src/cxx/game_variable/d2gfx/d2gfx_is_windowed_mode.cc"
+    "${PROJECT_DIR}/src/cxx/game_variable/d2gfx/d2gfx_perspective_camera_pos_x.cc"
+    "${PROJECT_DIR}/src/cxx/game_variable/d2gfx/d2gfx_perspective_camera_pos_y.cc"
     "${PROJECT_DIR}/src/cxx/game_variable/d2gfx/d2gfx_resolution_mode.cc"
     "${PROJECT_DIR}/src/cxx/game_variable/d2gfx/d2gfx_video_mode.cc"
     "${PROJECT_DIR}/src/cxx/game_variable/d2gfx/d2gfx_window_handle.cc"
@@ -279,4 +281,3 @@ endif (MINGW)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
 
 install(TARGETS ${PROJECT_NAME} lib${PROJECT_NAME})
-
